@@ -4,7 +4,22 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>김보미 공식 플랫폼 | 국민이 주인인 정부, 투명한 대한민국 재정 365</title>
-<meta name="description" content="대한민국 청년 재정 주권 운동가 김보미 공식 플랫폼 — 전국 243개 지자체의 예산·집행내역·금고 이자율을 시민이 직접 감시·견제·제안하는 AI 기반 재정 민주주의 플랫폼. (전 강진군의회 최연소 의장 · 전 강진군수 예비후보 이력)" />
+<meta name="description" content="누구나 의원처럼 우리 동네 예산·집행내역을 확인하고 직접 시정을 요구하는 전국 시민 재정운동 플랫폼. 전국 243개 지자체의 재정을 쉽게 공개합니다." />
+
+<!-- 링크 미리보기(카카오톡·페이스북·X 등) — og:image 는 절대경로 필수.
+     사진은 저장소 assets/hero_poster.jpg 로 올려야 미리보기에 표시됩니다. -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="김보미 · 대한민국 재정 365" />
+<meta property="og:title" content="국민이 주인인 정부, 투명한 대한민국 재정 365" />
+<meta property="og:description" content="누구나 의원처럼 우리 동네 예산·집행내역을 확인하고 직접 시정을 요구하는 전국 시민 재정운동 플랫폼." />
+<meta property="og:image" content="https://kimbomi-site.vercel.app/assets/hero_poster.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="1200" />
+<meta property="og:url" content="https://kimbomi-site.vercel.app/" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="국민이 주인인 정부, 투명한 대한민국 재정 365" />
+<meta name="twitter:description" content="누구나 의원처럼 우리 동네 예산을 감시하고 시정 요구하는 전국 시민 재정운동." />
+<meta name="twitter:image" content="https://kimbomi-site.vercel.app/assets/hero_poster.jpg" />
 
 <!-- ============================================================
      [Tech Stack]
@@ -252,8 +267,8 @@ tailwind.config = {
       </h1>
 
       <p class="mt-6 text-[17px] sm:text-[19px] text-ink-soft leading-relaxed max-w-xl reveal">
-        <b class="text-navy">정치 13년 · 의정 8년, 검증된 혁신의 아이콘.</b><br class="hidden sm:block">
-        전 강진군의회 최연소 의장에서 <b class="text-minju">전국 재정 민주주의 운동가</b>로 — 누구나 전문가가 되어 감시·견제·제안하는 <b class="text-minju">AI 기반 시민 참여 재정 플랫폼</b>을 전국으로 넓힙니다.
+        <b class="text-navy">의원의 임기는 끝나도, 감시는 시민이 계속합니다.</b><br class="hidden sm:block">
+        누구나 의원처럼 우리 동네 예산·집행내역을 들여다보고 직접 <b class="text-minju">시정을 요구</b>하는 <b class="text-minju">전국 시민 재정운동 플랫폼</b> — 정치 13년·의정 8년의 경험을 모두의 무기로 엽니다.
       </p>
 
       <!-- 간략 약력 -->
@@ -294,6 +309,13 @@ tailwind.config = {
     <!-- 우: 국민주권 재정혁신 포스터 (메인 비주얼) -->
     <div class="relative reveal">
       <div class="absolute -inset-x-6 -top-6 bottom-0 bg-gradient-to-t from-minju-blue/15 via-mint/10 to-transparent blur-2xl rounded-[40px]"></div>
+      <!-- ① 원본 포스터 이미지: 아래 후보 경로/이름을 자동으로 탐색해 표시.
+           (assets/hero_poster.jpg 권장 — 링크 미리보기 og:image 와 동일). 못 찾으면 ②재현으로 대체. -->
+      <img id="heroPoster" alt="국민주권 재정혁신 김보미"
+           class="relative block w-full max-w-[470px] mx-auto rounded-[24px] ring-1 ring-paper-line shadow-2xl">
+
+      <!-- ② 폴백: 컷아웃 기반 재현(원본 미업로드 시) -->
+      <div id="heroFallback" style="display:none">
       <div class="relative mx-auto w-full max-w-[470px] aspect-square rounded-[24px] overflow-hidden ring-1 ring-paper-line shadow-2xl"
            style="background:#F5F4EF;
                   background-image:
@@ -317,6 +339,19 @@ tailwind.config = {
           <span class="font-black" style="color:#73EF9C; font-size:clamp(36px,11vw,58px); line-height:1; letter-spacing:.02em;">김보미</span>
         </div>
       </div>
+      </div>
+      <!-- 히어로 포스터 자동 탐색: 어떤 이름/위치로 올려도 표시. 못 찾으면 재현(heroFallback)으로 대체 -->
+      <script>(function(){
+        var el=document.getElementById('heroPoster'); if(!el) return;
+        var cands=['assets/hero_poster.jpg','assets/hero_poster.png','hero_poster.jpg',
+                   'assets/홈 메인 사진.jpg','홈 메인 사진.jpg','assets/홈메인사진.jpg','홈메인사진.jpg'];
+        var i=0;
+        el.onerror=function(){
+          if(i<cands.length){ el.src=encodeURI(cands[i++]); }
+          else{ el.style.display='none'; var f=document.getElementById('heroFallback'); if(f) f.style.display='block'; }
+        };
+        el.onerror(); // 첫 후보부터 시도
+      })();</script>
     </div>
   </div>
 
@@ -743,6 +778,25 @@ tailwind.config = {
           </span>
         </div>
         <span id="lastUpdated" class="text-[11px] text-ink-faint">갱신 대기 중…</span>
+      </div>
+    </div>
+
+    <!-- 3대 미션 — 왜 재정 365인가 -->
+    <div class="reveal mt-8 grid sm:grid-cols-3 gap-3">
+      <div class="bg-white ring-1 ring-paper-line rounded-2xl p-5 shadow-soft">
+        <div class="text-[26px] leading-none">🙋</div>
+        <h3 class="mt-2 text-[16px] font-extrabold text-navy">국민 한 사람이 곧 의원</h3>
+        <p class="mt-1 text-[13.5px] text-ink-soft leading-relaxed">전문 지식이 없어도 누구나 우리 동네 예산과 집행을 들여다보고 <b class="text-navy">집행부를 직접 견제</b>합니다.</p>
+      </div>
+      <div class="bg-white ring-1 ring-paper-line rounded-2xl p-5 shadow-soft">
+        <div class="text-[26px] leading-none">🏆</div>
+        <h3 class="mt-2 text-[16px] font-extrabold text-navy">지자체 ‘일 잘하기’ 경쟁</h3>
+        <p class="mt-1 text-[13.5px] text-ink-soft leading-relaxed">전국 243곳을 한눈에 비교·공개해, <b class="text-navy">지자체끼리 잘하기 경쟁</b>을 시민이 이끌어냅니다.</p>
+      </div>
+      <div class="bg-white ring-1 ring-paper-line rounded-2xl p-5 shadow-soft">
+        <div class="text-[26px] leading-none">💰</div>
+        <h3 class="mt-2 text-[16px] font-extrabold text-navy">내 혈세, 내 돈을 지킨다</h3>
+        <p class="mt-1 text-[13.5px] text-ink-soft leading-relaxed">방치된 예산·낮은 금고이자·예산 누수를 찾아내, <b class="text-minju">내가 낸 세금을 끝까지</b> 지킵니다.</p>
       </div>
     </div>
 
