@@ -144,29 +144,31 @@ function MAP_FNCST(rows, zone) {
   const isNat = (zone === "ALL");
 
   // 자립도(%) = 자체수입 / 세입결산규모 × 100 (정의 그대로). 불가 시 원본 rate 사용.
-  const selfReliance = (sumOwn, sumTot, fallbackRows) => {
-    if (sumTot > 0 && sumOwn > 0) return +(sumOwn / sumTot * 100).toFixed(1);
-    const rs = (fallbackRows || []).map(rate).filter((v) => v > 0);
-    return rs.length ? +(rs.reduce((a, v) => a + v, 0) / rs.length).toFixed(1) : 0;
-  };
-
-  let sumOwn, sumTot, s;
+  let s, sumTot, basis;
   if (!isNat) {
+    // 특정 자치단체: 자체수입/세입 (정의), 불가 시 원본 rate
     const r = rows[0] || {};
-    sumOwn = own(r); sumTot = tot(r);
-    s = selfReliance(sumOwn, sumTot, [r]);
+    s = (tot(r) > 0 && own(r) > 0) ? +(own(r) / tot(r) * 100).toFixed(1) : rate(r);
+    sumTot = tot(r);
+    basis = "지역행";
   } else {
-    // 전국 요약행이 있으면 그 행만 사용, 없으면 개별 자치단체 합산
+    // 전국: ① 데이터셋의 '전국' 요약행(순계 공시값)을 최우선 → 통상 알려진 값(약 45%)
+    //       ② 없으면 개별 자치단체 집계(총계) ③ 그래도 없으면 단순평균
     const natRow = rows.find((r) => /전국/.test(String(r.laf_hg_nm || r.wa_laf_hg_nm || "")));
-    if (natRow && tot(natRow) > 0) {
-      sumOwn = own(natRow); sumTot = tot(natRow);
+    const indiv = rows.filter((r) => !isSummary(r));
+    const base = indiv.length ? indiv : rows;
+    const aggOwn = base.reduce((a, r) => a + own(r), 0);
+    const aggTot = base.reduce((a, r) => a + tot(r), 0);
+    if (natRow && rate(natRow) > 0) {
+      s = rate(natRow); basis = "전국요약행(순계 공시값)";
+    } else if (aggTot > 0 && aggOwn > 0) {
+      s = +(aggOwn / aggTot * 100).toFixed(1); basis = "개별 자치단체 집계(총계)";
     } else {
-      const indiv = rows.filter((r) => !isSummary(r));
-      const base = indiv.length ? indiv : rows;
-      sumOwn = base.reduce((a, r) => a + own(r), 0);
-      sumTot = base.reduce((a, r) => a + tot(r), 0);
+      const rs = base.map(rate).filter((v) => v > 0);
+      s = rs.length ? +(rs.reduce((a, v) => a + v, 0) / rs.length).toFixed(1) : 0;
+      basis = "단순평균";
     }
-    s = selfReliance(sumOwn, sumTot, rows.filter((r) => !isSummary(r)));
+    sumTot = (natRow && tot(natRow) > 0) ? tot(natRow) : aggTot;
   }
 
   // 총예산(세입결산규모) → 조원, 단위 자동 보정
@@ -177,8 +179,9 @@ function MAP_FNCST(rows, zone) {
   return {
     b: +(+b).toFixed(1),     // 총예산(세입결산규모, 조원)
     e: EST_EXEC,             // 집행률(추정 — 데이터셋에 없음)
-    s: +(+s).toFixed(1),     // 재정자립도(%) — 실데이터(집계)
+    s: +(+s).toFixed(1),     // 재정자립도(%) — 실데이터
     f: EST_FIELDS.slice(),   // 분야별(추정 — 데이터셋에 없음)
+    basis: basis,            // 계산 방식(검증용)
     src: "lofin365 FNCST(재정자립도)",
   };
 }
