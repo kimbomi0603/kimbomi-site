@@ -3,77 +3,196 @@
     "date": "2026-05-17",
     "outlet": "뉴스웍스",
     "tag": "청년정책",
-    "title": "민형배 캠프 '청년결정정부' 선포…청년본부 출범 (김보미 공동총괄위원장)",
+    "title": "민형배 캠프 ‘청년결정정부’ 선포…청년본부 출범 (김보미 공동총괄위원장)",
     "link": "https://www.newsworks.co.kr/news/articleView.html?idxno=840995"
+  },
+  {
+    "date": "2026-04-03",
+    "outlet": "신문고뉴스",
+    "tag": "선거",
+    "title": "“돈을 버는 강진군, 경제 군수 되겠다” — 강진군수 경선 합동연설회·5대 분야 62개 정책공약집 공개",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B0%95%EC%A7%84%EA%B5%B0%EC%88%98%20%ED%95%A9%EB%8F%99%EC%97%B0%EC%84%A4%ED%9A%8C%20%EA%B3%B5%EC%95%BD%EC%A7%91"
+  },
+  {
+    "date": "2026-03-28",
+    "outlet": "전남인뉴스",
+    "tag": "선거",
+    "title": "강진군수 예비후보 선거사무소 개소식 대성황 — ‘강진 1호 영업사원증’ 수여",
+    "link": "https://www.jninnews.com/news/articleView.html?idxno=26165"
   },
   {
     "date": "2026-03-26",
     "outlet": "네이트뉴스",
-    "tag": "법적대응",
+    "tag": "이슈",
     "title": "김보미 강진군수 예비후보, 가짜뉴스와 전쟁 2심도 승소",
     "link": "https://news.nate.com/view/20260326n39970"
   },
   {
-    "date": "2026-03-22",
+    "date": "2026-03-19",
+    "outlet": "신문고뉴스",
+    "tag": "수상",
+    "title": "UN 부패방지의 날 기념조직위 외 300여 단체 ‘부패방지청렴인 표창장’ 수상",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EB%B6%80%ED%8C%A8%EB%B0%A9%EC%A7%80%EC%B2%AD%EB%A0%B4%EC%9D%B8%20%ED%91%9C%EC%B0%BD"
+  },
+  {
+    "date": "2026-03-10",
+    "outlet": "더쎈뉴스",
+    "tag": "선거",
+    "title": "강진군수 민주 경선 3파전 — 청년·여성 정치인 세대교체론 부각",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B0%95%EC%A7%84%EA%B5%B0%EC%88%98%20%EA%B2%BD%EC%84%A0%203%ED%8C%8C%EC%A0%84"
+  },
+  {
+    "date": "2026-03-08",
+    "outlet": "신문고뉴스",
+    "tag": "당무",
+    "title": "더불어민주당 강진군수 공천 후보자 면접 — “가장 깨끗하고 개혁적인 민주당 후보”",
+    "link": "https://www.shinmoongo.net/179146"
+  },
+  {
+    "date": "2026-02-22",
     "outlet": "신문고뉴스",
     "tag": "선거",
-    "title": "김보미, 강진군수 예비후보 공식 등록… \"최연소 군수 기록 다시 쓸 것\"",
+    "title": "제9회 전국동시지방선거 강진군수 예비후보 공식 등록",
     "link": "https://www.shinmoongo.net/179343"
   },
   {
-    "date": "2026-03-19",
-    "outlet": "신문고뉴스",
-    "tag": "공약",
-    "title": "김보미 강진군수 예비후보 \"돈 버는 군수 될 것\"… 정책 공약집 전격 발간",
-    "link": "https://www.shinmoongo.net/179417"
-  },
-  {
-    "date": "2026-03-08",
-    "outlet": "전남인뉴스",
+    "date": "2026-02-13",
+    "outlet": "CNB뉴스",
     "tag": "선거",
-    "title": "김보미 강진군수 예비후보, 선거사무소 개소식 대성황",
-    "link": "https://www.jninnews.com/news/articleView.html?idxno=26165"
-  },
-  {
-    "date": "2026-03-08",
-    "outlet": "폴리뉴스",
-    "tag": "선거",
-    "title": "[6.3지방선거] 김보미 강진군수 예비후보, 선거사무소 개소식 이모저모",
-    "link": "https://www.polinews.co.kr/news/articleView.html?idxno=726822"
-  },
-  {
-    "date": "2026-03-08",
-    "outlet": "스마트비즈",
-    "tag": "선거",
-    "title": "김보미 강진군수 예비후보, 군수 도전장… 선거사무소 개소식 '성료'",
-    "link": "https://www.smartbizn.com/news/articleView.html?idxno=140626"
-  },
-  {
-    "date": "2026-02-20",
-    "outlet": "현장뉴스",
-    "tag": "선거",
-    "title": "'최연소 의장' 김보미, 강진군수 출사표… \"군민이 주인인 강진 만들겠다\"",
+    "title": "출마 선언 — ‘강진365’ 예산주권 시스템·‘리턴 시티’·AI 스마트 행정",
     "link": "https://www.fieldnews.co.kr/news/articleView.html?idxno=212285"
   },
   {
-    "date": "2026-01-24",
-    "outlet": "활동기록",
-    "tag": "출판",
-    "title": "저서 『군민주권 강진시대』 출판기념회 개최",
-    "link": "https://www.facebook.com/kimbomi1989"
-  },
-  {
-    "date": "2022-07-01",
-    "outlet": "강진군의회",
-    "tag": "의정활동",
-    "title": "제9대 강진군의회 전반기 의장 선출 — 전국 최연소 기초의회 의장",
-    "link": "https://www.gangjincl.go.kr/9kbm/index.do?PID=002"
-  },
-  {
-    "date": "2018-07-04",
-    "outlet": "강진군의회",
+    "date": "2026-02-11",
+    "outlet": "아시아투데이",
     "tag": "선거",
-    "title": "제8대 강진군의회 개원 · 역대 최연소 의원 당선",
-    "link": "https://www.facebook.com/kimbomi1989"
+    "title": "더불어민주당 전남도당에서 강진군수 출마 공식 선언 — 30년 만의 전국 최연소 군수 도전",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B0%95%EC%A7%84%EA%B5%B0%EC%88%98%20%EC%B6%9C%EB%A7%88%20%EC%84%A0%EC%96%B8%20%EC%B5%9C%EC%97%B0%EC%86%8C"
+  },
+  {
+    "date": "2026-01-27",
+    "outlet": "이투데이",
+    "tag": "출판",
+    "title": "출판기념회 후 SNS 청사진 공개 — 차기 저서 ‘세계가 강진을 배운다’ 예고·‘김보미365’ 베타 공개",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B9%80%EB%B3%B4%EB%AF%B8365%20%EB%B2%A0%ED%83%80%20%EC%B6%9C%ED%8C%90%EA%B8%B0%EB%85%90%ED%9A%8C"
+  },
+  {
+    "date": "2026-01-24",
+    "outlet": "뉴스1",
+    "tag": "출판",
+    "title": "저서 ‘군민주권 강진시대 – 다산의 마음으로 미래를 쓰다’ 출판기념회 — 군민 2,000여 명 참석",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B5%B0%EB%AF%BC%EC%A3%BC%EA%B6%8C%20%EA%B0%95%EC%A7%84%EC%8B%9C%EB%8C%80%20%EC%B6%9C%ED%8C%90%EA%B8%B0%EB%85%90%ED%9A%8C"
+  },
+  {
+    "date": "2025-12-20",
+    "outlet": "뉴스워커",
+    "tag": "여론",
+    "title": "강진군수 적합도 조사 10.1% 3위권 진입 — 민주당 공천룰(청년·여성 가산점) 개정 맞물림",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B0%95%EC%A7%84%EA%B5%B0%EC%88%98%20%EC%A0%81%ED%95%A9%EB%8F%84%20%EC%A1%B0%EC%82%AC"
+  },
+  {
+    "date": "2025-12-17",
+    "outlet": "로컬세계",
+    "tag": "봉사",
+    "title": "의정활동비·월정수당 전액 316만원 지역아동센터 10곳 기탁 — 7년 연속 나눔",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EC%A7%80%EC%97%AD%EC%95%84%EB%8F%99%EC%84%BC%ED%84%B0%20%EA%B8%B0%ED%83%81"
+  },
+  {
+    "date": "2025-12-01",
+    "outlet": "전남언론인협회",
+    "tag": "수상",
+    "title": "2025 행·의정 및 공공기여 평가 ‘생활정치 실천 대상’ 수상",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EC%83%9D%ED%99%9C%EC%A0%95%EC%B9%98%20%EC%8B%A4%EC%B2%9C%20%EB%8C%80%EC%83%81"
+  },
+  {
+    "date": "2025-11-10",
+    "outlet": "뉴스워커",
+    "tag": "출판",
+    "title": "노두섭 의원과 공저 북콘서트 ‘당신을 위한 나의 정치는…’ 성황 — ‘강진혁신연대’ 출범",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EB%B6%81%EC%BD%98%EC%84%9C%ED%8A%B8%20%EA%B0%95%EC%A7%84%ED%98%81%EC%8B%A0%EC%97%B0%EB%8C%80"
+  },
+  {
+    "date": "2025-11-04",
+    "outlet": "아시아투데이",
+    "tag": "행정",
+    "title": "카카오톡 기반 AI 챗봇 ‘김보미365 민원서비스’ 본격 가동 — 24시간 민원 창구",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B9%80%EB%B3%B4%EB%AF%B8365%20%EB%AF%BC%EC%9B%90%EC%84%9C%EB%B9%84%EC%8A%A4"
+  },
+  {
+    "date": "2025-11-03",
+    "outlet": "여성신문",
+    "tag": "행정",
+    "title": "‘김보미365’ AI 민원 자동분류 시스템 — 강진형 참여행정 실천 모델",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B9%80%EB%B3%B4%EB%AF%B8365%20AI%20%EB%AF%BC%EC%9B%90"
+  },
+  {
+    "date": "2025-10-31",
+    "outlet": "TV서울",
+    "tag": "당무",
+    "title": "정청래 당대표 직접 임명 — 더불어민주당 참좋은지방정부위원회 상임위원",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EC%B0%B8%EC%A2%8B%EC%9D%80%EC%A7%80%EB%B0%A9%EC%A0%95%EB%B6%80%EC%9C%84%EC%9B%90%ED%9A%8C%20%EC%83%81%EC%9E%84%EC%9C%84%EC%9B%90"
+  },
+  {
+    "date": "2025-09-01",
+    "outlet": "getnews",
+    "tag": "정치",
+    "title": "강진군 제1호 지방의원 후원회 후원금 3,000만원 한도 수 시간 만에 조기 마감",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EC%A7%80%EB%B0%A9%EC%9D%98%EC%9B%90%20%ED%9B%84%EC%9B%90%ED%9A%8C%20%EB%A7%88%EA%B0%90"
+  },
+  {
+    "date": "2025-08-28",
+    "outlet": "스마트에프엔",
+    "tag": "정치",
+    "title": "강진군 제1호 지방의원 후원회 출범 — 후원회장 이병돈 강진군체육회장 추대",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EC%A7%80%EB%B0%A9%EC%9D%98%EC%9B%90%20%ED%9B%84%EC%9B%90%ED%9A%8C%20%EC%B6%9C%EB%B2%94"
+  },
+  {
+    "date": "2025-08-26",
+    "outlet": "프레시안",
+    "tag": "의정",
+    "title": "강위원 전남도 경제부지사 면담 — 세계도자기엑스포·청년정책 등 강진 숙원사업 건의",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B0%95%EC%9C%84%EC%9B%90%20%EA%B2%BD%EC%A0%9C%EB%B6%80%EC%A7%80%EC%82%AC%20%EB%A9%B4%EB%8B%B4"
+  },
+  {
+    "date": "2024-05-27",
+    "outlet": "주간경향",
+    "tag": "이슈",
+    "title": "「34세 최연소 의장은 왜 표적이 됐나」 — 개혁 의정 심층 분석",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EC%B5%9C%EC%97%B0%EC%86%8C%20%EC%9D%98%EC%9E%A5%20%EC%A3%BC%EA%B0%84%EA%B2%BD%ED%96%A5"
+  },
+  {
+    "date": "2024-01-16",
+    "outlet": "KBC·쿠키뉴스",
+    "tag": "이슈",
+    "title": "의장 불신임 결의안 철회 — ‘청년 정치 탄압’ 규탄 여론·전남도당 청년위 지지",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EC%9D%98%EC%9E%A5%20%EB%B6%88%EC%8B%A0%EC%9E%84%20%EC%B2%A0%ED%9A%8C%20%EC%B2%AD%EB%85%84%EC%A0%95%EC%B9%98"
+  },
+  {
+    "date": "2024-01-10",
+    "outlet": "프레시안·시사저널",
+    "tag": "이슈",
+    "title": "의장 불신임 결의안 발의 사태 — 역대 최대 본예산 삭감 등 의회 내 갈등",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B0%95%EC%A7%84%EA%B5%B0%EC%9D%98%ED%9A%8C%20%EC%9D%98%EC%9E%A5%20%EB%B6%88%EC%8B%A0%EC%9E%84"
+  },
+  {
+    "date": "2023-12-27",
+    "outlet": "목포MBC",
+    "tag": "봉사",
+    "title": "의정활동비 270만원 전액 관내 지역아동센터 기탁 (6년 연속)",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EC%9D%98%EC%A0%95%ED%99%9C%EB%8F%99%EB%B9%84%20%EA%B8%B0%ED%83%81%20%EB%AA%A9%ED%8F%ACMBC"
+  },
+  {
+    "date": "2023-07-30",
+    "outlet": "미래일보",
+    "tag": "의정",
+    "title": "「의정활동 1년 회고」 인터뷰 — ‘육아양육수당 지원 조례’ 제정 등 성과",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EC%9C%A1%EC%95%84%EC%96%91%EC%9C%A1%EC%88%98%EB%8B%B9%20%EC%A1%B0%EB%A1%80"
+  },
+  {
+    "date": "2022-12-22",
+    "outlet": "미래일보",
+    "tag": "의정",
+    "title": "「최연소 여성 의장 탄생」 인터뷰 — 행정사무감사 상반기 이관·일문일답 군정질문 도입",
+    "link": "https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EC%B5%9C%EC%97%B0%EC%86%8C%20%EC%97%AC%EC%84%B1%20%EC%9D%98%EC%9E%A5"
   }
 ]
