@@ -1852,9 +1852,11 @@ document.getElementById('apiTryBtn').addEventListener('click', async ()=>{
   const st=document.getElementById('apiStatus');
   st.innerHTML='<span class="text-minju">API 함수 연결 확인 중…</span>';
   try{
-    // 1) 셀프체크 — api/budget.js 배포 + 인증키/엔드포인트 설정 여부 확인
+    // 1) 셀프체크 — api/budget.js 배포 + 인증키/엔드포인트 설정 여부 확인 (api/API 모두 시도)
     let chk=null;
-    try{ const c=await fetch(BUDGET_API+'?selfcheck=1',{cache:'no-store'}); chk=await c.json(); }catch(e){}
+    for(const base of BUDGET_API_CANDIDATES){
+      try{ const c=await fetch(base+'?selfcheck=1',{cache:'no-store'}); const j=await c.json(); if(j && (j.ok!==undefined||j.hasKey!==undefined)){ chk=j; BUDGET_API=base; break; } }catch(e){}
+    }
     if(!chk) throw new Error('api/budget.js 미배포 또는 경로 불일치 — 저장소 루트 api/budget.js 를 추가하고 재배포하세요');
     if(!chk.hasKey) throw new Error('함수는 배포됨 · Vercel 환경변수 DATA_GO_KR_KEY 미설정');
     if(chk.upstreamSet===false) throw new Error('함수·키 OK · UPSTREAM_URL(데이터셋 요청주소) 미설정');
@@ -1904,13 +1906,22 @@ renderHook();
    ▶ 운영: LOFIN_KEY 발급 + 백엔드 프록시(your-proxy) 연결 시 5분마다 실데이터로 자동 갱신.
      키/프록시 미설정 시에는 데모 데이터로 표시하고 갱신 시각만 기록. */
 const REFRESH_MS = 5 * 60 * 1000; // 5분
-// 같은 도메인 Vercel 서버리스 함수(api/budget.js). 키는 Vercel 환경변수에 보관(브라우저 비노출).
-const BUDGET_API = '/api/budget';
+// 같은 도메인 Vercel 서버리스 함수. 키는 Vercel 환경변수에 보관(브라우저 비노출).
+// 폴더명이 api/API 어느 쪽으로 올라가든 작동하도록 두 경로를 모두 시도.
+const BUDGET_API_CANDIDATES = ['/api/budget', '/API/budget'];
+let BUDGET_API = BUDGET_API_CANDIDATES[0];
 async function fetchRealBudget(zone){
-  const res=await fetch(BUDGET_API+'?zone='+encodeURIComponent(zone||'ALL'),{cache:'no-store'});
-  if(!res.ok) throw new Error('API '+res.status);
-  const j=await res.json(); if(j && j.error) throw new Error(j.error);
-  return j;
+  let lastErr;
+  for(const base of BUDGET_API_CANDIDATES){
+    try{
+      const res=await fetch(base+'?zone='+encodeURIComponent(zone||'ALL'),{cache:'no-store'});
+      if(!res.ok){ lastErr=new Error('API '+res.status); continue; }
+      const j=await res.json(); if(j && j.error) throw new Error(j.error);
+      BUDGET_API=base; // 작동하는 경로 기억
+      return j;
+    }catch(e){ lastErr=e; }
+  }
+  throw lastErr || new Error('API 연결 실패');
 }
 function stampUpdated(ok){
   const t=new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
