@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>김보미 공식 플랫폼 | 국민이 주인인 정부, 투명한 대한민국 재정 365</title>
-<meta name="description" content="누구나 의원처럼 우리 동네 예산·집행내역을 확인하고 직접 시정을 요구하는 전국 시민 재정운동 플랫폼. 전국 243개 지자체의 재정을 쉽게 공개합니다." />
+<title>대한민국 재정 365 | 우리 동네 예산, 누구나 의원처럼</title>
+<meta name="description" content="전국 시·도 17곳, 시·군·구 226곳(합계 243개 자치단체)의 세입·세출·집행률·금고 이자율을 한 화면에서 확인하고 시정을 요구하는 시민 재정 감시 플랫폼. (운영: 김보미)" />
 
 <!-- 링크 미리보기(카카오톡·페이스북·X 등) — og:image 는 절대경로 필수.
      사진은 저장소 assets/hero_poster.jpg 로 올려야 미리보기에 표시됩니다. -->
 <meta property="og:type" content="website" />
-<meta property="og:site_name" content="김보미 · 대한민국 재정 365" />
-<meta property="og:title" content="국민이 주인인 정부, 투명한 대한민국 재정 365" />
-<meta property="og:description" content="누구나 의원처럼 우리 동네 예산·집행내역을 확인하고 직접 시정을 요구하는 전국 시민 재정운동 플랫폼." />
+<meta property="og:site_name" content="대한민국 재정 365" />
+<meta property="og:title" content="대한민국 재정 365 — 우리 동네 예산, 누구나 의원처럼" />
+<meta property="og:description" content="전국 243개 자치단체의 세입·세출·집행률·금고 이자율을 한 화면에서 확인하고 시정을 요구하는 시민 재정 감시 플랫폼." />
 <meta property="og:image" content="https://kimbomi-site.vercel.app/assets/hero_poster.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="1200" />
-<meta property="og:url" content="https://kimbomi-site.vercel.app/" />
+<meta property="og:url" content="https://xn--4k0b53xuva.com/" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="국민이 주인인 정부, 투명한 대한민국 재정 365" />
 <meta name="twitter:description" content="누구나 의원처럼 우리 동네 예산을 감시하고 시정 요구하는 전국 시민 재정운동." />
@@ -173,11 +173,11 @@ tailwind.config = {
 <!-- ===================== 상단 유틸 바 ===================== -->
 <div class="bg-minju text-white/85 text-[12px]">
   <div class="max-w-screen-xl2 mx-auto px-5 h-9 flex items-center justify-between">
-    <p class="hidden sm:block tracking-tight">더불어민주당 · <b class="text-white">정치인 김보미</b></p>
+    <p class="hidden sm:block tracking-tight">대한민국 재정 365 · <b class="text-white">시민이 만드는 투명 재정</b></p>
     <div class="flex items-center gap-4">
-      <a href="https://www.청년결정정부.kr" target="_blank" rel="noopener" class="hover:text-mint-light transition">청년결정정부 ↗</a>
+      <a href="#data" class="hover:text-mint-light transition">데이터·방법론</a>
       <span class="text-white/25">|</span>
-      <a href="#contact" class="hover:text-mint-light transition">후원·자원봉사</a>
+      <a href="#contact" class="hover:text-mint-light transition">문의</a>
     </div>
   </div>
 </div>
@@ -186,38 +186,22 @@ tailwind.config = {
 <header id="hdr" class="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-paper-line transition-shadow">
   <div class="max-w-screen-xl2 mx-auto px-5 h-[64px] flex items-center justify-between">
     <a href="#home" class="flex items-center gap-3 group">
-      <span class="grid place-items-center w-10 h-10 rounded-xl bg-navy text-white font-black tracking-tighter shadow-soft group-hover:bg-minju transition">BM</span>
+      <span class="grid place-items-center w-10 h-10 rounded-xl bg-navy text-white font-black tracking-tighter shadow-soft group-hover:bg-minju transition text-[14px]">365</span>
       <span class="leading-tight">
-        <b class="block text-[17px] text-navy tracking-tight">김보미</b>
-        <span class="block text-[11px] text-ink-faint -mt-0.5">투명한 대한민국 재정 365</span>
+        <b class="block text-[17px] text-navy tracking-tight">재정 365</b>
+        <span class="block text-[11px] text-ink-faint -mt-0.5">시민 재정 감시 플랫폼</span>
       </span>
     </a>
 
-    <nav class="hidden lg:flex items-center gap-0.5 text-[15px] font-semibold text-ink-soft tracking-tight">
-      <a class="px-3 py-2 rounded-lg hover:bg-paper hover:text-navy transition" href="#home">홈</a>
-      <!-- 김보미입니다 드롭다운: 자기소개·약력 + 지난기록·소식·보도자료·갤러리 -->
-      <div class="navdrop relative" id="aboutDrop">
-        <button type="button" class="navdrop-btn flex items-center gap-1 px-3 py-2 rounded-lg hover:bg-paper hover:text-navy transition" aria-haspopup="true" aria-expanded="false" aria-controls="aboutMenu">
-          김보미입니다
-          <svg class="navchev" width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="navmenu absolute left-0 top-full pt-2 z-50" id="aboutMenu" role="menu">
-          <div class="w-60 bg-white ring-1 ring-paper-line shadow-card rounded-2xl p-2">
-            <a role="menuitem" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-paper hover:text-navy transition" href="#about"><span class="text-minju">①</span> 자기소개 · 약력</a>
-            <a role="menuitem" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-paper hover:text-navy transition" href="#books"><span class="text-minju">②</span> 지난 기록 (저서·공약)</a>
-            <a role="menuitem" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-paper hover:text-navy transition" href="#news"><span class="text-minju">③</span> 소식 (페이스북)</a>
-            <a role="menuitem" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-paper hover:text-navy transition" href="#press"><span class="text-minju">④</span> 보도자료</a>
-            <a role="menuitem" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-paper hover:text-navy transition" href="#gallery"><span class="text-minju">⑤</span> 포토 갤러리</a>
-          </div>
-        </div>
-      </div>
-      <a class="px-3 py-2 rounded-lg hover:bg-paper hover:text-navy transition" href="#budget">재정 365</a>
-      <a class="px-3 py-2 rounded-lg hover:bg-paper hover:text-navy transition" href="#report">예산 신고</a>
+    <nav class="hidden lg:flex items-center gap-1 text-[15.5px] font-semibold text-ink-soft tracking-tight">
+      <a data-nav="home" class="px-4 py-2 rounded-lg hover:bg-paper hover:text-navy transition" href="#home">홈</a>
+      <a data-nav="budget" class="px-4 py-2 rounded-lg hover:bg-paper hover:text-navy transition" href="#budget">내돈(혈세)감시</a>
+      <a data-nav="about" class="px-4 py-2 rounded-lg hover:bg-paper hover:text-navy transition" href="#about">김보미 소개</a>
     </nav>
 
     <div class="flex items-center gap-2">
       <a href="#contact" class="hidden sm:inline-flex items-center gap-1.5 bg-navy hover:bg-minju text-white text-[14px] font-bold px-4 py-2.5 rounded-xl shadow-soft transition">
-        함께하기
+        참여하기
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       <button id="navToggle" class="lg:hidden grid place-items-center w-10 h-10 rounded-lg border border-paper-line text-navy" aria-label="메뉴 열기">
@@ -230,78 +214,61 @@ tailwind.config = {
   <div id="mobileMenu" class="lg:hidden hidden border-t border-paper-line bg-white">
     <nav class="max-w-screen-xl2 mx-auto px-5 py-3 grid gap-1 text-[16px] font-semibold text-ink-soft">
       <a class="px-3 py-3 rounded-lg hover:bg-paper" href="#home">홈</a>
-      <div class="px-3 pt-2 pb-1 text-[12px] font-bold text-ink-faint">김보미입니다</div>
-      <a class="pl-7 pr-3 py-2.5 rounded-lg hover:bg-paper" href="#about">자기소개 · 약력</a>
-      <a class="pl-7 pr-3 py-2.5 rounded-lg hover:bg-paper" href="#books">지난 기록 (저서·공약)</a>
-      <a class="pl-7 pr-3 py-2.5 rounded-lg hover:bg-paper" href="#news">소식 (페이스북)</a>
-      <a class="pl-7 pr-3 py-2.5 rounded-lg hover:bg-paper" href="#press">보도자료</a>
-      <a class="pl-7 pr-3 py-2.5 rounded-lg hover:bg-paper" href="#gallery">포토 갤러리</a>
-      <div class="border-t border-paper-line my-1.5"></div>
-      <a class="px-3 py-3 rounded-lg hover:bg-paper" href="#budget">대한민국 재정 365</a>
-      <a class="px-3 py-3 rounded-lg hover:bg-paper" href="#report">예산 낭비 신고 · 시정 제안</a>
-      <a class="mt-1 text-center bg-navy text-white px-3 py-3 rounded-lg" href="#contact">함께하기</a>
+      <a class="px-3 py-3 rounded-lg hover:bg-paper" href="#budget">내돈(혈세)감시</a>
+      <a class="px-3 py-3 rounded-lg hover:bg-paper" href="#about">김보미 소개</a>
+      <a class="mt-1 text-center bg-navy text-white px-3 py-3 rounded-lg" href="#contact">참여하기</a>
     </nav>
   </div>
 </header>
 
 <!-- ===================== ① 히어로 ===================== -->
-<section id="home" class="relative overflow-hidden bg-gradient-to-b from-white via-[#EFF5FC] to-[#E4EEFA]">
+<section id="home" data-view="home" class="relative overflow-hidden bg-gradient-to-b from-white via-[#EFF5FC] to-[#E4EEFA]">
   <!-- 장식 블롭 (밝은 블루·민트) -->
   <div class="pointer-events-none absolute -top-28 -right-24 w-[460px] h-[460px] rounded-full bg-minju-blue/10 blur-3xl"></div>
   <div class="pointer-events-none absolute top-1/3 -left-24 w-[380px] h-[380px] rounded-full bg-mint/15 blur-3xl"></div>
-  <div class="relative max-w-screen-xl2 mx-auto px-5 pt-14 pb-0 lg:pt-20 grid lg:grid-cols-[1.05fr_.95fr] gap-8 items-end">
+  <div class="relative max-w-screen-xl2 mx-auto px-5 pt-14 pb-0 lg:pt-20 grid lg:grid-cols-[1fr_1.12fr] gap-8 items-center">
 
     <!-- 좌: 카피 -->
     <div class="pb-14 lg:pb-24">
       <div class="flex flex-wrap items-center gap-2 mb-6 reveal">
         <span class="inline-flex items-center gap-1.5 bg-navy text-white text-[13px] font-bold px-3 py-1.5 rounded-full">
-          <span class="w-1.5 h-1.5 rounded-full bg-mint-light animate-pulse"></span> 전국 재정 민주주의 운동
+          <span class="w-1.5 h-1.5 rounded-full bg-mint-light animate-pulse"></span> 공공데이터 기반 · 시민 재정 감시 플랫폼
         </span>
-        <span class="inline-flex items-center bg-minju/10 ring-1 ring-minju/20 text-minju text-[13px] font-semibold px-3 py-1.5 rounded-full">전 강진군의회 최연소 의장</span>
-        <span class="inline-flex items-center bg-paper ring-1 ring-paper-line text-ink-soft text-[13px] font-semibold px-3 py-1.5 rounded-full">전 강진군수 예비후보 (2026)</span>
+        <span class="inline-flex items-center bg-minju/10 ring-1 ring-minju/20 text-minju text-[13px] font-semibold px-3 py-1.5 rounded-full">정치자금 받지 않음</span>
       </div>
 
-      <h1 class="text-[40px] sm:text-[56px] lg:text-[64px] font-black leading-[1.04] tracking-[-.03em] text-navy reveal">
-        강진을 넘어 대한민국으로,<br>
-        <span class="text-minju">시민 주권·투명한 재정 365</span>
+      <h1 class="text-[40px] sm:text-[54px] lg:text-[62px] font-black leading-[1.06] tracking-[-.03em] text-navy reveal">
+        전국 226개 자치단체 예산,<br>
+        <span class="text-minju">한 화면에서.</span>
       </h1>
 
       <p class="mt-6 text-[17px] sm:text-[19px] text-ink-soft leading-relaxed max-w-xl reveal">
-        <b class="text-navy">의원의 임기는 끝나도, 감시는 시민이 계속합니다.</b><br class="hidden sm:block">
-        누구나 의원처럼 우리 동네 예산·집행내역을 들여다보고 직접 <b class="text-minju">시정을 요구</b>하는 <b class="text-minju">전국 시민 재정운동 플랫폼</b> — 정치 13년·의정 8년의 경험을 모두의 무기로 엽니다.
+        재정자립도부터 금고 이자율까지, 시민이 직접 확인하는 <b class="text-navy">우리 동네 재정 지도</b>. 필요하면 그 자리에서 <b class="text-minju">의회로 시정을 요구</b>합니다.
       </p>
 
-      <!-- 간략 약력 -->
-      <ul class="mt-6 grid sm:grid-cols-2 gap-x-6 gap-y-2.5 max-w-xl reveal">
-        <li class="flex items-start gap-2 text-[14.5px] text-ink-soft"><svg class="mt-0.5 shrink-0 text-minju" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>전 강진군의회 최연소 의장 (9대 전반기)</li>
-        <li class="flex items-start gap-2 text-[14.5px] text-ink-soft"><svg class="mt-0.5 shrink-0 text-minju" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>제8·9대 강진군의회 의원 (2018·2022 당선)</li>
-        <li class="flex items-start gap-2 text-[14.5px] text-ink-soft"><svg class="mt-0.5 shrink-0 text-minju" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>AI 기반 시민 참여 재정 플랫폼 『재정365』 설계·운영</li>
-        <li class="flex items-start gap-2 text-[14.5px] text-ink-soft"><svg class="mt-0.5 shrink-0 text-minju" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>전국 243개 지자체 재정·금고 이자율 감시 운동</li>
-      </ul>
-
       <div class="mt-9 flex flex-wrap gap-3 reveal">
-        <a href="#budget" class="inline-flex items-center gap-2 bg-minju-blue hover:bg-minju text-white font-extrabold text-[15px] px-6 py-3.5 rounded-2xl shadow-soft transition">
-          전국 재정 365 살펴보기
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <a href="#budget" class="inline-flex items-center gap-2 bg-minju-blue hover:bg-minju text-white font-extrabold text-[16px] px-7 py-4 rounded-2xl shadow-soft transition">
+          내돈(혈세) 감시 시작하기
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="#books" class="inline-flex items-center gap-2 bg-white hover:bg-paper ring-1 ring-paper-line text-navy font-bold text-[15px] px-6 py-3.5 rounded-2xl shadow-soft transition">
-          지난 도전과 기록 (아카이브)
+        <a href="#about" class="inline-flex items-center gap-2 bg-white hover:bg-paper ring-1 ring-paper-line text-navy font-bold text-[15px] px-6 py-4 rounded-2xl shadow-soft transition">
+          김보미 소개
         </a>
       </div>
 
-      <!-- 핵심 지표 -->
+      <!-- 운동 통계 (개인 통계 아님) -->
       <div class="mt-12 grid grid-cols-3 gap-4 max-w-lg reveal">
         <div>
-          <div class="text-[30px] font-black text-minju num" data-count="13" data-suffix="년">0</div>
-          <div class="text-[12.5px] text-ink-faint -mt-1">정치 경력 (2013~)</div>
+          <div class="text-[30px] font-black text-minju num" data-count="226" data-suffix="">226</div>
+          <div class="text-[12.5px] text-ink-faint -mt-1">모니터링 자치단체</div>
         </div>
         <div>
-          <div class="text-[30px] font-black text-navy num" data-count="8" data-suffix="년">0</div>
-          <div class="text-[12.5px] text-ink-faint -mt-1">의정 경력 · 8·9대 의원</div>
+          <div class="text-[30px] font-black text-navy num" data-count="17" data-suffix="">17</div>
+          <div class="text-[12.5px] text-ink-faint -mt-1">광역자치단체</div>
         </div>
         <div>
-          <div class="text-[30px] font-black text-navy num" data-count="243" data-suffix="">0</div>
-          <div class="text-[12.5px] text-ink-faint -mt-1">전국 감시 지자체</div>
+          <div class="text-[30px] font-black text-navy num" data-count="4" data-suffix="종">4</div>
+          <div class="text-[12.5px] text-ink-faint -mt-1">공개 재정 지표</div>
         </div>
       </div>
     </div>
@@ -312,11 +279,11 @@ tailwind.config = {
       <!-- ① 원본 포스터 이미지: 아래 후보 경로/이름을 자동으로 탐색해 표시.
            (assets/hero_poster.jpg 권장 — 링크 미리보기 og:image 와 동일). 못 찾으면 ②재현으로 대체. -->
       <img id="heroPoster" alt="국민주권 재정혁신 김보미"
-           class="relative block w-full max-w-[470px] mx-auto rounded-[24px] ring-1 ring-paper-line shadow-2xl">
+           class="relative block w-full max-w-[580px] mx-auto rounded-[24px] ring-1 ring-paper-line shadow-2xl">
 
       <!-- ② 폴백: 컷아웃 기반 재현(원본 미업로드 시) -->
       <div id="heroFallback" style="display:none">
-      <div class="relative mx-auto w-full max-w-[470px] aspect-square rounded-[24px] overflow-hidden ring-1 ring-paper-line shadow-2xl"
+      <div class="relative mx-auto w-full max-w-[580px] aspect-square rounded-[24px] overflow-hidden ring-1 ring-paper-line shadow-2xl"
            style="background:#F5F4EF;
                   background-image:
                     radial-gradient(rgba(0,0,0,.028) 1px, transparent 1px),
@@ -359,21 +326,20 @@ tailwind.config = {
   <div class="relative bg-gradient-to-r from-minju to-minju-blue text-white">
     <div class="max-w-screen-xl2 mx-auto px-5 py-5 flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
       <div class="flex items-center gap-2 text-[13px] font-bold text-mint-light shrink-0">
-        <span class="w-2 h-2 rounded-full bg-mint-light animate-pulse"></span> 전국 재정 365 · LIVE 스냅샷
-        <span class="text-white/55 font-medium">(데모 데이터)</span>
+        <span class="w-2 h-2 rounded-full bg-mint-light animate-pulse"></span> 전국 재정 365 · 감시 대상 자치단체
       </div>
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-x-8 gap-y-3 flex-1">
-        <div><div class="text-white/65 text-[12px]">전국 지자체 총예산</div><div class="text-[20px] font-black text-white"><span class="num" data-count="315.7" data-decimals="1">0</span><span class="text-mint-light">조원</span></div></div>
-        <div><div class="text-white/65 text-[12px]">평균 예산 집행률</div><div class="text-[20px] font-black text-white"><span class="num" data-count="68.4" data-decimals="1">0</span><span class="text-mint-light">%</span></div></div>
-        <div><div class="text-white/65 text-[12px]">모니터링 지자체</div><div class="text-[20px] font-black text-white"><span class="num" data-count="243">0</span><span class="text-mint-light">곳</span></div></div>
-        <div><div class="text-white/65 text-[12px]">데이터 갱신</div><div class="text-[20px] font-black text-white">5<span class="text-mint-light">분마다 자동</span></div></div>
+        <div><div class="text-white/65 text-[12px]">광역 시·도</div><div class="text-[20px] font-black text-white"><span class="num" data-count="17">17</span><span class="text-mint-light">곳</span></div></div>
+        <div><div class="text-white/65 text-[12px]">기초 시·군·구</div><div class="text-[20px] font-black text-white"><span class="num" data-count="226">226</span><span class="text-mint-light">곳</span></div></div>
+        <div><div class="text-white/65 text-[12px]">전체 자치단체</div><div class="text-[20px] font-black text-white"><span class="num" data-count="243">243</span><span class="text-mint-light">곳</span></div></div>
+        <div><div class="text-white/65 text-[12px]">데이터</div><div class="text-[20px] font-black text-white">공공데이터<span class="text-mint-light"> 기반</span></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===================== 청년결정정부 퀵 허브 ===================== -->
-<section class="relative -mt-px">
+<!-- ===================== 청년결정정부 퀵 허브 (푸터 관련 플랫폼으로 축소·숨김) ===================== -->
+<section class="relative -mt-px hidden">
   <div class="max-w-screen-xl2 mx-auto px-5 py-7">
     <a href="https://www.청년결정정부.kr" target="_blank" rel="noopener"
        class="group block reveal lift rounded-3xl overflow-hidden bg-gradient-to-r from-minju to-minju-blue text-white shadow-card">
@@ -396,14 +362,14 @@ tailwind.config = {
 </section>
 
 <!-- ===================== ② 정치인 김보미 (About) ===================== -->
-<section id="about" class="py-16 lg:py-24">
+<section id="about" data-view="about" class="py-16 lg:py-24">
   <div class="max-w-screen-xl2 mx-auto px-5">
     <div class="reveal max-w-3xl">
-      <p class="text-minju font-bold tracking-wide text-[14px]">ABOUT · 김보미입니다</p>
-      <h2 class="mt-2 text-[30px] lg:text-[40px] font-black tracking-[-.02em] text-navy leading-[1.15]">스물셋의 결심, 서른여섯의 도전</h2>
+      <p class="text-minju font-bold tracking-wide text-[14px]">ABOUT · 이 운동을 시작한 사람</p>
+      <h2 class="mt-2 text-[30px] lg:text-[40px] font-black tracking-[-.02em] text-navy leading-[1.15]">김보미 — 스물셋의 결심에서 시작된 일</h2>
       <p class="mt-4 text-ink-soft text-[16.5px] leading-relaxed">
         “정치는 거창한 말이 아니라, 일상을 실제로 바꾸는 일이라고 믿습니다.”<br>
-        다산 정약용 선생이 강진에서 설계한 <b class="text-navy">‘백성이 주인인 행정’</b>을, 김보미는 오늘의 시스템으로 완성하고자 합니다.
+        강진군의회에서 8년간 예산을 감시한 경험을, 누구나 쓸 수 있는 도구로 공개합니다. <b class="text-navy">‘재정 365’는 김보미가 시작하고 운영하는 시민 재정 감시 플랫폼</b>입니다.
       </p>
     </div>
 
@@ -427,8 +393,8 @@ tailwind.config = {
           <li class="relative">
             <span class="absolute -left-[37px] grid place-items-center w-7 h-7 rounded-full bg-minju text-white text-[11px] font-bold">32</span>
             <div class="text-[13px] font-bold text-minju">2022 · 서른둘</div>
-            <p class="text-navy font-extrabold text-[16px]">재선 성공 · 전국 최연소 기초의회 의장</p>
-            <p class="text-ink-soft text-[14.5px]">강진군 가·나 선거구 통합 최다득표로 재선, 9대 전반기 강진군의회 의장으로 선출되다.</p>
+            <p class="text-navy font-extrabold text-[16px]">재선 성공 · 강진군의회 최연소 의장</p>
+            <p class="text-ink-soft text-[14.5px]">강진군 가·나 선거구 통합 최다득표로 재선, 제9대 전반기 강진군의회 의장으로 선출되다.</p>
           </li>
           <li class="relative">
             <span class="absolute -left-[37px] grid place-items-center w-7 h-7 rounded-full bg-mint text-navy-950 text-[11px] font-extrabold">36</span>
@@ -456,7 +422,7 @@ tailwind.config = {
           </div>
           <div class="bg-minju text-white rounded-2xl p-5 shadow-card">
             <div class="text-[34px] font-black leading-none">1<span class="text-[18px] align-top">위</span></div>
-            <div class="text-[13px] text-white/80 mt-1">전국 최연소<br>기초의회 의장</div>
+            <div class="text-[13px] text-white/80 mt-1">강진군의회<br>최연소 의장</div>
           </div>
           <div class="bg-mint text-navy-950 rounded-2xl p-5 shadow-card">
             <div class="text-[34px] font-black leading-none num" data-count="2">0</div>
@@ -485,7 +451,7 @@ tailwind.config = {
         <div class="bg-paper ring-1 ring-paper-line rounded-2xl p-6">
           <h4 class="text-[14px] font-extrabold text-navy mb-3">약력</h4>
           <ul class="space-y-2 text-[14px] text-ink-soft leading-snug">
-            <li><b class="text-minju">현</b> 강진군의회 의원(8·9대) · 9대 전반기 강진군의회 의장</li>
+            <li><b class="text-minju">현</b> 강진군의회 의원(제8·9대) · 제9대 전반기 의장 역임</li>
             <li><b class="text-minju">현</b> 전남대학교 총동창회 부회장</li>
             <li><b class="text-minju">현</b> 더불어민주당 참좋은지방정부위원회 상임위원</li>
             <li><b class="text-minju">현</b> 더불어민주당 청년정책연구소 부소장</li>
@@ -505,7 +471,7 @@ tailwind.config = {
 </section>
 
 <!-- ===================== ③ 청년결정정부 & 활동 ===================== -->
-<section id="youth" class="py-16 lg:py-24 bg-gradient-to-b from-[#EEF4FB] to-white relative overflow-hidden">
+<section id="youth" data-view="about" class="py-16 lg:py-24 bg-gradient-to-b from-[#EEF4FB] to-white relative overflow-hidden">
   <div class="pointer-events-none absolute -top-20 right-0 w-[360px] h-[360px] rounded-full bg-minju-blue/[.06] blur-3xl"></div>
   <div class="relative max-w-screen-xl2 mx-auto px-5">
     <div class="reveal max-w-3xl">
@@ -567,7 +533,7 @@ tailwind.config = {
 <!-- ===================== 김보미 소식 (페이스북) ===================== -->
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v19.0"></script>
-<section id="news" class="py-16 lg:py-24 bg-gradient-to-b from-white to-[#EEF4FB]">
+<section id="news" data-view="about" class="py-16 lg:py-24 bg-gradient-to-b from-white to-[#EEF4FB]">
   <div class="max-w-screen-xl2 mx-auto px-5">
     <div class="reveal flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
       <div class="max-w-2xl">
@@ -597,7 +563,6 @@ tailwind.config = {
             </blockquote>
           </div>
         </div>
-        <p class="text-[11px] text-ink-faint mt-2">※ 실제 페이스북 <b>페이지 주소</b>로 교체하면 최신 글이 자동 표시됩니다. (data-href · 상단 링크)</p>
       </div>
 
       <!-- 지난 2년 아카이브 -->
@@ -617,7 +582,7 @@ tailwind.config = {
 </section>
 
 <!-- ===================== 보도자료 아카이브 ===================== -->
-<section id="press" class="py-16 lg:py-24">
+<section id="press" data-view="about" class="py-16 lg:py-24">
   <div class="max-w-screen-xl2 mx-auto px-5">
     <div class="reveal flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
       <div class="max-w-2xl">
@@ -641,7 +606,7 @@ tailwind.config = {
 </section>
 
 <!-- ===================== ④ 북 & 공약 아카이브 ===================== -->
-<section id="books" class="py-16 lg:py-24">
+<section id="books" data-view="about" class="py-16 lg:py-24">
   <div class="max-w-screen-xl2 mx-auto px-5">
     <div class="reveal max-w-3xl">
       <p class="text-minju font-bold tracking-wide text-[14px]">ARCHIVE · 지난 도전과 기록 (2026)</p>
@@ -759,7 +724,7 @@ tailwind.config = {
 </section>
 
 <!-- ===================== ⑤ 대한민국 재정 365 ===================== -->
-<section id="budget" class="py-16 lg:py-24 bg-paper">
+<section id="budget" data-view="budget" class="py-16 lg:py-24 bg-paper">
   <div class="max-w-screen-xl2 mx-auto px-5">
     <div class="reveal flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
       <div class="max-w-2xl">
@@ -844,26 +809,35 @@ tailwind.config = {
       </div>
     </div>
 
-    <!-- 재정 365 특종 스냅샷 — 1위 도시 vs 최저 이자율 방치 도시 (바이럴 훅) -->
-    <div class="reveal mt-5 grid sm:grid-cols-2 gap-3">
-      <div class="rounded-2xl bg-gradient-to-br from-mint/15 to-white ring-1 ring-mint/30 p-5 flex items-center gap-4">
-        <div class="text-[34px] leading-none">🏆</div>
-        <div class="min-w-0">
-          <div class="text-[11.5px] font-bold text-mint-dark">올해의 재정 운영 우수 도시 (데모)</div>
-          <div class="text-[18px] font-black text-navy mt-0.5 truncate" id="hookBestName">—</div>
-          <div class="text-[12px] text-ink-soft" id="hookBestMeta">—</div>
+    <!-- ===== 첫 번째 시민 감시 데이터 — 금고 이자율 MVD (행안부 2026.1.28 공시) ===== -->
+    <div class="reveal mt-8">
+      <span class="inline-block text-[12px] font-bold text-mint-dark bg-mint/15 px-2.5 py-1 rounded-full">첫 번째 시민 감시 데이터</span>
+      <h3 class="mt-2 text-[22px] lg:text-[28px] font-black tracking-[-.02em] text-navy">우리 동네 금고 이자율, 전국 226곳 비교</h3>
+      <p class="mt-2 text-ink-soft text-[15px] leading-relaxed max-w-3xl">
+        2026년 1월, 행정안전부가 시행령 개정에 따라 전국 자치단체의 금고 약정 이자율을 처음으로 공식 공개했습니다. 전국 226개 시·군·구 평균은 <b class="text-navy">약 2.52%</b>이며, 최고·최저 사이에 약 <b class="text-navy">2.7배</b>의 격차가 있습니다. <b class="text-minju">1조원 기준 1%p 차이는 연 100억원</b>의 이자수입 차이를 만듭니다.
+      </p>
+      <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="bg-white ring-1 ring-paper-line rounded-2xl p-5 shadow-soft text-center">
+          <div class="text-[12px] text-ink-faint font-bold">전국 평균</div>
+          <div class="text-[34px] font-black text-navy mt-1 leading-none">2.53<span class="text-[18px]">%</span></div>
+          <div class="text-[12px] text-ink-soft mt-1">전국 243개 자치단체 기준</div>
+        </div>
+        <div class="bg-white ring-1 ring-mint/40 rounded-2xl p-5 shadow-soft text-center">
+          <div class="text-[12px] text-mint-dark font-bold">가장 높음</div>
+          <div class="text-[34px] font-black text-mint-dark mt-1 leading-none">4.82<span class="text-[18px]">%</span></div>
+          <div class="text-[12px] text-ink-soft mt-1">인천광역시 서구</div>
+        </div>
+        <div class="bg-white ring-1 ring-paper-line rounded-2xl p-5 shadow-soft text-center">
+          <div class="text-[12px] text-ink-faint font-bold">가장 낮음</div>
+          <div class="text-[34px] font-black text-navy mt-1 leading-none">1.78<span class="text-[18px]">%</span></div>
+          <div class="text-[12px] text-ink-soft mt-1">경기도 양평군</div>
         </div>
       </div>
-      <div class="rounded-2xl bg-gradient-to-br from-red-50 to-white ring-1 ring-red-200 p-5 flex items-center gap-4" style="--tw-gradient-from:#FEF2F2;">
-        <div class="text-[34px] leading-none">🚨</div>
-        <div class="min-w-0">
-          <div class="text-[11.5px] font-bold text-red-600">최저 금고 이자율 방치 도시 (데모)</div>
-          <div class="text-[18px] font-black text-navy mt-0.5 truncate" id="hookWorstName">—</div>
-          <div class="text-[12px] text-ink-soft" id="hookWorstMeta">—</div>
-        </div>
+      <div class="mt-3 rounded-xl p-4 text-[12px] leading-relaxed" style="background:#F1F5F9;color:#475569;border:1px solid #E2E8F0;">
+        ⓘ <b>이 데이터의 한계</b> — 공시된 이자율은 12개월 이상 정기예금 약정금리입니다. 실제 자금 운용의 큰 부분을 차지하는 수시입출금식예금(MMDA), 지방채 차입 금리, 평균잔액 대비 실질 이자수입은 아직 공개되지 않았습니다. 따라서 이 비교는 자치단체 자금 운용 효율성의 <b>하나의 단면</b>일 뿐이며, 종합 평가는 추가 데이터 공개 후 가능합니다.
       </div>
+      <p class="mt-2 text-[11px] text-ink-faint">출처: 행정안전부 「지방재정365」(lofin.mois.go.kr) · 공시일 2026-01-28 · 다음 갱신: 행안부 공시 시 반영. 객관 수치만 표기하며 ‘꼴등·방치’ 등 부정 라벨은 사용하지 않습니다. (전국 226곳 상세 비교표는 준비 중)</p>
     </div>
-    <p class="reveal mt-2 text-[11px] text-slate-500" style="color:#64748B;">※ ‘특종 스냅샷’은 데모 표본(전국 주요 시·군·구)을 AI가 자동 비교한 참고용 결과입니다. 실제 순위·등급과 다를 수 있으며, 인용·보도 전 공식 원부로 확인하시기 바랍니다.</p>
 
     <div class="mt-8 grid lg:grid-cols-[1.05fr_1.3fr] gap-6 items-start">
       <!-- 좌: 정밀 행정경계 지도 -->
@@ -1021,6 +995,17 @@ tailwind.config = {
       </div>
     </div>
 
+    <!-- ===================== 데이터·방법론 ===================== -->
+    <div id="data" class="reveal mt-12 scroll-mt-24">
+      <p class="text-minju font-bold tracking-wide text-[14px]">DATA &amp; METHOD · 데이터·방법론</p>
+      <h3 class="mt-1 text-[22px] lg:text-[28px] font-black tracking-[-.02em] text-navy">출처와 산출 방식을 투명하게 공개합니다</h3>
+      <p class="mt-3 text-ink-soft text-[15px] leading-relaxed max-w-3xl">
+        <b class="text-navy">출처</b> — 지방재정통합공개시스템(지방재정365), 행정안전부 결산공시, 공공데이터포털(data.go.kr).
+        화면에 표시되는 등급·비율·지수는 공개 데이터를 바탕으로 한 <b class="text-navy">통계적 추론 참고치</b>이며, 자치단체의 확정 행정 원부와 다를 수 있습니다. 인용·신고·보도 전 반드시 공식 원부로 확인하시기 바랍니다.
+        (전체 면책 조항은 페이지 하단 및 <b class="text-minju">서비스 이용약관</b>을 참고하세요.)
+      </p>
+    </div>
+
     <!-- 실데이터 연동 -->
     <div class="reveal mt-6 grid lg:grid-cols-[1.3fr_1fr] gap-4">
       <div class="bg-white ring-1 ring-paper-line rounded-2xl p-5">
@@ -1056,7 +1041,7 @@ tailwind.config = {
 </section>
 
 <!-- ===================== 시민 행동 · 예산 낭비 신고 / 시정 제안 ===================== -->
-<section id="report" class="py-16 lg:py-24 bg-gradient-to-b from-paper to-white">
+<section id="report" data-view="budget" class="py-16 lg:py-24 bg-gradient-to-b from-paper to-white">
   <div class="max-w-screen-xl2 mx-auto px-5">
     <div class="reveal max-w-2xl">
       <p class="text-minju font-bold tracking-wide text-[14px]">CITIZEN ACTION · 시민 재정 감시</p>
@@ -1107,8 +1092,8 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ===================== 포토 갤러리 ===================== -->
-<section id="gallery" class="py-16 lg:py-24">
+<!-- ===================== 포토 갤러리 (사진 준비 전까지 숨김) ===================== -->
+<section id="gallery" data-view="about" class="py-16 lg:py-24 hidden">
   <div class="max-w-screen-xl2 mx-auto px-5">
     <div class="reveal max-w-3xl">
       <p class="text-minju font-bold tracking-wide text-[14px]">PHOTO ARCHIVE · 포토 갤러리</p>
@@ -1125,15 +1110,15 @@ tailwind.config = {
     <div class="reveal rounded-3xl bg-gradient-to-r from-minju to-minju-blue text-white shadow-card overflow-hidden">
       <div class="grid lg:grid-cols-[1.2fr_1fr] gap-8 items-center p-8 lg:p-10">
         <div>
-          <h2 class="text-[26px] lg:text-[34px] font-black tracking-[-.02em] leading-tight">국민이 주인인 정부,<br><span class="text-mint-light">투명한 대한민국 재정 365.</span></h2>
-          <p class="mt-3 text-white/85 text-[16px]">시민 재정주권 운동에 정책 제안·자원봉사로 함께해 주세요.</p>
+          <h2 class="text-[26px] lg:text-[34px] font-black tracking-[-.02em] leading-tight">국민 한 사람이 곧 의원입니다.<br><span class="text-mint-light">당신의 참여가 재정을 바꿉니다.</span></h2>
+          <p class="mt-3 text-white/85 text-[16px]">정책 제안과 시민 감시 활동으로 함께해 주세요. <b class="text-white">회비·후원 없이</b> 누구나 참여할 수 있습니다.</p>
         </div>
         <div class="flex flex-wrap gap-3 lg:justify-end">
-          <a href="mailto:kimbomi891204@gmail.com?subject=%5B%EC%A0%84%EA%B5%AD%20%EC%9E%AC%EC%A0%95%20%EC%9A%B4%EB%8F%99%20%ED%94%8C%EB%9E%AB%ED%8F%BC%20%EB%AC%B8%EC%9D%98%5D&body=%E2%97%87%20%EC%9D%B4%EB%A6%84/%EC%86%8C%EC%86%8D%3A%20%0A%E2%97%87%20%EC%97%B0%EB%9D%BD%EC%B2%98%3A%20%0A%E2%97%87%20%EC%A0%9C%EC%95%88%20%EB%B0%8F%20%EC%B0%B8%EC%97%AC%20%EB%82%B4%EC%9A%A9%3A%20%0A%0A%E2%80%94%20%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B3%B5%EC%8B%9D%20%EC%A0%84%EA%B5%AD%20%EC%9E%AC%EC%A0%95%20%ED%94%8C%EB%9E%AB%ED%8F%BC" class="inline-flex items-center gap-2 bg-white hover:bg-paper text-minju font-extrabold px-6 py-3.5 rounded-2xl shadow-soft transition">
+          <a href="mailto:kimbomi891204@gmail.com?subject=%5B%EC%A0%84%EA%B5%AD%20%EC%9E%AC%EC%A0%95%20%EC%9A%B4%EB%8F%99%20%ED%94%8C%EB%9E%AB%ED%8F%BC%20%EB%AC%B8%EC%9D%98%5D&body=%E2%97%87%20%EC%9D%B4%EB%A6%84/%EC%86%8C%EC%86%8D%3A%20%0A%E2%97%87%20%EC%97%B0%EB%9D%BD%EC%B2%98%3A%20%0A%E2%97%87%20%EC%A0%9C%EC%95%88%20%EB%B0%8F%20%EC%B0%B8%EC%97%AC%20%EB%82%B4%EC%9A%A9%3A%20%0A%0A%E2%80%94%20%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD%20%EC%9E%AC%EC%A0%95%20365" class="inline-flex items-center gap-2 bg-white hover:bg-paper text-minju font-extrabold px-6 py-3.5 rounded-2xl shadow-soft transition">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4zM4 7l8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            이메일로 문의하기
+            정책 제안 · 문의
           </a>
-          <a href="https://www.청년결정정부.kr" target="_blank" rel="noopener" class="inline-flex items-center gap-2 ring-1 ring-white/50 text-white font-bold px-6 py-3.5 rounded-2xl hover:bg-white/10 transition">청년결정정부 ↗</a>
+          <a href="#report" class="inline-flex items-center gap-2 ring-1 ring-white/50 text-white font-bold px-6 py-3.5 rounded-2xl hover:bg-white/10 transition">예산 낭비 신고 →</a>
         </div>
       </div>
     </div>
@@ -1141,32 +1126,32 @@ tailwind.config = {
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 py-12 text-[14px]">
       <div>
         <div class="flex items-center gap-2.5 mb-3">
-          <span class="grid place-items-center w-9 h-9 rounded-lg bg-navy text-white font-black">BM</span>
-          <b class="text-[16px] text-navy">김보미</b>
+          <span class="grid place-items-center w-9 h-9 rounded-lg bg-navy text-white font-black text-[13px]">365</span>
+          <b class="text-[16px] text-navy">재정 365</b>
         </div>
-        <p class="text-ink-soft leading-relaxed">더불어민주당 · 정치인 김보미<br>전 강진군의회 최연소 의장 · 전 강진군수 예비후보(2026)</p>
+        <p class="text-ink-soft leading-relaxed">대한민국 재정 365 · 시민 재정 감시 플랫폼<br>운영: 김보미 (전 강진군의회 의원)</p>
       </div>
       <div>
         <h4 class="font-bold text-navy mb-3">바로가기</h4>
         <ul class="space-y-2 text-ink-soft">
-          <li><a href="#about" class="hover:text-minju transition">김보미입니다</a></li>
+          <li><a href="#budget" class="hover:text-minju transition">전국 재정 지도</a></li>
           <li><a href="#report" class="hover:text-minju transition">예산 낭비 신고 · 시정 제안</a></li>
-          <li><a href="#books" class="hover:text-minju transition">지난 도전과 기록 (2026 아카이브)</a></li>
-          <li><a href="#budget" class="hover:text-minju transition">대한민국 재정 365</a></li>
+          <li><a href="#data" class="hover:text-minju transition">데이터·방법론</a></li>
+          <li><a href="#about" class="hover:text-minju transition">김보미 소개</a></li>
         </ul>
       </div>
       <div>
-        <h4 class="font-bold text-navy mb-3">외부 링크</h4>
+        <h4 class="font-bold text-navy mb-3">관련 플랫폼</h4>
         <ul class="space-y-2 text-ink-soft">
+          <li><a href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener" class="hover:text-minju transition">재정주권시민행동 ↗</a></li>
           <li><a href="https://www.청년결정정부.kr" target="_blank" rel="noopener" class="hover:text-minju transition">청년결정정부 ↗</a></li>
           <li><a href="https://namu.wiki/w/%EA%B9%80%EB%B3%B4%EB%AF%B8(%EC%A0%95%EC%B9%98%EC%9D%B8)" target="_blank" rel="noopener" class="hover:text-minju transition">나무위키 ↗</a></li>
-          <li><a href="https://theminjoo.kr" target="_blank" rel="noopener" class="hover:text-minju transition">더불어민주당 ↗</a></li>
         </ul>
       </div>
       <div>
-        <h4 class="font-bold text-navy mb-3">함께하기 · 문의</h4>
+        <h4 class="font-bold text-navy mb-3">참여 · 문의</h4>
         <ul class="space-y-2 text-ink-soft">
-          <li>정책 제안 · 자원봉사 · 언론 문의</li>
+          <li>정책 제안 · 시민 감시 · 언론 문의</li>
           <li><a href="mailto:kimbomi891204@gmail.com?subject=%5B%EC%A0%84%EA%B5%AD%20%EC%9E%AC%EC%A0%95%20%EC%9A%B4%EB%8F%99%20%ED%94%8C%EB%9E%AB%ED%8F%BC%20%EB%AC%B8%EC%9D%98%5D&body=%E2%97%87%20%EC%9D%B4%EB%A6%84/%EC%86%8C%EC%86%8D%3A%20%0A%E2%97%87%20%EC%97%B0%EB%9D%BD%EC%B2%98%3A%20%0A%E2%97%87%20%EC%A0%9C%EC%95%88%20%EB%B0%8F%20%EC%B0%B8%EC%97%AC%20%EB%82%B4%EC%9A%A9%3A%20%0A%0A%E2%80%94%20%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B3%B5%EC%8B%9D%20%EC%A0%84%EA%B5%AD%20%EC%9E%AC%EC%A0%95%20%ED%94%8C%EB%9E%AB%ED%8F%BC" class="font-semibold text-minju hover:underline break-all">kimbomi891204@gmail.com</a></li>
           <li class="text-ink-faint text-[12.5px] pt-1">이메일을 누르면 문의 양식이 자동으로 작성됩니다.</li>
         </ul>
@@ -1188,8 +1173,8 @@ tailwind.config = {
         <a href="mailto:kimbomi891204@gmail.com" class="font-semibold text-ink-soft hover:text-minju transition">문의: kimbomi891204@gmail.com</a>
       </div>
       <div class="flex flex-col sm:flex-row gap-2 justify-between text-[12.5px] text-ink-faint">
-        <p>© 2026 김보미 공식 플랫폼 · 시민 재정주권 운동. All rights reserved.</p>
-        <p>재정 데이터는 AI 통계 추론 기반 참고 수치이며, 실제 공공데이터 API 연동 시 자동 갱신됩니다.</p>
+        <p>© 2026 대한민국 재정 365 · 운영: 김보미. All rights reserved.</p>
+        <p>재정 데이터는 공공데이터 기반 통계 추론 참고 수치이며, 공식 원부와 다를 수 있습니다.</p>
       </div>
     </div>
   </div>
@@ -2239,6 +2224,43 @@ function buildReportMailto(){
 })();
 
 updateReport(); // 초기 스냅샷 반영
+</script>
+<script>
+/* ============================================================
+   화면 분할(뷰) 전환 — 홈 / 내돈(혈세)감시(budget) / 김보미 소개(about)
+   한 페이지를 통째로 스크롤하지 않고, 클릭한 영역만 보이게 전환.
+   ============================================================ */
+(function(){
+  function showView(v){
+    document.querySelectorAll('section[data-view]').forEach(function(s){
+      s.style.display = (s.dataset.view===v) ? '' : 'none';
+    });
+    // 활성 뷰의 등장 애니메이션 요소 즉시 표시(숨김→표시 시 빈 화면 방지)
+    document.querySelectorAll('section[data-view="'+v+'"] .reveal').forEach(function(el){ el.classList.add('in'); });
+    // 내비 활성 표시
+    document.querySelectorAll('[data-nav]').forEach(function(a){
+      var on = a.dataset.nav===v;
+      a.classList.toggle('bg-paper', on); a.classList.toggle('text-navy', on);
+    });
+    window.scrollTo(0,0);
+    // 숨겨졌던 차트(Chart.js)가 펴질 때 크기를 다시 계산
+    setTimeout(function(){ window.dispatchEvent(new Event('resize')); }, 60);
+  }
+  window.showView = showView;
+  // 모든 # 앵커 클릭 → 대상이 속한 뷰로 전환 후 스크롤
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href^="#"]'); if(!a) return;
+    var id = a.getAttribute('href').slice(1); if(!id) return;
+    var t = document.getElementById(id); if(!t) return;
+    var sec = t.closest('section[data-view]');
+    if(sec){
+      e.preventDefault();
+      showView(sec.dataset.view);
+      if(sec.dataset.view !== 'home'){ setTimeout(function(){ t.scrollIntoView({behavior:'smooth', block:'start'}); }, 60); }
+    }
+  });
+  showView('home'); // 첫 진입 = 홈
+})();
 </script>
 </body>
 </html>
