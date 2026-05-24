@@ -141,9 +141,14 @@ function MAP_FNCST(rows, zone) {
   const tot  = (r) => num(r.pfa_amt2);                      // 세입결산규모
   const rate = (r) => num(r.rate2) || num(r.rate1);         // 재정자립도(원본 컬럼·보조용)
   const isSummary = (r) => /전국|합계|총계|소계|평균/.test(String(r.laf_hg_nm || r.wa_laf_hg_nm || ""));
-  // 시·도 17곳 식별: 광역단체명만 매칭 (시·군·구 ~시/~군/~구 제외)
-  const SIDO_RE = /^(?:서울특별시|부산광역시|대구광역시|인천광역시|광주광역시|대전광역시|울산광역시|세종특별자치시|경기도|강원도|강원특별자치도|충청북도|충청남도|전라북도|전북특별자치도|전라남도|경상북도|경상남도|제주특별자치도)$/;
-  const isSidoRow = (r) => SIDO_RE.test(String(r.laf_hg_nm || "").trim());
+  // 시·도 17곳 식별: laf_hg_nm 과 wa_laf_hg_nm 이 같은 행이 광역단체 자체
+  //   (시·군·구는 광역명+기초명을 붙여쓴 형태 — 예: laf_hg_nm="서울종로구", wa_laf_hg_nm="서울" → 다름)
+  //   (시·도는 둘 다 동일 — 예: laf_hg_nm="서울", wa_laf_hg_nm="서울" → 같음)
+  const isSidoRow = (r) => {
+    const nm = String(r.laf_hg_nm || "").trim();
+    const wa = String(r.wa_laf_hg_nm || "").trim();
+    return !!nm && nm === wa;
+  };
   const isNat = (zone === "ALL");
 
   // 자립도(%) = 자체수입 / 세입결산규모 × 100 (정의 그대로). 불가 시 원본 rate 사용.
