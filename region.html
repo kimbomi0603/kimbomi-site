@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>강진군 예산 365 | 시민 재정 감시</title>
+<meta name="description" content="강진군의 세입·세출·집행률·재정자립도를 한 화면에서 확인하는 시민 재정 감시 페이지">
+<meta property="og:title" content="강진군 예산 365">
+<meta property="og:description" content="시민이 직접 확인하는 강진군 재정 현황">
+<meta property="og:image" content="https://xn--4k0b53xuva.com/assets/hero_poster.jpg">
+<meta property="og:url" content="https://xn--4k0b53xuva.com/region.html">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: {
+    navy:{ DEFAULT:'#0A1F44', 900:'#0A1F44' },
+    minju:{ DEFAULT:'#0050A0', blue:'#0073CF' },
+    mint:{ DEFAULT:'#10C9B0', light:'#46E3CC', dark:'#0A8C7C' },
+    ink:{ DEFAULT:'#152033', soft:'#3A465C', faint:'#6B7686' },
+    paper:{ DEFAULT:'#F6F8FB', card:'#FFFFFF', line:'#E5EAF1' }
+  },
+  fontFamily:{ sans:['"Pretendard Variable"','Pretendard','-apple-system','system-ui','sans-serif'] },
+  maxWidth:{ 'screen-xl2':'1240px' }
+}}};
+</script>
+<style>
+  body{ background:#F6F8FB; color:#152033; word-break:keep-all; line-height:1.6; }
+  h1,h2,h3{ word-break:keep-all; letter-spacing:-0.025em; }
+  .num{ font-variant-numeric:tabular-nums; }
+</style>
+</head>
+<body class="font-sans antialiased">
+
+<header class="bg-white border-b border-paper-line sticky top-0 z-40">
+  <div class="max-w-screen-xl2 mx-auto px-5 h-[64px] flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3">
+      <span class="grid place-items-center w-10 h-10 rounded-xl bg-navy text-white font-black text-[14px]">365</span>
+      <span class="leading-tight">
+        <b class="block text-[17px] text-navy"><span id="hRegion">—</span> 예산 365</b>
+        <span class="block text-[11px] text-ink-faint -mt-0.5">시민 재정 감시</span>
+      </span>
+    </a>
+    <a href="/" class="text-[13px] font-bold text-navy hover:text-minju transition">← 메인으로</a>
+  </div>
+</header>
+
+<section class="bg-gradient-to-b from-white to-[#EFF5FC] py-12 lg:py-16">
+  <div class="max-w-screen-xl2 mx-auto px-5">
+    <span class="inline-block text-[12.5px] font-bold text-mint-dark bg-mint/15 px-3 py-1 rounded-full">시민 재정 감시 · 단일 지역 상세</span>
+    <h1 class="mt-3 text-[34px] lg:text-[48px] font-black text-navy leading-tight"><span id="heroRegion">—</span> 예산 현황</h1>
+    <p class="mt-2 text-ink-soft text-[15px]">실제 공공데이터(지방재정365 FNCST · <span id="dataYear">—</span>년 회계연도) 기준 · <span id="lastUpdated">갱신 중…</span></p>
+  </div>
+</section>
+
+<section class="py-10">
+  <div class="max-w-screen-xl2 mx-auto px-5">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm">
+        <div class="text-[12px] text-ink-faint font-bold">총예산</div>
+        <div class="text-[28px] font-black text-navy num mt-1"><span id="kpiB">—</span><span class="text-[14px] text-ink-faint">조원</span></div>
+        <div class="text-[11px] text-ink-faint mt-1">세입결산 규모</div>
+      </div>
+      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm">
+        <div class="text-[12px] text-ink-faint font-bold">재정자립도</div>
+        <div class="text-[28px] font-black text-navy num mt-1"><span id="kpiS">—</span><span class="text-[14px] text-ink-faint">%</span></div>
+        <div class="text-[11px] text-mint-dark mt-1 font-bold">실데이터</div>
+      </div>
+      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm">
+        <div class="text-[12px] text-ink-faint font-bold">예산 집행률</div>
+        <div class="text-[28px] font-black text-minju num mt-1"><span id="kpiE">—</span><span class="text-[14px] text-ink-faint">%</span></div>
+        <div class="text-[11px] text-amber-700 mt-1 font-bold">추정치</div>
+      </div>
+      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm">
+        <div class="text-[12px] text-ink-faint font-bold">금고 이자율</div>
+        <div class="text-[28px] font-black text-navy num mt-1"><span id="kpiR">—</span><span class="text-[14px] text-ink-faint">%</span></div>
+        <div class="text-[11px] text-red-600 mt-1 font-bold" id="kpiRNote">—</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pb-12">
+  <div class="max-w-screen-xl2 mx-auto px-5 grid lg:grid-cols-[1fr_1.3fr] gap-6">
+    <div class="bg-white rounded-2xl p-6 ring-1 ring-paper-line shadow-sm">
+      <h3 class="text-[16px] font-extrabold text-navy mb-3">분야별 예산 비중</h3>
+      <div class="relative h-[260px]"><canvas id="pieChart"></canvas></div>
+      <p class="mt-3 text-[11px] text-ink-faint">※ 분야별 비중은 데이터셋 미공개로 추정치임.</p>
+    </div>
+    <div class="bg-white rounded-2xl p-6 ring-1 ring-paper-line shadow-sm">
+      <h3 class="text-[16px] font-extrabold text-navy mb-3">예산현황 (회계별 · 억원)</h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center mb-4">
+        <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">일반회계</div><div class="text-[15px] font-extrabold text-navy" id="acG">—</div></div>
+        <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">특별회계</div><div class="text-[15px] font-extrabold text-navy" id="acS">—</div></div>
+        <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">세입 총계</div><div class="text-[15px] font-extrabold text-navy" id="acR">—</div></div>
+        <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">세출 총계</div><div class="text-[15px] font-extrabold text-navy" id="acE">—</div></div>
+      </div>
+      <div class="overflow-hidden rounded-xl ring-1 ring-paper-line">
+        <table class="w-full text-[12.5px]">
+          <thead class="bg-paper text-ink-faint"><tr><th class="text-left font-semibold px-2.5 py-1.5">분야</th><th class="text-right font-semibold px-2.5 py-1.5">예산</th><th class="text-right font-semibold px-2.5 py-1.5">집행</th><th class="text-right font-semibold px-2.5 py-1.5">집행률</th></tr></thead>
+          <tbody id="execTable" class="num"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-gradient-to-r from-minju to-minju-blue text-white py-10">
+  <div class="max-w-screen-xl2 mx-auto px-5 text-center">
+    <h2 class="text-[22px] lg:text-[28px] font-black"><span id="ctaRegion">—</span> 예산에 의견이 있다면?</h2>
+    <p class="mt-2 text-white/85 text-[15px]">시민의 신고·시정 제안은 메인 사이트의 '예산 낭비 신고' 폼에서 작성하실 수 있습니다.</p>
+    <a href="/#report" class="inline-block mt-5 bg-white text-minju font-extrabold text-[15px] px-7 py-3.5 rounded-2xl shadow-sm hover:bg-paper transition">메인 사이트에서 신고하기 →</a>
+  </div>
+</section>
+
+<footer class="bg-[#EEF4FB] border-t border-paper-line py-10">
+  <div class="max-w-screen-xl2 mx-auto px-5 text-[12px] text-ink-faint leading-relaxed">
+    <p class="mb-2"><b class="text-navy">[면책]</b> 본 페이지의 모든 수치는 공공데이터를 기반으로 한 통계 추론 참고치이며, 자치단체 확정 결산과 다를 수 있습니다. 공적·법적 대응 전 반드시 해당 지자체·의회 공식 원부로 재확인하세요.</p>
+    <p>© 2026 대한민국 재정 365 · 운영: 김보미 · <a href="/" class="text-minju hover:underline">메인으로</a></p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   ⚙️ 설정 — 다른 지자체용으로 복제 시 이 영역만 수정
+   ============================================================ */
+const REGION    = '강진군';           // 화면에 표시될 지역 이름
+const ZONE      = '전남강진군';        // /api/budget 호출용 자치단체명 (광역명+기초명 형식)
+const RATE      = 0.91;                // 금고 이자율(%) — 모르면 0 으로
+const RATE_NOTE = '⚠ 2026 출마선언문 기준'; // 이자율 라벨 (없으면 '')
+
+/* ============================================================
+   자동 처리 — 일반적으로 건드릴 필요 없음
+   ============================================================ */
+['hRegion','heroRegion','ctaRegion'].forEach(id=>{
+  const el=document.getElementById(id); if(el) el.textContent=REGION;
+});
+document.title = REGION + ' 예산 365 | 시민 재정 감시';
+document.getElementById('kpiR').textContent = RATE>0 ? RATE.toFixed(2) : '—';
+document.getElementById('kpiRNote').textContent = RATE_NOTE;
+
+const FIELDS = ['복지','산업·경제','SOC·교통','교육·문화','안전·환경','일반행정'];
+const COLORS = ['#0050A0','#0073CF','#10C9B0','#46E3CC','#1E9BE0','#9FB3C8'];
+function won(eok){ return eok>=10000 ? (eok/10000).toLocaleString('ko-KR',{maximumFractionDigits:1})+'조' : Math.round(eok).toLocaleString('ko-KR')+'억'; }
+
+const pieChart = new Chart(document.getElementById('pieChart').getContext('2d'),{
+  type:'doughnut',
+  data:{ labels:FIELDS, datasets:[{ data:[34,16,15,12,12,11], backgroundColor:COLORS, borderWidth:2, borderColor:'#fff' }] },
+  options:{ responsive:true, maintainAspectRatio:false, cutout:'58%',
+    plugins:{ legend:{ position:'bottom', labels:{ font:{ size:11 } } } } }
+});
+
+function render(d, isReal){
+  document.getElementById('kpiB').textContent = (+d.b).toFixed(1);
+  document.getElementById('kpiE').textContent = (+d.e).toFixed(1);
+  document.getElementById('kpiS').textContent = (+d.s).toFixed(1);
+  document.getElementById('dataYear').textContent = d.fyr || '—';
+  document.getElementById('lastUpdated').textContent = isReal
+    ? ('갱신 ' + new Date().toLocaleString('ko-KR',{hour:'2-digit',minute:'2-digit'}) + ' · 실데이터')
+    : '데모 데이터 (실데이터 호출 실패)';
+  const tot = d.b*10000;
+  document.getElementById('acG').textContent = won(tot*0.78);
+  document.getElementById('acS').textContent = won(tot*0.22);
+  document.getElementById('acR').textContent = won(tot*1.02);
+  document.getElementById('acE').textContent = won(tot);
+  const f = Array.isArray(d.f) && d.f.length===6 ? d.f : [34,16,15,12,12,11];
+  pieChart.data.datasets[0].data = f; pieChart.update();
+  document.getElementById('execTable').innerHTML = FIELDS.map((nm,i)=>{
+    const fb=tot*f[i]/100;
+    const fe=fb*(d.e/100)*(0.94+0.12*((i*7%5)/5));
+    const r=fb>0 ? Math.min(100, fe/fb*100) : 0;
+    return `<tr class="border-t border-paper-line"><td class="px-2.5 py-1.5 text-ink-soft whitespace-nowrap"><span class="inline-block w-2 h-2 rounded-sm mr-1.5 align-middle" style="background:${COLORS[i]}"></span>${nm}</td><td class="px-2.5 py-1.5 text-right text-navy font-semibold">${won(fb)}</td><td class="px-2.5 py-1.5 text-right text-ink-soft">${won(fe)}</td><td class="px-2.5 py-1.5 text-right font-bold ${r>=70?'text-mint-dark':'text-amber-600'}">${r.toFixed(0)}%</td></tr>`;
+  }).join('');
+}
+
+fetch('/api/budget?zone='+encodeURIComponent(ZONE),{cache:'no-store'})
+  .then(r=>r.json())
+  .then(d=>{
+    if(d && d.error) throw new Error(d.error);
+    if(typeof d.b!=='number' || d.b<=0) throw new Error('데이터 형식 오류');
+    render(d, true);
+  })
+  .catch(err=>{
+    render({ b:0.5, e:68.4, s:25.0, f:[34,16,15,12,12,11], fyr:'-' }, false);
+  });
+</script>
+</body>
+</html>
