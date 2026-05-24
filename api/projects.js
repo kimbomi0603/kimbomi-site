@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
       .sort((a, b) => parseSize(b.budget) - parseSize(a.budget))
       .slice(0, limit);
 
-    return res.status(200).json({ projects, date: usedDate, fyr: usedFyr, laf_cd: lafCd, count: projects.length, src: "lofin365 QWGJK(세부사업별 세출)" });
+    return res.status(200).json({ region: rows[0] ? (rows[0].laf_hg_nm || rows[0].wa_laf_hg_nm || "") : "", projects, date: usedDate, fyr: usedFyr, laf_cd: lafCd, count: projects.length, src: "lofin365 QWGJK(세부사업별 세출)" });
   } catch (e) {
     return res.status(500).json({ error: String((e && e.message) || e) });
   }
