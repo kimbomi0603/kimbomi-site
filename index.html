@@ -1541,7 +1541,7 @@ const RATE_NATL_AVG = 3.10;   // 전국 평균(데모)
 const RATE_LOW_LINE = 2.00;   // ‘저금리 방치’ 경고 기준선
 function bankRate(name, isSido){
   if(!name || name.indexOf('전국')>=0) return RATE_NATL_AVG;
-  if(name.indexOf('강진')>=0) return 0.91;                  // 강진군: 전국 최하위권(출마선언문)
+  if(name.indexOf('강진')>=0) return 0.91;                  // 강진군: 전국 최하위권( 2026 출마선언문 기준)
   const r=rng(hashStr(name+'_rate'))();
   if(isSido) return +(2.7 + r*1.1).toFixed(2);             // 시·도 2.7~3.8 (편차 작음)
   return +(0.6 + r*3.0).toFixed(2);                        // 시·군·구 0.6~3.6 (편차 큼·일부 0%대)
