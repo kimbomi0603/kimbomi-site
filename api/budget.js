@@ -141,6 +141,9 @@ function MAP_FNCST(rows, zone) {
   const tot  = (r) => num(r.pfa_amt2);                      // 세입결산규모
   const rate = (r) => num(r.rate2) || num(r.rate1);         // 재정자립도(원본 컬럼·보조용)
   const isSummary = (r) => /전국|합계|총계|소계|평균/.test(String(r.laf_hg_nm || r.wa_laf_hg_nm || ""));
+  // 시·도 17곳 식별: 광역단체명만 매칭 (시·군·구 ~시/~군/~구 제외)
+  const SIDO_RE = /^(?:서울특별시|부산광역시|대구광역시|인천광역시|광주광역시|대전광역시|울산광역시|세종특별자치시|경기도|강원도|강원특별자치도|충청북도|충청남도|전라북도|전북특별자치도|전라남도|경상북도|경상남도|제주특별자치도)$/;
+  const isSidoRow = (r) => SIDO_RE.test(String(r.laf_hg_nm || "").trim());
   const isNat = (zone === "ALL");
 
   // 자립도(%) = 자체수입 / 세입결산규모 × 100 (정의 그대로). 불가 시 원본 rate 사용.
@@ -152,22 +155,33 @@ function MAP_FNCST(rows, zone) {
     sumTot = tot(r);
     basis = "지역행";
   } else {
-    // 전국: ① 데이터셋의 '전국' 요약행(순계 공시값)을 최우선 → 통상 알려진 값(약 45%)
-    //       ② 없으면 개별 자치단체 집계(총계) ③ 그래도 없으면 단순평균
+    // 전국 평균 재정자립도 산출 — 행안부 공시(약 45%)에 근접하도록 우선순위 설정
+    //   ① 데이터셋에 '전국' 요약행이 있으면 그 값 (순계 공시값)
+    //   ② 시·도 17곳만 가중평균 (광역+기초 중복 합산 방지 → 공시 평균에 근접)
+    //   ③ 그래도 안 되면 전체 개별 자치단체 합산
+    //   ④ 최후 폴백: 단순평균
     const natRow = rows.find((r) => /전국/.test(String(r.laf_hg_nm || r.wa_laf_hg_nm || "")));
+    const sidoRows = rows.filter(isSidoRow);
     const indiv = rows.filter((r) => !isSummary(r));
-    const base = indiv.length ? indiv : rows;
-    const aggOwn = base.reduce((a, r) => a + own(r), 0);
-    const aggTot = base.reduce((a, r) => a + tot(r), 0);
+    const sumSidoOwn = sidoRows.reduce((a, r) => a + own(r), 0);
+    const sumSidoTot = sidoRows.reduce((a, r) => a + tot(r), 0);
+    const aggOwn = indiv.reduce((a, r) => a + own(r), 0);
+    const aggTot = indiv.reduce((a, r) => a + tot(r), 0);
+
     if (natRow && rate(natRow) > 0) {
       s = rate(natRow); basis = "전국요약행(순계 공시값)";
+    } else if (sidoRows.length >= 10 && sumSidoTot > 0 && sumSidoOwn > 0) {
+      s = +(sumSidoOwn / sumSidoTot * 100).toFixed(1);
+      basis = "시·도 " + sidoRows.length + "곳 가중평균(순계 근사)";
     } else if (aggTot > 0 && aggOwn > 0) {
       s = +(aggOwn / aggTot * 100).toFixed(1); basis = "개별 자치단체 집계(총계)";
     } else {
+      const base = indiv.length ? indiv : rows;
       const rs = base.map(rate).filter((v) => v > 0);
       s = rs.length ? +(rs.reduce((a, v) => a + v, 0) / rs.length).toFixed(1) : 0;
       basis = "단순평균";
     }
+    // 총예산은 전체 자치단체 합산(시·도+시·군·구) 유지 — 통상 표시 규모
     sumTot = (natRow && tot(natRow) > 0) ? tot(natRow) : aggTot;
   }
 
