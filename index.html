@@ -12,14 +12,14 @@
 <meta property="og:site_name" content="대한민국 재정 365" />
 <meta property="og:title" content="대한민국 재정 365 — 우리 동네 예산, 누구나 의원처럼" />
 <meta property="og:description" content="전국 243개 자치단체의 세입·세출·집행률·금고 이자율을 한 화면에서 확인하고 시정을 요구하는 시민 재정 감시 플랫폼." />
-<meta property="og:image" content="https://xn--4k0b53xuva.com/assets/hero_poster.jpg" />
+<meta property="og:image" content="https://kimbomi-site.vercel.app/assets/hero_poster.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="1200" />
 <meta property="og:url" content="https://xn--4k0b53xuva.com/" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="국민이 주인인 정부, 투명한 대한민국 재정 365" />
 <meta name="twitter:description" content="누구나 의원처럼 우리 동네 예산을 감시하고 시정 요구하는 전국 시민 재정운동." />
-<meta name="twitter:image" content="https://xn--4k0b53xuva.com/assets/hero_poster.jpg" />
+<meta name="twitter:image" content="https://kimbomi-site.vercel.app/assets/hero_poster.jpg" />
 
 <!-- ============================================================
      [Tech Stack]
@@ -32,6 +32,8 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 <link rel="stylesheet" as="style" crossorigin
   href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<!-- 셀프호스팅 스타일(오프라인·미리보기에서도 디자인 적용). 온라인에선 아래 CDN이 보강 -->
+<link rel="stylesheet" href="assets/tw.css" />
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <!-- 정밀 행정경계 지도: D3 + TopoJSON (KOSTAT 경계 데이터를 런타임 로드) -->
@@ -528,6 +530,81 @@ tailwind.config = {
   </div>
 </section>
 
+<!-- ===================== 김보미 소식 (페이스북) ===================== -->
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v19.0"></script>
+<section id="news" data-view="about" class="py-16 lg:py-24 bg-gradient-to-b from-white to-[#EEF4FB]">
+  <div class="max-w-screen-xl2 mx-auto px-5">
+    <div class="reveal flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+      <div class="max-w-2xl">
+        <p class="text-minju font-bold tracking-wide text-[14px]">NEWS · 김보미 소식</p>
+        <h2 class="mt-2 text-[30px] lg:text-[40px] font-black tracking-[-.02em] text-navy">페이스북으로 전하는 김보미의 하루</h2>
+        <p class="mt-3 text-ink-soft text-[16px] leading-relaxed">페이스북 페이지에 새 글이 올라오면 이 곳에도 자동으로 반영됩니다. 지난 2년의 소식은 아카이브에서 모아 보실 수 있습니다.</p>
+      </div>
+      <a id="fbPageLink" href="https://www.facebook.com" target="_blank" rel="noopener" class="shrink-0 inline-flex items-center gap-2 bg-[#1877F2] hover:brightness-110 text-white font-bold text-[14.5px] px-5 py-3 rounded-xl transition">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M13.5 21v-7h2.3l.4-2.8h-2.7V9.4c0-.8.2-1.4 1.4-1.4h1.4V5.5c-.7-.1-1.5-.2-2.3-.2-2.3 0-3.9 1.4-3.9 4v2.2H7.8V14h2.3v7z"/></svg>
+        페이스북 페이지 바로가기 ↗
+      </a>
+    </div>
+
+    <div class="mt-8 grid lg:grid-cols-[400px_1fr] gap-6 items-start">
+      <!-- 실시간 페이지 플러그인 -->
+      <div class="reveal bg-white ring-1 ring-paper-line rounded-3xl p-4 shadow-card">
+        <div class="flex items-center gap-2 text-[13px] font-bold text-navy mb-3">
+          <span class="w-2 h-2 rounded-full bg-[#1877F2] animate-pulse"></span> 실시간 페이스북 피드
+        </div>
+        <div id="fbEmbed" class="rounded-xl overflow-hidden bg-[#F4F8FD] min-h-[420px] flex justify-center">
+          <div class="fb-page" data-href="https://www.facebook.com/kimbomi1989"
+               data-tabs="timeline" data-width="380" data-height="640"
+               data-small-header="false" data-adapt-container-width="true"
+               data-hide-cover="false" data-show-facepile="true">
+            <blockquote cite="https://www.facebook.com/kimbomi1989" class="fb-xfbml-parse-ignore">
+              <a href="https://www.facebook.com/kimbomi1989">김보미 페이스북</a>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+
+      <!-- 지난 2년 아카이브 -->
+      <div class="reveal">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-[15px] font-extrabold text-navy">지난 2년 소식 아카이브</h3>
+          <span id="newsCount" class="text-[12px] text-ink-faint"></span>
+        </div>
+        <div id="newsGrid" class="grid sm:grid-cols-2 gap-4"></div>
+        <div id="newsStatus" class="mt-1 text-[13px] text-ink-faint bg-white ring-1 ring-paper-line rounded-2xl p-5 leading-relaxed">
+          <span class="inline-block w-4 h-4 border-2 border-paper-line border-t-minju rounded-full animate-spin align-middle"></span>
+          <span class="align-middle ml-2">소식을 불러오는 중…</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 보도자료 아카이브 ===================== -->
+<section id="press" data-view="about" class="py-16 lg:py-24">
+  <div class="max-w-screen-xl2 mx-auto px-5">
+    <div class="reveal flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+      <div class="max-w-2xl">
+        <p class="text-minju font-bold tracking-wide text-[14px]">PRESS · 보도자료 아카이브</p>
+        <h2 class="mt-2 text-[30px] lg:text-[40px] font-black tracking-[-.02em] text-navy">김보미 관련 보도자료</h2>
+        <p class="mt-3 text-ink-soft text-[16px] leading-relaxed">2018년부터 현재까지의 보도·활동 기록을 최신순으로 빠짐없이 아카이빙합니다.</p>
+      </div>
+      <span id="pressCount" class="shrink-0 text-[13px] font-bold text-minju bg-minju/10 px-3 py-2 rounded-xl"></span>
+    </div>
+
+    <!-- 연도 필터 -->
+    <div id="pressYears" class="reveal mt-6 flex flex-wrap gap-2"></div>
+
+    <!-- 목록 -->
+    <div id="pressList" class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    <div id="pressStatus" class="mt-2 text-[13px] text-ink-faint bg-white ring-1 ring-paper-line rounded-2xl p-5 leading-relaxed">
+      <span class="inline-block w-4 h-4 border-2 border-paper-line border-t-minju rounded-full animate-spin align-middle"></span>
+      <span class="align-middle ml-2">보도자료를 불러오는 중…</span>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== ④ 북 & 공약 아카이브 ===================== -->
 <section id="books" data-view="about" class="py-16 lg:py-24">
   <div class="max-w-screen-xl2 mx-auto px-5">
@@ -637,6 +714,9 @@ tailwind.config = {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v14H4zM4 9h16" stroke="currentColor" stroke-width="2"/></svg>
             공보물 펼쳐보기
           </button>
+          <a href="https://gangjinbom.dinoskorea.workers.dev/campaign" target="_blank" rel="noopener" class="inline-flex items-center gap-2 ring-1 ring-white/45 text-white font-bold text-[14px] px-5 py-3 rounded-xl hover:bg-white/10 transition">
+            원본 페이지 ↗
+          </a>
         </div>
       </div>
     </div>
@@ -837,7 +917,7 @@ tailwind.config = {
           <div class="mt-5 grid grid-cols-2 md:grid-cols-4 gap-3">
             <div class="bg-paper rounded-2xl p-4">
               <div class="text-[12px] text-ink-faint">총예산</div>
-              <div class="text-[22px] font-black text-navy"><span id="kpiBudget">411.8</span><span class="text-[13px] text-ink-faint" id="kpiBudgetUnit">조원</span></div>
+              <div class="text-[22px] font-black text-navy"><span id="kpiBudget">315.7</span><span class="text-[13px] text-ink-faint" id="kpiBudgetUnit">조원</span></div>
             </div>
             <div class="bg-paper rounded-2xl p-4">
               <div class="text-[12px] text-ink-faint">예산 집행률</div>
@@ -846,7 +926,7 @@ tailwind.config = {
             </div>
             <div class="bg-paper rounded-2xl p-4">
               <div class="text-[12px] text-ink-faint">재정자립도</div>
-              <div class="text-[22px] font-black text-navy"><span id="kpiSelf">43.2</span><span class="text-[13px] text-ink-faint">%</span></div>
+              <div class="text-[22px] font-black text-navy"><span id="kpiSelf">48.6</span><span class="text-[13px] text-ink-faint">%</span></div>
             </div>
             <div class="bg-paper rounded-2xl p-4">
               <div class="text-[12px] text-ink-faint">금고(은행) 이자율</div>
@@ -1075,20 +1155,6 @@ tailwind.config = {
           <li><a href="mailto:kimbomi891204@gmail.com?subject=%5B%EC%A0%84%EA%B5%AD%20%EC%9E%AC%EC%A0%95%20%EC%9A%B4%EB%8F%99%20%ED%94%8C%EB%9E%AB%ED%8F%BC%20%EB%AC%B8%EC%9D%98%5D&body=%E2%97%87%20%EC%9D%B4%EB%A6%84/%EC%86%8C%EC%86%8D%3A%20%0A%E2%97%87%20%EC%97%B0%EB%9D%BD%EC%B2%98%3A%20%0A%E2%97%87%20%EC%A0%9C%EC%95%88%20%EB%B0%8F%20%EC%B0%B8%EC%97%AC%20%EB%82%B4%EC%9A%A9%3A%20%0A%0A%E2%80%94%20%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B3%B5%EC%8B%9D%20%EC%A0%84%EA%B5%AD%20%EC%9E%AC%EC%A0%95%20%ED%94%8C%EB%9E%AB%ED%8F%BC" class="font-semibold text-minju hover:underline break-all">kimbomi891204@gmail.com</a></li>
           <li class="text-ink-faint text-[12.5px] pt-1">이메일을 누르면 문의 양식이 자동으로 작성됩니다.</li>
         </ul>
-
-        <h4 class="font-bold text-navy mt-5 mb-3">소셜 · 공유</h4>
-        <div class="flex flex-wrap gap-2">
-          <a href="https://www.facebook.com/kimbomi1989" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-1.5 bg-[#1877F2] hover:brightness-110 text-white font-bold text-[13px] px-3.5 py-2 rounded-lg transition" aria-label="김보미 페이스북 페이지 바로가기">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M13.5 21v-7h2.3l.4-2.8h-2.7V9.4c0-.8.2-1.4 1.4-1.4h1.4V5.5c-.7-.1-1.5-.2-2.3-.2-2.3 0-3.9 1.4-3.9 4v2.2H7.8V14h2.3v7z"/></svg>
-            김보미 페이스북
-          </a>
-          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fxn--4k0b53xuva.com%2F" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-1.5 bg-white ring-1 ring-paper-line hover:bg-paper text-navy font-bold text-[13px] px-3.5 py-2 rounded-lg transition" aria-label="이 사이트를 페이스북에 공유">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 6l-4-4-4 4M12 2v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            페이스북 공유
-          </a>
-        </div>
       </div>
     </div>
 
@@ -1129,7 +1195,8 @@ tailwind.config = {
     <img id="gbImg" src="" alt="선거 공보물" class="max-w-full max-h-[80vh] rounded-xl shadow-2xl object-contain bg-white" />
     <div id="gbFallback" class="hidden max-w-[420px] text-center bg-white rounded-2xl p-6">
       <p class="font-extrabold text-navy text-[16px]">공보물 이미지를 준비 중입니다</p>
-      <p class="text-[14px] mt-1 text-ink-soft">조만간 공보물 이미지를 업로드할 예정입니다.</p>
+      <p class="text-[14px] mt-1 text-ink-soft">원본 페이지에서 최신 공보물을 확인하실 수 있습니다.</p>
+      <a href="https://gangjinbom.dinoskorea.workers.dev/campaign" target="_blank" rel="noopener" class="inline-block mt-3 bg-minju hover:bg-minju-blue text-white font-bold text-[14px] px-4 py-2.5 rounded-xl transition">원본 페이지로 보기 ↗</a>
     </div>
     <figcaption id="gbCap" class="mt-3 text-white/90 text-[14px] font-semibold text-center"></figcaption>
   </figure>
@@ -1340,6 +1407,15 @@ const mobileMenu = document.getElementById('mobileMenu');
 navToggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
 
+/* 헤더 “김보미입니다” 드롭다운 — 클릭 토글 + 바깥 클릭/항목 클릭 시 닫기 (호버는 CSS) */
+(function(){
+  const drop=document.getElementById('aboutDrop'); if(!drop) return;
+  const btn=drop.querySelector('.navdrop-btn');
+  btn && btn.addEventListener('click', (e)=>{ e.stopPropagation(); const open=drop.classList.toggle('open'); btn.setAttribute('aria-expanded', open); });
+  drop.querySelectorAll('.navmenu a').forEach(a=>a.addEventListener('click', ()=>{ drop.classList.remove('open'); btn && btn.setAttribute('aria-expanded','false'); }));
+  document.addEventListener('click', (e)=>{ if(!drop.contains(e.target)){ drop.classList.remove('open'); btn && btn.setAttribute('aria-expanded','false'); } });
+})();
+
 const hdr = document.getElementById('hdr');
 addEventListener('scroll', () => hdr.classList.toggle('shadow-soft', scrollY > 8), { passive:true });
 
@@ -1404,7 +1480,7 @@ const SIDO_DATA = {
   '경남':{b:12.9,e:67.2,s:40.4,f:[34,17,15,12,12,10]},
   '제주':{b:7.0, e:66.1,s:35.9,f:[32,15,17,13,13,10]},
 };
-const NATIONAL = { name:'전국 합계', b:411.8, e:68.4, s:43.2, f:[34,16,15,12,12,11] };
+const NATIONAL = { name:'전국 합계', b:315.7, e:68.4, s:48.6, f:[34,16,15,12,12,11] };
 
 // 시·도 타일 좌표 (지도 미로딩 시 폴백)
 const TILE_POS = {
@@ -1821,4 +1897,370 @@ document.getElementById('apiTryBtn').addEventListener('click', async ()=>{
       try{ const c=await fetch(base+'?selfcheck=1',{cache:'no-store'}); const j=await c.json(); if(j && (j.ok!==undefined||j.hasKey!==undefined)){ chk=j; BUDGET_API=base; break; } }catch(e){}
     }
     if(!chk) throw new Error('api/budget.js 미배포 또는 경로 불일치 — 저장소 루트 api/budget.js 를 추가하고 재배포하세요');
-    
+    if(!chk.hasKey) throw new Error('함수는 배포됨 · Vercel 환경변수 DATA_GO_KR_KEY 미설정');
+    if(chk.upstreamSet===false) throw new Error('함수·키 OK · UPSTREAM_URL(데이터셋 요청주소) 미설정');
+    // 2) 실데이터 호출 + 화면 반영
+    const d=await fetchRealBudget('ALL');
+    if(d && typeof d.b==='number'){ NATIONAL.b=d.b; NATIONAL.e=d.e; NATIONAL.s=d.s; if(Array.isArray(d.f)&&d.f.length===6) NATIONAL.f=d.f; }
+    curMode='실데이터'; selectRegion('전국', false); if(typeof stampUpdated==='function') stampUpdated(true);
+    st.innerHTML='<span class="text-mint-dark font-bold">✓ 실데이터 연동 성공</span> · 전국 합계가 실데이터로 갱신되었습니다.';
+  }catch(err){
+    curMode='데모'; document.getElementById('dataMode').textContent='데모';
+    st.innerHTML='<span class="text-amber-700 font-bold">⚠ '+err.message+'</span><br>현재는 데모 데이터로 표시 중입니다. (api/budget.js 배포·환경변수 설정 후 다시 시도)';
+  }
+});
+
+/* ----- 재정 365 특종 스냅샷 (1위 도시 vs 최저 이자율 방치 도시) ----- */
+const HOOK_POOL = ['수원시','성남시','고양시','용인시','부천시','청주시','천안시','전주시','포항시','창원시',
+  '김해시','진주시','춘천시','원주시','강릉시','목포시','여수시','순천시','강진군','해남군','완도군','신안군',
+  '곡성군','함평군','보성군','고흥군','영암군','장흥군','의성군','군위군','울릉군','봉화군','정선군','양구군','인제군'];
+function renderHook(){
+  let best=null, worst=null;
+  // 우수 도시: 시·도 + 주요 시·군·구 모두 비교 / 최저 이자율: 편차 큰 시·군·구에서 탐색
+  const sidoNames=(typeof SIDO_DATA==='object') ? Object.keys(SIDO_DATA) : [];
+  sidoNames.forEach(nm=>{
+    const d=regionData(nm, true); const rate=bankRate(nm, true); const sc=fiscalScore(d, true, rate);
+    const row={ name:nm, suffix:'', rate, score:sc, grade:gradeOf(sc) };
+    if(!best || sc>best.score) best=row;
+  });
+  for(const nm of HOOK_POOL){
+    const d=regionData(nm, false);
+    const rate=bankRate(nm, false);
+    const sc=fiscalScore(d, false, rate);
+    const row={ name:nm, rate, score:sc, grade:gradeOf(sc) };
+    if(!best || sc>best.score) best=row;
+    if(!worst || rate<worst.rate) worst=row;
+  }
+  const set=(id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; };
+  if(best){ set('hookBestName', best.name); set('hookBestMeta', best.grade+'등급 · 종합 '+best.score+'점'); }
+  if(worst){ set('hookWorstName', worst.name); set('hookWorstMeta', '금고 이자율 '+worst.rate.toFixed(2)+'% · '+worst.grade+'등급'); }
+}
+
+/* ----- 초기화 ----- */
+selectRegion('전국', false, null);
+loadMap('sido');
+renderHook();
+
+/* ----- 실데이터 5분마다 자동 갱신 -----
+   ▶ 운영: LOFIN_KEY 발급 + 백엔드 프록시(your-proxy) 연결 시 5분마다 실데이터로 자동 갱신.
+     키/프록시 미설정 시에는 데모 데이터로 표시하고 갱신 시각만 기록. */
+const REFRESH_MS = 5 * 60 * 1000; // 5분
+// 같은 도메인 Vercel 서버리스 함수. 키는 Vercel 환경변수에 보관(브라우저 비노출).
+// 폴더명이 api/API 어느 쪽으로 올라가든 작동하도록 두 경로를 모두 시도.
+const BUDGET_API_CANDIDATES = ['/api/budget', '/API/budget'];
+let BUDGET_API = BUDGET_API_CANDIDATES[0];
+async function fetchRealBudget(zone){
+  let lastErr;
+  for(const base of BUDGET_API_CANDIDATES){
+    try{
+      const res=await fetch(base+'?zone='+encodeURIComponent(zone||'ALL'),{cache:'no-store'});
+      if(!res.ok){ lastErr=new Error('API '+res.status); continue; }
+      const j=await res.json(); if(j && j.error) throw new Error(j.error);
+      BUDGET_API=base; // 작동하는 경로 기억
+      return j;
+    }catch(e){ lastErr=e; }
+  }
+  throw lastErr || new Error('API 연결 실패');
+}
+function stampUpdated(ok){
+  const t=new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
+  const lu=document.getElementById('lastUpdated'); if(lu) lu.textContent='마지막 갱신 '+t+(ok?' · 실데이터 연동':' · 데모 데이터(연동 대기)');
+  const mb=document.getElementById('dataModeBadge'); if(mb) mb.textContent= ok?'실데이터 연동':'샘플(데모) 데이터';
+}
+async function autoRefresh(){
+  try{
+    const d = await fetchRealBudget('ALL');
+    if(d && typeof d.b==='number'){ NATIONAL.b=d.b; NATIONAL.e=d.e; NATIONAL.s=d.s; if(Array.isArray(d.f)&&d.f.length===6) NATIONAL.f=d.f; }
+    curMode='실데이터'; selectRegion('전국', false); stampUpdated(true);
+  }catch(e){ curMode='데모'; stampUpdated(false); }
+}
+autoRefresh();
+setInterval(autoRefresh, REFRESH_MS);
+
+/* ============================================================
+   4) 포토 갤러리 + 라이트박스
+   ============================================================ */
+const PHOTOS = [
+  ['act_assembly.jpg','본회의장에 선 의장, 군민을 대신한 질문'],
+  ['act_firstwin.jpg','제7회 지방선거 첫 당선 · 당선증 교부'],
+  ['act_publish.jpg','『군민주권 강진시대』 출판기념회'],
+  ['act_moon.jpg','문재인 전 대통령과 강진 청자 홍보'],
+  ['act_candidacy.jpg','강진군수 예비후보 등록'],
+  ['act_press.jpg','강진군수 출마 기자회견'],
+  ['act_citizens.jpg','군민과의 만남 — 골목과 장터에서'],
+  ['act_elderly.jpg','어르신 섬김 — 마을 밥상 나눔'],
+  ['act_sharing.jpg','강진 나눔리더 2호 위촉'],
+  ['act_award.jpg','부패방지 청렴인 표창'],
+  ['act_cmb.jpg','CMB 스포츠 명예해설위원'],
+  ['act_seoul.jpg','서울 민주당사 앞 성명서 발표'],
+];
+const grid = document.getElementById('galleryGrid');
+PHOTOS.forEach(([src,cap],i) => {
+  const fig = document.createElement('figure');
+  fig.className = 'group relative rounded-2xl overflow-hidden ring-1 ring-paper-line shadow-soft cursor-pointer lift bg-paper';
+  fig.innerHTML = `
+    <img src="assets/${src}" alt="${cap}" loading="lazy" class="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition duration-500">
+    <figcaption class="absolute inset-x-0 bottom-0 p-3 text-white text-[12.5px] font-semibold leading-snug bg-gradient-to-t from-navy-950/90 via-navy-950/30 to-transparent opacity-0 group-hover:opacity-100 transition">${cap}</figcaption>`;
+  fig.addEventListener('click', () => openLB(i));
+  grid.appendChild(fig);
+});
+
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+const lbCap = document.getElementById('lbCap');
+let lbIdx = 0;
+function openLB(i){ lbIdx=i; render(); lb.classList.add('open'); document.body.style.overflow='hidden'; }
+function closeLB(){ lb.classList.remove('open'); document.body.style.overflow=''; }
+function render(){ const [s,c]=PHOTOS[lbIdx]; lbImg.src='assets/'+s; lbImg.alt=c; lbCap.textContent=`${c}  (${lbIdx+1}/${PHOTOS.length})`; }
+function move(n){ lbIdx=(lbIdx+n+PHOTOS.length)%PHOTOS.length; render(); }
+document.getElementById('lbClose').addEventListener('click', closeLB);
+document.getElementById('lbPrev').addEventListener('click', e=>{e.stopPropagation(); move(-1);});
+document.getElementById('lbNext').addEventListener('click', e=>{e.stopPropagation(); move(1);});
+lb.addEventListener('click', e=>{ if(e.target===lb) closeLB(); });
+addEventListener('keydown', e=>{ if(!lb.classList.contains('open'))return; if(e.key==='Escape')closeLB(); if(e.key==='ArrowLeft')move(-1); if(e.key==='ArrowRight')move(1); });
+</script>
+<script>
+/* ===== 선거 공보물 뷰어 ===== */
+(function(){
+  const N=8, BASE='assets/campaign/';
+  const modal=document.getElementById('gongboModal');
+  if(!modal) return;
+  const img=document.getElementById('gbImg'), cap=document.getElementById('gbCap'), fb=document.getElementById('gbFallback');
+  let idx=1;
+  function render(){ fb.classList.add('hidden'); img.style.display=''; img.src=BASE+idx+'.jpg'; cap.textContent='공보물 '+idx+' / '+N; }
+  img.addEventListener('error', ()=>{ img.style.display='none'; fb.classList.remove('hidden'); cap.textContent='공보물 '+idx+' / '+N; });
+  function openGB(){ idx=1; render(); modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeGB(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+  function moveGB(n){ idx=((idx-1+n+N)%N)+1; render(); }
+  const ob=document.getElementById('gongboOpen'); if(ob) ob.addEventListener('click', openGB);
+  document.getElementById('gbClose').addEventListener('click', closeGB);
+  document.getElementById('gbPrev').addEventListener('click', e=>{ e.stopPropagation(); moveGB(-1); });
+  document.getElementById('gbNext').addEventListener('click', e=>{ e.stopPropagation(); moveGB(1); });
+  modal.addEventListener('click', e=>{ if(e.target===modal) closeGB(); });
+  document.addEventListener('keydown', e=>{ if(!modal.classList.contains('open')) return; if(e.key==='Escape') closeGB(); if(e.key==='ArrowLeft') moveGB(-1); if(e.key==='ArrowRight') moveGB(1); });
+})();
+
+/* ===== 김보미 소식 (페이스북) ===== */
+(function(){
+  const FB_PAGE_URL = 'https://www.facebook.com/kimbomi1989';            // ← 실제 페이스북 페이지 주소로 교체
+  const FEED_API    = 'https://gangjinbom.dinoskorea.workers.dev/api/facebook'; // ← 워커(facebook-feed-worker.js) 배포 후 엔드포인트
+  // 페이지 링크 · 임베드 주소 일괄 적용
+  const link=document.getElementById('fbPageLink'); if(link) link.href=FB_PAGE_URL;
+  const fbp=document.querySelector('#fbEmbed .fb-page');
+  if(fbp){ fbp.setAttribute('data-href',FB_PAGE_URL); const a=fbp.querySelector('a'); if(a) a.href=FB_PAGE_URL; }
+  // 지난 2년 아카이브 (워커 JSON)
+  const grid=document.getElementById('newsGrid'), status=document.getElementById('newsStatus'), countEl=document.getElementById('newsCount');
+  if(!grid) return;
+  const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const fdate=d=>{ const x=new Date(d); return isNaN(x)?'':x.getFullYear()+'.'+String(x.getMonth()+1).padStart(2,'0')+'.'+String(x.getDate()).padStart(2,'0'); };
+  const card=p=>{
+    const img=p.image?`<img src="${p.image}" alt="" loading="lazy" class="w-full h-40 object-cover">`:'';
+    const t=esc(p.message||'').slice(0,140)+((p.message||'').length>140?'…':'');
+    return `<a href="${p.link||FB_PAGE_URL}" target="_blank" rel="noopener" class="block bg-white ring-1 ring-paper-line rounded-2xl overflow-hidden shadow-soft lift">${img}<div class="p-4"><div class="text-[12px] text-minju font-bold">${fdate(p.date||p.created_time)}</div><p class="mt-1 text-[14px] text-ink-soft leading-snug">${t||'(사진·링크 게시물)'}</p></div></a>`;
+  };
+  fetch(FEED_API).then(r=>{ if(!r.ok) throw new Error('API '+r.status); return r.json(); })
+    .then(d=>{
+      let posts=Array.isArray(d)?d:(d.data||[]);
+      const cut=Date.now()-2*365*24*3600*1000;
+      posts=posts.filter(p=>new Date(p.date||p.created_time).getTime()>=cut).sort((a,b)=>new Date(b.date||b.created_time)-new Date(a.date||a.created_time));
+      if(!posts.length) throw new Error('표시할 게시글이 없습니다');
+      grid.innerHTML=posts.map(card).join(''); countEl.textContent=posts.length+'건'; status.style.display='none';
+    })
+    .catch(err=>{ status.innerHTML='<b class="text-navy">소식 아카이브가 아직 연결되지 않았습니다.</b><br>페이스북 Graph API 백엔드(워커)를 배포하고 위 <code>FEED_API</code> 주소를 연결하면 지난 2년 글이 자동으로 표시됩니다. <span class="text-ink-faint">('+(err&&err.message?err.message:'연결 대기')+')</span>'; });
+})();
+
+/* ===== 보도자료 아카이브 (2018~, 최신순) ===== */
+(function(){
+  const PRESS_API='https://gangjinbom.dinoskorea.workers.dev/api/press'; // 네이버뉴스 워커(naver-news-worker.js)
+  const LOCAL='assets/press.json';                                       // 큐레이션 영구 아카이브(직접 추가 가능)
+  const list=document.getElementById('pressList'), status=document.getElementById('pressStatus'),
+        years=document.getElementById('pressYears'), countEl=document.getElementById('pressCount');
+  if(!list) return;
+  const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const fdate=d=>{ const x=new Date(d); return isNaN(x)?'':x.getFullYear()+'.'+String(x.getMonth()+1).padStart(2,'0')+'.'+String(x.getDate()).padStart(2,'0'); };
+  let ALL=[], curYear='전체';
+  function card(p){
+    const tag=p.tag||p.outlet||'보도';
+    const outlet=(p.outlet&&p.outlet!==tag)?`<span class="text-ink-faint"> · ${esc(p.outlet)}</span>`:'';
+    return `<a href="${p.link||'#'}" target="_blank" rel="noopener" class="block bg-white ring-1 ring-paper-line rounded-2xl p-5 shadow-soft lift">
+      <div class="flex items-center justify-between gap-2">
+        <span class="text-[11px] font-bold text-minju bg-minju/10 px-2 py-0.5 rounded-full">${esc(tag)}</span>
+        <span class="text-[12px] text-ink-faint">${fdate(p.date)}</span>
+      </div>
+      <p class="mt-2 text-[14.5px] font-semibold text-navy leading-snug">${esc(p.title)}${outlet}</p>
+    </a>`;
+  }
+  function renderYears(){
+    const ys=[...new Set(ALL.map(p=>new Date(p.date).getFullYear()))].filter(Boolean).sort((a,b)=>b-a);
+    years.innerHTML=['전체',...ys].map(y=>{
+      const active=(y==='전체'&&curYear==='전체')||y===curYear;
+      const label=y==='전체'?'전체':y+'년';
+      return `<button data-y="${y}" class="text-[13px] font-bold px-3.5 py-2 rounded-full transition ${active?'bg-minju text-white':'bg-white ring-1 ring-paper-line text-ink-soft hover:bg-paper'}">${label}</button>`;
+    }).join('');
+    years.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ curYear=b.dataset.y==='전체'?'전체':+b.dataset.y; renderYears(); renderList(); }));
+  }
+  function renderList(){
+    let rows=ALL.slice().sort((a,b)=>new Date(b.date)-new Date(a.date));
+    if(curYear!=='전체') rows=rows.filter(p=>new Date(p.date).getFullYear()===curYear);
+    list.innerHTML=rows.map(card).join('');
+    countEl.textContent='총 '+ALL.length+'건'+(curYear==='전체'?'':' · '+curYear+'년 '+rows.length+'건');
+    if(rows.length){ status.style.display='none'; } else { status.style.display=''; status.textContent='해당 연도의 보도자료가 없습니다.'; }
+  }
+  function merge(arrs){
+    const seen=new Set(), all=[];
+    arrs.flat().forEach(p=>{ if(!p||!p.date||!p.title) return; const k=(p.link||'')+'|'+p.title; if(seen.has(k)) return; seen.add(k); all.push(p); });
+    const cut=new Date('2018-01-01').getTime();
+    return all.filter(p=>new Date(p.date).getTime()>=cut);
+  }
+  const getJSON=u=>fetch(u).then(r=>{ if(!r.ok) throw 0; return r.json(); }).catch(()=>[]);
+  Promise.all([ getJSON(PRESS_API), getJSON(LOCAL) ]).then(([api,local])=>{
+    ALL=merge([Array.isArray(api)?api:[], Array.isArray(local)?local:[]]);
+    if(!ALL.length){ status.innerHTML='<b class="text-navy">보도자료를 불러오지 못했습니다.</b><br><code>assets/press.json</code> 에 기사를 추가하거나 네이버뉴스 워커를 연결하면 2018년부터 자동 표시됩니다.'; return; }
+    renderYears(); renderList();
+  });
+})();
+</script>
+<script>
+/* ============================================================
+   시민 행동 — 예산 낭비 신고 / 시정 제안 (지방의회 메일 연계)
+   • 지도에서 지역 선택 → 신고 대상 의회 자동 매핑(updateReport)
+   • 전송 → 동의 모달(위치 C) 통과 시에만 mailto 작동
+   • mailto 본문 상단에 해당 지역 AI 스냅샷 표 자동 삽입
+   ============================================================ */
+// 실제 지방의회 민원 메일을 알고 있으면 아래 매핑에 추가(없으면 플랫폼 접수메일로 중개)
+const COUNCIL_MAIL = {};
+const INTAKE_MAIL  = 'kimbomi891204@gmail.com'; // 중개 접수 메일(기술적 중개)
+
+function councilNameFor(name, isSido){
+  if(!name || name.indexOf('전국')>=0) return '전국 지방의회';
+  const base=name.replace(/\s+/g,'');
+  if(isSido){
+    const special={'서울':'서울특별시의회','부산':'부산광역시의회','대구':'대구광역시의회','인천':'인천광역시의회','광주':'광주광역시의회','대전':'대전광역시의회','울산':'울산광역시의회','세종':'세종특별자치시의회','경기':'경기도의회','강원':'강원특별자치도의회','충북':'충청북도의회','충남':'충청남도의회','전북':'전북특별자치도의회','전남':'전라남도의회','경북':'경상북도의회','경남':'경상남도의회','제주':'제주특별자치도의회'};
+    const sk=(typeof sidoKey==='function' ? sidoKey(base) : null) || base;
+    if(special[sk]) return special[sk];
+    return base+'의회';
+  }
+  return base+'의회'; // 시·군·구: 수원시→수원시의회, 강진군→강진군의회
+}
+function fmtSnapTable(s){
+  return [
+    '──────────────────────────────',
+    '[AI 재정 분석 스냅샷] '+s.name,
+    '──────────────────────────────',
+    '· 재정 건강도 종합등급 : '+(s.grade||'-')+'등급 / '+(s.score!=null?s.score+'점':'-')+' '+(s.isNat?'(전국 평균)':('(전국 '+s.rank+'위 / 243)')),
+    '· 재정자립도        : '+(s.s!=null?s.s:'-')+'%',
+    '· 예산 집행률        : '+(s.e!=null?s.e:'-')+'%',
+    '· 금고(은행) 이자율  : '+(s.rate!=null?s.rate:'-')+'%',
+    '· 순세계잉여금       : '+(s.surWon||'-')+' ('+(s.surplus!=null?s.surplus:'-')+'%)',
+    '· 자금 운용 효율성   : '+(s.eff||'-'),
+    '· 인구소멸 위험도    : '+(s.pop||'-')+(s.youthPct!=null?(' (청년·출산지원 전국 하위 '+s.youthPct+'%)'):''),
+    '· 수의계약 비율      : '+(s.sole!=null?s.sole:'-')+'%',
+    '· 민간보조금 비중    : '+(s.subsidy!=null?s.subsidy:'-')+'%',
+    '· 특정단체 독식 비율 : '+(s.mono!=null?s.mono:'-')+'%',
+    '· 예산 누수 지수     : '+(s.leak!=null?s.leak:'-')+' / 100',
+    '──────────────────────────────'
+  ].join('\n');
+}
+function updateReport(){
+  const s=window.__snapshot||{name:'전국 합계'};
+  const rr=document.getElementById('reportRegion'); if(rr) rr.textContent=s.name||'전국 합계';
+  const rc=document.getElementById('reportCouncil'); if(rc) rc.textContent='['+councilNameFor(s.name, s.isSido)+']';
+  const grid=document.getElementById('reportSnap');
+  if(grid){
+    const cell=(k,v,cls)=>`<div class="bg-paper rounded-xl px-3 py-2"><div class="text-[11px] text-ink-faint">${k}</div><div class="text-[14px] font-bold ${cls||'text-navy'}">${v}</div></div>`;
+    grid.innerHTML =
+        cell('종합 등급', (s.grade||'—')+'등급'+(s.score!=null?(' · '+s.score+'점'):'')+(s.isNat?'':(s.rank?(' · '+s.rank+'위'):'')))
+      + cell('재정자립도', (s.s!=null?s.s+'%':'—'))
+      + cell('금고 이자율', (s.rate!=null?s.rate+'%':'—'))
+      + cell('순세계잉여금', (s.surWon||(s.surplus!=null?s.surplus+'%':'—')))
+      + cell('인구소멸 위험', (s.pop||'—'))
+      + cell('예산 누수 지수', (s.leak!=null?s.leak+' / 100':'—'), 'text-red-700');
+  }
+}
+function buildReportMailto(){
+  const s=window.__snapshot||{name:'전국 합계'};
+  const council=councilNameFor(s.name, s.isSido);
+  const to=COUNCIL_MAIL[s.name]||INTAKE_MAIL;
+  const name=(document.getElementById('rpName')||{}).value||'(미기재)';
+  const contact=(document.getElementById('rpContact')||{}).value||'(미기재)';
+  const content=(document.getElementById('rpBody')||{}).value||'(내용 미기재)';
+  const subject='[예산 낭비 신고·시정 제안] '+s.name+' 재정 투명성 요구';
+  const body=
+    '수신: '+council+' 귀중\n\n'+
+    '아래 '+s.name+'의 재정 현황과 관련하여 예산 낭비 점검 및 시정을 정식으로 요청합니다.\n\n'+
+    fmtSnapTable(s)+'\n\n'+
+    '[신고·시정 제안 내용]\n'+content+'\n\n'+
+    '[발신인] 이름/소속: '+name+' / 연락처: '+contact+'\n\n'+
+    '※ 위 스냅샷 수치는 공공데이터 기반 AI 통계 추론 참고치이며, 확정 행정 원부와 다를 수 있습니다. 본 메일의 사실관계에 대한 책임은 발신자 본인에게 있습니다.\n'+
+    '— 김보미 공식 전국 재정 플랫폼(기술적 중개)';
+  return 'mailto:'+to+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+}
+/* 동의 모달(위치 C): 체크 동의 시에만 mailto 작동 */
+(function(){
+  const modal=document.getElementById('consentModal'), chk=document.getElementById('consentChk'),
+        ok=document.getElementById('consentOk'), cancel=document.getElementById('consentCancel'),
+        sendBtn=document.getElementById('reportSendBtn');
+  if(!modal||!sendBtn) return;
+  function openM(){ chk.checked=false; ok.disabled=true; modal.classList.add('open'); document.body.style.overflow='hidden'; setTimeout(()=>chk.focus(),50); }
+  function closeM(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+  sendBtn.addEventListener('click', openM);
+  chk.addEventListener('change', ()=>{ ok.disabled=!chk.checked; });
+  cancel.addEventListener('click', closeM);
+  ok.addEventListener('click', ()=>{ if(!chk.checked) return; const url=buildReportMailto(); closeM(); window.location.href=url; });
+  modal.addEventListener('click', e=>{ if(e.target===modal) closeM(); });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('open')) closeM(); });
+})();
+
+/* 약관 · 개인정보 처리방침 모달 */
+(function(){
+  const terms=document.getElementById('termsModal'), privacy=document.getElementById('privacyModal');
+  function openL(m){ if(!m) return; m.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeL(m){ if(!m) return; m.classList.remove('open'); document.body.style.overflow=''; }
+  const ot=document.getElementById('openTerms'); if(ot) ot.addEventListener('click', ()=>openL(terms));
+  const op=document.getElementById('openPrivacy'); if(op) op.addEventListener('click', ()=>openL(privacy));
+  document.querySelectorAll('.legal-close').forEach(b=>b.addEventListener('click', ()=>{ closeL(terms); closeL(privacy); }));
+  [terms,privacy].forEach(m=>{ if(m) m.addEventListener('click', e=>{ if(e.target===m) closeL(m); }); });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeL(terms); closeL(privacy); } });
+})();
+
+updateReport(); // 초기 스냅샷 반영
+</script>
+<script>
+/* ============================================================
+   화면 분할(뷰) 전환 — 홈 / 내돈(혈세)감시(budget) / 김보미 소개(about)
+   한 페이지를 통째로 스크롤하지 않고, 클릭한 영역만 보이게 전환.
+   ============================================================ */
+(function(){
+  function showView(v){
+    document.querySelectorAll('section[data-view]').forEach(function(s){
+      s.style.display = (s.dataset.view===v) ? '' : 'none';
+    });
+    // 활성 뷰의 등장 애니메이션 요소 즉시 표시(숨김→표시 시 빈 화면 방지)
+    document.querySelectorAll('section[data-view="'+v+'"] .reveal').forEach(function(el){ el.classList.add('in'); });
+    // 내비 활성 표시
+    document.querySelectorAll('[data-nav]').forEach(function(a){
+      var on = a.dataset.nav===v;
+      a.classList.toggle('bg-paper', on); a.classList.toggle('text-navy', on);
+    });
+    window.scrollTo(0,0);
+    // 숨겨졌던 차트(Chart.js)가 펴질 때 크기를 다시 계산
+    setTimeout(function(){ window.dispatchEvent(new Event('resize')); }, 60);
+  }
+  window.showView = showView;
+  // 모든 # 앵커 클릭 → 대상이 속한 뷰로 전환 후 스크롤
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href^="#"]'); if(!a) return;
+    var id = a.getAttribute('href').slice(1); if(!id) return;
+    var t = document.getElementById(id); if(!t) return;
+    var sec = t.closest('section[data-view]');
+    if(sec){
+      e.preventDefault();
+      showView(sec.dataset.view);
+      if(sec.dataset.view !== 'home'){ setTimeout(function(){ t.scrollIntoView({behavior:'smooth', block:'start'}); }, 60); }
+    }
+  });
+  showView('home'); // 첫 진입 = 홈
+})();
+</script>
+</body>
+</html>
