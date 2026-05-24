@@ -1,10 +1,3 @@
-/* ============================================================
-   세부사업별 세출현황 API (지방재정365 QWGJK)
-   경로:  /api/projects?laf_cd=4681000&limit=10
-   ------------------------------------------------------------
-   환경변수: DATA_GO_KR_KEY (기존 키 그대로 사용)
-   ============================================================ */
-
 const ENDPOINT = "https://www.lofin365.go.kr/lf/hub/QWGJK";
 
 module.exports = async (req, res) => {
@@ -14,7 +7,7 @@ module.exports = async (req, res) => {
 
   const q = req.query || {};
   const lafCd = q.laf_cd || "";
-  const zone  = q.zone || "";   // 자치단체명 폴백 필터용 (예: '전남강진군')
+  const zone  = q.zone || "";
   const limit = Math.min(parseInt(q.limit || "10", 10), 50);
   const KEY = process.env.DATA_GO_KR_KEY || "";
   if (!KEY) return res.status(500).json({ error: "DATA_GO_KR_KEY 미설정" });
@@ -33,18 +26,13 @@ module.exports = async (req, res) => {
         if (!r.ok) continue;
         let raw; try { raw = await r.json(); } catch (e) { continue; }
         const ex = extractRows(raw);
-        if (ex && ex.length) {
-          rows = ex; usedDate = date; usedFyr = fyr; break outer;
-        }
+        if (ex && ex.length) { rows = ex; usedDate = date; usedFyr = fyr; break outer; }
       }
     }
 
     if (!rows || !rows.length) return res.status(200).json({ error: "데이터 없음 — 일자/코드/연도 확인 필요", projects: [] });
-
-    // 자치단체명으로 추가 필터 (코드가 없거나 광역 단위 조회 시)
     if (zone) rows = rows.filter(r => String(r.laf_hg_nm || "").includes(zone));
 
-    // 사업별 그룹핑 (dbiz_cd 우선, 없으면 dbiz_nm)
     const groups = {};
     rows.forEach(r => {
       const key = r.dbiz_cd || r.dbiz_nm || "_";
@@ -55,13 +43,7 @@ module.exports = async (req, res) => {
 
     const projects = Object.values(groups)
       .filter(p => p.budget > 0)
-      .map(p => ({
-        name: p.name,
-        field: p.fld,
-        budget: fmt(p.budget),
-        exec:   fmt(p.exec),
-        rate:   Math.min(100, Math.round(p.exec / p.budget * 100))
-      }))
+      .map(p => ({ name: p.name, field: p.fld, budget: fmt(p.budget), exec: fmt(p.exec), rate: Math.min(100, Math.round(p.exec / p.budget * 100)) }))
       .sort((a, b) => parseSize(b.budget) - parseSize(a.budget))
       .slice(0, limit);
 
@@ -73,12 +55,8 @@ module.exports = async (req, res) => {
 
 function buildUrl(key, fyr, exe_ymd, lafCd) {
   const p = new URLSearchParams();
-  p.set("Key", key);
-  p.set("Type", "json");
-  p.set("pIndex", "1");
-  p.set("pSize", "1000");
-  p.set("fyr", fyr);
-  p.set("exe_ymd", exe_ymd);
+  p.set("Key", key); p.set("Type", "json"); p.set("pIndex", "1"); p.set("pSize", "1000");
+  p.set("fyr", fyr); p.set("exe_ymd", exe_ymd);
   if (lafCd) p.set("laf_cd", lafCd);
   return ENDPOINT + "?" + p.toString();
 }
@@ -88,9 +66,7 @@ function extractRows(raw) {
   if (Array.isArray(raw.data)) return raw.data;
   for (const k of Object.keys(raw)) {
     const v = raw[k];
-    if (Array.isArray(v)) {
-      for (const blk of v) if (blk && blk.row) return blk.row;
-    }
+    if (Array.isArray(v)) { for (const blk of v) if (blk && blk.row) return blk.row; }
   }
   return [];
 }
@@ -110,11 +86,8 @@ function parseSize(s) {
   return parseFloat(s.replace(/,/g, "")) || 0;
 }
 function lastNDates(n) {
-  const out = [];
-  const today = new Date();
-  for (let i = 0; i < n; i++) {
-    const d = new Date(today); d.setDate(today.getDate() - i);
-    out.push(d.getFullYear() + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0"));
-  }
+  const out = []; const today = new Date();
+  for (let i = 0; i < n; i++) { const d = new Date(today); d.setDate(today.getDate() - i);
+    out.push(d.getFullYear() + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0")); }
   return out;
 }
