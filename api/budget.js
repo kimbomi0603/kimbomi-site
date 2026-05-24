@@ -141,13 +141,19 @@ function MAP_FNCST(rows, zone) {
   const tot  = (r) => num(r.pfa_amt2);                      // 세입결산규모
   const rate = (r) => num(r.rate2) || num(r.rate1);         // 재정자립도(원본 컬럼·보조용)
   const isSummary = (r) => /전국|합계|총계|소계|평균/.test(String(r.laf_hg_nm || r.wa_laf_hg_nm || ""));
-  // 시·도 17곳 식별: laf_hg_nm 과 wa_laf_hg_nm 이 같은 행이 광역단체 자체
-  //   (시·군·구는 광역명+기초명을 붙여쓴 형태 — 예: laf_hg_nm="서울종로구", wa_laf_hg_nm="서울" → 다름)
-  //   (시·도는 둘 다 동일 — 예: laf_hg_nm="서울", wa_laf_hg_nm="서울" → 같음)
+  // 시·도 17곳 식별: 이름·코드 두 가지 방식으로 검사 (데이터셋 변형 대응)
+  //   ① laf_hg_nm === wa_laf_hg_nm  (예: 둘 다 "서울")
+  //   ② laf_cd  === wa_laf_cd       (예: 둘 다 "1100000" — 광역 자체 행은 코드도 같음)
+  //   ③ laf_cd 가 광역코드(앞 2자리) + "00000" 패턴  (시·군·구는 마지막 5자리가 0이 아님)
   const isSidoRow = (r) => {
-    const nm = String(r.laf_hg_nm || "").trim();
-    const wa = String(r.wa_laf_hg_nm || "").trim();
-    return !!nm && nm === wa;
+    const nm  = String(r.laf_hg_nm || "").trim();
+    const wa  = String(r.wa_laf_hg_nm || "").trim();
+    const cd  = String(r.laf_cd || "").trim();
+    const wac = String(r.wa_laf_cd || "").trim();
+    if (nm && wa && nm === wa) return true;
+    if (cd && wac && cd === wac) return true;
+    if (cd && /^\d{2}00000$/.test(cd)) return true;
+    return false;
   };
   const isNat = (zone === "ALL");
 
