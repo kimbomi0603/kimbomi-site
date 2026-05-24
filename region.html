@@ -186,5 +186,6 @@ fetch('/api/budget?zone='+encodeURIComponent(ZONE),{cache:'no-store'})
     render({ b:0.5, e:68.4, s:25.0, f:[34,16,15,12,12,11], fyr:'-' }, false);
   });
 </script>
-</body>
+<script>fetch('/api/projects?laf_cd=4678000&limit=10').then(r=>r.json()).then(d=>{if(d&&Array.isArray(d.projects)&&d.projects.length){const el=document.getElementById('projectBlock');if(!el)return;el.innerHTML='<div class="bg-white rounded-2xl ring-1 ring-paper-line shadow-sm overflow-hidden"><table class="w-full text-[13.5px]"><thead class="bg-paper text-ink-faint"><tr><th class="text-left font-semibold px-4 py-3">사업명</th><th class="text-right font-semibold px-4 py-3">예산</th><th class="text-right font-semibold px-4 py-3">집행</th><th class="text-right font-semibold px-4 py-3">집행률</th></tr></thead><tbody class="num">'+d.projects.map(p=>'<tr class="border-t border-paper-line"><td class="px-4 py-3 text-navy font-semibold">'+p.name+'</td><td class="px-4 py-3 text-right text-ink-soft">'+(p.budget||'—')+'</td><td class="px-4 py-3 text-right text-ink-soft">'+(p.exec||'—')+'</td><td class="px-4 py-3 text-right font-bold '+(p.rate>=70?'text-mint-dark':p.rate>=40?'text-amber-600':'text-red-600')+'">'+(p.rate!=null?p.rate+'%':'—')+'</td></tr>').join('')+'</tbody></table><p class="text-[11px] text-ink-faint px-4 py-3 border-t border-paper-line">📡 lofin365 실데이터 · '+(d.date||'')+' 기준 · 상위 '+d.count+'개 사업</p></div>';}}).catch(()=>{});</script></body>
+
 </html>
