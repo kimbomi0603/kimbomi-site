@@ -436,6 +436,14 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
   .intro-greet{bottom:108px;max-width:230px;font-size:.92rem;padding:14px 34px 14px 16px}
   .bot-fab{padding:11px 14px;font-size:.86rem}
   .summary-demo .sd-grid{grid-template-columns:repeat(2,1fr)}
+  .dgrid{grid-template-columns:repeat(2,1fr)!important}
+  .kpi-note{font-size:.75rem;line-height:1.5}
+  .src-note{font-size:.8rem;line-height:1.62}
+  .summary-text{font-size:.92rem;line-height:1.72}
+  .tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  #rankTable,#cmpTable{font-size:.82rem}
+  #cmpTable td,#cmpTable th{padding-left:6px;padding-right:6px}
+  .cmp-rank{font-size:.66rem}
 }
 .kbm-pub p{font-size:.84rem;color:#46566f;line-height:1.6;margin-top:5px}
 .kbm-pub .meta{font-size:.76rem;color:#94a3b8;margin-top:7px}
@@ -558,7 +566,8 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
     <b>📌 데이터 출처 안내</b> · 전국 합계(총예산·재정자립도)는 <b>지방재정365(lofin365.go.kr) 공시</b> 기준입니다.
     개별 지자체의 세부 수치는 <b>실데이터 연동(서버 인증키 설정) 시 공식 공시값으로 자동 대체</b>되며, 연동 전에는 공시 통계 기반 <b>참고용 추정(시연)값</b>입니다.
     공식 결산값은 <a href="https://lofin365.go.kr" target="_blank" rel="noopener">지방재정365</a>·<a href="https://lofin.mois.go.kr" target="_blank" rel="noopener">지방재정통합공시</a>에서 확인하세요.
-    개별 지자체의 <b>금고 약정이자율·종합청렴도</b> 등은 공식적으로 개별 공개되지 않아, 검증된 공식 수치만 표시합니다.
+    <b>종합청렴도</b>는 국민권익위원회 2025년 평가(공공데이터포털 '기관별 청렴도 평가 등급', 243개 지자체 전수) <b>실데이터</b>로 표시합니다.
+    <b>금고 약정이자율</b>은 행정안전부가 2025년 12월부터 누리집에 공개 예정이라(2025.10 발표), 공식 표가 나오면 연동합니다 — 그 전까지 임의 수치를 넣지 않습니다.
   </div>
 
   <!-- 컨트롤 -->
@@ -1269,6 +1278,8 @@ function fundFlow(R){
     {stage:4,from:'사업주체',to:'계약자(나라장터)',amt:Math.round(total*0.62)}
   ];
 }
+/* 종합청렴도 등급 — 국민권익위원회 2025년 평가(공공데이터포털 '기관별 청렴도 평가 등급', 243개 지자체 전수) 실데이터. 1등급=최상위. 미평가 지자체는 없음(null). */
+const INTEGRITY_2025={"강원특별자치도":3,"강원특별자치도 강릉시":3,"강원특별자치도 고성군":3,"강원특별자치도 동해시":4,"강원특별자치도 삼척시":4,"강원특별자치도 속초시":3,"강원특별자치도 양구군":3,"강원특별자치도 양양군":4,"강원특별자치도 영월군":3,"강원특별자치도 원주시":3,"강원특별자치도 인제군":3,"강원특별자치도 정선군":4,"강원특별자치도 철원군":3,"강원특별자치도 춘천시":2,"강원특별자치도 태백시":5,"강원특별자치도 평창군":4,"강원특별자치도 홍천군":4,"강원특별자치도 화천군":4,"강원특별자치도 횡성군":4,"경기도":3,"경기도 가평군":2,"경기도 고양시":3,"경기도 과천시":3,"경기도 광명시":2,"경기도 광주시":5,"경기도 구리시":2,"경기도 군포시":5,"경기도 김포시":3,"경기도 남양주시":2,"경기도 동두천시":4,"경기도 부천시":1,"경기도 성남시":2,"경기도 수원시":2,"경기도 시흥시":2,"경기도 안산시":3,"경기도 안성시":3,"경기도 안양시":3,"경기도 양주시":3,"경기도 양평군":3,"경기도 여주시":3,"경기도 연천군":3,"경기도 오산시":3,"경기도 용인시":2,"경기도 의왕시":3,"경기도 의정부시":2,"경기도 이천시":5,"경기도 파주시":2,"경기도 평택시":2,"경기도 포천시":4,"경기도 하남시":3,"경기도 화성시":2,"경상남도":2,"경상남도 거제시":4,"경상남도 거창군":3,"경상남도 고성군":2,"경상남도 김해시":1,"경상남도 남해군":2,"경상남도 밀양시":2,"경상남도 사천시":2,"경상남도 양산시":2,"경상남도 의령군":2,"경상남도 진주시":1,"경상남도 창녕군":1,"경상남도 창원시":1,"경상남도 통영시":4,"경상남도 함안군":3,"경상남도 함양군":4,"경상남도 합천군":3,"경상북도":1,"경상북도 경산시":3,"경상북도 경주시":3,"경상북도 고령군":3,"경상북도 구미시":2,"경상북도 김천시":3,"경상북도 문경시":4,"경상북도 봉화군":4,"경상북도 상주시":3,"경상북도 성주군":2,"경상북도 영주시":4,"경상북도 영천시":2,"경상북도 예천군":2,"경상북도 울릉군":5,"경상북도 울진군":3,"경상북도 청도군":5,"경상북도 칠곡군":2,"경상북도 포항시":4,"광주광역시":2,"광주광역시 광산구":4,"광주광역시 남구":3,"광주광역시 동구":3,"광주광역시 북구":2,"광주광역시 서구":3,"대구광역시":3,"대구광역시 군위군":2,"대구광역시 남구":3,"대구광역시 달서구":3,"대구광역시 달성군":1,"대구광역시 동구":2,"대구광역시 북구":2,"대구광역시 서구":2,"대구광역시 수성구":2,"대구광역시 중구":4,"대전광역시":4,"대전광역시 대덕구":4,"대전광역시 동구":3,"대전광역시 서구":2,"대전광역시 유성구":2,"대전광역시 중구":2,"부산광역시":3,"부산광역시 강서구":2,"부산광역시 금정구":3,"부산광역시 기장군":2,"부산광역시 남구":4,"부산광역시 동구":4,"부산광역시 동래구":3,"부산광역시 부산진구":2,"부산광역시 북구":3,"부산광역시 사상구":4,"부산광역시 사하구":3,"부산광역시 서구":4,"부산광역시 수영구":2,"부산광역시 연제구":2,"부산광역시 영도구":3,"부산광역시 중구":4,"부산광역시 해운대구":3,"서울특별시":2,"서울특별시 강남구":2,"서울특별시 강동구":3,"서울특별시 강북구":3,"서울특별시 강서구":3,"서울특별시 관악구":2,"서울특별시 광진구":1,"서울특별시 구로구":2,"서울특별시 금천구":2,"서울특별시 노원구":3,"서울특별시 도봉구":4,"서울특별시 동대문구":4,"서울특별시 동작구":4,"서울특별시 마포구":4,"서울특별시 서대문구":3,"서울특별시 서초구":3,"서울특별시 성동구":2,"서울특별시 성북구":3,"서울특별시 송파구":2,"서울특별시 양천구":2,"서울특별시 영등포구":2,"서울특별시 용산구":4,"서울특별시 은평구":4,"서울특별시 종로구":3,"서울특별시 중구":2,"서울특별시 중랑구":3,"세종특별자치시":4,"울산광역시":3,"울산광역시 남구":4,"울산광역시 동구":3,"울산광역시 북구":3,"울산광역시 중구":2,"인천광역시":4,"인천광역시 강화군":4,"인천광역시 계양구":4,"인천광역시 남동구":4,"인천광역시 동구":3,"인천광역시 미추홀구":4,"인천광역시 부평구":2,"인천광역시 서구":4,"인천광역시 연수구":3,"인천광역시 옹진군":4,"인천광역시 중구":5,"전라남도":4,"전라남도 강진군":3,"전라남도 고흥군":3,"전라남도 곡성군":3,"전라남도 광양시":4,"전라남도 구례군":4,"전라남도 나주시":4,"전라남도 담양군":2,"전라남도 목포시":3,"전라남도 무안군":3,"전라남도 보성군":1,"전라남도 순천시":3,"전라남도 신안군":4,"전라남도 여수시":5,"전라남도 영광군":3,"전라남도 영암군":4,"전라남도 완도군":4,"전라남도 장성군":3,"전라남도 장흥군":3,"전라남도 진도군":2,"전라남도 함평군":3,"전라남도 해남군":1,"전라남도 화순군":4,"전북특별자치도":2,"전북특별자치도 고창군":2,"전북특별자치도 군산시":2,"전북특별자치도 김제시":3,"전북특별자치도 남원시":5,"전북특별자치도 무주군":4,"전북특별자치도 부안군":3,"전북특별자치도 순창군":3,"전북특별자치도 완주군":2,"전북특별자치도 익산시":5,"전북특별자치도 임실군":3,"전북특별자치도 장수군":1,"전북특별자치도 전주시":2,"전북특별자치도 정읍시":2,"전북특별자치도 진안군":4,"제주특별자치도":3,"충청남도":2,"충청남도 계룡시":2,"충청남도 공주시":3,"충청남도 금산군":5,"충청남도 논산시":3,"충청남도 당진시":3,"충청남도 보령시":3,"충청남도 부여군":2,"충청남도 서산시":2,"충청남도 서천군":3,"충청남도 아산시":4,"충청남도 예산군":2,"충청남도 천안시":3,"충청남도 청양군":3,"충청남도 태안군":5,"충청남도 홍성군":4,"충청북도":4,"충청북도 괴산군":3,"충청북도 단양군":3,"충청북도 보은군":3,"충청북도 영동군":4,"충청북도 옥천군":2,"충청북도 음성군":1,"충청북도 제천시":3,"충청북도 증평군":4,"충청북도 진천군":3,"충청북도 청주시":3,"충청북도 충주시":3};
 function genRegion(sidoObj, name, isSido){
   const sido = sidoObj.nm;
   const key = isSido ? sido : sido+" "+name;
@@ -1375,7 +1386,7 @@ function genRegion(sidoObj, name, isSido){
   // 인구소멸위험지수 (20-39세 여성 ÷ 65세+); 낮을수록 위험
   let extIndex=+clamp(type==="군"?0.10+r()*0.42 : type==="시"?0.34+r()*0.6 : type==="구"?0.5+r()*0.8 : 0.7+r()*0.7, 0.08,1.6).toFixed(2);
   // 종합청렴도(국민권익위 평가 등급 1~5, 1=최우수) · 축제·행사성 경비 비중(%)
-  const integrity = clamp(Math.round(2.3+(r()-0.5)*3.4),1,5);
+  const integrity = (function(){ const k=isSido?sido:sido+" "+name; return (INTEGRITY_2025[k]!=null)?INTEGRITY_2025[k]:null; })();
   let festivalRatio=+clamp(type==="군"?1.6+r()*2.7 : type==="시"?1.0+r()*2.0 : type==="구"?0.8+r()*1.7 : 0.9+r()*1.4, 0.4,4.8).toFixed(1);
   const festivalCost=Math.round(budget*festivalRatio/100);
   // 주요 사업 top10
@@ -1420,7 +1431,7 @@ function buildNational(){
     perCapitaBudget:+(budget*10000/NATIONAL.population).toFixed(0),
     bankName:"전국 평균",bankRate:2.52,avgDeposit:Math.round(budget*0.11),interestIncome:Math.round(budget*0.11*2.52/100),
     accounts:{일반회계:Math.round(budget*0.70),특별회계:Math.round(budget*0.24),기금:Math.round(budget*0.06)},
-    integrity:3,festivalRatio:1.8,festivalCost:Math.round(budget*1.8/100),
+    integrity:null,festivalRatio:1.8,festivalCost:Math.round(budget*1.8/100),
     households:Math.round(NATIONAL.population/2.3),elderlyRatio:19.5,youthRatio:24.3,popChange:-0.12,extIndex:0.71,
     projects:genProjects("전국",budget,31),
     subScores:{sSelf,sAuto,sDebt,sExec,sBal,sSuui}};
@@ -1544,7 +1555,8 @@ function renderKPI(R){
     {l:"채무비율",ic:"📉",v:R.debtRatio+"<span class='unit'> %</span>",sub:R.debtRatio<25?"<span class='up'>위기단계 아님</span>":"<span class='down'>주의/심각 구간</span>",w:clamp(R.debtRatio/45*100,2,100),c:R.debtRatio<15?PAL.green:R.debtRatio<25?PAL.amber:PAL.red,tip:"빚 잔액 ÷ 예산. 25% 주의·40% 심각."},
     {l:"세출 집행률",ic:"📊",v:R.execRate+"<span class='unit'> %</span>",sub:R.execRate>=88?"<span class='up'>정상 집행</span>":"<span class='down'>집행 부진</span>",w:R.execRate,c:R.execRate>=88?PAL.green:R.execRate>=80?PAL.amber:PAL.red,tip:"집행액 ÷ 최종예산. 너무 낮거나 연말 급증은 신호."},
     {l:"수의계약 비중",ic:"📝",v:R.suuiRatio+"<span class='unit'> %</span>",sub:R.suuiRatio<30?"<span class='up'>경쟁계약 중심</span>":"<span class='down'>경쟁성 점검 필요</span>",w:R.suuiRatio,c:R.suuiRatio<30?PAL.green:R.suuiRatio<45?PAL.amber:PAL.red,tip:"경쟁 없이 맺는 계약 비율. 높을수록 감시 필요."},
-    {l:"지자체 금고 이자율",ic:"💴",v:"<span style='font-size:1.05rem;color:#475569'>공식 비공개</span>",sub:`개별 약정이자율은 공개 의무가 없어 비공개`,w:0,c:PAL.blue,note:"💡 지자체가 세금을 맡긴 금고(은행)의 약정 이자율은 시민에게 개별 공개되지 않습니다. 이자율이 낮을수록 받을 수 있었던 이자 수입이 사라집니다 — ‘대한민국 재정 365’는 이 정보의 공개를 요구합니다.",tip:"개별 지자체의 금고 약정이자율은 현재 공식적으로 공개되지 않습니다. 공식 데이터가 공개되면 연동해 표시합니다."},
+    {l:"종합청렴도",ic:"🛡️",v:R.integrity?R.integrity+"<span class='unit'> 등급</span>":"<span style='font-size:1.02rem;color:#64748b'>미평가</span>",sub:R.integrity?`국민권익위 2025 평가 · ${['','매우 우수(1등급)','우수(2등급)','보통(3등급)','미흡(4등급)','매우 미흡(5등급)'][R.integrity]}`:"권익위 평가 대상 아님",w:R.integrity?clamp((6-R.integrity)/5*100,8,100):0,c:!R.integrity?PAL.slate:R.integrity<=2?PAL.green:R.integrity===3?PAL.amber:PAL.red,tip:"국민권익위원회 종합청렴도 평가 등급(2025년 평가, 1등급이 가장 우수). 출처: 공공데이터포털 '기관별 청렴도 평가 등급'."},
+    {l:"지자체 금고 이자율",ic:"💴",v:"<span style='font-size:1.05rem;color:#475569'>공개 추진 중</span>",sub:`행안부 2025.12~ 누리집 공개 예정`,w:0,c:PAL.blue,note:"💡 지자체가 세금을 맡긴 금고(은행)의 약정 이자율은 그동안 공개되지 않았습니다. 행정안전부가 지방회계법 시행령 개정으로 <b>2025년 12월부터 전국 지자체 금고 이자율을 누리집에 공개</b>합니다(2025.10 발표). 공식 표가 공개되면 이 자리에 실제 값을 연동하겠습니다.",tip:"개별 지자체 금고 약정이자율은 행정안전부가 2025년 12월부터 단계적으로 공개합니다. 출처: 행정안전부 2025.10.2 보도자료. 공식 표가 나오면 실데이터로 연동합니다."},
     {l:"종합 건강점수",ic:"🩺",v:R.score+"<span class='unit'> 점</span>",sub:`${R.grade}등급 · 전국 ${rankOf(R,'score')}위`,w:R.score,c:gradeStyle(R.grade)[0].includes('e11d48')?PAL.red:gradeStyle(R.grade)[0].includes('f59e0b')||gradeStyle(R.grade)[0].includes('fb923c')?PAL.amber:PAL.green,tip:"6대 지표를 가중평균한 자체 종합 점수."}
   ];
   document.getElementById('kpiGrid').innerHTML=cards.map(c=>`
@@ -1713,11 +1725,13 @@ const COMPARE_METRICS=[
   {k:'debtRatio',l:'채무비율',u:'%',better:'low',ic:'📉'},
   {k:'execRate',l:'세출 집행률',u:'%',better:'high',ic:'📊'},
   {k:'suuiRatio',l:'수의계약 비중',u:'%',better:'low',ic:'📝'},
+  {k:'integrity',l:'종합청렴도',u:'',better:'low',ic:'🛡️',fmt:v=>v==null?'미평가':v+'등급'},
   {k:'extIndex',l:'인구소멸지수',u:'',better:'high',ic:'🧬'},
   {k:'score',l:'종합 건강점수',u:'점',better:'high',ic:'🩺'}
 ];
 function rankByMetric(R,k,better){
-  const arr=STATE.model.slice().sort((a,b)=> better==='low'? a[k]-b[k] : b[k]-a[k]);
+  if(R[k]==null) return null;
+  const arr=STATE.model.filter(x=>x[k]!=null).sort((a,b)=> better==='low'? a[k]-b[k] : b[k]-a[k]);
   const i=arr.findIndex(x=>x.key===R.key); return i<0?null:i+1;
 }
 function pctTop(rank,total){return Math.max(1,Math.round(rank/total*100));}
@@ -1771,9 +1785,9 @@ function renderCompare(){
   document.getElementById('cmpHB').textContent='🔴 '+B.display;
   document.getElementById('cmpBody').innerHTML=COMPARE_METRICS.map((m,i)=>{
     const f=m.fmt||(v=>v), av=A[m.k], bv=B[m.k], nv=N[m.k];
-    const aRank=A.key==='전국'?null:rankByMetric(A,m.k,m.better);
-    const bRank=B.key==='전국'?null:rankByMetric(B,m.k,m.better);
-    const w=(m.better==='neutral'||av===bv)?0:(m.better==='low'?(av<bv?-1:1):(av>bv?-1:1));
+    const aRank=(A.key==='전국'||av==null)?null:rankByMetric(A,m.k,m.better);
+    const bRank=(B.key==='전국'||bv==null)?null:rankByMetric(B,m.k,m.better);
+    const w=(av==null||bv==null||m.better==='neutral'||av===bv)?0:(m.better==='low'?(av<bv?-1:1):(av>bv?-1:1));
     const cell=(v,rank,win)=>`<td class="${win?'cmp-win':''}"><b>${f(v)}${m.u}</b>${rank?`<div class="cmp-rank">전국 ${rank}위 · 상위 ${pctTop(rank,total)}%</div>`:''}</td>`;
     const winTxt=m.better==='neutral'?'<span class="muted">참고</span>':(av===bv?'무승부':(w===-1?A.name:B.name));
     return `<tr><td style="font-weight:800;color:var(--navy2)">${m.l}</td>${cell(av,aRank,w===-1)}${cell(bv,bRank,w===1)}<td class="muted">${f(nv)}${m.u}</td><td style="font-weight:800;color:${w?'#15803d':'#94a3b8'}">${w?'✓ '+winTxt:winTxt}</td></tr>`;
@@ -1861,7 +1875,7 @@ function printReport(R){
   '<div>총예산<b>'+won억(R.budget)+'</b></div><div>주민 1인당<b>'+fmt(R.perCapitaBudget)+'만원</b></div>'+
   '<div>재정자립도<b>'+R.selfReliance+'%</b></div><div>재정자주도<b>'+R.autonomy+'%</b></div>'+
   '<div>채무비율<b>'+R.debtRatio+'%</b></div><div>세출 집행률<b>'+R.execRate+'%</b></div>'+
-  '<div>수의계약 비중<b>'+R.suuiRatio+'%</b></div><div>금고 이자율<b>공식 비공개</b></div></div>'+
+  '<div>수의계약 비중<b>'+R.suuiRatio+'%</b></div><div>종합청렴도<b>'+(R.integrity?R.integrity+'등급':'미평가')+'</b></div></div>'+
   '<h2>2. 회계별 예산현황</h2><table><tr><th>구분</th><th class=r>금액</th><th class=r>비중</th></tr>'+
   '<tr><td>일반회계</td><td class=r>'+won억(R.accounts.일반회계)+'</td><td class=r>'+(R.accounts.일반회계/R.budget*100).toFixed(1)+'%</td></tr>'+
   '<tr><td>특별회계</td><td class=r>'+won억(R.accounts.특별회계)+'</td><td class=r>'+(R.accounts.특별회계/R.budget*100).toFixed(1)+'%</td></tr>'+
@@ -1986,7 +2000,8 @@ function renderDetail(R){
        <div class="dstat"><div class="l">재정자립도</div><div class="v mono">${R.selfReliance}%</div></div>
        <div class="dstat"><div class="l">재정자주도</div><div class="v mono">${R.autonomy}%</div></div>
        <div class="dstat"><div class="l">채무비율</div><div class="v mono">${R.debtRatio}%</div></div>
-       <div class="dstat"><div class="l">금고 이자율</div><div class="v mono" style="font-size:1rem;color:#475569">공식 비공개</div><div class="s muted">개별 약정이자율은 미공개</div></div>
+       <div class="dstat"><div class="l">종합청렴도</div><div class="v mono"${R.integrity?` style="color:${R.integrity<=2?'#16a34a':R.integrity===3?'#b45309':'#e11d48'}"`:''}>${R.integrity?R.integrity+'등급':'<span style="font-size:.95rem;color:#64748b">미평가</span>'}</div><div class="s muted">${R.integrity?(['','매우 우수','우수','보통','미흡','매우 미흡'][R.integrity]+' · 국민권익위 2025'):'권익위 평가 대상 아님'}</div></div>
+       <div class="dstat"><div class="l">금고 이자율</div><div class="v mono" style="font-size:.95rem;color:#475569">공개 추진 중</div><div class="s muted">행안부 2025.12~ 누리집 공개</div></div>
      </div></div>
    <div class="dblock"><h3>📈 분기별 집행 현황 ${blockStatus()}</h3>
      <div class="desc">분기별 집행액과 누적 집행률 (연간 최종 집행률 ${R.execRate}%)</div>
@@ -2262,7 +2277,7 @@ function botEsc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;'
 function botContext(){
   const R=STATE.region||STATE.national;
   let c=`현재 선택 지역=${R?R.display:'전국'}`;
-  if(R) c+=` | 재정자립도 ${R.selfReliance}% · 재정자주도 ${R.autonomy}% · 채무비율 ${R.debtRatio}% · 세출집행률 ${R.execRate}% · 수의계약 ${R.suuiRatio}% · 1인당예산 ${R.perCapitaBudget}만원 · 종합등급 ${R.grade}(${R.score}점)`;
+  if(R) c+=` | 재정자립도 ${R.selfReliance}% · 재정자주도 ${R.autonomy}% · 채무비율 ${R.debtRatio}% · 세출집행률 ${R.execRate}% · 수의계약 ${R.suuiRatio}% · 종합청렴도 ${R.integrity?R.integrity+'등급(권익위2025)':'미평가'} · 1인당예산 ${R.perCapitaBudget}만원 · 종합등급 ${R.grade}(${R.score}점)`;
   if(R&&R.key!=='전국'){ const fl=genRiskFlags(R).map(f=>RISKFLAG_DEF[f.type][0]); if(fl.length) c+=` | 위험플래그: ${fl.join(', ')}`; }
   c+=` || 용어집: `+GLOSSARY.map(g=>g.t+'='+g.d).join(' / ');
   return c.slice(0,3000);
