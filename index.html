@@ -59,10 +59,19 @@ a{color:var(--blue);text-decoration:none}
 .dot.on{background:#34f0a8;box-shadow:0 0 0 4px rgba(52,240,168,.25)}
 .tagline{margin-top:16px;font-size:1.02rem;color:#dceafb;max-width:760px}
 .tagline b{color:#fff}
-.stat-strip{display:flex;gap:26px;flex-wrap:wrap;margin-top:18px}
-.stat-strip .s{}
-.stat-strip .s b{display:block;font-size:1.35rem;font-weight:900;color:#fff}
-.stat-strip .s span{font-size:.76rem;color:#a9c4e8}
+.hero-headline{font-size:2.15rem;font-weight:900;color:#fff;line-height:1.28;margin-top:20px;letter-spacing:-.02em;max-width:780px}
+.hero-headline .hl-y{color:#ffd84d}
+.hero-subline{font-size:1.02rem;color:#dceafb;margin-top:13px;max-width:700px;line-height:1.65}
+.hero-subline b{color:#fff}
+.hero-cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.tb-btn{font-weight:800;font-size:1rem;padding:13px 22px;border-radius:12px;white-space:nowrap;transition:.15s;box-shadow:0 8px 22px rgba(0,0,0,.28)}
+.tb-btn.primary{background:linear-gradient(135deg,var(--teal),#36e0c0);color:#06201d}
+.tb-btn.ghost{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.32)}
+.tb-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.36)}
+.stat-strip{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.stat-strip .s{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:10px 16px}
+.stat-strip .s b{display:block;font-size:1.22rem;font-weight:900;color:#fff}
+.stat-strip .s span{font-size:.72rem;color:#a9c4e8}
 
 /* ===== Nav ===== */
 .subnav{background:var(--navy);border-top:1px solid rgba(255,255,255,.08);position:sticky;top:0;z-index:40}
@@ -220,7 +229,7 @@ section{padding:26px 0}
 .chip.bad{background:#ffe9ef;color:#b21a42;border-color:#fbc9d7}
 
 /* ===== KPI grid ===== */
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:18px}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-top:18px}
 .kpi{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px;position:relative;overflow:hidden}
 .kpi .label{font-size:.78rem;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:6px}
 .kpi .val{font-size:1.7rem;font-weight:900;letter-spacing:-.5px;margin-top:6px}
@@ -379,9 +388,9 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
 .bot-greet .gx{position:absolute;top:5px;right:9px;color:#b6c2d4;font-weight:800;font-size:.9rem}
 .bot-greet .grow{display:flex;gap:10px;align-items:center}
 /* 좌측 '김보미를 소개합니다' 버튼 + 인사 말풍선 */
-.intro-fab{position:fixed;left:20px;bottom:20px;z-index:85;background:transparent;border:none;padding:0;cursor:pointer;animation:floaty 2.6s ease-in-out infinite;line-height:0}
-.intro-fab:hover{animation-play-state:paused;transform:scale(1.06)}
-.intro-fab .kbm-ava{width:116px;height:116px;box-shadow:0 0 0 3px #fff,0 10px 26px rgba(11,37,69,.4)}
+.intro-fab{position:fixed;left:20px;bottom:20px;z-index:85;background:transparent;border:none;padding:0;cursor:pointer;line-height:0;transition:transform .15s}
+.intro-fab:hover{transform:scale(1.05)}
+.intro-fab .kbm-ava{width:112px;height:112px;box-shadow:0 0 0 3px #fff,0 10px 26px rgba(11,37,69,.4)}
 .intro-fab .kbm-ava img{object-position:center center}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 .intro-greet{position:fixed;left:14px;bottom:128px;z-index:84;max-width:288px;background:#fff;border:1px solid var(--line);border-radius:18px;border-bottom-left-radius:6px;box-shadow:var(--shadow-lg);padding:18px 40px 18px 20px;font-size:.99rem;font-weight:600;color:var(--ink);line-height:1.55;display:none;cursor:pointer}
@@ -393,6 +402,31 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
 .kbm-pub img{width:150px;border-radius:8px;border:1px solid var(--line);flex:none;box-shadow:var(--shadow);background:#eef2f7}
 @media(max-width:560px){.kbm-pub img{width:120px}}
 .kbm-pub h4{font-size:1rem;font-weight:800;color:var(--navy2)}
+/* ===== 모바일 최적화 ===== */
+@media(max-width:520px){
+  .wrap{padding:0 14px}
+  .topbar .wrap{padding-top:18px;padding-bottom:20px}
+  .brand-h{font-size:1.3rem}
+  .hero-headline{font-size:1.5rem;margin-top:16px}
+  .hero-subline{font-size:.92rem}
+  .hero-cta-row .tb-btn{flex:1 1 100%;text-align:center}
+  .stat-strip{gap:10px;margin-top:16px}
+  .stat-strip .s{flex:1 1 calc(50% - 5px)}
+  .stat-strip .s b{font-size:1.1rem}
+  .section-h h2{font-size:1.08rem}
+  .controls{padding:14px;gap:10px}
+  .controls .field{flex:1 1 100%;min-width:0}
+  .controls .btn{flex:1 1 calc(50% - 6px)}
+  .gov-cta{padding:15px 16px}
+  .gov-cta a{width:100%;text-align:center}
+  .kpi .val{font-size:1.5rem}
+  .hh-quote{font-size:1.02rem}
+  .hh-cta .hh-btn{flex:1 1 100%;text-align:center}
+  .intro-fab .kbm-ava{width:92px;height:92px}
+  .intro-greet{bottom:108px;max-width:230px;font-size:.92rem;padding:14px 34px 14px 16px}
+  .bot-fab{padding:11px 14px;font-size:.86rem}
+  .summary-demo .sd-grid{grid-template-columns:repeat(2,1fr)}
+}
 .kbm-pub p{font-size:.84rem;color:#46566f;line-height:1.6;margin-top:5px}
 .kbm-pub .meta{font-size:.76rem;color:#94a3b8;margin-top:7px}
 .kbm-pub .pbtn{display:inline-block;margin-top:9px;background:var(--blue);color:#fff;font-weight:800;font-size:.8rem;padding:8px 14px;border-radius:9px}
@@ -425,19 +459,23 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
       <div class="logo">🏛️</div>
       <div>
         <div class="brand-h">대한민국 재정 <span>365</span></div>
-        <div class="brand-sub">시민이 만드는 투명 재정 · 누구나 의원처럼 · 운영 김보미</div>
+        <div class="brand-sub">시민 재정 감시 플랫폼 · 운영 김보미</div>
       </div>
       <div class="live-badge" id="liveBadge" title="데이터 연동 상태">
         <span class="dot" id="liveDot"></span><span id="liveText">공시 기준</span>
       </div>
     </div>
-    <p class="tagline">공공데이터포털과 <b>지방재정365</b>가 흩어놓은 예산·집행·계약·부채 정보를 <b>한곳에</b> 모았습니다.
-      전문가가 아니어도 <b>우리 동네 살림</b>을 진단하고, 새는 돈을 직접 감시·견제·제안합니다. <b>라이브 재정 서버에 연결</b>되면 실시간 수치로 자동 갱신됩니다.</p>
+    <h1 class="hero-headline">내가 낸 세금, 우리 동네에서<br><span class="hl-y">잘 쓰이고 있을까?</span></h1>
+    <p class="hero-subline">전국 <b>243개 지방자치단체</b>의 예산·집행·금고이자율을 <b>3초 만에 진단</b>하는 시민 재정 감시 플랫폼입니다.</p>
+    <div class="hero-cta-row">
+      <a href="#diagnose" class="tb-btn primary">🔎 우리 동네 3초 진단</a>
+      <a href="#ranking" class="tb-btn ghost">🏅 전국 순위 보기</a>
+    </div>
     <div class="stat-strip">
       <div class="s"><b>243개</b><span>전국 광역·기초 지자체</span></div>
-      <div class="s"><b id="sbBudget">411.8조 원</b><span>총예산 규모 (2024 회계연도)</span></div>
-      <div class="s"><b id="sbSelf">43.2%</b><span>전국 평균 재정자립도 (지방재정365)</span></div>
-      <div class="s"><b id="sbAuto">70.3%</b><span>전국 평균 재정자주도 (지방재정365)</span></div>
+      <div class="s"><b id="sbBudget">411.8조 원</b><span>총예산 (2024)</span></div>
+      <div class="s"><b id="sbSelf">43.2%</b><span>평균 재정자립도</span></div>
+      <div class="s"><b id="sbAuto">70.3%</b><span>평균 재정자주도</span></div>
     </div>
   </div>
 </header>
@@ -718,18 +756,16 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
     <div class="section-h" style="margin-top:6px"><span class="ic">✊</span><div><h2 style="font-size:1.05rem">① 이상 신호를 봤다면 이렇게 움직이세요</h2><p>의심이 들면 기록 → 근거 수집 → 질문 → 공개 순서가 중요합니다</p></div></div>
     <div class="action-grid" id="actionGrid"></div>
 
-    <div class="section-h" style="margin-top:24px"><span class="ic">✍️</span><div><h2 style="font-size:1.05rem">② 의견·정책 제안 남기고 → 의회로 전달</h2><p>예산 낭비 의심, 집행 지연, 계약 구조 질문, 제도 개선 제안을 남기고 <b>해당 시·군·구 의회로 메일</b>까지 보낼 수 있습니다</p></div></div>
+    <div class="section-h" style="margin-top:24px"><span class="ic">✍️</span><div><h2 style="font-size:1.05rem">② 의견·제안을 AI가 다듬어 → 의회로 전달</h2><p>짧게 적기만 하면 <b>AI가 정중한 민원·질의 문장</b>으로 다듬고 <b>재정 요약</b>을 붙여 <b>해당 시·군·구 의회</b> 메일 작성창을 열어드립니다</p></div></div>
     <div class="card pad">
       <div id="voiceRegion" class="muted" style="font-size:.88rem;margin-bottom:10px"></div>
-      <div class="field-row" style="margin-top:0">
-        <div class="field" style="flex:0 1 180px"><label>닉네임</label><input id="voiceName" type="text" placeholder="예: 강진군민"></div>
-        <div class="field" style="flex:2"><label>의견 / 질의 / 제안</label><input id="voiceText" type="text" placeholder="짧아도 괜찮습니다. 무엇이 궁금한지, 어떤 점이 이상한지 적어주세요"></div>
-        <button class="btn btn-ghost" id="voiceSubmit">의견 남기기</button>
-        <button class="btn btn-primary" id="voiceMail">📧 의회로 메일 보내기</button>
+      <div class="field-row" style="margin-top:0;align-items:flex-end">
+        <div class="field" style="flex:0 1 170px"><label>닉네임</label><input id="voiceName" type="text" placeholder="예: 강진군민"></div>
+        <div class="field" style="flex:2;min-width:240px"><label>핵심 의견 · 질의 · 제안 <span class="muted" style="font-weight:600">(짧아도 OK)</span></label><textarea id="voiceText" rows="2" placeholder="예) 우리 동네 축제 예산이 과한 것 같아요. 항목별 내역을 공개해 주세요." style="width:100%;resize:vertical;padding:10px 12px;border:1.5px solid var(--line);border-radius:var(--r-sm);font-family:inherit;font-size:.9rem;line-height:1.5"></textarea></div>
+        <button class="btn btn-primary" id="voiceMail">🤖 AI로 다듬어 의회 메일 작성</button>
       </div>
       <div style="margin-top:8px"><a id="voiceFind" href="javascript:void(0)" style="font-size:.78rem;font-weight:700">🔎 우리 지역 의회 이메일 찾기</a></div>
-      <div class="muted" style="font-size:.74rem;margin-top:8px">※ ‘메일 보내기’를 누르면 선택한 지역 의회 앞으로 의견·재정 요약이 채워진 메일 작성창이 열립니다. 받는사람에 해당 의회 이메일을 넣어 보내세요. 남긴 의견은 현재 이 브라우저에 저장되는 시연 버전이며, 정식 운영 시 서버와 연동됩니다.</div>
-      <div id="voiceList" style="margin-top:14px"></div>
+      <div class="muted" style="font-size:.74rem;margin-top:8px">※ 버튼을 누르면 AI가 입력 내용을 <b>정중한 민원 문장</b>으로 다듬고 해당 지역 재정 요약을 덧붙여 <b>메일 작성창</b>을 엽니다. 받는사람에 의회 이메일을 넣고, 내용 확인 후 본인이 발송하세요.</div>
     </div>
   </section>
 
@@ -1816,41 +1852,44 @@ function printReport(R){
 }
 
 /* ---------- 시민 의견 ---------- */
-function voiceKey(R){return 'jjs_op_'+R.key;}
-function loadOps(R){try{return JSON.parse(localStorage.getItem(voiceKey(R))||'[]');}catch(e){return [];}}
 function renderVoice(R){
-  const vr=document.getElementById('voiceRegion'); if(vr) vr.innerHTML=`현재 의견 대상: <b>${R.display}</b>`;
-  const ops=loadOps(R), el=document.getElementById('voiceList'); if(!el) return;
-  el.innerHTML = ops.length? ops.map(o=>`<div class="ai-item check"><span class="t">🗣️ ${o.name} · ${o.date}</span>${o.text}</div>`).join('')
-    : `<div class="muted" style="font-size:.85rem">아직 등록된 의견이 없습니다. 첫 의견을 남겨보세요.</div>`;
-}
-function addOp(){
-  const R=STATE.region; if(!R) return;
-  const name=(document.getElementById('voiceName').value.trim())||'익명 시민';
-  const text=document.getElementById('voiceText').value.trim();
-  if(!text){toast('의견 내용을 입력하세요');return;}
-  const ops=loadOps(R); ops.unshift({name,text,date:new Date().toLocaleDateString('ko-KR')});
-  try{localStorage.setItem(voiceKey(R),JSON.stringify(ops.slice(0,50)));}catch(e){}
-  document.getElementById('voiceText').value=''; renderVoice(R); toast('의견이 등록되었습니다');
+  const vr=document.getElementById('voiceRegion'); if(vr) vr.innerHTML=`현재 대상: <b>${R.display}</b> <span class="muted">— 메일은 ${councilName(R)} 앞으로 작성됩니다</span>`;
 }
 function councilName(R){ // 의회 명칭 추정
   if(!R||R.key==='전국') return '해당 지방의회';
   if(R.isSido) return R.name.replace(/(특별자치도|특별자치시|특별시|광역시|도)$/,m=>m)+'의회';
   return R.name+'의회';
 }
-function sendToCouncil(){
+// AI가 시민의 짧은 입력을 정중한 민원 메일 본문으로 다듬음 (실패 시 null)
+async function aiPolishMail(R,text,council){
+  try{
+    const ctrl=new AbortController(), t=setTimeout(()=>ctrl.abort(),16000);
+    const ask=`아래 시민의 짧은 의견을 ${council} 앞으로 보내는 정중한 민원·질의 메일 '본문'으로 다듬어 주세요. 조건: 한국어 존댓말, 4~7문장, 사실을 단정하지 말고 '확인·자료 공개를 정중히 요청'하는 어조, 간단한 인사말과 맺음말 포함, 제목/받는사람/머리말 줄은 빼고 본문만 출력. 대상 지역=${R.display}. 시민 의견: "${text}"`;
+    const res=await fetch(BOT_API,{method:'POST',headers:{'Content-Type':'application/json'},signal:ctrl.signal,
+      body:JSON.stringify({messages:[{role:'user',content:ask}],context:`너는 시민의 의견을 지방의회 민원 메일 본문으로 다듬는 작성 도우미다. 객관적이고 공손하게, 특정인 비방 없이.`})});
+    clearTimeout(t);
+    if(!res.ok) return null;
+    const j=await res.json(); const r=(j.reply||j.text||j.content||'').toString().trim();
+    return r.length>20?r:null;
+  }catch(e){ return null; }
+}
+async function sendToCouncil(){
   const R=STATE.region||STATE.national;
   const nm=(document.getElementById('voiceName').value.trim())||'시민';
-  const text=document.getElementById('voiceText').value.trim();
-  if(!text){ toast('의견 내용을 입력하세요'); return; }
+  const raw=document.getElementById('voiceText').value.trim();
+  if(!raw){ toast('의견 내용을 입력하세요'); return; }
   const council=councilName(R);
-  const snap=`재정 건강등급 ${R.grade}(종합 ${R.score}점) · 재정자립도 ${R.selfReliance}% · 채무비율 ${R.debtRatio}% · 세출 집행률 ${R.execRate}% · 금고 이자율 ${R.bankRate}%`;
+  const snap=`재정 건강등급 ${R.grade}(종합 ${R.score}점) · 재정자립도 ${R.selfReliance}% · 채무비율 ${R.debtRatio}% · 세출 집행률 ${R.execRate}% · 금고 이자율 ${R.bankRate}% · 축제·행사성 경비 ${R.festivalRatio}% · 종합청렴도 ${R.integrity}등급`;
+  const btn=document.getElementById('voiceMail'); const orig=btn?btn.innerHTML:'';
+  if(btn){btn.disabled=true;btn.innerHTML='🤖 AI가 다듬는 중…';}
+  toast('🤖 AI가 정중한 민원 문장으로 다듬는 중…');
+  const polished=await aiPolishMail(R,raw,council);
+  if(btn){btn.disabled=false;btn.innerHTML=orig;}
+  const bodyMain=polished||raw;
   const subj=`[시민 재정 감시 의견] ${R.display} — ${council} 귀중`;
-  const body=`■ 받는 곳: ${council}\n■ 작성자: ${nm}\n■ 대상 지역: ${R.display}\n\n■ 의견 · 질의 · 제안\n${text}\n\n──────────\n■ 참고 재정 요약 (대한민국 재정 365)\n${snap}\n※ 위 수치는 공공데이터·지방재정365 기반 통계 참고치이며, 정확한 값은 공식 원부(lofin.mois.go.kr) 확인이 필요합니다.\n\n— 대한민국 재정 365 (시민 재정 감시 플랫폼)에서 전송`;
-  // 의견도 함께 로컬 등록
-  try{ const ops=loadOps(R); ops.unshift({name:nm,text:text+' (의회 메일 전송)',date:new Date().toLocaleDateString('ko-KR')}); localStorage.setItem(voiceKey(R),JSON.stringify(ops.slice(0,50))); renderVoice(R);}catch(e){}
+  const body=`■ 받는 곳: ${council}\n■ 작성자: ${nm}\n■ 대상 지역: ${R.display}\n\n${bodyMain}\n\n──────────\n■ 참고 재정 요약 (대한민국 재정 365)\n${snap}\n※ 위 수치는 공공데이터·지방재정365 기반 통계 참고치이며, 정확한 값은 공식 원부(lofin.mois.go.kr) 확인이 필요합니다.\n\n— 대한민국 재정 365 (시민 재정 감시 플랫폼)${polished?' · ✍️ AI 문장 다듬기 적용':''}`;
   window.location.href=`mailto:?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
-  toast(`✉️ ${council} 앞 메일 작성창을 엽니다`);
+  toast(`✉️ ${council} 앞 메일 작성창을 엽니다${polished?' (AI 다듬기 적용)':''}`);
 }
 function findCouncilEmail(){
   const R=STATE.region||STATE.national;
@@ -2226,10 +2265,9 @@ function wire(){
   document.getElementById('diagnoseBtn').addEventListener('click',()=>{ renderAll(currentSelection()); window.scrollTo({top:document.getElementById('charts').offsetTop-50,behavior:'smooth'}); });
   document.getElementById('randomBtn').addEventListener('click',()=>{ const r=STATE.model[Math.floor(Math.random()*STATE.model.length)]; selectByKey(r.key); toast('🎲 '+r.display+' 진단!'); });
   document.getElementById('pdfBtn').addEventListener('click',()=>printReport(STATE.region||STATE.national));
-  document.getElementById('voiceSubmit').addEventListener('click',addOp);
   document.getElementById('voiceMail').addEventListener('click',sendToCouncil);
   document.getElementById('voiceFind').addEventListener('click',findCouncilEmail);
-  document.getElementById('voiceText').addEventListener('keydown',e=>{if(e.key==='Enter')addOp();});
+  document.getElementById('voiceText').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))sendToCouncil();});
   document.getElementById('detailBtn').addEventListener('click',()=>openDetail((STATE.region||STATE.national).key));
   document.getElementById('dClose').addEventListener('click',closeDetail);
   document.getElementById('dPdf').addEventListener('click',()=>printReport(STATE.region||STATE.national));
