@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>예산 현황 | 광주 북구 2026 본예산 — 박정하 (지방재정365 기준)</title>
+<meta name="description" content="광주 북구 2026년도 본예산 1조 651억 원. 일반·특별회계, 분야별 주요 편성, 주민참여예산과 북구 인구통계를 한눈에. 지방재정365 공식 데이터 기준.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="budget">
+<div id="site-header"></div>
+
+<section>
+  <div class="wrap">
+    <span class="section-tag">예산 현황 · 2026 본예산</span>
+    <h2 class="section-title">광주 북구, 우리 동네 예산은 어디에 쓰일까?</h2>
+    <p class="section-desc">2026년도 광주 북구 본예산은 <b>1조 651억 원</b>으로 확정됐습니다. 광주 5개 자치구 중 유일하게 <b>7년 연속 1조 원</b> 시대를 이어갑니다.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px">
+      <span class="section-tag" style="background:#eaf7ee;color:#1f9d55">출처 · 지방재정365 / 광주 북구 (2026 본예산 확정)</span>
+      <span id="liveBadge" class="section-tag" style="display:none;background:#fff2e8;color:#e8590c">● 실시간 연동</span>
+    </div>
+
+    <div class="kpi mt-l">
+      <div class="kpi-card"><div class="lab">2026년 총예산</div><div class="val" id="k-total">—</div><div class="sub">7년 연속 1조 원 유지</div></div>
+      <div class="kpi-card"><div class="lab">일반회계</div><div class="val" id="k-gen">—</div><div class="sub" id="k-gen-sub">—</div></div>
+      <div class="kpi-card"><div class="lab">특별회계</div><div class="val" id="k-spc">—</div><div class="sub">목적별 사업 운용</div></div>
+      <div class="kpi-card"><div class="lab">전년 대비</div><div class="val" id="k-inc">—</div><div class="sub">2025년 1조 416억 → 2026년</div></div>
+    </div>
+
+    <div class="grid g-2 mt-l">
+      <div class="chart-card">
+        <h3>회계별 예산 구성</h3>
+        <p class="hint">일반회계 vs 특별회계 (단위: 억원)</p>
+        <div class="chart-box"><canvas id="chAccount"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>연도별 총예산 추이</h3>
+        <p class="hint">2025년 → 2026년 본예산 (단위: 억원)</p>
+        <div class="chart-box"><canvas id="chYear"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid g-2 mt-m">
+      <div class="chart-card">
+        <h3>사회복지 분야 주요 편성</h3>
+        <p class="hint">예산 비중이 가장 큰 분야 (단위: 억원)</p>
+        <div class="chart-box"><canvas id="chWelfare"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>주민참여예산 주요 사업</h3>
+        <p class="hint">총 53개 사업 · 17.4억 원 (단위: 억원)</p>
+        <div class="chart-box"><canvas id="chPart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="notice mt-m">
+      <span>ℹ️</span>
+      <div><b>데이터 안내 ·</b> 위 수치는 광주 북구가 발표한 <b>2026년도 본예산 편성</b> 기준입니다(구의회 의결, 2025.12.18.). 실제 집행 결과와 실시간 재정 현황은 아래 공식 시스템에서 확인하실 수 있습니다.</div>
+    </div>
+    <div class="source-links" id="sources"></div>
+  </div>
+</section>
+
+<!-- 북구 인구·지역 현황 -->
+<section class="bg-white">
+  <div class="wrap">
+    <span class="section-tag">북구 지역 현황 · 인구통계</span>
+    <h2 class="section-title">예산을 이해하려면, 우리 동네 규모부터</h2>
+    <p class="section-desc">광주 북구는 광주에서 손꼽히는 큰 살림 규모를 가진 자치구입니다. 인구 대비 예산을 함께 보면 재정의 무게가 더 잘 보입니다.</p>
+
+    <div class="kpi mt-l">
+      <div class="kpi-card"><div class="lab">북구 인구</div><div class="val" id="d-pop">—</div><div class="sub" id="d-asof">—</div></div>
+      <div class="kpi-card"><div class="lab">세대 수</div><div class="val" id="d-house">—</div><div class="sub" id="d-perhouse">—</div></div>
+      <div class="kpi-card"><div class="lab">행정동 / 법정동</div><div class="val" id="d-dong">—</div><div class="sub">생활권 27개 행정동</div></div>
+      <div class="kpi-card" style="background:linear-gradient(160deg,#fff,#fff6e0);border-color:#ffe2a8">
+        <div class="lab">주민 1인당 예산</div><div class="val" id="d-percap">—</div><div class="sub">2026 총예산 ÷ 인구</div></div>
+    </div>
+
+    <div class="card mt-m" style="border-left:5px solid var(--dp-blue)">
+      <h3 style="font-size:18px;color:var(--dp-navy)">나선거구(박정하 출마 지역) 구성</h3>
+      <div class="chip-row mt-s" id="d-district"></div>
+    </div>
+
+    <div class="notice mt-m"><span>📌</span><div><b>인구 수치 안내 ·</b> 인구·세대 수는 행정안전부 주민등록인구통계 기준 약식 값(2025년)입니다. 최신 월별 정확 수치는 아래 출처에서 확인하실 수 있으며, 확인되는 대로 업데이트합니다.</div></div>
+    <div class="source-links" id="d-sources"></div>
+  </div>
+</section>
+
+<!-- 박정하의 약속 -->
+<section>
+  <div class="wrap">
+    <span class="section-tag">박정하의 예산 약속</span>
+    <h2 class="section-title">한 푼도 허투루 쓰이지 않도록</h2>
+    <div class="grid g-3 mt-m">
+      <div class="card"><div class="ico">🔎</div><h3>꼼꼼한 감시</h3><p>주요 사업의 편성과 집행을 분기별로 점검하고, 불요불급한 경상경비 절감을 챙기겠습니다.</p></div>
+      <div class="card"><div class="ico">🗣️</div><h3>주민 참여 확대</h3><p>주민참여예산(현재 53개·17.4억)을 더 키워 동네가 직접 정한 사업에 예산이 가도록 하겠습니다.</p></div>
+      <div class="card"><div class="ico">📂</div><h3>알기 쉬운 공개</h3><p>어려운 예산서를 주민이 이해하기 쉽게 풀어, 이 페이지에서 꾸준히 공개하겠습니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="assets/data.js"></script>
+<script src="assets/budget-api.js"></script>
+<script src="assets/app.js"></script>
+<script>
+(function(){
+  const $ = id=>document.getElementById(id);
+  const BLUE="#152484", BLUE2="#2b7bff", GOLD="#f5b800", SKY="#bcd2ff";
+  Chart.defaults.font.family = "Pretendard, sans-serif";
+  Chart.defaults.color = "#5b6478";
+  const eok = v=>v.toLocaleString()+"억";
+  const charts = {};
+  function mk(id,cfg){ if(charts[id]) charts[id].destroy(); charts[id]=new Chart($(id),cfg); }
+
+  function renderKPIs(){
+    $("k-total").textContent = fmtEok(BUDGET.total);
+    $("k-gen").textContent   = fmtEok(BUDGET.general);
+    $("k-spc").textContent   = fmtEok(BUDGET.special);
+    $("k-inc").textContent   = "+" + fmtEok(BUDGET.increase);
+    $("k-gen-sub").textContent = "전체의 " + (BUDGET.general/BUDGET.total*100).toFixed(1) + "%";
+    if(BUDGET._live) $("liveBadge").style.display="inline-flex";
+  }
+
+  function renderDemo(){
+    $("d-pop").textContent   = "약 " + Math.round(DEMO.population/10000) + "만 명";
+    $("d-asof").textContent  = DEMO.asOf;
+    $("d-house").textContent = "약 " + Math.round(DEMO.households/10000) + "만 세대";
+    $("d-perhouse").textContent = "세대당 약 " + (DEMO.population/DEMO.households).toFixed(2) + "명";
+    $("d-dong").textContent  = DEMO.admDong + " / " + DEMO.legalDong;
+    const perCap = Math.round(BUDGET.total*1e8/DEMO.population/10000); // 만원
+    $("d-percap").textContent = "약 " + perCap.toLocaleString() + "만 원";
+    $("d-district").innerHTML = DEMO.districtDongs.map(d=>`<span class="chip active">${d}</span>`).join("");
+    $("d-sources").innerHTML = DEMO.sources.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">🔗 ${t}</a>`).join("");
+  }
+
+  function renderCharts(){
+    mk("chAccount",{type:"doughnut",
+      data:{labels:["일반회계","특별회계"],datasets:[{data:[BUDGET.general,BUDGET.special],backgroundColor:[BLUE,GOLD],borderWidth:0}]},
+      options:{maintainAspectRatio:false,cutout:"62%",plugins:{legend:{position:"bottom"},
+        tooltip:{callbacks:{label:c=>` ${c.label}: ${fmtEok(c.parsed)}`}}}}});
+
+    mk("chYear",{type:"bar",
+      data:{labels:["2025년","2026년"],datasets:[{data:[BUDGET.prevTotal,BUDGET.total],backgroundColor:[SKY,BLUE],borderRadius:8,maxBarThickness:90}]},
+      options:{maintainAspectRatio:false,plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:c=>` ${fmtEok(c.parsed.y)}`}}},
+        scales:{y:{ticks:{callback:v=>(v/10000)+"조"}}}}});
+
+    const w=BUDGET.categories.welfare.items;
+    mk("chWelfare",{type:"bar",
+      data:{labels:w.map(i=>i[0]),datasets:[{data:w.map(i=>i[1]),backgroundColor:BLUE2,borderRadius:6}]},
+      options:{indexAxis:"y",maintainAspectRatio:false,plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:c=>` ${eok(c.parsed.x)}`}}},scales:{x:{ticks:{callback:eok}}}}});
+
+    const p=BUDGET.participate.items;
+    mk("chPart",{type:"bar",
+      data:{labels:p.map(i=>i[0]),datasets:[{data:p.map(i=>i[1]),backgroundColor:GOLD,borderRadius:6}]},
+      options:{indexAxis:"y",maintainAspectRatio:false,plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:c=>` ${eok(c.parsed.x)}`}}},scales:{x:{ticks:{callback:eok}}}}});
+  }
+
+  $("sources").innerHTML = BUDGET.sources.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">🔗 ${t}</a>`).join("");
+  renderKPIs(); renderDemo(); renderCharts();
+
+  // 지방재정365 실시간 연동(설정 시) — 성공하면 KPI·차트 재생성
+  if (window.LofinAPI) {
+    LofinAPI.refresh().then(ok=>{ if(ok){ renderKPIs(); renderDemo(); renderCharts(); } });
+  }
+})();
+</script>
+</body>
+</html>

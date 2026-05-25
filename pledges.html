@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>공약 | 박정하 · 광주 북구의회의원 후보(나선거구)</title>
+<meta name="description" content="문흥1·2동, 오치1·2동, 우산동 맞춤 공약. 보행·주차·여가·주거·시장·복지까지, 박정하가 동네마다 다른 약속을 실천합니다.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="pledges">
+<div id="site-header"></div>
+
+<section>
+  <div class="wrap center">
+    <span class="section-tag">동별 맞춤 의리(義理)</span>
+    <h2 class="section-title">동네마다 다른 약속, 박정하가 실천합니다</h2>
+    <p class="section-desc">문흥·오치·우산동 주민의 생활을 꼼꼼히 들여다본 현장 맞춤 공약입니다. 동을 선택해 확인하세요.</p>
+  </div>
+  <div class="wrap">
+    <div class="pledge-tabs" id="tabs"></div>
+    <div id="panels"></div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="cta-banner">
+      <h2>더 필요한 공약이 있으신가요?</h2>
+      <p>우리 동네에 꼭 필요한 정책을 박정하에게 직접 제안해 주세요. 메일로 바로 전달됩니다.</p>
+      <a href="propose.html" class="btn btn-gold btn-lg" style="margin-top:6px">민원·정책 제안하기</a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+(function(){
+  const anchors = ["문흥","오치","우산"];
+  const tabs = document.getElementById("tabs");
+  const panels = document.getElementById("panels");
+
+  tabs.innerHTML = PLEDGES.map((p,i)=>`<button data-i="${i}">${p.dong}</button>`).join("");
+  panels.innerHTML = PLEDGES.map((p,i)=>`
+    <div class="pledge-panel" id="${anchors[i]}" data-i="${i}">
+      <div class="pledge-head">
+        <span class="dong">${p.dong} 맞춤 공약</span>
+        <h3>${p.head}</h3>
+      </div>
+      ${p.groups.map(g=>`
+        <div class="pledge-item">
+          <h4><span class="badge">${g.tag}</span>${g.title}</h4>
+          <ul>${g.items.map(it=>`<li>${it}</li>`).join("")}</ul>
+        </div>`).join("")}
+    </div>`).join("");
+
+  const tabBtns = [...tabs.querySelectorAll("button")];
+  const panelEls = [...panels.querySelectorAll(".pledge-panel")];
+  function show(i){
+    tabBtns.forEach((b,k)=>b.classList.toggle("active",k===i));
+    panelEls.forEach((p,k)=>p.classList.toggle("active",k===i));
+  }
+  tabBtns.forEach((b)=>b.addEventListener("click",()=>{
+    const i=+b.dataset.i; show(i);
+    history.replaceState(null,"","#"+anchors[i]);
+  }));
+  const h=decodeURIComponent(location.hash.replace("#",""));
+  const start=Math.max(0,anchors.indexOf(h));
+  show(start);
+})();
+</script>
+</body>
+</html>

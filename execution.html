@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>집행 내역 | 광주 북구 주요 사업별 예산 — 박정하</title>
+<meta name="description" content="광주 북구 2026 주요 사업별 예산 편성·집행 내역. 사회복지, 안전·생활환경, 골목상권, 중소기업 등 분야별 핵심 사업을 투명하게 공개합니다.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="execution">
+<div id="site-header"></div>
+
+<section>
+  <div class="wrap">
+    <span class="section-tag">집행 내역 · 주요 사업</span>
+    <h2 class="section-title">내 세금이 제대로 쓰이고 있나?</h2>
+    <p class="section-desc">2026년도 광주 북구 주요 사업별 예산을 분야별로 정리했습니다. 생활과 가까운 사업부터 꼼꼼히 살펴보세요.</p>
+
+    <div class="notice mt-m">
+      <span>ℹ️</span>
+      <div><b>안내 ·</b> 아래 금액은 <b>2026년도 본예산 편성액</b> 기준입니다. 사업별 <b>실제 집행률·집행잔액</b> 등 실시간 결산·집행 데이터는 매년 정기 공시(예산 2월·결산 8월)되며, 하단 <b>지방재정365·북구청 재정공시</b>에서 직접 확인하실 수 있습니다.</div>
+    </div>
+
+    <div id="cats" class="mt-l"></div>
+
+    <div class="source-links" id="sources"></div>
+  </div>
+</section>
+
+<section class="bg-white">
+  <div class="wrap center">
+    <span class="section-tag">투명한 집행 감시</span>
+    <h2 class="section-title">의심나면 바로 확인, 박정하가 함께합니다</h2>
+    <p class="section-desc">집행 내역 중 궁금한 사업이 있으면 박정하에게 직접 물어보세요. 확인하고 답변드리겠습니다.</p>
+    <a href="propose.html" class="btn btn-primary btn-lg mt-m">예산·집행 질의하기</a>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+(function(){
+  const order=["welfare","safety","market","sme"];
+  const icons={welfare:"💗",safety:"🛡️",market:"🏪",sme:"🏭"};
+  const html = order.map(key=>{
+    const c=BUDGET.categories[key];
+    const sum=c.items.reduce((a,b)=>a+b[1],0);
+    return `
+      <div style="margin-bottom:30px">
+        <div class="lead-row" style="margin-bottom:12px">
+          <h3 style="font-size:21px;font-weight:800;color:var(--dp-navy)">${icons[key]} ${c.title}</h3>
+          <span style="font-weight:800;color:var(--dp-blue)">소계 ${fmtEok(sum)}</span>
+        </div>
+        <p style="color:var(--muted);margin-bottom:12px;font-size:15px">${c.note}</p>
+        <div class="scroll-x">
+          <table class="budget">
+            <thead><tr><th>사업명</th><th style="text-align:right;width:160px">편성액</th></tr></thead>
+            <tbody>
+              ${c.items.map(i=>`<tr><td>${i[0]}</td><td class="amt">${fmtEok(i[1])}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>`;
+  }).join("");
+  document.getElementById("cats").innerHTML = html;
+  document.getElementById("sources").innerHTML = BUDGET.sources.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">🔗 ${t}</a>`).join("");
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>후보 소개 | 박정하 · 광주 북구의회의원 후보(나선거구)</title>
+<meta name="description" content="어머니의 따뜻함과 소상공인의 절실함을 아는 준비된 정치인, 더불어민주당 기호 1-가 박정하. 인사말과 약력을 소개합니다.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="profile">
+<div id="site-header"></div>
+
+<!-- 인사말 -->
+<section>
+  <div class="wrap center">
+    <span class="section-tag">후보 소개</span>
+    <h2 class="section-title">어머니의 따뜻함과 소상공인의 절실함을 아는 준비된 정치인</h2>
+  </div>
+  <div class="wrap greeting mt-l">
+    <img class="photo" src="assets/img/portrait_main.png" alt="박정하 후보">
+    <div>
+      <div class="big">사랑하는 문흥·오치·우산동 주민 여러분,<br>우리 북구를 더 안전하고 살기 좋게 가꾸도록 <em>손을 잡아주십시오!</em></div>
+      <blockquote>
+        벼락치기가 아닌, 철저히 준비된 선택입니다. 저 박정하는 두 남매의 어머니이자 막내딸로 북구와 호흡해 왔습니다.
+        음악 학원장으로서 돌봄 교육을 실천했고, 코로나 시기엔 매장을 운영하며 소상공인의 눈물을 뼈저리게 겪었습니다.<br><br>
+        삶의 현장에서 부딪힌 이 생생한 경험들을 이제 구의회 제도로 연결하겠습니다. 말만 앞세우는 정치가 아니라,
+        현장에서 답을 찾는 든든한 구의원이 되겠습니다. 땀 흘려 일하는 생활인의 열정으로 북구의 살림을 알뜰하게 가꾸겠습니다.
+      </blockquote>
+      <div class="sign">2026. 5. &nbsp; 기호 1-가 박정하 올림</div>
+    </div>
+  </div>
+</section>
+
+<!-- 인적사항 -->
+<section class="bg-white">
+  <div class="wrap">
+    <span class="section-tag">인적사항</span>
+    <h2 class="section-title">후보자 정보</h2>
+    <div class="scroll-x mt-m">
+      <table class="budget">
+        <tbody>
+          <tr><td class="cat" style="width:160px">기호 / 정당</td><td>기호 1-가 · 더불어민주당</td></tr>
+          <tr><td class="cat">성명</td><td>박정하 (朴政河)</td></tr>
+          <tr><td class="cat">생년월일</td><td>1974. 01. 19. (52세)</td></tr>
+          <tr><td class="cat">선거구</td><td>광주광역시 북구의회의원선거 · 북구 나선거구 (문흥1·2동, 오치1·2동, 우산동)</td></tr>
+          <tr><td class="cat">학력</td><td>광주대학교 일반대학원 방재안전학과 석사과정 재학 · 미국 미드웨스트 음악전공 졸업</td></tr>
+          <tr><td class="cat">주요 경력</td><td>현) 더불어민주당 광주시당 북구갑 민생미래희망위원장 · 현) 더불어민주당 중앙당 전략기획위원회 부위원장</td></tr>
+          <tr><td class="cat">선거사무소</td><td>광주광역시 북구 서하로 335, 2층</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 약력 -->
+<section>
+  <div class="wrap">
+    <span class="section-tag">박정하가 걸어온 길</span>
+    <h2 class="section-title">현장에서 쌓아온 신뢰</h2>
+    <div class="bio-grid mt-l" id="bio"></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="cta-banner">
+      <h2>북구의원은 <span class="hl">박정하</span>로 정하!자!</h2>
+      <p>박정하의 공약과 예산 감시 활동을 확인해 보세요.</p>
+      <div class="hero-cta" style="justify-content:center">
+        <a href="pledges.html" class="btn btn-gold btn-lg">공약 보기</a>
+        <a href="budget.html" class="btn btn-ghost btn-lg" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.4);color:#fff">예산 현황 보기</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+(function(){
+  const cols = [
+    ["정치 활동", BIO.politics],
+    ["사회·예술", BIO.society],
+    ["봉사 활동", BIO.service],
+    ["주요 수상", BIO.awards]
+  ];
+  document.getElementById("bio").innerHTML = cols.map(([title,items])=>`
+    <div class="card bio-card">
+      <h3><span class="dot"></span>${title}</h3>
+      <ul>${items.map(i=>`<li>${i}</li>`).join("")}</ul>
+    </div>`).join("");
+})();
+</script>
+</body>
+</html>

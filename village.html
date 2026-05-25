@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>우리동네 구석구석 | 동별 예산·약속 — 박정하 (광주 북구 나선거구)</title>
+<meta name="description" content="문흥1·2동, 오치1·2동, 우산동 — 우리 동 관련 북구 예산 사업과 박정하의 동네 약속을 한곳에서. 동별 세부 예산·집행은 공식 시스템으로 바로 확인.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="village">
+<div id="site-header"></div>
+
+<section>
+  <div class="wrap center">
+    <span class="section-tag">우리동네 구석구석</span>
+    <h2 class="section-title">내 동네 예산과 약속, 동(洞)까지 확인하세요</h2>
+    <p class="section-desc">우리 동과 관련된 북구 예산 사업과 박정하의 동네 약속을 한곳에 모았습니다. 동별 세부 예산·집행은 공식 재정공시로 바로 연결됩니다.</p>
+  </div>
+  <div class="wrap">
+    <div class="pledge-tabs" id="tabs"></div>
+    <div id="panels"></div>
+  </div>
+</section>
+
+<!-- 구 전체 주민참여예산 -->
+<section class="bg-white" style="padding-top:0">
+  <div class="wrap">
+    <div class="card" style="border-left:5px solid var(--gold-deep)">
+      <h3 style="font-size:19px;color:var(--dp-navy)">🗳️ 우리 동네가 직접 정하는 예산 — 주민참여예산</h3>
+      <p style="color:var(--muted);margin-top:8px">광주 북구는 2026년 주민참여예산으로 <b>총 53개 사업 · 17.4억 원</b>을 편성했습니다(공원·녹지 관리 5.3억, 도로 보수 4.55억, 교통시설 2.01억 등). 우리 동네에 꼭 필요한 사업을 주민이 직접 제안할 수 있습니다.</p>
+      <a href="propose.html" class="btn btn-primary mt-s">우리동네 사업 제안하기 →</a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+(function(){
+  const anchors=["문흥","오치","우산"];
+  const tabs=document.getElementById("tabs");
+  const panels=document.getElementById("panels");
+  const vsub='style="font-size:19px;font-weight:800;color:var(--dp-navy);margin:28px 0 12px"';
+
+  tabs.innerHTML = VILLAGE.map((v,i)=>`<button data-i="${i}">${v.emoji} ${v.name}</button>`).join("");
+
+  panels.innerHTML = VILLAGE.map((v,i)=>{
+    const p=PLEDGES[i];
+    const budgetHTML = v.budget.length
+      ? `<div class="scroll-x"><table class="budget"><thead><tr><th>사업명</th><th style="text-align:right;width:130px">편성액</th><th style="width:130px">분야</th></tr></thead><tbody>${v.budget.map(b=>`<tr><td>${b[0]}</td><td class="amt">${fmtEok(b[1])}</td><td>${b[2]}</td></tr>`).join("")}</tbody></table></div>`
+      : `<div class="notice"><span>📌</span><div>2026 본예산에서 <b>${v.name}</b>으로 직접 표기된 개별 사업은 별도 고시되지 않았습니다. 구 전체 사업·주민참여예산으로 추진되며, 동별 세부 집행은 아래 공식 시스템에서 확인하실 수 있습니다.</div></div>`;
+    return `<div class="pledge-panel" id="${anchors[i]}" data-i="${i}">
+      <div class="pledge-head">
+        <span class="dong">${v.emoji} ${v.name} 우리동네</span>
+        <h3>${v.tagline}</h3>
+      </div>
+      <h3 ${vsub}>💰 우리 동 관련 북구 예산 사업 (2026 본예산)</h3>
+      ${budgetHTML}
+      <h3 ${vsub}>📌 박정하의 동네 약속</h3>
+      ${p.groups.map(g=>`<div class="pledge-item"><h4><span class="badge">${g.tag}</span>${g.title}</h4><ul>${g.items.map(it=>`<li>${it}</li>`).join("")}</ul></div>`).join("")}
+      <div class="notice mt-m"><span>ℹ️</span><div>${v.note}</div></div>
+      <h3 ${vsub}>🔎 동별 예산·집행 자세히 보기</h3>
+      <div class="source-links">${BUDGET.sources.slice(0,2).map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">🔗 ${t}</a>`).join("")}</div>
+    </div>`;
+  }).join("");
+
+  const tabBtns=[...tabs.querySelectorAll("button")];
+  const panelEls=[...panels.querySelectorAll(".pledge-panel")];
+  function show(i){
+    tabBtns.forEach((b,k)=>b.classList.toggle("active",k===i));
+    panelEls.forEach((p,k)=>p.classList.toggle("active",k===i));
+  }
+  tabBtns.forEach(b=>b.addEventListener("click",()=>{const i=+b.dataset.i;show(i);history.replaceState(null,"","#"+anchors[i]);}));
+  const h=decodeURIComponent(location.hash.replace("#",""));
+  show(Math.max(0,anchors.indexOf(h)));
+})();
+</script>
+</body>
+</html>

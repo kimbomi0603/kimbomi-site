@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>활동·공보물 | 박정하 · 광주 북구의회의원 후보(나선거구)</title>
+<meta name="description" content="박정하 후보의 현장 활동 사진과 책자형 선거공보물·선거벽보를 바로 열어볼 수 있습니다.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="gallery">
+<div id="site-header"></div>
+
+<!-- 공보물 보기 -->
+<section>
+  <div class="wrap">
+    <span class="section-tag">선거공보물</span>
+    <h2 class="section-title">박정하 책자형 선거공보, 바로 보기</h2>
+    <p class="section-desc">인사말부터 동별 맞춤 공약, 걸어온 길까지 — 공보물 전체를 아래에서 바로 확인하세요.</p>
+    <div class="lead-row mt-m" style="gap:10px">
+      <div class="chip-row">
+        <span style="font-weight:700;color:var(--dp-navy)">📘 박정하 책자형 선거공보 (전 8면)</span>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn btn-primary" href="assets/files/박정하_선거공보물.pdf" target="_blank" rel="noopener">새 창에서 열기</a>
+        <a class="btn btn-ghost" href="assets/files/박정하_선거벽보.pdf" target="_blank" rel="noopener">선거벽보 보기</a>
+      </div>
+    </div>
+    <iframe class="pdf-frame mt-m" src="assets/files/박정하_선거공보물.pdf#view=FitH" title="박정하 선거공보물"></iframe>
+    <p class="section-desc" style="font-size:14px;margin-top:10px">※ PDF가 보이지 않으면 위의 <b>새 창에서 열기</b>를 눌러주세요.</p>
+  </div>
+</section>
+
+<!-- 공보물 면별 이미지 -->
+<section class="bg-white">
+  <div class="wrap">
+    <span class="section-tag">공보물 살펴보기</span>
+    <h2 class="section-title">면별로 펼쳐 보기</h2>
+    <p class="section-desc">이미지를 클릭하면 크게 볼 수 있습니다.</p>
+    <div class="gallery mt-m" id="pages"></div>
+  </div>
+</section>
+
+<!-- 현장 속으로 -->
+<section>
+  <div class="wrap">
+    <span class="section-tag">현장 속으로</span>
+    <h2 class="section-title">말보다 행동, 현장에서 증명합니다</h2>
+    <p class="section-desc">현장에서 함께한 박정하의 발걸음입니다. (사진 위에 마우스를 올리면 멈춥니다)</p>
+  </div>
+  <div class="field-carousel mt-m" data-field-carousel></div>
+</section>
+
+<div id="site-footer"></div>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+<script>
+(function(){
+  const pages=[1,2,3,4,5,6,7,8].map(n=>`assets/img/gongbo-${n}.png`);
+  document.getElementById("pages").innerHTML = pages.map((src,i)=>
+    `<a href="${src}" data-lightbox><img src="${src}" alt="선거공보 ${i+1}면" loading="lazy"></a>`).join("");
+})();
+</script>
+</body>
+</html>
