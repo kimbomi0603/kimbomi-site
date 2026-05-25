@@ -16,4 +16,11 @@ Allow: /
 User-agent: Daumoa
 Allow: /
 
+# 마이크로소프트 빙
+User-agent: bingbot
+Allow: /
+User-agent: msnbot
+Allow: /
+
 Sitemap: https://xn--4k0b53xuva.com/sitemap.xml
+Sitemap: https://kimbomi-site.vercel.app/sitemap.xml
