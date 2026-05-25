@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>대한민국 재정 365 · 우리 동네 예산, 누구나 의원처럼</title>
-<meta name="description" content="전국 시·도 17곳, 시·군·구 226곳의 세입·세출·집행률·금고 이자율을 한 화면에서 확인하고 시정을 요구하는 시민 재정 감시 플랫폼. 운영: 김보미">
+<meta name="description" content="전국 시·도 17곳, 시·군·구 226곳의 세입·세출·재정자립도·집행률을 지방재정365 공시 기준으로 확인하고 시정을 요구하는 시민 재정 감시 플랫폼. 운영: 김보미">
 <meta property="og:title" content="대한민국 재정 365 — 우리 동네 예산, 누구나 의원처럼">
-<meta property="og:description" content="전국 243개 지방자치단체 재정을 한 화면에. 순위·등급·재정자립도·집행률·금고이자율을 한눈에 비교하는 시민 재정 감시 플랫폼.">
+<meta property="og:description" content="전국 243개 지방자치단체 재정을 한 화면에. 재정자립도·집행률·예산을 지방재정365 공시 기준으로 비교하는 시민 재정 감시 플랫폼.">
 <meta property="og:type" content="website">
 <!-- 링크 미리보기(카카오톡·페이스북 등) 대문 이미지. ※ 배포 도메인이 바뀌면(예: 김보미.com 연결) 아래 og:url/og:image 도메인을 실제 주소로 바꾼 뒤 캐시를 초기화하세요. -->
 <meta property="og:url" content="https://kimbomi-site.vercel.app/">
@@ -197,6 +197,9 @@ section{padding:26px 0}
 /* ===== demo banner ===== */
 .demo-banner{display:flex;gap:10px;align-items:center;background:linear-gradient(90deg,#fff7ed,#fffbeb);border:1px solid #fde9c8;color:#92651a;border-radius:12px;padding:11px 15px;margin-top:16px;font-size:.85rem;font-weight:600}
 .demo-banner.live{background:linear-gradient(90deg,#ecfdf5,#f0fdfa);border-color:#bbf7d0;color:#147a4b}
+.src-note{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:11px 15px;margin-top:10px;font-size:.78rem;line-height:1.6;color:#475569}
+.src-note b{color:#1e293b}
+.src-note a{color:#1d6fe0;font-weight:700}
 
 /* ===== controls ===== */
 .controls{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px 18px}
@@ -297,9 +300,13 @@ tbody tr.me{background:#fff7e6}
 /* 비교 테이블 */
 #cmpTable td{text-align:center}
 #cmpTable td:first-child{text-align:left}
-.cmp-win{background:#ecfdf5!important;box-shadow:inset 3px 0 0 #16a34a}
-.cmp-rank{font-size:.68rem;color:#94a3b8;font-weight:700;margin-top:2px}
-#cmpTable th:nth-child(2),#cmpTable th:nth-child(3){color:var(--blue)}
+#cmpTable td:nth-child(2),#cmpTable th:nth-child(2){background:#e9f2fd}
+#cmpTable td:nth-child(3),#cmpTable th:nth-child(3){background:#fcedf2}
+#cmpTable th:nth-child(2){color:#185fa5}
+#cmpTable th:nth-child(3){color:#a3355a}
+.cmp-win{font-weight:900;box-shadow:inset 0 0 0 2px rgba(22,163,74,.55)}
+.cmp-win b{color:#15803d}
+.cmp-rank{font-size:.68rem;color:#7c8aa0;font-weight:700;margin-top:2px}
 
 /* ===== glossary / education ===== */
 .show-more{display:flex;justify-content:center;margin-top:14px}
@@ -545,7 +552,13 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
   <!-- 실시간 서버 연동 상태바 (상시 자동 연동) -->
   <div class="demo-banner" id="demoBanner">
     <span style="font-size:18px">🔄</span>
-    <span><b>실시간 서버 연결 준비 중…</b> 라이브 재정 서버에 자동으로 연결합니다.</span>
+    <span><b>실시간 서버 연결 준비 중…</b> 라이브 재정 서버에 자동으로 연결합니다. 연결 전까지 개별 지자체 수치는 <b>참고용 추정(시연)값</b>으로, 공식 결산값이 아닙니다.</span>
+  </div>
+  <div class="src-note" id="srcNote">
+    <b>📌 데이터 출처 안내</b> · 전국 합계(총예산·재정자립도)는 <b>지방재정365(lofin365.go.kr) 공시</b> 기준입니다.
+    개별 지자체의 세부 수치는 <b>실데이터 연동(서버 인증키 설정) 시 공식 공시값으로 자동 대체</b>되며, 연동 전에는 공시 통계 기반 <b>참고용 추정(시연)값</b>입니다.
+    공식 결산값은 <a href="https://lofin365.go.kr" target="_blank" rel="noopener">지방재정365</a>·<a href="https://lofin.mois.go.kr" target="_blank" rel="noopener">지방재정통합공시</a>에서 확인하세요.
+    개별 지자체의 <b>금고 약정이자율·종합청렴도</b> 등은 공식적으로 개별 공개되지 않아, 검증된 공식 수치만 표시합니다.
   </div>
 
   <!-- 컨트롤 -->
@@ -613,8 +626,15 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
         <div class="chart-box"><canvas id="chartAccounts"></canvas></div>
       </div>
       <div class="chart-card">
-        <h3>💴 금고(은행) 이자율 비교</h3><div class="cs">행안부 2026.1 첫 공시 · 전국평균 2.52% · 최고 인천 서구 4.82% · 최저 양평군 1.78%</div>
-        <div class="chart-box"><canvas id="chartBank"></canvas></div>
+        <h3>💴 금고(은행) 이자율 — 공개를 요구합니다</h3><div class="cs">개별 지자체 금고 약정이자율은 공식 비공개</div>
+        <div class="chart-box" style="display:flex;align-items:center">
+          <div style="font-size:.86rem;line-height:1.7;color:#475569">
+            지자체는 한 해 수천억 원의 세금을 <b>금고(은행)</b>에 맡깁니다. 그런데 그 <b>약정 이자율은 시민에게 개별 공개되지 않습니다.</b>
+            이자율이 낮을수록 받을 수 있었던 <b>이자 수입</b>이 사라지고, 그만큼 주민 살림에 쓸 돈이 줄어듭니다.
+            <br><br><b>‘대한민국 재정 365’는 금고 약정이자율의 투명한 공개와 복수금고·경쟁입찰 도입을 요구합니다.</b>
+            공식 데이터가 공개되면 이 자리에 실제 수치를 연동해 보여드리겠습니다.
+          </div>
+        </div>
       </div>
       <div class="chart-card span2">
         <h3>🕰️ 최근 5년 예산·채무 추이</h3><div class="cs">살림 규모와 빚이 어떻게 변해왔나</div>
@@ -643,7 +663,6 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
           <option value="perCapitaBudget">정렬: 1인당 예산</option>
           <option value="debtRatio">정렬: 채무비율</option>
           <option value="execRate">정렬: 집행률</option>
-          <option value="bankRate">정렬: 금고 이자율</option>
           <option value="score">정렬: 종합 건강점수</option>
         </select>
         <select id="rankType">
@@ -657,7 +676,7 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
         <table id="rankTable">
           <thead><tr>
             <th>순위</th><th>지역</th><th>등급</th><th>재정자립도</th><th>재정자주도</th>
-            <th>1인당 예산</th><th>채무비율</th><th>집행률</th><th>금고이자율</th><th>종합점수</th>
+            <th>1인당 예산</th><th>채무비율</th><th>집행률</th><th>종합점수</th>
           </tr></thead>
           <tbody id="rankBody"></tbody>
         </table>
@@ -1447,15 +1466,10 @@ function aiAnalyze(R){
   prop.push(["성과중심 예산",`모든 주요사업에 성과지표(KPI)를 부여하고 결산 시 달성률을 공개해, '돈을 썼는가'에서 '효과가 있었는가'로 전환하세요.`]);
   prop.push(["재정 투명 공개",`예산·집행·계약을 시민이 보기 쉬운 대시보드로 상시 공개하고, 주민참여예산 비중을 단계적으로 확대하세요.`]);
 
-  // 금고(은행) 이자율 — '재정주권 365'의 출발점이 된 문제의식
+  // 금고(은행) 이자율 — '대한민국 재정 365'의 출발점이 된 문제의식 (개별 약정이자율은 공식 비공개이므로 특정 수치를 단정하지 않음)
   if(R.key!=='전국'){
-    const brRank=rankOf(R,'bankRate'), total=STATE.model.length, fromBottom=total-brRank+1;
-    if(R.bankRate<2.2) watch.unshift(["high","금고 이자율 전국 평균 이하(하위권)",`금고 이자율 ${R.bankRate}% — 전국 평균(약 2.52%)을 밑돌며 ${brRank}위 수준입니다. 예치 이자율 재협상 여지를 점검할 필요가 있습니다. (운영금고: ${R.bankName})`]);
-    else if(R.bankRate<2.52) watch.push(["mid","금고 이자율 평균 이하",`금고 이자율 ${R.bankRate}%로 전국 평균(약 2.52%) 미만 — 예치 이자수입을 더 확보할 여지가 있습니다.`]);
-    if(R.bankRate<2.52){
-      check.push(["금고 이자율 협상",`금고 약정 이자율이 ${R.bankRate}%(전국 ${brRank}위)입니다. 금고 재지정·약정 시 이자율과 협력사업비(출연금) 조건을 어떻게 협상했으며, 복수금고·경쟁입찰은 검토했습니까?`]);
-      prop.push(["금고 이자율 인상",`금고 재지정 평가표의 '이자율' 배점을 높이고 복수금고·경쟁입찰을 도입하세요. 평균 예치잔액 약 ${won억(R.avgDeposit)} 기준, 이자율을 0.5%p만 올려도 연 약 ${won억(R.avgDeposit*0.5/100)}의 추가 세입이 생깁니다.`]);
-    }
+    check.push(["금고 이자율 공개 요구",`우리 동네 금고(은행) 약정 이자율은 얼마이며, 금고 재지정·약정 시 이자율과 협력사업비(출연금) 조건을 어떻게 협상했습니까? 복수금고·경쟁입찰은 검토했습니까? (개별 약정이자율은 현재 공식 비공개)`]);
+    prop.push(["금고 이자율 공개·인상",`금고 약정 이자율을 시민에게 공개하고, 금고 재지정 평가표의 '이자율' 배점을 높이며 복수금고·경쟁입찰을 도입하세요. 예치 이자율을 0.5%p만 올려도 적지 않은 추가 세입이 생깁니다.`]);
   }
 
   return {watch,check,prop};
@@ -1530,9 +1544,7 @@ function renderKPI(R){
     {l:"채무비율",ic:"📉",v:R.debtRatio+"<span class='unit'> %</span>",sub:R.debtRatio<25?"<span class='up'>위기단계 아님</span>":"<span class='down'>주의/심각 구간</span>",w:clamp(R.debtRatio/45*100,2,100),c:R.debtRatio<15?PAL.green:R.debtRatio<25?PAL.amber:PAL.red,tip:"빚 잔액 ÷ 예산. 25% 주의·40% 심각."},
     {l:"세출 집행률",ic:"📊",v:R.execRate+"<span class='unit'> %</span>",sub:R.execRate>=88?"<span class='up'>정상 집행</span>":"<span class='down'>집행 부진</span>",w:R.execRate,c:R.execRate>=88?PAL.green:R.execRate>=80?PAL.amber:PAL.red,tip:"집행액 ÷ 최종예산. 너무 낮거나 연말 급증은 신호."},
     {l:"수의계약 비중",ic:"📝",v:R.suuiRatio+"<span class='unit'> %</span>",sub:R.suuiRatio<30?"<span class='up'>경쟁계약 중심</span>":"<span class='down'>경쟁성 점검 필요</span>",w:R.suuiRatio,c:R.suuiRatio<30?PAL.green:R.suuiRatio<45?PAL.amber:PAL.red,tip:"경쟁 없이 맺는 계약 비율. 높을수록 감시 필요."},
-    {l:"종합청렴도",ic:"🛡️",v:R.integrity+"<span class='unit'> 등급</span>",sub:`국민권익위 평가 · ${['','최우수','우수','보통','미흡','매우 미흡'][R.integrity]||'—'} <span class="muted">(1등급=최우수)</span>`,w:clamp((6-R.integrity)/5*100,5,100),c:R.integrity<=2?PAL.green:R.integrity===3?PAL.amber:PAL.red,tip:"국민권익위원회 종합청렴도 평가 등급입니다. 1등급(최우수)에 가까울수록 청렴·투명한 행정입니다."},
-    {l:"축제·행사성 경비",ic:"🎪",v:R.festivalRatio+"<span class='unit'> %</span>",sub:`${won억(R.festivalCost)} · 예산의 ${R.festivalRatio}%`,w:clamp(R.festivalRatio/5*100,4,100),c:R.festivalRatio<1.5?PAL.green:R.festivalRatio<3?PAL.amber:PAL.red,note:"💡 축제·행사성 경비 비중이 높으면 행안부 평가에서 감점돼 국비·도비(교부세·보조금) 확보가 불리해집니다. 그만큼 생활밀착 사업에 쓸 재원이 줄어듭니다.",tip:"한 해 예산 중 축제·행사에 쓰는 경비 비중입니다. 과도하면 교부세 산정·국고보조 평가에서 불이익을 받을 수 있습니다."},
-    {l:"지자체 금고 이자율",ic:"💴",v:R.bankRate+"<span class='unit'> %</span>",sub:`운영금고 ${R.bankName} · 전국 ${rankOf(R,'bankRate')}위 · 추정이자 ${won억(R.interestIncome)}`,w:clamp(R.bankRate/3.95*100,5,100),c:R.bankRate>=2.8?PAL.green:R.bankRate>=2.3?PAL.amber:PAL.red,note:"💡 이자율이 낮을수록 지자체가 벌 수 있는 ‘이자 수입’이 줄어, 그만큼 주민 살림에 쓸 돈이 사라집니다.",tip:"지자체가 세금을 맡긴 금고(은행)의 약정 이자율입니다. 낮을수록 받을 수 있었던 이자 수입이 사라지는 '새는 돈'이 됩니다."},
+    {l:"지자체 금고 이자율",ic:"💴",v:"<span style='font-size:1.05rem;color:#475569'>공식 비공개</span>",sub:`개별 약정이자율은 공개 의무가 없어 비공개`,w:0,c:PAL.blue,note:"💡 지자체가 세금을 맡긴 금고(은행)의 약정 이자율은 시민에게 개별 공개되지 않습니다. 이자율이 낮을수록 받을 수 있었던 이자 수입이 사라집니다 — ‘대한민국 재정 365’는 이 정보의 공개를 요구합니다.",tip:"개별 지자체의 금고 약정이자율은 현재 공식적으로 공개되지 않습니다. 공식 데이터가 공개되면 연동해 표시합니다."},
     {l:"종합 건강점수",ic:"🩺",v:R.score+"<span class='unit'> 점</span>",sub:`${R.grade}등급 · 전국 ${rankOf(R,'score')}위`,w:R.score,c:gradeStyle(R.grade)[0].includes('e11d48')?PAL.red:gradeStyle(R.grade)[0].includes('f59e0b')||gradeStyle(R.grade)[0].includes('fb923c')?PAL.amber:PAL.green,tip:"6대 지표를 가중평균한 자체 종합 점수."}
   ];
   document.getElementById('kpiGrid').innerHTML=cards.map(c=>`
@@ -1560,7 +1572,7 @@ const moneyTip = (ctx)=> ` ${ctx.label||ctx.dataset.label}: ${won억(ctx.parsed.
 
 function renderCharts(R){
   const _sr=document.getElementById('srData');
-  if(_sr) _sr.textContent=`${R.display} 재정 데이터 요약. 세입 구성 ${Object.entries(R.revenue).map(([k,v])=>k+' '+won억(v)).join(', ')}. 분야별 세출 상위 ${R.sectors.slice(0,5).map(s=>s.name+' '+s.pct+'%').join(', ')}. 세출 집행률 ${R.execRate}%. 수의계약 ${R.suuiRatio}%, 경쟁입찰 ${(100-R.suuiRatio).toFixed(1)}%. 금고 이자율 ${R.bankRate}%. 재정자립도 ${R.selfReliance}%, 재정자주도 ${R.autonomy}%, 채무비율 ${R.debtRatio}%.`;
+  if(_sr) _sr.textContent=`${R.display} 재정 데이터 요약. 세입 구성 ${Object.entries(R.revenue).map(([k,v])=>k+' '+won억(v)).join(', ')}. 분야별 세출 상위 ${R.sectors.slice(0,5).map(s=>s.name+' '+s.pct+'%').join(', ')}. 세출 집행률 ${R.execRate}%. 수의계약 ${R.suuiRatio}%, 경쟁입찰 ${(100-R.suuiRatio).toFixed(1)}%. 재정자립도 ${R.selfReliance}%, 재정자주도 ${R.autonomy}%, 채무비율 ${R.debtRatio}%.`;
   // 세입 구성
   const rev=R.revenue; const rk=Object.keys(rev); const rv=rk.map(k=>rev[k]);
   mkChart('chartRevenue',{type:'doughnut',data:{labels:rk,datasets:[{data:rv,
@@ -1597,14 +1609,7 @@ function renderCharts(R){
     options:{plugins:{legend:{position:'bottom',labels:{boxWidth:12}},
       tooltip:{callbacks:{label:c=>` ${c.label}: ${won억(c.parsed)} (${(c.parsed/R.budget*100).toFixed(1)}%)`}}},
       cutout:'58%',responsive:true,maintainAspectRatio:false}});
-  // 금고 이자율 비교
-  const simBank=similarBankRate(R.type);
-  mkChart('chartBank',{type:'bar',data:{labels:[R.name,'전국평균','유사단체('+R.type+')'],
-    datasets:[{label:'금고 이자율(%)',data:[R.bankRate,STATE.national.bankRate,simBank],
-      backgroundColor:[R.bankRate>=2.8?PAL.green:R.bankRate>=2.3?PAL.amber:PAL.red,PAL.slate,PAL.teal],borderRadius:6}]},
-    options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.parsed.y}%`}},
-      title:{display:true,text:`운영금고: ${R.bankName} · 추정 이자수입 ${won억(R.interestIncome)}`,font:{size:11},color:'#5b6b82'}},
-      scales:{y:{title:{display:true,text:'이자율(%)'},ticks:{callback:v=>v+'%'}}},responsive:true,maintainAspectRatio:false}});
+  // 금고 이자율 — 개별 약정이자율은 공식 비공개이므로 수치 차트 대신 안내/요구 메시지 표시
   // 5년 추이 (예산 bar + 채무 line)
   mkChart('chartTrend',{data:{labels:R.trend.map(t=>t.year+'년'),
     datasets:[
@@ -1682,7 +1687,6 @@ function rankRender(){
       <td class="mono">${fmt(r.perCapitaBudget)}만</td>
       <td class="mono">${r.debtRatio}%</td>
       <td class="mono">${r.execRate}%</td>
-      <td class="mono" style="color:${r.bankRate>=2.8?'#16a34a':r.bankRate>=2.3?'#b45309':'#e11d48'};font-weight:700">${r.bankRate}%</td>
       <td class="mono"><b>${r.score}</b></td>
     </tr>`).join('');
   document.querySelectorAll('#rankBody tr').forEach(tr=>tr.addEventListener('click',()=>openDetail(tr.dataset.key)));
@@ -1708,10 +1712,7 @@ const COMPARE_METRICS=[
   {k:'perCapitaBudget',l:'주민 1인당 예산',u:'만원',better:'neutral',fmt:v=>fmt(v),ic:'🧍'},
   {k:'debtRatio',l:'채무비율',u:'%',better:'low',ic:'📉'},
   {k:'execRate',l:'세출 집행률',u:'%',better:'high',ic:'📊'},
-  {k:'bankRate',l:'금고 이자율',u:'%',better:'high',ic:'💴'},
   {k:'suuiRatio',l:'수의계약 비중',u:'%',better:'low',ic:'📝'},
-  {k:'integrity',l:'종합청렴도(등급)',u:'등급',better:'low',ic:'🛡️'},
-  {k:'festivalRatio',l:'축제·행사성 경비',u:'%',better:'low',ic:'🎪'},
   {k:'extIndex',l:'인구소멸지수',u:'',better:'high',ic:'🧬'},
   {k:'score',l:'종합 건강점수',u:'점',better:'high',ic:'🩺'}
 ];
@@ -1775,7 +1776,7 @@ function renderCompare(){
     const w=(m.better==='neutral'||av===bv)?0:(m.better==='low'?(av<bv?-1:1):(av>bv?-1:1));
     const cell=(v,rank,win)=>`<td class="${win?'cmp-win':''}"><b>${f(v)}${m.u}</b>${rank?`<div class="cmp-rank">전국 ${rank}위 · 상위 ${pctTop(rank,total)}%</div>`:''}</td>`;
     const winTxt=m.better==='neutral'?'<span class="muted">참고</span>':(av===bv?'무승부':(w===-1?A.name:B.name));
-    return `<tr style="background:${i%2?'#f6f9fd':'#fff'}"><td style="font-weight:800;color:var(--navy2)"><span style="display:inline-block;width:1.4em;margin-right:7px;text-align:center">${m.ic||''}</span>${m.l}</td>${cell(av,aRank,w===-1)}${cell(bv,bRank,w===1)}<td class="muted">${f(nv)}${m.u}</td><td style="font-weight:800;color:${w?'#15803d':'#94a3b8'}">${w?'✓ '+winTxt:winTxt}</td></tr>`;
+    return `<tr><td style="font-weight:800;color:var(--navy2)">${m.l}</td>${cell(av,aRank,w===-1)}${cell(bv,bRank,w===1)}<td class="muted">${f(nv)}${m.u}</td><td style="font-weight:800;color:${w?'#15803d':'#94a3b8'}">${w?'✓ '+winTxt:winTxt}</td></tr>`;
   }).join('');
   const mA=metricsFor(A), mB=metricsFor(B), mN=metricsFor(N);
   mkChart('cmpRadar',{type:'radar',data:{labels:['재정자립도','재정자주도','집행 적정','채무 건전','계약 투명','수지 건전'],datasets:[
@@ -1860,7 +1861,7 @@ function printReport(R){
   '<div>총예산<b>'+won억(R.budget)+'</b></div><div>주민 1인당<b>'+fmt(R.perCapitaBudget)+'만원</b></div>'+
   '<div>재정자립도<b>'+R.selfReliance+'%</b></div><div>재정자주도<b>'+R.autonomy+'%</b></div>'+
   '<div>채무비율<b>'+R.debtRatio+'%</b></div><div>세출 집행률<b>'+R.execRate+'%</b></div>'+
-  '<div>수의계약 비중<b>'+R.suuiRatio+'%</b></div><div>금고 이자율<b>'+R.bankRate+'% ('+R.bankName+')</b></div></div>'+
+  '<div>수의계약 비중<b>'+R.suuiRatio+'%</b></div><div>금고 이자율<b>공식 비공개</b></div></div>'+
   '<h2>2. 회계별 예산현황</h2><table><tr><th>구분</th><th class=r>금액</th><th class=r>비중</th></tr>'+
   '<tr><td>일반회계</td><td class=r>'+won억(R.accounts.일반회계)+'</td><td class=r>'+(R.accounts.일반회계/R.budget*100).toFixed(1)+'%</td></tr>'+
   '<tr><td>특별회계</td><td class=r>'+won억(R.accounts.특별회계)+'</td><td class=r>'+(R.accounts.특별회계/R.budget*100).toFixed(1)+'%</td></tr>'+
@@ -1935,7 +1936,7 @@ async function sendToCouncil(){
   const pv=document.getElementById('voicePreview');
   const refined=!!(pv&&pv.value.trim());
   const bodyMain=refined?pv.value.trim():mailTemplate(R,raw,council);
-  const snap=`재정 건강등급 ${R.grade}(종합 ${R.score}점) · 재정자립도 ${R.selfReliance}% · 채무비율 ${R.debtRatio}% · 세출 집행률 ${R.execRate}% · 금고 이자율 ${R.bankRate}% · 축제·행사성 경비 ${R.festivalRatio}% · 종합청렴도 ${R.integrity}등급`;
+  const snap=`재정 건강등급 ${R.grade}(종합 ${R.score}점) · 재정자립도 ${R.selfReliance}% · 채무비율 ${R.debtRatio}% · 세출 집행률 ${R.execRate}% · 수의계약 비중 ${R.suuiRatio}%`;
   const subj=`[시민 시정요구] ${R.display} — ${council} 귀중`;
   const body=`■ 받는 곳: ${council}\n■ 작성자: ${nm}\n■ 대상 지역: ${R.display}\n\n${bodyMain}\n\n──────────\n■ 참고 재정 요약 (대한민국 재정 365)\n${snap}\n※ 위 수치는 공공데이터·지방재정365 기반 통계 참고치이며, 정확한 값은 공식 원부(lofin.mois.go.kr) 확인이 필요합니다.\n\n— 대한민국 재정 365 (시민 재정 감시 플랫폼)${refined?' · ✍️ AI 문장 다듬기 적용':''}`;
   window.location.href=`mailto:?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
@@ -1954,7 +1955,7 @@ function renderDetail(R){
   if(!R) return;
   const yr=R.trend[R.trend.length-1].year;
   document.getElementById('dTitle').textContent=R.display+' 상세 페이지';
-  document.getElementById('dMeta').innerHTML=`재정 건강등급 ${R.grade} · 종합 ${R.score}점 · ${yr} 회계연도 · 운영금고 ${R.bankName} · ${STATE.liveConfirmed?'🟢 실시간 연동':'🟡 시연 데이터'}`;
+  document.getElementById('dMeta').innerHTML=`재정 건강등급 ${R.grade} · 종합 ${R.score}점 · ${yr} 회계연도 · ${STATE.liveConfirmed?'🟢 실시간 연동(공식 공시)':'🟡 참고용 추정(시연)'}`;
   const eg=extGrade(R.extIndex), q=R.execQuarters;
   const qa=[q[0],q[1]-q[0],q[2]-q[1],q[3]-q[2]].map(p=>Math.round(R.budget*p/100));
   const dflags=genRiskFlags(R), dff=fundFlow(R), dpsum=R.projects.reduce((a,p)=>a+p.budget,0);
@@ -1985,9 +1986,7 @@ function renderDetail(R){
        <div class="dstat"><div class="l">재정자립도</div><div class="v mono">${R.selfReliance}%</div></div>
        <div class="dstat"><div class="l">재정자주도</div><div class="v mono">${R.autonomy}%</div></div>
        <div class="dstat"><div class="l">채무비율</div><div class="v mono">${R.debtRatio}%</div></div>
-       <div class="dstat"><div class="l">금고 이자율</div><div class="v mono">${R.bankRate}%</div><div class="s muted">${R.bankName} · 전국 ${rankOf(R,'bankRate')}위</div></div>
-       <div class="dstat"><div class="l">종합청렴도</div><div class="v mono" style="color:${R.integrity<=2?'#16a34a':R.integrity===3?'#b45309':'#e11d48'}">${R.integrity}등급</div><div class="s muted">${['','최우수','우수','보통','미흡','매우 미흡'][R.integrity]||'—'} · 국민권익위</div></div>
-       <div class="dstat"><div class="l">축제·행사성 경비</div><div class="v mono" style="color:${R.festivalRatio<1.5?'#16a34a':R.festivalRatio<3?'#b45309':'#e11d48'}">${R.festivalRatio}%</div><div class="s muted">${won억(R.festivalCost)} · 높으면 국비·도비 불리</div></div>
+       <div class="dstat"><div class="l">금고 이자율</div><div class="v mono" style="font-size:1rem;color:#475569">공식 비공개</div><div class="s muted">개별 약정이자율은 미공개</div></div>
      </div></div>
    <div class="dblock"><h3>📈 분기별 집행 현황 ${blockStatus()}</h3>
      <div class="desc">분기별 집행액과 누적 집행률 (연간 최종 집행률 ${R.execRate}%)</div>
@@ -2140,7 +2139,7 @@ function setRTStatus(state,j,extra){
     db.innerHTML=`<span style="font-size:18px">🔄</span><span><b>실시간 서버 연결 중…</b> 라이브 재정 서버에 접속하고 있습니다.</span>`;
   } else {
     if(dot)dot.classList.remove('on'); if(txt)txt.textContent='연결 재시도'; db.classList.remove('live');
-    db.innerHTML=`<span style="font-size:18px">⚠️</span><span><b>실시간 서버 일시 지연</b> — 잠시 후 자동 재연결합니다. 그동안 <b>지방재정365 2024 회계연도 공시 기준</b> 값을 표시합니다${extra?` (${extra})`:''}.</span>`;
+    db.innerHTML=`<span style="font-size:18px">⚠️</span><span><b>실시간 서버 연결 대기</b> — 자동 재연결합니다. 연결 전까지 전국 합계는 지방재정365 공시 기준, 개별 지자체 세부 수치는 <b>참고용 추정(시연)값</b>으로 표시합니다${extra?` (${extra})`:''}.</span>`;
   }
 }
 function applyNational(j){
@@ -2230,7 +2229,7 @@ function botFindTerm(q){
 }
 function botRegionSummary(R){
   const flags=R.key!=='전국'?genRiskFlags(R):[];
-  let s=`<b>${R.display}</b> 요약이에요.<br>재정 건강등급 <b>${R.grade}</b> (종합 ${R.score}점) · 재정자립도 ${R.selfReliance}% · 채무비율 ${R.debtRatio}% · 세출 집행률 ${R.execRate}% · 금고 이자율 ${R.bankRate}%(${R.bankName}).`;
+  let s=`<b>${R.display}</b> 요약이에요.<br>재정 건강등급 <b>${R.grade}</b> (종합 ${R.score}점) · 재정자립도 ${R.selfReliance}% · 채무비율 ${R.debtRatio}% · 세출 집행률 ${R.execRate}% · 수의계약 비중 ${R.suuiRatio}%.`;
   if(R.key!=='전국') s+=`<br>🔬 위험플래그 <b>${flags.length}건</b>${flags.length?' 탐지: '+flags.map(f=>RISKFLAG_DEF[f.type][0]).join(', '):' (이상 없음)'}.`;
   s+=`<br>더 자세히는 ‘📑 상세페이지’를 열어보세요!`;
   return s;
@@ -2263,7 +2262,7 @@ function botEsc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;'
 function botContext(){
   const R=STATE.region||STATE.national;
   let c=`현재 선택 지역=${R?R.display:'전국'}`;
-  if(R) c+=` | 재정자립도 ${R.selfReliance}% · 재정자주도 ${R.autonomy}% · 채무비율 ${R.debtRatio}% · 세출집행률 ${R.execRate}% · 금고이자율 ${R.bankRate}%(${R.bankName}) · 1인당예산 ${R.perCapitaBudget}만원 · 종합등급 ${R.grade}(${R.score}점)`;
+  if(R) c+=` | 재정자립도 ${R.selfReliance}% · 재정자주도 ${R.autonomy}% · 채무비율 ${R.debtRatio}% · 세출집행률 ${R.execRate}% · 수의계약 ${R.suuiRatio}% · 1인당예산 ${R.perCapitaBudget}만원 · 종합등급 ${R.grade}(${R.score}점)`;
   if(R&&R.key!=='전국'){ const fl=genRiskFlags(R).map(f=>RISKFLAG_DEF[f.type][0]); if(fl.length) c+=` | 위험플래그: ${fl.join(', ')}`; }
   c+=` || 용어집: `+GLOSSARY.map(g=>g.t+'='+g.d).join(' / ');
   return c.slice(0,3000);
