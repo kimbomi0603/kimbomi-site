@@ -381,8 +381,8 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
 /* 좌측 '김보미를 소개합니다' 버튼 + 인사 말풍선 */
 .intro-fab{position:fixed;left:20px;bottom:20px;z-index:85;background:transparent;border:none;padding:0;cursor:pointer;animation:floaty 2.6s ease-in-out infinite;line-height:0}
 .intro-fab:hover{animation-play-state:paused;transform:scale(1.06)}
-.intro-fab .kbm-ava{width:90px;height:90px;box-shadow:0 0 0 3px #fff,0 10px 26px rgba(11,37,69,.4)}
-.intro-fab .kbm-ava img{object-position:center 12%}
+.intro-fab .kbm-ava{width:116px;height:116px;box-shadow:0 0 0 3px #fff,0 10px 26px rgba(11,37,69,.4)}
+.intro-fab .kbm-ava img{object-position:center center}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 .intro-greet{position:fixed;left:14px;bottom:128px;z-index:84;max-width:288px;background:#fff;border:1px solid var(--line);border-radius:18px;border-bottom-left-radius:6px;box-shadow:var(--shadow-lg);padding:18px 40px 18px 20px;font-size:.99rem;font-weight:600;color:var(--ink);line-height:1.55;display:none;cursor:pointer}
 .intro-greet.show{display:block;animation:greetin .3s ease}
@@ -1060,7 +1060,9 @@ const GLOSSARY = [
   {t:"금고 이자율 (은행)", f:"예치 이자수입 = 평균예치잔액 × 약정이자율", d:"지자체는 세금을 '금고'로 지정된 은행에 맡깁니다. 약정 이자율이 낮으면 받을 수 있던 이자수입을 그냥 잃는 셈 — '대한민국 재정 365'가 출발한 바로 그 문제의식입니다.", flag:"⚠️ 전국 평균 이하면 금고 재지정·복수금고·경쟁입찰 검토 필요"},
   {t:"회계 구분", f:"일반회계 + 특별회계 + 기금", d:"일반회계는 보편적 살림, 특별회계는 특정 목적(상수도·주차 등) 별도 주머니, 기금은 적립·운용 자금입니다. 특별회계·기금이 과도하면 칸막이·중복을 점검합니다.", flag:"💡 회계별로 나눠 봐야 '숨은 돈'이 보입니다"},
   {t:"이월·불용", f:"이월 = 다음 해로 넘긴 예산 · 불용 = 끝내 못 쓴 예산", d:"편성(계획)했지만 그 해에 다 쓰지 못한 돈입니다. 한 해 안에 제대로 집행됐는지 보여주는 신호로, 매년 반복적으로 크면 예산을 부풀려 잡았거나 사업 추진이 더뎠다는 뜻일 수 있습니다.", flag:"⚠️ 반복·대규모 이월/불용은 과다편성·집행부진 점검 대상"},
-  {t:"수의계약", f:"경쟁입찰 없이 특정 업체와 직접 맺는 계약", d:"입찰 경쟁 없이 한 업체를 골라 맺는 계약입니다. 신속하지만 경쟁이 없어 가격이 비싸지거나 특혜·담합이 생기기 쉬워, 비중이 높으면 가장 먼저 들여다봐야 합니다.", flag:"⚠️ 비중이 높고 동일업체 반복 수주면 적신호"}
+  {t:"수의계약", f:"경쟁입찰 없이 특정 업체와 직접 맺는 계약", d:"입찰 경쟁 없이 한 업체를 골라 맺는 계약입니다. 신속하지만 경쟁이 없어 가격이 비싸지거나 특혜·담합이 생기기 쉬워, 비중이 높으면 가장 먼저 들여다봐야 합니다.", flag:"⚠️ 비중이 높고 동일업체 반복 수주면 적신호"},
+  {t:"종합청렴도", f:"국민권익위원회 종합청렴도 평가 등급 (1~5등급)", d:"국민권익위원회가 매년 공공기관·지자체의 청렴 수준을 설문·부패실태 등으로 평가해 매기는 등급입니다. 1등급(최우수)에 가까울수록 청렴·투명한 행정이며, 등급이 낮으면 부패·갑질·예산 오·남용 위험을 더 살펴봐야 합니다.", flag:"⚠️ 4~5등급(미흡)이면 계약·보조금 집행을 집중 점검"},
+  {t:"축제·행사성 경비", f:"축제·행사 경비 ÷ 예산 × 100", d:"한 해 예산 중 축제·행사 등에 쓰는 경비의 비중입니다. 적정 수준이면 지역경제·문화에 도움이 되지만, 과도하면 ‘방만 운영’으로 평가돼 행정안전부 교부세 산정·국고보조 심사에서 감점을 받아 국비·도비 확보가 불리해집니다. 그만큼 복지·안전 등 생활밀착 사업에 쓸 돈이 줄어듭니다.", flag:"⚠️ 비중이 높고 매년 증가하면 국비·도비 확보 불리 — 점검 대상"}
 ];
 
 const ACTIONS = [
@@ -1293,13 +1295,17 @@ function genRegion(sidoObj, name, isSido){
   let popChange=+( (type==="군"?-2.4+r()*2.6 : type==="시"?-1.1+r()*2.4 : type==="구"?-1.3+r()*2.2 : -0.8+r()*1.8) ).toFixed(2);
   // 인구소멸위험지수 (20-39세 여성 ÷ 65세+); 낮을수록 위험
   let extIndex=+clamp(type==="군"?0.10+r()*0.42 : type==="시"?0.34+r()*0.6 : type==="구"?0.5+r()*0.8 : 0.7+r()*0.7, 0.08,1.6).toFixed(2);
+  // 종합청렴도(국민권익위 평가 등급 1~5, 1=최우수) · 축제·행사성 경비 비중(%)
+  const integrity = clamp(Math.round(2.3+(r()-0.5)*3.4),1,5);
+  let festivalRatio=+clamp(type==="군"?1.6+r()*2.7 : type==="시"?1.0+r()*2.0 : type==="구"?0.8+r()*1.7 : 0.9+r()*1.4, 0.4,4.8).toFixed(1);
+  const festivalCost=Math.round(budget*festivalRatio/100);
   // 주요 사업 top10
   const projects=genProjects(key,budget,suui);
   const perCapBudget=+(budget*10000/pop).toFixed(0);
   return {key,sido,name:isSido?sido:name,display:isSido?sido:sido+" "+name,isSido,type,pop,budget,
     selfReliance:+sr.toFixed(1),autonomy:+auto.toFixed(1),balance,debt,debtRatio,execRate,suuiRatio:suui,
     contractTotal,revenue,sectors,execQuarters,trend,score,grade,perCapitaBudget:perCapBudget,
-    bankName,bankRate,avgDeposit,interestIncome,accounts,
+    bankName,bankRate,avgDeposit,interestIncome,accounts,integrity,festivalRatio,festivalCost,
     households,elderlyRatio:elderly,youthRatio:youth,popChange,extIndex,projects,
     subScores:{sSelf,sAuto,sDebt,sExec,sBal,sSuui}};
 }
@@ -1335,6 +1341,7 @@ function buildNational(){
     perCapitaBudget:+(budget*10000/NATIONAL.population).toFixed(0),
     bankName:"전국 평균",bankRate:2.52,avgDeposit:Math.round(budget*0.11),interestIncome:Math.round(budget*0.11*2.52/100),
     accounts:{일반회계:Math.round(budget*0.70),특별회계:Math.round(budget*0.24),기금:Math.round(budget*0.06)},
+    integrity:3,festivalRatio:1.8,festivalCost:Math.round(budget*1.8/100),
     households:Math.round(NATIONAL.population/2.3),elderlyRatio:19.5,youthRatio:24.3,popChange:-0.12,extIndex:0.71,
     projects:genProjects("전국",budget,31),
     subScores:{sSelf,sAuto,sDebt,sExec,sBal,sSuui}};
@@ -1463,6 +1470,8 @@ function renderKPI(R){
     {l:"채무비율",ic:"📉",v:R.debtRatio+"<span class='unit'> %</span>",sub:R.debtRatio<25?"<span class='up'>위기단계 아님</span>":"<span class='down'>주의/심각 구간</span>",w:clamp(R.debtRatio/45*100,2,100),c:R.debtRatio<15?PAL.green:R.debtRatio<25?PAL.amber:PAL.red,tip:"빚 잔액 ÷ 예산. 25% 주의·40% 심각."},
     {l:"세출 집행률",ic:"📊",v:R.execRate+"<span class='unit'> %</span>",sub:R.execRate>=88?"<span class='up'>정상 집행</span>":"<span class='down'>집행 부진</span>",w:R.execRate,c:R.execRate>=88?PAL.green:R.execRate>=80?PAL.amber:PAL.red,tip:"집행액 ÷ 최종예산. 너무 낮거나 연말 급증은 신호."},
     {l:"수의계약 비중",ic:"📝",v:R.suuiRatio+"<span class='unit'> %</span>",sub:R.suuiRatio<30?"<span class='up'>경쟁계약 중심</span>":"<span class='down'>경쟁성 점검 필요</span>",w:R.suuiRatio,c:R.suuiRatio<30?PAL.green:R.suuiRatio<45?PAL.amber:PAL.red,tip:"경쟁 없이 맺는 계약 비율. 높을수록 감시 필요."},
+    {l:"종합청렴도",ic:"🛡️",v:R.integrity+"<span class='unit'> 등급</span>",sub:`국민권익위 평가 · ${['','최우수','우수','보통','미흡','매우 미흡'][R.integrity]||'—'} <span class="muted">(1등급=최우수)</span>`,w:clamp((6-R.integrity)/5*100,5,100),c:R.integrity<=2?PAL.green:R.integrity===3?PAL.amber:PAL.red,tip:"국민권익위원회 종합청렴도 평가 등급입니다. 1등급(최우수)에 가까울수록 청렴·투명한 행정입니다."},
+    {l:"축제·행사성 경비",ic:"🎪",v:R.festivalRatio+"<span class='unit'> %</span>",sub:`${won억(R.festivalCost)} · 예산의 ${R.festivalRatio}%`,w:clamp(R.festivalRatio/5*100,4,100),c:R.festivalRatio<1.5?PAL.green:R.festivalRatio<3?PAL.amber:PAL.red,note:"💡 축제·행사성 경비 비중이 높으면 행안부 평가에서 감점돼 국비·도비(교부세·보조금) 확보가 불리해집니다. 그만큼 생활밀착 사업에 쓸 재원이 줄어듭니다.",tip:"한 해 예산 중 축제·행사에 쓰는 경비 비중입니다. 과도하면 교부세 산정·국고보조 평가에서 불이익을 받을 수 있습니다."},
     {l:"지자체 금고 이자율",ic:"💴",v:R.bankRate+"<span class='unit'> %</span>",sub:`운영금고 ${R.bankName} · 전국 ${rankOf(R,'bankRate')}위 · 추정이자 ${won억(R.interestIncome)}`,w:clamp(R.bankRate/3.95*100,5,100),c:R.bankRate>=2.8?PAL.green:R.bankRate>=2.3?PAL.amber:PAL.red,note:"💡 이자율이 낮을수록 지자체가 벌 수 있는 ‘이자 수입’이 줄어, 그만큼 주민 살림에 쓸 돈이 사라집니다.",tip:"지자체가 세금을 맡긴 금고(은행)의 약정 이자율입니다. 낮을수록 받을 수 있었던 이자 수입이 사라지는 '새는 돈'이 됩니다."},
     {l:"종합 건강점수",ic:"🩺",v:R.score+"<span class='unit'> 점</span>",sub:`${R.grade}등급 · 전국 ${rankOf(R,'score')}위`,w:R.score,c:gradeStyle(R.grade)[0].includes('e11d48')?PAL.red:gradeStyle(R.grade)[0].includes('f59e0b')||gradeStyle(R.grade)[0].includes('fb923c')?PAL.amber:PAL.green,tip:"6대 지표를 가중평균한 자체 종합 점수."}
   ];
@@ -1641,6 +1650,8 @@ const COMPARE_METRICS=[
   {k:'execRate',l:'세출 집행률',u:'%',better:'high'},
   {k:'bankRate',l:'금고 이자율',u:'%',better:'high'},
   {k:'suuiRatio',l:'수의계약 비중',u:'%',better:'low'},
+  {k:'integrity',l:'종합청렴도(등급)',u:'등급',better:'low'},
+  {k:'festivalRatio',l:'축제·행사성 경비',u:'%',better:'low'},
   {k:'extIndex',l:'인구소멸지수',u:'',better:'high'},
   {k:'score',l:'종합 건강점수',u:'점',better:'high'}
 ];
@@ -1886,6 +1897,8 @@ function renderDetail(R){
        <div class="dstat"><div class="l">재정자주도</div><div class="v mono">${R.autonomy}%</div></div>
        <div class="dstat"><div class="l">채무비율</div><div class="v mono">${R.debtRatio}%</div></div>
        <div class="dstat"><div class="l">금고 이자율</div><div class="v mono">${R.bankRate}%</div><div class="s muted">${R.bankName} · 전국 ${rankOf(R,'bankRate')}위</div></div>
+       <div class="dstat"><div class="l">종합청렴도</div><div class="v mono" style="color:${R.integrity<=2?'#16a34a':R.integrity===3?'#b45309':'#e11d48'}">${R.integrity}등급</div><div class="s muted">${['','최우수','우수','보통','미흡','매우 미흡'][R.integrity]||'—'} · 국민권익위</div></div>
+       <div class="dstat"><div class="l">축제·행사성 경비</div><div class="v mono" style="color:${R.festivalRatio<1.5?'#16a34a':R.festivalRatio<3?'#b45309':'#e11d48'}">${R.festivalRatio}%</div><div class="s muted">${won억(R.festivalCost)} · 높으면 국비·도비 불리</div></div>
      </div></div>
    <div class="dblock"><h3>📈 분기별 집행 현황 ${blockStatus()}</h3>
      <div class="desc">분기별 집행액과 누적 집행률 (연간 최종 집행률 ${R.execRate}%)</div>
