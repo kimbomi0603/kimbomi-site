@@ -2059,7 +2059,7 @@ function applyNational(j){
   if(typeof j.b==='number') n.budget=Math.round(j.b*10000);      // 조원→억원
   if(typeof j.s==='number') n.selfReliance=+(+j.s).toFixed(1);
   if(typeof j.e==='number') n.execRate=+(+j.e).toFixed(1);
-  n.perCapitaBudget=+(n.budget*10000/n.population).toFixed(0);
+  n.perCapitaBudget=+(n.budget*10000/(n.pop||NATIONAL.population)).toFixed(0);
   const sb=id=>document.getElementById(id);
   if(sb('sbBudget')) sb('sbBudget').textContent=won억(n.budget);
   if(sb('sbSelf')) sb('sbSelf').textContent=n.selfReliance+'%';
