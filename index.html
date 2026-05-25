@@ -198,15 +198,23 @@ section{padding:26px 0}
 .grade-card .big{font-size:4.4rem;font-weight:900;line-height:1;margin:6px 0}
 .grade-card .gl{font-size:.95rem;font-weight:700;opacity:.95}
 .grade-card .gdesc{font-size:.82rem;opacity:.85;margin-top:10px;max-width:90%}
-.lights{display:flex;gap:8px;margin-top:16px}
-.lights .l{flex:1;height:7px;border-radius:6px;background:rgba(255,255,255,.28)}
-.lights .l.act{background:#fff}
+.lights{display:flex;gap:6px;margin-top:16px}
+.lights .l{flex:1;display:flex;align-items:center;justify-content:center;height:28px;border-radius:8px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.34);font-size:.82rem;font-weight:900;color:rgba(255,255,255,.65)}
+.lights .l.act{background:rgba(255,255,255,.96);color:var(--navy2);border-color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.lights .l.cur{outline:2px solid #ffd84d;outline-offset:1px}
 .hero-summary{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px}
 .hero-summary h3{font-size:1rem;font-weight:800;margin-bottom:6px}
 .summary-text{font-size:.9rem;color:#33425a;line-height:1.7}
 .summary-text b{color:var(--navy2)}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 .chip{font-size:.76rem;font-weight:700;padding:6px 11px;border-radius:999px;background:#f1f5fb;color:var(--navy2);border:1px solid var(--line)}
+.summary-demo{margin-top:14px;padding-top:13px;border-top:1px dashed var(--line)}
+.summary-demo .sd-h{font-size:.83rem;font-weight:800;color:var(--navy2);margin-bottom:9px}
+.summary-demo .sd-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px}
+.summary-demo .sd{background:#f7faff;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.summary-demo .sd .l{font-size:.68rem;color:#8294ad;font-weight:700}
+.summary-demo .sd .v{font-size:.98rem;font-weight:800;color:var(--navy2);margin-top:2px}
+.summary-demo .sd .v small{font-size:.7rem;font-weight:600;color:#8294ad}
 .chip.good{background:var(--teal-soft);color:#0a7d70;border-color:#bfeee8}
 .chip.warn{background:#fff4e5;color:#9a6810;border-color:#fbe2bd}
 .chip.bad{background:#ffe9ef;color:#b21a42;border-color:#fbc9d7}
@@ -537,6 +545,7 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
         <h3>📋 한눈에 보는 요약</h3>
         <div class="summary-text" id="summaryText">지역을 선택하면 우리동네 재정을 쉬운 말로 요약해 드립니다.</div>
         <div class="chips" id="summaryChips"></div>
+        <div class="summary-demo" id="summaryDemo"></div>
       </div>
     </div>
 
@@ -1406,7 +1415,7 @@ function renderHero(R){
   document.getElementById('gLabel').textContent="재정 건강등급 · "+gl;
   document.getElementById('gDesc').textContent=`종합 건강점수 ${R.score}점 / 100점 · 전국 ${rankOf(R,'score')}위`;
   const order=["E","D","C","B","A"]; const lvl=order.indexOf(R.grade);
-  document.getElementById('gLights').innerHTML=order.map((g,i)=>`<div class="l ${i<=lvl?'act':''}"></div>`).join('');
+  document.getElementById('gLights').innerHTML=order.map((g,i)=>`<div class="l ${i<=lvl?'act':''} ${i===lvl?'cur':''}" title="${g}등급">${g}</div>`).join('');
   // 요약문
   const avg=NATIONAL.avgSelfReliance;
   const srWord=R.selfReliance>=avg?'전국평균보다 높아 비교적 탄탄':R.selfReliance>=30?'전국평균을 밑돌아 다소 취약':'매우 낮아 의존도가 큼';
@@ -1424,6 +1433,20 @@ function renderHero(R){
   chips.push([`집행 ${R.execRate}%`, R.execRate>=88?'good':'warn']);
   chips.push([`수의계약 ${R.suuiRatio}%`, R.suuiRatio<30?'good':R.suuiRatio<45?'warn':'bad']);
   document.getElementById('summaryChips').innerHTML=chips.map(([t,c])=>`<span class="chip ${c}">${t}</span>`).join('');
+  // 인구통계 (한눈에 보는 요약에도 표시)
+  const sd=document.getElementById('summaryDemo');
+  if(sd){
+    const eg=R.extIndex<0.2?['소멸 고위험','#e11d48']:R.extIndex<0.5?['소멸 위험','#f59e0b']:R.extIndex<1.0?['소멸 주의','#ca8a04']:['양호','#16a34a'];
+    sd.innerHTML=`<div class="sd-h">👥 인구통계 <span style="font-size:.72rem;font-weight:600;color:#8294ad">(${R.trend[R.trend.length-1].year} 기준)</span></div>
+      <div class="sd-grid">
+        <div class="sd"><div class="l">인구</div><div class="v">${fmt(R.pop)}<small> 명</small></div></div>
+        <div class="sd"><div class="l">세대수</div><div class="v">${fmt(R.households)}<small> 가구</small></div></div>
+        <div class="sd"><div class="l">고령화율(65세+)</div><div class="v" style="color:${R.elderlyRatio>=20?'#e11d48':'var(--navy2)'}">${R.elderlyRatio}%</div></div>
+        <div class="sd"><div class="l">청년비율(20-39)</div><div class="v">${R.youthRatio}%</div></div>
+        <div class="sd"><div class="l">인구 증감(전년)</div><div class="v" style="color:${R.popChange>=0?'#16a34a':'#e11d48'}">${R.popChange>0?'+':''}${R.popChange}%</div></div>
+        <div class="sd"><div class="l">인구소멸지수</div><div class="v" style="color:${eg[1]}">${R.extIndex} <small style="color:${eg[1]}">${eg[0]}</small></div></div>
+      </div>`;
+  }
 }
 
 /* ---------- 렌더: KPI ---------- */
