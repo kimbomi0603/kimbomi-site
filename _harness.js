@@ -1,0 +1,35 @@
+const noop=()=>{};
+function fakeEl(){return new Proxy({innerHTML:'',textContent:'',value:'',disabled:false,style:{},classList:{add:noop,remove:noop,toggle:noop,contains:()=>false},addEventListener:noop,appendChild:noop,scrollIntoView:noop,offsetTop:0,querySelectorAll:()=>[]},{get(t,p){return p in t?t[p]:(typeof p==='string'?(t[p]=fakeEl(),t[p]):undefined);}});}
+global.document={readyState:'complete',getElementById:()=>fakeEl(),querySelectorAll:()=>[],addEventListener:noop,createElement:()=>fakeEl()};
+global.window={addEventListener:noop,scrollTo:noop};
+global.localStorage={getItem:()=>null,setItem:noop,removeItem:noop};
+global.AbortController=class{constructor(){this.signal={}}abort(){}};
+const CHARTS=[];class ChartStub{constructor(el,cfg){CHARTS.push(cfg);}destroy(){}}ChartStub.defaults={font:{},color:''};
+global.Chart=ChartStub;global.window.Chart=ChartStub;
+const fs=require('fs');
+let js=fs.readFileSync('_check.js','utf8');
+js+="\nglobal.STATE=STATE;global.aiAnalyze=aiAnalyze;global.fmtwon=won억;global.CHARTS=CHARTS;";
+eval(js);
+
+let issues=[];const m=STATE.model;
+console.log("총 지자체:",m.length,"(+전국)");
+if(m.length<240||m.length>250)issues.push("수 비정상");
+const dist={A:0,B:0,C:0,D:0,E:0};m.forEach(r=>dist[r.grade]++);
+console.log("등급 분포:",dist);
+if(Object.values(dist).filter(v=>v>0).length<3)issues.push("등급 다양성");
+let nan=0,bad=0;
+m.forEach(r=>{['budget','selfReliance','autonomy','debtRatio','execRate','suuiRatio','score','perCapitaBudget','pop'].forEach(k=>{if(typeof r[k]!=='number'||isNaN(r[k]))nan++;});
+ if(r.selfReliance>100||r.selfReliance<0)bad++;if(r.autonomy<r.selfReliance)bad++;if(r.execRate>100||r.suuiRatio>100)bad++;
+ const rs=Object.values(r.revenue).reduce((a,b)=>a+b,0);if(Math.abs(rs-r.budget)/r.budget>0.05)bad++;
+ const es=r.sectors.reduce((a,s)=>a+s.amt,0);if(Math.abs(es-r.budget)/r.budget>0.03)bad++;});
+console.log("NaN:",nan,"| 정합성위반:",bad);if(nan)issues.push("NaN"+nan);if(bad)issues.push("정합성"+bad);
+const nat=STATE.national;
+console.log("전국:",(nat.budget/10000).toFixed(0)+"조","1인당",nat.perCapitaBudget+"만","자립"+nat.selfReliance+"%","자주"+nat.autonomy+"%","등급"+nat.grade);
+['서울특별시 강남구','전라남도 신안군','대구광역시 군위군','경기도 수원시'].forEach(k=>{const R=STATE.byKey[k];if(!R){issues.push("키없음"+k);return;}const a=aiAnalyze(R);
+ console.log(`[${R.display}] ${R.grade}/${R.score} 자립${R.selfReliance} 채무${R.debtRatio} 집행${R.execRate} 수의${R.suuiRatio} 1인당${R.perCapitaBudget}만 | 감시${a.watch.length}견제${a.check.length}제안${a.prop.length}`);
+ if(a.check.length===0||a.prop.length===0)issues.push("AI빈"+k);});
+console.log("차트수(전국):",CHARTS.length);
+let cn=0;CHARTS.forEach(c=>(c.data.datasets||[]).forEach(ds=>(ds.data||[]).forEach(v=>{if(typeof v==='number'&&isNaN(v))cn++;})));
+console.log("차트NaN:",cn);if(CHARTS.length<6)issues.push("차트<6");if(cn)issues.push("차트NaN");
+console.log("won억:",fmtwon(3260000),fmtwon(45000),fmtwon(880),fmtwon(-1200));
+console.log("\n=====",issues.length?"문제 "+issues.length+"건 ❌":"모두 통과 ✅");issues.forEach(i=>console.log(" -",i));
