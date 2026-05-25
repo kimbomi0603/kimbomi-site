@@ -1,0 +1,19 @@
+# 대한민국 재정 365 — 검색엔진 수집 허용
+User-agent: *
+Allow: /
+
+# 네이버 검색로봇
+User-agent: Yeti
+Allow: /
+
+# 구글 / 구글 이미지
+User-agent: Googlebot
+Allow: /
+User-agent: Googlebot-Image
+Allow: /
+
+# 다음(카카오)
+User-agent: Daumoa
+Allow: /
+
+Sitemap: https://xn--4k0b53xuva.com/sitemap.xml
