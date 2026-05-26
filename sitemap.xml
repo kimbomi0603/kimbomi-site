@@ -1,9 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://xn--4k0b53xuva.com/</loc>
     <lastmod>2026-05-26</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://xn--4k0b53xuva.com/og.jpg</image:loc>
+      <image:title>대한민국 재정 365 — 시민 재정 감시 플랫폼</image:title>
+      <image:caption>전국 243개 지방자치단체 재정을 한 화면에. 운영: 김보미</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://xn--4k0b53xuva.com/about.jpg</image:loc>
+      <image:title>김보미 — 대한민국 재정 365 운영자</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://xn--4k0b53xuva.com/face.jpg</image:loc>
+      <image:title>김보미</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://xn--4k0b53xuva.com/#diagnose</loc>
+    <lastmod>2026-05-26</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://xn--4k0b53xuva.com/#ranking</loc>
+    <lastmod>2026-05-26</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://xn--4k0b53xuva.com/#compare</loc>
+    <lastmod>2026-05-26</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://xn--4k0b53xuva.com/#edu</loc>
+    <lastmod>2026-05-26</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://xn--4k0b53xuva.com/#action</loc>
+    <lastmod>2026-05-26</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://xn--4k0b53xuva.com/#about-kbm</loc>
+    <lastmod>2026-05-26</lastmod>
+    <priority>0.6</priority>
   </url>
 </urlset>
