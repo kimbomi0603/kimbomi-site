@@ -218,6 +218,112 @@ section{padding:26px 0}
 .src-note b{color:#1e293b}
 .src-note a{color:#1d6fe0;font-weight:700}
 
+/* === 🌐 AI 자동번역 (Google Translate) === */
+.translate-fab{position:fixed;top:14px;left:14px;z-index:90;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 12px;box-shadow:0 4px 14px rgba(11,37,69,.18);display:flex;align-items:center;gap:7px;font-size:.78rem;font-weight:800;color:#1e293b}
+.translate-fab>span{font-size:.95rem}
+.translate-fab #google_translate_element{display:inline-block}
+.translate-fab .goog-te-gadget{font-family:inherit!important;font-size:0!important;color:transparent!important;margin:0!important}
+.translate-fab .goog-te-gadget>span{display:none!important}
+.translate-fab .goog-te-combo{border:1.5px solid #cbd5e1!important;border-radius:8px!important;padding:5px 8px!important;font-family:inherit!important;font-size:.78rem!important;background:#fff;color:#1e293b;cursor:pointer;font-weight:700;outline:none}
+.translate-fab .goog-te-combo:hover{border-color:#1d6fe0!important}
+.goog-te-banner-frame,.skiptranslate.goog-te-banner-frame{display:none!important;visibility:hidden!important;height:0!important}
+body.translated-ltr,body.translated-rtl{top:0!important;position:static!important}
+body{top:0!important}
+.goog-tooltip,.goog-tooltip:hover,.goog-text-highlight{display:none!important;background-color:transparent!important;box-shadow:none!important}
+
+/* === 🌱 시민 참여 광장 (Civic Action Platform) === */
+.civic-action-section{margin-top:32px;background:linear-gradient(135deg,#fef9f3 0%,#f0fdf4 100%);border:1px solid #fde9c8;border-radius:24px;padding:28px;box-shadow:0 6px 28px rgba(255,184,107,.1)}
+.ca-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+.ca-icon{font-size:2.4rem;display:inline-block;animation:caBounce 2.5s ease-in-out infinite}
+@keyframes caBounce{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-5px) rotate(3deg)}}
+.ca-header h2{font-size:1.55rem;font-weight:900;color:#1e3a5f;margin:0;letter-spacing:-.4px}
+.ca-header p{font-size:.92rem;color:#5a6b85;margin:4px 0 0;line-height:1.55}
+.ca-search{display:flex;gap:8px;background:#fff;border-radius:999px;padding:6px;box-shadow:0 8px 22px rgba(0,0,0,.08);border:2px solid #ffe5cc;margin-bottom:22px;align-items:center}
+.ca-search input{flex:1;border:none;outline:none;padding:12px 18px;font-size:.98rem;font-family:inherit;background:transparent;color:#1e293b;font-weight:600;min-width:0}
+.ca-search input::placeholder{color:#a0aec0;font-weight:600}
+.ca-search button{border:none;background:linear-gradient(135deg,#ff9a56,#ff6b35);color:#fff;padding:12px 22px;border-radius:999px;font-weight:900;font-size:.92rem;cursor:pointer;transition:transform .15s,box-shadow .15s;font-family:inherit;white-space:nowrap;flex:none}
+.ca-search button:hover{transform:scale(1.04);box-shadow:0 10px 22px rgba(255,107,53,.4)}
+.ca-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.ca-tab{flex:1;min-width:110px;border:2px solid transparent;background:#fff;color:#5a6b85;padding:14px 18px;border-radius:16px;font-weight:800;font-size:.95rem;cursor:pointer;transition:all .2s;font-family:inherit}
+.ca-tab:hover{background:#fef3e6;color:#2d4263}
+.ca-tab.active{background:linear-gradient(135deg,#fff4dd,#ffe5cc);color:#9a3412;border-color:#fdba74;box-shadow:0 4px 14px rgba(251,146,60,.22)}
+.ca-tab-panel{background:#fff;border-radius:18px;padding:22px;min-height:280px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.ca-tab-meta{font-size:.84rem;color:#64748b;margin-bottom:14px}
+.ca-tab-meta b{color:#1e3a5f;background:#fef3c7;padding:2px 8px;border-radius:6px}
+.ca-card{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 18px;background:#fafbfc;border-radius:14px;margin-bottom:12px;border:1.5px solid #eef1f5;transition:all .2s}
+.ca-card:hover{background:#fff;border-color:#fdba74;box-shadow:0 6px 18px rgba(251,146,60,.14);transform:translateY(-1px)}
+.ca-card-body{flex:1;min-width:0}
+.ca-card-cat{display:inline-block;font-size:.7rem;font-weight:900;padding:3px 10px;border-radius:999px;background:#fff4dd;color:#9a3412;margin-bottom:6px;letter-spacing:.02em}
+.ca-card-title{font-size:1rem;font-weight:800;color:#1e3a5f;margin-bottom:4px;line-height:1.4}
+.ca-card-meta{font-size:.82rem;color:#64748b;line-height:1.55}
+.ca-card-meta b{color:#475569}
+.ca-card-actions{display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+.ca-btn{border:none;padding:8px 14px;border-radius:12px;font-weight:800;font-size:.78rem;cursor:pointer;white-space:nowrap;transition:transform .15s,box-shadow .15s;font-family:inherit}
+.ca-btn-suggest{background:#fef3c7;color:#92400e}
+.ca-btn-suggest:hover{background:#fde68a;transform:scale(1.05);box-shadow:0 4px 12px rgba(252,211,77,.4)}
+.ca-btn-report{background:#fee2e2;color:#b91c1c}
+.ca-btn-report:hover{background:#fecaca;transform:scale(1.05);box-shadow:0 4px 12px rgba(239,68,68,.34)}
+.ca-plaza{margin-top:24px;background:#fff;border-radius:18px;padding:22px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.ca-plaza-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.ca-plaza-head h3{font-size:1.15rem;font-weight:900;color:#1e3a5f;margin:0}
+.ca-plaza-filter{display:flex;gap:4px;background:#f1f5f9;border-radius:12px;padding:4px}
+.ca-plaza-filter button{border:none;background:transparent;color:#64748b;padding:7px 14px;border-radius:9px;font-weight:800;font-size:.82rem;cursor:pointer;transition:all .15s;font-family:inherit}
+.ca-plaza-filter button.active{background:#fff;color:#1e3a5f;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.ca-post{padding:16px 18px;background:#fafbfc;border-radius:14px;margin-bottom:10px;border:1.5px solid #eef1f5;transition:all .15s;position:relative}
+.ca-post:hover{background:#fff;border-color:#cbd5e1}
+.ca-post.hot{background:linear-gradient(135deg,#fff7ed,#fef3c7);border-color:#fdba74}
+.ca-post-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.ca-post-meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:.72rem}
+.ca-post-type{padding:3px 9px;border-radius:999px;font-weight:900;font-size:.7rem}
+.ca-post-type.suggest{background:#fef3c7;color:#92400e}
+.ca-post-type.report{background:#fee2e2;color:#b91c1c}
+.ca-post-region{background:#dbeafe;color:#1e40af;padding:3px 9px;border-radius:999px;font-weight:800}
+.ca-post-time{color:#94a3b8;font-weight:700}
+.ca-post-hot-badge{background:#dc2626;color:#fff;font-size:.65rem;font-weight:900;padding:2px 8px;border-radius:6px;display:inline-block;margin-bottom:6px}
+.ca-post-author{font-weight:800;color:#334155;font-size:.84rem;margin-bottom:4px}
+.ca-post-title{font-size:.99rem;font-weight:800;color:#1e3a5f;margin-bottom:6px;line-height:1.45}
+.ca-post-content{font-size:.88rem;color:#475569;line-height:1.65;margin-bottom:12px;word-break:keep-all}
+.ca-post-actions{display:flex;gap:10px;align-items:center;font-size:.82rem;color:#64748b;flex-wrap:wrap}
+.ca-like{display:flex;align-items:center;gap:5px;border:none;background:#f8fafc;cursor:pointer;font-weight:800;color:#64748b;padding:6px 12px;border-radius:999px;transition:all .15s;font-family:inherit;font-size:.84rem}
+.ca-like:hover{background:#fef3c7;color:#92400e}
+.ca-like.liked{background:#fef3c7;color:#92400e}
+.ca-comment-count{color:#94a3b8;font-weight:700;padding:6px 10px}
+.ca-agree{margin-left:auto;font-size:.78rem;color:#475569;font-weight:700;background:none;border:none;cursor:pointer;font-family:inherit}
+.ca-agree:hover{color:#1d6fe0}
+
+/* Modal */
+.ca-modal-overlay{position:fixed;inset:0;background:rgba(15,30,53,.55);display:none;align-items:center;justify-content:center;z-index:200;padding:20px;backdrop-filter:blur(4px)}
+.ca-modal-overlay.show{display:flex}
+.ca-modal{background:#fff;border-radius:24px;padding:28px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 30px 80px rgba(0,0,0,.35);animation:caModalIn .25s ease-out}
+@keyframes caModalIn{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:none}}
+.ca-modal-close{position:absolute;top:14px;right:14px;border:none;background:#f1f5f9;color:#64748b;width:36px;height:36px;border-radius:50%;font-size:1.4rem;cursor:pointer;font-weight:900;transition:all .15s;line-height:1}
+.ca-modal-close:hover{background:#e2e8f0;color:#1e293b}
+.ca-modal h3{font-size:1.25rem;font-weight:900;color:#1e3a5f;margin:0 0 4px}
+.ca-modal-context{background:#f8fafc;border-left:4px solid #fdba74;padding:11px 14px;border-radius:8px;margin:14px 0 18px;font-size:.86rem;color:#475569;line-height:1.55}
+.ca-modal label{display:block;font-size:.82rem;font-weight:800;color:#334155;margin:14px 0 6px}
+.ca-modal input,.ca-modal textarea{width:100%;border:1.5px solid #e2e8f0;border-radius:12px;padding:11px 14px;font-size:.92rem;font-family:inherit;outline:none;transition:border-color .15s,box-shadow .15s;background:#fff;color:#1e293b}
+.ca-modal input:focus,.ca-modal textarea:focus{border-color:#fdba74;box-shadow:0 0 0 3px rgba(253,186,116,.25)}
+.ca-modal textarea{min-height:120px;resize:vertical;line-height:1.6}
+.ca-modal-submit{width:100%;border:none;background:linear-gradient(135deg,#ff9a56,#ff6b35);color:#fff;padding:14px;border-radius:14px;font-weight:900;font-size:1rem;cursor:pointer;margin-top:18px;transition:transform .15s,box-shadow .15s;font-family:inherit}
+.ca-modal-submit:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(255,107,53,.4)}
+.ca-modal-cancel{width:100%;border:none;background:transparent;color:#64748b;padding:10px;font-weight:700;font-size:.86rem;cursor:pointer;margin-top:6px;font-family:inherit}
+.ca-modal-cancel:hover{color:#1e293b}
+
+@media(max-width:520px){
+  .civic-action-section{padding:18px;border-radius:18px}
+  .ca-header h2{font-size:1.25rem}
+  .ca-search input{padding:11px 14px;font-size:.9rem}
+  .ca-search button{padding:11px 16px;font-size:.84rem}
+  .ca-tab{padding:11px 12px;font-size:.85rem;min-width:0}
+  .ca-tab-panel{padding:14px;border-radius:14px}
+  .ca-card{flex-direction:column;align-items:stretch;padding:14px}
+  .ca-card-actions{flex-direction:row}
+  .ca-btn{flex:1}
+  .ca-plaza{padding:16px}
+  .ca-modal{padding:22px;border-radius:18px}
+  .translate-fab{top:auto;bottom:14px;left:14px;padding:6px 10px}
+}
+
 /* ===== controls ===== */
 .controls{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px 18px}
 .controls .field{min-width:160px;flex:0 1 200px}
@@ -555,6 +661,42 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
       <div class="value v3"><div class="vic">⚖️</div><h4>재정 정의</h4><p>새는 돈·일감 몰아주기·짜고 치는 거래까지 찾아내, 사회적 약자와 미래세대를 위한 정의로운 분배가 되도록 시민이 감시합니다.</p></div>
     </div>
   </section>
+
+  <!-- 🌐 AI 자동번역 (Google Translate) -->
+  <div class="translate-fab" title="다국어 자동번역">
+    <span>🌐</span>
+    <div id="google_translate_element"></div>
+  </div>
+
+  <!-- 🌱 시민 참여 광장 (Civic Action Platform) -->
+  <section id="civic-action" class="civic-action-section">
+    <div class="ca-header">
+      <span class="ca-icon">🌱</span>
+      <div>
+        <h2>시민 참여 광장</h2>
+        <p>지자체 살림살이를 보고 한 줄 의견으로 동네를 바꾸세요 — 공무원 급여까지 모든 정보는 우리동네 상세페이지에서 확인</p>
+      </div>
+    </div>
+
+    <div class="ca-plaza">
+      <div class="ca-plaza-head">
+        <h3>💬 우리 동네 시민의 한 마디</h3>
+        <div class="ca-plaza-filter">
+          <button data-sort="popular" class="active" type="button">🔥 공감순</button>
+          <button data-sort="recent" type="button">🕐 최신순</button>
+        </div>
+      </div>
+      <div id="caPlazaFeed"></div>
+    </div>
+  </section>
+
+  <!-- 시민 참여 모달 -->
+  <div id="caModal" class="ca-modal-overlay">
+    <div class="ca-modal">
+      <button class="ca-modal-close" id="caModalClose" type="button">×</button>
+      <div id="caModalBody"></div>
+    </div>
+  </div>
 
   <!-- 중앙정부 부처 예산 감시 배너 -->
   <div class="gov-cta">
@@ -2023,6 +2165,24 @@ function renderDetail(R){
    <div class="dblock"><h3>📈 분기별 집행 현황 ${blockStatus()}</h3>
      <div class="desc">분기별 집행액과 누적 집행률 (연간 최종 집행률 ${R.execRate}%)</div>
      <div class="chart-box" style="height:250px"><canvas id="dQuarter"></canvas></div></div>
+   <div class="dblock"><h3>👥 공무원 급여 — 조직도 직급별 (참고 추정치)</h3>
+     <div style="background:#fef9f3;border:1px solid #fde9c8;border-radius:10px;padding:11px 13px;font-size:.78rem;color:#92651a;line-height:1.55;margin-bottom:12px">📌 행정안전부 공무원 보수규정·지방의회 의원 의정활동비 조례 기준 평균값입니다. 지자체별 상세는 결산서·조례에 따라 차이가 있을 수 있어, 실데이터 연동 시 자동 갱신됩니다.</div>
+     <div class="dgrid">
+       <div class="dstat"><div class="l">군수·지자체장 (정무직)</div><div class="v mono" style="font-size:1.05rem">약 1억 1,200만원/년</div><div class="s muted">기본급+직책수당+직무수당</div></div>
+       <div class="dstat"><div class="l">의장 (지방의회)</div><div class="v mono" style="font-size:1.05rem">약 6,800만원/년</div><div class="s muted">의정활동비+월정수당+의장수당</div></div>
+       <div class="dstat"><div class="l">지방의원</div><div class="v mono" style="font-size:1.05rem">약 4,500만원/년</div><div class="s muted">의정활동비 1,100만+월정 3,400만</div></div>
+       <div class="dstat"><div class="l">부단체장 (3급)</div><div class="v mono" style="font-size:1.05rem">약 9,400만원/년</div><div class="s muted">호봉별 평균</div></div>
+       <div class="dstat"><div class="l">국·실장 (4급 서기관)</div><div class="v mono" style="font-size:1.05rem">약 8,500만원/년</div><div class="s muted">호봉별 평균</div></div>
+       <div class="dstat"><div class="l">과장 (5급 사무관)</div><div class="v mono" style="font-size:1.05rem">약 7,500만원/년</div><div class="s muted">호봉별 평균</div></div>
+       <div class="dstat"><div class="l">팀장 (6급 주사)</div><div class="v mono" style="font-size:1.05rem">약 6,100만원/년</div><div class="s muted">호봉별 평균</div></div>
+       <div class="dstat"><div class="l">주무관 (7급)</div><div class="v mono" style="font-size:1.05rem">약 4,800만원/년</div><div class="s muted">호봉별 평균</div></div>
+       <div class="dstat"><div class="l">9급 신규 공무원</div><div class="v mono" style="font-size:1.05rem">약 3,200만원/년</div><div class="s muted">1호봉 기준</div></div>
+     </div>
+     <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;justify-content:flex-end">
+       <button class="ca-btn ca-btn-suggest" type="button" onclick="CA&&CA.openModal('suggest','salary-${R.key}','${R.display} 공무원 급여 체계')">💡 제안하기</button>
+       <button class="ca-btn ca-btn-report" type="button" onclick="CA&&CA.openModal('report','salary-${R.key}','${R.display} 공무원 급여 체계')">🚨 시정요구</button>
+     </div>
+   </div>
    <div class="dblock"><h3>📋 계약 현황 (수의계약 비율 등) ${blockStatus()}</h3>
      <div class="dgrid">
        <div class="dstat"><div class="l">총 계약규모</div><div class="v mono" style="font-size:1.1rem">${won억(R.contractTotal)}</div></div>
@@ -2422,6 +2582,252 @@ function init(){
 }
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 /* 재정주권 365 · build ready */
+</script>
+<!-- 🌐 AI 자동번역 (Google Translate Element) -->
+<script type="text/javascript">
+function googleTranslateElementInit(){
+  new google.translate.TranslateElement({
+    pageLanguage:'ko',
+    includedLanguages:'en,ja,zh-CN,zh-TW,es,fr,de,vi,th,id,ru,pt,ar,it,hi',
+    layout:google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay:false
+  },'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
+
+<!-- 🌱 시민 참여 광장 (Civic Action Platform) -->
+<script>
+const CA = {
+  region: '전라남도 강진군',
+  tab: 'policy',
+  plazaSort: 'popular',
+  mockData: {
+    policy: [
+      {id:'p1',cat:'복지',title:'어르신 무료 건강검진 확대',meta:'대상 65세 이상 · 예산 12억원 · 시행률 87%'},
+      {id:'p2',cat:'교통',title:'시내버스 무료 시범운영',meta:'주말 한정 · 예산 5억원 · 만족도 92%'},
+      {id:'p3',cat:'교육',title:'AI 평생교육 프로그램',meta:'전 군민 대상 · 예산 3억원 · 참여 1,200명'},
+      {id:'p4',cat:'농업',title:'청년농 스마트팜 지원',meta:'30대 이하 · 1억원/명 · 신청 마감'},
+      {id:'p5',cat:'환경',title:'태양광 주택 보급 사업',meta:'1,500가구 · 자부담 30% · 진행 중'}
+    ],
+    budget: [
+      {id:'b1',cat:'사회복지',title:'사회복지 1,420억원',meta:'전체 예산의 30.6% · 전년 대비 +12%'},
+      {id:'b2',cat:'농림수산',title:'농림수산 980억원',meta:'전체 예산의 21.1% · 전년 대비 +8%'},
+      {id:'b3',cat:'문화관광',title:'문화관광·축제 220억원',meta:'전체 예산의 4.7% · 전년 대비 +35% ⚠️'},
+      {id:'b4',cat:'환경',title:'환경·에너지 180억원',meta:'전체 예산의 3.9% · 전년 대비 -2%'},
+      {id:'b5',cat:'교통',title:'교통·도로 350억원',meta:'전체 예산의 7.5% · 전년 대비 +5%'}
+    ],
+    contract: [
+      {id:'c1',cat:'수의계약',title:'OO토목 도로포장 공사 18억원',meta:'5년 연속 동일업체 · 단가 비교 필요'},
+      {id:'c2',cat:'경쟁입찰',title:'OO IT 시스템 구축 6.2억원',meta:'3개 업체 입찰 · 적정 가격'},
+      {id:'c3',cat:'수의계약',title:'OO 행사 운영 용역 4.5억원',meta:'단년도 계약 · 사업 규모 작음에도 수의'},
+      {id:'c4',cat:'경쟁입찰',title:'학교 급식 식자재 납품 9.8억원',meta:'7개 업체 입찰 · 지역 우선 적용'},
+      {id:'c5',cat:'수의계약',title:'OO 청소·시설 위탁 7.1억원',meta:'4년 연속 갱신 · 가격경쟁 점검 권고'}
+    ],
+    salary: [
+      {id:'s1',cat:'정무직',title:'군수 (지자체장)',meta:'연봉 약 1억 1,200만원 · 정무직 · 기본급+직책수당+직무수당'},
+      {id:'s2',cat:'의장단',title:'의장 (지방의회)',meta:'연봉 약 6,800만원 · 의정활동비+월정수당+의장수당'},
+      {id:'s3',cat:'의원',title:'지방의원',meta:'연봉 약 4,500만원 · 의정활동비 1,100만+월정수당 3,400만'},
+      {id:'s4',cat:'부단체장',title:'부군수 (3급)',meta:'연봉 약 9,400만원 · 호봉별 · 기본급+직급보조비'},
+      {id:'s5',cat:'국장(4급)',title:'국·실장 (4급 서기관)',meta:'연봉 약 8,500만원 · 호봉별 평균'},
+      {id:'s6',cat:'과장(5급)',title:'과장 (5급 사무관)',meta:'연봉 약 7,500만원 · 호봉별 평균'},
+      {id:'s7',cat:'팀장(6급)',title:'팀장 (6급 주사)',meta:'연봉 약 6,100만원 · 호봉별 평균'},
+      {id:'s8',cat:'주무관(7급)',title:'주무관 (7급)',meta:'연봉 약 4,800만원 · 호봉별 평균'},
+      {id:'s9',cat:'신규직(9급)',title:'9급 신규 공무원',meta:'연봉 약 3,200만원 · 1호봉 기준'}
+    ]
+  },
+  seedPosts: [
+    {id:'sp1',region:'전라남도 강진군',type:'suggest',author:'동네지킴이',title:'축제 예산 35% 증가, 정말 필요한가요?',content:'올해 축제·관광 예산이 작년보다 35%나 늘었는데, 정작 어르신 돌봄이나 청년 일자리 예산은 거의 안 늘었어요. 우선순위 조정 부탁드립니다.',likes:127,comments:24,time:Date.now()-3600000*5},
+    {id:'sp2',region:'전라남도 강진군',type:'report',author:'예산감시단',title:'5년 연속 같은 업체 도로공사 18억, 의심됩니다',content:'단가 비교 분석 결과 인근 군에 비해 m²당 13% 비싸요. 행정사무감사 안건으로 검토 부탁합니다.',likes:89,comments:18,time:Date.now()-3600000*12},
+    {id:'sp3',region:'전라남도 강진군',type:'suggest',author:'청년농부',title:'스마트팜 지원금, 40대까지 확대 가능할까요?',content:'40대 귀농인도 많은데 30대까지만 지원돼서 안타깝습니다. 연령 기준 완화 검토 요청드립니다.',likes:64,comments:11,time:Date.now()-3600000*30},
+    {id:'sp4',region:'전라남도 강진군',type:'suggest',author:'무명시민',title:'시내버스 무료 시범운영, 주중에도 해주세요',content:'주말만 무료라 평일 출근하는 시민은 혜택이 없어요. 어르신·청소년부터라도 평일 무료 확대 어떨까요?',likes:51,comments:9,time:Date.now()-3600000*48},
+    {id:'sp5',region:'전라남도 강진군',type:'report',author:'세금이아까워',title:'군수 업무추진비 사용내역 더 투명하게 공개',content:'분기별 항목만 봐서는 어떤 행사인지 알 수 없어요. 영수증·참석자 수까지 공개되면 신뢰가 올라갑니다.',likes:42,comments:7,time:Date.now()-3600000*72}
+  ],
+  getPosts(){
+    let s=[]; try{ s=JSON.parse(localStorage.getItem('caPosts')||'[]'); }catch(e){}
+    return [...s, ...this.seedPosts];
+  },
+  savePost(p){
+    let posts=[]; try{ posts=JSON.parse(localStorage.getItem('caPosts')||'[]'); }catch(e){}
+    posts.unshift(p);
+    try{ localStorage.setItem('caPosts', JSON.stringify(posts)); }catch(e){}
+  },
+  toggleLike(id){
+    let likes=[]; try{ likes=JSON.parse(localStorage.getItem('caLikes')||'[]'); }catch(e){}
+    const i=likes.indexOf(id); const newlyLiked=i<0;
+    if(i>=0) likes.splice(i,1); else likes.push(id);
+    try{ localStorage.setItem('caLikes', JSON.stringify(likes)); }catch(e){}
+    return newlyLiked;
+  },
+  hasLiked(id){
+    let likes=[]; try{ likes=JSON.parse(localStorage.getItem('caLikes')||'[]'); }catch(e){}
+    return likes.includes(id);
+  },
+  esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); },
+  renderTab(){
+    const data=this.mockData[this.tab]||[];
+    const names={policy:'정책',budget:'예산',contract:'계약',salary:'공무원 급여'};
+    const panel=document.getElementById('caTabPanel');
+    if(!panel) return;
+    const note=this.tab==='salary'?' (행정안전부 공무원 보수규정·지방재정365 기준 추정치)':' (시연 데이터 · 실데이터 연동 시 자동 갱신)';
+    panel.innerHTML = `<div class="ca-tab-meta"><b>${this.esc(this.region)}</b>의 ${names[this.tab]} 현황${note}</div>` + data.map(item=>`
+      <div class="ca-card">
+        <div class="ca-card-body">
+          <div class="ca-card-cat">${this.esc(item.cat)}</div>
+          <div class="ca-card-title">${this.esc(item.title)}</div>
+          <div class="ca-card-meta">${this.esc(item.meta)}</div>
+        </div>
+        <div class="ca-card-actions">
+          <button class="ca-btn ca-btn-suggest" type="button" data-act="suggest" data-id="${item.id}" data-title="${this.esc(item.title)}">💡 제안하기</button>
+          <button class="ca-btn ca-btn-report" type="button" data-act="report" data-id="${item.id}" data-title="${this.esc(item.title)}">🚨 시정요구</button>
+        </div>
+      </div>
+    `).join('');
+    panel.querySelectorAll('button[data-act]').forEach(b=>b.addEventListener('click',()=>{
+      this.openModal(b.dataset.act, b.dataset.id, b.dataset.title);
+    }));
+  },
+  renderPlaza(){
+    const feed=document.getElementById('caPlazaFeed');
+    if(!feed) return;
+    let posts=this.getPosts();
+    if(this.plazaSort==='popular') posts=posts.slice().sort((a,b)=>(b.likes||0)-(a.likes||0));
+    else posts=posts.slice().sort((a,b)=>(b.time||0)-(a.time||0));
+    if(!posts.length){ feed.innerHTML='<div style="text-align:center;color:#94a3b8;padding:30px">아직 등록된 의견이 없어요. 첫 의견을 남겨보세요!</div>'; return; }
+    feed.innerHTML = posts.map(p=>{
+      const liked=this.hasLiked(p.id);
+      const isHot=(p.likes||0)>=100;
+      const typeName=p.type==='suggest'?'💡 제안':'🚨 시정요구';
+      return `<div class="ca-post ${isHot?'hot':''}">
+        ${isHot?'<div class="ca-post-hot-badge">🔥 HOT</div>':''}
+        <div class="ca-post-header">
+          <div class="ca-post-meta">
+            <span class="ca-post-type ${this.esc(p.type)}">${typeName}</span>
+            <span class="ca-post-region">📍 ${this.esc(p.region)}</span>
+            <span class="ca-post-time">${this.timeAgo(p.time)}</span>
+          </div>
+        </div>
+        <div class="ca-post-author">${this.esc(p.author)}</div>
+        <div class="ca-post-title">${this.esc(p.title)}</div>
+        <div class="ca-post-content">${this.esc(p.content)}</div>
+        <div class="ca-post-actions">
+          <button class="ca-like ${liked?'liked':''}" type="button" data-like="${p.id}">${liked?'❤️':'🤍'} <span>${p.likes||0}</span></button>
+          <span class="ca-comment-count">💬 ${p.comments||0}</span>
+          <button class="ca-agree" type="button" data-like="${p.id}">나도 동의합니다 →</button>
+        </div>
+      </div>`;
+    }).join('');
+    feed.querySelectorAll('button[data-like]').forEach(b=>b.addEventListener('click',()=>this.onLike(b.dataset.like)));
+  },
+  timeAgo(ts){
+    const s=Math.floor((Date.now()-ts)/1000);
+    if(s<60) return '방금';
+    if(s<3600) return Math.floor(s/60)+'분 전';
+    if(s<86400) return Math.floor(s/3600)+'시간 전';
+    return Math.floor(s/86400)+'일 전';
+  },
+  onLike(id){
+    const newly=this.toggleLike(id);
+    const seed=this.seedPosts.find(p=>p.id===id);
+    if(seed) seed.likes=(seed.likes||0)+(newly?1:-1);
+    let stored=[]; try{ stored=JSON.parse(localStorage.getItem('caPosts')||'[]'); }catch(e){}
+    const sp=stored.find(p=>p.id===id);
+    if(sp){ sp.likes=(sp.likes||0)+(newly?1:-1); try{ localStorage.setItem('caPosts', JSON.stringify(stored)); }catch(e){} }
+    this.renderPlaza();
+  },
+  openModal(type, itemId, itemTitle){
+    if(typeof STATE!=='undefined' && STATE.region && STATE.region.display){ this.region = STATE.region.display; }
+    const typeName=type==='suggest'?'정책 제안하기':'시정요구·문제 제기';
+    const icon=type==='suggest'?'💡':'🚨';
+    const ph=type==='suggest'?'예: 이 예산을 ○○에 쓰면 더 좋겠어요. 이유는...':'예: 이 계약은 단가가 과한 것 같아요. 비교해보니...';
+    const body=document.getElementById('caModalBody');
+    if(!body) return;
+    body.innerHTML=`
+      <h3>${icon} ${typeName}</h3>
+      <div class="ca-modal-context">📌 대상: <b>${this.esc(itemTitle)}</b><br>📍 지역: <b>${this.esc(this.region)}</b></div>
+      <form id="caForm">
+        <label>닉네임</label>
+        <input name="author" required maxlength="20" placeholder="예: 동네지킴이">
+        <label>비밀번호 (수정·삭제 시 사용, 4자리 이상)</label>
+        <input name="password" required type="password" minlength="4" maxlength="20">
+        <label>제목</label>
+        <input name="title" required maxlength="80" placeholder="한 줄 요약">
+        <label>내용</label>
+        <textarea name="content" required maxlength="500" placeholder="${ph}"></textarea>
+        <button type="submit" class="ca-modal-submit">${icon} 시민 광장에 등록</button>
+        <button type="button" class="ca-modal-cancel" id="caCancelBtn">취소</button>
+      </form>`;
+    document.getElementById('caModal').classList.add('show');
+    document.getElementById('caCancelBtn').addEventListener('click',()=>this.closeModal());
+    document.getElementById('caForm').addEventListener('submit',(e)=>this.submitForm(e,type,itemId,itemTitle));
+  },
+  closeModal(){ const m=document.getElementById('caModal'); if(m) m.classList.remove('show'); },
+  submitForm(e, type, itemId, itemTitle){
+    e.preventDefault();
+    const fd=new FormData(e.target);
+    const post={
+      id:'u'+Date.now(), region:this.region, type:type,
+      author:fd.get('author'), title:fd.get('title'), content:fd.get('content'),
+      itemId:itemId, itemTitle:itemTitle, likes:1, comments:0, time:Date.now()
+    };
+    this.savePost(post);
+    let likes=[]; try{ likes=JSON.parse(localStorage.getItem('caLikes')||'[]'); }catch(e){}
+    likes.push(post.id);
+    try{ localStorage.setItem('caLikes', JSON.stringify(likes)); }catch(e){}
+    this.closeModal();
+    this.renderPlaza();
+    const feed=document.getElementById('caPlazaFeed');
+    if(feed) feed.scrollIntoView({behavior:'smooth',block:'start'});
+    if(typeof toast==='function') toast('✅ 의견이 시민 광장에 등록되었어요!');
+    return false;
+  },
+  handleSearch(){
+    const inp=document.getElementById('caSearch');
+    const v=(inp?.value||'').trim();
+    if(!v) return;
+    let found=null;
+    if(typeof STATE!=='undefined' && STATE.byKey){
+      found=Object.keys(STATE.byKey).find(k=>{
+        const r=STATE.byKey[k];
+        return r && r.display && (r.display.includes(v)||k.includes(v));
+      });
+    }
+    if(found && STATE.byKey[found]){
+      this.region=STATE.byKey[found].display;
+      this.renderTab();
+      if(typeof toast==='function') toast('✅ '+this.region+' 으로 변경했어요');
+    } else {
+      this.region=v;
+      this.renderTab();
+      if(typeof toast==='function') toast('"'+v+'" 으로 표시 (정확한 매칭 안 됨)');
+    }
+  },
+  init(){
+    document.querySelectorAll('.ca-tab').forEach(t=>t.addEventListener('click',()=>{
+      document.querySelectorAll('.ca-tab').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      this.tab=t.dataset.tab;
+      this.renderTab();
+    }));
+    document.querySelectorAll('.ca-plaza-filter button').forEach(b=>b.addEventListener('click',()=>{
+      document.querySelectorAll('.ca-plaza-filter button').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      this.plazaSort=b.dataset.sort;
+      this.renderPlaza();
+    }));
+    const cc=document.getElementById('caModalClose');
+    if(cc) cc.addEventListener('click',()=>this.closeModal());
+    const ov=document.getElementById('caModal');
+    if(ov) ov.addEventListener('click',(e)=>{ if(e.target.id==='caModal') this.closeModal(); });
+    const sb=document.getElementById('caSearchBtn');
+    if(sb) sb.addEventListener('click',()=>this.handleSearch());
+    const si=document.getElementById('caSearch');
+    if(si) si.addEventListener('keydown',(e)=>{ if(e.key==='Enter'){ e.preventDefault(); this.handleSearch(); } });
+    this.renderTab();
+    this.renderPlaza();
+  }
+};
+window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA init',e); } });
 </script>
 </body>
 </html>
