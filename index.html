@@ -218,6 +218,101 @@ section{padding:26px 0}
 .src-note b{color:#1e293b}
 .src-note a{color:#1d6fe0;font-weight:700}
 
+/* === 💰📜 예산·계약 집중 섹션 === */
+.focus-section{margin-top:32px;border-radius:24px;padding:28px;box-shadow:0 6px 24px rgba(29,111,224,.08)}
+.budget-theme{background:linear-gradient(135deg,#ecfdf5 0%,#f0fdfa 100%);border:1px solid #bbf7d0}
+.contract-theme{background:linear-gradient(135deg,#fef3c7 0%,#fffbeb 100%);border:1px solid #fde9c8}
+.fs-header{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.fs-icon{font-size:2.4rem}
+.fs-header h2{font-size:1.45rem;font-weight:900;color:#1e3a5f;margin:0;letter-spacing:-.4px}
+.fs-header p{font-size:.9rem;color:#5a6b85;margin:4px 0 0;line-height:1.55}
+.fs-picker{display:flex;gap:8px;background:#fff;padding:10px;border-radius:14px;margin-bottom:16px;border:1.5px solid #e2e8f0;flex-wrap:wrap;align-items:center}
+.fs-picker select{flex:1;min-width:140px;border:1.5px solid #cbd5e1;border-radius:10px;padding:10px 14px;font-family:inherit;font-size:.92rem;background:#fff;color:#1e293b;font-weight:600;cursor:pointer;outline:none}
+.fs-picker select:focus{border-color:#1d6fe0}
+.budget-theme .fs-picker button{background:#16a34a}
+.contract-theme .fs-picker button{background:#d97706}
+.fs-picker button{border:none;color:#fff;padding:10px 22px;border-radius:10px;font-weight:900;font-size:.9rem;cursor:pointer;font-family:inherit;transition:all .15s}
+.fs-picker button:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.2)}
+.fs-panel{background:#fff;border-radius:18px;padding:22px;box-shadow:0 2px 10px rgba(0,0,0,.04);min-height:140px}
+.fs-empty{text-align:center;color:#94a3b8;padding:40px 0;line-height:1.7}
+.fs-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.fs-stat{background:#f8fafc;border-radius:12px;padding:14px 16px}
+.fs-stat .label{font-size:.78rem;color:#64748b;font-weight:700;margin-bottom:4px}
+.fs-stat .value{font-size:1.4rem;font-weight:900;color:#1e3a5f;font-feature-settings:'tnum';line-height:1.2}
+.fs-stat .sub{font-size:.76rem;color:#64748b;margin-top:3px}
+.fs-region-title{font-size:1.05rem;font-weight:900;color:#1e3a5f;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #e2e8f0}
+@media(max-width:520px){
+  .focus-section{padding:18px;border-radius:18px}
+  .fs-header h2{font-size:1.2rem}
+  .fs-picker select,.fs-picker button{flex:1;min-width:0}
+  .fs-stat-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* === 📋 정책 키워드 검색 + 카드 시스템 === */
+.policy-search-section{margin-top:32px;background:linear-gradient(135deg,#f1f6ff 0%,#eef9f7 100%);border:1px solid #d9e3f0;border-radius:24px;padding:28px;box-shadow:0 6px 24px rgba(29,111,224,.08)}
+.ps-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+.ps-icon{font-size:2.4rem}
+.ps-header h2{font-size:1.55rem;font-weight:900;color:#1e3a5f;margin:0;letter-spacing:-.4px}
+.ps-header p{font-size:.92rem;color:#5a6b85;margin:4px 0 0;line-height:1.55}
+.ps-search{display:flex;gap:10px;align-items:center;background:#fff;border-radius:999px;padding:6px 6px 6px 6px;box-shadow:0 8px 22px rgba(29,111,224,.1);border:2px solid #c7d6ec;margin-bottom:14px}
+.ps-search input{flex:1;border:none;outline:none;padding:12px 18px;font-size:.98rem;font-family:inherit;background:transparent;color:#1e293b;font-weight:600;min-width:0}
+.ps-search input::placeholder{color:#a0aec0;font-weight:600}
+.ps-quick-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.ps-chip{border:1.5px solid #cbd5e1;background:#fff;padding:7px 14px;border-radius:999px;font-weight:700;font-size:.82rem;color:#475569;cursor:pointer;transition:all .15s;font-family:inherit}
+.ps-chip:hover{background:#f0f9ff;border-color:#1d6fe0;color:#1e3a5f}
+.ps-chip.active{background:#1d6fe0;color:#fff;border-color:#1d6fe0}
+.ps-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:18px;margin-bottom:12px;transition:all .2s;cursor:pointer}
+.ps-card:hover{border-color:#1d6fe0;box-shadow:0 8px 24px rgba(29,111,224,.16);transform:translateY(-2px)}
+.ps-card-head{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.ps-cat{background:#dbeafe;color:#1e40af;font-size:.7rem;font-weight:900;padding:3px 10px;border-radius:999px}
+.ps-status{background:#dcfce7;color:#166534;font-size:.7rem;font-weight:900;padding:3px 10px;border-radius:999px}
+.ps-card-title{font-size:1.05rem;font-weight:800;color:#1e3a5f;margin-bottom:4px;line-height:1.4}
+.ps-card-summary{font-size:.86rem;color:#64748b;line-height:1.6;margin-bottom:12px;word-break:keep-all}
+.ps-card-grid{background:#f8fafc;border-radius:10px;padding:11px 13px;font-size:.78rem;line-height:1.8;color:#334155;margin-bottom:10px}
+.ps-card-grid b{color:#1e3a5f;margin-right:8px;display:inline-block;min-width:40px}
+.ps-dept{background:#ecfdf5;border:1px solid #bbf7d0;border-radius:10px;padding:10px 13px;font-size:.8rem;color:#065f46;line-height:1.65;margin-bottom:12px}
+.ps-dept .dept-name{font-weight:900;color:#064e3b;display:block;margin-bottom:2px;font-size:.92rem}
+.ps-actions{display:flex;gap:6px;flex-wrap:wrap}
+.ps-action{padding:8px 14px;border:none;border-radius:10px;font-weight:800;font-size:.76rem;cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .15s}
+.ps-action:hover{transform:scale(1.05);box-shadow:0 4px 10px rgba(0,0,0,.12)}
+.ps-action.suggest{background:#fef3c7;color:#92400e}
+.ps-action.report{background:#fee2e2;color:#b91c1c}
+.ps-action.contact{background:#dcfce7;color:#166534}
+.ps-action.detail{background:#dbeafe;color:#1e40af;margin-left:auto}
+.ps-modal-overlay{position:fixed;inset:0;background:rgba(15,30,53,.6);z-index:200;padding:20px;backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center}
+.ps-modal-overlay.show{display:flex}
+.ps-modal{background:#fff;border-radius:20px;max-width:640px;width:100%;max-height:90vh;overflow-y:auto;position:relative;padding:26px;box-shadow:0 30px 80px rgba(0,0,0,.35);animation:psModalIn .25s ease-out}
+@keyframes psModalIn{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:none}}
+.ps-modal-close{position:absolute;top:14px;right:14px;border:none;background:#f1f5f9;color:#64748b;width:36px;height:36px;border-radius:50%;font-size:1.4rem;cursor:pointer;font-weight:900;line-height:1;transition:all .15s}
+.ps-modal-close:hover{background:#e2e8f0;color:#1e293b}
+.ps-detail-section{margin-top:14px}
+.ps-detail-label{font-size:.7rem;font-weight:800;color:#94a3b8;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+.ps-detail-row{background:#f8fafc;border-radius:10px;padding:11px 14px;font-size:.86rem;line-height:1.75;color:#1e293b}
+.ps-procedure{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.ps-step{background:#fff;border:1px solid #e2e8f0;padding:6px 12px;border-radius:999px;font-size:.78rem;color:#334155;display:inline-block}
+.ps-step b{color:#16a34a;margin-right:4px}
+.ps-arrow{font-size:.9rem;color:#16a34a}
+@media(max-width:520px){
+  .policy-search-section{padding:18px;border-radius:18px}
+  .ps-header h2{font-size:1.25rem}
+  .ps-search{padding:4px}
+  .ps-search input{padding:10px 14px;font-size:.9rem}
+  .ps-card{padding:14px}
+  .ps-modal{padding:20px;border-radius:18px}
+  .ps-action{flex:1;font-size:.74rem;padding:8px 10px}
+  .ps-action.detail{margin-left:0;flex-basis:100%}
+}
+
+/* === 📚 재정 교과서·🧬 재정 온톨로지 — 스크롤 노출 X · 메뉴 클릭 시 모달 === */
+#edu,#ontology{display:none}
+#edu.show,#ontology.show{display:block;position:fixed;inset:0;background:rgba(15,30,53,.55);z-index:300;padding:24px 18px;overflow-y:auto;backdrop-filter:blur(5px);animation:eduFadeIn .22s ease-out}
+@keyframes eduFadeIn{from{opacity:0}to{opacity:1}}
+#edu.show>*,#ontology.show>*{max-width:960px;margin:0 auto 14px;background:#fff;border-radius:16px;padding:16px 18px;box-shadow:0 12px 36px rgba(0,0,0,.18)}
+#edu.show .section-h,#ontology.show .section-h{background:linear-gradient(135deg,#fff,#f1f6ff);border-radius:14px;padding:14px 18px}
+#ontology.show .section-h{background:linear-gradient(135deg,#fff,#fef9f3)}
+.edu-close,.ontology-close{position:fixed;top:18px;right:22px;width:44px;height:44px;border-radius:50%;background:#fff;border:none;font-size:1.5rem;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.22);z-index:301;font-weight:900;color:#1e293b;display:none}
+.edu-close.show,.ontology-close.show{display:block}
+
 /* === 🌐 AI 자동번역 (Google Translate) === */
 .translate-fab{position:fixed;top:14px;left:14px;z-index:90;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 12px;box-shadow:0 4px 14px rgba(11,37,69,.18);display:flex;align-items:center;gap:7px;font-size:.78rem;font-weight:800;color:#1e293b}
 .translate-fab>span{font-size:.95rem}
@@ -621,10 +716,10 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
         <a href="#charts" role="menuitem">📊 시각화</a>
         <a href="#ranking" role="menuitem">🏅 전국 순위</a>
         <a href="#compare" role="menuitem">⚖️ 비교하기</a>
-        <a href="#edu" role="menuitem">📚 재정 교과서</a>
+        <a href="javascript:void(0)" id="navEdu" role="menuitem">📚 재정 교과서·용어</a>
+        <a href="javascript:void(0)" id="navOntology" role="menuitem">🧬 재정 온톨로지란?</a>
       </div>
     </div>
-    <a href="#ontology">🧬 재정 온톨로지</a>
     <a href="#action">📣 시민 참여·시정요구</a>
     <a href="javascript:void(0)" id="navAbout">👤 김보미 소개</a>
   </div>
@@ -668,27 +763,6 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
     <div id="google_translate_element"></div>
   </div>
 
-  <!-- 🌱 시민 참여 광장 (Civic Action Platform) -->
-  <section id="civic-action" class="civic-action-section">
-    <div class="ca-header">
-      <span class="ca-icon">🌱</span>
-      <div>
-        <h2>시민 참여 광장</h2>
-        <p>지자체 살림살이를 보고 한 줄 의견으로 동네를 바꾸세요 — 공무원 급여까지 모든 정보는 우리동네 상세페이지에서 확인</p>
-      </div>
-    </div>
-
-    <div class="ca-plaza">
-      <div class="ca-plaza-head">
-        <h3>💬 우리 동네 시민의 한 마디</h3>
-        <div class="ca-plaza-filter">
-          <button data-sort="popular" class="active" type="button">🔥 공감순</button>
-          <button data-sort="recent" type="button">🕐 최신순</button>
-        </div>
-      </div>
-      <div id="caPlazaFeed"></div>
-    </div>
-  </section>
 
   <!-- 시민 참여 모달 -->
   <div id="caModal" class="ca-modal-overlay">
@@ -697,6 +771,77 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
       <div id="caModalBody"></div>
     </div>
   </div>
+
+  <!-- 📋 정책 검색 (3초 진단 통합 — 키워드로 정책 찾기) -->
+  <section id="policy-search" class="policy-search-section">
+    <div class="ps-header">
+      <span class="ps-icon">📋</span>
+      <div>
+        <h2>우리 동네 정책 검색</h2>
+        <p>키워드 한 단어로 우리 동네 정책을 찾고, 관계법령·조례·근거·담당부서·연락처까지 한 화면에서 확인하세요</p>
+      </div>
+    </div>
+    <div class="ps-search">
+      <input id="psSearchInput" type="text" placeholder="🔍 키워드 검색 (예: 청년, 어르신, 도로, 환경, 교육, 농업)">
+      <span id="psCount" style="font-size:.78rem;color:#64748b;white-space:nowrap;padding-right:8px">매칭 -건</span>
+    </div>
+    <div class="ps-quick-chips">
+      <button class="ps-chip active" type="button" data-q="">전체</button>
+      <button class="ps-chip" type="button" data-q="청년">청년</button>
+      <button class="ps-chip" type="button" data-q="어르신">어르신</button>
+      <button class="ps-chip" type="button" data-q="교통">교통</button>
+      <button class="ps-chip" type="button" data-q="교육">교육</button>
+      <button class="ps-chip" type="button" data-q="환경">환경</button>
+      <button class="ps-chip" type="button" data-q="농업">농업</button>
+    </div>
+    <div id="psResults"></div>
+  </section>
+
+  <!-- 정책 상세 모달 -->
+  <div id="psDetailModal" class="ps-modal-overlay">
+    <div class="ps-modal">
+      <button class="ps-modal-close" id="psDetailClose" type="button" aria-label="닫기">×</button>
+      <div id="psDetailBody"></div>
+    </div>
+  </div>
+
+  <!-- 💰 우리 동네 예산 (예산·집행만 집중) -->
+  <section id="budget-only" class="focus-section budget-theme">
+    <div class="fs-header">
+      <span class="fs-icon">💰</span>
+      <div>
+        <h2>우리 동네 예산</h2>
+        <p>시·군·구를 선택하면 <b>예산·집행만</b> 집중해서 보여드립니다 (실시간 공시 기준)</p>
+      </div>
+    </div>
+    <div class="fs-picker">
+      <select id="budgetSido"><option value="">시·도 선택</option></select>
+      <select id="budgetSigungu"><option value="">시·군·구 선택</option></select>
+      <button id="budgetGo" type="button">💰 예산 보기</button>
+    </div>
+    <div id="budgetPanel" class="fs-panel">
+      <div class="fs-empty">위에서 <b>시·도</b> → <b>시·군·구</b>를 선택하고 "예산 보기"를 눌러주세요.</div>
+    </div>
+  </section>
+
+  <!-- 📜 우리 동네 계약 (계약 현황만 집중) -->
+  <section id="contract-only" class="focus-section contract-theme">
+    <div class="fs-header">
+      <span class="fs-icon">📜</span>
+      <div>
+        <h2>우리 동네 계약 현황</h2>
+        <p>시·군·구를 선택하면 <b>계약·이상신호만</b> 집중해서 보여드립니다 (재정 온톨로지 자동 적용)</p>
+      </div>
+    </div>
+    <div class="fs-picker">
+      <select id="contractSido"><option value="">시·도 선택</option></select>
+      <select id="contractSigungu"><option value="">시·군·구 선택</option></select>
+      <button id="contractGo" type="button">📜 계약 보기</button>
+    </div>
+    <div id="contractPanel" class="fs-panel">
+      <div class="fs-empty">위에서 <b>시·도</b> → <b>시·군·구</b>를 선택하고 "계약 보기"를 눌러주세요.</div>
+    </div>
+  </section>
 
   <!-- 중앙정부 부처 예산 감시 배너 -->
   <div class="gov-cta">
@@ -878,18 +1023,30 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
     </div>
   </section>
 
-  <!-- 재정 온톨로지 -->
+  <!-- 재정 온톨로지 (스크롤 노출 X · 메뉴 클릭 시 모달로 표시) -->
   <section id="ontology">
     <div class="section-h">
       <span class="ic">🧬</span>
-      <div><h2>어떻게 분석하나요</h2><p>이 플랫폼은 공식 재정 문서를 바탕으로 예산·집행·계약의 연결 관계를 분석합니다</p></div>
+      <div><h2>재정 온톨로지란?</h2><p>숫자 너머의 '관계'를 읽어 이상 신호를 자동 탐지하는 분석 기법 — 이 사이트가 어디서 어떻게 작동 중인지 한눈에</p></div>
     </div>
-    <div class="card pad">
-      <p style="font-size:.9rem;color:#33425a;line-height:1.7;margin-bottom:6px">
+    <div class="card pad" style="background:linear-gradient(135deg,#fff7ed,#fef9f3);border-left:5px solid #f59e0b">
+      <p style="font-size:.96rem;font-weight:700;color:#92400e;line-height:1.7;margin-bottom:6px">한 줄 정의 — 데이터들이 어떻게 서로 연결돼있는지 정리한 <b>"의미 지도"</b></p>
+      <p style="font-size:.88rem;color:#33425a;line-height:1.7;margin-bottom:10px">단순히 "예산 1,000억"이 아니라, 그 1,000억이 어떤 <b>분야 → 사업 → 계약자 → 수혜자 → 법령</b>에 묶여있는지 <b>관계망 전체</b>를 본다는 뜻입니다. 숫자만 보면 놓치는 자전거래·일감몰아주기 같은 이상 신호가 관계를 따라가면 보입니다.</p>
+      <div style="background:#fff;border:1px solid #fde9c8;border-radius:12px;padding:14px 16px">
+        <div style="font-size:.78rem;font-weight:900;color:#92400e;margin-bottom:8px;letter-spacing:.04em">✅ 사이트 어디서 작동 중인지</div>
+        <div style="font-size:.85rem;color:#33425a;line-height:1.85">
+          ① <b>6단 예산 위계</b> → 상세페이지 "주요 사업별 집행 현황" — 분야부터 내역사업까지 추적<br>
+          ② <b>4단 자금흐름</b> → 상세페이지 "4단 자금추적" — 국고→광역→기초→수혜자→계약자 추적<br>
+          ③ <b>5가지 위험 패턴 자동 탐지</b> → 상세페이지 "AI 부실징후 자동 탐지" — 짜고 치는 거래·단가 부풀리기 등<br>
+          ④ <b>정책↔법령↔조례↔부서↔예산 연결</b> → 메인 "정책 검색" 카드 — 한 화면에 모든 관계 표시
+        </div>
+      </div>
+    </div>
+    <div class="card pad" style="margin-top:14px">
+      <p style="font-size:.88rem;color:#33425a;line-height:1.7;margin-bottom:6px">
         숫자를 따로 보지 않고, <b>사업 · 재원 · 수혜자 · 계약자</b>를 함께 읽어 이상 징후를 찾습니다.<br>
         <span style="color:#5b6b82;font-size:.95em">예산이 흘러가는 길 <b>[예산 짜기 ➔ 상급기관 보조금 교부 ➔ 최종 수혜자 ➔ 실제 계약 업체]</b>를 따라가며 '새는 돈'과 '적신호'를 자동으로 잡아냅니다. (국회예산정책처 공식 분석 기법 기반)</span></p>
     </div>
-
     <div class="card pad" style="margin-top:14px">
       <h3 style="font-size:1rem;font-weight:800;margin-bottom:4px">기능별 6레벨 위계</h3>
       <p class="muted" style="font-size:.82rem;margin-bottom:12px">분야부터 내역사업까지 — 내역사업 단위에서야 수혜자·공모여부·실집행 차이가 드러나 효율성 분석이 가능합니다.</p>
@@ -2828,6 +2985,252 @@ const CA = {
   }
 };
 window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA init',e); } });
+</script>
+<button class="edu-close" id="eduClose" type="button" aria-label="재정 교과서 닫기">×</button>
+<button class="ontology-close" id="ontologyClose" type="button" aria-label="재정 온톨로지 닫기">×</button>
+<script>
+(function(){
+  const nav=document.getElementById('navOntology'), ont=document.getElementById('ontology'), close=document.getElementById('ontologyClose');
+  if(!nav||!ont||!close) return;
+  const open=()=>{ ont.classList.add('show'); close.classList.add('show'); document.body.style.overflow='hidden'; window.scrollTo(0,0); };
+  const shut=()=>{ ont.classList.remove('show'); close.classList.remove('show'); document.body.style.overflow=''; };
+  nav.addEventListener('click',(e)=>{ e.preventDefault(); open(); });
+  close.addEventListener('click',shut);
+  ont.addEventListener('click',(e)=>{ if(e.target===ont) shut(); });
+  document.addEventListener('keydown',(e)=>{ if(e.key==='Escape' && ont.classList.contains('show')) shut(); });
+})();
+</script>
+
+<!-- 💰📜 예산·계약 집중 섹션 -->
+<script>
+const FS = {
+  init(){
+    if(typeof SIDO==='undefined' || typeof SIGUNGU==='undefined') return;
+    ['budget','contract'].forEach(prefix=>{
+      const sido=document.getElementById(prefix+'Sido');
+      const sigungu=document.getElementById(prefix+'Sigungu');
+      const btn=document.getElementById(prefix+'Go');
+      if(!sido||!sigungu||!btn) return;
+      sido.innerHTML='<option value="">시·도 선택</option>'+SIDO.map(s=>`<option value="${s.nm}">${s.nm}</option>`).join('');
+      sido.addEventListener('change',()=>{
+        const list=SIGUNGU[sido.value]||[];
+        if(list.length){
+          sigungu.innerHTML='<option value="">시·군·구 선택</option>'+list.map(sg=>`<option value="${sg}">${sg}</option>`).join('');
+        } else {
+          sigungu.innerHTML='<option value="">(본청만 해당)</option>';
+        }
+      });
+      btn.addEventListener('click',()=>{
+        const region = sido.value && sigungu.value ? sido.value+' '+sigungu.value : sido.value;
+        if(!region){ alert('시·도를 선택해주세요'); return; }
+        if(prefix==='budget') this.renderBudget(region);
+        else this.renderContract(region);
+      });
+    });
+  },
+  renderBudget(regionKey){
+    const R=STATE.byKey[regionKey]||STATE.byKey[regionKey.split(' ')[0]];
+    const panel=document.getElementById('budgetPanel');
+    if(!R){ panel.innerHTML='<div class="fs-empty">데이터를 찾을 수 없습니다</div>'; return; }
+    panel.innerHTML=`
+      <div class="fs-region-title">📍 ${R.display} · ${STATE.year} 회계연도 · 예산·집행 현황</div>
+      <div class="fs-stat-grid">
+        <div class="fs-stat"><div class="label">💰 총예산</div><div class="value">${won억(R.budget)}</div><div class="sub">전국 ${rankOf(R,'budget')}위</div></div>
+        <div class="fs-stat"><div class="label">🧍 1인당 예산</div><div class="value">${fmt(R.perCapitaBudget)}<span style="font-size:.8rem"> 만원</span></div></div>
+        <div class="fs-stat"><div class="label">🏦 재정자립도</div><div class="value">${R.selfReliance}<span style="font-size:.8rem">%</span></div></div>
+        <div class="fs-stat"><div class="label">🗝️ 재정자주도</div><div class="value">${R.autonomy}<span style="font-size:.8rem">%</span></div></div>
+        <div class="fs-stat"><div class="label">⚖️ 통합재정수지</div><div class="value" style="color:${R.balance>=0?'#16a34a':'#e11d48'};font-size:1.15rem">${R.balance>=0?'+':''}${won억(R.balance)}</div><div class="sub">${R.balance>=0?'흑자':'적자'}</div></div>
+        <div class="fs-stat"><div class="label">📉 채무비율</div><div class="value" style="color:${R.debtRatio<25?'#16a34a':'#e11d48'}">${R.debtRatio}<span style="font-size:.8rem">%</span></div></div>
+        <div class="fs-stat"><div class="label">📊 세출 집행률</div><div class="value" style="color:${R.execRate>=88?'#16a34a':'#e11d48'}">${R.execRate}<span style="font-size:.8rem">%</span></div></div>
+      </div>
+      <div style="margin-top:18px">
+        <div style="font-size:.84rem;font-weight:800;color:#475569;margin-bottom:8px">📒 회계별 예산현황</div>
+        <div class="fs-stat-grid">
+          <div class="fs-stat"><div class="label">일반회계</div><div class="value" style="font-size:1.1rem">${won억(R.accounts.일반회계)}</div></div>
+          <div class="fs-stat"><div class="label">특별회계</div><div class="value" style="font-size:1.1rem">${won억(R.accounts.특별회계)}</div></div>
+          <div class="fs-stat"><div class="label">기금</div><div class="value" style="font-size:1.1rem">${won억(R.accounts.기금)}</div></div>
+        </div>
+      </div>
+      <div style="margin-top:18px">
+        <div style="font-size:.84rem;font-weight:800;color:#475569;margin-bottom:8px">📈 분기별 누적 집행률</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          ${R.execQuarters.map((q,i)=>`<div style="flex:1;min-width:80px;background:#f8fafc;border-radius:10px;padding:11px 12px;text-align:center"><div style="font-size:.74rem;color:#64748b;font-weight:700">${i+1}분기</div><div style="font-size:1.05rem;font-weight:900;color:#1e3a5f;margin-top:2px">${q}%</div></div>`).join('')}
+        </div>
+      </div>
+      <div style="margin-top:18px;display:flex;gap:6px;flex-wrap:wrap">
+        <button class="ca-btn ca-btn-suggest" type="button" onclick="CA&&CA.openModal('suggest','budget-${R.key}','${R.display} 예산 편성·집행')">💡 제안하기</button>
+        <button class="ca-btn ca-btn-report" type="button" onclick="CA&&CA.openModal('report','budget-${R.key}','${R.display} 예산 편성·집행')">🚨 시정요구</button>
+      </div>`;
+  },
+  renderContract(regionKey){
+    const R=STATE.byKey[regionKey]||STATE.byKey[regionKey.split(' ')[0]];
+    const panel=document.getElementById('contractPanel');
+    if(!R){ panel.innerHTML='<div class="fs-empty">데이터를 찾을 수 없습니다</div>'; return; }
+    const flags=(typeof genRiskFlags==='function')?genRiskFlags(R):[];
+    const sevC={high:'#e11d48',mid:'#f59e0b',low:'#16a34a'};
+    panel.innerHTML=`
+      <div class="fs-region-title">📍 ${R.display} · ${STATE.year} 회계연도 · 계약 현황</div>
+      <div class="fs-stat-grid">
+        <div class="fs-stat"><div class="label">💼 총 계약규모</div><div class="value">${won억(R.contractTotal)}</div></div>
+        <div class="fs-stat"><div class="label">📝 수의계약 비중</div><div class="value" style="color:${R.suuiRatio>=45?'#e11d48':R.suuiRatio>=30?'#b45309':'#16a34a'}">${R.suuiRatio}<span style="font-size:.8rem">%</span></div></div>
+        <div class="fs-stat"><div class="label">📊 경쟁입찰 비중</div><div class="value">${(100-R.suuiRatio).toFixed(1)}<span style="font-size:.8rem">%</span></div></div>
+        <div class="fs-stat"><div class="label">💴 수의계약 추정액</div><div class="value" style="font-size:1.1rem">${won억(R.contractTotal*R.suuiRatio/100)}</div></div>
+      </div>
+      <div style="margin-top:18px">
+        <div style="font-size:.84rem;font-weight:800;color:#475569;margin-bottom:8px">🔬 AI 이상신호 자동 탐지 (재정 온톨로지 적용)</div>
+        ${flags.length?flags.map(f=>{const d=(typeof RISKFLAG_DEF!=='undefined'&&RISKFLAG_DEF[f.type])?RISKFLAG_DEF[f.type]:[f.type,''];return `<div style="background:#fff7ed;border-left:4px solid ${sevC[f.sev]};border-radius:10px;padding:11px 14px;margin-bottom:8px"><div style="font-weight:900;color:#1e3a5f;font-size:.92rem;margin-bottom:3px">${f.sev==='high'?'🔴':'🟠'} ${d[0]}<span style="color:#94a3b8;font-weight:600;font-size:.78rem;margin-left:6px">신뢰도 ${Math.round(f.conf*100)}%</span></div><div style="font-size:.84rem;color:#475569;line-height:1.6">${f.desc}</div></div>`}).join(''):'<div style="background:#ecfdf5;border-left:4px solid #16a34a;border-radius:10px;padding:11px 14px;font-size:.86rem;color:#065f46">🟢 5종 위험룰에서 탐지된 이상 신호가 없습니다.</div>'}
+      </div>
+      <div style="margin-top:14px;padding:11px 14px;background:#fff7ed;border:1px solid #fde9c8;border-radius:10px;font-size:.78rem;color:#92651a;line-height:1.6">⚠️ 본 탐지 결과는 조달청 나라장터·계약 통계 기반 통계적 가능성(의심 신호)이며 위법 확정이 아닙니다. 이상 신호가 높은 사업은 정보공개청구로 세부 검증을 권합니다.</div>
+      <div style="margin-top:18px;display:flex;gap:6px;flex-wrap:wrap">
+        <button class="ca-btn ca-btn-suggest" type="button" onclick="CA&&CA.openModal('suggest','contract-${R.key}','${R.display} 계약 현황')">💡 제안하기</button>
+        <button class="ca-btn ca-btn-report" type="button" onclick="CA&&CA.openModal('report','contract-${R.key}','${R.display} 계약 현황')">🚨 시정요구</button>
+      </div>`;
+  }
+};
+window.addEventListener('load',()=>{ try{ FS.init(); }catch(e){console.warn('FS init',e);} });
+</script>
+
+<!-- 📋 정책 검색 시스템 -->
+<script>
+const PS = {
+  region: '전라남도 강진군',
+  query: '',
+  policies: [
+    {id:'p1',title:'청년 정착 지원금',cat:'청년·일자리',status:'시행 중',keywords:['청년','정착','일자리','귀농','귀촌','지원금'],summary:'만 19~39세 강진군 거주 청년에게 월 50만원 정착 지원금 (최대 24개월). 예산 18.6억원, 대상 약 600명.',desc:'만 19~39세 강진군 거주 청년에게 월 50만원 정착 지원금을 최대 24개월 지급. 청년 인구 유출 방지와 강진 정착 유도를 위해 2024년 시범 도입, 2026년부터 전 청년 확대.',target:'강진군 6개월 이상 거주, 만 19~39세 청년',amount:'월 50만원 · 최대 24개월',period:'상시 (예산 소진 시 마감)',budget:'18.6억원 · 약 600명',laws:['청년기본법 제15조','지방자치법 제22조'],ordinance:'강진군 청년정책 기본조례 제8조',basis:'2026년 강진군 청년정책 기본계획 제3조 제2항',procedure:['온라인 신청','자격 심사','선정 통지','월별 지급'],dept:'청년정책과 청년기획팀',deptDesc:'청년 정책 수립·시행, 청년 친화 조례 운영, 청년활동 거점·청년센터 운영, 청년 정착·창업 지원',email:'youth@gangjin.go.kr',phone:'061-430-3567',faqs:[{q:'군 복무 중인 청년도 신청 가능한가요?',a:'전역 후 거주 6개월 충족 시 가능'},{q:'다른 지원금과 중복 가능?',a:'청년 월세지원과 중복 불가'}]},
+    {id:'p2',title:'어르신 무료 건강검진 확대',cat:'복지·건강',status:'시행 중',keywords:['어르신','복지','건강','노인','검진'],summary:'만 65세 이상 강진군 거주 어르신 무료 종합검진. 예산 12억원, 시행률 87%.',desc:'만 65세 이상 어르신을 대상으로 매년 무료 종합건강검진(혈액·심전도·인지·암검진 포함) 제공. 거동 불편자는 방문 검진 가능.',target:'만 65세 이상 강진군 거주',amount:'검진비 전액 군 부담',period:'연중 (지정 의료기관)',budget:'12억원 · 약 5,200명',laws:['노인복지법 제27조','지역보건법 제11조'],ordinance:'강진군 노인 보건복지 증진 조례 제15조',basis:'2026년 강진군 보건사업 시행계획',procedure:['보건소 신청','검진기관 예약','검진 수검','결과 통지·사후관리'],dept:'보건소 건강증진팀',deptDesc:'노인 건강증진 사업 기획·운영, 검진기관 협약·관리, 만성질환 사후관리',email:'health@gangjin.go.kr',phone:'061-430-3320',faqs:[{q:'결과 이상 시 추가 검사는?',a:'협력병원 정밀검사 50% 본인부담 지원'},{q:'기존 검진과 중복?',a:'국민건강보험 검진과 중복 불가'}]},
+    {id:'p3',title:'시내버스 무료 시범운영',cat:'교통',status:'시범 중',keywords:['교통','버스','무료','시내버스'],summary:'주말·공휴일 강진군 시내버스 전 노선 무료. 예산 5억원, 만족도 92%.',desc:'강진군 내 모든 시내버스를 주말·공휴일에 무료로 운영. 어르신·청소년 평일 무료도 검토 중.',target:'강진군 시내버스 모든 이용자 (주말·공휴일)',amount:'버스요금 전액 군 보조',period:'주말·공휴일 (연 102일)',budget:'5억원 · 연간 약 18만명 탑승',laws:['여객자동차 운수사업법 제50조','지방자치법 제144조'],ordinance:'강진군 시내버스 재정지원 조례 제5조',basis:'2026년 강진군 교통복지 시행계획',procedure:['버스 탑승','단말기 무료 처리','월말 정산 군 보전'],dept:'교통건설과 대중교통팀',deptDesc:'시내버스 노선·요금·재정지원 관리, 농어촌버스 운영, 교통복지 정책',email:'transit@gangjin.go.kr',phone:'061-430-3420',faqs:[{q:'평일 확대 계획?',a:'2026년 하반기 어르신·청소년 평일 무료 추진'},{q:'외지인도 무료?',a:'주말·공휴일은 외지인 포함 모두 무료'}]},
+    {id:'p4',title:'청년농 스마트팜 지원',cat:'농업·창업',status:'신청 마감',keywords:['청년','농업','스마트팜','농민','창업'],summary:'30대 이하 청년농 스마트팜 1억원/명 지원. 신청 마감, 다음 차수 2026년 하반기.',desc:'30대 이하 청년 농업인에게 스마트팜 시설 구축비 1억원(자부담 30% 별도) 지원. 멘토링·교육 패키지 포함.',target:'만 30대 이하, 영농경력 3년 이하 청년농',amount:'시설비 1억원 (자부담 30%)',period:'연 2회 공모',budget:'15억원 · 15명',laws:['농업·농촌 및 식품산업 기본법','농업인 육성법'],ordinance:'강진군 청년농업인 육성 조례',basis:'2026년 강진군 청년농 육성 5개년 계획',procedure:['공모 공고','신청 접수','심사·선정','협약·시설구축','사후관리'],dept:'농업기술센터 청년농업팀',deptDesc:'청년농 육성 정책, 스마트팜·신기술 교육, 멘토링 운영, 사업 성과 관리',email:'youthfarm@gangjin.go.kr',phone:'061-430-3680',faqs:[{q:'40대도 가능?',a:'현재 30대 이하만, 연령 확대는 검토 중'},{q:'다른 농업 지원금과 중복?',a:'시설 항목 중복 불가, 운영비는 중복 가능'}]},
+    {id:'p5',title:'AI 평생교육 프로그램',cat:'교육',status:'시행 중',keywords:['교육','평생교육','AI','디지털'],summary:'전 군민 대상 AI·디지털 무료 강의. 예산 3억원, 참여 1,200명.',desc:'전 군민 대상 AI 기초, 디지털 활용, 스마트폰 활용 무료 강의를 강진군립도서관·각 면사무소에서 운영.',target:'강진군 거주 만 14세 이상',amount:'강의료·교재비 전액 군 부담',period:'연중 분기별 모집',budget:'3억원 · 연 1,200명',laws:['평생교육법 제16조','지방자치법 제13조'],ordinance:'강진군 평생학습 진흥 조례',basis:'2026년 강진군 평생학습도시 운영계획',procedure:['도서관·면사무소 신청','수강 확정','강의 수강','이수증 발급'],dept:'평생학습관 평생학습팀',deptDesc:'평생학습 프로그램 기획·운영, 평생학습관 시설 운영, 학습동아리 지원',email:'lll@gangjin.go.kr',phone:'061-430-3580',faqs:[{q:'온라인 수강 가능?',a:'일부 강의는 줌·녹화 영상으로 가능'},{q:'어르신 대상 별도 강의?',a:'스마트폰 기초·키오스크 사용법 별도 운영'}]},
+    {id:'p6',title:'태양광 주택 보급 사업',cat:'환경·에너지',status:'진행 중',keywords:['환경','태양광','에너지','주택'],summary:'단독주택 태양광 설치비 70% 군 보조. 1,500가구 목표.',desc:'강진군 단독·다세대 주택에 3kW 태양광을 설치하면 설치비 70%를 군에서 보조. 햇빛연금과 연계 가능.',target:'강진군 거주 단독·다세대 주택 소유자',amount:'설치비 70% 보조 (자부담 30%)',period:'연 2회 공모 (3월·9월)',budget:'12억원 · 1,500가구',laws:['신에너지 및 재생에너지 개발·이용·보급 촉진법'],ordinance:'강진군 신·재생에너지 보급 촉진 조례',basis:'2026년 강진군 에너지자립 마을 5개년 계획',procedure:['공모 신청','현장 실사','시공업체 선정','설치 완료·정산'],dept:'환경에너지과 신재생에너지팀',deptDesc:'신·재생에너지 보급, 에너지자립 마을 조성, 햇빛연금 운영, 탄소중립 기획',email:'energy@gangjin.go.kr',phone:'061-430-3460',faqs:[{q:'전세·월세도 가능?',a:'소유주 동의 시 가능 (소유주 명의 신청)'},{q:'유지보수 지원?',a:'설치 후 5년간 무상 점검 1회/년'}]}
+  ],
+  esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');},
+  filter(){
+    const q=this.query.trim().toLowerCase();
+    if(!q) return this.policies;
+    return this.policies.filter(p=>{
+      const hay=(p.title+' '+p.cat+' '+p.summary+' '+(p.keywords||[]).join(' ')).toLowerCase();
+      return hay.includes(q);
+    });
+  },
+  render(){
+    const list=this.filter();
+    const results=document.getElementById('psResults');
+    const count=document.getElementById('psCount');
+    if(count) count.textContent='매칭 '+list.length+'건';
+    if(!results) return;
+    if(!list.length){ results.innerHTML='<div style="text-align:center;color:#94a3b8;padding:40px">검색 결과가 없습니다. 다른 키워드로 시도해보세요.</div>'; return; }
+    results.innerHTML=list.map(p=>`
+      <div class="ps-card" data-id="${p.id}">
+        <div class="ps-card-head">
+          <span class="ps-cat">${this.esc(p.cat)}</span>
+          <span class="ps-status">${this.esc(p.status)}</span>
+        </div>
+        <div class="ps-card-title">${this.esc(p.title)}</div>
+        <div class="ps-card-summary">${this.esc(p.summary)}</div>
+        <div class="ps-card-grid">
+          <div><b>법령</b>${this.esc(p.laws.join(', '))}</div>
+          <div><b>조례</b>${this.esc(p.ordinance)}</div>
+          <div><b>근거</b>${this.esc(p.basis)}</div>
+        </div>
+        <div class="ps-dept">
+          <span class="dept-name">${this.esc(p.dept)}</span>
+          <span>${this.esc(p.deptDesc)}</span><br>
+          <span style="font-size:.76rem">📧 ${this.esc(p.email)} · 📞 ${this.esc(p.phone)}</span>
+        </div>
+        <div class="ps-actions">
+          <button class="ps-action suggest" type="button" data-act="suggest" data-id="${p.id}">💡 제안</button>
+          <button class="ps-action report" type="button" data-act="report" data-id="${p.id}">🚨 시정요구</button>
+          <button class="ps-action contact" type="button" data-act="contact" data-id="${p.id}">📧 담당부서 문의</button>
+          <button class="ps-action detail" type="button" data-act="detail" data-id="${p.id}">자세히 보기 →</button>
+        </div>
+      </div>
+    `).join('');
+    results.querySelectorAll('.ps-card').forEach(c=>{
+      c.addEventListener('click',(e)=>{ if(e.target.closest('.ps-action')) return; this.openDetail(c.dataset.id); });
+    });
+    results.querySelectorAll('[data-act]').forEach(b=>b.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const id=b.dataset.id, p=this.policies.find(x=>x.id===id); if(!p) return;
+      if(b.dataset.act==='detail') this.openDetail(id);
+      else if(b.dataset.act==='contact') window.location.href='mailto:'+p.email+'?subject=['+this.region+'] '+p.title+' 문의&body=안녕하세요. '+p.dept+'에 문의드립니다.%0A%0A정책: '+p.title+'%0A문의 내용:%0A';
+      else if(typeof CA!=='undefined' && CA.openModal) CA.openModal(b.dataset.act, p.id, p.title);
+    }));
+  },
+  openDetail(id){
+    const p=this.policies.find(x=>x.id===id); if(!p) return;
+    const body=document.getElementById('psDetailBody'); if(!body) return;
+    body.innerHTML=`
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+        <span class="ps-cat">${this.esc(p.cat)}</span><span class="ps-status">${this.esc(p.status)}</span>
+      </div>
+      <h3 style="margin:0 0 12px;font-size:1.3rem;color:#1e3a5f;font-weight:900;line-height:1.35">${this.esc(p.title)}</h3>
+      <div style="padding:14px;background:#f8fafc;border-radius:10px;font-size:.92rem;line-height:1.75;color:#1e293b;margin-bottom:14px">${this.esc(p.desc)}</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-bottom:14px">
+        <div class="ps-detail-row"><div class="ps-detail-label">지원 대상</div>${this.esc(p.target)}</div>
+        <div class="ps-detail-row"><div class="ps-detail-label">지원 금액·기간</div>${this.esc(p.amount)}</div>
+        <div class="ps-detail-row"><div class="ps-detail-label">신청 기간</div>${this.esc(p.period)}</div>
+        <div class="ps-detail-row"><div class="ps-detail-label">올해 예산·대상</div>${this.esc(p.budget)}</div>
+      </div>
+      <div class="ps-detail-section">
+        <div class="ps-detail-label">신청 절차</div>
+        <div class="ps-detail-row ps-procedure">
+          ${p.procedure.map((s,i)=>`<span class="ps-step"><b>${i+1}</b>${this.esc(s)}</span>${i<p.procedure.length-1?'<span class="ps-arrow">→</span>':''}`).join('')}
+        </div>
+      </div>
+      <div class="ps-detail-section">
+        <div class="ps-detail-label">관계법령 · 조례 · 근거</div>
+        <div class="ps-detail-row" style="line-height:1.9">
+          <div><b style="color:#64748b;margin-right:8px;min-width:40px;display:inline-block">법령</b>${this.esc(p.laws.join(', '))}</div>
+          <div><b style="color:#64748b;margin-right:8px;min-width:40px;display:inline-block">조례</b>${this.esc(p.ordinance)}</div>
+          <div><b style="color:#64748b;margin-right:8px;min-width:40px;display:inline-block">근거</b>${this.esc(p.basis)}</div>
+        </div>
+      </div>
+      <div class="ps-detail-section">
+        <div class="ps-detail-label">담당부서 · 업무분장 · 연락처</div>
+        <div style="background:#ecfdf5;border:1px solid #bbf7d0;border-radius:10px;padding:12px 14px">
+          <div style="font-weight:900;color:#064e3b;margin-bottom:3px;font-size:.96rem">${this.esc(p.dept)}</div>
+          <div style="font-size:.84rem;color:#065f46;line-height:1.65">${this.esc(p.deptDesc)}</div>
+          <div style="font-size:.82rem;color:#065f46;margin-top:6px">📧 ${this.esc(p.email)} · 📞 ${this.esc(p.phone)}</div>
+        </div>
+      </div>
+      ${p.faqs&&p.faqs.length?`<div class="ps-detail-section"><div class="ps-detail-label">자주 묻는 질문</div><div class="ps-detail-row" style="line-height:1.7">${p.faqs.map(f=>`<div style="margin-bottom:8px"><b style="color:#1e3a5f">Q.</b> ${this.esc(f.q)}<br><b style="color:#16a34a">A.</b> ${this.esc(f.a)}</div>`).join('')}</div></div>`:''}
+      <div style="display:flex;gap:6px;flex-wrap:wrap;padding-top:14px;margin-top:14px;border-top:1px solid #e2e8f0">
+        <button class="ps-action suggest" type="button" onclick="CA&&CA.openModal('suggest','${p.id}','${this.esc(p.title)}')">💡 제안하기</button>
+        <button class="ps-action report" type="button" onclick="CA&&CA.openModal('report','${p.id}','${this.esc(p.title)}')">🚨 시정요구</button>
+        <button class="ps-action contact" type="button" onclick="window.location.href='mailto:${p.email}?subject=[${this.esc(this.region)}] ${this.esc(p.title)} 문의'">📧 담당부서 문의</button>
+      </div>`;
+    document.getElementById('psDetailModal').classList.add('show');
+  },
+  closeDetail(){document.getElementById('psDetailModal').classList.remove('show');},
+  updateChips(){document.querySelectorAll('.ps-chip').forEach(c=>{ c.classList.toggle('active', c.dataset.q===this.query); });},
+  init(){
+    const inp=document.getElementById('psSearchInput');
+    if(inp) inp.addEventListener('input',(e)=>{ this.query=e.target.value; this.updateChips(); this.render(); });
+    document.querySelectorAll('.ps-chip').forEach(c=>c.addEventListener('click',()=>{
+      this.query=c.dataset.q; if(inp) inp.value=c.dataset.q; this.updateChips(); this.render();
+    }));
+    const close=document.getElementById('psDetailClose');
+    if(close) close.addEventListener('click',()=>this.closeDetail());
+    const ov=document.getElementById('psDetailModal');
+    if(ov) ov.addEventListener('click',(e)=>{ if(e.target.id==='psDetailModal') this.closeDetail(); });
+    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape' && ov && ov.classList.contains('show')) this.closeDetail(); });
+    if(typeof STATE!=='undefined' && STATE.region && STATE.region.display) this.region=STATE.region.display;
+    this.render();
+  }
+};
+window.addEventListener('load',()=>{ try{ PS.init(); }catch(e){console.warn('PS init',e);} });
+</script>
+<script>
+(function(){
+  const nav=document.getElementById('navEdu'), edu=document.getElementById('edu'), close=document.getElementById('eduClose');
+  if(!nav||!edu||!close) return;
+  const open=()=>{ edu.classList.add('show'); close.classList.add('show'); document.body.style.overflow='hidden'; window.scrollTo(0,0); };
+  const shut=()=>{ edu.classList.remove('show'); close.classList.remove('show'); document.body.style.overflow=''; };
+  nav.addEventListener('click',(e)=>{ e.preventDefault(); open(); });
+  close.addEventListener('click',shut);
+  edu.addEventListener('click',(e)=>{ if(e.target===edu) shut(); });
+  document.addEventListener('keydown',(e)=>{ if(e.key==='Escape' && edu.classList.contains('show')) shut(); });
+})();
 </script>
 </body>
 </html>
