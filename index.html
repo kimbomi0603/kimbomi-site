@@ -1004,7 +1004,7 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
       </div>
       <div class="chart-card">
         <h3>💴 금고(은행) 이자율 — 공식 공시 시작 ✅</h3><div class="cs">행안부 2026.1.27 전국 243개 지방정부 통합공개 (12개월 이상 정기예금 기준)</div>
-        <div class="chart-box" style="display:block;align-items:stretch;overflow-y:auto">
+        <div class="chart-box" style="display:block;align-items:stretch;overflow-y:auto;max-height:none">
           <div style="font-size:.86rem;line-height:1.65;color:#1e293b">
             <div style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-left:4px solid #059669;border-radius:10px;padding:11px 13px;margin-bottom:10px">
               <b style="color:#065f46;font-size:.92rem">🎯 시민이 요구해온 '깜깜이 금고' 빗장이 열렸습니다.</b>
@@ -1016,9 +1016,14 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
               <div style="background:#ecfeff;border-radius:9px;padding:9px 11px"><div style="font-size:.68rem;color:#155e75;font-weight:700">기초 평균(226개)</div><div style="font-size:1.14rem;font-weight:900;color:#0c4a6e">2.52%</div></div>
               <div style="background:#fdf2f8;border-radius:9px;padding:9px 11px"><div style="font-size:.68rem;color:#831843;font-weight:700">기초 최저</div><div style="font-size:1.14rem;font-weight:900;color:#9d174d">1.78%</div><div style="font-size:.66rem;color:#831843">경기 양평군</div></div>
             </div>
-            <div style="font-size:.78rem;line-height:1.6;color:#475569;background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:9px 11px">
-              <b style="color:#0b2545">광역 최고/최저</b> · 인천 <b>4.57%</b> ↔ 경북 <b>2.15%</b><br>
-              <b style="color:#0b2545">기초 최고</b> · 인천 서구 <b>4.82%</b>
+            <div style="background:linear-gradient(135deg,#fff5f5,#fee2e2);border-left:4px solid #dc2626;border-radius:10px;padding:10px 12px;margin-bottom:10px">
+              <b style="color:#991b1b;font-size:.86rem">📌 출마선언문이 사실로 — 강진군 <span style="background:#ffd84d;color:#7c2d12;padding:1px 6px;border-radius:4px">2.04%</span></b>
+              <p style="margin:5px 0 0;font-size:.78rem;color:#1f2937;line-height:1.55">전남 22개 시군 중 <b>강진군 2.04% — 전남 최저, 전국 최하위권</b>. 신안 2.18 · 해남·무안 2.25 · 순천 2.41 · 여수 2.40(KPI뉴스 2026.1.28). 출마선언문 "꼴찌에서 세 번째" 문제의식이 공식 데이터로 확인됐습니다.</p>
+            </div>
+            <div style="font-size:.78rem;line-height:1.7;color:#475569;background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:10px 12px">
+              <b style="color:#0b2545">광역 12개월 정기예금</b><br>
+              인천 <b style="color:#059669">4.57%</b> · 서울 <b>3.45%</b> · 경남 <b>2.60%</b> · 부산 <b>2.46%</b> · 대구 <b>2.26%</b> · 경북 <b style="color:#dc2626">2.15%</b><br>
+              <b style="color:#0b2545">기초 최고/최저</b> · 인천 서구 <b style="color:#059669">4.82%</b> ↔ 경기 양평군 <b style="color:#dc2626">1.78%</b>
               <br><br>
               💡 우리 동네 정확한 약정이자율은 <a href="https://lofin365.go.kr" target="_blank" rel="noopener" style="color:#0b6fe0;font-weight:800;text-decoration:underline">지방재정365</a>에서 한눈에 비교할 수 있습니다.
             </div>
@@ -1577,18 +1582,28 @@ const BANK_BY_SIDO = {
    ▷ 광역 최고: 인천광역시 4.57% / 광역 최저: 경상북도 2.15%
    ▷ 기초 최고: 인천광역시 서구 4.82% / 기초 최저: 경기도 양평군 1.78%
    출처: 행정안전부 보도자료(2026.1.27) "지방자치단체 금고 이자율 공개로 재정운용의 투명성·효율성 높인다"
-        이데일리 2026.1.27 "행안부, 243개 지방정부 금고 이자율 통합공개"
+        헤럴드경제 2026.1.27 / 이데일리 2026.1.27 / 경향신문 2026.1.27 / 영남일보 2026.1.28
+        KPI뉴스 2026.1.28 "전남 22개 시군 금고 이자율 첫 공개…강진·신안 '최저'" (강진군 2.04%, 신안군 2.18% 등)
         지방재정365(lofin365.go.kr) 통합공개시스템
-   ⚠️ 그 외 240개 지자체 개별 공시값은 지방재정365에서 직접 확인하세요(임의 수치 입력 금지). */
+   ⚠️ 아래 명시된 지자체 외 수치는 지방재정365에서 직접 확인하세요(임의 수치 입력 금지). */
 const OVERRIDES = {
-  // 광역 본청 — 행안부 공식 통합공개 명시값
-  "인천광역시": { bankRate: 4.57 },   // 광역 최고 (행안부 2026.1.27)
-  "경상북도":   { bankRate: 2.15 },   // 광역 최저 (행안부 2026.1.27)
-  // 기초 시군구 실제 공시값
+  // 광역 본청 — 행안부 2026.1.27 공식 통합공개 명시값
+  "서울특별시":     { bankRate: 3.45 },   // 헤럴드경제·경향신문 2026.1.27
+  "부산광역시":     { bankRate: 2.46 },   // 아주경제 2026.1.27 (광역 하위권)
+  "대구광역시":     { bankRate: 2.26 },   // 영남일보 2026.1.28
+  "인천광역시":     { bankRate: 4.57 },   // 광역 최고 (행안부 2026.1.27)
+  "경상북도":       { bankRate: 2.15 },   // 광역 최저 (행안부·영남일보 2026.1.28)
+  "경상남도":       { bankRate: 2.60 },   // 헤럴드경제 2026.1.27
+  // 기초 시군구 — 행안부·KPI뉴스 2026.1.28 명시값
   "인천광역시 서구": { bankRate: 4.82 },   // 기초 최고 (행안부 2026.1.27)
   "경기도 양평군":   { bankRate: 1.78 },   // 기초 최저 (행안부 2026.1.27)
-  // 강진군: 봄님 출마선언문 "꼴찌에서 세 번째" 명시 — 그러나 정확 공시값은 지방재정365에서 직접 확인
-  "전라남도 강진군": { pop: 33000 }    // 인구만 보정(공시 수치 임의 입력 금지)
+  // 전라남도 22개 시군 (KPI뉴스 2026.1.28, 강진·신안 최저)
+  "전라남도 강진군": { bankRate: 2.04, pop: 33000 }, // ⭐ 봄님 출마선언문 핵심 인용 — 전남 최저, 전국 하위권
+  "전라남도 신안군": { bankRate: 2.18 },   // 전남 2위 최저
+  "전라남도 해남군": { bankRate: 2.25 },   // 군 단위 상대적 상위
+  "전라남도 무안군": { bankRate: 2.25 },   // 군 단위 상대적 상위
+  "전라남도 순천시": { bankRate: 2.41 },   // 전남 시 최상위
+  "전라남도 여수시": { bankRate: 2.40 }    // 전남 시 차상위
 };
 
 /* 주요 사업 풀 (지자체 세출 대표사업, 결산 항목 기반 근사) */
