@@ -102,6 +102,39 @@ a{color:var(--blue);text-decoration:none}
 .tb-btn.primary{background:linear-gradient(135deg,var(--teal),#36e0c0);color:#06201d}
 .tb-btn.ghost{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.32)}
 .tb-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.36)}
+/* 메인 히어로 검색창 — 검색 한 줄로 단순화 */
+.hero-search{margin-top:18px;background:rgba(255,255,255,.12);border:1px solid rgba(125,240,224,.32);border-radius:18px;padding:18px 20px;backdrop-filter:blur(4px);max-width:780px}
+.hero-search-row{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch}
+.hero-search-row select{flex:1;min-width:160px;background:#fff;border:none;border-radius:12px;padding:14px 16px;font-family:inherit;font-size:1rem;font-weight:700;color:#1e3a5f;cursor:pointer;outline:none;transition:box-shadow .15s}
+.hero-search-row select:hover{box-shadow:0 4px 14px rgba(125,240,224,.3)}
+.hero-search-row select:disabled{opacity:.6;cursor:not-allowed}
+.hero-search-btn{flex:0 0 auto;background:linear-gradient(135deg,#7df0e0,#36e0c0);color:#06201d;font-weight:900;font-size:1rem;padding:14px 28px;border-radius:12px;text-decoration:none;box-shadow:0 8px 22px rgba(125,240,224,.32);white-space:nowrap;transition:.15s}
+.hero-search-btn:hover{transform:translateY(-2px);box-shadow:0 13px 30px rgba(125,240,224,.45)}
+.hero-search-hint{font-size:.84rem;color:#cbd5e1;margin-top:11px;font-weight:600;line-height:1.5}
+@media(max-width:680px){.hero-search-row{flex-direction:column}.hero-search-row select,.hero-search-btn{width:100%;text-align:center;font-size:.92rem;padding:12px 16px}.hero-search-hint{font-size:.78rem}}
+/* 차별화 워크플로우 카드 — 정부 미제공 시민 플랫폼만의 3단계 */
+.signature-workflow{margin-top:16px;background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(29,111,224,.12));border:1px solid rgba(125,240,224,.38);border-radius:16px;padding:16px 18px}
+.sw-title{font-size:.86rem;font-weight:800;color:#fff;margin-bottom:11px;letter-spacing:.01em}
+.sw-title b{color:#ffd84d}
+.sw-steps{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap}
+.sw-step{flex:1 1 200px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:11px 13px;text-decoration:none;color:#fff;transition:.15s;display:flex;flex-direction:column;gap:3px;min-width:180px}
+.sw-step:hover{background:rgba(255,255,255,.18);border-color:#7df0e0;transform:translateY(-2px)}
+.sw-num{font-size:1.1rem;font-weight:900;color:#7df0e0}
+.sw-name{font-size:.86rem;font-weight:800;color:#fff}
+.sw-desc{font-size:.7rem;font-weight:600;color:#cbd5e1;line-height:1.4}
+.sw-arrow{display:flex;align-items:center;color:#7df0e0;font-size:1.3rem;font-weight:900}
+@media(max-width:680px){.sw-arrow{transform:rotate(90deg);align-self:center}.sw-steps{flex-direction:column}.sw-step{min-width:0}}
+/* 데이터 연동 로드맵 */
+.data-roadmap{margin-top:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:13px 15px}
+.dr-title{font-size:.82rem;font-weight:800;color:#7df0e0;margin-bottom:9px;letter-spacing:.02em}
+.dr-grid{display:flex;flex-direction:column;gap:6px}
+.dr-item{display:flex;flex-direction:column;gap:2px;background:rgba(255,255,255,.06);border-radius:9px;padding:8px 11px;border-left:3px solid rgba(255,255,255,.2)}
+.dr-item.done{border-left-color:#34f0a8}
+.dr-item.now{border-left-color:#ffd84d}
+.dr-item.plan{border-left-color:#bcd2f0}
+.dr-item b{font-size:.78rem;color:#fff;font-weight:800}
+.dr-item span{font-size:.72rem;color:#cbd5e1;font-weight:600;line-height:1.5}
+.dr-item span b{color:#7df0e0;font-size:.72rem}
 .stat-strip{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
 .stat-strip .s{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:10px 16px}
 .stat-strip .s b{display:block;font-size:1.22rem;font-weight:900;color:#fff}
@@ -194,6 +227,15 @@ section{padding:26px 0}
 .hrp-hint.set{color:#7df0e0}
 .hrp-cta{display:inline-block;margin-top:14px;background:linear-gradient(135deg,#7df0e0,#36e0c0);color:#06201d;font-weight:900;font-size:1.04rem;padding:14px 28px;border-radius:14px;text-decoration:none;box-shadow:0 10px 24px rgba(125,240,224,.32);transition:.15s;letter-spacing:.02em}
 .hrp-cta:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(125,240,224,.45)}
+/* 컴팩트 통합 박스 (지역 선택 + 8개 빠른이동) */
+.home-combo .hqn-divider{margin:18px 0 12px;border-top:1px solid rgba(255,255,255,.14)}
+.home-combo .hqn-title-compact{font-size:.78rem;font-weight:800;color:#7df0e0;margin-bottom:10px;letter-spacing:.04em}
+.home-combo .hqn-grid{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.home-combo .hqn-btn{padding:10px 10px;border-radius:11px}
+.home-combo .hqn-emoji{font-size:1.32rem;margin-bottom:3px}
+.home-combo .hqn-label{font-size:.86rem;margin-bottom:1px}
+.home-combo .hqn-sub{font-size:.68rem;line-height:1.3}
+@media(max-width:720px){.home-combo .hqn-grid{grid-template-columns:repeat(2,1fr);gap:7px}.home-combo .hqn-btn{padding:9px 8px}.home-combo .hqn-emoji{font-size:1.2rem}.home-combo .hqn-label{font-size:.8rem}.home-combo .hqn-sub{font-size:.64rem}}
 /* 3초 진단 4탭 nav */
 .diag-tabs{display:flex;gap:6px;margin:18px 0 14px;background:#f1f6ff;border:1px solid #dbe5f3;border-radius:14px;padding:6px;flex-wrap:wrap}
 .dt-btn{flex:1;min-width:130px;background:transparent;border:none;border-radius:10px;padding:11px 14px;font-family:inherit;font-size:.92rem;font-weight:800;color:#5b6b82;cursor:pointer;transition:all .15s;letter-spacing:.01em}
@@ -795,8 +837,16 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
         </div>
       </div>
     </div>
-    <h1 class="hero-headline" style="margin-top:10px">내가 낸 세금, 우리 동네에서<br><span class="hl-y">잘 쓰이고 있을까?</span></h1>
-    <p class="hero-subline"><b>세금의 주인은 국민입니다.</b> 전국 <b>243개 지방자치단체</b>의 예산·집행·재정자립도 등 재정을 <b>3초 만에 진단</b>하고, 우리 동네 의회에 시정을 요구하는 시민 재정 감시 플랫폼입니다.</p>
+    <h1 class="hero-headline" style="margin-top:14px;font-size:2.2rem;line-height:1.25">🩺 우리 동네 재정 <span class="hl-y">3초만에 진단하기</span></h1>
+    <!-- 메인 검색창 — 처음 방문자가 무엇을 해야 할지 한 번에 보이도록 전면 배치 -->
+    <div class="hero-search">
+      <div class="hero-search-row">
+        <select id="heroSido" aria-label="시·도 선택"><option value="">시·도 선택</option></select>
+        <select id="heroSigungu" aria-label="시·군·구 선택" disabled><option value="">시·군·구 선택</option></select>
+        <a href="#diagnose" class="hero-search-btn" id="heroSearchBtn">🔎 진단하기</a>
+      </div>
+      <p class="hero-search-hint">전국 243개 지자체의 예산·집행·계약·청렴도·금고 약정이자율을 한 화면에 펼쳐드립니다</p>
+    </div>
     <div class="stat-strip">
       <div class="s"><b>243개</b><span>전국 광역·기초 지자체</span></div>
       <div class="s"><b id="sbBudget">411.8조 원</b><span>총예산 (2024)</span></div>
@@ -835,21 +885,42 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
            onerror="this.outerHTML='&lt;div class=\'noimg\'&gt;김보미&lt;/div&gt;'">
     </div>
     <div class="hh-text">
-      <span class="hh-badge">시민 재정 감시 플랫폼 · 대한민국 재정 365</span>
-      <div class="hh-quote">“강진군 재정은 꼴등입니다. 군민이 낸 세금을 맡겨둔 <span class="hl">은행 이자율은 전국 243개 지자체 중 꼴찌에서 세 번째</span>…”</div>
-      <div class="hh-cite">— 김보미 강진군수 출마선언문 中. ‘대한민국 재정 365’는 바로 이 문제의식에서 출발했습니다.</div>
-      <div class="hh-lead">
-        <b class="hh-big">재정의 주인은 국민입니다.</b>
-        <p>대한민국 재정 365는 시민이 직접 우리 동네 재정을 진단하고 의회에 요구할 수 있도록 만든 <b>재정주권 플랫폼</b>입니다. 전국 <b>243개 지자체</b>의 예산·집행·재정자립도부터 세부 사업·계약현황까지 한 화면에 펼쳐, "<b>묻지마 세금</b>" 시대를 끝내자고 제안합니다.</p>
-      </div>
-      <div class="home-region-picker">
-        <div class="hrp-title">📍 먼저 우리 동네를 선택하세요</div>
-        <div class="hrp-selectors">
-          <select id="homeSido"><option value="">시·도</option></select>
-          <select id="homeSigungu" disabled><option value="">시·군·구</option></select>
+      <span class="hh-badge">시민 재정 주권 플랫폼 · 대한민국 재정 365</span>
+      <!-- ⭐ 시민 플랫폼만의 차별화 워크플로우: 이상신호 → AI 문서화 → 의회 시정요구 자동화 -->
+      <div class="signature-workflow">
+        <div class="sw-title">✨ <b>정부 플랫폼이 제공하지 않는</b> 시민 플랫폼만의 3단계 자동화</div>
+        <div class="sw-steps">
+          <a href="javascript:void(0)" class="sw-step" data-modal="contract-only"><span class="sw-num">①</span><span class="sw-name">🔬 이상신호 자동 탐지</span><span class="sw-desc">자전거래·단가부풀리기·일감몰아주기·수의계약 과다·집행지연 5종 자동</span></a>
+          <span class="sw-arrow">→</span>
+          <a href="#action" class="sw-step"><span class="sw-num">②</span><span class="sw-name">🤖 AI 문서화</span><span class="sw-desc">시민 의견을 의회 정식 안건 수준으로 자동 다듬기</span></a>
+          <span class="sw-arrow">→</span>
+          <a href="#action" class="sw-step"><span class="sw-num">③</span><span class="sw-name">📧 의회 시정요구 자동화</span><span class="sw-desc">해당 시·군·구 의회로 메일 자동 작성·발송</span></a>
         </div>
-        <div class="hrp-hint" id="homeRegionHint">선택 후 아래 <b>[3초 진단 시작]</b>을 누르면 우리 동네 살림살이를 한 화면에 펼쳐드립니다</div>
-        <a href="#diagnose" class="hrp-cta" id="hrpCtaDiagnose">🩺 3초 진단 시작 →</a>
+      </div>
+      <!-- 컴팩트 통합: 8개 빠른이동 -->
+      <div class="home-region-picker home-combo" style="margin-top:18px">
+        <div class="hqn-title-compact">📌 빠른 이동 · 8개 메뉴</div>
+        <div class="hqn-grid">
+          <a href="#diagnose" class="hqn-btn"><span class="hqn-emoji">🩺</span><span class="hqn-label">3초 진단</span><span class="hqn-sub">살림살이 전체</span></a>
+          <a href="javascript:void(0)" class="hqn-btn" data-modal="policy-search"><span class="hqn-emoji">📋</span><span class="hqn-label">정책</span><span class="hqn-sub">키워드로 검색</span></a>
+          <a href="javascript:void(0)" class="hqn-btn" data-modal="budget-only"><span class="hqn-emoji">💰</span><span class="hqn-label">예산</span><span class="hqn-sub">예산·집행</span></a>
+          <a href="javascript:void(0)" class="hqn-btn" data-modal="contract-only"><span class="hqn-emoji">📜</span><span class="hqn-label">계약</span><span class="hqn-sub">계약·이상신호</span></a>
+          <a href="#compare" class="hqn-btn"><span class="hqn-emoji">⚖️</span><span class="hqn-label">비교</span><span class="hqn-sub">우리동네 vs 인근</span></a>
+          <a href="javascript:void(0)" class="hqn-btn" data-trigger="navEdu"><span class="hqn-emoji">📚</span><span class="hqn-label">재정 교과서</span><span class="hqn-sub">용어·AI 도우미</span></a>
+          <a href="javascript:void(0)" class="hqn-btn" data-trigger="navOntology"><span class="hqn-emoji">🧬</span><span class="hqn-label">온톨로지</span><span class="hqn-sub">분석 기법</span></a>
+          <a href="javascript:void(0)" class="hqn-btn" data-trigger="navAbout"><span class="hqn-emoji">👤</span><span class="hqn-label">김보미 소개</span><span class="hqn-sub">운영자</span></a>
+        </div>
+      </div>
+      <!-- 데이터 연동 로드맵 -->
+      <div class="data-roadmap">
+        <div class="dr-title">🗺️ 데이터 공백 해소 로드맵</div>
+        <div class="dr-grid">
+          <div class="dr-item done"><b>1순위 · 금고 약정이자율</b><span>✅ 2026.1.27 행안부 hwpx 보도자료 → <b>243개 전수 실데이터 즉시 연동 완료</b></span></div>
+          <div class="dr-item now"><b>2순위 · 세부 집행 수치</b><span>🔄 추정값 → <b>열린재정 API 연동 진행 중</b></span></div>
+          <div class="dr-item now"><b>3순위 · 수의계약 실데이터</b><span>🔄 나라장터 G2B 연계 → <b>G2B OpenAPI 연동 진행 중</b></span></div>
+          <div class="dr-item plan"><b>4순위 · 재정분석평가 단체별 보고서</b><span>📋 지방재정365 공개 → <b>자동 파싱·연동 준비</b></span></div>
+          <div class="dr-item plan"><b>5순위 · 정부 통합재정플랫폼</b><span>📋 2026.11 목표 → <b>연동 협력 또는 API 활용</b></span></div>
+        </div>
       </div>
     </div>
   </section>
@@ -954,17 +1025,18 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
     <a href="https://www.xn--p89av0gr2mutka661e.kr" target="_blank" rel="noopener">청년결정정부 · 전남·광주 청년 ↗</a>
   </div>
 
-  <!-- 실시간 서버 연동 상태바 (상시 자동 연동) -->
-  <div class="demo-banner" id="demoBanner">
-    <span style="font-size:18px">🔄</span>
-    <span><b>실시간 서버 연결 준비 중…</b> 라이브 재정 서버에 자동으로 연결합니다. 연결 전까지 개별 지자체 수치는 <b>참고용 추정(시연)값</b>으로, 공식 결산값이 아닙니다.</span>
+  <!-- ⚠️ 데이터 신뢰성 알림 (가장 큰 약점 — 시연값 vs 실값 명확 구분) -->
+  <div class="demo-banner" id="demoBanner" style="background:linear-gradient(90deg,#fff7ed,#fef3c7);border:2px solid #f59e0b;color:#7c2d12">
+    <span style="font-size:20px">⚠️</span>
+    <span><b>중요 — 현재 표시되는 개별 지자체 수치 중 일부는 「추정(시연)값」입니다.</b> 실API 서버 인증키 연동 완료 전까지 공식 공시값을 대체하는 <b>참고용 수치</b>이며, 이를 근거로 의회 시정요구나 민원을 제기하실 때는 <b>반드시 지방재정365·해당 지자체 누리집에서 공식 결산값을 재확인</b>하세요.</span>
   </div>
   <div class="src-note" id="srcNote">
-    <b>📌 데이터 출처 안내</b> · 전국 합계(총예산·재정자립도)는 <b>지방재정365(lofin365.go.kr) 공시</b> 기준입니다.
-    개별 지자체의 세부 수치는 <b>실데이터 연동(서버 인증키 설정) 시 공식 공시값으로 자동 대체</b>되며, 연동 전에는 공시 통계 기반 <b>참고용 추정(시연)값</b>입니다.
-    공식 결산값은 <a href="https://lofin365.go.kr" target="_blank" rel="noopener">지방재정365</a>·<a href="https://lofin.mois.go.kr" target="_blank" rel="noopener">지방재정통합공시</a>에서 확인하세요.
-    <b>종합청렴도</b>는 국민권익위원회 2025년 평가(공공데이터포털 '기관별 청렴도 평가 등급', 243개 지자체 전수) <b>실데이터</b>로 표시합니다.
-    <b>금고 약정이자율</b>은 행정안전부가 <b>2026.1.27 전국 243개 지방정부 금고 이자율을 통합공개</b>했습니다(전국 평균 2.53%·12개월 이상 정기예금 기준). 광역 최고 인천 4.57%, 최저 경북 2.15%·기초 최고 인천 서구 4.82%, 최저 경기 양평군 1.78%. 개별 지자체 수치는 <a href="https://lofin365.go.kr" target="_blank" rel="noopener" style="color:#7df0e0;font-weight:700">지방재정365</a>에서 한눈에 비교할 수 있습니다.
+    <b>📌 실값(✅) vs 시연값(⚠️) 명확 구분</b><br>
+    <span style="color:#059669"><b>✅ 실데이터(공식 공시)</b></span> — 전국 합계(총예산·재정자립도, 지방재정365) / 종합청렴도(권익위 2025, 243개 지자체 전수, 공공데이터 15083994) / 금고 약정이자율(행안부 2026.1.27 hwpx 보도자료, 243개 전수 반영, 평균 2.53%).<br>
+    <span style="color:#dc2626"><b>⚠️ 추정(시연)값</b></span> — 개별 지자체 세부 KPI(인구·세입·세출·집행률·계약비중 등), 재정평가 등급, 업무추진비, 행사·축제경비, 행정 투명성·환경/안전 지표는 지방재정365·각 부처 공시 통계 분포 기반 <b>참고용 추정</b>입니다. <b>실API 서버 인증키 연동 시 공식 공시값으로 자동 대체</b>됩니다. 공식 결산값은 <a href="https://lofin365.go.kr" target="_blank" rel="noopener">지방재정365</a>·<a href="https://lofin.mois.go.kr" target="_blank" rel="noopener">지방재정통합공시</a>에서 확인하세요.<br>
+    <span style="color:#7c3aed"><b>🔬 등급 산정 기준</b></span> — 본 사이트의 「재정 건강등급(A~E)」은 재정자립도(30%)·재정자주도(15%)·집행률(20%)·채무비율(15%)·종합청렴도(10%)·금고 약정이자율(10%) 가중합으로 산출합니다(자체 알고리즘). 행안부 공식 재정분석평가(자체 발표)와는 다를 수 있어 <b>병행 참고</b>가 필요합니다.<br>
+    <span style="color:#1d6fe0"><b>📚 이상신호 탐지 근거</b></span> — 5가지 위험 패턴(자전거래·단가 부풀리기·일감 몰아주기·수의계약 과다·집행 지연)은 <b>국회예산정책처(NABO)·한국재정정보원(FIS)·행정안전부 30개 공식문서 기반 fiscal-ontology v1.3</b>을 적용한 통계적 의심 신호로, 단정이 아닌 <b>추가 확인이 필요한 적신호</b>입니다. 인용·신고·보도 전 반드시 공식 원부로 확인하세요.<br>
+    <span style="color:#0b6fe0"><b>📧 의회 이메일 데이터베이스</b></span> — 시정요구 메일 작성창의 의회 이메일은 2026년 6월 기준 갱신본입니다. 누락·오류 발견 시 운영자(<a href="mailto:kimbomi891204@gmail.com">kimbomi891204@gmail.com</a>)에게 정정 요청을 보내주세요.
   </div>
 
   <!-- 컨트롤 -->
@@ -1288,7 +1360,7 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
   <div class="detail-overlay" id="aboutOverlay">
     <div class="detail-sheet">
       <div class="detail-head">
-        <div><h2>👤 김보미 소개</h2><div class="meta" style="max-width:640px">“정치는 거창한 구호가 아니라, 오늘을 살아가는 우리의 삶을 바꾸는 일이라고 믿습니다.” 그 믿음으로 이제는 국민 한 사람 한 사람이 의원이 되어 우리 혈세를 지키는 시민 재정주권 운동을 함께 만들고자 합니다.</div></div>
+        <div><h2>👤 김보미 — 혁신적 재정 운동가</h2><div class="meta" style="max-width:680px">"세금은 시민이 의회에 위임한 권력이지, 단체장의 사유물이 아닙니다." 13년 차 의정 경험과 의장직에서 직접 마주한 지방재정의 구조적 문제를 자산으로 — 전국 243개 지자체 예산·집행·계약·금고이자율·청렴도를 시민이 직접 추적하도록 만든 <b>시민 재정 주권 플랫폼 『대한민국 재정 365』</b>를 설계·운영합니다.</div></div>
         <div class="sp"><button class="detail-close" id="aboutClose" title="닫기">✕</button></div>
       </div>
       <div class="detail-body">
@@ -1296,10 +1368,10 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
       <div class="about-top">
         <span class="kbm-ava about-photo" style="width:250px;height:260px;border-radius:16px;font-size:1.6rem;background:linear-gradient(135deg,#e9eef5,#cdd7e6);border:4px solid rgba(255,255,255,.92);box-shadow:0 14px 36px rgba(0,0,0,.34)"><img class="kbm-face" src="about.jpg" alt="김보미 프로필" style="object-position:center 12%" onerror="if(this.src.indexOf('about.jpg')>-1){this.src='face.jpg'}else{this.style.display='none'}">김보미</span>
         <div>
-          <h3>김보미 <span style="font-size:.9rem;font-weight:600;color:#bcd2f0">金甫美 · Kim Bomi</span></h3>
-          <div class="role" style="opacity:.92">1989년생 · 전남 강진 출신</div>
-          <div class="role">제8·9대 강진군의회 의원 · 전국 최연소 의장, 더민주전국혁신회의 상임대표 역임</div>
-          <div class="tags"><span>13년 차 베테랑 정치인</span><span>역대 최연소 군의원·의장</span><span>저서 『군민주권 강진시대』</span><span>부패방지 청렴인 표창</span></div>
+          <h3>김보미 <span style="font-size:.9rem;font-weight:600;color:#bcd2f0">金甫美 · Kim Bomi · Fiscal Reform Activist</span></h3>
+          <div class="role" style="opacity:.92">시민 재정 주권 플랫폼 『대한민국 재정 365』 설계·운영자</div>
+          <div class="role">前 강진군의회 의장 · 13년 차 의정 경험을 바탕으로 한 전국 재정 감시 운동가</div>
+          <div class="tags"><span>혁신적 재정 운동가</span><span>『대한민국 재정 365』 설계자</span><span>243개 지자체 재정 감시</span><span>지방재정 투명성·재정주권</span><span>부패방지 청렴인 표창</span></div>
         </div>
       </div>
       <div class="about-body">
@@ -3377,6 +3449,26 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
   // 홈 히어로의 [3초 진단 시작] CTA 버튼
   const hrpCta=document.getElementById('hrpCtaDiagnose');
   if(hrpCta) hrpCta.addEventListener('click',(e)=>{ applyHomeRegion('diagnose'); /* href #diagnose가 스크롤도 처리 */ });
+  // ⭐ 메인 히어로 검색창 (topbar 내부) — 검색 한 줄로 단순화한 입구
+  const heroSido=document.getElementById('heroSido'), heroSig=document.getElementById('heroSigungu'), heroBtn=document.getElementById('heroSearchBtn');
+  if(heroSido && typeof SIDO!=='undefined'){
+    heroSido.innerHTML='<option value="">시·도 선택</option>'+SIDO.map(s=>`<option value="${s.nm}">${s.nm}</option>`).join('');
+    heroSido.addEventListener('change',()=>{
+      const list=(typeof SIGUNGU!=='undefined' && SIGUNGU[heroSido.value])||[];
+      if(heroSig){
+        heroSig.innerHTML='<option value="">시·군·구 선택</option>'+list.map(sg=>`<option value="${sg}">${sg}</option>`).join('');
+        heroSig.disabled=!list.length;
+      }
+      // 홈 region에도 동기화
+      window.HOME_REGION=heroSido.value;
+      if(hSido){ hSido.value=heroSido.value; hSido.dispatchEvent(new Event('change')); }
+    });
+    heroSig && heroSig.addEventListener('change',()=>{
+      window.HOME_REGION = heroSido.value && heroSig.value ? heroSido.value+' '+heroSig.value : heroSido.value;
+      if(hSig){ hSig.value=heroSig.value; }
+    });
+    heroBtn && heroBtn.addEventListener('click',(e)=>{ applyHomeRegion('diagnose'); /* href #diagnose가 스크롤 처리 */ });
+  }
   if(sectionClose) sectionClose.addEventListener('click',close);
   document.addEventListener('keydown',(e)=>{ if(e.key==='Escape' && currentSection) close(); });
   // 모달 외부(오버레이) 클릭 시 닫기 — 트리거 버튼들은 제외
