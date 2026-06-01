@@ -167,6 +167,30 @@ section{padding:26px 0}
 .hh-big{display:block;font-size:1.14rem;color:#7df0e0;font-weight:900;margin-bottom:9px}
 .hh-lead p{font-size:.95rem;color:#e9f0fc;line-height:1.8}
 .hh-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.home-region-picker{margin-top:22px;padding:18px 20px;background:rgba(255,255,255,.08);border:1px solid rgba(125,240,224,.3);border-radius:18px;backdrop-filter:blur(4px)}
+.hrp-title{font-size:.94rem;font-weight:900;color:#7df0e0;margin-bottom:12px;letter-spacing:.02em}
+.hrp-selectors{display:flex;gap:10px;flex-wrap:wrap}
+.hrp-selectors select{flex:1;min-width:140px;background:#fff;border:none;border-radius:12px;padding:12px 16px;font-family:inherit;font-size:.96rem;font-weight:700;color:#1e3a5f;cursor:pointer;outline:none;transition:box-shadow .15s}
+.hrp-selectors select:hover{box-shadow:0 4px 14px rgba(125,240,224,.3)}
+.hrp-selectors select:disabled{opacity:.6;cursor:not-allowed}
+.hrp-hint{font-size:.76rem;color:#cbd5e1;margin-top:10px;font-weight:600}
+.hrp-hint.set{color:#7df0e0}
+.home-quick-nav{margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)}
+.hqn-title{font-size:.84rem;font-weight:800;color:#7df0e0;margin-bottom:12px;letter-spacing:.02em}
+.hqn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.hqn-btn{display:flex;flex-direction:column;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:14px 14px;cursor:pointer;text-decoration:none;transition:all .2s;color:#fff;backdrop-filter:blur(4px)}
+.hqn-btn:hover{background:rgba(255,255,255,.18);border-color:#7df0e0;transform:translateY(-2px);box-shadow:0 8px 22px rgba(125,240,224,.22)}
+.hqn-emoji{font-size:1.7rem;margin-bottom:6px}
+.hqn-label{font-weight:900;font-size:1rem;color:#fff;margin-bottom:2px}
+.hqn-sub{font-size:.74rem;color:#cbd5e1;font-weight:600}
+@media(max-width:520px){
+  .home-quick-nav{margin-top:18px;padding-top:16px}
+  .hqn-grid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .hqn-btn{padding:11px 10px}
+  .hqn-emoji{font-size:1.4rem;margin-bottom:4px}
+  .hqn-label{font-size:.88rem}
+  .hqn-sub{font-size:.66rem}
+}
 .hh-btn{font-weight:800;font-size:1rem;padding:14px 24px;border-radius:12px;white-space:nowrap;box-shadow:0 8px 22px rgba(0,0,0,.32);transition:.15s}
 .hh-btn.primary{background:linear-gradient(135deg,var(--teal),#36e0c0);color:#06201d}
 .hh-btn.ghost{background:rgba(255,255,255,.13);color:#fff;border:1px solid rgba(255,255,255,.32)}
@@ -756,6 +780,28 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
         <a href="#diagnose" class="hh-btn primary">🔎 우리 동네 살림살이 3초 진단</a>
         <a href="#ranking" class="hh-btn ghost">🏅 전국 순위 보기</a>
       </div>
+      <div class="home-region-picker">
+        <div class="hrp-title">📍 우리 동네를 먼저 선택하세요</div>
+        <div class="hrp-selectors">
+          <select id="homeSido"><option value="">시·도</option></select>
+          <select id="homeSigungu" disabled><option value="">시·군·구</option></select>
+        </div>
+        <div class="hrp-hint" id="homeRegionHint">선택하시면 아래 버튼들이 그 동네 기준으로 작동합니다</div>
+      </div>
+      <div class="home-quick-nav">
+        <div class="hqn-title">📌 빠른 이동 — 클릭해서 바로 보기</div>
+        <div class="hqn-grid">
+          <a href="#diagnose" class="hqn-btn"><span class="hqn-emoji">🩺</span><span class="hqn-label">3초 진단</span><span class="hqn-sub">우리 동네 살림살이 전체</span></a>
+          <a href="javascript:void(0)" class="hqn-btn" data-modal="policy-search"><span class="hqn-emoji">📋</span><span class="hqn-label">정책</span><span class="hqn-sub">키워드로 정책 검색</span></a>
+          <a href="javascript:void(0)" class="hqn-btn" data-modal="budget-only"><span class="hqn-emoji">💰</span><span class="hqn-label">예산</span><span class="hqn-sub">예산·집행 집중</span></a>
+          <a href="javascript:void(0)" class="hqn-btn" data-modal="contract-only"><span class="hqn-emoji">📜</span><span class="hqn-label">계약</span><span class="hqn-sub">계약·이상신호</span></a>
+          <a href="#compare" class="hqn-btn"><span class="hqn-emoji">⚖️</span><span class="hqn-label">비교하기</span><span class="hqn-sub">우리동네 vs 인근</span></a>
+          <a href="javascript:void(0)" class="hqn-btn" data-trigger="navEdu"><span class="hqn-emoji">📚</span><span class="hqn-label">재정 교과서</span><span class="hqn-sub">용어 검색·사전</span></a>
+          <a href="javascript:void(0)" class="hqn-btn" data-trigger="navOntology"><span class="hqn-emoji">🧬</span><span class="hqn-label">온톨로지란?</span><span class="hqn-sub">분석 기법 이해</span></a>
+          <a href="javascript:void(0)" class="hqn-btn" data-trigger="navAbout"><span class="hqn-emoji">👤</span><span class="hqn-label">김보미 소개</span><span class="hqn-sub">운영자 프로필</span></a>
+        </div>
+      <div style="display:none"><!-- spacer to maintain hh-cta close -->
+      </div>
     </div>
   </section>
 
@@ -1090,7 +1136,11 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
   <section id="edu">
     <div class="section-h">
       <span class="ic">📚</span>
-      <div><h2>재정 교과서 · 용어 사전</h2><p>지표가 무슨 뜻이고, 어떤 숫자가 위험신호인지</p></div>
+      <div><h2>재정 교과서 · 용어 사전</h2><p>지표가 무슨 뜻이고, 어떤 숫자가 위험신호인지 — 키워드로 검색하세요</p></div>
+    </div>
+    <div style="margin-bottom:14px;background:#fff;border-radius:14px;padding:6px;box-shadow:0 4px 14px rgba(0,0,0,.06);border:2px solid #e2e8f0;display:flex;gap:8px;align-items:center">
+      <input id="eduSearch" type="text" placeholder="🔍 용어 검색 (예: 재정자립도, 수의계약, 청렴도, 채무비율, 금고)" style="flex:1;border:none;outline:none;padding:10px 14px;font-family:inherit;font-size:.94rem;background:transparent;color:#1e293b;font-weight:600;min-width:0">
+      <span id="eduCount" style="font-size:.78rem;color:#64748b;white-space:nowrap;padding-right:10px;font-weight:700">매칭 -개</span>
     </div>
     <div class="edu-grid" id="eduGrid"></div>
     <div class="show-more" id="eduMore"></div>
@@ -2128,19 +2178,27 @@ function renderCompare(){
 }
 
 /* ---------- 교육 / 액션 ---------- */
+let eduQuery='';
 function renderEdu(){
   const PREVIEW=5;
-  const list=eduExpanded?GLOSSARY:GLOSSARY.slice(0,PREVIEW);
-  document.getElementById('eduGrid').innerHTML=list.map(g=>`
+  const q=(eduQuery||'').trim().toLowerCase();
+  const filtered=q?GLOSSARY.filter(g=>((g.t||'')+' '+(g.f||'')+' '+(g.d||'')+' '+(g.flag||'')).toLowerCase().includes(q)):GLOSSARY;
+  const list=(q||eduExpanded)?filtered:filtered.slice(0,PREVIEW);
+  const cnt=document.getElementById('eduCount');
+  if(cnt) cnt.textContent=q?'매칭 '+filtered.length+'개':'전체 '+GLOSSARY.length+'개 용어';
+  const grid=document.getElementById('eduGrid');
+  if(!grid) return;
+  if(!list.length){ grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:#94a3b8;padding:40px 0">검색 결과가 없습니다. 다른 키워드로 시도해보세요.</div>'; document.getElementById('eduMore').style.display='none'; return; }
+  grid.innerHTML=list.map(g=>`
     <div class="edu"><h4>📘 ${g.t}</h4>
       <div class="formula">${g.f}</div><p>${g.d}</p><div class="flag">${g.flag}</div></div>`).join('');
   const more=document.getElementById('eduMore');
   if(more){
-    if(GLOSSARY.length>PREVIEW){
+    if(!q && filtered.length>PREVIEW){
       more.style.display='flex';
       more.innerHTML=eduExpanded
         ? `<button type="button" id="eduMoreBtn">접기 ▲</button>`
-        : `<button type="button" id="eduMoreBtn">용어 더보기 <span class="cnt">(${PREVIEW}/${GLOSSARY.length})</span> ▼</button>`;
+        : `<button type="button" id="eduMoreBtn">용어 더보기 <span class="cnt">(${PREVIEW}/${filtered.length})</span> ▼</button>`;
       document.getElementById('eduMoreBtn').addEventListener('click',()=>{
         eduExpanded=!eduExpanded; renderEdu();
         if(!eduExpanded) document.getElementById('edu').scrollIntoView({behavior:'smooth',block:'start'});
@@ -3107,6 +3165,64 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
   bindNav('navPolicy','policy-search');
   bindNav('navBudget','budget-only');
   bindNav('navContract','contract-only');
+
+  // 홈 시·도/시·군·구 선택기 — 봄님이 선택한 지역을 모든 버튼에 자동 적용
+  window.HOME_REGION='';
+  const hSido=document.getElementById('homeSido'), hSig=document.getElementById('homeSigungu'), hHint=document.getElementById('homeRegionHint');
+  if(hSido && typeof SIDO!=='undefined'){
+    hSido.innerHTML='<option value="">시·도</option>'+SIDO.map(s=>`<option value="${s.nm}">${s.nm}</option>`).join('');
+    hSido.addEventListener('change',()=>{
+      const list=(typeof SIGUNGU!=='undefined' && SIGUNGU[hSido.value])||[];
+      hSig.innerHTML='<option value="">시·군·구</option>'+list.map(sg=>`<option value="${sg}">${sg}</option>`).join('');
+      hSig.disabled=!list.length;
+      window.HOME_REGION=hSido.value;
+      if(hHint){ hHint.textContent='📍 '+(hSido.value||'')+' (시·군·구도 선택해주세요)'; hHint.classList.add('set'); }
+    });
+    hSig.addEventListener('change',()=>{
+      window.HOME_REGION=hSido.value && hSig.value ? hSido.value+' '+hSig.value : hSido.value;
+      if(hHint){ hHint.textContent='✅ '+window.HOME_REGION+' 선택됨 — 아래 버튼 클릭'; hHint.classList.add('set'); }
+    });
+  }
+
+  // 홈 버튼이 눌리면 선택된 지역을 해당 섹션에 자동 적용
+  const applyHomeRegion=(target)=>{
+    const reg=window.HOME_REGION;
+    if(!reg || typeof STATE==='undefined' || !STATE.byKey) return;
+    const R=STATE.byKey[reg]||STATE.byKey[reg.split(' ')[0]];
+    if(!R) return;
+    if(target==='diagnose' && typeof selectByKey==='function') selectByKey(R.key);
+    else if(target==='policy-search' && typeof PS!=='undefined'){ PS.region=R.display; PS.render(); }
+    else if(target==='budget-only' && typeof FS!=='undefined'){
+      const sidoEl=document.getElementById('budgetSido'), sgEl=document.getElementById('budgetSigungu');
+      if(sidoEl){ sidoEl.value=R.sido; sidoEl.dispatchEvent(new Event('change')); if(sgEl && R.name!==R.sido) sgEl.value=R.name; }
+      FS.renderBudget(R.key);
+    }
+    else if(target==='contract-only' && typeof FS!=='undefined'){
+      const sidoEl=document.getElementById('contractSido'), sgEl=document.getElementById('contractSigungu');
+      if(sidoEl){ sidoEl.value=R.sido; sidoEl.dispatchEvent(new Event('change')); if(sgEl && R.name!==R.sido) sgEl.value=R.name; }
+      FS.renderContract(R.key);
+    }
+    else if(target==='compare'){
+      const cmpA=document.getElementById('cmpA');
+      if(cmpA){ cmpA.value=R.key; cmpA.dispatchEvent(new Event('change')); }
+    }
+  };
+
+  // 홈 빠른 이동 버튼 — 모달용 (정책/예산/계약)
+  document.querySelectorAll('.hqn-btn[data-modal]').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{ e.preventDefault(); applyHomeRegion(btn.dataset.modal); show(btn.dataset.modal); });
+  });
+  // 홈 빠른 이동 버튼 — 다른 nav 트리거 (navEdu, navOntology, navAbout)
+  document.querySelectorAll('.hqn-btn[data-trigger]').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{
+      e.preventDefault();
+      const target=document.getElementById(btn.dataset.trigger);
+      if(target) target.click();
+    });
+  });
+  // 3초 진단·비교하기 스크롤 링크 클릭 시 지역 자동 적용
+  document.querySelectorAll('.hqn-btn[href="#diagnose"]').forEach(btn=>btn.addEventListener('click',()=>applyHomeRegion('diagnose')));
+  document.querySelectorAll('.hqn-btn[href="#compare"]').forEach(btn=>btn.addEventListener('click',()=>applyHomeRegion('compare')));
   if(sectionClose) sectionClose.addEventListener('click',close);
   document.addEventListener('keydown',(e)=>{ if(e.key==='Escape' && currentSection) close(); });
   // 모달 외부(오버레이) 클릭 시 닫기
@@ -3198,6 +3314,23 @@ const FS = {
     if(!R){ panel.innerHTML='<div class="fs-empty">데이터를 찾을 수 없습니다</div>'; return; }
     const flags=(typeof genRiskFlags==='function')?genRiskFlags(R):[];
     const sevC={high:'#e11d48',mid:'#f59e0b',low:'#16a34a'};
+    const h=(s)=>(typeof hash01==='function')?hash01(R.key,s||1):Math.random();
+    // 최근 계약 5건 (시연 데이터 — 실데이터 연동 시 나라장터 자동 갱신)
+    const regionName=R.name||R.display;
+    const recent=[
+      {title:`${regionName} 도로포장 보수공사`, amt:Math.round(R.contractTotal*0.038), vendor:'OO토목㈜', method:'수의계약', date:'2026.05.20', cat:'공사'},
+      {title:'지방세 정보시스템 유지보수', amt:Math.round(R.contractTotal*0.013), vendor:'OO네트웍스', method:'일반경쟁', date:'2026.05.18', cat:'용역'},
+      {title:`2026 ${regionName} 축제 운영용역`, amt:Math.round(R.contractTotal*0.009), vendor:'OO이벤트', method:'수의계약', date:'2026.05.15', cat:'용역'},
+      {title:'학교급식 식자재 납품', amt:Math.round(R.contractTotal*0.020), vendor:'OO식자재', method:'일반경쟁', date:'2026.05.12', cat:'물품'},
+      {title:'노인복지센터 시설관리·청소', amt:Math.round(R.contractTotal*0.015), vendor:'OO청소', method:'수의계약', date:'2026.05.08', cat:'용역'}
+    ];
+    // 계약 체결방식 분포
+    const sui=R.suuiRatio, comp=100-sui;
+    const m1=+(comp*0.62).toFixed(1), m2=+(comp*0.28).toFixed(1), m3=+(comp-m1-m2).toFixed(1);
+    // 유형별 분포
+    const catC=+(45+h(11)*15).toFixed(1);
+    const catY=+(30+h(13)*10).toFixed(1);
+    const catP=+(100-catC-catY).toFixed(1);
     panel.innerHTML=`
       <div class="fs-region-title">📍 ${R.display} · ${STATE.year} 회계연도 · 계약 현황</div>
       <div class="fs-stat-grid">
@@ -3206,8 +3339,65 @@ const FS = {
         <div class="fs-stat"><div class="label">📊 경쟁입찰 비중</div><div class="value">${(100-R.suuiRatio).toFixed(1)}<span style="font-size:.8rem">%</span></div></div>
         <div class="fs-stat"><div class="label">💴 수의계약 추정액</div><div class="value" style="font-size:1.1rem">${won억(R.contractTotal*R.suuiRatio/100)}</div></div>
       </div>
+
       <div style="margin-top:18px">
-        <div style="font-size:.84rem;font-weight:800;color:#475569;margin-bottom:8px">🔬 AI 이상신호 자동 탐지 (재정 온톨로지 적용)</div>
+        <div style="font-size:.94rem;font-weight:900;color:#1e3a5f;margin-bottom:10px">📋 최근 계약 현황 (시연 5건 · 나라장터 연동 시 자동 갱신)</div>
+        <div style="background:#f8fafc;border-radius:12px;overflow:hidden">
+          ${recent.map((c,i)=>`
+            <div style="display:flex;padding:11px 14px;gap:10px;border-bottom:${i<4?'1px solid #e2e8f0':'none'};align-items:center">
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-bottom:3px">
+                  <span style="background:${c.method==='수의계약'?'#fef3c7':'#dbeafe'};color:${c.method==='수의계약'?'#92400e':'#1e40af'};font-size:.66rem;font-weight:900;padding:2px 8px;border-radius:99px">${c.method}</span>
+                  <span style="background:#f1f5f9;color:#475569;font-size:.66rem;font-weight:800;padding:2px 8px;border-radius:99px">${c.cat}</span>
+                  <span style="font-size:.7rem;color:#94a3b8">${c.date}</span>
+                </div>
+                <div style="font-size:.88rem;font-weight:800;color:#1e3a5f;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.title}</div>
+                <div style="font-size:.74rem;color:#64748b">${c.vendor}</div>
+              </div>
+              <div style="font-weight:900;color:#1e3a5f;font-size:.95rem;text-align:right;flex-shrink:0">${won억(c.amt)}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div style="margin-top:18px">
+        <div style="font-size:.94rem;font-weight:900;color:#1e3a5f;margin-bottom:10px">📊 계약 체결 방식 분포</div>
+        <div style="background:#f8fafc;border-radius:12px;padding:16px">
+          <div style="display:flex;height:42px;border-radius:8px;overflow:hidden;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.08)">
+            <div title="수의계약 ${sui}%" style="width:${sui}%;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;color:#7c2d12;font-weight:900;font-size:${sui>=12?'.82rem':'0'}">${sui>=12?sui+'%':''}</div>
+            <div title="일반경쟁 ${m1}%" style="width:${m1}%;background:linear-gradient(135deg,#60a5fa,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:${m1>=12?'.82rem':'0'}">${m1>=12?m1+'%':''}</div>
+            <div title="제한경쟁 ${m2}%" style="width:${m2}%;background:linear-gradient(135deg,#a78bfa,#8b5cf6);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:${m2>=12?'.82rem':'0'}">${m2>=12?m2+'%':''}</div>
+            <div title="지명경쟁 ${m3}%" style="width:${m3}%;background:linear-gradient(135deg,#f472b6,#ec4899);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:${m3>=12?'.78rem':'0'}">${m3>=12?m3+'%':''}</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;font-size:.82rem">
+            <div><span style="display:inline-block;width:12px;height:12px;background:#f59e0b;border-radius:3px;margin-right:6px;vertical-align:middle"></span>수의계약 <b style="color:#1e3a5f">${sui}%</b></div>
+            <div><span style="display:inline-block;width:12px;height:12px;background:#3b82f6;border-radius:3px;margin-right:6px;vertical-align:middle"></span>일반경쟁 <b style="color:#1e3a5f">${m1}%</b></div>
+            <div><span style="display:inline-block;width:12px;height:12px;background:#8b5cf6;border-radius:3px;margin-right:6px;vertical-align:middle"></span>제한경쟁 <b style="color:#1e3a5f">${m2}%</b></div>
+            <div><span style="display:inline-block;width:12px;height:12px;background:#ec4899;border-radius:3px;margin-right:6px;vertical-align:middle"></span>지명경쟁 <b style="color:#1e3a5f">${m3}%</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px">
+        <div style="font-size:.94rem;font-weight:900;color:#1e3a5f;margin-bottom:10px">🏗️ 유형별 계약 분포</div>
+        <div style="background:#f8fafc;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px">
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:.84rem"><span style="font-weight:800">🧱 공사</span><b style="color:#1e3a5f">${catC}%</b></div>
+            <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden"><div style="width:${catC}%;height:100%;background:linear-gradient(90deg,#1d6fe0,#0ea5e9)"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:.84rem"><span style="font-weight:800">🛠️ 용역</span><b style="color:#1e3a5f">${catY}%</b></div>
+            <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden"><div style="width:${catY}%;height:100%;background:linear-gradient(90deg,#16a34a,#22c55e)"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:.84rem"><span style="font-weight:800">📦 물품</span><b style="color:#1e3a5f">${catP}%</b></div>
+            <div style="height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden"><div style="width:${catP}%;height:100%;background:linear-gradient(90deg,#d97706,#f59e0b)"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px">
+        <div style="font-size:.94rem;font-weight:900;color:#1e3a5f;margin-bottom:10px">🔬 AI 이상신호 자동 탐지 (재정 온톨로지 적용)</div>
         ${flags.length?flags.map(f=>{const d=(typeof RISKFLAG_DEF!=='undefined'&&RISKFLAG_DEF[f.type])?RISKFLAG_DEF[f.type]:[f.type,''];return `<div style="background:#fff7ed;border-left:4px solid ${sevC[f.sev]};border-radius:10px;padding:11px 14px;margin-bottom:8px"><div style="font-weight:900;color:#1e3a5f;font-size:.92rem;margin-bottom:3px">${f.sev==='high'?'🔴':'🟠'} ${d[0]}<span style="color:#94a3b8;font-weight:600;font-size:.78rem;margin-left:6px">신뢰도 ${Math.round(f.conf*100)}%</span></div><div style="font-size:.84rem;color:#475569;line-height:1.6">${f.desc}</div></div>`}).join(''):'<div style="background:#ecfdf5;border-left:4px solid #16a34a;border-radius:10px;padding:11px 14px;font-size:.86rem;color:#065f46">🟢 5종 위험룰에서 탐지된 이상 신호가 없습니다.</div>'}
       </div>
       <div style="margin-top:14px;padding:11px 14px;background:#fff7ed;border:1px solid #fde9c8;border-radius:10px;font-size:.78rem;color:#92651a;line-height:1.6">⚠️ 본 탐지 결과는 조달청 나라장터·계약 통계 기반 통계적 가능성(의심 신호)이며 위법 확정이 아닙니다. 이상 신호가 높은 사업은 정보공개청구로 세부 검증을 권합니다.</div>
@@ -3354,7 +3544,10 @@ window.addEventListener('load',()=>{ try{ PS.init(); }catch(e){console.warn('PS 
 (function(){
   const nav=document.getElementById('navEdu'), edu=document.getElementById('edu'), close=document.getElementById('eduClose');
   if(!nav||!edu||!close) return;
-  const open=()=>{ edu.classList.add('show'); close.classList.add('show'); document.body.style.overflow='hidden'; window.scrollTo(0,0); };
+  // 검색 입력 연결
+  const search=document.getElementById('eduSearch');
+  if(search) search.addEventListener('input',(e)=>{ if(typeof eduQuery!=='undefined'){ eduQuery=e.target.value; if(typeof renderEdu==='function') renderEdu(); } });
+  const open=()=>{ edu.classList.add('show'); close.classList.add('show'); document.body.style.overflow='hidden'; window.scrollTo(0,0); if(search) setTimeout(()=>search.focus(),100); };
   const shut=()=>{ edu.classList.remove('show'); close.classList.remove('show'); document.body.style.overflow=''; };
   nav.addEventListener('click',(e)=>{ e.preventDefault(); open(); });
   close.addEventListener('click',shut);
