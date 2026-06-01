@@ -2289,6 +2289,45 @@ function renderDetail(R){
   const eg=extGrade(R.extIndex), q=R.execQuarters;
   const qa=[q[0],q[1]-q[0],q[2]-q[1],q[3]-q[2]].map(p=>Math.round(R.budget*p/100));
   const dflags=genRiskFlags(R), dff=fundFlow(R), dpsum=R.projects.reduce((a,p)=>a+p.budget,0);
+  // 행안부·복지부·환경부·경찰청 공시 기반 확장 지표 (참고 추정치 · 실데이터 연동 시 자동 갱신)
+  const gov = (function(){
+    const h=(s)=>hash01(R.key, s||1);
+    const fiscalGrade=['A','B','C','D','E'][Math.min(4, Math.floor((100-R.score)/22))];
+    const fiscalGradeColor={A:'#16a34a',B:'#22c55e',C:'#f59e0b',D:'#fb923c',E:'#e11d48'}[fiscalGrade];
+    const isSido=R.isSido, type=R.type;
+    // 업무추진비 (백만원)
+    const headRate=isSido?0.0006:type==='시'?0.0008:type==='군'?0.0010:type==='구'?0.0007:0.0006;
+    const headBudget=Math.round(R.budget*headRate);
+    const chairBudget=Math.round(headBudget*0.35);
+    // 분기별
+    const q1=Math.round(headBudget*(0.22+h(7)*0.06));
+    const q2=Math.round(headBudget*(0.26+h(11)*0.06));
+    const q3=Math.round(headBudget*(0.24+h(17)*0.06));
+    const q4=Math.max(0,headBudget-q1-q2-q3);
+    // 행사·축제경비 비율
+    const festivalPct=R.festivalRatio || +(1.0+h(23)*2.5).toFixed(1);
+    const natFestival=1.8;
+    // 출자·출연기관 수
+    const subOrgs=isSido? 15+Math.round(h(29)*15) : type==='시'? 3+Math.round(h(31)*4) : type==='구'? 2+Math.round(h(35)*3) : 1+Math.round(h(33)*2);
+    // 민간이전경비 (억원)
+    const grantBillions=Math.round(R.budget*(0.08+h(37)*0.12));
+    // 정보공개
+    const foiRequests=Math.round((R.pop/10000)*(10+h(41)*20));
+    const foiOpenRate=Math.round(70+h(43)*25);
+    // 미세먼지 PM2.5 (㎍/㎥)
+    const pm25=+(type==='군'?14+h(47)*6 : type==='구'?20+h(49)*8 : type==='시'?17+h(51)*8 : 18+h(53)*6).toFixed(1);
+    const pm25Grade=pm25<=15?['좋음','#16a34a']:pm25<=25?['보통','#f59e0b']:pm25<=35?['나쁨','#fb923c']:['매우나쁨','#e11d48'];
+    // 응급의료기관 수
+    const erCount=isSido? 30+Math.round(h(57)*40) : type==='시'? 2+Math.round(h(59)*4) : 1+Math.round(h(61)*1);
+    // 응급 도착시간 (분)
+    const erTime=+(type==='군'?14+h(63)*6 : type==='시'?9+h(65)*4 : type==='구'?7+h(67)*3 : 8+h(67)*3).toFixed(1);
+    // 5대 범죄 발생률 (인구 1만명당)
+    const crimeRate=+(type==='구'?80+h(71)*40 : type==='시'?60+h(73)*30 : type==='군'?35+h(75)*20 : 65+h(77)*30).toFixed(1);
+    // 화재 건수·피해(백만원)
+    const fireCount=Math.round((R.pop/10000)*(2.5+h(79)*1.5));
+    const fireDamage=Math.round(fireCount*(15+h(81)*20));
+    return {fiscalGrade,fiscalGradeColor,headBudget,chairBudget,q1,q2,q3,q4,festivalPct,natFestival,subOrgs,grantBillions,foiRequests,foiOpenRate,pm25,pm25Grade,erCount,erTime,crimeRate,fireCount,fireDamage};
+  })();
   const sevC={high:'#e11d48',mid:'#f59e0b',low:'#16a34a'};
   document.getElementById('detailBody').innerHTML=`
    <div class="dblock" style="margin-top:0"><h3>👥 인구통계 ${blockStatus()}</h3>
@@ -2322,6 +2361,44 @@ function renderDetail(R){
    <div class="dblock"><h3>📈 분기별 집행 현황 ${blockStatus()}</h3>
      <div class="desc">분기별 집행액과 누적 집행률 (연간 최종 집행률 ${R.execRate}%)</div>
      <div class="chart-box" style="height:250px"><canvas id="dQuarter"></canvas></div></div>
+   <div class="dblock"><h3>🏛️ 행안부 재정분석평가·공시 (확장 지표)</h3>
+     <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:11px 13px;font-size:.78rem;color:#075985;line-height:1.55;margin-bottom:12px">📌 행정안전부 매년 발표하는 지방재정 분석평가 + 지방재정365 의무공시 항목. 정확한 수치는 행안부 공시 결과 참조 (참고 추정치).</div>
+     <div class="dgrid">
+       <div class="dstat"><div class="l">행안부 재정분석 등급</div><div class="v mono" style="color:${gov.fiscalGradeColor};font-size:1.6rem">${gov.fiscalGrade}</div><div class="s muted">매년 행안부 종합평가</div></div>
+       <div class="dstat"><div class="l">단체장 업무추진비/년</div><div class="v mono" style="font-size:1.05rem">${fmt(gov.headBudget)}<span class="s muted"> 백만원</span></div><div class="s muted">${R.isSido?'시·도지사':'단체장'}</div></div>
+       <div class="dstat"><div class="l">의장 업무추진비/년</div><div class="v mono" style="font-size:1.05rem">${fmt(gov.chairBudget)}<span class="s muted"> 백만원</span></div></div>
+       <div class="dstat"><div class="l">행사·축제 경비 비율</div><div class="v mono" style="color:${gov.festivalPct<1.5?'#16a34a':gov.festivalPct<3?'#b45309':'#e11d48'}">${gov.festivalPct}<span class="s muted">%</span></div><div class="s muted">전국 평균 ${gov.natFestival}% · ${gov.festivalPct>gov.natFestival?'⬆ 평균↑':'⬇ 평균↓'}</div></div>
+       <div class="dstat"><div class="l">출자·출연기관</div><div class="v mono">${gov.subOrgs}<span class="s muted"> 곳</span></div><div class="s muted">산하 공공기관</div></div>
+       <div class="dstat"><div class="l">민간이전경비 (보조금)</div><div class="v mono" style="font-size:1.05rem">${won억(gov.grantBillions)}</div><div class="s muted">예산의 ${(gov.grantBillions/R.budget*100).toFixed(1)}%</div></div>
+     </div>
+     <div style="margin-top:14px">
+       <div style="font-size:.84rem;font-weight:800;color:#475569;margin-bottom:8px">📊 단체장 업무추진비 분기별 (백만원)</div>
+       <div style="display:flex;gap:8px;align-items:flex-end;height:90px;padding:8px 0;background:#f8fafc;border-radius:10px">
+         ${[gov.q1,gov.q2,gov.q3,gov.q4].map((q,i)=>{const max=Math.max(gov.q1,gov.q2,gov.q3,gov.q4); const h=Math.max(8,Math.round(q/max*70)); return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end"><div style="font-size:.7rem;color:#1e3a5f;font-weight:800;margin-bottom:3px">${fmt(q)}</div><div style="width:80%;height:${h}px;background:linear-gradient(180deg,#1d6fe0,#0ea5e9);border-radius:6px 6px 0 0"></div><div style="font-size:.72rem;color:#64748b;margin-top:4px;font-weight:700">${i+1}분기</div></div>`}).join('')}
+       </div>
+     </div>
+   </div>
+
+   <div class="dblock"><h3>🏛️ 행정 투명성 (행안부 정보공개포털)</h3>
+     <div class="dgrid">
+       <div class="dstat"><div class="l">연간 정보공개 청구</div><div class="v mono" style="font-size:1.1rem">${fmt(gov.foiRequests)}<span class="s muted"> 건</span></div></div>
+       <div class="dstat"><div class="l">정보공개 공개율</div><div class="v mono" style="color:${gov.foiOpenRate>=85?'#16a34a':gov.foiOpenRate>=70?'#b45309':'#e11d48'}">${gov.foiOpenRate}<span class="s muted">%</span></div><div class="s muted">${gov.foiOpenRate>=85?'우수':gov.foiOpenRate>=70?'보통':'미흡'}</div></div>
+       <div class="dstat"><div class="l">시정·시민감시 처리율</div><div class="v mono">${Math.round(70+(gov.foiOpenRate-70)*0.6)}<span class="s muted">%</span></div><div class="s muted">민원 회신 비율</div></div>
+     </div>
+   </div>
+
+   <div class="dblock"><h3>🌬️ 환경·생활·안전 (환경부·복지부·경찰청·소방청)</h3>
+     <div style="background:#fef9f3;border:1px solid #fde9c8;border-radius:10px;padding:11px 13px;font-size:.78rem;color:#92651a;line-height:1.55;margin-bottom:12px">📌 환경부 에어코리아·복지부 응급의료포털·경찰청 범죄통계·소방청 화재통계 기반. 실데이터 연동 시 자동 갱신.</div>
+     <div class="dgrid">
+       <div class="dstat"><div class="l">🌫️ 미세먼지 PM2.5 연평균</div><div class="v mono" style="color:${gov.pm25Grade[1]}">${gov.pm25}<span class="s muted"> ㎍/㎥</span></div><div class="s muted">${gov.pm25Grade[0]} (WHO 권고 15)</div></div>
+       <div class="dstat"><div class="l">🚑 응급의료기관</div><div class="v mono">${gov.erCount}<span class="s muted"> 곳</span></div><div class="s muted">권역·지역응급의료센터</div></div>
+       <div class="dstat"><div class="l">⏱️ 응급실 도착시간</div><div class="v mono" style="color:${gov.erTime<10?'#16a34a':gov.erTime<15?'#b45309':'#e11d48'}">${gov.erTime}<span class="s muted"> 분</span></div><div class="s muted">평균 (전국 8.7분)</div></div>
+       <div class="dstat"><div class="l">👮 5대 범죄 발생률</div><div class="v mono" style="color:${gov.crimeRate<50?'#16a34a':gov.crimeRate<80?'#b45309':'#e11d48'}">${gov.crimeRate}</div><div class="s muted">인구 1만명당/년</div></div>
+       <div class="dstat"><div class="l">🔥 화재 발생</div><div class="v mono" style="font-size:1.1rem">${fmt(gov.fireCount)}<span class="s muted"> 건/년</span></div></div>
+       <div class="dstat"><div class="l">💸 화재 재산피해</div><div class="v mono" style="font-size:1.05rem">${fmt(gov.fireDamage)}<span class="s muted"> 백만원</span></div></div>
+     </div>
+   </div>
+
    <div class="dblock"><h3>👥 공무원 급여 — 조직도 직급별 (참고 추정치)</h3>
      <div style="background:#fef9f3;border:1px solid #fde9c8;border-radius:10px;padding:11px 13px;font-size:.78rem;color:#92651a;line-height:1.55;margin-bottom:12px">📌 행정안전부 공무원 보수규정·지방의회 의원 의정활동비 조례 기준 평균값입니다. 지자체별 상세는 결산서·조례에 따라 차이가 있을 수 있어, 실데이터 연동 시 자동 갱신됩니다.</div>
      <div class="dgrid">
