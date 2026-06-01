@@ -303,6 +303,15 @@ section{padding:26px 0}
   .ps-action.detail{margin-left:0;flex-basis:100%}
 }
 
+/* === 📋💰📜 정책·예산·계약 모달 (스크롤 노출 X · 메뉴 클릭 시 카드형 모달) === */
+#policy-search,#budget-only,#contract-only{display:none}
+#policy-search.show,#budget-only.show,#contract-only.show{display:block!important;position:fixed!important;top:30px!important;left:50%!important;transform:translateX(-50%)!important;max-width:920px!important;width:calc(100% - 40px)!important;max-height:calc(100vh - 60px)!important;overflow-y:auto!important;z-index:320!important;margin-top:0!important;box-shadow:0 25px 70px rgba(0,0,0,.35)!important;animation:secModalIn .25s ease-out}
+@keyframes secModalIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%)}}
+body.section-modal-open::before{content:'';position:fixed;inset:0;background:rgba(15,30,53,.55);backdrop-filter:blur(5px);z-index:310;animation:secModalFade .22s ease-out}
+@keyframes secModalFade{from{opacity:0}to{opacity:1}}
+.section-close{position:fixed;top:18px;right:22px;width:44px;height:44px;border-radius:50%;background:#fff;border:none;font-size:1.5rem;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.22);z-index:330;font-weight:900;color:#1e293b;display:none}
+.section-close.show{display:block}
+
 /* === 📚 재정 교과서·🧬 재정 온톨로지 — 스크롤 노출 X · 메뉴 클릭 시 모달 === */
 #edu,#ontology{display:none}
 #edu.show,#ontology.show{display:block;position:fixed;inset:0;background:rgba(15,30,53,.55);z-index:300;padding:24px 18px;overflow-y:auto;backdrop-filter:blur(5px);animation:eduFadeIn .22s ease-out}
@@ -710,7 +719,7 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
 <nav class="subnav">
   <div class="wrap">
     <div class="navdrop" id="navDrop">
-      <a href="javascript:void(0)" class="navdrop-toggle" id="navDropToggle" aria-haspopup="true" aria-expanded="false">🔎 우리 동네 살림살이 3초 진단 <span class="navdrop-caret">▾</span></a>
+      <a href="#diagnose" class="navdrop-toggle" id="navDropToggle" aria-haspopup="true" aria-expanded="false">🩺 우리 동네 살림살이 3초 진단! <span class="navdrop-caret">▾</span></a>
       <div class="navdrop-menu" id="navDropMenu" role="menu" aria-label="재정 진단 메뉴">
         <a href="#diagnose" role="menuitem">🩺 재정진단</a>
         <a href="#charts" role="menuitem">📊 시각화</a>
@@ -720,7 +729,9 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
         <a href="javascript:void(0)" id="navOntology" role="menuitem">🧬 재정 온톨로지란?</a>
       </div>
     </div>
-    <a href="#action">📣 시민 참여·시정요구</a>
+    <a href="javascript:void(0)" id="navPolicy">📋 정책</a>
+    <a href="javascript:void(0)" id="navBudget">💰 예산</a>
+    <a href="javascript:void(0)" id="navContract">📜 계약</a>
     <a href="javascript:void(0)" id="navAbout">👤 김보미 소개</a>
   </div>
 </nav>
@@ -782,7 +793,7 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
       </div>
     </div>
     <div class="ps-search">
-      <input id="psSearchInput" type="text" placeholder="🔍 키워드 검색 (예: 청년, 어르신, 도로, 환경, 교육, 농업)">
+      <input id="psSearchInput" type="text" placeholder="🔍 키워드 검색 (예: 강진군 육아수당, 청년 정착 지원금, 어르신 무료 검진, 시내버스 무료)">
       <span id="psCount" style="font-size:.78rem;color:#64748b;white-space:nowrap;padding-right:8px">매칭 -건</span>
     </div>
     <div class="ps-quick-chips">
@@ -3065,6 +3076,48 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
 </script>
 <button class="edu-close" id="eduClose" type="button" aria-label="재정 교과서 닫기">×</button>
 <button class="ontology-close" id="ontologyClose" type="button" aria-label="재정 온톨로지 닫기">×</button>
+<button class="section-close" id="sectionClose" type="button" aria-label="섹션 닫기">×</button>
+<script>
+(function(){
+  let currentSection=null;
+  const sectionClose=document.getElementById('sectionClose');
+  function show(id){
+    if(currentSection) close();
+    const sec=document.getElementById(id); if(!sec) return;
+    sec.classList.add('show');
+    document.body.classList.add('section-modal-open');
+    if(sectionClose) sectionClose.classList.add('show');
+    document.body.style.overflow='hidden';
+    currentSection=id;
+  }
+  function close(){
+    if(currentSection){
+      const sec=document.getElementById(currentSection);
+      if(sec) sec.classList.remove('show');
+    }
+    document.body.classList.remove('section-modal-open');
+    if(sectionClose) sectionClose.classList.remove('show');
+    document.body.style.overflow='';
+    currentSection=null;
+  }
+  const bindNav=(id,target)=>{
+    const el=document.getElementById(id);
+    if(el) el.addEventListener('click',(e)=>{ e.preventDefault(); show(target); });
+  };
+  bindNav('navPolicy','policy-search');
+  bindNav('navBudget','budget-only');
+  bindNav('navContract','contract-only');
+  if(sectionClose) sectionClose.addEventListener('click',close);
+  document.addEventListener('keydown',(e)=>{ if(e.key==='Escape' && currentSection) close(); });
+  // 모달 외부(오버레이) 클릭 시 닫기
+  document.addEventListener('click',(e)=>{
+    if(!currentSection) return;
+    const sec=document.getElementById(currentSection);
+    if(!sec) return;
+    if(!sec.contains(e.target) && e.target!==sectionClose && !document.getElementById('navPolicy').contains(e.target) && !document.getElementById('navBudget').contains(e.target) && !document.getElementById('navContract').contains(e.target)) close();
+  });
+})();
+</script>
 <script>
 (function(){
   const nav=document.getElementById('navOntology'), ont=document.getElementById('ontology'), close=document.getElementById('ontologyClose');
