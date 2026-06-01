@@ -388,13 +388,15 @@ body.section-modal-open::before{content:'';position:fixed;inset:0;background:rgb
 .edu-close.show,.ontology-close.show{display:block}
 
 /* === 🌐 AI 자동번역 (Google Translate) === */
-.translate-fab{position:fixed;top:14px;left:14px;z-index:90;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 12px;box-shadow:0 4px 14px rgba(11,37,69,.18);display:flex;align-items:center;gap:7px;font-size:.78rem;font-weight:800;color:#1e293b}
-.translate-fab>span{font-size:.95rem}
+/* 다국어 자동번역 — live-badge와 같은 톤(상단 우측, 차분) */
+.translate-fab{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);padding:7px 11px;border-radius:999px;font-size:.78rem;font-weight:700;color:#fff;transition:.15s}
+.translate-fab:hover{background:rgba(255,255,255,.18)}
+.translate-fab>span{font-size:.85rem;opacity:.85}
 .translate-fab #google_translate_element{display:inline-block}
 .translate-fab .goog-te-gadget{font-family:inherit!important;font-size:0!important;color:transparent!important;margin:0!important}
 .translate-fab .goog-te-gadget>span{display:none!important}
-.translate-fab .goog-te-combo{border:1.5px solid #cbd5e1!important;border-radius:8px!important;padding:5px 8px!important;font-family:inherit!important;font-size:.78rem!important;background:#fff;color:#1e293b;cursor:pointer;font-weight:700;outline:none}
-.translate-fab .goog-te-combo:hover{border-color:#1d6fe0!important}
+.translate-fab .goog-te-combo{border:1px solid rgba(255,255,255,.32)!important;border-radius:8px!important;padding:3px 7px!important;font-family:inherit!important;font-size:.74rem!important;background:rgba(255,255,255,.92);color:#1e293b;cursor:pointer;font-weight:700;outline:none}
+.translate-fab .goog-te-combo:hover{background:#fff}
 .goog-te-banner-frame,.skiptranslate.goog-te-banner-frame{display:none!important;visibility:hidden!important;height:0!important}
 body.translated-ltr,body.translated-rtl{top:0!important;position:static!important}
 body{top:0!important}
@@ -490,7 +492,7 @@ body{top:0!important}
   .ca-btn{flex:1}
   .ca-plaza{padding:16px}
   .ca-modal{padding:22px;border-radius:18px}
-  .translate-fab{top:auto;bottom:14px;left:14px;padding:6px 10px}
+  .translate-fab{padding:5px 8px;font-size:.72rem}.translate-fab>span{font-size:.78rem}.translate-fab .goog-te-combo{font-size:.7rem!important;padding:2px 5px!important}
 }
 
 /* ===== controls ===== */
@@ -658,10 +660,27 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
 @media print{.detail-overlay{position:static;background:#fff;padding:0;overflow:visible}.detail-head{position:static}}
 
 /* ===== 재정 도우미봇 ===== */
-.bot-fab{position:fixed;right:20px;bottom:22px;z-index:85;background:linear-gradient(135deg,#7c3aed,#1d6fe0);color:#fff;border:none;border-radius:999px;padding:13px 18px;font-weight:800;font-size:.92rem;cursor:pointer;box-shadow:0 10px 28px rgba(29,111,224,.45);display:flex;align-items:center;gap:8px;font-family:inherit;transition:.15s}
-.bot-fab:hover{transform:translateY(-2px)}
-.bot-panel{position:fixed;right:20px;bottom:80px;z-index:86;width:370px;max-width:calc(100vw - 32px);height:540px;max-height:calc(100vh - 120px);background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-lg);display:none;flex-direction:column;overflow:hidden}
-.bot-panel.open{display:flex}
+/* 챗봇 — 재정 교과서 모달 내부로 통합(우측 FAB 폐기) */
+.edu-bot{background:linear-gradient(135deg,#f7fbff,#eef4ff);border:1px solid #d8e3f5;border-radius:14px;padding:14px 16px;margin-bottom:14px;box-shadow:0 4px 14px rgba(29,111,224,.08)}
+.edu-bot-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.edu-bot-head .ava{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#1d6fe0);color:#fff;display:grid;place-items:center;font-size:1.2rem;flex-shrink:0}
+.edu-bot-head h4{font-size:.96rem;font-weight:900;color:var(--navy2);margin:0;display:flex;align-items:center;gap:6px}
+.edu-bot-head p{font-size:.78rem;color:#5b6b82;margin:2px 0 0;line-height:1.45}
+.ai-pill{font-size:.6rem;background:#7c3aed;color:#fff;padding:2px 7px;border-radius:6px;vertical-align:middle;font-weight:800}
+/* 호환: 기존 bot-panel은 제거되었으나 일부 인라인 스타일이 .bot-msgs/.bot-input/.bot-chips를 참조하므로 유지 */
+.bot-panel{display:none!important}
+.bot-fab{display:none!important}
+/* edu-bot 내부 챗봇 컴팩트 스타일(우측 FAB 폐기 후 인라인 사용) */
+.edu-bot .bot-msgs{max-height:220px;overflow-y:auto;background:#fff;border-radius:10px;border:1px solid #d8e3f5;padding:10px;display:flex;flex-direction:column;gap:8px;flex:none}
+.edu-bot .bot-msgs:empty::before{content:'안녕하세요! 재정 도우미 챗봇입니다 🤖  — 어려운 용어나 우리 동네 현황을 물어보세요.';color:#94a3b8;font-size:.84rem;text-align:center;padding:20px;display:block}
+.edu-bot .bot-input{margin-top:10px;display:flex;gap:8px;padding:0;border-top:none;background:transparent}
+.edu-bot .bot-input input{flex:1;padding:10px 13px;border:1.5px solid #d8e3f5;border-radius:10px;font-family:inherit;font-size:.88rem;outline:none;color:#1e293b;background:#fff}
+.edu-bot .bot-input input:focus{border-color:#1d6fe0;box-shadow:0 0 0 3px rgba(29,111,224,.12)}
+.edu-bot .bot-input button{padding:10px 18px;background:linear-gradient(135deg,#1d6fe0,#7c3aed);color:#fff;border:none;border-radius:10px;font-weight:800;cursor:pointer;font-family:inherit;font-size:.88rem;white-space:nowrap}
+.edu-bot .bot-input button:hover{filter:brightness(1.08)}
+.edu-bot .bot-chips{padding:0;background:transparent;margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;border-top:none}
+.edu-bot .bot-chips:empty{display:none}
+.edu-bot .bot-msg{max-width:92%}
 .bot-head{background:linear-gradient(120deg,#0b2545,#1a4c8f);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;flex:none}
 .bot-head .ava{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#2dd4bf);display:grid;place-items:center;font-size:18px;flex:none}
 .bot-head h4{font-size:.98rem;font-weight:800}
@@ -766,8 +785,14 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
 <header class="topbar">
   <div class="wrap">
     <div class="brandrow">
-      <div class="live-badge" id="liveBadge" title="데이터 연동 상태">
-        <span class="dot" id="liveDot"></span><span id="liveText">공시 기준</span>
+      <div class="topbar-actions" style="margin-left:auto;display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <div class="translate-fab" title="다국어 자동번역">
+          <span>🌐</span>
+          <div id="google_translate_element"></div>
+        </div>
+        <div class="live-badge" id="liveBadge" title="데이터 연동 상태">
+          <span class="dot" id="liveDot"></span><span id="liveText">공시 기준</span>
+        </div>
       </div>
     </div>
     <h1 class="hero-headline" style="margin-top:10px">내가 낸 세금, 우리 동네에서<br><span class="hl-y">잘 쓰이고 있을까?</span></h1>
@@ -829,11 +854,7 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
     </div>
   </section>
 
-  <!-- 🌐 AI 자동번역 (Google Translate) -->
-  <div class="translate-fab" title="다국어 자동번역">
-    <span>🌐</span>
-    <div id="google_translate_element"></div>
-  </div>
+  <!-- 🌐 AI 자동번역(Google Translate)은 상단 brandrow로 이동됨 -->
 
 
   <!-- 시민 참여 모달 -->
@@ -1193,11 +1214,27 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
   <section id="edu">
     <div class="section-h">
       <span class="ic">📚</span>
-      <div><h2>재정 교과서 · 용어 사전</h2><p>지표가 무슨 뜻이고, 어떤 숫자가 위험신호인지 — 키워드로 검색하세요</p></div>
+      <div><h2>재정 교과서 · 용어 사전 · 🤖 AI 도우미</h2><p>지표 뜻과 위험신호 — 키워드로 검색하거나 아래 AI 도우미에게 직접 물어보세요</p></div>
     </div>
     <div style="margin-bottom:14px;background:#fff;border-radius:14px;padding:6px;box-shadow:0 4px 14px rgba(0,0,0,.06);border:2px solid #e2e8f0;display:flex;gap:8px;align-items:center">
       <input id="eduSearch" type="text" placeholder="🔍 용어 검색 (예: 재정자립도, 수의계약, 청렴도, 채무비율, 금고)" style="flex:1;border:none;outline:none;padding:10px 14px;font-family:inherit;font-size:.94rem;background:transparent;color:#1e293b;font-weight:600;min-width:0">
       <span id="eduCount" style="font-size:.78rem;color:#64748b;white-space:nowrap;padding-right:10px;font-weight:700">매칭 -개</span>
+    </div>
+    <!-- 챗봇 통합 영역(기존 우측 FAB 챗봇이 여기로 이동) -->
+    <div class="edu-bot">
+      <div class="edu-bot-head">
+        <div class="ava">🤖</div>
+        <div>
+          <h4>재정 도우미 챗봇 <span class="ai-pill">AI</span></h4>
+          <p>사이트 안내 · 어려운 재정·예산 용어를 쉽게 알려드려요. 우리 동네 진단도 가능합니다.</p>
+        </div>
+      </div>
+      <div class="bot-msgs" id="botMsgs"></div>
+      <div class="bot-chips" id="botChips"></div>
+      <div class="bot-input">
+        <input id="botInput" type="text" placeholder="예: 재정자립도가 뭐야? / 우리동네 현황 / 수의계약 위험신호" autocomplete="off">
+        <button id="botSend">전송</button>
+      </div>
     </div>
     <div class="edu-grid" id="eduGrid"></div>
     <div class="show-more" id="eduMore"></div>
@@ -1464,22 +1501,15 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
   </div>
 </div>
 
-<!-- 우측: AI 도우미 챗봇 (사이트 안내·용어 설명) -->
-<!-- 좌측 김보미 FAB는 제거(상단 nav '👤 김보미 소개'로 통일) -->
-<button class="bot-fab" id="botFab">💬 AI 도우미 챗봇</button>
-<div class="bot-panel" id="botPanel">
-  <div class="bot-head">
-    <div class="ava">🤖</div>
-    <div><h4>AI 도우미 챗봇 <span style="font-size:.62rem;background:#7c3aed;padding:1px 6px;border-radius:6px;vertical-align:middle">AI</span></h4><p>사이트 안내 · 어려운 재정·예산 용어를 쉽게 알려드려요</p></div>
-    <button class="x" id="botClose" title="닫기">✕</button>
-  </div>
-  <div class="bot-msgs" id="botMsgs"></div>
-  <div class="bot-chips" id="botChips"></div>
-  <div class="bot-input">
-    <input id="botInput" type="text" placeholder="예: 재정자립도가 뭐야?" autocomplete="off">
-    <button id="botSend">전송</button>
-  </div>
+<!-- 좌측: 김보미 소개 FAB (큰 얼굴, 클릭 시 소개 모달) -->
+<div class="intro-greet" id="introGreet">
+  <span class="gx" id="introGreetX">✕</span>
+  <b>김보미</b>를 소개합니다! 👋
 </div>
+<button class="intro-fab" id="introFab" aria-label="김보미를 소개합니다 — 소개 모달 열기" title="김보미를 소개합니다">
+  <span class="kbm-ava" style="font-size:1.7rem"><img class="kbm-face" src="face.jpg" alt="김보미" onerror="this.style.display='none'">김</span>
+</button>
+<!-- ⚠️ 우측 AI 챗봇 FAB 제거됨 — 챗봇 UI는 '📚 재정 교과서' 모달 내부로 통합 -->
 
 <div class="toast" id="toast"></div>
 
@@ -2959,10 +2989,15 @@ function wire(){
   });
   document.getElementById('liveBadge').addEventListener('click',()=>{ toast('🔄 실시간 서버에서 새로고침'); connectRealtime(); });
   // 도우미봇
-  document.getElementById('botFab').addEventListener('click',()=>{ const p=document.getElementById('botPanel'); p.classList.contains('open')?botClose():botOpen(); });
-  document.getElementById('botClose').addEventListener('click',botClose);
-  document.getElementById('botSend').addEventListener('click',()=>botSendMsg());
-  document.getElementById('botInput').addEventListener('keydown',e=>{if(e.key==='Enter')botSendMsg();});
+  // 챗봇은 #edu(재정 교과서) 모달 내부로 이동 — botFab/botClose는 더 이상 존재하지 않음
+  const _botSend=document.getElementById('botSend'); if(_botSend) _botSend.addEventListener('click',()=>botSendMsg());
+  const _botInput=document.getElementById('botInput'); if(_botInput) _botInput.addEventListener('keydown',e=>{if(e.key==='Enter')botSendMsg();});
+  // 좌측 김보미 소개 FAB 복원 — 클릭 시 소개 모달 열기
+  const _introFab=document.getElementById('introFab'); if(_introFab) _introFab.addEventListener('click',openAbout);
+  const _introGreet=document.getElementById('introGreet'); if(_introGreet) _introGreet.addEventListener('click',openAbout);
+  const _introGreetX=document.getElementById('introGreetX'); if(_introGreetX) _introGreetX.addEventListener('click',e=>{e.stopPropagation();_introGreet.classList.remove('show');});
+  // 인사 카드는 페이지 로드 2초 후 슬쩍 등장
+  setTimeout(()=>{ const g=document.getElementById('introGreet'); if(g) g.classList.add('show'); },2200);
   // 상단 nav 김보미 소개 버튼
   document.getElementById('navAbout').addEventListener('click',openAbout);
   // 통합 메뉴 드롭다운
@@ -2978,7 +3013,7 @@ function wire(){
   })();
   document.getElementById('aboutClose').addEventListener('click',()=>closeAbout());
   document.getElementById('aboutOverlay').addEventListener('click',e=>{if(e.target.id==='aboutOverlay')closeAbout();});
-  // intro-greet 인사 카드는 제거됨
+  // intro-greet 인사 카드는 위 _introGreet 블록에서 처리
   botRenderChips();
 }
 
@@ -3735,7 +3770,7 @@ window.addEventListener('load',()=>{ try{ PS.init(); }catch(e){console.warn('PS 
   // 검색 입력 연결
   const search=document.getElementById('eduSearch');
   if(search) search.addEventListener('input',(e)=>{ if(typeof eduQuery!=='undefined'){ eduQuery=e.target.value; if(typeof renderEdu==='function') renderEdu(); } });
-  const open=()=>{ edu.classList.add('show'); close.classList.add('show'); document.body.style.overflow='hidden'; window.scrollTo(0,0); if(search) setTimeout(()=>search.focus(),100); };
+  const open=()=>{ edu.classList.add('show'); close.classList.add('show'); document.body.style.overflow='hidden'; window.scrollTo(0,0); if(search) setTimeout(()=>search.focus(),100); /* 챗봇 환영 메시지/칩 1회 초기화 */ try{ const bm=document.getElementById('botMsgs'); if(bm && !bm.children.length && typeof botAdd==='function'){ botAdd('bot','안녕하세요! 저는 <b>재정 도우미BOT</b> 🤖 입니다. <b>"세금의 주인은 국민"</b> — 우리 동네 재정 무엇이든 물어보세요. 사용법·재정 용어·우리동네 현황까지 모두 도와드려요.', true); if(typeof botRenderChips==='function') botRenderChips(); } }catch(e){} };
   const shut=()=>{ edu.classList.remove('show'); close.classList.remove('show'); document.body.style.overflow=''; };
   nav.addEventListener('click',(e)=>{ e.preventDefault(); open(); });
   close.addEventListener('click',shut);
