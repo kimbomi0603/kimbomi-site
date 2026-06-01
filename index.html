@@ -3225,12 +3225,17 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
   document.querySelectorAll('.hqn-btn[href="#compare"]').forEach(btn=>btn.addEventListener('click',()=>applyHomeRegion('compare')));
   if(sectionClose) sectionClose.addEventListener('click',close);
   document.addEventListener('keydown',(e)=>{ if(e.key==='Escape' && currentSection) close(); });
-  // 모달 외부(오버레이) 클릭 시 닫기
+  // 모달 외부(오버레이) 클릭 시 닫기 — 트리거 버튼들은 제외
   document.addEventListener('click',(e)=>{
     if(!currentSection) return;
     const sec=document.getElementById(currentSection);
     if(!sec) return;
-    if(!sec.contains(e.target) && e.target!==sectionClose && !document.getElementById('navPolicy').contains(e.target) && !document.getElementById('navBudget').contains(e.target) && !document.getElementById('navContract').contains(e.target)) close();
+    // 트리거 버튼이나 빠른이동 버튼 클릭은 무시(모달 자체를 막 열었을 가능성)
+    if(e.target.closest('.hqn-btn')) return;
+    if(e.target.closest('#navPolicy,#navBudget,#navContract,#navEdu,#navOntology,#navAbout')) return;
+    if(sec.contains(e.target)) return;
+    if(e.target===sectionClose) return;
+    close();
   });
 })();
 </script>
