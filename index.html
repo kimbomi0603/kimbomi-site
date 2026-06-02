@@ -60,19 +60,24 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+
 <style>
 :root{
-  --navy:#0b2545; --navy2:#13315c; --blue:#1d6fe0; --blue-soft:#e8f1fd;
-  --teal:#0fb9a6; --teal-soft:#e2f7f4;
-  --green:#16a34a; --amber:#f59e0b; --red:#e11d48; --purple:#7c3aed;
-  --ink:#0f172a; --muted:#5b6b82; --line:#e4e9f0; --bg:#f4f7fb; --card:#ffffff;
-  --shadow:0 1px 3px rgba(16,32,64,.06),0 8px 24px rgba(16,32,64,.06);
+  /* 🎨 시빅 데이터룸 (1순위) — 흰 캔버스 + 딥네이비 + 골드 + 1포인트 레드 */
+  --navy:#0A2542; --navy2:#143258; --blue:#1B5FAA; --blue-soft:#EBF2F9;
+  --gold:#E0B266; --gold-deep:#B88A3C; --gold-soft:#FAF3E2;
+  --teal:#E0B266; --teal-soft:#FAF3E2;  /* 기존 teal 변수도 골드로 매핑 (호환) */
+  --green:#0E7A4A; --amber:#E0B266; --red:#DC2626; --purple:#5B3DB8;
+  --ink:#0E1A2E; --muted:#4D5B73; --line:#E2E6ED; --bg:#FAFBFC; --card:#FFFFFF;
+  --shadow:0 1px 3px rgba(10,37,66,.06),0 8px 24px rgba(10,37,66,.08);
   --shadow-lg:0 12px 40px rgba(11,37,69,.16);
   --r:16px; --r-sm:10px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Noto Sans KR',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.62;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;letter-spacing:-.003em;word-break:keep-all;overflow-wrap:break-word}
+body{font-family:'Pretendard Variable','Pretendard','Noto Sans KR',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;letter-spacing:-.012em;word-break:keep-all;overflow-wrap:break-word;font-variant-numeric:tabular-nums}
 a{color:var(--blue);text-decoration:none}
 .wrap{max-width:1280px;margin:0 auto;padding:0 20px}
 .muted{color:var(--muted)}
@@ -104,14 +109,59 @@ a{color:var(--blue);text-decoration:none}
 .tb-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.36)}
 /* 메인 히어로 검색창 — 첫 화면 핵심 액션, 크고 강조 */
 .hero-search{margin-top:22px;background:rgba(255,255,255,.14);border:2px solid rgba(125,240,224,.45);border-radius:22px;padding:24px 26px;backdrop-filter:blur(6px);max-width:900px;box-shadow:0 16px 40px rgba(0,0,0,.32)}
-.hero-search-row{display:flex;gap:12px;flex-wrap:wrap;align-items:stretch}
-.hero-search-row select{flex:1;min-width:180px;background:#fff;border:none;border-radius:14px;padding:18px 20px;font-family:inherit;font-size:1.08rem;font-weight:800;color:#0b2545;cursor:pointer;outline:none;transition:box-shadow .15s;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.hero-search-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
+.hero-search-row select{flex:0 1 auto;min-width:120px;max-width:240px;width:auto;background:#fff;border:none;border-radius:11px;padding:9px 32px 9px 14px;font-family:inherit;font-size:.98rem;font-weight:800;color:#0b2545;cursor:pointer;outline:none;transition:box-shadow .15s;box-shadow:0 3px 10px rgba(0,0,0,.1);appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='%230b2545' d='M6 9L1 4h10z'/></svg>");background-repeat:no-repeat;background-position:right 11px center}
 .hero-search-row select:hover{box-shadow:0 6px 18px rgba(125,240,224,.4)}
 .hero-search-row select:disabled{opacity:.55;cursor:not-allowed}
 .hero-search-btn{flex:0 0 auto;background:linear-gradient(135deg,#7df0e0,#36e0c0);color:#06201d;font-weight:900;font-size:1.12rem;padding:18px 34px;border-radius:14px;text-decoration:none;box-shadow:0 10px 28px rgba(125,240,224,.42);white-space:nowrap;transition:.15s;letter-spacing:.01em}
 .hero-search-btn:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(125,240,224,.55)}
+/* 🆕 자유 검색 입력 + 4개 토픽 버튼 */
+.hero-guide-msg{font-size:.92rem;font-weight:700;color:#F0D49A;margin-bottom:8px;padding:7px 14px;background:rgba(224,178,102,.12);border-radius:999px;display:inline-block;border:1px solid rgba(224,178,102,.28);letter-spacing:-.01em}
+.hero-guide-msg b{color:#fde68a;font-weight:900}
+@media(max-width:640px){.hero-guide-msg{font-size:.78rem;padding:6px 11px;display:block}}
+.hero-free-row{position:relative;margin-bottom:10px}
+.hero-free-row input{width:100%;box-sizing:border-box;padding:14px 18px;border-radius:14px;border:2px solid rgba(255,255,255,.22);background:rgba(255,255,255,.96);color:#1e293b;font-size:1rem;font-weight:600;outline:none;font-family:inherit}
+.hero-free-row input:focus{border-color:#7df0e0;box-shadow:0 0 0 4px rgba(125,240,224,.22)}
+.hero-free-row input::placeholder{color:#94a3b8;font-weight:500}
+.hero-free-suggest{position:absolute;left:0;right:0;top:calc(100% + 4px);background:#fff;border-radius:14px;box-shadow:0 14px 36px rgba(0,0,0,.28);max-height:280px;overflow-y:auto;z-index:30}
+.hero-free-suggest.hidden{display:none}
+.hero-free-suggest button{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;padding:11px 16px;border:none;background:none;text-align:left;cursor:pointer;font-family:inherit;font-size:.93rem;color:#1e293b;border-bottom:1px solid #f1f5f9;font-weight:700}
+.hero-free-suggest button:hover{background:#ecfdf5}
+.hero-free-suggest button:last-child{border-bottom:none}
+.hero-free-suggest .tag{font-size:.72rem;color:#10b981;font-weight:800;background:#d1fae5;padding:3px 8px;border-radius:999px;white-space:nowrap;flex-shrink:0}
+.hero-topic-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+
+/* 🩺 3초 진단 — 메인 CTA */
+.hero-topic-primary{position:relative;display:flex;align-items:center;gap:14px;width:100%;margin-top:10px;padding:18px 22px;border-radius:18px;background:linear-gradient(135deg,#E0B266 0%,#C9963A 60%,#B88A3C 100%);color:#0b2545;text-decoration:none;font-family:inherit;box-shadow:0 12px 30px rgba(184,138,60,.45),0 0 0 0 rgba(125,240,224,.6);transition:transform .18s,box-shadow .25s;overflow:hidden;animation:primPulse 2.2s ease-out infinite;border:2px solid rgba(255,255,255,.6)}
+.hero-topic-primary:hover{transform:translateY(-3px);box-shadow:0 18px 42px rgba(184,138,60,.55);animation:none}
+.hero-topic-primary .prim-emoji{font-size:3.2rem;line-height:1;flex-shrink:0;filter:drop-shadow(0 3px 6px rgba(0,0,0,.2)) drop-shadow(0 0 12px rgba(255,255,255,.5));transform-origin:center;animation:primSpyBounce 2.4s ease-in-out infinite}
+.hero-topic-primary .prim-text{display:flex;flex-direction:column;gap:2px;flex:1;text-align:left}
+.hero-topic-primary .prim-title{font-size:1.45rem;font-weight:900;letter-spacing:-.02em;line-height:1.15}
+.hero-topic-primary .prim-sub{font-size:.86rem;font-weight:700;opacity:.85;letter-spacing:-.01em}
+.hero-topic-primary .prim-arrow{font-size:1.8rem;font-weight:900;flex-shrink:0;transition:transform .25s}
+.hero-topic-primary:hover .prim-arrow{transform:translateX(6px)}
+.hero-topic-primary .prim-pulse{position:absolute;inset:0;border-radius:18px;pointer-events:none;background:radial-gradient(circle at 30% 50%,rgba(255,255,255,.45),transparent 70%);opacity:0;animation:primShine 2.8s ease-in-out infinite}
+@keyframes primPulse{0%{box-shadow:0 12px 30px rgba(184,138,60,.45),0 0 0 0 rgba(125,240,224,.7)}70%{box-shadow:0 12px 30px rgba(184,138,60,.45),0 0 0 14px rgba(125,240,224,0)}100%{box-shadow:0 12px 30px rgba(184,138,60,.45),0 0 0 0 rgba(125,240,224,0)}}
+@keyframes primShine{0%,100%{opacity:0;transform:translateX(-30%)}50%{opacity:.45;transform:translateX(30%)}}
+@keyframes primSpyBounce{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(8deg) scale(1.08)}}
+@media(max-width:640px){.hero-topic-primary{padding:14px 16px}.hero-topic-primary .prim-emoji{font-size:2.4rem}.hero-topic-primary .prim-title{font-size:1.18rem}.hero-topic-primary .prim-sub{font-size:.76rem}.hero-topic-primary .prim-arrow{font-size:1.4rem}}
+.hero-topic-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:14px 8px;border-radius:14px;text-decoration:none;font-weight:900;transition:transform .15s,box-shadow .2s;line-height:1.2;text-align:center;border:2px solid transparent;font-family:inherit}
+.hero-topic-btn .emj{font-size:1.45rem;line-height:1}
+.hero-topic-btn .lbl{font-size:.88rem;letter-spacing:-.01em;white-space:nowrap}
+.hero-topic-btn{position:relative}
+.hero-topic-btn::after{content:'↗';position:absolute;top:8px;right:10px;font-size:1.1rem;font-weight:900;opacity:.5;transition:transform .25s,opacity .2s}
+.hero-topic-btn:hover::after{opacity:1;transform:translate(3px,-3px)}
+.hero-topic-btn .go{display:inline-flex;align-items:center;gap:4px;margin-top:6px;font-size:.72rem;font-weight:800;opacity:.85;letter-spacing:-.01em;background:rgba(255,255,255,.28);padding:3px 9px;border-radius:999px}
+.hero-topic-btn .go i{font-style:normal;display:inline-block;transition:transform .25s}
+.hero-topic-btn:hover .go i{transform:translateX(4px)}
+.hero-topic-btn:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.32)}
+
+.hero-topic-btn.topic-budget{background:linear-gradient(135deg,#F0D49A,#C9963A);color:#451a03}
+.hero-topic-btn.topic-contract{background:linear-gradient(135deg,#a5d8ff,#3b82f6);color:#fff}
+.hero-topic-btn.topic-policy{background:linear-gradient(135deg,#fbcfe8,#ec4899);color:#fff}
+@media (max-width:640px){.hero-topic-row{grid-template-columns:repeat(3,1fr);gap:6px}.hero-topic-btn{padding:12px 6px}.hero-topic-btn::after{top:5px;right:6px;font-size:.85rem}.hero-topic-btn .emj{font-size:1.25rem}.hero-topic-btn .lbl{font-size:.76rem}.hero-topic-btn .go{font-size:.62rem;padding:2px 6px;margin-top:4px}}
 .hero-search-hint{font-size:.9rem;color:#dceafb;margin-top:14px;font-weight:600;line-height:1.55;text-align:center}
-@media(max-width:680px){.hero-search{padding:18px 18px;margin-top:18px;border-radius:18px}.hero-search-row{flex-direction:column;gap:10px}.hero-search-row select,.hero-search-btn{width:100%;text-align:center;font-size:1rem;padding:14px 18px}.hero-search-hint{font-size:.82rem}}
+@media(max-width:680px){.hero-search{padding:18px 18px;margin-top:18px;border-radius:18px}.hero-search-row{flex-direction:row;gap:8px}.hero-search-row select{flex:1 1 0;min-width:0;font-size:.92rem;padding:9px 26px 9px 12px;background-position:right 8px center}.hero-search-hint{font-size:.82rem}}
 /* 차별화 워크플로우 카드 — 정부 미제공 시민 플랫폼만의 3단계 */
 .signature-workflow{margin-top:16px;background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(29,111,224,.12));border:1px solid rgba(125,240,224,.38);border-radius:16px;padding:16px 18px}
 .sw-title{font-size:.86rem;font-weight:800;color:#fff;margin-bottom:11px;letter-spacing:.01em}
@@ -136,7 +186,7 @@ a{color:var(--blue);text-decoration:none}
 .dr-item span{font-size:.72rem;color:#cbd5e1;font-weight:600;line-height:1.5}
 .dr-item span b{color:#7df0e0;font-size:.72rem}
 .stat-strip{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
-.stat-strip .s{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:10px 16px}
+.stat-strip .s{background:rgba(255,255,255,.08);border:1px solid rgba(224,178,102,.28);border-radius:12px;padding:10px 16px}
 .stat-strip .s b{display:block;font-size:1.22rem;font-weight:900;color:#fff}
 .stat-strip .s span{font-size:.72rem;color:#a9c4e8}
 
@@ -214,7 +264,7 @@ section{padding:26px 0}
 .hh-quote{font-size:1.32rem;font-weight:800;line-height:1.7;color:#fff;text-shadow:0 1px 10px rgba(0,0,0,.3)}
 .hh-quote .hl{background:#ffd84d;color:#0b2545;padding:1px 5px;border-radius:4px;font-weight:900;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .hh-cite{font-size:.9rem;color:#bcd2f0;margin-top:13px;font-weight:600;line-height:1.6}
-.hh-lead{margin-top:18px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:17px 19px}
+.hh-lead{margin-top:18px;background:rgba(255,255,255,.10);border:1px solid rgba(224,178,102,.28);border-radius:14px;padding:17px 19px}
 .hh-big{display:block;font-size:1.14rem;color:#7df0e0;font-weight:900;margin-bottom:9px}
 .hh-lead p{font-size:.95rem;color:#e9f0fc;line-height:1.8}
 .hh-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
@@ -239,6 +289,10 @@ section{padding:26px 0}
 @media(max-width:720px){.home-combo .hqn-grid{grid-template-columns:repeat(2,1fr);gap:7px}.home-combo .hqn-btn{padding:9px 8px}.home-combo .hqn-emoji{font-size:1.2rem}.home-combo .hqn-label{font-size:.8rem}.home-combo .hqn-sub{font-size:.64rem}}
 /* 3초 진단 4탭 nav */
 .diag-tabs{display:flex;gap:6px;margin:18px 0 14px;background:#f1f6ff;border:1px solid #dbe5f3;border-radius:14px;padding:6px;flex-wrap:wrap}
+
+#diagnose{display:none}
+#diagnose.diag-open{display:block;animation:diagFadeIn .4s ease-out}
+@keyframes diagFadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 .dt-btn{flex:1;min-width:130px;background:transparent;border:none;border-radius:10px;padding:11px 14px;font-family:inherit;font-size:.92rem;font-weight:800;color:#5b6b82;cursor:pointer;transition:all .15s;letter-spacing:.01em}
 .dt-btn:hover{background:rgba(29,111,224,.07);color:var(--navy2)}
 .dt-btn.active{background:linear-gradient(135deg,var(--navy2),#1d4080);color:#fff;box-shadow:0 4px 14px rgba(29,111,224,.28)}
@@ -432,8 +486,8 @@ body.section-modal-open::before{content:'';position:fixed;inset:0;background:rgb
 
 /* === 🌐 AI 자동번역 (Google Translate) === */
 /* 다국어 자동번역 — live-badge와 같은 톤(상단 우측, 차분) */
-.translate-fab{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);padding:7px 11px;border-radius:999px;font-size:.78rem;font-weight:700;color:#fff;transition:.15s}
-.translate-fab:hover{background:rgba(255,255,255,.18)}
+.translate-fab{display:inline-flex;align-items:center;gap:6px;background:transparent;border:1px solid rgba(255,255,255,.18);padding:7px 11px;border-radius:999px;font-size:.78rem;font-weight:700;color:#fff;transition:.15s}
+.translate-fab:hover{background:rgba(255,255,255,.06)}
 .translate-fab>span{font-size:.85rem;opacity:.85}
 .translate-fab #google_translate_element{display:inline-block}
 .translate-fab .goog-te-gadget{font-family:inherit!important;font-size:0!important;color:transparent!important;margin:0!important}
@@ -441,6 +495,8 @@ body.section-modal-open::before{content:'';position:fixed;inset:0;background:rgb
 .translate-fab .goog-te-combo{border:1px solid rgba(255,255,255,.28)!important;border-radius:8px!important;padding:3px 7px!important;font-family:inherit!important;font-size:.74rem!important;background:transparent!important;color:#fff!important;cursor:pointer;font-weight:700;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path fill='%23ffffff' d='M5 7L1 3h8z'/></svg>")!important;background-repeat:no-repeat!important;background-position:right 6px center!important;padding-right:18px!important}
 .translate-fab .goog-te-combo:hover{background-color:rgba(255,255,255,.12)!important}
 .translate-fab .goog-te-combo option{background:#0b2545;color:#fff}
+.translate-fab .lang-restore{background:transparent;border:1px solid rgba(255,255,255,.28);color:#fff;font-family:inherit;font-size:.74rem;font-weight:700;padding:3px 9px;border-radius:8px;cursor:pointer;transition:.15s;line-height:1}
+.translate-fab .lang-restore:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.45)}
 .goog-te-banner-frame,.skiptranslate.goog-te-banner-frame{display:none!important;visibility:hidden!important;height:0!important}
 body.translated-ltr,body.translated-rtl{top:0!important;position:static!important}
 body{top:0!important}
@@ -822,6 +878,71 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
 .hidden{display:none!important}
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:12px 20px;border-radius:12px;font-size:.86rem;font-weight:600;box-shadow:var(--shadow-lg);opacity:0;transition:.25s;z-index:99;max-width:90%}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* 🅰 K-거버 모던 타이포 강화 */
+h1,h2,h3,h4,h5{font-family:'Pretendard Variable','Pretendard','Noto Sans KR',system-ui,sans-serif;letter-spacing:-.025em;font-weight:800;color:var(--ink)}
+h1{letter-spacing:-.035em;font-weight:900}
+.num,.value,.k-val,.fs-stat .value{font-variant-numeric:tabular-nums;letter-spacing:-.015em}
+
+
+
+/* 📱 모바일 보강 — 시빅 데이터룸 컴팩트 */
+@media (max-width:640px){
+  /* 자유 입력창 */
+  .hero-free-row input{font-size:.92rem;padding:11px 14px}
+  .hero-free-row input::placeholder{font-size:.84rem}
+  .hero-free-suggest{max-height:240px}
+  .hero-free-suggest button{padding:10px 12px;font-size:.86rem}
+  /* 시·도/시·군·구 드롭다운 한 줄 유지 */
+  .hero-search-row{flex-direction:row;gap:6px}
+  .hero-search-row select{flex:1 1 0;min-width:0;font-size:.88rem;padding:8px 24px 8px 11px;background-position:right 7px center}
+  /* 토픽 메인 CTA */
+  .hero-topic-primary{padding:13px 14px;gap:10px}
+  .hero-topic-primary .prim-emoji{font-size:2.2rem}
+  .hero-topic-primary .prim-title{font-size:1.1rem}
+  .hero-topic-primary .prim-sub{font-size:.7rem}
+  .hero-topic-primary .prim-arrow{font-size:1.25rem}
+  /* 보조 토픽 3개 */
+  .hero-topic-row{grid-template-columns:repeat(3,1fr);gap:5px}
+  .hero-topic-btn{padding:10px 5px}
+  .hero-topic-btn::after{top:4px;right:5px;font-size:.75rem}
+  .hero-topic-btn .emj{font-size:1.1rem}
+  .hero-topic-btn .lbl{font-size:.72rem}
+  .hero-topic-btn .go{font-size:.6rem;padding:2px 5px;margin-top:3px}
+  /* 안내 문구 */
+  .hero-guide-msg{font-size:.74rem;padding:5px 10px}
+  /* 통계/배너 */
+  .gov-cta{flex-direction:column;align-items:flex-start;gap:10px;padding:14px 16px}
+  .gov-cta a{align-self:flex-start;font-size:.88rem;padding:8px 14px}
+  /* values 3박스 */
+  .values{display:grid;grid-template-columns:1fr;gap:10px}
+  .value{padding:14px 16px}
+  /* 진단 6탭 — 스크롤 가능 */
+  .diag-tabs{overflow-x:auto;flex-wrap:nowrap;gap:5px;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+  .dt-btn{flex:0 0 auto;min-width:auto;font-size:.78rem;padding:9px 11px;white-space:nowrap}
+  /* 데이터 카드 그리드 */
+  .fs-stat-grid{grid-template-columns:repeat(2,1fr)!important;gap:6px}
+  .fs-stat{padding:9px 11px}
+  .fs-stat .value{font-size:1rem}
+  /* 본문 가독성 */
+  .section-h h2{font-size:1.05rem;line-height:1.35}
+  .section-h p{font-size:.82rem;line-height:1.55}
+}
+
+/* 📱 매우 좁은 화면 (iPhone SE 등) */
+@media (max-width:380px){
+  .hero-topic-btn .lbl{font-size:.66rem}
+  .hero-topic-btn .go{display:none}
+  .hero-topic-row{gap:4px}
+  .fs-stat-grid{grid-template-columns:1fr!important}
+}
+
+/* 🖥️ 터치 타겟 보장 (모바일 접근성) */
+@media (max-width:640px){
+  button,.btn,a.hero-topic-btn,a.hero-topic-primary,select,input{min-height:36px}
+  .dt-btn{min-height:38px}
+}
+
 </style>
 </head>
 <body>
@@ -833,27 +954,54 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
         <div class="translate-fab" title="다국어 자동번역">
           <span>🌐</span>
           <div id="google_translate_element"></div>
+          <button class="lang-restore" type="button" onclick="restoreKorean()" title="한국어로 다시 보기">한국어</button>
         </div>
         <div class="live-badge" id="liveBadge" title="데이터 연동 상태">
           <span class="dot" id="liveDot"></span><span id="liveText">공시 기준</span>
         </div>
       </div>
     </div>
-    <h1 class="hero-headline" style="margin-top:20px;font-size:2.6rem;line-height:1.2;text-align:center">🩺 우리 동네 재정<br><span class="hl-y">3초만에 진단하기</span></h1>
+    <h1 class="hero-headline" style="margin-top:20px;font-size:2.6rem;line-height:1.2;text-align:center">우리동네<br><span class="hl-y">3초만에 진단하기</span></h1>
     <!-- 메인 검색창 — 첫 화면 핵심 액션 -->
     <div class="hero-search" style="margin-left:auto;margin-right:auto">
+      <!-- 자유 입력 검색창 (정책 검색과 동일한 패턴) -->
+      <div class="hero-free-row">
+        <div class="hero-guide-msg">👉 먼저 <b>우리 동네</b>를 선택하거나 <b>우리 동네 궁금한 정책 키워드</b>를 입력해 주세요</div>
+        <input id="heroFreeText" type="text" autocomplete="off" placeholder="🔍 예: 전남 강진군, 서울 강남구 ・ 또는 ・ 육아수당, 청년 지원금, 어르신 무료 검진" />
+        <div id="heroFreeSuggest" class="hero-free-suggest hidden"></div>
+      </div>
+      <!-- 또는 드롭다운으로 선택 -->
       <div class="hero-search-row">
         <select id="heroSido" aria-label="시·도 선택"><option value="">시·도 선택</option></select>
         <select id="heroSigungu" aria-label="시·군·구 선택" disabled><option value="">시·군·구 선택</option></select>
-        <a href="#diagnose" class="hero-search-btn" id="heroSearchBtn">🔎 3초 진단</a>
+      </div>
+      <!-- 4개 토픽 버튼 -->
+      <!-- 🩺 3초 진단 — 메인 CTA (풀폭, 펄스 글로우) -->
+      <a href="#diagnose" class="hero-topic-primary" id="heroSearchBtn">
+        <span class="prim-pulse"></span>
+        <span class="prim-emoji">🔍</span>
+        <span class="prim-text"><span class="prim-title">3초 진단</span><span class="prim-sub">👉 종합·예산·계약·시각화·순위·비교 한꺼번에</span></span>
+        <span class="prim-arrow">→</span>
+      </a>
+      <!-- 보조 토픽 3개 -->
+      <div class="hero-topic-row">
+        <a href="javascript:void(0)" class="hero-topic-btn topic-budget" data-modal="budget-only">
+          <span class="emj">💰</span>
+          <span class="lbl">예산·집행</span>
+          <span class="go">바로가기 <i>→</i></span>
+        </a>
+        <a href="javascript:void(0)" class="hero-topic-btn topic-contract" data-modal="contract-only">
+          <span class="emj">📜</span>
+          <span class="lbl">계약·발주</span>
+          <span class="go">바로가기 <i>→</i></span>
+        </a>
+        <a href="javascript:void(0)" class="hero-topic-btn topic-policy" data-modal="policy-search">
+          <span class="emj">📋</span>
+          <span class="lbl">정책 확인&amp;제안</span>
+          <span class="go">바로가기 <i>→</i></span>
+        </a>
       </div>
       <p class="hero-search-hint">전국 243개 지자체의 예산·집행·계약·종합청렴도·금고 약정이자율을 한 화면에 펼쳐드립니다</p>
-    </div>
-    <div class="stat-strip">
-      <div class="s"><b>243개</b><span>전국 광역·기초 지자체</span></div>
-      <div class="s"><b id="sbBudget">411.8조 원</b><span>총예산 (2024)</span></div>
-      <div class="s"><b id="sbSelf">43.2%</b><span>평균 재정자립도</span></div>
-      <div class="s"><b id="sbAuto">70.3%</b><span>평균 재정자주도</span></div>
     </div>
   </div>
 </header>
@@ -880,38 +1028,32 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
 
 <div class="wrap">
 
-  <!-- ============== C. 시민 플랫폼 차별화 카드 (3단계 자동화) ============== -->
-  <section class="card-dark diff-card">
-    <span class="hh-badge">시민 재정 주권 플랫폼 · 대한민국 재정 365</span>
-    <div class="signature-workflow">
-      <div class="sw-title">✨ <b>정부 플랫폼이 제공하지 않는</b> 시민 플랫폼만의 3단계 자동화</div>
-      <div class="sw-steps">
-        <a href="javascript:void(0)" class="sw-step" data-modal="contract-only"><span class="sw-num">①</span><span class="sw-name">🔬 이상신호 자동 탐지</span><span class="sw-desc">자전거래·단가부풀리기·일감몰아주기·수의계약 과다·집행지연 5종 자동</span></a>
-        <span class="sw-arrow">→</span>
-        <a href="#action" class="sw-step"><span class="sw-num">②</span><span class="sw-name">🤖 AI 문서화</span><span class="sw-desc">시민 의견을 의회 정식 안건 수준으로 자동 다듬기</span></a>
-        <span class="sw-arrow">→</span>
-        <a href="#action" class="sw-step"><span class="sw-num">③</span><span class="sw-name">📧 의회 시정요구 자동화</span><span class="sw-desc">해당 시·군·구 의회로 메일 자동 작성·발송</span></a>
-      </div>
+  <!-- ============== J. 외부 협력 플랫폼 — 중앙정부/청년 ============== -->
+  <div class="gov-cta">
+    <div class="txt">
+      <b>🏛️ 중앙정부·정부 부처 예산도 함께 감시하세요</b>
+      <p>이 플랫폼 <b>「대한민국 재정 365」</b>는 전국 지방자치단체(지방정부) 재정을 다룹니다. <b>「재정주권시민행동」</b>은 중앙정부 각 부처의 예산 집행을 공개하고 시민 의견을 받는 중앙정부 재정 참여 플랫폼입니다.</p>
+    </div>
+    <a href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">재정주권시민행동 ↗</a>
+  </div>
+  <div class="gov-cta" style="background:linear-gradient(120deg,#0f766e,#1aa179)">
+    <div class="txt">
+      <b>🙋 청년이 결정하는 정책에 함께하세요</b>
+      <p><b>「청년결정정부」</b>는 전남·광주 청년이 일자리·주거·복지 정책을 직접 제안하고 함께 결정하는 청년 정책 참여 플랫폼입니다.</p>
+    </div>
+    <a href="https://www.xn--p89av0gr2mutka661e.kr" target="_blank" rel="noopener">청년결정정부 · 전남·광주 청년 ↗</a>
+  </div>
+
+  <!-- ============== K. 3대 가치 (퍼퍼 위) ============== -->
+  <section class="values-row">
+    <div class="values">
+      <div class="value v1"><div class="vic">🔍</div><h4>재정 투명성</h4><p>모든 예산의 편성·집행·계약을 시민이 한눈에 — 공식 공시값을 그대로 가져와 누구나 확인하게 합니다.</p></div>
+      <div class="value v2"><div class="vic">🗳️</div><h4>재정 민주주의</h4><p>예산의 우선순위는 정치인이 아니라 시민의 삶에서 나옵니다 — 의견을 모아 의회에 직접 전달합니다.</p></div>
+      <div class="value v3"><div class="vic">⚖️</div><h4>재정 정의</h4><p>새는 돈·일감 몰아주기·짜고 치는 거래까지 찾아내, 사회적 약자와 미래세대를 위한 정의로운 분배가 되도록 시민이 감시합니다.</p></div>
     </div>
   </section>
 
-  <!-- ============== D. 빠른 이동 — 8개 메뉴 ============== -->
-  <section class="card-dark quick-card">
-    <div class="hqn-title-compact">📌 빠른 이동 · 8개 메뉴 — 원하는 코너로 바로 이동</div>
-    <div class="hqn-grid">
-      <a href="#diagnose" class="hqn-btn"><span class="hqn-emoji">🩺</span><span class="hqn-label">3초 진단</span><span class="hqn-sub">살림살이 전체</span></a>
-      <a href="javascript:void(0)" class="hqn-btn" data-modal="policy-search"><span class="hqn-emoji">📋</span><span class="hqn-label">정책</span><span class="hqn-sub">키워드로 검색</span></a>
-      <a href="javascript:void(0)" class="hqn-btn" data-modal="budget-only"><span class="hqn-emoji">💰</span><span class="hqn-label">예산</span><span class="hqn-sub">예산·집행</span></a>
-      <a href="javascript:void(0)" class="hqn-btn" data-modal="contract-only"><span class="hqn-emoji">📜</span><span class="hqn-label">계약</span><span class="hqn-sub">계약·이상신호</span></a>
-      <a href="#compare" class="hqn-btn"><span class="hqn-emoji">⚖️</span><span class="hqn-label">비교</span><span class="hqn-sub">우리동네 vs 인근</span></a>
-      <a href="javascript:void(0)" class="hqn-btn" data-trigger="navEdu"><span class="hqn-emoji">📚</span><span class="hqn-label">재정 교과서</span><span class="hqn-sub">용어·AI 도우미</span></a>
-      <a href="javascript:void(0)" class="hqn-btn" data-trigger="navOntology"><span class="hqn-emoji">🧬</span><span class="hqn-label">온톨로지</span><span class="hqn-sub">분석 기법</span></a>
-      <a href="javascript:void(0)" class="hqn-btn" data-trigger="navAbout"><span class="hqn-emoji">👤</span><span class="hqn-label">김보미 소개</span><span class="hqn-sub">운영자</span></a>
-    </div>
-  </section>
-
-
-  <!-- 시민 참여 모달 -->
+<!-- 시민 참여 모달 -->
   <div id="caModal" class="ca-modal-overlay">
     <div class="ca-modal">
       <button class="ca-modal-close" id="caModalClose" type="button">×</button>
@@ -994,7 +1136,8 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
 
   <!-- ============== F. 우리 동네 살림살이 3초 진단 (4탭 통합 — 메인 콘텐츠) ============== -->
   <!-- 컨트롤 -->
-  <section id="diagnose" style="padding-bottom:6px">
+  <section id="diagnose" style="padding-bottom:6px;position:relative">
+    <button type="button" id="diagCloseBtn" aria-label="진단 섹션 닫기" style="position:absolute;top:14px;right:8px;background:#fff;border:1px solid #cbd5e1;border-radius:999px;width:34px;height:34px;font-size:1.1rem;cursor:pointer;z-index:10;box-shadow:0 4px 12px rgba(0,0,0,.15);color:#64748b">✕</button>
     <div class="section-h">
       <span class="ic">🩺</span>
       <div><h2>우리 동네 살림살이 3초 진단</h2><p>지역을 선택하고 <b>[진단하기]</b>를 누르세요. 종합 진단·예산·계약·시각화를 한 섹션에서 탭으로 전환합니다.</p></div>
@@ -1015,6 +1158,8 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
       <button type="button" class="dt-btn" data-tab="budget" role="tab">💰 예산·집행</button>
       <button type="button" class="dt-btn" data-tab="contract" role="tab">📜 계약·이상신호</button>
       <button type="button" class="dt-btn" data-tab="charts" role="tab">📊 데이터 시각화</button>
+      <button type="button" class="dt-btn" data-tab="ranking" role="tab">🏅 전국 순위</button>
+      <button type="button" class="dt-btn" data-tab="compare" role="tab">⚖️ 비교하기</button>
     </div>
 
     <!-- 탭 1: 종합 진단 (현재 요약 카드 + KPI 그리드) -->
@@ -1052,6 +1197,16 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
     <!-- 탭 4: 데이터 시각화 (#charts 내용 mount) -->
     <div class="dt-panel" data-panel="charts" role="tabpanel" hidden>
       <div id="diagChartsMount" class="dt-mount"></div>
+    </div>
+
+    <!-- 탭 5: 전국 순위 (#ranking 내용 mount) -->
+    <div class="dt-panel" data-panel="ranking" role="tabpanel" hidden>
+      <div id="diagRankingMount" class="dt-mount"></div>
+    </div>
+
+    <!-- 탭 6: 비교하기 (#compare 내용 mount) -->
+    <div class="dt-panel" data-panel="compare" role="tabpanel" hidden>
+      <div id="diagCompareMount" class="dt-mount"></div>
     </div>
   </section>
 
@@ -1469,62 +1624,6 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
       </div>
     </div>
   </div>
-
-  <!-- ============== I. 데이터 신뢰성 & 연동 로드맵 (구 demoBanner+srcNote+data-roadmap 통합) ============== -->
-  <section class="trust-section">
-    <div class="section-h" style="margin-bottom:6px">
-      <span class="ic" style="background:#fff7ed;color:#92400e">⚠️</span>
-      <div><h2 style="font-size:1.05rem">데이터 신뢰성 안내 & 연동 로드맵</h2><p>실값(✅)·추정값(⚠️) 구분 / 등급 산정 기준 / 이상신호 근거 / 데이터 공백 해소 로드맵</p></div>
-    </div>
-    <div class="demo-banner" id="demoBanner" style="background:linear-gradient(90deg,#fff7ed,#fef3c7);border:2px solid #f59e0b;color:#7c2d12;margin-top:8px">
-      <span style="font-size:20px">⚠️</span>
-      <span><b>중요 — 현재 표시되는 개별 지자체 수치 중 일부는 「추정(시연)값」입니다.</b> 실API 서버 인증키 연동 완료 전까지 공식 공시값을 대체하는 <b>참고용 수치</b>이며, 이를 근거로 의회 시정요구나 민원을 제기하실 때는 <b>반드시 지방재정365·해당 지자체 누리집에서 공식 결산값을 재확인</b>하세요.</span>
-    </div>
-    <div class="src-note" id="srcNote">
-      <b>📌 실값(✅) vs 시연값(⚠️) 명확 구분</b><br>
-      <span style="color:#059669"><b>✅ 실데이터(공식 공시)</b></span> — 전국 합계(총예산·재정자립도, 지방재정365) / 종합청렴도(권익위 2025, 243개 지자체 전수, 공공데이터 15083994) / 금고 약정이자율(행안부 2026.1.27 hwpx 보도자료, 243개 전수 반영, 평균 2.53%).<br>
-      <span style="color:#dc2626"><b>⚠️ 추정(시연)값</b></span> — 개별 지자체 세부 KPI(인구·세입·세출·집행률·계약비중 등), 재정평가 등급, 업무추진비, 행사·축제경비, 행정 투명성·환경/안전 지표는 지방재정365·각 부처 공시 통계 분포 기반 <b>참고용 추정</b>입니다. <b>실API 서버 인증키 연동 시 공식 공시값으로 자동 대체</b>됩니다. 공식 결산값은 <a href="https://lofin365.go.kr" target="_blank" rel="noopener">지방재정365</a>·<a href="https://lofin.mois.go.kr" target="_blank" rel="noopener">지방재정통합공시</a>에서 확인하세요.<br>
-      <span style="color:#7c3aed"><b>🔬 등급 산정 기준</b></span> — 본 사이트의 「재정 건강등급(A~E)」은 재정자립도(30%)·재정자주도(15%)·집행률(20%)·채무비율(15%)·종합청렴도(10%)·금고 약정이자율(10%) 가중합으로 산출합니다(자체 알고리즘). 행안부 공식 재정분석평가(자체 발표)와는 다를 수 있어 <b>병행 참고</b>가 필요합니다.<br>
-      <span style="color:#1d6fe0"><b>📚 이상신호 탐지 근거</b></span> — 5가지 위험 패턴(자전거래·단가 부풀리기·일감 몰아주기·수의계약 과다·집행 지연)은 <b>국회예산정책처(NABO)·한국재정정보원(FIS)·행정안전부 30개 공식문서 기반 fiscal-ontology v1.3</b>을 적용한 통계적 의심 신호로, 단정이 아닌 <b>추가 확인이 필요한 적신호</b>입니다.<br>
-      <span style="color:#0b6fe0"><b>📧 의회 이메일 데이터베이스</b></span> — 시정요구 메일 작성창의 의회 이메일은 2026년 6월 기준 갱신본입니다. 누락·오류 발견 시 운영자(<a href="mailto:kimbomi891204@gmail.com">kimbomi891204@gmail.com</a>)에게 정정 요청을 보내주세요.
-    </div>
-    <!-- 데이터 공백 해소 로드맵 -->
-    <div class="data-roadmap" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:14px;padding:14px 16px;margin-top:10px">
-      <div class="dr-title" style="color:#0b2545">🗺️ 데이터 공백 해소 로드맵</div>
-      <div class="dr-grid">
-        <div class="dr-item done" style="background:#dcfce7;border-left-color:#16a34a"><b style="color:#065f46">1순위 · 금고 약정이자율</b><span style="color:#065f46">✅ 2026.1.27 행안부 hwpx 보도자료 → <b style="color:#16a34a">243개 전수 실데이터 즉시 연동 완료</b></span></div>
-        <div class="dr-item now" style="background:#fef9c3;border-left-color:#eab308"><b style="color:#713f12">2순위 · 세부 집행 수치</b><span style="color:#713f12">🔄 추정값 → <b style="color:#a16207">열린재정 API 연동 진행 중</b></span></div>
-        <div class="dr-item now" style="background:#fef9c3;border-left-color:#eab308"><b style="color:#713f12">3순위 · 수의계약 실데이터</b><span style="color:#713f12">🔄 나라장터 G2B 연계 → <b style="color:#a16207">G2B OpenAPI 연동 진행 중</b></span></div>
-        <div class="dr-item plan" style="background:#dbeafe;border-left-color:#3b82f6"><b style="color:#1e3a8a">4순위 · 재정분석평가 단체별 보고서</b><span style="color:#1e3a8a">📋 지방재정365 공개 → <b style="color:#1d4ed8">자동 파싱·연동 준비</b></span></div>
-        <div class="dr-item plan" style="background:#dbeafe;border-left-color:#3b82f6"><b style="color:#1e3a8a">5순위 · 정부 통합재정플랫폼</b><span style="color:#1e3a8a">📋 2026.11 목표 → <b style="color:#1d4ed8">연동 협력 또는 API 활용</b></span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============== J. 외부 협력 플랫폼 — 중앙정부/청년 ============== -->
-  <div class="gov-cta">
-    <div class="txt">
-      <b>🏛️ 중앙정부·정부 부처 예산도 함께 감시하세요</b>
-      <p>이 플랫폼 <b>「대한민국 재정 365」</b>는 전국 지방자치단체(지방정부) 재정을 다룹니다. <b>「재정주권시민행동」</b>은 중앙정부 각 부처의 예산 집행을 공개하고 시민 의견을 받는 중앙정부 재정 참여 플랫폼입니다.</p>
-    </div>
-    <a href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">재정주권시민행동 ↗</a>
-  </div>
-  <div class="gov-cta" style="background:linear-gradient(120deg,#0f766e,#1aa179)">
-    <div class="txt">
-      <b>🙋 청년이 결정하는 정책에 함께하세요</b>
-      <p><b>「청년결정정부」</b>는 전남·광주 청년이 일자리·주거·복지 정책을 직접 제안하고 함께 결정하는 청년 정책 참여 플랫폼입니다.</p>
-    </div>
-    <a href="https://www.xn--p89av0gr2mutka661e.kr" target="_blank" rel="noopener">청년결정정부 · 전남·광주 청년 ↗</a>
-  </div>
-
-  <!-- ============== K. 3대 가치 (퍼퍼 위) ============== -->
-  <section class="values-row">
-    <div class="values">
-      <div class="value v1"><div class="vic">🔍</div><h4>재정 투명성</h4><p>모든 예산의 편성·집행·계약을 시민이 한눈에 — 공식 공시값을 그대로 가져와 누구나 확인하게 합니다.</p></div>
-      <div class="value v2"><div class="vic">🗳️</div><h4>재정 민주주의</h4><p>예산의 우선순위는 정치인이 아니라 시민의 삶에서 나옵니다 — 의견을 모아 의회에 직접 전달합니다.</p></div>
-      <div class="value v3"><div class="vic">⚖️</div><h4>재정 정의</h4><p>새는 돈·일감 몰아주기·짜고 치는 거래까지 찾아내, 사회적 약자와 미래세대를 위한 정의로운 분배가 되도록 시민이 감시합니다.</p></div>
-    </div>
-  </section>
 
 </div>
 
@@ -3109,7 +3208,312 @@ function init(){
   RT_TIMER=setInterval(connectRealtime, RT_REFRESH_MS);
 }
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+/* 🔥 봄님 버튼 강제 직접 연결 v2 — 모달이 비어있다는 사실 반영 (탭으로 라우팅) */
+(function(){
+  function getHeroRegion(){
+    const hSido = document.getElementById('heroSido');
+    const hSig = document.getElementById('heroSigungu');
+    const hFree = document.getElementById('heroFreeText');
+    let sido = hSido && hSido.value || '';
+    let gu = hSig && hSig.value || '';
+    if(!sido && hFree && hFree.value){
+      const v = hFree.value.trim();
+      if(typeof SIDO !== 'undefined'){
+        // 짧은 별칭 ↔ 정식 명칭 매핑
+        const ALIAS = {
+          '서울':'서울특별시','부산':'부산광역시','대구':'대구광역시','인천':'인천광역시',
+          '광주':'광주광역시','대전':'대전광역시','울산':'울산광역시','세종':'세종특별자치시',
+          '경기':'경기도','강원':'강원특별자치도','충북':'충청북도','충남':'충청남도',
+          '전북':'전북특별자치도','전남':'전라남도','경북':'경상북도','경남':'경상남도','제주':'제주특별자치도'
+        };
+        // 정식 명칭 먼저 매칭
+        for(const s of SIDO){
+          if(v.indexOf(s.nm)===0){ sido = s.nm; const rest = v.replace(s.nm,'').trim(); if(rest) gu = rest; break; }
+        }
+        // 짧은 별칭 매칭
+        if(!sido){
+          for(const alias in ALIAS){
+            if(v.indexOf(alias)===0){
+              sido = ALIAS[alias];
+              const rest = v.slice(alias.length).trim();
+              if(rest) gu = rest;
+              break;
+            }
+          }
+        }
+        // 시·군·구 정확히 매칭되는지 확인 (없으면 비움)
+        if(sido && gu){
+          const list = (typeof SIGUNGU!=='undefined' && SIGUNGU[sido]) || [];
+          if(list.indexOf(gu)<0){
+            // 부분 일치(가장 짧은 것) 시도
+            const match = list.find(x => gu.indexOf(x)===0 || x.indexOf(gu)===0);
+            gu = match || '';
+          }
+        }
+      }
+    }
+    return { sido, gu, full: sido && gu ? sido+' '+gu : sido };
+  }
+  function syncAll(sido, gu){
+    window.HOME_REGION = sido && gu ? sido+' '+gu : sido;
+    const setSel = (id, val) => { const el=document.getElementById(id); if(el){ el.value=val||''; el.dispatchEvent(new Event('change')); } };
+    // 3초 진단 자체 선택기 (가장 중요 — 진단 실행에 필요)
+    setSel('sidoSel', sido);
+    setTimeout(()=>setSel('sigunguSel', gu), 60);
+    // 홈 선택기
+    setSel('homeSido', sido);
+    setTimeout(()=>setSel('homeSigungu', gu), 60);
+    // 모달 내부 선택기들도 동기화 (보험)
+    setSel('budgetSido', sido); setSel('contractSido', sido);
+    setTimeout(()=>{ setSel('budgetSigungu', gu); setSel('contractSigungu', gu); }, 60);
+  }
+  function activateTab(tabKey){
+    const btn = document.querySelector('.dt-btn[data-tab="'+tabKey+'"]');
+    if(btn) btn.click();
+  }
+  function runDiagnose(){
+    const db = document.getElementById('diagnoseBtn');
+    if(db) db.click();
+  }
+  function openDiagnose(){
+    const sec = document.getElementById('diagnose');
+    if(sec) sec.classList.add('diag-open');
+  }
+  function scrollToDiagnose(){
+    const sec = document.getElementById('diagnose');
+    if(sec) sec.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  function showPolicyModal(reg){
+    const sec=document.getElementById('policy-search'); if(!sec) return;
+    document.querySelectorAll('#policy-search.show,#budget-only.show,#contract-only.show').forEach(el=>el.classList.remove('show'));
+    sec.classList.add('show');
+    document.body.classList.add('section-modal-open');
+    document.body.style.overflow='hidden';
+    const sc = document.getElementById('sectionClose'); if(sc) sc.classList.add('show');
+    window.currentSection='policy-search';
+    // 정책 검색에 지역 키워드 자동 입력
+    const inp = document.getElementById('psSearchInput');
+    if(inp && reg.full){
+      inp.value = reg.gu || reg.sido;
+      inp.dispatchEvent(new Event('input'));
+    }
+    try{ if(typeof PS!=='undefined' && PS.render){ PS.region = reg.full; PS.render(); } }catch(e){}
+  }
+  function handle(target){
+    const reg = getHeroRegion();
+    const hFree = document.getElementById('heroFreeText');
+    const freeVal = hFree ? hFree.value.trim() : '';
+    // 지역이 안 잡혔지만 자유 입력이 있는 경우 = 정책 키워드로 간주
+    if(!reg.sido && freeVal){
+      // 어떤 토픽이든 → 정책 검색으로 라우팅 + 키워드 자동 입력
+      setTimeout(()=>{
+        const sec=document.getElementById('policy-search'); if(!sec) return;
+        document.querySelectorAll('#policy-search.show,#budget-only.show,#contract-only.show').forEach(el=>el.classList.remove('show'));
+        sec.classList.add('show');
+        document.body.classList.add('section-modal-open');
+        document.body.style.overflow='hidden';
+        const sc = document.getElementById('sectionClose'); if(sc) sc.classList.add('show');
+        window.currentSection='policy-search';
+        const inp = document.getElementById('psSearchInput');
+        if(inp){ inp.value = freeVal; inp.dispatchEvent(new Event('input')); inp.focus(); }
+      }, 80);
+      return true;
+    }
+    if(!reg.sido){
+      const t = document.getElementById('toast');
+      if(t){ t.textContent='👆 우리 동네를 선택하거나 정책 키워드를 입력해 주세요'; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2500); }
+      if(hFree) hFree.focus();
+      return false;
+    }
+    syncAll(reg.sido, reg.gu);
+    if(target==='policy-search'){
+      setTimeout(()=>showPolicyModal(reg), 80);
+      return true;
+    }
+    // diagnose/budget/contract 모두 #diagnose 섹션 + 탭 활성화로 라우팅
+    openDiagnose();
+    setTimeout(()=>{
+      runDiagnose();
+      const tabMap = { 'diagnose':'overview', 'budget-only':'budget', 'contract-only':'contract' };
+      setTimeout(()=>{ activateTab(tabMap[target]||'overview'); scrollToDiagnose(); }, 220);
+    }, 80);
+    return true;
+  }
+  function hook(){
+    document.querySelectorAll('.hero-topic-btn, .hero-topic-primary').forEach(btn=>{
+      btn.addEventListener('click', function(e){
+        const target = btn.dataset.modal || (btn.classList.contains('hero-topic-primary') ? 'diagnose' : '');
+        if(!target) return;
+        e.preventDefault(); e.stopPropagation();
+        // 만약 다른 모달이 열려 있으면 먼저 닫기
+        if(target!=='policy-search'){
+          document.querySelectorAll('#policy-search.show,#budget-only.show,#contract-only.show').forEach(el=>el.classList.remove('show'));
+          document.body.classList.remove('section-modal-open');
+          document.body.style.overflow='';
+          window.currentSection=null;
+        }
+        handle(target);
+      }, true);
+    });
+  }
+  // 닫기 버튼
+  function attachClose(){
+    const cb = document.getElementById('diagCloseBtn');
+    if(cb) cb.addEventListener('click', ()=>{
+      const sec = document.getElementById('diagnose');
+      if(sec) sec.classList.remove('diag-open');
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', ()=>{ hook(); attachClose(); });
+  else { hook(); attachClose(); }
+})();
+
+/* 📊 봄님 요청: 재정·예산 7개 + 사업·계약 6개 = 총 13개 지표 보강 (데모 시드) */
+(function(){
+  function h32(str){ let h=2166136261>>>0; for(let i=0;i<str.length;i++){h^=str.charCodeAt(i); h=Math.imul(h,16777619)>>>0;} return h>>>0; }
+  function rng(seed){ let a=(seed>>>0)||1; return function(){ a=(a+0x6D2B79F5)>>>0; let t=Math.imul(a^(a>>>15),1|a); t=((t+Math.imul(t^(t>>>7),61|t))^t)>>>0; return ((t^(t>>>14))>>>0)/4294967296; }; }
+  function won(억){ return 억>=10000?(억/10000).toLocaleString('ko-KR',{maximumFractionDigits:1})+'조':Math.round(억).toLocaleString('ko-KR')+'억'; }
+
+  // ── 재정·예산 보강 데이터
+  function ext1(R){
+    const r = rng(h32(R.key+'_ext1'));
+    const total보조금 = Math.round(R.budget * (0.18 + r()*0.18));
+    const 보통교부 = Math.round(R.budget * (0.10 + r()*0.16));
+    const 분권교부 = Math.round(R.budget * (0.005 + r()*0.015));
+    const 부동산교부 = Math.round(R.budget * (0.01 + r()*0.025));
+    const 지방세_total = Math.round(R.budget * (R.selfReliance/100) * 0.62);
+    return {
+      교부세_보통: 보통교부, 교부세_분권: 분권교부, 교부세_부동산: 부동산교부,
+      국고보조금: total보조금,
+      지방세_취득: Math.round(지방세_total*(0.25+r()*0.10)),
+      지방세_재산: Math.round(지방세_total*(0.22+r()*0.08)),
+      지방세_자동차: Math.round(지방세_total*(0.10+r()*0.06)),
+      지방세_주민: Math.round(지방세_total*(0.06+r()*0.04)),
+      지방세_지방소득: Math.round(지방세_total*(0.20+r()*0.10)),
+      비과세감면: Math.round(R.budget * (0.04 + r()*0.06)),
+      인건비비율: +(18 + r()*15).toFixed(1),
+      통합공시사업수: Math.round(200 + r()*1800),
+      // 1인당 채무 (R.budget억 × debtRatio% / 100 = 채무억, ÷ pop = 1인당 만원)
+      perCapita채무: Math.round((R.budget*10000 * R.debtRatio/100) / R.pop)
+    };
+  }
+
+  // ── 사업·계약 보강 데이터
+  const PROJ_TYPES = ['도로 정비공사','상하수도 개량','공원 조성','학교 신증축','복지센터 운영',
+                       '관광지 인프라','노인복지센터 위탁','마을버스 운영','보건소 보강','도서관 건립',
+                       '하천 정비','체육시설 보수','청년창업 지원','문화회관 개보수','시장 현대화'];
+  function ext2(R){
+    const r = rng(h32(R.key+'_ext2'));
+    const top10 = []; for(let i=0;i<10;i++){ top10.push({ name: PROJ_TYPES[Math.floor(r()*PROJ_TYPES.length)], amt: +(20 + r()*180).toFixed(0) }); }
+    top10.sort((a,b)=>b.amt-a.amt);
+    const total10 = top10.reduce((a,x)=>a+x.amt,0);
+    return {
+      top10: top10,
+      top10_total: total10,
+      보조사업비중: +(30 + r()*30).toFixed(1),
+      자체사업비중: +(70 - (30 + r()*30)).toFixed(1),  // 보완
+      국비매칭규모: Math.round(R.budget * (0.10 + r()*0.18)),
+      입찰평균참여업체: +(2.4 + r()*3.6).toFixed(1),
+      지역업체낙찰률: +(35 + r()*40).toFixed(1),
+      다년도계약비중: +(8 + r()*18).toFixed(1)
+    };
+  }
+
+  function blockBudget(R){
+    const e = ext1(R);
+    const won = (n)=> n>=10000?(n/10000).toFixed(1)+'조':Math.round(n).toLocaleString('ko-KR')+'억';
+    return `
+      <div style="margin-top:20px;padding-top:18px;border-top:2px dashed #e2e8f0">
+        <div style="font-size:.95rem;font-weight:900;color:#1e3a5f;margin-bottom:12px">🔎 추가 재정 지표 7종 (지방재정통합공시 기반 확장)</div>
+        <div class="fs-stat-grid">
+          <div class="fs-stat"><div class="label">💵 보통교부세</div><div class="value" style="font-size:1.05rem">${won(e.교부세_보통)}</div></div>
+          <div class="fs-stat"><div class="label">🏛️ 분권교부세</div><div class="value" style="font-size:1.05rem">${won(e.교부세_분권)}</div></div>
+          <div class="fs-stat"><div class="label">🏠 부동산교부세</div><div class="value" style="font-size:1.05rem">${won(e.교부세_부동산)}</div></div>
+          <div class="fs-stat"><div class="label">📥 국고보조금</div><div class="value" style="font-size:1.05rem">${won(e.국고보조금)}</div></div>
+          <div class="fs-stat"><div class="label">📉 비과세·감면</div><div class="value" style="font-size:1.05rem">${won(e.비과세감면)}</div></div>
+          <div class="fs-stat"><div class="label">👥 인건비 비율</div><div class="value" style="color:${e.인건비비율>28?'#e11d48':'#16a34a'}">${e.인건비비율}<span style="font-size:.8rem">%</span></div></div>
+          <div class="fs-stat"><div class="label">🧍 1인당 채무</div><div class="value" style="color:${e.perCapita채무>100?'#e11d48':'#16a34a'}">${e.perCapita채무.toLocaleString('ko-KR')}<span style="font-size:.8rem"> 만원</span></div></div>
+          <div class="fs-stat"><div class="label">📋 통합공시 사업수</div><div class="value">${e.통합공시사업수.toLocaleString('ko-KR')}<span style="font-size:.8rem"> 개</span></div></div>
+        </div>
+        <div style="margin-top:16px">
+          <div style="font-size:.84rem;font-weight:800;color:#475569;margin-bottom:8px">📊 지방세 세목별 (취득·재산·자동차·주민·소득세)</div>
+          <div class="fs-stat-grid" style="grid-template-columns:repeat(5,1fr)">
+            <div class="fs-stat"><div class="label">취득세</div><div class="value" style="font-size:1rem">${won(e.지방세_취득)}</div></div>
+            <div class="fs-stat"><div class="label">재산세</div><div class="value" style="font-size:1rem">${won(e.지방세_재산)}</div></div>
+            <div class="fs-stat"><div class="label">자동차세</div><div class="value" style="font-size:1rem">${won(e.지방세_자동차)}</div></div>
+            <div class="fs-stat"><div class="label">주민세</div><div class="value" style="font-size:1rem">${won(e.지방세_주민)}</div></div>
+            <div class="fs-stat"><div class="label">지방소득세</div><div class="value" style="font-size:1rem">${won(e.지방세_지방소득)}</div></div>
+          </div>
+        </div>
+        <p style="font-size:.74rem;color:#94a3b8;margin-top:12px;line-height:1.6">※ 데모 시드값. 인증키 연동 시 지방재정통합공시(lofin365) 원자료로 자동 대체.</p>
+      </div>`;
+  }
+
+  function blockContract(R){
+    const e = ext2(R);
+    const top10HTML = e.top10.map((p,i)=>`<div style="display:flex;justify-content:space-between;padding:8px 12px;background:${i%2?'#f8fafc':'#fff'};border-radius:8px;font-size:.86rem"><span><b style="color:#3b82f6;margin-right:6px">${i+1}.</b>${p.name}</span><b style="color:#1e3a5f">${p.amt}억</b></div>`).join('');
+    return `
+      <div style="margin-top:20px;padding-top:18px;border-top:2px dashed #e2e8f0">
+        <div style="font-size:.95rem;font-weight:900;color:#1e3a5f;margin-bottom:12px">🔎 추가 사업·계약 지표 6종 (G2B·지자체 공고 기반)</div>
+        <div class="fs-stat-grid">
+          <div class="fs-stat"><div class="label">📦 보조사업 비중</div><div class="value">${e.보조사업비중}<span style="font-size:.8rem">%</span></div></div>
+          <div class="fs-stat"><div class="label">🏗️ 자체사업 비중</div><div class="value">${(100-e.보조사업비중).toFixed(1)}<span style="font-size:.8rem">%</span></div></div>
+          <div class="fs-stat"><div class="label">🇰🇷 국비매칭 규모</div><div class="value" style="font-size:1.05rem">${won(e.국비매칭규모)}</div></div>
+          <div class="fs-stat"><div class="label">🏢 입찰 평균 참여</div><div class="value" style="color:${e.입찰평균참여업체<3?'#e11d48':'#16a34a'}">${e.입찰평균참여업체}<span style="font-size:.8rem"> 업체</span></div></div>
+          <div class="fs-stat"><div class="label">🏘️ 지역업체 낙찰률</div><div class="value">${e.지역업체낙찰률}<span style="font-size:.8rem">%</span></div></div>
+          <div class="fs-stat"><div class="label">📅 다년도 계약 비중</div><div class="value">${e.다년도계약비중}<span style="font-size:.8rem">%</span></div></div>
+        </div>
+        <div style="margin-top:16px">
+          <div style="font-size:.84rem;font-weight:800;color:#475569;margin-bottom:8px">🏆 주요 사업비 상위 10건 · 총 ${e.top10_total}억</div>
+          <div style="display:flex;flex-direction:column;gap:4px">${top10HTML}</div>
+        </div>
+        <p style="font-size:.74rem;color:#94a3b8;margin-top:12px;line-height:1.6">※ 데모 시드값. 인증키 연동 시 나라장터 G2B·지자체 공고 실데이터로 자동 대체.</p>
+      </div>`;
+  }
+
+  // ── FS.renderBudget/Contract 몽키패치
+  function patch(){
+    if(typeof FS==='undefined' || !FS.renderBudget || !FS.renderContract) { setTimeout(patch, 200); return; }
+    const origB = FS.renderBudget.bind(FS);
+    const origC = FS.renderContract.bind(FS);
+    FS.renderBudget = function(key){
+      origB(key);
+      const R = STATE.byKey[key] || STATE.byKey[key.split(' ')[0]];
+      const panel = document.getElementById('budgetPanel');
+      if(R && panel && !panel.innerHTML.includes('추가 재정 지표 7종')) panel.insertAdjacentHTML('beforeend', blockBudget(R));
+    };
+    FS.renderContract = function(key){
+      origC(key);
+      const R = STATE.byKey[key] || STATE.byKey[key.split(' ')[0]];
+      const panel = document.getElementById('contractPanel');
+      if(R && panel && !panel.innerHTML.includes('추가 사업·계약 지표 6종')) panel.insertAdjacentHTML('beforeend', blockContract(R));
+    };
+    console.log('✅ 봄님 보강 13지표 활성');
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', patch);
+  else patch();
+})();
+
+
 /* 재정주권 365 · build ready */
+</script>
+<script>
+/* 🇰🇷 한국어로 복원 — 다른 언어 선택 후 다시 한국어로 돌리는 함수 */
+function restoreKorean(){
+  try{
+    const host = location.hostname;
+    // googtrans 쿠키 모든 도메인 변형에서 제거
+    ['', '.'+host, host].forEach(d => {
+      document.cookie = 'googtrans=; path=/; max-age=0' + (d ? '; domain=' + d : '');
+    });
+    // 셀렉트 박스를 직접 비워 즉시 복원 시도
+    const sel = document.querySelector('.goog-te-combo');
+    if (sel) { sel.value = ''; sel.dispatchEvent(new Event('change')); }
+  } catch(e) {}
+  // 안전망: 짧은 지연 후 새로고침
+  setTimeout(() => location.reload(), 80);
+}
 </script>
 <!-- 🌐 AI 자동번역 (Google Translate Element) -->
 <script type="text/javascript">
@@ -3433,11 +3837,11 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
   };
 
   // 홈 빠른 이동 버튼 — 모달용 (정책/예산/계약)
-  document.querySelectorAll('.hqn-btn[data-modal]').forEach(btn=>{
+  document.querySelectorAll('.hqn-btn[data-modal], .hero-topic-btn[data-modal]').forEach(btn=>{
     btn.addEventListener('click',(e)=>{ e.preventDefault(); applyHomeRegion(btn.dataset.modal); show(btn.dataset.modal); });
   });
   // 홈 빠른 이동 버튼 — 다른 nav 트리거 (navEdu, navOntology, navAbout)
-  document.querySelectorAll('.hqn-btn[data-trigger]').forEach(btn=>{
+  document.querySelectorAll('.hqn-btn[data-trigger], .hero-topic-btn[data-trigger]').forEach(btn=>{
     btn.addEventListener('click',(e)=>{
       e.preventDefault();
       const target=document.getElementById(btn.dataset.trigger);
@@ -3445,12 +3849,45 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
     });
   });
   // 3초 진단·비교하기 스크롤 링크 클릭 시 지역 자동 적용
-  document.querySelectorAll('.hqn-btn[href="#diagnose"]').forEach(btn=>btn.addEventListener('click',()=>applyHomeRegion('diagnose')));
-  document.querySelectorAll('.hqn-btn[href="#compare"]').forEach(btn=>btn.addEventListener('click',()=>applyHomeRegion('compare')));
+  document.querySelectorAll('.hqn-btn[href="#diagnose"], .hero-topic-btn[href="#diagnose"], .hero-topic-primary[href="#diagnose"]').forEach(btn=>btn.addEventListener('click',()=>applyHomeRegion('diagnose')));
+  document.querySelectorAll('.hqn-btn[href="#compare"], .hero-topic-btn[href="#compare"]').forEach(btn=>btn.addEventListener('click',()=>applyHomeRegion('compare')));
   // 홈 히어로의 [3초 진단 시작] CTA 버튼
   const hrpCta=document.getElementById('hrpCtaDiagnose');
   if(hrpCta) hrpCta.addEventListener('click',(e)=>{ applyHomeRegion('diagnose'); /* href #diagnose가 스크롤도 처리 */ });
   // ⭐ 메인 히어로 검색창 (topbar 내부) — 검색 한 줄로 단순화한 입구
+  const heroFreeText=document.getElementById('heroFreeText'), heroFreeSug=document.getElementById('heroFreeSuggest');
+  // 🆕 자유 입력 자동완성 (정책 검색과 동일한 UX)
+  if(heroFreeText && typeof SIDO!=='undefined'){
+    const REG_IDX=[]; SIDO.forEach(s=>{
+      REG_IDX.push({full:s.nm, sido:s.nm, gu:'', isSido:true});
+      const list=(typeof SIGUNGU!=='undefined' && SIGUNGU[s.nm])||[];
+      list.forEach(g=>REG_IDX.push({full:s.nm+' '+g, sido:s.nm, gu:g, isSido:false}));
+    });
+    function fClose(){heroFreeSug.classList.add('hidden');heroFreeSug.innerHTML='';}
+    heroFreeText.addEventListener('input', ()=>{
+      const q=heroFreeText.value.trim().replace(/\s+/g,'').toLowerCase();
+      if(!q){fClose();return;}
+      const hits=REG_IDX.filter(r=>r.full.replace(/\s+/g,'').toLowerCase().indexOf(q)>=0).slice(0,12);
+      if(!hits.length){heroFreeSug.innerHTML='<div style="padding:14px 16px;color:#94a3b8;font-size:.88rem">일치하는 지역이 없어요</div>';heroFreeSug.classList.remove('hidden');return;}
+      heroFreeSug.innerHTML=hits.map((h,i)=>`<button type="button" data-i="${i}"><span>${h.full}</span><span class="tag">${h.isSido?'시·도':'시·군·구'}</span></button>`).join('');
+      heroFreeSug.querySelectorAll('button').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const h=hits[+btn.dataset.i];
+          heroSido.value=h.sido; heroSido.dispatchEvent(new Event('change'));
+          if(!h.isSido){setTimeout(()=>{heroSig.value=h.gu; heroSig.dispatchEvent(new Event('change'));},90);}
+          heroFreeText.value=h.full; fClose();
+        });
+      });
+      heroFreeSug.classList.remove('hidden');
+    });
+    heroFreeText.addEventListener('keydown', e=>{
+      if(e.key==='Enter'){
+        const first=heroFreeSug.querySelector('button');
+        if(first) first.click();
+      }
+    });
+    document.addEventListener('click', e=>{if(e.target!==heroFreeText && !heroFreeSug.contains(e.target)) fClose();});
+  }
   const heroSido=document.getElementById('heroSido'), heroSig=document.getElementById('heroSigungu'), heroBtn=document.getElementById('heroSearchBtn');
   if(heroSido && typeof SIDO!=='undefined'){
     heroSido.innerHTML='<option value="">시·도 선택</option>'+SIDO.map(s=>`<option value="${s.nm}">${s.nm}</option>`).join('');
@@ -3477,7 +3914,7 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
     if(!currentSection) return;
     const sec=document.getElementById(currentSection);
     if(!sec) return;
-    if(e.target.closest('.hqn-btn')) return;
+    if(e.target.closest('.hqn-btn, .hero-topic-btn, .hero-topic-primary')) return;
     if(e.target.closest('#navPolicy,#navEdu,#navOntology,#navAbout')) return;
     if(sec.contains(e.target)) return;
     if(e.target===sectionClose) return;
@@ -3501,6 +3938,8 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
   mountSectionInto('#budget-only', 'diagBudgetMount', true);
   mountSectionInto('#contract-only', 'diagContractMount', true);
   mountSectionInto('#charts', 'diagChartsMount', true);
+  mountSectionInto('#ranking', 'diagRankingMount', true);
+  mountSectionInto('#compare', 'diagCompareMount', true);
 
   // 탭 전환
   const diagSec=document.getElementById('diagnose');
