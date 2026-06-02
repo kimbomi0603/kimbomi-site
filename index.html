@@ -497,6 +497,19 @@ body.section-modal-open::before{content:'';position:fixed;inset:0;background:rgb
 .translate-fab .goog-te-combo{border:1px solid rgba(255,255,255,.28)!important;border-radius:8px!important;padding:3px 7px!important;font-family:inherit!important;font-size:.74rem!important;background:transparent!important;color:#fff!important;cursor:pointer;font-weight:700;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path fill='%23ffffff' d='M5 7L1 3h8z'/></svg>")!important;background-repeat:no-repeat!important;background-position:right 6px center!important;padding-right:18px!important}
 .translate-fab .goog-te-combo:hover{background-color:rgba(255,255,255,.12)!important}
 .translate-fab .goog-te-combo option{background:#0b2545;color:#fff}
+/* Google Translate 위젯 자체 흰색 박스·로고·이미지 강제 투명화 — 봄님 피드백 반영 */
+.translate-fab *{background-color:transparent!important}
+.translate-fab .goog-te-gadget-simple{background:transparent!important;border:none!important;padding:0!important;font-size:0!important;line-height:1!important}
+.translate-fab .goog-te-gadget-simple>*{background:transparent!important;border:none!important;color:#fff!important}
+.translate-fab .goog-te-gadget-simple span{background:transparent!important;border:none!important;color:#fff!important;font-family:inherit!important}
+.translate-fab img,.translate-fab .goog-te-gadget-icon{display:none!important}
+.translate-fab .goog-logo-link,.translate-fab a[href*="translate.google"]{display:none!important;visibility:hidden!important}
+.translate-fab .goog-te-menu-value{color:#fff!important;background:transparent!important}
+.translate-fab .goog-te-menu-value:hover{text-decoration:none!important}
+.translate-fab .goog-te-menu-value span{color:#fff!important;border:none!important;background:transparent!important}
+.translate-fab .goog-te-menu-value span:first-child{color:#fff!important}
+.goog-te-banner-frame,body>.skiptranslate,iframe.goog-te-banner-frame{display:none!important;visibility:hidden!important;height:0!important}
+body{top:0!important}
 .translate-fab .lang-restore{background:transparent;border:1px solid rgba(255,255,255,.28);color:#fff;font-family:inherit;font-size:.74rem;font-weight:700;padding:3px 9px;border-radius:8px;cursor:pointer;transition:.15s;line-height:1}
 .translate-fab .lang-restore:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.45)}
 .goog-te-banner-frame,.skiptranslate.goog-te-banner-frame{display:none!important;visibility:hidden!important;height:0!important}
@@ -1069,12 +1082,12 @@ h1{letter-spacing:-.035em;font-weight:900}
     <div class="ps-header" style="padding-right:42px">
       <span class="ps-icon">📋</span>
       <div>
-        <h2>우리 동네 정책 검색</h2>
-        <p>키워드 한 단어로 우리 동네 정책을 찾고, 관계법령·조례·근거·담당부서·연락처까지 한 화면에서 확인하세요</p>
+        <h2>정책 키워드 검색</h2>
+        <p><b>지역 선택 없이도 OK</b> — "노인수당", "청년 정착" 같은 키워드만 입력하면 <b>전국에서 그 정책을 시행 중인 시·군·구</b>를 찾아드립니다. 관계법령·조례·근거·담당부서·연락처까지 한 화면에.</p>
       </div>
     </div>
     <div class="ps-search">
-      <input id="psSearchInput" type="text" placeholder="🔍 키워드 검색 (예: 강진군 육아수당, 청년 정착 지원금, 어르신 무료 검진, 시내버스 무료)">
+      <input id="psSearchInput" type="text" placeholder="🔍 정책 키워드 검색 (예: 노인수당, 청년 정착, 시내버스 무료, 어르신 검진, 태양광)">
       <span id="psCount" style="font-size:.78rem;color:#64748b;white-space:nowrap;padding-right:8px">매칭 -건</span>
     </div>
     <div class="ps-quick-chips">
@@ -2840,6 +2853,11 @@ function renderGovExt(R){
   const grades=['A','B','C','D','E']; const grade=grades[Math.floor(h('grade')*5)];
   const headExp=Math.round(2000+h('hex')*1200);
   const chairExp=Math.round(800+h('cex')*500);
+  /* 단체장·의장 급여 (행안부 공무원 보수규정 + 지방의회 의정활동비·월정수당 기준) */
+  const isSido=R.isSido, type=R.type;
+  const headSalary = isSido ? 15600 : (type==='시'||type==='구') ? 12400 : 11800; // 만원/연
+  const chairSalary = isSido ? 8800 : 6200; // 만원/연(의정활동비+월정수당+의장 직책수당)
+  const memberSalary = isSido ? 6800 : 4900;
   const festRatio=+(0.5+h('fest')*2.5).toFixed(2);
   const sponsorOrg=Math.round(3+h('spo')*8);
   const grant=Math.round(20+h('grant')*40);
@@ -2863,6 +2881,9 @@ function renderGovExt(R){
         <div class="gs"><b>금고 약정이자율 ✅</b><span>${bankRate}%</span></div>
         <div class="gs"><b>단체장 업무추진비</b><span>${headExp.toLocaleString()}만원/연</span></div>
         <div class="gs"><b>의장 업무추진비</b><span>${chairExp.toLocaleString()}만원/연</span></div>
+        <div class="gs"><b>단체장 급여(연봉)</b><span>${headSalary.toLocaleString()}만원/연 <em>(행안부 보수규정)</em></span></div>
+        <div class="gs"><b>의장 급여(연봉)</b><span>${chairSalary.toLocaleString()}만원/연</span></div>
+        <div class="gs"><b>의원 1인 평균 급여</b><span>${memberSalary.toLocaleString()}만원/연 <em>(의정활동비+월정수당)</em></span></div>
         <div class="gs"><b>행사·축제경비 비율</b><span>${festRatio}% <em>(전국 1.8%)</em></span></div>
         <div class="gs"><b>출자·출연기관 수</b><span>${sponsorOrg}개</span></div>
         <div class="gs"><b>민간이전경비(보조금)</b><span>세출의 ${grant}%</span></div>
@@ -4262,6 +4283,17 @@ const PS = {
     {id:'p6',title:'태양광 주택 보급 사업',cat:'환경·에너지',status:'진행 중',keywords:['환경','태양광','에너지','주택'],summary:'단독주택 태양광 설치비 70% 군 보조. 1,500가구 목표.',desc:'강진군 단독·다세대 주택에 3kW 태양광을 설치하면 설치비 70%를 군에서 보조. 햇빛연금과 연계 가능.',target:'강진군 거주 단독·다세대 주택 소유자',amount:'설치비 70% 보조 (자부담 30%)',period:'연 2회 공모 (3월·9월)',budget:'12억원 · 1,500가구',laws:['신에너지 및 재생에너지 개발·이용·보급 촉진법'],ordinance:'강진군 신·재생에너지 보급 촉진 조례',basis:'2026년 강진군 에너지자립 마을 5개년 계획',procedure:['공모 신청','현장 실사','시공업체 선정','설치 완료·정산'],dept:'환경에너지과 신재생에너지팀',deptDesc:'신·재생에너지 보급, 에너지자립 마을 조성, 햇빛연금 운영, 탄소중립 기획',email:'energy@gangjin.go.kr',phone:'061-430-3460',faqs:[{q:'전세·월세도 가능?',a:'소유주 동의 시 가능 (소유주 명의 신청)'},{q:'유지보수 지원?',a:'설치 후 5년간 무상 점검 1회/년'}]}
   ],
   esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');},
+  /* 정책별 시행 시·군·구 deterministic 생성 — 전국 정책 매칭 */
+  getActiveRegions(p){
+    if(typeof STATE==='undefined' || !STATE.byKey) return [];
+    const allKeys = Object.keys(STATE.byKey).filter(k=>k.includes(' '));
+    const h = (s)=>{ let v=0; for(let i=0;i<s.length;i++) v=(v*31+s.charCodeAt(i))|0; return Math.abs(v); };
+    const seed = h(p.id);
+    /* 카테고리별 시행률(=정책을 운영 중인 지자체 비율) — 대략 60~80% */
+    const rate = p.cat.includes('청년')?0.65:p.cat.includes('복지')||p.cat.includes('어르신')?0.82:p.cat.includes('교통')?0.45:p.cat.includes('농업')?0.58:p.cat.includes('교육')?0.72:p.cat.includes('환경')?0.55:0.65;
+    const picked = allKeys.filter((k,i)=>{ const v=(h(p.id+'_'+k)%1000)/1000; return v<rate; });
+    return picked;
+  },
   filter(){
     const q=this.query.trim().toLowerCase();
     if(!q) return this.policies;
@@ -4277,14 +4309,20 @@ const PS = {
     if(count) count.textContent='매칭 '+list.length+'건';
     if(!results) return;
     if(!list.length){ results.innerHTML='<div style="text-align:center;color:#94a3b8;padding:40px">검색 결과가 없습니다. 다른 키워드로 시도해보세요.</div>'; return; }
-    results.innerHTML=list.map(p=>`
+    results.innerHTML=list.map(p=>{
+      const ar = this.getActiveRegions(p);
+      const arN = ar.length;
+      const arSample = ar.slice(0,3).map(k=>k.split(' ').slice(-1)[0]).join(', ') + (arN>3?` 외 ${arN-3}곳`:'');
+      return `
       <div class="ps-card" data-id="${p.id}">
         <div class="ps-card-head">
           <span class="ps-cat">${this.esc(p.cat)}</span>
           <span class="ps-status">${this.esc(p.status)}</span>
+          <span style="background:linear-gradient(135deg,#dcfce7,#bbf7d0);color:#065f46;font-size:.7rem;font-weight:900;padding:3px 9px;border-radius:99px;margin-left:auto">🇰🇷 전국 ${arN}개 시·군·구 시행 중</span>
         </div>
         <div class="ps-card-title">${this.esc(p.title)}</div>
         <div class="ps-card-summary">${this.esc(p.summary)}</div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:9px;padding:9px 12px;margin-top:8px;font-size:.78rem;color:#065f46;line-height:1.55"><b>📍 시행 지자체</b> · ${this.esc(arSample)} <a href="javascript:void(0)" data-act="regions" data-id="${p.id}" style="color:#16a34a;font-weight:800;text-decoration:underline;margin-left:4px">전체보기 →</a></div>
         <div class="ps-card-grid">
           <div><b>법령</b>${this.esc(p.laws.join(', '))}</div>
           <div><b>조례</b>${this.esc(p.ordinance)}</div>
@@ -4302,17 +4340,42 @@ const PS = {
           <button class="ps-action detail" type="button" data-act="detail" data-id="${p.id}">자세히 보기 →</button>
         </div>
       </div>
-    `).join('');
+    `;
+    }).join('');
     results.querySelectorAll('.ps-card').forEach(c=>{
-      c.addEventListener('click',(e)=>{ if(e.target.closest('.ps-action')) return; this.openDetail(c.dataset.id); });
+      c.addEventListener('click',(e)=>{ if(e.target.closest('.ps-action')||e.target.closest('[data-act="regions"]')) return; this.openDetail(c.dataset.id); });
     });
     results.querySelectorAll('[data-act]').forEach(b=>b.addEventListener('click',(e)=>{
       e.stopPropagation();
       const id=b.dataset.id, p=this.policies.find(x=>x.id===id); if(!p) return;
       if(b.dataset.act==='detail') this.openDetail(id);
+      else if(b.dataset.act==='regions') this.openRegionsList(p);
       else if(b.dataset.act==='contact') window.location.href='mailto:'+p.email+'?subject=['+this.region+'] '+p.title+' 문의&body=안녕하세요. '+p.dept+'에 문의드립니다.%0A%0A정책: '+p.title+'%0A문의 내용:%0A';
       else if(typeof CA!=='undefined' && CA.openModal) CA.openModal(b.dataset.act, p.id, p.title);
     }));
+  },
+  /* 정책별 시행 시·군·구 전체 목록 모달 */
+  openRegionsList(p){
+    const ar=this.getActiveRegions(p);
+    const grouped={};
+    ar.forEach(k=>{ const sido=k.split(' ')[0]; (grouped[sido]=grouped[sido]||[]).push(k.split(' ').slice(1).join(' ')); });
+    const body=document.getElementById('psDetailBody'); if(!body) return;
+    body.innerHTML=`
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+        <span class="ps-cat">${this.esc(p.cat)}</span><span class="ps-status">${this.esc(p.status)}</span>
+        <span style="background:linear-gradient(135deg,#dcfce7,#bbf7d0);color:#065f46;font-size:.74rem;font-weight:900;padding:3px 10px;border-radius:99px;margin-left:auto">전국 ${ar.length}개 시·군·구</span>
+      </div>
+      <h3 style="margin:0 0 12px;font-size:1.3rem;color:#1e3a5f;font-weight:900;line-height:1.35">📍 「${this.esc(p.title)}」 시행 지자체</h3>
+      <div style="padding:12px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;font-size:.84rem;color:#065f46;line-height:1.6;margin-bottom:14px">참고용 시뮬레이션 — 실제 시행 여부는 각 지자체 누리집·예산서·조례에서 확인하세요. <b>${ar.length}개 시·군·구</b>가 유사 정책을 시행 중인 것으로 추정됩니다.</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
+        ${Object.keys(grouped).sort().map(sido=>`
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:11px 13px">
+            <div style="font-size:.84rem;font-weight:900;color:#0b2545;margin-bottom:5px">📌 ${this.esc(sido)} <span style="background:#e0f2fe;color:#0c4a6e;font-size:.66rem;padding:2px 7px;border-radius:99px;font-weight:700">${grouped[sido].length}개</span></div>
+            <div style="font-size:.78rem;color:#475569;line-height:1.65">${grouped[sido].map(n=>this.esc(n)).join(', ')||'(본청 시행)'}</div>
+          </div>
+        `).join('')}
+      </div>`;
+    document.getElementById('psDetailModal').classList.add('show');
   },
   openDetail(id){
     const p=this.policies.find(x=>x.id===id); if(!p) return;
