@@ -993,9 +993,9 @@ h1{letter-spacing:-.035em;font-weight:900}
     <h1 class="hero-headline" style="margin-top:20px;font-size:2.6rem;line-height:1.2;text-align:center">우리동네<br><span class="hl-y">3초만에 진단하기</span></h1>
     <!-- 메인 영역 — 두 경로로 명확히 분리 -->
     <div class="hero-search" style="margin-left:auto;margin-right:auto">
-      <!-- 🅰️ 경로 ① 우리 동네 진단 -->
+      <!-- 🅰️ 경로 ① 우리 동네 선택 → 3초 진단·예산·계약 -->
       <div class="path-block path-a">
-        <div class="path-label">🅰️ 우리 동네 살림살이가 궁금해요</div>
+        <div class="path-label">🅰️ 우리 동네 선택 → 살림살이·예산·계약을 한 화면에</div>
         <div class="hero-search-row">
           <select id="heroSido" aria-label="시·도 선택"><option value="">시·도 선택</option></select>
           <select id="heroSigungu" aria-label="시·군·구 선택" disabled><option value="">시·군·구 선택</option></select>
@@ -1006,32 +1006,34 @@ h1{letter-spacing:-.035em;font-weight:900}
           <span class="prim-text"><span class="prim-title">3초 진단</span><span class="prim-sub">종합·예산·계약·시각화·순위·비교 한꺼번에</span></span>
           <span class="prim-arrow">→</span>
         </a>
-      </div>
-
-      <div class="path-or">또는 <b>지역 없이 키워드만 입력해도 OK</b></div>
-
-      <!-- 🅱️ 경로 ② 키워드로 직접 검색 -->
-      <div class="path-block path-b">
-        <div class="path-label">🅱️ 정책·예산·계약 키워드로 직접 찾고 싶어요</div>
-        <div class="hero-free-row" style="margin:0">
-          <input id="heroFreeText" type="text" autocomplete="off" placeholder="🔍 예: 노인수당, 청년 정착, 시내버스 무료, 어르신 검진, 농민 지원, 도로포장" />
-          <div id="heroFreeSuggest" class="hero-free-suggest hidden"></div>
-        </div>
         <div class="hero-topic-row" style="margin-top:10px">
           <a href="javascript:void(0)" class="hero-topic-btn topic-budget" data-modal="budget-only">
             <span class="emj">💰</span>
             <span class="lbl">예산·집행</span>
-            <span class="go">검색 결과 보기 <i>→</i></span>
+            <span class="go">바로가기 <i>→</i></span>
           </a>
           <a href="javascript:void(0)" class="hero-topic-btn topic-contract" data-modal="contract-only">
             <span class="emj">📜</span>
             <span class="lbl">계약·발주</span>
-            <span class="go">검색 결과 보기 <i>→</i></span>
+            <span class="go">바로가기 <i>→</i></span>
           </a>
+        </div>
+      </div>
+
+      <div class="path-or">또는 <b>키워드로 정책을 직접 찾고 싶다면</b></div>
+
+      <!-- 🅱️ 경로 ② 키워드 → 정책 확인 -->
+      <div class="path-block path-b">
+        <div class="path-label">🅱️ 정책 키워드 검색 (지역 선택 없이도 OK)</div>
+        <div class="hero-free-row" style="margin:0">
+          <input id="heroFreeText" type="text" autocomplete="off" placeholder="🔍 예: 노인수당, 청년 정착, 시내버스 무료, 어르신 검진, 농민 지원" />
+          <div id="heroFreeSuggest" class="hero-free-suggest hidden"></div>
+        </div>
+        <div class="hero-topic-row" style="margin-top:10px;grid-template-columns:1fr">
           <a href="javascript:void(0)" class="hero-topic-btn topic-policy" data-modal="policy-search">
             <span class="emj">📋</span>
-            <span class="lbl">정책 확인&amp;제안</span>
-            <span class="go">검색 결과 보기 <i>→</i></span>
+            <span class="lbl">정책 확인 &amp; 제안</span>
+            <span class="go">전국 매칭 결과 보기 <i>→</i></span>
           </a>
         </div>
       </div>
