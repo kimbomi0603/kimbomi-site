@@ -438,8 +438,9 @@ body.section-modal-open::before{content:'';position:fixed;inset:0;background:rgb
 .translate-fab #google_translate_element{display:inline-block}
 .translate-fab .goog-te-gadget{font-family:inherit!important;font-size:0!important;color:transparent!important;margin:0!important}
 .translate-fab .goog-te-gadget>span{display:none!important}
-.translate-fab .goog-te-combo{border:1px solid rgba(255,255,255,.32)!important;border-radius:8px!important;padding:3px 7px!important;font-family:inherit!important;font-size:.74rem!important;background:rgba(255,255,255,.92);color:#1e293b;cursor:pointer;font-weight:700;outline:none}
-.translate-fab .goog-te-combo:hover{background:#fff}
+.translate-fab .goog-te-combo{border:1px solid rgba(255,255,255,.28)!important;border-radius:8px!important;padding:3px 7px!important;font-family:inherit!important;font-size:.74rem!important;background:transparent!important;color:#fff!important;cursor:pointer;font-weight:700;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path fill='%23ffffff' d='M5 7L1 3h8z'/></svg>")!important;background-repeat:no-repeat!important;background-position:right 6px center!important;padding-right:18px!important}
+.translate-fab .goog-te-combo:hover{background-color:rgba(255,255,255,.12)!important}
+.translate-fab .goog-te-combo option{background:#0b2545;color:#fff}
 .goog-te-banner-frame,.skiptranslate.goog-te-banner-frame{display:none!important;visibility:hidden!important;height:0!important}
 body.translated-ltr,body.translated-rtl{top:0!important;position:static!important}
 body{top:0!important}
@@ -879,50 +880,35 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
 
 <div class="wrap">
 
-  <!-- 홈 본문: 큰 김보미 포스터는 제거(→ 김보미 소개 모달에서 노출). 핵심 콘텐츠만 노출 -->
-  <section class="hero-home single">
-    <div class="hh-text" style="grid-column:1 / -1">
-      <span class="hh-badge">시민 재정 주권 플랫폼 · 대한민국 재정 365</span>
-      <!-- ⭐ 시민 플랫폼만의 차별화 워크플로우: 이상신호 → AI 문서화 → 의회 시정요구 자동화 -->
-      <div class="signature-workflow">
-        <div class="sw-title">✨ <b>정부 플랫폼이 제공하지 않는</b> 시민 플랫폼만의 3단계 자동화</div>
-        <div class="sw-steps">
-          <a href="javascript:void(0)" class="sw-step" data-modal="contract-only"><span class="sw-num">①</span><span class="sw-name">🔬 이상신호 자동 탐지</span><span class="sw-desc">자전거래·단가부풀리기·일감몰아주기·수의계약 과다·집행지연 5종 자동</span></a>
-          <span class="sw-arrow">→</span>
-          <a href="#action" class="sw-step"><span class="sw-num">②</span><span class="sw-name">🤖 AI 문서화</span><span class="sw-desc">시민 의견을 의회 정식 안건 수준으로 자동 다듬기</span></a>
-          <span class="sw-arrow">→</span>
-          <a href="#action" class="sw-step"><span class="sw-num">③</span><span class="sw-name">📧 의회 시정요구 자동화</span><span class="sw-desc">해당 시·군·구 의회로 메일 자동 작성·발송</span></a>
-        </div>
-      </div>
-      <!-- 컴팩트 통합: 8개 빠른이동 -->
-      <div class="home-region-picker home-combo" style="margin-top:18px">
-        <div class="hqn-title-compact">📌 빠른 이동 · 8개 메뉴</div>
-        <div class="hqn-grid">
-          <a href="#diagnose" class="hqn-btn"><span class="hqn-emoji">🩺</span><span class="hqn-label">3초 진단</span><span class="hqn-sub">살림살이 전체</span></a>
-          <a href="javascript:void(0)" class="hqn-btn" data-modal="policy-search"><span class="hqn-emoji">📋</span><span class="hqn-label">정책</span><span class="hqn-sub">키워드로 검색</span></a>
-          <a href="javascript:void(0)" class="hqn-btn" data-modal="budget-only"><span class="hqn-emoji">💰</span><span class="hqn-label">예산</span><span class="hqn-sub">예산·집행</span></a>
-          <a href="javascript:void(0)" class="hqn-btn" data-modal="contract-only"><span class="hqn-emoji">📜</span><span class="hqn-label">계약</span><span class="hqn-sub">계약·이상신호</span></a>
-          <a href="#compare" class="hqn-btn"><span class="hqn-emoji">⚖️</span><span class="hqn-label">비교</span><span class="hqn-sub">우리동네 vs 인근</span></a>
-          <a href="javascript:void(0)" class="hqn-btn" data-trigger="navEdu"><span class="hqn-emoji">📚</span><span class="hqn-label">재정 교과서</span><span class="hqn-sub">용어·AI 도우미</span></a>
-          <a href="javascript:void(0)" class="hqn-btn" data-trigger="navOntology"><span class="hqn-emoji">🧬</span><span class="hqn-label">온톨로지</span><span class="hqn-sub">분석 기법</span></a>
-          <a href="javascript:void(0)" class="hqn-btn" data-trigger="navAbout"><span class="hqn-emoji">👤</span><span class="hqn-label">김보미 소개</span><span class="hqn-sub">운영자</span></a>
-        </div>
-      </div>
-      <!-- 데이터 연동 로드맵 -->
-      <div class="data-roadmap">
-        <div class="dr-title">🗺️ 데이터 공백 해소 로드맵</div>
-        <div class="dr-grid">
-          <div class="dr-item done"><b>1순위 · 금고 약정이자율</b><span>✅ 2026.1.27 행안부 hwpx 보도자료 → <b>243개 전수 실데이터 즉시 연동 완료</b></span></div>
-          <div class="dr-item now"><b>2순위 · 세부 집행 수치</b><span>🔄 추정값 → <b>열린재정 API 연동 진행 중</b></span></div>
-          <div class="dr-item now"><b>3순위 · 수의계약 실데이터</b><span>🔄 나라장터 G2B 연계 → <b>G2B OpenAPI 연동 진행 중</b></span></div>
-          <div class="dr-item plan"><b>4순위 · 재정분석평가 단체별 보고서</b><span>📋 지방재정365 공개 → <b>자동 파싱·연동 준비</b></span></div>
-          <div class="dr-item plan"><b>5순위 · 정부 통합재정플랫폼</b><span>📋 2026.11 목표 → <b>연동 협력 또는 API 활용</b></span></div>
-        </div>
+  <!-- ============== C. 시민 플랫폼 차별화 카드 (3단계 자동화) ============== -->
+  <section class="card-dark diff-card">
+    <span class="hh-badge">시민 재정 주권 플랫폼 · 대한민국 재정 365</span>
+    <div class="signature-workflow">
+      <div class="sw-title">✨ <b>정부 플랫폼이 제공하지 않는</b> 시민 플랫폼만의 3단계 자동화</div>
+      <div class="sw-steps">
+        <a href="javascript:void(0)" class="sw-step" data-modal="contract-only"><span class="sw-num">①</span><span class="sw-name">🔬 이상신호 자동 탐지</span><span class="sw-desc">자전거래·단가부풀리기·일감몰아주기·수의계약 과다·집행지연 5종 자동</span></a>
+        <span class="sw-arrow">→</span>
+        <a href="#action" class="sw-step"><span class="sw-num">②</span><span class="sw-name">🤖 AI 문서화</span><span class="sw-desc">시민 의견을 의회 정식 안건 수준으로 자동 다듬기</span></a>
+        <span class="sw-arrow">→</span>
+        <a href="#action" class="sw-step"><span class="sw-num">③</span><span class="sw-name">📧 의회 시정요구 자동화</span><span class="sw-desc">해당 시·군·구 의회로 메일 자동 작성·발송</span></a>
       </div>
     </div>
   </section>
 
-  <!-- 🌐 AI 자동번역(Google Translate)은 상단 brandrow로 이동됨 -->
+  <!-- ============== D. 빠른 이동 — 8개 메뉴 ============== -->
+  <section class="card-dark quick-card">
+    <div class="hqn-title-compact">📌 빠른 이동 · 8개 메뉴 — 원하는 코너로 바로 이동</div>
+    <div class="hqn-grid">
+      <a href="#diagnose" class="hqn-btn"><span class="hqn-emoji">🩺</span><span class="hqn-label">3초 진단</span><span class="hqn-sub">살림살이 전체</span></a>
+      <a href="javascript:void(0)" class="hqn-btn" data-modal="policy-search"><span class="hqn-emoji">📋</span><span class="hqn-label">정책</span><span class="hqn-sub">키워드로 검색</span></a>
+      <a href="javascript:void(0)" class="hqn-btn" data-modal="budget-only"><span class="hqn-emoji">💰</span><span class="hqn-label">예산</span><span class="hqn-sub">예산·집행</span></a>
+      <a href="javascript:void(0)" class="hqn-btn" data-modal="contract-only"><span class="hqn-emoji">📜</span><span class="hqn-label">계약</span><span class="hqn-sub">계약·이상신호</span></a>
+      <a href="#compare" class="hqn-btn"><span class="hqn-emoji">⚖️</span><span class="hqn-label">비교</span><span class="hqn-sub">우리동네 vs 인근</span></a>
+      <a href="javascript:void(0)" class="hqn-btn" data-trigger="navEdu"><span class="hqn-emoji">📚</span><span class="hqn-label">재정 교과서</span><span class="hqn-sub">용어·AI 도우미</span></a>
+      <a href="javascript:void(0)" class="hqn-btn" data-trigger="navOntology"><span class="hqn-emoji">🧬</span><span class="hqn-label">온톨로지</span><span class="hqn-sub">분석 기법</span></a>
+      <a href="javascript:void(0)" class="hqn-btn" data-trigger="navAbout"><span class="hqn-emoji">👤</span><span class="hqn-label">김보미 소개</span><span class="hqn-sub">운영자</span></a>
+    </div>
+  </section>
 
 
   <!-- 시민 참여 모달 -->
@@ -1004,38 +990,9 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
     </div>
   </section>
 
-  <!-- 중앙정부 부처 예산 감시 배너 -->
-  <div class="gov-cta">
-    <div class="txt">
-      <b>🏛️ 중앙정부·정부 부처 예산도 함께 감시하세요</b>
-      <p>이 플랫폼 <b>「대한민국 재정 365」</b>는 전국 지방자치단체(지방정부) 재정을 다룹니다. <b>「재정주권시민행동」</b>은 중앙정부 각 부처의 예산 집행을 공개하고 시민 의견을 받는 중앙정부 재정 참여 플랫폼입니다.</p>
-    </div>
-    <a href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">재정주권시민행동 ↗</a>
-  </div>
+  <!-- ⚠️ 데이터 신뢰성·외부 협력 배너는 푸터 직전 통합 영역(I)으로 이동 -->
 
-  <!-- 청년 정책 참여 배너 -->
-  <div class="gov-cta" style="background:linear-gradient(120deg,#0f766e,#1aa179)">
-    <div class="txt">
-      <b>🙋 청년이 결정하는 정책에 함께하세요</b>
-      <p><b>「청년결정정부」</b>는 전남·광주 청년이 일자리·주거·복지 정책을 직접 제안하고 함께 결정하는 청년 정책 참여 플랫폼입니다.</p>
-    </div>
-    <a href="https://www.xn--p89av0gr2mutka661e.kr" target="_blank" rel="noopener">청년결정정부 · 전남·광주 청년 ↗</a>
-  </div>
-
-  <!-- ⚠️ 데이터 신뢰성 알림 (가장 큰 약점 — 시연값 vs 실값 명확 구분) -->
-  <div class="demo-banner" id="demoBanner" style="background:linear-gradient(90deg,#fff7ed,#fef3c7);border:2px solid #f59e0b;color:#7c2d12">
-    <span style="font-size:20px">⚠️</span>
-    <span><b>중요 — 현재 표시되는 개별 지자체 수치 중 일부는 「추정(시연)값」입니다.</b> 실API 서버 인증키 연동 완료 전까지 공식 공시값을 대체하는 <b>참고용 수치</b>이며, 이를 근거로 의회 시정요구나 민원을 제기하실 때는 <b>반드시 지방재정365·해당 지자체 누리집에서 공식 결산값을 재확인</b>하세요.</span>
-  </div>
-  <div class="src-note" id="srcNote">
-    <b>📌 실값(✅) vs 시연값(⚠️) 명확 구분</b><br>
-    <span style="color:#059669"><b>✅ 실데이터(공식 공시)</b></span> — 전국 합계(총예산·재정자립도, 지방재정365) / 종합청렴도(권익위 2025, 243개 지자체 전수, 공공데이터 15083994) / 금고 약정이자율(행안부 2026.1.27 hwpx 보도자료, 243개 전수 반영, 평균 2.53%).<br>
-    <span style="color:#dc2626"><b>⚠️ 추정(시연)값</b></span> — 개별 지자체 세부 KPI(인구·세입·세출·집행률·계약비중 등), 재정평가 등급, 업무추진비, 행사·축제경비, 행정 투명성·환경/안전 지표는 지방재정365·각 부처 공시 통계 분포 기반 <b>참고용 추정</b>입니다. <b>실API 서버 인증키 연동 시 공식 공시값으로 자동 대체</b>됩니다. 공식 결산값은 <a href="https://lofin365.go.kr" target="_blank" rel="noopener">지방재정365</a>·<a href="https://lofin.mois.go.kr" target="_blank" rel="noopener">지방재정통합공시</a>에서 확인하세요.<br>
-    <span style="color:#7c3aed"><b>🔬 등급 산정 기준</b></span> — 본 사이트의 「재정 건강등급(A~E)」은 재정자립도(30%)·재정자주도(15%)·집행률(20%)·채무비율(15%)·종합청렴도(10%)·금고 약정이자율(10%) 가중합으로 산출합니다(자체 알고리즘). 행안부 공식 재정분석평가(자체 발표)와는 다를 수 있어 <b>병행 참고</b>가 필요합니다.<br>
-    <span style="color:#1d6fe0"><b>📚 이상신호 탐지 근거</b></span> — 5가지 위험 패턴(자전거래·단가 부풀리기·일감 몰아주기·수의계약 과다·집행 지연)은 <b>국회예산정책처(NABO)·한국재정정보원(FIS)·행정안전부 30개 공식문서 기반 fiscal-ontology v1.3</b>을 적용한 통계적 의심 신호로, 단정이 아닌 <b>추가 확인이 필요한 적신호</b>입니다. 인용·신고·보도 전 반드시 공식 원부로 확인하세요.<br>
-    <span style="color:#0b6fe0"><b>📧 의회 이메일 데이터베이스</b></span> — 시정요구 메일 작성창의 의회 이메일은 2026년 6월 기준 갱신본입니다. 누락·오류 발견 시 운영자(<a href="mailto:kimbomi891204@gmail.com">kimbomi891204@gmail.com</a>)에게 정정 요청을 보내주세요.
-  </div>
-
+  <!-- ============== F. 우리 동네 살림살이 3초 진단 (4탭 통합 — 메인 콘텐츠) ============== -->
   <!-- 컨트롤 -->
   <section id="diagnose" style="padding-bottom:6px">
     <div class="section-h">
@@ -1513,7 +1470,54 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
     </div>
   </div>
 
-  <!-- 3대 가치 (하단으로 이동 — 첫 화면 집중도를 위해) -->
+  <!-- ============== I. 데이터 신뢰성 & 연동 로드맵 (구 demoBanner+srcNote+data-roadmap 통합) ============== -->
+  <section class="trust-section">
+    <div class="section-h" style="margin-bottom:6px">
+      <span class="ic" style="background:#fff7ed;color:#92400e">⚠️</span>
+      <div><h2 style="font-size:1.05rem">데이터 신뢰성 안내 & 연동 로드맵</h2><p>실값(✅)·추정값(⚠️) 구분 / 등급 산정 기준 / 이상신호 근거 / 데이터 공백 해소 로드맵</p></div>
+    </div>
+    <div class="demo-banner" id="demoBanner" style="background:linear-gradient(90deg,#fff7ed,#fef3c7);border:2px solid #f59e0b;color:#7c2d12;margin-top:8px">
+      <span style="font-size:20px">⚠️</span>
+      <span><b>중요 — 현재 표시되는 개별 지자체 수치 중 일부는 「추정(시연)값」입니다.</b> 실API 서버 인증키 연동 완료 전까지 공식 공시값을 대체하는 <b>참고용 수치</b>이며, 이를 근거로 의회 시정요구나 민원을 제기하실 때는 <b>반드시 지방재정365·해당 지자체 누리집에서 공식 결산값을 재확인</b>하세요.</span>
+    </div>
+    <div class="src-note" id="srcNote">
+      <b>📌 실값(✅) vs 시연값(⚠️) 명확 구분</b><br>
+      <span style="color:#059669"><b>✅ 실데이터(공식 공시)</b></span> — 전국 합계(총예산·재정자립도, 지방재정365) / 종합청렴도(권익위 2025, 243개 지자체 전수, 공공데이터 15083994) / 금고 약정이자율(행안부 2026.1.27 hwpx 보도자료, 243개 전수 반영, 평균 2.53%).<br>
+      <span style="color:#dc2626"><b>⚠️ 추정(시연)값</b></span> — 개별 지자체 세부 KPI(인구·세입·세출·집행률·계약비중 등), 재정평가 등급, 업무추진비, 행사·축제경비, 행정 투명성·환경/안전 지표는 지방재정365·각 부처 공시 통계 분포 기반 <b>참고용 추정</b>입니다. <b>실API 서버 인증키 연동 시 공식 공시값으로 자동 대체</b>됩니다. 공식 결산값은 <a href="https://lofin365.go.kr" target="_blank" rel="noopener">지방재정365</a>·<a href="https://lofin.mois.go.kr" target="_blank" rel="noopener">지방재정통합공시</a>에서 확인하세요.<br>
+      <span style="color:#7c3aed"><b>🔬 등급 산정 기준</b></span> — 본 사이트의 「재정 건강등급(A~E)」은 재정자립도(30%)·재정자주도(15%)·집행률(20%)·채무비율(15%)·종합청렴도(10%)·금고 약정이자율(10%) 가중합으로 산출합니다(자체 알고리즘). 행안부 공식 재정분석평가(자체 발표)와는 다를 수 있어 <b>병행 참고</b>가 필요합니다.<br>
+      <span style="color:#1d6fe0"><b>📚 이상신호 탐지 근거</b></span> — 5가지 위험 패턴(자전거래·단가 부풀리기·일감 몰아주기·수의계약 과다·집행 지연)은 <b>국회예산정책처(NABO)·한국재정정보원(FIS)·행정안전부 30개 공식문서 기반 fiscal-ontology v1.3</b>을 적용한 통계적 의심 신호로, 단정이 아닌 <b>추가 확인이 필요한 적신호</b>입니다.<br>
+      <span style="color:#0b6fe0"><b>📧 의회 이메일 데이터베이스</b></span> — 시정요구 메일 작성창의 의회 이메일은 2026년 6월 기준 갱신본입니다. 누락·오류 발견 시 운영자(<a href="mailto:kimbomi891204@gmail.com">kimbomi891204@gmail.com</a>)에게 정정 요청을 보내주세요.
+    </div>
+    <!-- 데이터 공백 해소 로드맵 -->
+    <div class="data-roadmap" style="background:#f1f5f9;border:1px solid #cbd5e1;border-radius:14px;padding:14px 16px;margin-top:10px">
+      <div class="dr-title" style="color:#0b2545">🗺️ 데이터 공백 해소 로드맵</div>
+      <div class="dr-grid">
+        <div class="dr-item done" style="background:#dcfce7;border-left-color:#16a34a"><b style="color:#065f46">1순위 · 금고 약정이자율</b><span style="color:#065f46">✅ 2026.1.27 행안부 hwpx 보도자료 → <b style="color:#16a34a">243개 전수 실데이터 즉시 연동 완료</b></span></div>
+        <div class="dr-item now" style="background:#fef9c3;border-left-color:#eab308"><b style="color:#713f12">2순위 · 세부 집행 수치</b><span style="color:#713f12">🔄 추정값 → <b style="color:#a16207">열린재정 API 연동 진행 중</b></span></div>
+        <div class="dr-item now" style="background:#fef9c3;border-left-color:#eab308"><b style="color:#713f12">3순위 · 수의계약 실데이터</b><span style="color:#713f12">🔄 나라장터 G2B 연계 → <b style="color:#a16207">G2B OpenAPI 연동 진행 중</b></span></div>
+        <div class="dr-item plan" style="background:#dbeafe;border-left-color:#3b82f6"><b style="color:#1e3a8a">4순위 · 재정분석평가 단체별 보고서</b><span style="color:#1e3a8a">📋 지방재정365 공개 → <b style="color:#1d4ed8">자동 파싱·연동 준비</b></span></div>
+        <div class="dr-item plan" style="background:#dbeafe;border-left-color:#3b82f6"><b style="color:#1e3a8a">5순위 · 정부 통합재정플랫폼</b><span style="color:#1e3a8a">📋 2026.11 목표 → <b style="color:#1d4ed8">연동 협력 또는 API 활용</b></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== J. 외부 협력 플랫폼 — 중앙정부/청년 ============== -->
+  <div class="gov-cta">
+    <div class="txt">
+      <b>🏛️ 중앙정부·정부 부처 예산도 함께 감시하세요</b>
+      <p>이 플랫폼 <b>「대한민국 재정 365」</b>는 전국 지방자치단체(지방정부) 재정을 다룹니다. <b>「재정주권시민행동」</b>은 중앙정부 각 부처의 예산 집행을 공개하고 시민 의견을 받는 중앙정부 재정 참여 플랫폼입니다.</p>
+    </div>
+    <a href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">재정주권시민행동 ↗</a>
+  </div>
+  <div class="gov-cta" style="background:linear-gradient(120deg,#0f766e,#1aa179)">
+    <div class="txt">
+      <b>🙋 청년이 결정하는 정책에 함께하세요</b>
+      <p><b>「청년결정정부」</b>는 전남·광주 청년이 일자리·주거·복지 정책을 직접 제안하고 함께 결정하는 청년 정책 참여 플랫폼입니다.</p>
+    </div>
+    <a href="https://www.xn--p89av0gr2mutka661e.kr" target="_blank" rel="noopener">청년결정정부 · 전남·광주 청년 ↗</a>
+  </div>
+
+  <!-- ============== K. 3대 가치 (퍼퍼 위) ============== -->
   <section class="values-row">
     <div class="values">
       <div class="value v1"><div class="vic">🔍</div><h4>재정 투명성</h4><p>모든 예산의 편성·집행·계약을 시민이 한눈에 — 공식 공시값을 그대로 가져와 누구나 확인하게 합니다.</p></div>
