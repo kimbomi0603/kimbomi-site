@@ -3978,29 +3978,41 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
   const psCloseBtn=document.getElementById('psModalClose');
   if(psCloseBtn) psCloseBtn.addEventListener('click',(e)=>{e.preventDefault(); const sec=document.getElementById('policy-search'); if(sec){sec.classList.remove('show'); document.body.classList.remove('section-modal-open'); document.body.style.overflow=''; const sc=document.getElementById('sectionClose'); if(sc) sc.classList.remove('show');} });
 
-  // 📥 계약 엑셀 다운로드 (기간 필터 + SheetJS)
+  // 📥 계약 엑셀 다운로드 (기간 필터: 프리셋 + 직접 기간 + SheetJS)
   window.ContractExport = {
+    parseDate(s){ return new Date(s.replace(/\./g,'-')); },
     download(){
       const list = window.__CONTRACT_LIST__ || [];
       const region = window.__CONTRACT_REGION__ || '전국';
       const period = document.getElementById('ctExcelPeriod')?.value || 'all';
       if(typeof XLSX==='undefined'){ alert('엑셀 라이브러리가 아직 로드 중입니다. 잠시 후 다시 시도해주세요.'); return; }
       const now = new Date('2026-06-01');
-      const filtered = list.filter(c=>{
-        if(period==='all') return true;
-        const d = new Date(c.date.replace(/\./g,'-')+'-01');
-        const months = (now.getFullYear()-d.getFullYear())*12 + (now.getMonth()-d.getMonth());
-        if(period==='1m') return months<=1;
-        if(period==='3m') return months<=3;
-        if(period==='6m') return months<=6;
-        if(period==='1y') return months<=12;
-        return true;
-      });
+      let filtered, periodLabel;
+      if(period==='custom'){
+        const fromStr = document.getElementById('ctDateFrom')?.value;
+        const toStr = document.getElementById('ctDateTo')?.value;
+        if(!fromStr || !toStr){ alert('시작일과 종료일을 모두 선택해주세요.'); return; }
+        const from = new Date(fromStr), to = new Date(toStr);
+        if(from > to){ alert('종료일이 시작일보다 빨라요. 다시 선택해주세요.'); return; }
+        filtered = list.filter(c=>{ const d=this.parseDate(c.date); return d>=from && d<=to; });
+        periodLabel = `${fromStr}_~_${toStr}`;
+      } else {
+        filtered = list.filter(c=>{
+          if(period==='all') return true;
+          const d = this.parseDate(c.date);
+          const months = (now.getFullYear()-d.getFullYear())*12 + (now.getMonth()-d.getMonth());
+          if(period==='1m') return months<=1;
+          if(period==='3m') return months<=3;
+          if(period==='6m') return months<=6;
+          if(period==='1y') return months<=12;
+          return true;
+        });
+        periodLabel = {all:'전체기간','1m':'최근1개월','3m':'최근3개월','6m':'최근6개월','1y':'최근1년'}[period]||'전체';
+      }
       if(!filtered.length){ alert('해당 기간 계약이 없습니다.'); return; }
-      const periodLabel={all:'전체기간','1m':'최근1개월','3m':'최근3개월','6m':'최근6개월','1y':'최근1년'}[period]||'전체';
       const data = [
         ['계약일','계약명','체결방식','계약유형','낙찰업체','계약금액(억원)','계약금액(원)'],
-        ...filtered.map(c=>[c.date, c.title, c.method, c.cat, c.vendor, +(c.amt).toFixed(2), Math.round(c.amt*1e8)])
+        ...filtered.sort((a,b)=>this.parseDate(b.date)-this.parseDate(a.date)).map(c=>[c.date, c.title, c.method, c.cat, c.vendor, +(c.amt).toFixed(2), Math.round(c.amt*1e8)])
       ];
       const ws = XLSX.utils.aoa_to_sheet(data);
       ws['!cols']=[{wch:12},{wch:38},{wch:12},{wch:10},{wch:18},{wch:14},{wch:18}];
@@ -4140,9 +4152,14 @@ const FS = {
           <div style="font-size:.94rem;font-weight:900;color:#1e3a5f">📋 최근 계약 현황 (시연 ${recent.length}건 · 나라장터 G2B 연동 시 자동 갱신)</div>
           <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
             <label style="font-size:.74rem;font-weight:700;color:#475569">📅 기간</label>
-            <select id="ctExcelPeriod" style="font-size:.78rem;font-weight:700;padding:6px 10px;border:1.5px solid #cbd5e1;border-radius:8px;background:#fff;cursor:pointer;outline:none">
-              <option value="all">전체</option><option value="1m">최근 1개월</option><option value="3m">최근 3개월</option><option value="6m">최근 6개월</option><option value="1y">최근 1년</option>
+            <select id="ctExcelPeriod" style="font-size:.78rem;font-weight:700;padding:6px 10px;border:1.5px solid #cbd5e1;border-radius:8px;background:#fff;cursor:pointer;outline:none" onchange="document.getElementById('ctCustomRange').style.display=this.value==='custom'?'inline-flex':'none'">
+              <option value="all">전체</option><option value="1m">최근 1개월</option><option value="3m">최근 3개월</option><option value="6m">최근 6개월</option><option value="1y">최근 1년</option><option value="custom">📆 직접 기간 선택</option>
             </select>
+            <span id="ctCustomRange" style="display:none;align-items:center;gap:4px;font-size:.74rem;color:#475569;font-weight:700">
+              <input id="ctDateFrom" type="date" value="2026-01-01" max="2026-06-01" style="font-size:.74rem;padding:5px 7px;border:1.5px solid #cbd5e1;border-radius:7px;background:#fff;outline:none;color:#1e3a5f;font-weight:700">
+              <span style="color:#94a3b8">~</span>
+              <input id="ctDateTo" type="date" value="2026-06-01" max="2026-06-01" style="font-size:.74rem;padding:5px 7px;border:1.5px solid #cbd5e1;border-radius:7px;background:#fff;outline:none;color:#1e3a5f;font-weight:700">
+            </span>
             <button id="ctExcelBtn" type="button" style="background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;font-weight:900;font-size:.78rem;padding:6px 12px;border:none;border-radius:8px;cursor:pointer;white-space:nowrap" onclick="ContractExport&&ContractExport.download()">📥 엑셀 다운로드</button>
           </div>
         </div>
