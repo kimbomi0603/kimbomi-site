@@ -162,16 +162,23 @@ a{color:var(--blue);text-decoration:none}
 .hero-topic-btn.topic-policy{background:linear-gradient(135deg,#fbcfe8,#ec4899);color:#fff}
 @media (max-width:640px){.hero-topic-row{grid-template-columns:repeat(3,1fr);gap:6px}.hero-topic-btn{padding:12px 6px}.hero-topic-btn::after{top:5px;right:6px;font-size:.85rem}.hero-topic-btn .emj{font-size:1.25rem}.hero-topic-btn .lbl{font-size:.76rem}.hero-topic-btn .go{font-size:.62rem;padding:2px 6px;margin-top:4px}}
 .hero-search-hint{font-size:.9rem;color:#dceafb;margin-top:14px;font-weight:600;line-height:1.55;text-align:center}
-/* 두 경로 명확 분리 */
-.path-block{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:16px 18px;margin-bottom:14px}
-.path-block.path-a{border-color:rgba(125,240,224,.35)}
-.path-block.path-b{border-color:rgba(255,216,77,.32)}
-.path-label{font-size:.86rem;font-weight:800;color:#fff;margin-bottom:11px;letter-spacing:.01em}
-.path-block.path-a .path-label{color:#7df0e0}
-.path-block.path-b .path-label{color:#ffd84d}
-.path-or{display:flex;align-items:center;gap:10px;margin:14px 0;color:#cbd5e1;font-weight:700;font-size:.84rem;text-align:center;justify-content:center}
-.path-or::before,.path-or::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.18)}
-.path-or b{color:#ffd84d;font-weight:900}
+/* 두 경로 명확 분리 — 시각적 매력 강화 */
+.path-block{position:relative;border-radius:22px;padding:22px 24px 24px;margin-bottom:18px;overflow:hidden;transition:.2s}
+.path-block.path-a{background:linear-gradient(135deg,rgba(15,185,166,.18) 0%,rgba(45,212,191,.10) 60%,rgba(125,240,224,.06) 100%);border:1.5px solid rgba(125,240,224,.45);box-shadow:0 10px 30px rgba(15,185,166,.22),inset 0 1px 0 rgba(255,255,255,.08)}
+.path-block.path-b{background:linear-gradient(135deg,rgba(255,216,77,.16) 0%,rgba(245,158,11,.10) 60%,rgba(252,211,77,.05) 100%);border:1.5px solid rgba(255,216,77,.42);box-shadow:0 10px 30px rgba(245,158,11,.18),inset 0 1px 0 rgba(255,255,255,.08)}
+.path-block::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;pointer-events:none;opacity:.5}
+.path-block.path-a::before{background:radial-gradient(circle,rgba(125,240,224,.35),transparent 65%)}
+.path-block.path-b::before{background:radial-gradient(circle,rgba(255,216,77,.32),transparent 65%)}
+.path-block:hover{transform:translateY(-2px)}
+.path-label{position:relative;font-size:1.02rem;font-weight:900;margin-bottom:14px;letter-spacing:-.005em;line-height:1.4;display:flex;align-items:flex-start;gap:10px}
+.path-label::before{flex-shrink:0;font-size:1.4rem;line-height:1;padding:6px 11px;border-radius:11px;font-weight:900;letter-spacing:.02em}
+.path-block.path-a .path-label{color:#d4fff7}
+.path-block.path-a .path-label::before{content:'🅰️';background:linear-gradient(135deg,#0fb9a6,#36e0c0);color:#06322c;box-shadow:0 4px 12px rgba(15,185,166,.45)}
+.path-block.path-b .path-label{color:#fff8d4}
+.path-block.path-b .path-label::before{content:'🅱️';background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#7c2d12;box-shadow:0 4px 12px rgba(245,158,11,.45)}
+.path-or{position:relative;display:flex;align-items:center;gap:14px;margin:18px 0;color:#cbd5e1;font-weight:700;font-size:.86rem;text-align:center;justify-content:center}
+.path-or::before,.path-or::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent)}
+.path-or b{color:#ffd84d;font-weight:900;background:rgba(255,216,77,.12);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,216,77,.32)}
 @media(max-width:680px){.hero-search{padding:18px 18px;margin-top:18px;border-radius:18px}.hero-search-row{flex-direction:row;gap:8px}.hero-search-row select{flex:1 1 0;min-width:0;font-size:.92rem;padding:9px 26px 9px 12px;background-position:right 8px center}.hero-search-hint{font-size:.82rem}}
 /* 차별화 워크플로우 카드 — 정부 미제공 시민 플랫폼만의 3단계 */
 .signature-workflow{margin-top:16px;background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(29,111,224,.12));border:1px solid rgba(125,240,224,.38);border-radius:16px;padding:16px 18px}
