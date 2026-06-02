@@ -60,6 +60,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 
@@ -411,7 +412,8 @@ section{padding:26px 0}
 }
 
 /* === 📋 정책 키워드 검색 + 카드 시스템 === */
-.policy-search-section{margin-top:32px;background:linear-gradient(135deg,#f1f6ff 0%,#eef9f7 100%);border:1px solid #d9e3f0;border-radius:24px;padding:28px;box-shadow:0 6px 24px rgba(29,111,224,.08)}
+.policy-search-section{margin-top:32px;background:linear-gradient(135deg,#f1f6ff 0%,#eef9f7 100%);border:1px solid #d9e3f0;border-radius:24px;padding:28px;box-shadow:0 6px 24px rgba(29,111,224,.08);position:relative}
+#psModalClose:hover{background:#fff;transform:scale(1.08)}
 .ps-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
 .ps-icon{font-size:2.4rem}
 .ps-header h2{font-size:1.55rem;font-weight:900;color:#1e3a5f;margin:0;letter-spacing:-.4px}
@@ -1063,7 +1065,8 @@ h1{letter-spacing:-.035em;font-weight:900}
 
   <!-- 📋 정책 검색 (3초 진단 통합 — 키워드로 정책 찾기) -->
   <section id="policy-search" class="policy-search-section">
-    <div class="ps-header">
+    <button type="button" id="psModalClose" aria-label="정책 검색 닫기" style="position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.9);color:#1e3a5f;font-size:1.1rem;font-weight:900;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.12);z-index:5">✕</button>
+    <div class="ps-header" style="padding-right:42px">
       <span class="ps-icon">📋</span>
       <div>
         <h2>우리 동네 정책 검색</h2>
@@ -1154,15 +1157,12 @@ h1{letter-spacing:-.035em;font-weight:900}
 
     <!-- 4탭 nav -->
     <div class="diag-tabs" role="tablist">
-      <button type="button" class="dt-btn active" data-tab="overview" role="tab" aria-selected="true">🩺 종합 진단</button>
+      <button type="button" class="dt-btn active" data-tab="overview" role="tab" aria-selected="true">🩺 종합 진단 (요약·KPI·시각화·순위·비교)</button>
       <button type="button" class="dt-btn" data-tab="budget" role="tab">💰 예산·집행</button>
       <button type="button" class="dt-btn" data-tab="contract" role="tab">📜 계약·이상신호</button>
-      <button type="button" class="dt-btn" data-tab="charts" role="tab">📊 데이터 시각화</button>
-      <button type="button" class="dt-btn" data-tab="ranking" role="tab">🏅 전국 순위</button>
-      <button type="button" class="dt-btn" data-tab="compare" role="tab">⚖️ 비교하기</button>
     </div>
 
-    <!-- 탭 1: 종합 진단 (현재 요약 카드 + KPI 그리드) -->
+    <!-- 탭 1 (통합): 한눈에 보는 요약 + KPI + 정부공시 + 데이터 시각화 + 전국 순위 + 비교하기 -->
     <div class="dt-panel" data-panel="overview" role="tabpanel">
       <div class="hero">
         <div class="grade-card" id="gradeCard">
@@ -1180,33 +1180,20 @@ h1{letter-spacing:-.035em;font-weight:900}
         </div>
       </div>
       <div class="kpi-grid" id="kpiGrid"></div>
-      <!-- 정부공시 확장 지표 3블록 (행안부 재정평가·행정투명성·환경/안전) -->
       <div id="govExtPanel" class="gov-ext"></div>
+      <div id="diagChartsMount" class="dt-mount" style="margin-top:18px"></div>
+      <div id="diagRankingMount" class="dt-mount" style="margin-top:18px"></div>
+      <div id="diagCompareMount" class="dt-mount" style="margin-top:18px"></div>
     </div>
 
-    <!-- 탭 2: 예산·집행 (budget-only 내용 mount) -->
+    <!-- 탭 2: 예산·집행 -->
     <div class="dt-panel" data-panel="budget" role="tabpanel" hidden>
       <div id="diagBudgetMount" class="dt-mount"></div>
     </div>
 
-    <!-- 탭 3: 계약·이상신호 (contract-only 내용 mount) -->
+    <!-- 탭 3: 계약·이상신호 -->
     <div class="dt-panel" data-panel="contract" role="tabpanel" hidden>
       <div id="diagContractMount" class="dt-mount"></div>
-    </div>
-
-    <!-- 탭 4: 데이터 시각화 (#charts 내용 mount) -->
-    <div class="dt-panel" data-panel="charts" role="tabpanel" hidden>
-      <div id="diagChartsMount" class="dt-mount"></div>
-    </div>
-
-    <!-- 탭 5: 전국 순위 (#ranking 내용 mount) -->
-    <div class="dt-panel" data-panel="ranking" role="tabpanel" hidden>
-      <div id="diagRankingMount" class="dt-mount"></div>
-    </div>
-
-    <!-- 탭 6: 비교하기 (#compare 내용 mount) -->
-    <div class="dt-panel" data-panel="compare" role="tabpanel" hidden>
-      <div id="diagCompareMount" class="dt-mount"></div>
     </div>
   </section>
 
@@ -3983,10 +3970,46 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
   if(navBudgetEl) navBudgetEl.addEventListener('click',(e)=>{e.preventDefault(); scrollToDiag('budget');});
   const navContractEl=document.getElementById('navContract');
   if(navContractEl) navContractEl.addEventListener('click',(e)=>{e.preventDefault(); scrollToDiag('contract');});
-  // 드롭다운의 📊 시각화 → 탭4
-  document.querySelectorAll('.navdrop-menu a[href="#charts"]').forEach(a=>a.addEventListener('click',(e)=>{e.preventDefault(); scrollToDiag('charts');}));
-  // 드롭다운의 🩺 재정진단 → 탭1
+  // 드롭다운: 시각화/순위/비교 모두 종합(overview) 탭으로 — 한 화면에 흡수됨
+  document.querySelectorAll('.navdrop-menu a[href="#charts"],.navdrop-menu a[href="#ranking"],.navdrop-menu a[href="#compare"]').forEach(a=>a.addEventListener('click',(e)=>{e.preventDefault(); scrollToDiag('overview');}));
   document.querySelectorAll('.navdrop-menu a[href="#diagnose"]').forEach(a=>a.addEventListener('click',()=>{ setTimeout(()=>switchTab('overview'),80); }));
+
+  // ✕ 정책 검색 X 버튼 → 모달 닫기
+  const psCloseBtn=document.getElementById('psModalClose');
+  if(psCloseBtn) psCloseBtn.addEventListener('click',(e)=>{e.preventDefault(); const sec=document.getElementById('policy-search'); if(sec){sec.classList.remove('show'); document.body.classList.remove('section-modal-open'); document.body.style.overflow=''; const sc=document.getElementById('sectionClose'); if(sc) sc.classList.remove('show');} });
+
+  // 📥 계약 엑셀 다운로드 (기간 필터 + SheetJS)
+  window.ContractExport = {
+    download(){
+      const list = window.__CONTRACT_LIST__ || [];
+      const region = window.__CONTRACT_REGION__ || '전국';
+      const period = document.getElementById('ctExcelPeriod')?.value || 'all';
+      if(typeof XLSX==='undefined'){ alert('엑셀 라이브러리가 아직 로드 중입니다. 잠시 후 다시 시도해주세요.'); return; }
+      const now = new Date('2026-06-01');
+      const filtered = list.filter(c=>{
+        if(period==='all') return true;
+        const d = new Date(c.date.replace(/\./g,'-')+'-01');
+        const months = (now.getFullYear()-d.getFullYear())*12 + (now.getMonth()-d.getMonth());
+        if(period==='1m') return months<=1;
+        if(period==='3m') return months<=3;
+        if(period==='6m') return months<=6;
+        if(period==='1y') return months<=12;
+        return true;
+      });
+      if(!filtered.length){ alert('해당 기간 계약이 없습니다.'); return; }
+      const periodLabel={all:'전체기간','1m':'최근1개월','3m':'최근3개월','6m':'최근6개월','1y':'최근1년'}[period]||'전체';
+      const data = [
+        ['계약일','계약명','체결방식','계약유형','낙찰업체','계약금액(억원)','계약금액(원)'],
+        ...filtered.map(c=>[c.date, c.title, c.method, c.cat, c.vendor, +(c.amt).toFixed(2), Math.round(c.amt*1e8)])
+      ];
+      const ws = XLSX.utils.aoa_to_sheet(data);
+      ws['!cols']=[{wch:12},{wch:38},{wch:12},{wch:10},{wch:18},{wch:14},{wch:18}];
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, '계약현황');
+      const today = new Date().toISOString().slice(0,10);
+      XLSX.writeFile(wb, `${region.replace(/\s+/g,'_')}_계약현황_${periodLabel}_${today}.xlsx`);
+    }
+  };
 })();
 </script>
 <script>
@@ -4070,15 +4093,32 @@ const FS = {
     const flags=(typeof genRiskFlags==='function')?genRiskFlags(R):[];
     const sevC={high:'#e11d48',mid:'#f59e0b',low:'#16a34a'};
     const h=(s)=>(typeof hash01==='function')?hash01(R.key,s||1):Math.random();
-    // 최근 계약 5건 (시연 데이터 — 실데이터 연동 시 나라장터 자동 갱신)
+    // 최근 계약 20건 (시연 데이터 — 실데이터 연동 시 나라장터 G2B 자동 갱신)
     const regionName=R.name||R.display;
-    const recent=[
-      {title:`${regionName} 도로포장 보수공사`, amt:Math.round(R.contractTotal*0.038), vendor:'OO토목㈜', method:'수의계약', date:'2026.05.20', cat:'공사'},
-      {title:'지방세 정보시스템 유지보수', amt:Math.round(R.contractTotal*0.013), vendor:'OO네트웍스', method:'일반경쟁', date:'2026.05.18', cat:'용역'},
-      {title:`2026 ${regionName} 축제 운영용역`, amt:Math.round(R.contractTotal*0.009), vendor:'OO이벤트', method:'수의계약', date:'2026.05.15', cat:'용역'},
-      {title:'학교급식 식자재 납품', amt:Math.round(R.contractTotal*0.020), vendor:'OO식자재', method:'일반경쟁', date:'2026.05.12', cat:'물품'},
-      {title:'노인복지센터 시설관리·청소', amt:Math.round(R.contractTotal*0.015), vendor:'OO청소', method:'수의계약', date:'2026.05.08', cat:'용역'}
+    const recentRaw=[
+      {title:`${regionName} 도로포장 보수공사`, rate:0.038, vendor:'OO토목㈜', method:'수의계약', date:'2026.05.20', cat:'공사'},
+      {title:'지방세 정보시스템 유지보수', rate:0.013, vendor:'OO네트웍스', method:'일반경쟁', date:'2026.05.18', cat:'용역'},
+      {title:`2026 ${regionName} 축제 운영용역`, rate:0.009, vendor:'OO이벤트', method:'수의계약', date:'2026.05.15', cat:'용역'},
+      {title:'학교급식 식자재 납품', rate:0.020, vendor:'OO식자재', method:'일반경쟁', date:'2026.05.12', cat:'물품'},
+      {title:'노인복지센터 시설관리·청소', rate:0.015, vendor:'OO청소', method:'수의계약', date:'2026.05.08', cat:'용역'},
+      {title:`${regionName} 상수도관 교체공사`, rate:0.028, vendor:'OO건설㈜', method:'일반경쟁', date:'2026.04.28', cat:'공사'},
+      {title:'CCTV 통합관제센터 운영', rate:0.011, vendor:'OO보안', method:'제한경쟁', date:'2026.04.22', cat:'용역'},
+      {title:'어린이집 급식자재 공급', rate:0.008, vendor:'OO푸드', method:'수의계약', date:'2026.04.15', cat:'물품'},
+      {title:`${regionName} 하수처리장 위탁운영`, rate:0.045, vendor:'OO환경㈜', method:'제한경쟁', date:'2026.04.08', cat:'용역'},
+      {title:'지역공동체 활성화 사업', rate:0.006, vendor:'OO협동조합', method:'수의계약', date:'2026.03.30', cat:'용역'},
+      {title:'경로당 에어컨·난방기 설치', rate:0.012, vendor:'OO설비', method:'일반경쟁', date:'2026.03.22', cat:'공사'},
+      {title:`${regionName} 농업기계 임대료`, rate:0.005, vendor:'OO농기계', method:'수의계약', date:'2026.03.15', cat:'물품'},
+      {title:'생활폐기물 수집·운반', rate:0.032, vendor:'OO환경운수', method:'제한경쟁', date:'2026.03.05', cat:'용역'},
+      {title:'문화체육시설 보수공사', rate:0.019, vendor:'OO건설', method:'일반경쟁', date:'2026.02.25', cat:'공사'},
+      {title:'행정정보화 장비 도입', rate:0.014, vendor:'OO컴퓨터', method:'수의계약', date:'2026.02.18', cat:'물품'},
+      {title:`${regionName} 가로등 LED 교체`, rate:0.017, vendor:'OO전기', method:'지명경쟁', date:'2026.02.10', cat:'공사'},
+      {title:'노인일자리 사업 운영', rate:0.022, vendor:'OO복지재단', method:'수의계약', date:'2026.02.03', cat:'용역'},
+      {title:'관내 도서관 도서구입', rate:0.004, vendor:'OO도서', method:'일반경쟁', date:'2026.01.28', cat:'물품'},
+      {title:`${regionName} 청년창업 지원사업`, rate:0.010, vendor:'OO컨설팅', method:'제한경쟁', date:'2026.01.20', cat:'용역'},
+      {title:'재해예방 하천정비공사', rate:0.026, vendor:'OO토건', method:'일반경쟁', date:'2026.01.12', cat:'공사'}
     ];
+    const recent=recentRaw.map(c=>({...c, amt:Math.round(R.contractTotal*c.rate)}));
+    window.__CONTRACT_LIST__=recent; window.__CONTRACT_REGION__=R.display;
     // 계약 체결방식 분포
     const sui=R.suuiRatio, comp=100-sui;
     const m1=+(comp*0.62).toFixed(1), m2=+(comp*0.28).toFixed(1), m3=+(comp-m1-m2).toFixed(1);
@@ -4096,10 +4136,19 @@ const FS = {
       </div>
 
       <div style="margin-top:18px">
-        <div style="font-size:.94rem;font-weight:900;color:#1e3a5f;margin-bottom:10px">📋 최근 계약 현황 (시연 5건 · 나라장터 연동 시 자동 갱신)</div>
-        <div style="background:#f8fafc;border-radius:12px;overflow:hidden">
-          ${recent.map((c,i)=>`
-            <div style="display:flex;padding:11px 14px;gap:10px;border-bottom:${i<4?'1px solid #e2e8f0':'none'};align-items:center">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px;flex-wrap:wrap">
+          <div style="font-size:.94rem;font-weight:900;color:#1e3a5f">📋 최근 계약 현황 (시연 ${recent.length}건 · 나라장터 G2B 연동 시 자동 갱신)</div>
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+            <label style="font-size:.74rem;font-weight:700;color:#475569">📅 기간</label>
+            <select id="ctExcelPeriod" style="font-size:.78rem;font-weight:700;padding:6px 10px;border:1.5px solid #cbd5e1;border-radius:8px;background:#fff;cursor:pointer;outline:none">
+              <option value="all">전체</option><option value="1m">최근 1개월</option><option value="3m">최근 3개월</option><option value="6m">최근 6개월</option><option value="1y">최근 1년</option>
+            </select>
+            <button id="ctExcelBtn" type="button" style="background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;font-weight:900;font-size:.78rem;padding:6px 12px;border:none;border-radius:8px;cursor:pointer;white-space:nowrap" onclick="ContractExport&&ContractExport.download()">📥 엑셀 다운로드</button>
+          </div>
+        </div>
+        <div style="background:#f8fafc;border-radius:12px;overflow:hidden" id="ctList">
+          ${recent.slice(0,5).map((c,i)=>`
+            <div style="display:flex;padding:11px 14px;gap:10px;border-bottom:1px solid #e2e8f0;align-items:center">
               <div style="flex:1;min-width:0">
                 <div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-bottom:3px">
                   <span style="background:${c.method==='수의계약'?'#fef3c7':'#dbeafe'};color:${c.method==='수의계약'?'#92400e':'#1e40af'};font-size:.66rem;font-weight:900;padding:2px 8px;border-radius:99px">${c.method}</span>
@@ -4112,7 +4161,24 @@ const FS = {
               <div style="font-weight:900;color:#1e3a5f;font-size:.95rem;text-align:right;flex-shrink:0">${won억(c.amt)}</div>
             </div>
           `).join('')}
+          <div id="ctRestHidden" style="display:none">
+            ${recent.slice(5).map((c,i)=>`
+              <div style="display:flex;padding:11px 14px;gap:10px;border-bottom:${i<recent.length-6?'1px solid #e2e8f0':'none'};align-items:center">
+                <div style="flex:1;min-width:0">
+                  <div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-bottom:3px">
+                    <span style="background:${c.method==='수의계약'?'#fef3c7':'#dbeafe'};color:${c.method==='수의계약'?'#92400e':'#1e40af'};font-size:.66rem;font-weight:900;padding:2px 8px;border-radius:99px">${c.method}</span>
+                    <span style="background:#f1f5f9;color:#475569;font-size:.66rem;font-weight:800;padding:2px 8px;border-radius:99px">${c.cat}</span>
+                    <span style="font-size:.7rem;color:#94a3b8">${c.date}</span>
+                  </div>
+                  <div style="font-size:.88rem;font-weight:800;color:#1e3a5f;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.title}</div>
+                  <div style="font-size:.74rem;color:#64748b">${c.vendor}</div>
+                </div>
+                <div style="font-weight:900;color:#1e3a5f;font-size:.95rem;text-align:right;flex-shrink:0">${won억(c.amt)}</div>
+              </div>
+            `).join('')}
+          </div>
         </div>
+        <button type="button" id="ctMoreBtn" style="margin-top:8px;width:100%;background:#f1f5f9;color:#1e3a5f;font-weight:800;font-size:.84rem;padding:9px;border:1px solid #cbd5e1;border-radius:10px;cursor:pointer" onclick="(function(){const h=document.getElementById('ctRestHidden'),b=document.getElementById('ctMoreBtn');if(h.style.display==='none'){h.style.display='block';b.textContent='▲ 접기';}else{h.style.display='none';b.textContent='▼ 더보기 (나머지 ${recent.length-5}건)';}})()">▼ 더보기 (나머지 ${recent.length-5}건)</button>
       </div>
 
       <div style="margin-top:18px">
