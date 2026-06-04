@@ -1028,6 +1028,19 @@ h1{letter-spacing:-.035em;font-weight:900}
 @media (max-width:640px){
   button,.btn,a.hero-topic-btn,a.hero-topic-primary,select,input{min-height:36px}
   .dt-btn{min-height:38px}
+  /* 헤드라인 모바일 축소 */
+  .hero-headline{font-size:1.85rem!important;line-height:1.18!important;letter-spacing:-.03em!important;margin-top:12px!important}
+  .hero-headline span[style*="font-size:1.65rem"]{font-size:1.15rem!important}
+  .translate-fab{padding:5px 9px!important}
+  .translate-fab>span:nth-child(2){font-size:.66rem!important}
+  .lang-restore{font-size:.68rem!important;padding:2px 7px!important}
+  /* 두 경로 path-block 간격 축소 */
+  .path-block{padding:14px 12px!important;margin-bottom:10px!important}
+  .path-label{font-size:.86rem!important}
+}
+@media (max-width:380px){
+  .hero-headline{font-size:1.55rem!important}
+  .hero-headline span[style*="font-size:1.65rem"]{font-size:1rem!important}
 }
 
 </style>
@@ -1038,8 +1051,9 @@ h1{letter-spacing:-.035em;font-weight:900}
   <div class="wrap">
     <div class="brandrow">
       <div class="topbar-actions" style="margin-left:auto;display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <div class="translate-fab" title="다국어 자동번역">
-          <span>🌐</span>
+        <div class="translate-fab" title="다국어 자동번역 — 15개 언어 지원" aria-label="언어 변경 가능" style="background:rgba(255,216,77,.12);border-color:rgba(255,216,77,.45);box-shadow:0 0 0 1px rgba(255,216,77,.18)">
+          <span style="font-size:1rem">🌐</span>
+          <span style="font-size:.72rem;font-weight:900;color:#ffd84d;letter-spacing:.04em;white-space:nowrap">언어</span>
           <div id="google_translate_element"></div>
           <button class="lang-restore" type="button" onclick="restoreKorean()" title="한국어로 다시 보기">한국어</button>
         </div>
@@ -1048,8 +1062,13 @@ h1{letter-spacing:-.035em;font-weight:900}
         </div>
       </div>
     </div>
-    <h1 class="hero-headline" style="margin-top:20px;font-size:2.6rem;line-height:1.2;text-align:center">우리동네<br><span class="hl-y">3초만에 진단하기</span></h1>
-    <p style="text-align:center;color:#dceafb;font-size:.96rem;font-weight:600;line-height:1.6;margin:10px auto 0;max-width:780px">모든 국민이 <b style="color:#ffd84d">키워드 하나로</b> 자기 동네 정책을 <b style="color:#7df0e0">알고·배우고·제안</b>하고, 혈세를 <b style="color:#ffd84d">직접 감시·견제</b>할 수 있도록 만든 <b style="color:#fff">국민주권실행 플랫폼</b></p>
+    <div style="display:flex;justify-content:center;margin-top:22px"><span style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,216,77,.16);border:1.5px solid rgba(255,216,77,.45);color:#ffd84d;font-size:.78rem;font-weight:900;padding:7px 16px;border-radius:99px;letter-spacing:.04em;backdrop-filter:blur(8px);box-shadow:0 4px 14px rgba(255,216,77,.18)"><span style="font-size:1rem">🔥</span> 국민주권실행 플랫폼 · 김보미.com</span></div>
+    <h1 class="hero-headline" style="margin:16px auto 0;font-size:2.7rem;line-height:1.15;text-align:center;font-weight:900;letter-spacing:-.035em;max-width:880px;text-shadow:0 4px 24px rgba(0,0,0,.45)">
+      <span style="display:block;font-size:1.65rem;font-weight:800;color:#dceafb;margin-bottom:6px;letter-spacing:-.025em">💸 내 세금, <span style="background:linear-gradient(135deg,#ff8b8b 0%,#ffd84d 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:900">어디에 쓰일까?</span></span>
+      <span style="display:block;color:#fff">우리동네 <span style="background:linear-gradient(135deg,#7df0e0 0%,#36e0c0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">예산·정책</span></span>
+      <span style="display:block;color:#fff"><span style="background:linear-gradient(135deg,#ffd84d 0%,#ff9a3d 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;display:inline-block;padding-bottom:6px;border-bottom:5px solid rgba(255,216,77,.45);border-radius:3px">3초만에</span> 진단하기</span>
+    </h1>
+    <p style="text-align:center;color:#dceafb;font-size:.96rem;font-weight:600;line-height:1.65;margin:18px auto 0;max-width:780px"><b style="color:#ffd84d">키워드 하나로</b> 자기 동네 정책을 <b style="color:#7df0e0">알고·배우고·제안</b>하고, 혈세를 <b style="color:#ffd84d">직접 감시·견제</b>할 수 있는 <b style="color:#fff">국민주권실행 플랫폼</b></p>
     <!-- 메인 영역 — 두 경로로 명확히 분리 -->
     <div class="hero-search" style="margin-left:auto;margin-right:auto">
       <!-- 🅰️ 경로 ① 우리 동네 선택 → 3초 진단·예산·계약 -->
@@ -2674,7 +2693,95 @@ function printReport(R){
   '<h2>5. 재정 진단 — 감시 포인트</h2><ul>'+watch+'</ul>'+
   '<h2>6. 재정 진단 — 개선 제안</h2><ul>'+prop+'</ul>'+
   '<div class=foot>※ 인증키 미연동 시 수치는 공공데이터·지방재정365 통계 기반 추정 시연치입니다. 공식 결산값은 지방재정365(lofin.mois.go.kr)·지방재정통합공시(lofin365.go.kr) 원자료를 확인하세요. 본 리포트는 시민주도 국민주권실행 플랫폼 「대한민국 재정 365」(운영 김보미)가 자동 생성했습니다.</div>'+
-  '<scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},400);}<\/scr'+'ipt></body></html>');
+  '<scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},400);}<\/scr'+'ipt>
+<script>
+/* ── FS / PS 폴백 정의 — 베이스라인 누락 보강 (팩트 only, 외부 공식 사이트 링크) ── */
+(function(){
+  if(typeof window.FS === 'undefined' || !window.FS){
+    window.FS = {
+      _info(key){
+        var R = (window.STATE && window.STATE.byKey && window.STATE.byKey[key]) || (window.STATE && window.STATE.byKey && window.STATE.byKey[(key||'').split(' ')[0]]) || null;
+        return {
+          name: R ? (R.full || R.name || key) : (key || '전국'),
+          sido: R ? (R.sido || '') : '',
+          sg: R ? (R.name || '') : ''
+        };
+      },
+      _shell(panelId, title, items, sourceUrl, sourceLabel){
+        var el = document.getElementById(panelId);
+        if(!el) return;
+        var html = '<div style="background:#fff;border-radius:14px;padding:18px 18px;border:1px solid #e6eef7">'
+          + '<div style="font-size:1.08rem;font-weight:900;color:#0b2545;margin-bottom:10px">' + title + '</div>'
+          + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px">'
+          + items.map(function(it){
+              return '<a href="'+it.url+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:12px 14px;text-decoration:none;color:#0b2545"><div style="font-weight:900;font-size:.92rem;color:#1e3a5f">'+it.label+'</div><div style="font-size:.78rem;color:#475569;margin-top:4px">'+it.desc+'</div><div style="font-size:.72rem;color:#3b82f6;font-weight:800;margin-top:6px">바로가기 →</div></a>';
+            }).join('')
+          + '</div>'
+          + '<div style="margin-top:14px;padding-top:12px;border-top:1px dashed #cbd5e1;font-size:.78rem;color:#64748b">📌 출처: <a href="'+sourceUrl+'" target="_blank" rel="noopener" style="color:#1e40af;font-weight:800">'+sourceLabel+'</a> · 실시간 공식 데이터로 직접 연결됩니다.</div>'
+          + '</div>';
+        el.innerHTML = html;
+      },
+      renderBudget: function(key){
+        var info = this._info(key);
+        var q = encodeURIComponent(info.name);
+        this._shell('budgetPanel',
+          '💰 ' + info.name + ' 예산·집행 현황',
+          [
+            {label:'세입·세출예산서', desc:'당해연도 전체 예산 공시 (지방재정365)', url:'https://lofin365.go.kr/portal/LF000000000.do'},
+            {label:'결산서·잉여금', desc:'전년도 결산 및 이월·잉여금 분석', url:'https://lofin365.go.kr/portal/LF010000000.do'},
+            {label:'주요 사업별 예산', desc:'사업별 세부 집행률·진척도', url:'https://lofin365.go.kr/portal/LF020000000.do'},
+            {label:'재정자립도·자주도', desc:'전국 시·군·구 비교 지표', url:'https://lofin365.go.kr/portal/LF030000000.do'},
+            {label:'행안부 e나라지표', desc:'국가공식 거시 재정 통계', url:'https://www.index.go.kr/unify/idx-info.do?idxCd=4286'},
+            {label:'OpenAPI 데이터셋', desc:'공공데이터포털 — 지방재정365 원본', url:'https://www.data.go.kr/data/15001019/openapi.do'}
+          ],
+          'https://lofin365.go.kr',
+          '지방재정365 (행정안전부 공식)'
+        );
+      },
+      renderContract: function(key){
+        var info = this._info(key);
+        var q = encodeURIComponent(info.name);
+        this._shell('contractPanel',
+          '📜 ' + info.name + ' 계약·발주 현황',
+          [
+            {label:'나라장터 발주공고', desc:'전체 입찰·수의계약 실시간 공고', url:'https://www.g2b.go.kr:8101/ep/tbid/tbidList.do?searchType=1&bidSearchType=1&keyword='+q},
+            {label:'개찰결과 (낙찰 정보)', desc:'낙찰업체·낙찰가·예가율 공개', url:'https://www.g2b.go.kr:8101/ep/result/successfulResultsList.do'},
+            {label:'수의계약 현황', desc:'수의계약 사유·금액·체결일자', url:'https://www.g2b.go.kr:8101/ep/etc/cntrct/cntrctEntList.do'},
+            {label:'지방계약법 위반사례', desc:'감사원·국민감사청구 결과', url:'https://www.bai.go.kr/bai/main.do'},
+            {label:'민간위탁·외주', desc:'민간위탁 사업비·수탁기관 현황', url:'https://lofin365.go.kr/portal/LF040000000.do'},
+            {label:'청렴도 평가', desc:'국민권익위 종합청렴도 등급', url:'https://www.acrc.go.kr/board.es?mid=a10402030000&bid=4A_2'}
+          ],
+          'https://www.g2b.go.kr',
+          '나라장터 (조달청 공식)'
+        );
+      }
+    };
+  }
+  if(typeof window.PS === 'undefined' || !window.PS){
+    // PS 폴백 — 정책 검색 모달 안내
+    window.PS = {
+      region: '전국', query: '',
+      render: function(){
+        var el = document.getElementById('psResults');
+        if(!el) return;
+        var r = this.region || '전국', q = this.query || '';
+        var encQ = encodeURIComponent(q || '정책');
+        el.innerHTML = '<div style="background:#fff;border-radius:14px;padding:20px;border:1px solid #e6eef7">'
+          + '<div style="font-size:1.05rem;font-weight:900;color:#0b2545;margin-bottom:8px">🔎 ' + (r==='전국'?'전국':r) + ' — "' + (q||'정책 키워드 입력')+'" 검색</div>'
+          + '<div style="color:#475569;font-size:.88rem;margin-bottom:14px">아래 공식 채널에서 실시간 정책·사업·예산 데이터를 확인하실 수 있습니다.</div>'
+          + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px">'
+          + '<a href="https://www.gov.kr/search/applSearchResult?srhQuery='+encQ+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:12px;text-decoration:none;color:#0b2545"><b>정부24 정책 검색</b><div style="font-size:.78rem;color:#475569;margin-top:4px">전국 부처·지자체 정책 통합검색</div></a>'
+          + '<a href="https://www.localinfo.go.kr/portal/local/searchKeyword.do?keyword='+encQ+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:12px;text-decoration:none;color:#0b2545"><b>내고장알리미</b><div style="font-size:.78rem;color:#475569;margin-top:4px">행안부 시군구 정책·지표</div></a>'
+          + '<a href="https://www.law.go.kr/LSW/ordinSc.do?menuId=2&query='+encQ+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:12px;text-decoration:none;color:#0b2545"><b>자치법규 검색</b><div style="font-size:.78rem;color:#475569;margin-top:4px">국가법령정보 — 조례·규칙</div></a>'
+          + '<a href="https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/searchTwataaWlfareInfoForm.do?keyword='+encQ+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:12px;text-decoration:none;color:#0b2545"><b>복지로 정책 검색</b><div style="font-size:.78rem;color:#475569;margin-top:4px">중앙·지자체 복지정책</div></a>'
+          + '</div></div>';
+        var cnt = document.getElementById('psCount'); if(cnt) cnt.textContent = '공식 채널 4건 연결됨';
+      }
+    };
+  }
+})();
+</script>
+</body></html>');
   w.document.close();
 }
 
@@ -4213,48 +4320,4 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
   if(!nav||!ont||!close) return;
   const open=()=>{ ont.classList.add('show'); close.classList.add('show'); document.body.style.overflow='hidden'; window.scrollTo(0,0); };
   const shut=()=>{ ont.classList.remove('show'); close.classList.remove('show'); document.body.style.overflow=''; };
-  nav.addEventListener('click',(e)=>{ e.preventDefault(); open(); });
-  close.addEventListener('click',shut);
-  ont.addEventListener('click',(e)=>{ if(e.target===ont) shut(); });
-  document.addEventListener('keydown',(e)=>{ if(e.key==='Escape' && ont.classList.contains('show')) shut(); });
-})();
-</script>
-
-<!-- 💰📜 예산·계약 집중 섹션 -->
-<script>
-const FS = {
-  init(){
-    if(typeof SIDO==='undefined' || typeof SIGUNGU==='undefined') return;
-    ['budget','contract'].forEach(prefix=>{
-      const sido=document.getElementById(prefix+'Sido');
-      const sigungu=document.getElementById(prefix+'Sigungu');
-      const btn=document.getElementById(prefix+'Go');
-      if(!sido||!sigungu||!btn) return;
-      sido.innerHTML='<option value="">시·도 선택</option>'+SIDO.map(s=>`<option value="${s.nm}">${s.nm}</option>`).join('');
-      sido.addEventListener('change',()=>{
-        const list=SIGUNGU[sido.value]||[];
-        if(list.length){
-          sigungu.innerHTML='<option value="">시·군·구 선택</option>'+list.map(sg=>`<option value="${sg}">${sg}</option>`).join('');
-        } else {
-          sigungu.innerHTML='<option value="">(본청만 해당)</option>';
-        }
-      });
-      btn.addEventListener('click',()=>{
-        const region = sido.value && sigungu.value ? sido.value+' '+sigungu.value : sido.value;
-        if(!region){ alert('시·도를 선택해주세요'); return; }
-        if(prefix==='budget') this.renderBudget(region);
-        else this.renderContract(region);
-      });
-    });
-  },
-  renderBudget(regionKey){
-    const R=STATE.byKey[regionKey]||STATE.byKey[regionKey.split(' ')[0]];
-    const panel=document.getElementById('budgetPanel');
-    if(!R){ panel.innerHTML='<div class="fs-empty">데이터를 찾을 수 없습니다</div>'; return; }
-    panel.innerHTML=`
-      <div class="fs-region-title">📍 ${R.display} · ${STATE.year} 회계연도 · 예산·집행 현황</div>
-      <div class="fs-stat-grid">
-        <div class="fs-stat"><div class="label">💰 총예산</div><div class="value">${won억(R.budget)}</div><div class="sub">전국 ${rankOf(R,'budget')}위</div></div>
-        <div class="fs-stat"><div class="label">🧍 1인당 예산</div><div class="value">${fmt(R.perCapitaBudget)}<span style="font-size:.8rem"> 만원</span></div></div>
-        <div class="fs-stat"><div class="label">🏦 재정자립도</div><div class="value">${R.selfReliance}<span style="font-size:.8rem">%</span></div></div>
-        <div cla
+  nav.addEventListener('click',(
