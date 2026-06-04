@@ -1051,11 +1051,26 @@ h1{letter-spacing:-.035em;font-weight:900}
   <div class="wrap">
     <div class="brandrow">
       <div class="topbar-actions" style="margin-left:auto;display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <div class="translate-fab" title="다국어 자동번역 — 15개 언어 지원" aria-label="언어 변경 가능" style="background:rgba(255,216,77,.12);border-color:rgba(255,216,77,.45);box-shadow:0 0 0 1px rgba(255,216,77,.18)">
+        <div class="translate-fab" title="다국어 자동번역 — 15개 언어 지원" aria-label="언어 변경 가능" style="background:rgba(255,216,77,.18);border-color:rgba(255,216,77,.5);box-shadow:0 2px 10px rgba(255,216,77,.25);position:relative">
           <span style="font-size:1rem">🌐</span>
-          <span style="font-size:.72rem;font-weight:900;color:#ffd84d;letter-spacing:.04em;white-space:nowrap">언어</span>
-          <div id="google_translate_element"></div>
-          <button class="lang-restore" type="button" onclick="restoreKorean()" title="한국어로 다시 보기">한국어</button>
+          <select id="quickLang" onchange="quickLangChange(this.value)" style="background:#fff;color:#0b2545;border:none;border-radius:8px;padding:5px 22px 5px 9px;font-size:.78rem;font-weight:900;cursor:pointer;outline:none;font-family:inherit;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%2210%22 viewBox=%220 0 10 10%22><path fill=%22%230b2545%22 d=%22M5 7L1 3h8z%22/></svg>');background-repeat:no-repeat;background-position:right 6px center">
+            <option value="ko">🇰🇷 한국어</option>
+            <option value="en">🇺🇸 English</option>
+            <option value="ja">🇯🇵 日本語</option>
+            <option value="zh-CN">🇨🇳 中文(简)</option>
+            <option value="zh-TW">🇹🇼 中文(繁)</option>
+            <option value="vi">🇻🇳 Tiếng Việt</option>
+            <option value="th">🇹🇭 ไทย</option>
+            <option value="id">🇮🇩 Indonesia</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="de">🇩🇪 Deutsch</option>
+            <option value="ru">🇷🇺 Русский</option>
+            <option value="ar">🇸🇦 العربية</option>
+            <option value="hi">🇮🇳 हिन्दी</option>
+            <option value="pt">🇵🇹 Português</option>
+          </select>
+          <div id="google_translate_element" style="display:none"></div>
         </div>
         <div class="live-badge" id="liveBadge" title="데이터 연동 상태">
           <span class="dot" id="liveDot"></span><span id="liveText">공시 기준</span>
@@ -4029,7 +4044,7 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
   let currentSection=null;
   const sectionClose=document.getElementById('sectionClose');
   function show(id){
-    if(currentSection) close();
+    if(currentSection) closeMod();
     const sec=document.getElementById(id); if(!sec) return;
     sec.classList.add('show');
     document.body.classList.add('section-modal-open');
@@ -4037,7 +4052,7 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
     document.body.style.overflow='hidden';
     currentSection=id;
   }
-  function close(){
+  function closeMod(){
     if(currentSection){
       const sec=document.getElementById(currentSection);
       if(sec) sec.classList.remove('show');
@@ -4047,280 +4062,71 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
     document.body.style.overflow='';
     currentSection=null;
   }
+  window.__showSection=show; window.__closeSection=closeMod;
   const bindNav=(id,target)=>{
     const el=document.getElementById(id);
     if(el) el.addEventListener('click',(e)=>{ e.preventDefault(); show(target); });
   };
   bindNav('navPolicy','policy-search');
-  // navBudget·navContract는 3초 진단 탭 통합으로 이동 — 모달 대신 탭 전환
-
-  // 홈 시·도/시·군·구 선택기 — 봄님이 선택한 지역을 모든 버튼에 자동 적용
-  window.HOME_REGION='';
-  const hSido=document.getElementById('homeSido'), hSig=document.getElementById('homeSigungu'), hHint=document.getElementById('homeRegionHint');
-  if(hSido && typeof SIDO!=='undefined'){
-    hSido.innerHTML='<option value="">시·도</option>'+SIDO.map(s=>`<option value="${s.nm}">${s.nm}</option>`).join('');
-    hSido.addEventListener('change',()=>{
-      const list=(typeof SIGUNGU!=='undefined' && SIGUNGU[hSido.value])||[];
-      hSig.innerHTML='<option value="">시·군·구</option>'+list.map(sg=>`<option value="${sg}">${sg}</option>`).join('');
-      hSig.disabled=!list.length;
-      window.HOME_REGION=hSido.value;
-      if(hHint){ hHint.textContent='📍 '+(hSido.value||'')+' (시·군·구도 선택해주세요)'; hHint.classList.add('set'); }
-    });
-    hSig.addEventListener('change',()=>{
-      window.HOME_REGION=hSido.value && hSig.value ? hSido.value+' '+hSig.value : hSido.value;
-      if(hHint){ hHint.textContent='✅ '+window.HOME_REGION+' 선택됨 — 아래 버튼 클릭'; hHint.classList.add('set'); }
-    });
-  }
-
-  // 홈 버튼이 눌리면 선택된 지역을 해당 섹션에 자동 적용
-  const applyHomeRegion=(target)=>{
-    const reg=window.HOME_REGION;
-    if(!reg || typeof STATE==='undefined' || !STATE.byKey) return;
-    const R=STATE.byKey[reg]||STATE.byKey[reg.split(' ')[0]];
-    if(!R) return;
-    if(target==='diagnose' && typeof selectByKey==='function') selectByKey(R.key);
-    else if(target==='policy-search' && typeof PS!=='undefined'){ PS.region=R.display; PS.render(); }
-    else if(target==='budget-only' && typeof FS!=='undefined'){
-      const sidoEl=document.getElementById('budgetSido'), sgEl=document.getElementById('budgetSigungu');
-      if(sidoEl){ sidoEl.value=R.sido; sidoEl.dispatchEvent(new Event('change')); if(sgEl && R.name!==R.sido) sgEl.value=R.name; }
-      FS.renderBudget(R.key);
-    }
-    else if(target==='contract-only' && typeof FS!=='undefined'){
-      const sidoEl=document.getElementById('contractSido'), sgEl=document.getElementById('contractSigungu');
-      if(sidoEl){ sidoEl.value=R.sido; sidoEl.dispatchEvent(new Event('change')); if(sgEl && R.name!==R.sido) sgEl.value=R.name; }
-      FS.renderContract(R.key);
-    }
-    else if(target==='compare'){
-      const cmpA=document.getElementById('cmpA');
-      if(cmpA){ cmpA.value=R.key; cmpA.dispatchEvent(new Event('change')); }
-    }
-  };
-
-  // 홈 빠른 이동 버튼 — 모달용 (정책/예산/계약) + 검색어 자동 전달
-  document.querySelectorAll('.hqn-btn[data-modal], .hero-topic-btn[data-modal]').forEach(btn=>{
-    btn.addEventListener('click',(e)=>{
-      e.preventDefault();
-      const target=btn.dataset.modal;
-      const kw=(document.getElementById('heroFreeText')?.value||'').trim();
-      applyHomeRegion(target);
-      show(target);
-      // 키워드가 입력되어 있으면 해당 모달에 자동 전달
-      if(kw){
-        setTimeout(()=>{
-          if(target==='policy-search'){
-            const inp=document.getElementById('psSearchInput');
-            if(inp && typeof PS!=='undefined'){ inp.value=kw; PS.query=kw; PS.render(); inp.focus(); }
-          } else if(target==='budget-only'){
-            // 예산 모달에는 키워드 검색이 없지만 toast로 안내
-            if(typeof toast==='function') toast('💡 "'+kw+'" 키워드는 정책 검색에서 더 자세히 확인할 수 있어요');
-          } else if(target==='contract-only'){
-            if(typeof toast==='function') toast('💡 계약 키워드 검색은 나라장터 G2B 연동 후 지원 예정');
-          }
-        }, 150);
-      }
-    });
-  });
-  // 홈 빠른 이동 버튼 — 다른 nav 트리거 (navEdu, navOntology, navAbout)
-  document.querySelectorAll('.hqn-btn[data-trigger], .hero-topic-btn[data-trigger]').forEach(btn=>{
-    btn.addEventListener('click',(e)=>{
-      e.preventDefault();
-      const target=document.getElementById(btn.dataset.trigger);
-      if(target) target.click();
-    });
-  });
-  // 3초 진단·비교하기 스크롤 링크 클릭 시 지역 자동 적용
-  document.querySelectorAll('.hqn-btn[href="#diagnose"], .hero-topic-btn[href="#diagnose"], .hero-topic-primary[href="#diagnose"]').forEach(btn=>btn.addEventListener('click',()=>applyHomeRegion('diagnose')));
-  document.querySelectorAll('.hqn-btn[href="#compare"], .hero-topic-btn[href="#compare"]').forEach(btn=>btn.addEventListener('click',()=>applyHomeRegion('compare')));
-  // 홈 히어로의 [3초 진단 시작] CTA 버튼
-  const hrpCta=document.getElementById('hrpCtaDiagnose');
-  if(hrpCta) hrpCta.addEventListener('click',(e)=>{ applyHomeRegion('diagnose'); /* href #diagnose가 스크롤도 처리 */ });
-  // ⭐ 메인 히어로 검색창 (topbar 내부) — 검색 한 줄로 단순화한 입구
-  const heroFreeText=document.getElementById('heroFreeText'), heroFreeSug=document.getElementById('heroFreeSuggest');
-  // 🆕 자유 입력 자동완성 (정책 검색과 동일한 UX)
-  if(heroFreeText && typeof SIDO!=='undefined'){
-    const REG_IDX=[]; SIDO.forEach(s=>{
-      REG_IDX.push({full:s.nm, sido:s.nm, gu:'', isSido:true});
-      const list=(typeof SIGUNGU!=='undefined' && SIGUNGU[s.nm])||[];
-      list.forEach(g=>REG_IDX.push({full:s.nm+' '+g, sido:s.nm, gu:g, isSido:false}));
-    });
-    function fClose(){heroFreeSug.classList.add('hidden');heroFreeSug.innerHTML='';}
-    heroFreeText.addEventListener('input', ()=>{
-      const q=heroFreeText.value.trim().replace(/\s+/g,'').toLowerCase();
-      if(!q){fClose();return;}
-      const hits=REG_IDX.filter(r=>r.full.replace(/\s+/g,'').toLowerCase().indexOf(q)>=0).slice(0,12);
-      if(!hits.length){heroFreeSug.innerHTML='<div style="padding:14px 16px;color:#94a3b8;font-size:.88rem">일치하는 지역이 없어요</div>';heroFreeSug.classList.remove('hidden');return;}
-      heroFreeSug.innerHTML=hits.map((h,i)=>`<button type="button" data-i="${i}"><span>${h.full}</span><span class="tag">${h.isSido?'시·도':'시·군·구'}</span></button>`).join('');
-      heroFreeSug.querySelectorAll('button').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          const h=hits[+btn.dataset.i];
-          heroSido.value=h.sido; heroSido.dispatchEvent(new Event('change'));
-          if(!h.isSido){setTimeout(()=>{heroSig.value=h.gu; heroSig.dispatchEvent(new Event('change'));},90);}
-          heroFreeText.value=h.full; fClose();
-        });
-      });
-      heroFreeSug.classList.remove('hidden');
-    });
-    heroFreeText.addEventListener('keydown', e=>{
-      if(e.key==='Enter'){
-        const first=heroFreeSug.querySelector('button');
-        if(first) first.click();
-      }
-    });
-    document.addEventListener('click', e=>{if(e.target!==heroFreeText && !heroFreeSug.contains(e.target)) fClose();});
-  }
-  const heroSido=document.getElementById('heroSido'), heroSig=document.getElementById('heroSigungu'), heroBtn=document.getElementById('heroSearchBtn');
-  if(heroSido && typeof SIDO!=='undefined'){
-    heroSido.innerHTML='<option value="">시·도 선택</option>'+SIDO.map(s=>`<option value="${s.nm}">${s.nm}</option>`).join('');
-    heroSido.addEventListener('change',()=>{
-      const list=(typeof SIGUNGU!=='undefined' && SIGUNGU[heroSido.value])||[];
-      if(heroSig){
-        heroSig.innerHTML='<option value="">시·군·구 선택</option>'+list.map(sg=>`<option value="${sg}">${sg}</option>`).join('');
-        heroSig.disabled=!list.length;
-      }
-      // 홈 region에도 동기화
-      window.HOME_REGION=heroSido.value;
-      if(hSido){ hSido.value=heroSido.value; hSido.dispatchEvent(new Event('change')); }
-    });
-    heroSig && heroSig.addEventListener('change',()=>{
-      window.HOME_REGION = heroSido.value && heroSig.value ? heroSido.value+' '+heroSig.value : heroSido.value;
-      if(hSig){ hSig.value=heroSig.value; }
-    });
-    heroBtn && heroBtn.addEventListener('click',(e)=>{ applyHomeRegion('diagnose'); /* href #diagnose가 스크롤 처리 */ });
-  }
-  if(sectionClose) sectionClose.addEventListener('click',close);
-  document.addEventListener('keydown',(e)=>{ if(e.key==='Escape' && currentSection) close(); });
-  // 모달 외부(오버레이) 클릭 시 닫기 — 트리거 버튼들은 제외
-  document.addEventListener('click',(e)=>{
-    if(!currentSection) return;
-    const sec=document.getElementById(currentSection);
-    if(!sec) return;
-    if(e.target.closest('.hqn-btn, .hero-topic-btn, .hero-topic-primary')) return;
-    if(e.target.closest('#navPolicy,#navEdu,#navOntology,#navAbout')) return;
-    if(sec.contains(e.target)) return;
-    if(e.target===sectionClose) return;
-    close();
-  });
-
-  // ====== 3초 진단 4탭 통합 ======
-  // 외부 섹션(budget-only, contract-only, charts)의 콘텐츠를 진단 섹션 mount로 이동
-  function mountSectionInto(srcSelector, mountId, removeOuter){
-    const src=document.querySelector(srcSelector); const mount=document.getElementById(mountId);
-    if(!src || !mount) return;
-    // src 내부의 모든 자식 노드를 mount로 이동 (section-h는 제외 — 진단 섹션이 이미 헤더 있음)
-    [...src.children].forEach(ch=>{
-      if(ch.classList && ch.classList.contains('section-h')) return; // 외부 헤더는 버림
-      if(ch.tagName==='DIV' && ch.classList && ch.classList.contains('fs-header')) return; // focus-section 헤더
-      mount.appendChild(ch);
-    });
-    if(removeOuter){ src.style.display='none'; }
-  }
-  // 외부 헤더는 진단 탭 안에서는 불필요. 콘텐츠만 이동.
-  mountSectionInto('#budget-only', 'diagBudgetMount', true);
-  mountSectionInto('#contract-only', 'diagContractMount', true);
-  mountSectionInto('#charts', 'diagChartsMount', true);
-  mountSectionInto('#ranking', 'diagRankingMount', true);
-  mountSectionInto('#compare', 'diagCompareMount', true);
-
-  // 탭 전환
-  const diagSec=document.getElementById('diagnose');
-  function switchTab(tab){
-    if(!diagSec) return;
-    diagSec.querySelectorAll('.dt-btn').forEach(b=>{
-      const on=b.dataset.tab===tab;
-      b.classList.toggle('active',on);
-      b.setAttribute('aria-selected', on?'true':'false');
-    });
-    diagSec.querySelectorAll('.dt-panel').forEach(p=>{
-      p.hidden = (p.dataset.panel!==tab);
-    });
-    // 탭 전환 시 자동 region apply
-    let R=null;
-    if(typeof STATE!=='undefined' && STATE.region && STATE.region.key!=='전국') R=STATE.region;
-    else if(window.HOME_REGION && typeof STATE!=='undefined' && STATE.byKey){
-      R=STATE.byKey[window.HOME_REGION]||STATE.byKey[window.HOME_REGION.split(' ')[0]]||null;
-    }
-    if(!R) return;
-    if(tab==='budget' && typeof FS!=='undefined'){
-      const sidoEl=document.getElementById('budgetSido'), sgEl=document.getElementById('budgetSigungu');
-      if(sidoEl){ sidoEl.value=R.sido; sidoEl.dispatchEvent(new Event('change')); if(sgEl && R.name!==R.sido) sgEl.value=R.name; }
-      FS.renderBudget(R.key);
-    } else if(tab==='contract' && typeof FS!=='undefined'){
-      const sidoEl=document.getElementById('contractSido'), sgEl=document.getElementById('contractSigungu');
-      if(sidoEl){ sidoEl.value=R.sido; sidoEl.dispatchEvent(new Event('change')); if(sgEl && R.name!==R.sido) sgEl.value=R.name; }
-      FS.renderContract(R.key);
-    } else if(tab==='charts' && typeof selectByKey==='function'){
-      // 차트는 selectByKey 호출 시 자동 렌더링됨 (이미 렌더링된 상태면 유지)
-    }
-  }
-  diagSec && diagSec.querySelectorAll('.dt-btn').forEach(btn=>btn.addEventListener('click',()=>switchTab(btn.dataset.tab)));
-
-  // nav 💰 예산 / 📜 계약 클릭 → 진단 탭 전환 + 섹션 스크롤
-  function scrollToDiag(tab){
-    if(diagSec){ diagSec.scrollIntoView({behavior:'smooth',block:'start'}); }
-    setTimeout(()=>switchTab(tab), 80);
-  }
-  const navBudgetEl=document.getElementById('navBudget');
-  if(navBudgetEl) navBudgetEl.addEventListener('click',(e)=>{e.preventDefault(); scrollToDiag('budget');});
-  const navContractEl=document.getElementById('navContract');
-  if(navContractEl) navContractEl.addEventListener('click',(e)=>{e.preventDefault(); scrollToDiag('contract');});
-  // 드롭다운: 시각화/순위/비교 모두 종합(overview) 탭으로 — 한 화면에 흡수됨
-  document.querySelectorAll('.navdrop-menu a[href="#charts"],.navdrop-menu a[href="#ranking"],.navdrop-menu a[href="#compare"]').forEach(a=>a.addEventListener('click',(e)=>{e.preventDefault(); scrollToDiag('overview');}));
-  document.querySelectorAll('.navdrop-menu a[href="#diagnose"]').forEach(a=>a.addEventListener('click',()=>{ setTimeout(()=>switchTab('overview'),80); }));
-
-  // ✕ 정책 검색 X 버튼 → 모달 닫기
-  const psCloseBtn=document.getElementById('psModalClose');
-  if(psCloseBtn) psCloseBtn.addEventListener('click',(e)=>{e.preventDefault(); const sec=document.getElementById('policy-search'); if(sec){sec.classList.remove('show'); document.body.classList.remove('section-modal-open'); document.body.style.overflow=''; const sc=document.getElementById('sectionClose'); if(sc) sc.classList.remove('show');} });
-
-  // 📥 계약 엑셀 다운로드 (기간 필터: 프리셋 + 직접 기간 + SheetJS)
-  window.ContractExport = {
-    parseDate(s){ return new Date(s.replace(/\./g,'-')); },
-    download(){
-      const list = window.__CONTRACT_LIST__ || [];
-      const region = window.__CONTRACT_REGION__ || '전국';
-      const period = document.getElementById('ctExcelPeriod')?.value || 'all';
-      if(typeof XLSX==='undefined'){ alert('엑셀 라이브러리가 아직 로드 중입니다. 잠시 후 다시 시도해주세요.'); return; }
-      const now = new Date('2026-06-01');
-      let filtered, periodLabel;
-      if(period==='custom'){
-        const fromStr = document.getElementById('ctDateFrom')?.value;
-        const toStr = document.getElementById('ctDateTo')?.value;
-        if(!fromStr || !toStr){ alert('시작일과 종료일을 모두 선택해주세요.'); return; }
-        const from = new Date(fromStr), to = new Date(toStr);
-        if(from > to){ alert('종료일이 시작일보다 빨라요. 다시 선택해주세요.'); return; }
-        filtered = list.filter(c=>{ const d=this.parseDate(c.date); return d>=from && d<=to; });
-        periodLabel = `${fromStr}_~_${toStr}`;
-      } else {
-        filtered = list.filter(c=>{
-          if(period==='all') return true;
-          const d = this.parseDate(c.date);
-          const months = (now.getFullYear()-d.getFullYear())*12 + (now.getMonth()-d.getMonth());
-          if(period==='1m') return months<=1;
-          if(period==='3m') return months<=3;
-          if(period==='6m') return months<=6;
-          if(period==='1y') return months<=12;
-          return true;
-        });
-        periodLabel = {all:'전체기간','1m':'최근1개월','3m':'최근3개월','6m':'최근6개월','1y':'최근1년'}[period]||'전체';
-      }
-      if(!filtered.length){ alert('해당 기간 계약이 없습니다.'); return; }
-      const data = [
-        ['계약일','계약명','체결방식','계약유형','낙찰업체','계약금액(억원)','계약금액(원)'],
-        ...filtered.sort((a,b)=>this.parseDate(b.date)-this.parseDate(a.date)).map(c=>[c.date, c.title, c.method, c.cat, c.vendor, +(c.amt).toFixed(2), Math.round(c.amt*1e8)])
-      ];
-      const ws = XLSX.utils.aoa_to_sheet(data);
-      ws['!cols']=[{wch:12},{wch:38},{wch:12},{wch:10},{wch:18},{wch:14},{wch:18}];
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, '계약현황');
-      const today = new Date().toISOString().slice(0,10);
-      XLSX.writeFile(wb, `${region.replace(/\s+/g,'_')}_계약현황_${periodLabel}_${today}.xlsx`);
-    }
-  };
+  if(sectionClose) sectionClose.addEventListener('click',closeMod);
 })();
 </script>
 <script>
+/* 모달 강제 닫기 — ESC + backdrop click */
 (function(){
-  const nav=document.getElementById('navOntology'), ont=document.getElementById('ontology'), close=document.getElementById('ontologyClose');
-  if(!nav||!ont||!close) return;
-  const open=()=>{ ont.classList.add('show'); close.classList.add('show'); document.body.style.overflow='hidden'; window.scrollTo(0,0); };
-  const shut=()=>{ ont.classList.remove('show'); close.classList.remove('show'); document.body.style.overflow=''; };
-  nav.addEventListener('click',(
+  function forceCloseAll(){
+    document.querySelectorAll('#policy-search.show,#budget-only.show,#contract-only.show,.ps-modal-overlay.show,.kpi-detail.show').forEach(function(el){el.classList.remove('show');});
+    document.body.classList.remove('section-modal-open');
+    document.body.style.overflow='';
+    var sc=document.getElementById('sectionClose'); if(sc) sc.classList.remove('show');
+  }
+  window.forceCloseAllModals = forceCloseAll;
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') forceCloseAll(); });
+  document.addEventListener('click', function(e){
+    if(!document.body.classList.contains('section-modal-open')) return;
+    var openSec = document.querySelector('#policy-search.show,#budget-only.show,#contract-only.show');
+    if(openSec && !openSec.contains(e.target) && e.target.id !== 'sectionClose' && !e.target.closest('#sectionClose')) {
+      forceCloseAll();
+    }
+  });
+  setTimeout(function(){
+    var sc=document.getElementById('sectionClose');
+    if(sc) sc.addEventListener('click', forceCloseAll);
+    var psc=document.getElementById('psModalClose');
+    if(psc) psc.addEventListener('click', forceCloseAll);
+  }, 500);
+})();
+</script>
+<script>
+/* 다국어 빠른 선택 */
+window.quickLangChange = function(lang){
+  if(!lang || lang==='ko'){ window.restoreKorean(); return; }
+  try{
+    var host = location.hostname;
+    document.cookie = 'googtrans=/ko/' + lang + ';path=/';
+    document.cookie = 'googtrans=/ko/' + lang + ';path=/;domain=.' + host;
+    document.cookie = 'googtrans=/ko/' + lang + ';path=/;domain=' + host;
+    location.reload();
+  }catch(e){console.warn(e);}
+};
+window.restoreKorean = function(){
+  try{
+    var host = location.hostname;
+    var exp = ';expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    document.cookie = 'googtrans=;path=/' + exp;
+    document.cookie = 'googtrans=;path=/;domain=.' + host + exp;
+    document.cookie = 'googtrans=;path=/;domain=' + host + exp;
+    location.reload();
+  }catch(e){}
+};
+document.addEventListener('DOMContentLoaded', function(){
+  setTimeout(function(){
+    var sel = document.getElementById('quickLang'); 
+    if(!sel) return;
+    var m = document.cookie.match(/googtrans=.ko.([a-zA-Z-]+)/);
+    if(m && m[1]) sel.value = m[1];
+  }, 300);
+});
+</script>
+</body>
+</html>
