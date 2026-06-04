@@ -1051,6 +1051,20 @@ h1{letter-spacing:-.035em;font-weight:900}
   <div class="wrap">
     <div class="brandrow">
       <div class="topbar-actions" style="margin-left:auto;display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <!-- 🔍 사이트 내 검색 -->
+        <form id="siteSearchForm" onsubmit="return doSiteSearch(event)" style="display:inline-flex;align-items:center;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.15);height:36px" role="search">
+          <input id="siteSearchInput" type="search" autocomplete="off" placeholder="검색어 입력" aria-label="사이트 내 검색" style="border:none;outline:none;padding:0 10px;font-size:.84rem;font-weight:700;color:#0b2545;width:140px;background:transparent;font-family:inherit" />
+          <button type="submit" aria-label="검색 실행" style="background:#0b9a72;color:#fff;border:none;width:38px;height:36px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:1rem">🔍</button>
+        </form>
+        <!-- 가가가 글자크기 조절 -->
+        <div class="fontsize-ctrl" role="group" aria-label="글자 크기 조절" style="display:inline-flex;align-items:center;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.15);height:36px">
+          <button type="button" onclick="setFontScale(0.92)" title="작게" aria-label="글자 작게" style="border:none;background:transparent;color:#0b2545;font-weight:900;width:32px;height:36px;cursor:pointer;font-size:.8rem;font-family:inherit">가</button>
+          <button type="button" id="fsDefault" onclick="setFontScale(1)" title="보통(기본)" aria-label="글자 기본" style="border:none;background:#0b9a72;color:#fff;font-weight:900;width:32px;height:36px;cursor:pointer;font-size:.95rem;font-family:inherit">가</button>
+          <button type="button" onclick="setFontScale(1.12)" title="크게" aria-label="글자 크게" style="border:none;background:transparent;color:#0b2545;font-weight:900;width:32px;height:36px;cursor:pointer;font-size:1.05rem;font-family:inherit">가</button>
+          <button type="button" onclick="setFontScale(1.25)" title="아주 크게" aria-label="글자 아주 크게" style="border:none;background:transparent;color:#0b2545;font-weight:900;width:32px;height:36px;cursor:pointer;font-size:1.15rem;font-family:inherit">가</button>
+        </div>
+        <!-- 🌐 AI 자동번역 라벨 -->
+        <div title="Google AI 자동번역 (정확도 100% 보장하지 않음)" style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:10px;height:36px;padding:0 11px;color:#fff;font-size:.78rem;font-weight:800"><span>🌐</span>AI 자동번역</div>
         <div class="translate-fab" title="다국어 자동번역 — 15개 언어 지원" aria-label="언어 변경 가능" style="background:rgba(255,216,77,.18);border-color:rgba(255,216,77,.5);box-shadow:0 2px 10px rgba(255,216,77,.25);position:relative">
           <span style="font-size:1rem">🌐</span>
           <select id="quickLang" onchange="quickLangChange(this.value)" style="background:#fff;color:#0b2545;border:none;border-radius:8px;padding:5px 22px 5px 9px;font-size:.78rem;font-weight:900;cursor:pointer;outline:none;font-family:inherit;appearance:none;-webkit-appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%2210%22 viewBox=%220 0 10 10%22><path fill=%22%230b2545%22 d=%22M5 7L1 3h8z%22/></svg>');background-repeat:no-repeat;background-position:right 6px center">
@@ -4096,6 +4110,51 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
     if(psc) psc.addEventListener('click', forceCloseAll);
   }, 500);
 })();
+</script>
+<script>
+/* 🔍 사이트 내 검색 — 정책 검색 모달 자동 열기 + 키워드 전달 */
+window.doSiteSearch = function(e){
+  if(e) e.preventDefault();
+  var q = (document.getElementById('siteSearchInput')||{}).value;
+  q = (q||'').trim();
+  if(!q){ alert('검색어를 입력해주세요'); return false; }
+  try{
+    var sec = document.getElementById('policy-search');
+    if(sec){
+      sec.classList.add('show');
+      document.body.classList.add('section-modal-open');
+      document.body.style.overflow='hidden';
+      var sc = document.getElementById('sectionClose'); if(sc) sc.classList.add('show');
+      var inp = document.getElementById('psSearchInput');
+      if(inp){ inp.value = q; inp.dispatchEvent(new Event('input')); inp.focus(); }
+      if(typeof window.PS !== 'undefined' && PS.render){ PS.query = q; PS.region = '전국'; PS.render(); }
+    }
+  }catch(err){ console.warn(err); }
+  return false;
+};
+/* 🅰 글자 크기 조절 — html root font-size 조정 + localStorage 저장 */
+window.setFontScale = function(scale){
+  try{
+    document.documentElement.style.fontSize = (16 * scale) + 'px';
+    try{ localStorage.setItem('kb_font_scale', String(scale)); }catch(e){}
+    // 활성 버튼 표시
+    document.querySelectorAll('.fontsize-ctrl button').forEach(function(b){
+      b.style.background='transparent'; b.style.color='#0b2545';
+    });
+    var labels=[0.92,1,1.12,1.25];
+    var idx = labels.indexOf(scale);
+    if(idx>=0){
+      var btn = document.querySelectorAll('.fontsize-ctrl button')[idx];
+      if(btn){ btn.style.background='#0b9a72'; btn.style.color='#fff'; }
+    }
+  }catch(e){}
+};
+document.addEventListener('DOMContentLoaded', function(){
+  try{
+    var s = parseFloat(localStorage.getItem('kb_font_scale')||'1');
+    if(s && s>0.5 && s<2){ setFontScale(s); }
+  }catch(e){}
+});
 </script>
 <script>
 /* 다국어 빠른 선택 */
