@@ -162,6 +162,57 @@ a{color:var(--blue);text-decoration:none}
 .hero-topic-btn.topic-policy{background:linear-gradient(135deg,#fbcfe8,#ec4899);color:#fff}
 @media (max-width:640px){.hero-topic-row{grid-template-columns:repeat(3,1fr);gap:6px}.hero-topic-btn{padding:12px 6px}.hero-topic-btn::after{top:5px;right:6px;font-size:.85rem}.hero-topic-btn .emj{font-size:1.25rem}.hero-topic-btn .lbl{font-size:.76rem}.hero-topic-btn .go{font-size:.62rem;padding:2px 6px;margin-top:4px}}
 .hero-search-hint{font-size:.9rem;color:#dceafb;margin-top:14px;font-weight:600;line-height:1.55;text-align:center}
+/* ===== 첫 화면 매끄러운 통일 디자인 — 모든 컴포넌트 동일 토큰 ===== */
+.hero-search{padding:24px!important;background:rgba(255,255,255,.05)!important;border:1.5px solid rgba(255,255,255,.18)!important;border-radius:22px!important;max-width:780px!important;margin:22px auto 0!important;box-shadow:0 12px 32px rgba(0,0,0,.28)!important}
+.path-block{padding:20px!important;border-radius:18px!important;margin:0 0 12px!important}
+.path-block.path-a{background:linear-gradient(135deg,rgba(15,185,166,.12),rgba(125,240,224,.04))!important;border:1.5px solid rgba(125,240,224,.32)!important}
+.path-block.path-b{background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(251,191,36,.04))!important;border:1.5px solid rgba(251,191,36,.32)!important}
+.path-block .path-label{font-size:.96rem!important;font-weight:900!important;margin-bottom:14px!important;letter-spacing:-.01em!important;line-height:1.4!important;display:flex;align-items:center;gap:8px}
+.path-block.path-a .path-label{color:#7df0e0!important}
+.path-block.path-b .path-label{color:#ffd84d!important}
+.hero-search-row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;margin:0 0 12px!important}
+.hero-search-row select{width:100%!important;max-width:none!important;min-width:0!important;height:52px!important;background:#fff!important;border:none!important;border-radius:12px!important;padding:0 36px 0 16px!important;font-size:.96rem!important;font-weight:800!important;color:#0b2545!important;cursor:pointer!important;outline:none!important;appearance:none!important;-webkit-appearance:none!important;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='%230b2545' d='M6 9L1 4h10z'/></svg>")!important;background-repeat:no-repeat!important;background-position:right 14px center!important;box-shadow:0 3px 10px rgba(0,0,0,.12)!important;box-sizing:border-box!important;line-height:52px!important}
+.hero-topic-primary{display:flex!important;align-items:center!important;justify-content:center!important;gap:12px!important;height:64px!important;padding:0 24px!important;border-radius:14px!important;background:linear-gradient(135deg,#7df0e0,#36e0c0)!important;color:#06201d!important;text-decoration:none!important;box-shadow:0 8px 22px rgba(125,240,224,.45)!important;margin:0 0 10px!important;font-weight:900!important;width:100%!important;box-sizing:border-box!important;transition:.15s}
+.hero-topic-primary:hover{transform:translateY(-2px)!important;box-shadow:0 12px 28px rgba(125,240,224,.55)!important}
+.hero-topic-primary .prim-emoji{font-size:1.4rem!important;flex-shrink:0}
+.hero-topic-primary .prim-text{flex:1;min-width:0;display:flex;flex-direction:column;text-align:left;gap:2px}
+.hero-topic-primary .prim-title{font-size:1.08rem!important;font-weight:900!important}
+.hero-topic-primary .prim-sub{font-size:.72rem!important;font-weight:700!important;opacity:.78!important}
+.hero-topic-primary .prim-arrow{font-size:1.4rem!important;font-weight:900!important;flex-shrink:0}
+.hero-topic-row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;margin:10px 0 0!important}
+.path-b .hero-topic-row{grid-template-columns:1fr!important}
+.hero-topic-btn{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:10px!important;height:56px!important;padding:0 16px!important;background:rgba(255,255,255,.07)!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:13px!important;color:#fff!important;text-decoration:none!important;font-weight:700!important;flex-direction:row!important;box-sizing:border-box!important;transition:.15s}
+.hero-topic-btn:hover{background:rgba(255,255,255,.14)!important;transform:translateY(-1px)!important}
+.hero-topic-btn .emj{font-size:1.25rem!important;flex-shrink:0}
+.hero-topic-btn .lbl{flex:1;font-size:.94rem!important;font-weight:800!important}
+.hero-topic-btn .go{font-size:.74rem!important;color:#7df0e0!important;font-weight:800!important;white-space:nowrap}
+.hero-topic-btn .go i{margin-left:3px;font-style:normal}
+.hero-free-row{margin:0!important;position:relative}
+.hero-free-row input{width:100%!important;height:52px!important;background:#fff!important;border:none!important;border-radius:12px!important;padding:0 16px!important;font-size:.96rem!important;font-weight:700!important;color:#0b2545!important;outline:none!important;box-sizing:border-box!important;box-shadow:0 3px 10px rgba(0,0,0,.12)!important}
+.path-b .hero-topic-btn{height:64px!important;padding:0 24px!important;background:linear-gradient(135deg,#fbbf24,#f59e0b)!important;color:#7c2d12!important;border-color:#fbbf24!important;box-shadow:0 8px 22px rgba(251,191,36,.45)!important;font-weight:900!important}
+.path-b .hero-topic-btn:hover{transform:translateY(-2px)!important;box-shadow:0 12px 28px rgba(251,191,36,.55)!important;background:linear-gradient(135deg,#fbbf24,#f59e0b)!important}
+.path-b .hero-topic-btn .emj{font-size:1.4rem!important}
+.path-b .hero-topic-btn .lbl{font-size:1.02rem!important;font-weight:900!important}
+.path-b .hero-topic-btn .go{color:#7c2d12!important;font-weight:800!important}
+.path-or{display:flex!important;align-items:center!important;gap:12px!important;margin:14px 0!important;color:#94a3b8!important;font-weight:700!important;font-size:.84rem!important;text-align:center!important;justify-content:center!important}
+.path-or::before,.path-or::after{content:''!important;flex:1!important;height:1px!important;background:rgba(255,255,255,.15)!important}
+.path-or b{color:#ffd84d!important;font-weight:900!important;background:rgba(255,216,77,.12)!important;padding:4px 12px!important;border-radius:99px!important;border:1px solid rgba(255,216,77,.32)!important}
+@media(max-width:680px){
+  .hero-search{padding:18px!important;border-radius:18px!important}
+  .path-block{padding:16px!important;border-radius:14px!important}
+  .hero-search-row{grid-template-columns:1fr 1fr!important;gap:8px!important}
+  .hero-search-row select{height:48px!important;font-size:.9rem!important;line-height:48px!important;padding:0 30px 0 12px!important}
+  .hero-topic-primary{height:60px!important;padding:0 18px!important}
+  .hero-topic-primary .prim-title{font-size:1rem!important}
+  .hero-topic-row{grid-template-columns:1fr 1fr!important;gap:8px!important}
+  .hero-topic-btn{height:52px!important;padding:0 12px!important}
+  .hero-topic-btn .lbl{font-size:.86rem!important}
+  .hero-topic-btn .go{display:none!important}
+  .hero-free-row input{height:48px!important;font-size:.9rem!important}
+  .path-b .hero-topic-btn{height:60px!important;padding:0 18px!important}
+  .path-b .hero-topic-btn .lbl{font-size:.96rem!important}
+  .path-b .hero-topic-btn .go{display:inline!important;font-size:.72rem!important}
+}
 /* 두 경로 명확 분리 — 시각적 매력 강화 */
 .path-block{position:relative;border-radius:22px;padding:22px 24px 24px;margin-bottom:18px;overflow:hidden;transition:.2s}
 .path-block.path-a{background:linear-gradient(135deg,rgba(15,185,166,.18) 0%,rgba(45,212,191,.10) 60%,rgba(125,240,224,.06) 100%);border:1.5px solid rgba(125,240,224,.45);box-shadow:0 10px 30px rgba(15,185,166,.22),inset 0 1px 0 rgba(255,255,255,.08)}
@@ -1072,37 +1123,6 @@ h1{letter-spacing:-.035em;font-weight:900}
 </nav>
 
 <div class="wrap">
-
-  <!-- ⭐ 사이트 핵심 4단계 (봄님 카피) — 국민주권실행 플랫폼의 4가지 기능 -->
-  <section style="margin-top:18px;background:linear-gradient(135deg,#0a1428,#0f1f3d);border-radius:20px;padding:26px 24px;color:#fff;box-shadow:0 12px 32px rgba(11,37,69,.32)">
-    <div style="text-align:center;margin-bottom:20px">
-      <span style="display:inline-block;background:rgba(125,240,224,.18);color:#7df0e0;font-size:.72rem;font-weight:900;padding:5px 14px;border-radius:99px;letter-spacing:.04em;margin-bottom:10px">국민주권실행 플랫폼 · 4가지 핵심 기능</span>
-      <h2 style="color:#fff;font-size:1.45rem;font-weight:900;margin:0;line-height:1.35;letter-spacing:-.02em">키워드 하나로 정책을 <span style="color:#7df0e0">알고·배우고·제안</span>하며,<br>혈세는 시민이 <span style="color:#ffd84d">직접 감시·견제</span>합니다</h2>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px">
-      <div style="background:rgba(125,240,224,.08);border:1px solid rgba(125,240,224,.32);border-radius:14px;padding:16px">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="background:#0fb9a6;color:#04342c;width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900">①</span><b style="color:#7df0e0;font-size:.96rem">우리 동네 진단</b></div>
-        <div style="font-size:.76rem;font-weight:700;color:#cbd5e1;margin-bottom:6px">시·도/시·군·구 선택 한 번</div>
-        <div style="font-size:.74rem;color:#94a3b8;line-height:1.6">시·도·시·군·구 선택 → 살림살이·예산·집행·계약·재정자립도·종합청렴도·금고 약정이자율까지 한 화면에. <b style="color:#fff">3초 진단</b> 한 번으로 종합 진단·KPI 11개·정부 공시 확장 지표 모두 확인.</div>
-      </div>
-      <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.32);border-radius:14px;padding:16px">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="background:#fbbf24;color:#7c2d12;width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900">②</span><b style="color:#fbbf24;font-size:.96rem">정책 키워드 검색</b></div>
-        <div style="font-size:.76rem;font-weight:700;color:#cbd5e1;margin-bottom:6px">지역 몰라도 OK</div>
-        <div style="font-size:.74rem;color:#94a3b8;line-height:1.6">"노인수당·청년 정착·시내버스 무료" 같은 키워드 한 단어로 검색하면, <b style="color:#fff">그 정책을 시행 중인 시·군·구</b>를 전국에서 자동으로 찾아 연결. 「전국 N개 시·군·구 시행 중」 배지 + 시·도별 그룹핑.</div>
-      </div>
-      <div style="background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.32);border-radius:14px;padding:16px">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="background:#a855f7;color:#fff;width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900">③</span><b style="color:#d8b4fe;font-size:.96rem">실무부서 직접 연결</b></div>
-        <div style="font-size:.76rem;font-weight:700;color:#cbd5e1;margin-bottom:6px">민원·문의도 한 화면에</div>
-        <div style="font-size:.74rem;color:#94a3b8;line-height:1.6">정책 카드에 관계법령·조례·근거·신청절차·담당부서·이메일·전화·FAQ 모두 표시. <b style="color:#fff">「📧 담당부서 문의」</b> 한 번이면 시·군·구 실무부서로 이메일 자동 작성. 제안·시정요구도 같은 방식.</div>
-      </div>
-      <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.32);border-radius:14px;padding:16px">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="background:#ef4444;color:#fff;width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900">④</span><b style="color:#fca5a5;font-size:.96rem">혈세 감시·견제</b></div>
-        <div style="font-size:.76rem;font-weight:700;color:#cbd5e1;margin-bottom:6px">시민 플랫폼만의 3단계 자동화</div>
-        <div style="font-size:.74rem;color:#94a3b8;line-height:1.6">자전거래·단가부풀리기·일감몰아주기·수의계약 과다·집행지연 <b style="color:#fff">5종 위험 신호 자동 탐지</b> → AI가 의회 안건 수준으로 문서화 → 「📧 우리동네 의회로 시정요구」 한 번에 자동 발송.</div>
-      </div>
-    </div>
-    <div style="margin-top:18px;background:rgba(255,216,77,.12);border:1px solid rgba(255,216,77,.32);border-radius:12px;padding:13px 16px;font-size:.86rem;color:#fff8d4;font-weight:700;line-height:1.6;text-align:center"><span style="color:#ffd84d">✨ 한 줄 정리</span> — 키워드 하나로 정책을 알고·배우고·제안하며, 민원은 부서로 자동 연결하고, 혈세는 시민이 직접 감시·견제하는 사이트입니다.</div>
-  </section>
 
   <!-- ============== J. 외부 협력 플랫폼 — 중앙정부/청년 ============== -->
   <div class="gov-cta">
