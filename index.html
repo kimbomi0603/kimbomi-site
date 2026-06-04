@@ -2693,7 +2693,10 @@ function printReport(R){
   '<h2>5. 재정 진단 — 감시 포인트</h2><ul>'+watch+'</ul>'+
   '<h2>6. 재정 진단 — 개선 제안</h2><ul>'+prop+'</ul>'+
   '<div class=foot>※ 인증키 미연동 시 수치는 공공데이터·지방재정365 통계 기반 추정 시연치입니다. 공식 결산값은 지방재정365(lofin.mois.go.kr)·지방재정통합공시(lofin365.go.kr) 원자료를 확인하세요. 본 리포트는 시민주도 국민주권실행 플랫폼 「대한민국 재정 365」(운영 김보미)가 자동 생성했습니다.</div>'+
-  '<scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},400);}<\/scr'+'ipt>
+  '<scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},400);}<\/scr'+'ipt>');
+  w.document.close();
+}
+</script>
 <script>
 /* ── FS / PS 폴백 정의 — 베이스라인 누락 보강 (팩트 only, 외부 공식 사이트 링크) ── */
 (function(){
