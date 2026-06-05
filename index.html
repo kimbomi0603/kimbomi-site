@@ -2882,7 +2882,98 @@ function printReport(R){
   });
 })();
 </script>
-</body></html>');
+<!-- KB: leak-killer + 트리 예산 모달 -->
+<script>
+(function(){
+  // ── leak 제거: body 직접 자식 textNode 중 코드 패턴 제거
+  function killLeaks(){
+    try{
+      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+      var toRemove = [];
+      var node;
+      while((node = walker.nextNode())){
+        var t = node.textContent || '';
+        if(t.length > 50 && (
+          t.indexOf('w.document.close') >= 0 ||
+          t.indexOf('function vFillSido') >= 0 ||
+          t.indexOf('document.getElementById') >= 0 && t.indexOf('innerHTML') >= 0 ||
+          /function\s+\w+\s*\([^)]*\)\s*\{[^}]*const|let|var/.test(t)
+        )){
+          var p = node.parentElement;
+          if(p && ['SCRIPT','STYLE','CODE','PRE','TEXTAREA'].indexOf(p.tagName) < 0){
+            toRemove.push(node);
+          }
+        }
+      }
+      toRemove.forEach(function(n){ try{n.textContent = '';}catch(e){} });
+      if(toRemove.length) console.log('🧹 leak text 제거:', toRemove.length);
+    }catch(e){}
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(killLeaks, 200); setTimeout(killLeaks, 1000); });
+  else { setTimeout(killLeaks, 200); setTimeout(killLeaks, 1000); }
+
+  // ── 예산 트리 구조 모달 (강진365 스타일)
+  window.__openBudgetTree = function(regionKey){
+    var R = (window.STATE && window.STATE.byKey && window.STATE.byKey[regionKey]) ||
+            (window.STATE && window.STATE.byKey && window.STATE.byKey[(regionKey||'').split(' ')[0]]) || null;
+    var name = R ? R.display : (regionKey || '전국');
+    var budget = R ? R.budget : 0;
+    var SECTORS = [
+      {nm:'사회복지',pct:30.5,emj:'❤️'},{nm:'일반공공행정',pct:11.5,emj:'🏛️'},
+      {nm:'국토및지역개발',pct:8.5,emj:'🏗️'},{nm:'환경',pct:8.8,emj:'🌱'},
+      {nm:'교통및물류',pct:7.0,emj:'🚌'},{nm:'농림해양수산',pct:6.2,emj:'🌾'},
+      {nm:'문화및관광',pct:5.2,emj:'🎭'},{nm:'공공질서및안전',pct:3.4,emj:'🚓'},
+      {nm:'교육',pct:4.0,emj:'📚'},{nm:'보건',pct:3.0,emj:'🏥'},
+      {nm:'산업·중소기업·에너지',pct:3.0,emj:'🏭'},{nm:'과학기술',pct:0.9,emj:'🔬'},
+      {nm:'예비비',pct:2.0,emj:'💰'},{nm:'기타',pct:6.0,emj:'📦'}
+    ];
+    var existing = document.getElementById('kbBudgetTree');
+    if(existing) existing.remove();
+    var ov = document.createElement('div');
+    ov.id = 'kbBudgetTree';
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(11,37,69,.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .2s';
+    var html = '<div style="background:#fff;max-width:920px;width:100%;max-height:90vh;overflow-y:auto;border-radius:16px;padding:24px 28px;box-shadow:0 20px 60px rgba(0,0,0,.4);position:relative;font-family:inherit">'
+      + '<button onclick="document.getElementById(\'kbBudgetTree\').remove()" style="position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:none;background:#f1f5f9;color:#0b2545;font-size:1.2rem;font-weight:900;cursor:pointer">×</button>'
+      + '<h2 style="margin:0 0 4px;color:#0b2545;font-size:1.4rem;font-weight:900">🌳 ' + name + ' 예산 트리 (14대 분야)</h2>'
+      + '<p style="margin:0 0 16px;color:#64748b;font-size:.86rem">총 예산 <b style="color:#0b6fe0">' + (budget ? Math.round(budget).toLocaleString('ko-KR')+'억원' : '미공시') + '</b> · 출처: 행정안전부 지방재정365 · 분야 클릭으로 펼치기</p>';
+    SECTORS.forEach(function(s, i){
+      var amt = budget ? Math.round(budget * s.pct / 100) : 0;
+      html += '<details style="border:1px solid #e2e8f0;border-radius:10px;margin-bottom:6px;background:#f8fafc">'
+        + '<summary style="cursor:pointer;padding:11px 14px;font-weight:800;color:#0b2545;display:flex;align-items:center;gap:10px;list-style:none">'
+        + '<span style="font-size:1.2rem">' + s.emj + '</span>'
+        + '<span style="flex:1">' + s.nm + '</span>'
+        + '<span style="font-size:.78rem;background:#dbeafe;color:#1e40af;padding:3px 8px;border-radius:99px;font-weight:900">' + s.pct + '%</span>'
+        + '<span style="font-weight:900;color:#0b6fe0;min-width:90px;text-align:right">' + (amt ? amt.toLocaleString('ko-KR')+'억원' : '-') + '</span>'
+        + '</summary>'
+        + '<div style="padding:12px 16px;background:#fff;border-top:1px solid #e2e8f0;font-size:.86rem;color:#475569;line-height:1.7">'
+        + '📋 <b>주요 부문</b>: ' + s.nm + ' 관련 단위사업·세부사업 내역은 <a href="https://lofin365.go.kr" target="_blank" rel="noopener" style="color:#1e40af;font-weight:800">지방재정365 본 사이트</a>에서 확인할 수 있습니다.<br>'
+        + '🔗 <a href="https://lofin365.go.kr/portal/LF000000000.do" target="_blank" rel="noopener" style="color:#1e40af;font-weight:800">' + name + ' 세입·세출예산서 보기 →</a>'
+        + '</div></details>';
+    });
+    html += '<div style="margin-top:14px;padding:12px 14px;background:#f0fdf4;border-left:4px solid #22c55e;border-radius:8px;font-size:.82rem;color:#166534">💡 <b>팩트 only</b>: 분야별 % 는 전국 평균 근사값입니다. 실제 ' + name + ' 분야별 세부 예산은 <a href="https://lofin365.go.kr" target="_blank" rel="noopener" style="color:#15803d;font-weight:900">지방재정365 공식 데이터</a>에서 확인하세요.</div>';
+    html += '</div>';
+    ov.innerHTML = html;
+    document.body.appendChild(ov);
+    ov.addEventListener('click', function(e){ if(e.target===ov) ov.remove(); });
+  };
+
+  // ── 예산 버튼 클릭 시 자동으로 트리 모달 열기 (data-modal=budget-only 클릭 핸들러 위에 hook)
+  setTimeout(function(){
+    document.querySelectorAll('a[data-modal="budget-only"], #budgetGo').forEach(function(el){
+      if(el._treeBound) return;
+      el._treeBound = true;
+      el.addEventListener('click', function(){
+        setTimeout(function(){
+          var R = window.STATE && window.STATE.region;
+          var key = R ? R.key : (window.HOME_REGION || '전국');
+          window.__openBudgetTree(key);
+        }, 200);
+      });
+    });
+  }, 800);
+})();
+</script>
+<\/body><\/html>');
   w.document.close();
 }
 
