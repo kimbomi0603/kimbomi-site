@@ -3574,38 +3574,38 @@ function botClose(){ document.getElementById('botPanel').classList.remove('open'
 function wire(){
   sidoSel.addEventListener('change',()=>{ fillSigungu(sidoSel.value); renderAll(currentSelection()); fetchZone(currentSelection()); });
   sigunguSel.addEventListener('change',()=>{ renderAll(currentSelection()); fetchZone(currentSelection()); });
-  document.getElementById('diagnoseBtn').addEventListener('click',()=>{ renderAll(currentSelection()); window.scrollTo({top:document.getElementById('charts').offsetTop-50,behavior:'smooth'}); });
-  document.getElementById('randomBtn').addEventListener('click',()=>{ const r=STATE.model[Math.floor(Math.random()*STATE.model.length)]; selectByKey(r.key); toast('🎲 '+r.display+' 진단!'); });
-  document.getElementById('pdfBtn').addEventListener('click',()=>printReport(STATE.region||STATE.national));
-  document.getElementById('voicePolish').addEventListener('click',doVoicePolish);
-  document.getElementById('voiceMail').addEventListener('click',sendToCouncil);
-  document.getElementById('voiceFind').addEventListener('click',findCouncilEmail);
-  document.getElementById('vSido').addEventListener('change',()=>{vFillSigungu(document.getElementById('vSido').value);renderVoice();});
-  document.getElementById('vSigungu').addEventListener('change',renderVoice);
-  document.getElementById('voiceText').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))sendToCouncil();});
+  (document.getElementById('diagnoseBtn')||{addEventListener:function(){}}).addEventListener('click',()=>{ renderAll(currentSelection()); window.scrollTo({top:document.getElementById('charts').offsetTop-50,behavior:'smooth'}); });
+  (document.getElementById('randomBtn')||{addEventListener:function(){}}).addEventListener('click',()=>{ const r=STATE.model[Math.floor(Math.random()*STATE.model.length)]; selectByKey(r.key); toast('🎲 '+r.display+' 진단!'); });
+  (document.getElementById('pdfBtn')||{addEventListener:function(){}}).addEventListener('click',()=>printReport(STATE.region||STATE.national));
+  (document.getElementById('voicePolish')||{addEventListener:function(){}}).addEventListener('click',doVoicePolish);
+  (document.getElementById('voiceMail')||{addEventListener:function(){}}).addEventListener('click',sendToCouncil);
+  (document.getElementById('voiceFind')||{addEventListener:function(){}}).addEventListener('click',findCouncilEmail);
+  (document.getElementById('vSido')||{addEventListener:function(){}}).addEventListener('change',()=>{vFillSigungu(document.getElementById('vSido').value);renderVoice();});
+  (document.getElementById('vSigungu')||{addEventListener:function(){}}).addEventListener('change',renderVoice);
+  (document.getElementById('voiceText')||{addEventListener:function(){}}).addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))sendToCouncil();});
   // 의견 섹션 지역 선택 초기화 (기본: 전라남도 강진군)
   vFillSido(); document.getElementById('vSido').value='전라남도'; vFillSigungu('전라남도'); document.getElementById('vSigungu').value='강진군'; renderVoice();
-  document.getElementById('detailBtn').addEventListener('click',()=>openDetail((STATE.region||STATE.national).key));
-  document.getElementById('dClose').addEventListener('click',closeDetail);
-  document.getElementById('dPdf').addEventListener('click',()=>printReport(STATE.region||STATE.national));
-  document.getElementById('detailOverlay').addEventListener('click',e=>{if(e.target.id==='detailOverlay')closeDetail();});
+  (document.getElementById('detailBtn')||{addEventListener:function(){}}).addEventListener('click',()=>openDetail((STATE.region||STATE.national).key));
+  (document.getElementById('dClose')||{addEventListener:function(){}}).addEventListener('click',closeDetail);
+  (document.getElementById('dPdf')||{addEventListener:function(){}}).addEventListener('click',()=>printReport(STATE.region||STATE.national));
+  (document.getElementById('detailOverlay')||{addEventListener:function(){}}).addEventListener('click',e=>{if(e.target.id==='detailOverlay')closeDetail();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(STATE.detailOpen)closeDetail();if(STATE.aboutOpen)closeAbout();}});
   window.addEventListener('popstate',()=>{ if(STATE.detailOpen) closeDetail(true); if(STATE.aboutOpen) closeAbout(true); });
   yearSel.addEventListener('change',()=>{ STATE.year=+yearSel.value; _simCache={}; _simBank={}; const cur=STATE.region?STATE.region.key:'전국'; buildModel(); if(RT_LIVE)applyNational(RT_LIVE); selectByKey(cur); });
-  ['rankMetric','rankType'].forEach(id=>document.getElementById(id).addEventListener('change',rankRender));
-  document.getElementById('rankSearch').addEventListener('input',rankRender);
-  document.getElementById('cmpA').addEventListener('change',()=>{ autoFillNeighbor(); renderCompare(); });
-  document.getElementById('cmpB').addEventListener('change',()=>{ cmpBManual=true; const h=document.getElementById('cmpAuto'); if(h)h.style.display='none'; renderCompare(); });
-  document.getElementById('cmpUseCur').addEventListener('click',()=>{
+  ['rankMetric','rankType'].forEach(id=>(document.getElementById(id)||{addEventListener:function(){}}).addEventListener('change',rankRender));
+  (document.getElementById('rankSearch')||{addEventListener:function(){}}).addEventListener('input',rankRender);
+  (document.getElementById('cmpA')||{addEventListener:function(){}}).addEventListener('change',()=>{ autoFillNeighbor(); renderCompare(); });
+  (document.getElementById('cmpB')||{addEventListener:function(){}}).addEventListener('change',()=>{ cmpBManual=true; const h=document.getElementById('cmpAuto'); if(h)h.style.display='none'; renderCompare(); });
+  (document.getElementById('cmpUseCur')||{addEventListener:function(){}}).addEventListener('click',()=>{
     const R=STATE.region; if(R&&R.key!=='전국'){ document.getElementById('cmpA').value=R.key; autoFillNeighbor(); renderCompare(); toast('🔵 우리동네 = '+R.display); }
     else toast('먼저 시·도/시·군·구를 진단해 주세요');
   });
-  document.getElementById('cmpSwap').addEventListener('click',()=>{
+  (document.getElementById('cmpSwap')||{addEventListener:function(){}}).addEventListener('click',()=>{
     const a=document.getElementById('cmpA'), b=document.getElementById('cmpB');
     cmpBManual=true; const h=document.getElementById('cmpAuto'); if(h)h.style.display='none';
     const t=a.value; a.value=b.value; b.value=t; renderCompare();
   });
-  document.getElementById('liveBadge').addEventListener('click',()=>{ toast('🔄 실시간 서버에서 새로고침'); connectRealtime(); });
+  (document.getElementById('liveBadge')||{addEventListener:function(){}}).addEventListener('click',()=>{ toast('🔄 실시간 서버에서 새로고침'); connectRealtime(); });
   // 도우미봇
   // 챗봇은 #edu(재정 교과서) 모달 내부로 이동 — botFab/botClose는 더 이상 존재하지 않음
   const _botSend=document.getElementById('botSend'); if(_botSend) _botSend.addEventListener('click',()=>botSendMsg());
@@ -3617,7 +3617,7 @@ function wire(){
   // 인사 카드는 페이지 로드 2초 후 슬쩍 등장
   setTimeout(()=>{ const g=document.getElementById('introGreet'); if(g) g.classList.add('show'); },2200);
   // 상단 nav 김보미 소개 버튼
-  document.getElementById('navAbout').addEventListener('click',openAbout);
+  (document.getElementById('navAbout')||{addEventListener:function(){}}).addEventListener('click',openAbout);
   // 통합 메뉴 드롭다운
   (function(){
     const drop=document.getElementById('navDrop'), tog=document.getElementById('navDropToggle'), menu=document.getElementById('navDropMenu');
@@ -3629,8 +3629,8 @@ function wire(){
       document.addEventListener('keydown',e=>{if(e.key==='Escape')setOpen(false);});
     }
   })();
-  document.getElementById('aboutClose').addEventListener('click',()=>closeAbout());
-  document.getElementById('aboutOverlay').addEventListener('click',e=>{if(e.target.id==='aboutOverlay')closeAbout();});
+  (document.getElementById('aboutClose')||{addEventListener:function(){}}).addEventListener('click',()=>closeAbout());
+  (document.getElementById('aboutOverlay')||{addEventListener:function(){}}).addEventListener('click',e=>{if(e.target.id==='aboutOverlay')closeAbout();});
   // intro-greet 인사 카드는 위 _introGreet 블록에서 처리
   botRenderChips();
 }
@@ -4383,6 +4383,44 @@ window.restoreKorean = function(){
   }catch(e){ console.warn(e); }
   setTimeout(function(){ location.reload(); }, 80);
 };
+</script>
+<script>
+/* budgetGo / contractGo — 섹션 자체 셀렉터에서 지역을 읽어 해당 지역 예산/계약을 표시 */
+(function(){
+  function regionKeyFrom(sidoId, guId){
+    var s=document.getElementById(sidoId), g=document.getElementById(guId);
+    var sv=s?s.value:'', gv=g?g.value:'';
+    if(!sv) return null;
+    return gv ? sv+' '+gv : sv;
+  }
+  function bindGo(btnId, sidoId, guId, kind){
+    var btn=document.getElementById(btnId);
+    if(!btn || btn._goBound) return;
+    btn._goBound=true;
+    btn.addEventListener('click', function(){
+      var key=regionKeyFrom(sidoId, guId);
+      if(!key){ if(typeof toast==='function') toast('먼저 시·도(필요시 시·군·구)를 선택해 주세요'); return; }
+      try{
+        if(window.STATE){
+          var R=(window.STATE.byKey&&(window.STATE.byKey[key]||window.STATE.byKey[key.split(' ')[0]]))||null;
+          if(R) window.STATE.region=R;
+        }
+        window.HOME_REGION=key;
+      }catch(e){}
+      try{
+        if(kind==='budget' && window.FS && window.FS.renderBudget) window.FS.renderBudget(key);
+        if(kind==='contract' && window.FS && window.FS.renderContract) window.FS.renderContract(key);
+      }catch(e){console.warn(e);}
+    }, true);
+  }
+  function bindAll(){
+    bindGo('budgetGo','budgetSido','budgetSigungu','budget');
+    bindGo('contractGo','contractSido','contractSigungu','contract');
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', bindAll);
+  else bindAll();
+  setTimeout(bindAll, 1000);
+})();
 </script>
 </body>
 </html>
