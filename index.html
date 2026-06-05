@@ -1073,7 +1073,7 @@ h1{letter-spacing:-.035em;font-weight:900}
           <div id="google_translate_element" style="display:none"></div>
         </div>
         <div class="live-badge" id="liveBadge" title="데이터 연동 상태">
-          <span class="dot" id="liveDot"></span><span id="liveText">공시 기준</span>
+          <span class="dot" id="liveDot" style="background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.25)"></span><span id="liveText" style="font-weight:900">API 연동</span>
         </div>
       </div>
     </div>
@@ -1366,15 +1366,7 @@ h1{letter-spacing:-.035em;font-weight:900}
               <div style="background:#ecfeff;border-radius:9px;padding:9px 11px"><div style="font-size:.68rem;color:#155e75;font-weight:700">기초 평균(226개)</div><div style="font-size:1.14rem;font-weight:900;color:#0c4a6e">2.52%</div></div>
               <div style="background:#fdf2f8;border-radius:9px;padding:9px 11px"><div style="font-size:.68rem;color:#831843;font-weight:700">기초 최저</div><div style="font-size:1.14rem;font-weight:900;color:#9d174d">1.78%</div><div style="font-size:.66rem;color:#831843">경기 양평군</div></div>
             </div>
-            <div style="background:linear-gradient(135deg,#fff5f5,#fee2e2);border-left:4px solid #dc2626;border-radius:10px;padding:10px 12px;margin-bottom:10px">
-              <b style="color:#991b1b;font-size:.86rem">📌 출마선언문이 사실로 — 강진군 <span style="background:#ffd84d;color:#7c2d12;padding:1px 6px;border-radius:4px">2.04%</span></b>
-              <p style="margin:5px 0 0;font-size:.78rem;color:#1f2937;line-height:1.55">전남 22개 시군 중 <b>강진군 2.04% — 전남 최저, 전국 최하위권</b>. 신안 2.18 · 해남·무안 2.25 · 순천 2.41 · 여수 2.40(KPI뉴스 2026.1.28). 출마선언문 "꼴찌에서 세 번째" 문제의식이 공식 데이터로 확인됐습니다.</p>
-            </div>
-            <div style="font-size:.78rem;line-height:1.7;color:#475569;background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:10px 12px">
-              <b style="color:#0b2545">광역 12개월 정기예금</b><br>
-              인천 <b style="color:#059669">4.57%</b> · 서울 <b>3.45%</b> · 경남 <b>2.60%</b> · 부산 <b>2.46%</b> · 대구 <b>2.26%</b> · 경북 <b style="color:#dc2626">2.15%</b><br>
-              <b style="color:#0b2545">기초 최고/최저</b> · 인천 서구 <b style="color:#059669">4.82%</b> ↔ 경기 양평군 <b style="color:#dc2626">1.78%</b>
-              <br><br>
+            <div style="font-size:.78rem;color:#475569;background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:10px 12px;line-height:1.6">
               💡 우리 동네 정확한 약정이자율은 <a href="https://lofin365.go.kr" target="_blank" rel="noopener" style="color:#0b6fe0;font-weight:800;text-decoration:underline">지방재정365</a>에서 한눈에 비교할 수 있습니다.
             </div>
           </div>
@@ -1998,6 +1990,8 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const won억 = a => Math.abs(a)>=10000 ? ((a/10000).toFixed(1).replace(/\.0$/,''))+"조원" : fmt(a)+"억원";
 
 const STATE = { live:false, key:"", proxy:"", year:2025, region:null, charts:{}, model:[], byKey:{} };
+/* ── 전역 노출 (다른 script 블록에서 접근 가능하도록) ── */
+try{window.SIDO=SIDO;window.SIGUNGU=SIGUNGU;window.STATE=STATE;window.NATIONAL=NATIONAL;window.SECTORS=SECTORS;}catch(e){console.warn('global expose',e);}
 let rankExpanded=false, eduExpanded=false;  // 순위표·용어사전 전체보기 토글 상태
 let cmpBManual=false;  // 사용자가 비교대상을 직접 골랐는지(아니면 인근 시군 자동배치)
 
