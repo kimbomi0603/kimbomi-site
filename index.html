@@ -2973,10 +2973,7 @@ function printReport(R){
   }, 800);
 })();
 </script>
-<\/body><\/html>');
-  w.document.close();
-}
-
+<script>
 /* ---------- 시민 의견 ---------- */
 function vFillSido(){const el=document.getElementById('vSido');if(!el)return;el.innerHTML=SIDO.map(s=>`<option value="${s.nm}">${s.nm}</option>`).join('');}
 function vFillSigungu(sido){const el=document.getElementById('vSigungu');if(!el)return;const list=SIGUNGU[sido]||[];el.innerHTML=`<option value="__ALL__">${sido} 본청(시·도)</option>`+list.map(sg=>`<option value="${sg}">${sg}</option>`).join('');}
@@ -4379,4 +4376,13 @@ window.restoreKorean = function(){
     var host = location.hostname;
     var exp = ';expires=Thu, 01 Jan 1970 00:00:00 GMT';
     document.cookie = 'googtrans=;path=/' + exp;
-  
+    document.cookie = 'googtrans=;path=/;domain=.' + host + exp;
+    document.cookie = 'googtrans=;path=/;domain=' + host + exp;
+    var sel = document.querySelector('.goog-te-combo');
+    if(sel){ sel.value=''; sel.dispatchEvent(new Event('change')); }
+  }catch(e){ console.warn(e); }
+  setTimeout(function(){ location.reload(); }, 80);
+};
+</script>
+</body>
+</html>
