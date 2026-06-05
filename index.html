@@ -2796,6 +2796,34 @@ function printReport(R){
   }
 })();
 </script>
+<!-- selector polyfill -->
+<script>
+/* ── 시·도/시·군·구 셀렉터 강제 초기화 폴백 ── */
+(function(){
+  function fill(){
+    if(!window.SIDO || !window.SIGUNGU) return false;
+    ['heroSido','budgetSido','contractSido'].forEach(function(id){
+      var el = document.getElementById(id);
+      if(el && el.options.length <= 1){
+        el.innerHTML = '<option value="">시·도 선택</option>' + window.SIDO.map(function(s){return '<option value="'+s.nm+'">'+s.nm+'</option>';}).join('');
+        var pair = id==='heroSido'?'heroSigungu':(id==='budgetSido'?'budgetSigungu':'contractSigungu');
+        el.addEventListener('change', function(){
+          var sgEl = document.getElementById(pair);
+          var list = (window.SIGUNGU && window.SIGUNGU[el.value]) || [];
+          if(sgEl){
+            sgEl.innerHTML = '<option value="">시·군·구 선택</option>' + list.map(function(g){return '<option value="'+g+'">'+g+'</option>';}).join('');
+            sgEl.disabled = list.length === 0;
+          }
+        });
+      }
+    });
+    return true;
+  }
+  function tryFill(){ if(!fill()) setTimeout(tryFill, 200); }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tryFill);
+  else tryFill();
+})();
+</script>
 </body></html>');
   w.document.close();
 }
