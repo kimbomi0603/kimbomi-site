@@ -4167,5 +4167,46 @@ document.addEventListener('DOMContentLoaded', function(){
   }, 300);
 });
 </script>
+<!-- selector polyfill -->
+<script>
+/* ── 시·도/시·군·구 셀렉터 강제 초기화 폴백 (SIDO 노출 시점 문제 우회) ── */
+(function(){
+  function fill(){
+    if(!window.SIDO || !window.SIGUNGU) return false;
+    var sd = document.getElementById('heroSido');
+    var sg = document.getElementById('heroSigungu');
+    if(sd && sd.options.length <= 1){
+      sd.innerHTML = '<option value="">시·도 선택</option>' + window.SIDO.map(function(s){return '<option value="'+s.nm+'">'+s.nm+'</option>';}).join('');
+      sd.addEventListener('change', function(){
+        var v = sd.value, list = (window.SIGUNGU && window.SIGUNGU[v]) || [];
+        if(sg){
+          sg.innerHTML = '<option value="">시·군·구 선택</option>' + list.map(function(g){return '<option value="'+g+'">'+g+'</option>';}).join('');
+          sg.disabled = list.length === 0;
+        }
+      });
+    }
+    // 예산/계약 별도 섹션 셀렉터도 동일 초기화
+    ['budgetSido','contractSido'].forEach(function(id){
+      var el = document.getElementById(id);
+      if(el && el.options.length<=1){
+        el.innerHTML = '<option value="">시·도 선택</option>' + window.SIDO.map(function(s){return '<option value="'+s.nm+'">'+s.nm+'</option>';}).join('');
+        el.addEventListener('change', function(){
+          var pair = id==='budgetSido'?'budgetSigungu':'contractSigungu';
+          var sgEl = document.getElementById(pair);
+          var list = (window.SIGUNGU && window.SIGUNGU[el.value]) || [];
+          if(sgEl){
+            sgEl.innerHTML = '<option value="">시·군·구 선택</option>' + list.map(function(g){return '<option value="'+g+'">'+g+'</option>';}).join('');
+            sgEl.disabled = list.length === 0;
+          }
+        });
+      }
+    });
+    return true;
+  }
+  function tryFill(){ if(!fill()) setTimeout(tryFill, 200); }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tryFill);
+  else tryFill();
+})();
+</script>
 </body>
 </html>
