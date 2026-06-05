@@ -4066,13 +4066,14 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
   };
   bindNav('navPolicy','policy-search');
   if(sectionClose) sectionClose.addEventListener('click',closeMod);
-  // ⭐ data-modal 속성을 가진 모든 a/button 클릭 시 해당 섹션 모달 열기
-  document.addEventListener('click', function(e){
+  // ⭐ data-modal 클릭 — 캡처 단계로 다른 핸들러보다 먼저 작동
+  function modalClickHandler(e){
     var t = e.target.closest('[data-modal]');
     if(!t) return;
     var target = t.getAttribute('data-modal');
     if(!target) return;
     e.preventDefault();
+    e.stopPropagation();
     show(target);
     // PS/FS 자동 트리거
     setTimeout(function(){
@@ -4090,7 +4091,19 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
         }
       }catch(err){console.warn('modal trigger',err)}
     }, 100);
-  });
+  }
+  document.addEventListener('click', modalClickHandler, true); // 캡처 단계
+  document.addEventListener('click', modalClickHandler, false); // 폴백 버블 단계
+  // 추가 안전망 — 각 a[data-modal]에 직접 onclick 부착
+  setTimeout(function(){
+    document.querySelectorAll('a[data-modal],button[data-modal]').forEach(function(el){
+      var target = el.getAttribute('data-modal');
+      if(target && !el._modalBound){
+        el._modalBound = true;
+        el.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); show(target); setTimeout(function(){ try{ if(target==='budget-only'&&window.FS&&window.FS.renderBudget) window.FS.renderBudget('전국'); else if(target==='contract-only'&&window.FS&&window.FS.renderContract) window.FS.renderContract('전국'); else if(target==='policy-search'&&window.PS&&window.PS.render) window.PS.render(); }catch(err){console.warn(err)} }, 100); });
+      }
+    });
+  }, 500);
   // ⭐ 3초 진단 메인 CTA → diagnose 섹션으로 부드럽게 스크롤
   var primCTA = document.getElementById('heroSearchBtn');
   if(primCTA){
