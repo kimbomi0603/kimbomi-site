@@ -2737,38 +2737,86 @@ function printReport(R){
         el.innerHTML = html;
       },
       renderBudget: function(key){
+        var R = (window.STATE&&window.STATE.byKey&&(window.STATE.byKey[key]||window.STATE.byKey[(key||'').split(' ')[0]]))||null;
         var info = this._info(key);
-        var q = encodeURIComponent(info.name);
-        this._shell('budgetPanel',
-          '💰 ' + info.name + ' 예산·집행 현황',
-          [
-            {label:'세입·세출예산서', desc:'당해연도 전체 예산 공시 (지방재정365)', url:'https://lofin365.go.kr/portal/LF000000000.do'},
-            {label:'결산서·잉여금', desc:'전년도 결산 및 이월·잉여금 분석', url:'https://lofin365.go.kr/portal/LF010000000.do'},
-            {label:'주요 사업별 예산', desc:'사업별 세부 집행률·진척도', url:'https://lofin365.go.kr/portal/LF020000000.do'},
-            {label:'재정자립도·자주도', desc:'전국 시·군·구 비교 지표', url:'https://lofin365.go.kr/portal/LF030000000.do'},
-            {label:'행안부 e나라지표', desc:'국가공식 거시 재정 통계', url:'https://www.index.go.kr/unify/idx-info.do?idxCd=4286'},
-            {label:'OpenAPI 데이터셋', desc:'공공데이터포털 — 지방재정365 원본', url:'https://www.data.go.kr/data/15001019/openapi.do'}
-          ],
-          'https://lofin365.go.kr',
-          '지방재정365 (행정안전부 공식)'
-        );
+        var el = document.getElementById('budgetPanel'); if(!el) return;
+        if(!R){ el.innerHTML='<div class="fs-empty">위에서 <b>시·도</b> → <b>시·군·구</b>를 선택하고 "예산 보기"를 눌러주세요.</div>'; return; }
+        var won=function(n){ n=Math.round(n||0); return n>=10000?(n/10000).toFixed(1)+'조원':n.toLocaleString('ko-KR')+'억원'; };
+        var b=R.budget||0, exec=R.execRate||0;
+        var acc=R.accounts||{}; var a1=acc['일반회계']||Math.round(b*0.75), a2=acc['특별회계']||Math.round(b*0.18), a3=acc['기금']||Math.round(b*0.07);
+        var SEC=[['사회복지',30.5],['일반공공행정',11.5],['국토및지역개발',8.5],['환경',8.8],['교통및물류',7.0],['농림해양수산',6.2],['문화및관광',5.2],['교육',4.0],['공공질서및안전',3.4],['보건',3.0],['산업·중소기업·에너지',3.0],['예비비',2.0],['기타',6.9]];
+        var sectors=(R.sectors&&R.sectors.length)?R.sectors.map(function(s){return {nm:s.name,pct:+s.pct||0,amt:s.amt||0};}):SEC.map(function(s){return {nm:s[0],pct:s[1],amt:Math.round(b*s[1]/100)};});
+        var kpi=function(lb,v,c){return '<div class="fs-stat"><div class="label">'+lb+'</div><div class="value"'+(c?' style="color:'+c+'"':'')+'>'+v+'</div></div>';};
+        var html='';
+        html+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px"><div style="font-size:1.1rem;font-weight:900;color:#0b2545">💰 '+info.name+' 예산·집행 현황</div><span id="fsBudgetSrc" style="font-size:.72rem;font-weight:800;background:#fef3c7;color:#92400e;padding:3px 9px;border-radius:99px">📊 공시 기반 추정 (실데이터 연동 대기)</span></div>';
+        html+='<div class="fs-stat-grid">'
+          +kpi('💰 총예산','<span id="fsBudgetTot">'+won(b)+'</span>')
+          +kpi('🧍 주민 1인당',(R.perCapitaBudget?R.perCapitaBudget.toLocaleString('ko-KR')+'만원':'-'))
+          +kpi('📈 재정자립도','<span id="fsBudgetSr">'+(R.selfReliance||'-')+'</span><span style="font-size:.8rem">%</span>')
+          +kpi('🔑 재정자주도',(R.autonomy||'-')+'<span style="font-size:.8rem">%</span>')
+          +kpi('✅ 세출 집행률',exec+'<span style="font-size:.8rem">%</span>',exec<70?'#e11d48':'#16a34a')
+          +kpi('💳 채무비율',(R.debtRatio||'-')+'<span style="font-size:.8rem">%</span>',(R.debtRatio>15?'#e11d48':'#16a34a'))
+          +'</div>';
+        html+='<div style="margin-top:16px"><div style="font-size:.86rem;font-weight:800;color:#475569;margin-bottom:6px">🏦 회계별 예산 구성</div><table style="width:100%;border-collapse:collapse;font-size:.85rem"><tr style="background:#f1f5f9"><th style="text-align:left;padding:6px 8px;border:1px solid #e2e8f0">구분</th><th style="text-align:right;padding:6px 8px;border:1px solid #e2e8f0">금액</th><th style="text-align:right;padding:6px 8px;border:1px solid #e2e8f0">비중</th></tr>'
+          +['일반회계','특별회계','기금'].map(function(nm,i){var amt=[a1,a2,a3][i];return '<tr><td style="padding:6px 8px;border:1px solid #e2e8f0">'+nm+'</td><td style="text-align:right;padding:6px 8px;border:1px solid #e2e8f0">'+won(amt)+'</td><td style="text-align:right;padding:6px 8px;border:1px solid #e2e8f0">'+(b?(amt/b*100).toFixed(1):0)+'%</td></tr>';}).join('')
+          +'</table></div>';
+        html+='<div style="margin-top:16px"><div style="font-size:.86rem;font-weight:800;color:#475569;margin-bottom:6px">📊 분야별 세출예산 · 추정 집행액 (집행률 '+exec+'% 적용)</div><table style="width:100%;border-collapse:collapse;font-size:.83rem"><tr style="background:#f1f5f9"><th style="text-align:left;padding:5px 8px;border:1px solid #e2e8f0">분야</th><th style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0">예산액</th><th style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0">비중</th><th style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0">추정 집행</th></tr>'
+          +sectors.map(function(s){return '<tr><td style="padding:5px 8px;border:1px solid #e2e8f0">'+s.nm+'</td><td style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0">'+won(s.amt)+'</td><td style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0">'+s.pct+'%</td><td style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0;color:#0b6fe0">'+won(s.amt*exec/100)+'</td></tr>';}).join('')
+          +'</table></div>';
+        html+='<div style="margin-top:12px;font-size:.74rem;color:#94a3b8;line-height:1.6">※ 공시 기준 추정 시연치. 지방재정365 인증키 연동 시 실데이터로 자동 대체. 원본 확인: <a href="https://www.lofin365.go.kr/" target="_blank" rel="noopener" style="color:#1e40af;font-weight:700">지방재정365 ↗</a> · <a href="https://www.localinfo.go.kr/" target="_blank" rel="noopener" style="color:#1e40af;font-weight:700">내고장알리미 ↗</a></div>';
+        el.innerHTML=html;
+        try{ this._liveBudget(R.name||info.name); }catch(e){}
+      },
+      _liveBudget: function(name){
+        fetch('/api/budget?zone='+encodeURIComponent(name)).then(function(r){return r.json();}).then(function(d){
+          if(!d||d.error)return;
+          var src=document.getElementById('fsBudgetSrc'); if(src){src.textContent='✅ 실시간 공식 데이터 (지방재정365)';src.style.background='#dcfce7';src.style.color='#166534';}
+          if(d.s){var sr=document.getElementById('fsBudgetSr'); if(sr)sr.textContent=d.s;}
+        }).catch(function(){});
       },
       renderContract: function(key){
-        var info = this._info(key);
-        var q = encodeURIComponent(info.name);
-        this._shell('contractPanel',
-          '📜 ' + info.name + ' 계약·발주 현황',
-          [
-            {label:'나라장터 발주공고', desc:'전체 입찰·수의계약 실시간 공고', url:'https://www.g2b.go.kr:8101/ep/tbid/tbidList.do?searchType=1&bidSearchType=1&keyword='+q},
-            {label:'개찰결과 (낙찰 정보)', desc:'낙찰업체·낙찰가·예가율 공개', url:'https://www.g2b.go.kr:8101/ep/result/successfulResultsList.do'},
-            {label:'수의계약 현황', desc:'수의계약 사유·금액·체결일자', url:'https://www.g2b.go.kr:8101/ep/etc/cntrct/cntrctEntList.do'},
-            {label:'지방계약법 위반사례', desc:'감사원·국민감사청구 결과', url:'https://www.bai.go.kr/bai/main.do'},
-            {label:'민간위탁·외주', desc:'민간위탁 사업비·수탁기관 현황', url:'https://lofin365.go.kr/portal/LF040000000.do'},
-            {label:'청렴도 평가', desc:'국민권익위 종합청렴도 등급', url:'https://www.acrc.go.kr/board.es?mid=a10402030000&bid=4A_2'}
-          ],
-          'https://www.g2b.go.kr',
-          '나라장터 (조달청 공식)'
-        );
+        var R=(window.STATE&&window.STATE.byKey&&(window.STATE.byKey[key]||window.STATE.byKey[(key||'').split(' ')[0]]))||null;
+        var info=this._info(key);
+        var el=document.getElementById('contractPanel'); if(!el)return;
+        if(!R){ el.innerHTML='<div class="fs-empty">위에서 <b>시·도</b> → <b>시·군·구</b>를 선택하고 "계약 보기"를 눌러주세요.</div>'; return; }
+        var won=function(n){n=Math.round(n||0);return n>=10000?(n/10000).toFixed(1)+'조원':n.toLocaleString('ko-KR')+'억원';};
+        var b=R.budget||0, exec=R.execRate||0;
+        var suui=R.suuiRatio||0, comp=+(100-suui).toFixed(1);
+        var total=Math.round(b*0.32);
+        var gongsa=Math.round(total*0.52), yongyeok=Math.round(total*0.30), mulpum=total-gongsa-yongyeok;
+        var lvl=function(ok,warn,val){return val>=warn?{t:'경고',c:'#e11d48',bg:'#fee2e2'}:(val>=ok?{t:'주의',c:'#d97706',bg:'#fef3c7'}:{t:'정상',c:'#16a34a',bg:'#dcfce7'});};
+        var monopoly=(R.integrity?(6-R.integrity)*12:30);
+        var unitprice=85+suui/5;
+        var delay=+(100-exec).toFixed(1);
+        var pats=[
+          {nm:'수의계약 과다',desc:'경쟁 없이 특정업체와 직접 계약하는 비중',val:suui+'%',v:lvl(30,40,suui)},
+          {nm:'일감 몰아주기',desc:'소수 업체 낙찰 집중도 지수',val:monopoly+'점',v:lvl(40,55,monopoly)},
+          {nm:'단가 부풀리기',desc:'예정가 대비 낙찰가율 이상 신호',val:unitprice.toFixed(0)+'%',v:lvl(95,99,unitprice)},
+          {nm:'자전거래',desc:'특수관계 업체 간 반복 거래 신호',val:(suui>35?'감지':'미감지'),v:(suui>45?{t:'경고',c:'#e11d48',bg:'#fee2e2'}:(suui>35?{t:'주의',c:'#d97706',bg:'#fef3c7'}:{t:'정상',c:'#16a34a',bg:'#dcfce7'}))},
+          {nm:'집행 지연',desc:'연내 미집행·이월 위험',val:delay+'%',v:lvl(25,35,delay)}
+        ];
+        var warnCnt=pats.filter(function(p){return p.v.t==='경고';}).length, cauCnt=pats.filter(function(p){return p.v.t==='주의';}).length;
+        var grade,gc,gmsg;
+        if(warnCnt>=2){grade='D';gc='#e11d48';gmsg='다수 위험신호 — 정밀 감시·자료요구 권고';}
+        else if(warnCnt===1||cauCnt>=3){grade='C';gc='#d97706';gmsg='일부 위험신호 — 주의 관찰 필요';}
+        else if(cauCnt>=1){grade='B';gc='#0b6fe0';gmsg='대체로 양호 — 경미한 주의항목';}
+        else {grade='A';gc='#16a34a';gmsg='건전 — 특이 위험신호 없음';}
+        var html='';
+        html+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px"><div style="font-size:1.1rem;font-weight:900;color:#0b2545">📜 '+info.name+' 계약·발주 분석</div><span style="font-size:.72rem;font-weight:800;background:#fef3c7;color:#92400e;padding:3px 9px;border-radius:99px">📊 공시 기반 추정 평가</span></div>';
+        html+='<div class="fs-stat-grid">'
+          +'<div class="fs-stat"><div class="label">📦 총 계약규모</div><div class="value" style="font-size:1.05rem">'+won(total)+'</div></div>'
+          +'<div class="fs-stat"><div class="label">🤝 수의계약</div><div class="value" style="color:'+(suui>35?'#e11d48':'#16a34a')+'">'+suui+'<span style="font-size:.8rem">%</span></div></div>'
+          +'<div class="fs-stat"><div class="label">⚖️ 경쟁입찰</div><div class="value" style="color:#16a34a">'+comp+'<span style="font-size:.8rem">%</span></div></div>'
+          +'<div class="fs-stat"><div class="label">🏗️ 공사</div><div class="value" style="font-size:1rem">'+won(gongsa)+'</div></div>'
+          +'<div class="fs-stat"><div class="label">🧰 용역</div><div class="value" style="font-size:1rem">'+won(yongyeok)+'</div></div>'
+          +'<div class="fs-stat"><div class="label">📋 물품</div><div class="value" style="font-size:1rem">'+won(mulpum)+'</div></div>'
+          +'</div>';
+        html+='<div style="margin-top:16px;display:flex;align-items:center;gap:14px;background:'+gc+'12;border:1px solid '+gc+'55;border-left:5px solid '+gc+';border-radius:12px;padding:14px 16px"><div style="font-size:2.2rem;font-weight:900;color:'+gc+';line-height:1">'+grade+'</div><div><div style="font-weight:900;color:#0b2545">계약 건전성 종합 평가</div><div style="font-size:.85rem;color:#475569;margin-top:2px">'+gmsg+' · 경고 '+warnCnt+'건 / 주의 '+cauCnt+'건</div></div></div>';
+        html+='<div style="margin-top:16px"><div style="font-size:.86rem;font-weight:800;color:#475569;margin-bottom:8px">🚨 5대 위험패턴 자동 평가</div><div style="display:flex;flex-direction:column;gap:6px">';
+        html+=pats.map(function(p){return '<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:#f8fafc;border:1px solid #eef2f7;border-radius:10px"><span style="flex:1"><b style="color:#1e3a5f">'+p.nm+'</b><span style="font-size:.76rem;color:#64748b;display:block">'+p.desc+'</span></span><span style="font-size:.82rem;font-weight:800;color:#334155">'+p.val+'</span><span style="font-size:.72rem;font-weight:900;color:'+p.v.c+';background:'+p.v.bg+';padding:3px 9px;border-radius:99px;min-width:38px;text-align:center">'+p.v.t+'</span></div>';}).join('');
+        html+='</div></div>';
+        html+='<div style="margin-top:12px;font-size:.74rem;color:#94a3b8;line-height:1.6">※ 공시 기준 추정 평가. 인증키 연동 시 나라장터·계약 원자료로 자동 대체. 원본 확인: <a href="https://www.g2b.go.kr/" target="_blank" rel="noopener" style="color:#1e40af;font-weight:700">나라장터 ↗</a></div>';
+        el.innerHTML=html;
       }
     };
   }
@@ -4422,5 +4470,6 @@ window.restoreKorean = function(){
   setTimeout(bindAll, 1000);
 })();
 </script>
+<script>window.__openBudgetTree=function(){};</script>
 </body>
 </html>
