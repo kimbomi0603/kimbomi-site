@@ -1154,7 +1154,7 @@ h1{letter-spacing:-.035em;font-weight:900}
     <a href="javascript:void(0)" id="navBudget">💰 예산</a>
     <a href="javascript:void(0)" id="navContract">📜 계약</a>
     <a href="javascript:void(0)" id="navEdu">📚 재정 교과서·용어</a>
-    <a href="javascript:void(0)" id="navOntology">🧬 재정 온톨로지란?</a>
+    <a href="javascript:void(0)" id="navOntology">🧬 분석 방법 (작동원리)</a>
     <a href="javascript:void(0)" id="navAbout">👤 김보미 소개</a>
   </div>
 </nav>
@@ -1453,7 +1453,7 @@ h1{letter-spacing:-.035em;font-weight:900}
   <section id="ontology">
     <div class="section-h">
       <span class="ic">🧬</span>
-      <div><h2>재정 온톨로지란?</h2><p>숫자 너머의 '관계'를 읽어 이상 신호를 자동 탐지하는 분석 기법 — 이 사이트가 어디서 어떻게 작동 중인지 한눈에</p></div>
+      <div><h2>이 사이트는 어떻게 분석하나요? <span style="font-size:.7rem;font-weight:700;color:#94a3b8">(재정 온톨로지)</span></h2><p>숫자 너머의 '관계'를 읽어 이상 신호를 자동 탐지하는 분석 기법 — 이 사이트가 어디서 어떻게 작동 중인지 한눈에</p></div>
     </div>
     <!-- 🎓 학술·기술 공신력 박스 — NABO 분석 기법 기반 -->
     <div class="card pad" style="background:linear-gradient(135deg,#0b2545,#1a4c8f);color:#fff;border:none;margin-bottom:14px">
@@ -2865,20 +2865,63 @@ function printReport(R){
     window.PS = {
       region: '전국', query: '',
       render: function(){
-        var el = document.getElementById('psResults');
-        if(!el) return;
-        var r = this.region || '전국', q = this.query || '';
-        var encQ = encodeURIComponent(q || '정책');
-        el.innerHTML = '<div style="background:#fff;border-radius:14px;padding:20px;border:1px solid #e6eef7">'
-          + '<div style="font-size:1.05rem;font-weight:900;color:#0b2545;margin-bottom:8px">🔎 ' + (r==='전국'?'전국':r) + ' — "' + (q||'정책 키워드 입력')+'" 검색</div>'
-          + '<div style="color:#475569;font-size:.88rem;margin-bottom:14px">아래 공식 채널에서 실시간 정책·사업·예산 데이터를 확인하실 수 있습니다.</div>'
-          + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px">'
-          + '<a href="https://www.gov.kr/search/applSearchResult?srhQuery='+encQ+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:12px;text-decoration:none;color:#0b2545"><b>정부24 정책 검색</b><div style="font-size:.78rem;color:#475569;margin-top:4px">전국 부처·지자체 정책 통합검색</div></a>'
-          + '<a href="https://www.localinfo.go.kr/portal/local/searchKeyword.do?keyword='+encQ+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:12px;text-decoration:none;color:#0b2545"><b>내고장알리미</b><div style="font-size:.78rem;color:#475569;margin-top:4px">행안부 시군구 정책·지표</div></a>'
-          + '<a href="https://www.law.go.kr/LSW/ordinSc.do?menuId=2&query='+encQ+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:12px;text-decoration:none;color:#0b2545"><b>자치법규 검색</b><div style="font-size:.78rem;color:#475569;margin-top:4px">국가법령정보 — 조례·규칙</div></a>'
-          + '<a href="https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/searchTwataaWlfareInfoForm.do?keyword='+encQ+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:12px;text-decoration:none;color:#0b2545"><b>복지로 정책 검색</b><div style="font-size:.78rem;color:#475569;margin-top:4px">중앙·지자체 복지정책</div></a>'
-          + '</div></div>';
-        var cnt = document.getElementById('psCount'); if(cnt) cnt.textContent = '공식 채널 4건 연결됨';
+        var el = document.getElementById('psResults'); if(!el) return;
+        var q = (this.query||'').trim();
+        var regionText = (this.region && this.region!=='전국') ? this.region : '';
+        var searchText = (regionText+' '+q).trim();
+        // 지역(시·군·구) 자동 감지
+        var regionKey=null, regionGu='';
+        if(window.STATE && window.STATE.byKey){
+          var best=null;
+          Object.keys(window.STATE.byKey).forEach(function(k){ var parts=k.split(' '); var gu=parts[1]; if(gu && gu.length>=2 && searchText.indexOf(gu)>=0){ if(!best||gu.length>best.g.length) best={k:k,g:gu}; } });
+          if(best){ regionKey=best.k; regionGu=best.g; }
+        }
+        var encQ=encodeURIComponent(q||'정책');
+        var channels='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">'
+          + '<a href="https://www.gov.kr/search/applSearchResult?srhQuery='+encQ+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:11px;text-decoration:none;color:#0b2545"><b>정부24 정책</b><div style="font-size:.76rem;color:#475569;margin-top:3px">전국 부처·지자체 통합검색</div></a>'
+          + '<a href="https://www.localinfo.go.kr/portal/local/searchKeyword.do?keyword='+encQ+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:11px;text-decoration:none;color:#0b2545"><b>내고장알리미</b><div style="font-size:.76rem;color:#475569;margin-top:3px">행안부 시군구 정책·지표</div></a>'
+          + '<a href="https://www.law.go.kr/LSW/ordinSc.do?menuId=2&query='+encQ+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:11px;text-decoration:none;color:#0b2545"><b>자치법규(조례) 검색</b><div style="font-size:.76rem;color:#475569;margin-top:3px">국가법령정보 — 조례·규칙</div></a>'
+          + '<a href="https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/searchTwataaWlfareInfoForm.do?keyword='+encQ+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:11px;text-decoration:none;color:#0b2545"><b>복지로 정책</b><div style="font-size:.76rem;color:#475569;margin-top:3px">중앙·지자체 복지정책</div></a>'
+          + '</div>';
+        var intro = regionKey ? ('실시간 사업·정책을 불러오는 중…') : ('💡 <b>시·군·구 이름</b>을 함께 입력하면(예: <b>"강진군 농기계"</b>) 그 지역의 <b>실제 사업·예산·담당부서</b>를 찾아드립니다.');
+        el.innerHTML = '<div style="background:#fff;border-radius:14px;padding:18px 20px;border:1px solid #e6eef7">'
+          + '<div style="font-size:1.05rem;font-weight:900;color:#0b2545;margin-bottom:6px">🔎 ' + (regionGu||'전국') + ' — "' + (q||'정책 키워드')+'" 정책·지원사업</div>'
+          + '<div id="psLive" style="margin-top:8px"><div style="color:#64748b;font-size:.86rem;padding:8px;background:#f8fafc;border-radius:10px">'+intro+'</div></div>'
+          + '<div style="margin-top:16px;border-top:1px dashed #cbd5e1;padding-top:12px"><div style="font-size:.82rem;font-weight:800;color:#475569;margin-bottom:8px">📚 공식 채널에서도 검색</div>'+channels+'</div>'
+          + '</div>';
+        var cnt=document.getElementById('psCount'); if(cnt) cnt.textContent = regionKey? '실시간 조회 중' : '키워드 입력';
+        if(!regionKey || !(window.FS && window.FS._ensureLafcd && window.FS._zoneName)) return;
+        var DEPT={'사회복지':'주민복지과','농림해양수산':'농업정책과·농업기술센터','문화및관광':'문화관광과','환경':'환경과','국토및지역개발':'도시건설과','교통및물류':'교통행정과','일반공공행정':'기획예산과','보건':'보건소','산업·중소기업·에너지':'경제진흥과','과학기술':'미래전략과','교육':'교육지원과','공공질서및안전':'안전총괄과','예비비':'예산담당','기타':'담당부서'};
+        var zname=window.FS._zoneName(regionKey);
+        window.FS._ensureLafcd().then(function(map){
+          var box=document.getElementById('psLive'); if(!box) return;
+          var code=zname?map[zname]:null;
+          if(!code){ box.innerHTML='<div style="color:#94a3b8;font-size:.85rem;padding:6px">지역 매칭 코드를 찾지 못했습니다.</div>'; return; }
+          fetch('/api/projects?laf_cd='+encodeURIComponent(code)+'&limit=300').then(function(r){return r.json();}).then(function(d){
+            if(!d||!d.projects||!d.projects.length){ box.innerHTML='<div style="color:#94a3b8;font-size:.85rem;padding:6px">해당 지역 실시간 사업 데이터가 없습니다.</div>'; return; }
+            var toks=q.split(/[\s,]+/).filter(function(w){return w && w.length>=2 && w!==regionGu;});
+            var matched = toks.length ? d.projects.filter(function(p){ var hay=(p.name||'')+' '+(p.field||''); return toks.some(function(tk){return hay.indexOf(tk)>=0;}); }) : d.projects;
+            if(!matched.length){
+              box.innerHTML='<div style="color:#475569;font-size:.86rem;padding:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px">🔍 "'+q+'" 키워드와 일치하는 <b>'+regionGu+'</b> 사업을 찾지 못했습니다. 키워드를 바꾸거나 아래 공식 채널에서 검색해 보세요.</div>';
+              var c2=document.getElementById('psCount'); if(c2) c2.textContent='매칭 0건';
+              return;
+            }
+            var rows=matched.slice(0,40).map(function(p){
+              var dept=DEPT[p.field]||'담당부서';
+              var rc=p.rate>=80?'#16a34a':(p.rate>=40?'#d97706':'#e11d48');
+              var deptSearch='https://search.naver.com/search.naver?query='+encodeURIComponent(regionGu+' '+dept.split('·')[0]+' 전화번호');
+              return '<div style="padding:11px 13px;background:#fff;border:1px solid #e6eef7;border-radius:11px;margin-bottom:7px">'
+                +'<div style="display:flex;align-items:flex-start;gap:10px"><span style="flex:1;min-width:0"><b style="color:#1e3a5f;font-size:.92rem">'+p.name+'</b><span style="font-size:.74rem;color:#64748b;display:block;margin-top:2px">분야: '+p.field+'</span></span>'
+                +'<span style="text-align:right;white-space:nowrap;font-size:.8rem"><div style="color:#0b2545;font-weight:800">'+p.budget+'</div><div style="font-size:.72rem;color:'+rc+';font-weight:800">집행 '+p.exec+' ('+p.rate+'%)</div></span></div>'
+                +'<div style="display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px dashed #eef2f7;font-size:.78rem"><span style="background:#eef3f9;color:#1e3a5f;font-weight:800;border-radius:7px;padding:3px 9px">🏛️ 담당 추정: '+regionGu+' '+dept+'</span><a href="'+deptSearch+'" target="_blank" rel="noopener" style="color:#1d6fe0;font-weight:800;text-decoration:none">📞 담당부서·연락처 찾기 ↗</a></div>'
+                +'</div>';
+            }).join('');
+            box.innerHTML='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px"><div style="font-size:.9rem;font-weight:800;color:#0b2545">📋 '+regionGu+' '+(toks.length?('"'+q+'" 관련 '):'')+'사업·정책 '+matched.length+'건</div><span style="font-size:.7rem;font-weight:800;background:#dcfce7;color:#166534;padding:2px 8px;border-radius:99px">✅ 지방재정365 '+(d.fyr||'')+' 실시간</span></div>'
+              +'<div style="max-height:430px;overflow-y:auto;padding-right:4px">'+rows+'</div>'
+              +'<div style="font-size:.72rem;color:#94a3b8;margin-top:6px;line-height:1.6">※ 담당부서는 사업 분야 기준 추정이며, 정확한 부서·연락처는 \'담당부서 찾기\'로 확인하세요. 출처: 지방재정365 세부사업.</div>';
+            var c3=document.getElementById('psCount'); if(c3) c3.textContent='매칭 '+matched.length+'건';
+          }).catch(function(){ box.innerHTML='<div style="color:#94a3b8;font-size:.85rem;padding:6px">실시간 사업 데이터를 불러오지 못했습니다.</div>'; });
+        });
       }
     };
   }
@@ -4533,6 +4576,8 @@ window.restoreKorean = function(){
       var inp=document.getElementById('psSearchInput'); if(inp) inp.value=q;
       try{ if(window.PS){ window.PS.query=q; if(window.PS.render) window.PS.render(); } }catch(_){}
     }); });
+    // 정책 검색창 입력 → 실시간 조회
+    (function(){ var psi=document.getElementById('psSearchInput'); if(psi && !psi._bx){ psi._bx=1; var deb; psi.addEventListener('input',function(){ clearTimeout(deb); deb=setTimeout(function(){ try{ if(window.PS){ window.PS.query=psi.value; window.PS.render(); } }catch(_){ } }, 350); }); psi.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); try{ if(window.PS){ window.PS.query=psi.value; window.PS.render(); } }catch(_){ } } }); } })();
     // 진단 탭
     document.querySelectorAll('.dt-btn').forEach(function(b){ bindOnce(b,function(){
       var tab=b.getAttribute('data-tab');
