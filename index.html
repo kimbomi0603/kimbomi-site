@@ -2780,6 +2780,38 @@ function printReport(R){
           var sr=document.getElementById('fsBudgetSr'); if(sr) sr.textContent=d.s;
         }).catch(function(){});
       },
+      _zoneName: function(key){
+        var AB={'서울특별시':'서울','부산광역시':'부산','대구광역시':'대구','인천광역시':'인천','광주광역시':'광주','대전광역시':'대전','울산광역시':'울산','세종특별자치시':'세종','경기도':'경기','강원특별자치도':'강원','강원도':'강원','충청북도':'충북','충청남도':'충남','전북특별자치도':'전북','전라북도':'전북','전라남도':'전남','경상북도':'경북','경상남도':'경남','제주특별자치도':'제주','제주도':'제주'};
+        var parts=(key||'').split(' '); var sido=parts[0]; var gu=parts.slice(1).join(' ');
+        if(!sido||sido==='전국') return null;
+        var ab=AB[sido]; if(!ab) return null;
+        return gu? ab+gu : ab+'본청';
+      },
+      _ensureLafcd: function(){
+        if(window.__LAFCD) return Promise.resolve(window.__LAFCD);
+        if(window.__LAFCD_P) return window.__LAFCD_P;
+        window.__LAFCD_P = fetch('/api/budget?debug=1&zone=ALL').then(function(r){return r.json();}).then(function(d){
+          var m={}; try{ var arr=(d&&d.sample&&d.sample.FNCST)||[]; var blk=arr.filter(function(b){return b&&b.row;})[0]; var rows=blk?blk.row:[]; rows.forEach(function(r){ if(r.laf_hg_nm&&r.laf_cd) m[r.laf_hg_nm]=String(r.laf_cd); }); }catch(e){}
+          window.__LAFCD=m; return m;
+        }).catch(function(){ window.__LAFCD={}; return {}; });
+        return window.__LAFCD_P;
+      },
+      _liveContract: function(key){
+        var box=document.getElementById('fsContractLive'); if(!box) return;
+        var zname=this._zoneName(key);
+        if(!zname){ box.innerHTML='<div style="color:#94a3b8;font-size:.85rem;padding:6px">전국 단위는 시·군·구를 선택하면 사업별 실시간 집행 내역이 표시됩니다.</div>'; return; }
+        this._ensureLafcd().then(function(map){
+          var code=map[zname];
+          if(!code){ box.innerHTML='<div style="color:#94a3b8;font-size:.82rem;padding:6px">실시간 사업 내역 매칭 코드를 찾지 못했습니다 ('+zname+').</div>'; return; }
+          fetch('/api/projects?laf_cd='+encodeURIComponent(code)+'&limit=25').then(function(r){return r.json();}).then(function(d){
+            if(!d||d.error||!d.projects||!d.projects.length){ box.innerHTML='<div style="color:#94a3b8;font-size:.82rem;padding:6px">해당 일자 실시간 사업 데이터가 없습니다.</div>'; return; }
+            var rows=d.projects.map(function(pj,i){ var rc=pj.rate>=80?'#16a34a':(pj.rate>=40?'#d97706':'#e11d48');
+              return '<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:'+(i%2?'#f8fafc':'#fff')+';border:1px solid #eef2f7;border-radius:9px"><span style="font-size:.7rem;font-weight:800;color:#94a3b8;min-width:20px">'+(i+1)+'</span><span style="flex:1;min-width:0"><b style="color:#1e3a5f;font-size:.86rem">'+pj.name+'</b><span style="font-size:.72rem;color:#64748b;display:block">'+pj.field+'</span></span><span style="text-align:right;font-size:.8rem;white-space:nowrap"><div style="color:#0b2545;font-weight:800">'+pj.budget+'</div><div style="font-size:.72rem;color:#64748b">집행 '+pj.exec+'</div></span><span style="font-size:.74rem;font-weight:900;color:'+rc+';min-width:40px;text-align:right">'+pj.rate+'%</span></div>';
+            }).join('');
+            box.innerHTML='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px"><div style="font-size:.9rem;font-weight:800;color:#0b2545">📑 실시간 주요 사업·계약 집행 내역 ('+d.projects.length+'건)</div><span style="font-size:.7rem;font-weight:800;background:#dcfce7;color:#166534;padding:2px 8px;border-radius:99px">✅ 지방재정365 '+(d.fyr||'')+' · '+(d.date||'')+'</span></div><div style="display:flex;flex-direction:column;gap:5px;max-height:460px;overflow-y:auto;padding-right:4px">'+rows+'</div><div style="font-size:.72rem;color:#94a3b8;margin-top:8px;line-height:1.6">※ 지방재정365 세부사업별 세출(집행) 실시간 데이터. 입찰·낙찰업체·계약방식 단위 상세는 <a href="https://www.g2b.go.kr/" target="_blank" rel="noopener" style="color:#1e40af;font-weight:700">나라장터 ↗</a>에서 확인하세요.</div>';
+          }).catch(function(){ box.innerHTML='<div style="color:#94a3b8;font-size:.82rem;padding:6px">실시간 사업 데이터를 불러오지 못했습니다.</div>'; });
+        });
+      },
       renderContract: function(key, panelId){
         var R=(window.STATE&&window.STATE.byKey&&(window.STATE.byKey[key]||window.STATE.byKey[(key||'').split(' ')[0]]))||null;
         var info=this._info(key);
@@ -2821,8 +2853,10 @@ function printReport(R){
         html+='<div style="margin-top:16px"><div style="font-size:.86rem;font-weight:800;color:#475569;margin-bottom:8px">🚨 5대 위험패턴 자동 평가</div><div style="display:flex;flex-direction:column;gap:6px">';
         html+=pats.map(function(p){return '<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:#f8fafc;border:1px solid #eef2f7;border-radius:10px"><span style="flex:1"><b style="color:#1e3a5f">'+p.nm+'</b><span style="font-size:.76rem;color:#64748b;display:block">'+p.desc+'</span></span><span style="font-size:.82rem;font-weight:800;color:#334155">'+p.val+'</span><span style="font-size:.72rem;font-weight:900;color:'+p.v.c+';background:'+p.v.bg+';padding:3px 9px;border-radius:99px;min-width:38px;text-align:center">'+p.v.t+'</span></div>';}).join('');
         html+='</div></div>';
-        html+='<div style="margin-top:12px;font-size:.74rem;color:#94a3b8;line-height:1.6">※ 공시 기준 추정 평가. 인증키 연동 시 나라장터·계약 원자료로 자동 대체. 원본 확인: <a href="https://www.g2b.go.kr/" target="_blank" rel="noopener" style="color:#1e40af;font-weight:700">나라장터 ↗</a></div>';
+        html+='<div style="margin-top:12px;font-size:.74rem;color:#94a3b8;line-height:1.6">※ 위 위험패턴은 공시 기준 추정 평가입니다.</div>';
+        html+='<div id="fsContractLive" style="margin-top:18px;padding-top:16px;border-top:2px dashed #e2e8f0"><div style="color:#94a3b8;font-size:.85rem;padding:6px">📑 실시간 사업·계약 집행 내역 불러오는 중…</div></div>';
         el.innerHTML=html;
+        try{ this._liveContract(key); }catch(e){}
       }
     };
   }
