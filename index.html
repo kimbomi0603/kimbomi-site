@@ -4485,10 +4485,10 @@ window.restoreKorean = function(){
   function bindOnce(el,fn){ if(!el||el._bx) return; el._bx=1; el.addEventListener('click',fn); }
   function curKey(){ var R=window.STATE&&window.STATE.region; return R?R.key:'전국'; }
   function wire(){
-    bindOnce(document.getElementById('navBudget'),function(e){e.preventDefault();showSec('budget-only');setTimeout(function(){try{if(window.FS&&window.FS.renderBudget)window.FS.renderBudget(curKey());}catch(_){}}, 130);});
-    bindOnce(document.getElementById('navContract'),function(e){e.preventDefault();showSec('contract-only');setTimeout(function(){try{if(window.FS&&window.FS.renderContract)window.FS.renderContract(curKey());}catch(_){}}, 130);});
-    bindOnce(document.getElementById('navEdu'),function(e){e.preventDefault();showSec('edu');});
-    bindOnce(document.getElementById('navOntology'),function(e){e.preventDefault();showSec('ontology');});
+    bindOnce(document.getElementById('navBudget'),function(e){e.preventDefault();e.stopPropagation();setTimeout(function(){showSec('budget-only');try{if(window.FS&&window.FS.renderBudget)window.FS.renderBudget(curKey());}catch(_){}},0);});
+    bindOnce(document.getElementById('navContract'),function(e){e.preventDefault();e.stopPropagation();setTimeout(function(){showSec('contract-only');try{if(window.FS&&window.FS.renderContract)window.FS.renderContract(curKey());}catch(_){}},0);});
+    bindOnce(document.getElementById('navEdu'),function(e){e.preventDefault();e.stopPropagation();setTimeout(function(){showSec('edu');},0);});
+    bindOnce(document.getElementById('navOntology'),function(e){e.preventDefault();e.stopPropagation();setTimeout(function(){showSec('ontology');},0);});
     bindOnce(document.getElementById('eduClose'),function(e){e.preventDefault();closeSec();});
     bindOnce(document.getElementById('ontologyClose'),function(e){e.preventDefault();closeSec();});
     // 정책 칩
