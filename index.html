@@ -1701,11 +1701,22 @@ h1{letter-spacing:-.035em;font-weight:900}
           <a href="https://pf.kakao.com/" target="_blank" rel="noopener" title="카카오톡에서 '강진군 김보미' 검색 후 채널 추가" style="background:#fdf3c8;color:#8a6d00;border-color:#f3e29a">💬 카카오톡 (강진군 김보미)</a>
         </div>
 
-        <h4 style="margin:18px 0 8px;color:var(--navy2);font-size:.95rem">📺 김보미TV 미리보기</h4>
-        <div style="position:relative;width:100%;padding-bottom:56.25%;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#000">
-          <iframe src="https://www.youtube.com/embed/yEtL-xurVK4" title="강진의 봄, 김보미TV — 최신 영상" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        <h4 style="margin:22px 0 6px;color:var(--navy2);font-size:.98rem">📰 김보미 소식 (보도·SNS)</h4>
+        <div class="sns-row">
+          <a class="sns-fb" href="https://www.facebook.com/kimbomi1989" target="_blank" rel="noopener">📘 페이스북 새 소식</a>
+          <a class="sns-news" href="https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B0%95%EC%A7%84" target="_blank" rel="noopener">🔎 네이버 뉴스 더보기</a>
         </div>
-        <div class="muted" style="font-size:.76rem;margin-top:6px">▶️ ‘강진의 봄, 김보미TV’ 최신 영상 · <a href="https://www.youtube.com/@kimbomi1989" target="_blank" rel="noopener">유튜브 채널 바로가기 ↗</a></div>
+        <div class="fb-embed" style="margin-top:12px">
+          <div style="font-size:.8rem;font-weight:800;color:#1877f2;margin-bottom:6px">📘 페이스북 최근 소식</div>
+          <iframe title="김보미 페이스북 최근 소식" loading="lazy"
+            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fkimbomi1989&tabs=timeline&width=500&height=560&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false"
+            style="width:100%;max-width:500px;height:560px;border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden"
+            scrolling="no" frameborder="0" allowfullscreen="true"
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+          <div class="muted" style="font-size:.74rem;margin-top:5px">※ 페이스북 최근 게시물이 자동으로 표시됩니다. 비공개 페이지·임베드 차단 환경에서는 위 ‘📘 페이스북 새 소식’ 버튼으로 열어 보세요.</div>
+        </div>
+        <h4 style="margin:18px 0 6px;color:var(--navy2);font-size:.9rem">🗞️ 주요 보도 기록</h4>
+        <div class="press-list" id="pressList"></div>
 
         <h4 style="margin:22px 0 0;color:var(--navy2);font-size:.98rem">📚 저서</h4>
         <div class="kbm-pub">
@@ -1736,22 +1747,11 @@ h1{letter-spacing:-.035em;font-weight:900}
           </div>
         </div>
 
-        <h4 style="margin:22px 0 6px;color:var(--navy2);font-size:.98rem">📰 김보미 소식 (보도·SNS)</h4>
-        <div class="sns-row">
-          <a class="sns-fb" href="https://www.facebook.com/kimbomi1989" target="_blank" rel="noopener">📘 페이스북 새 소식</a>
-          <a class="sns-news" href="https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B0%95%EC%A7%84" target="_blank" rel="noopener">🔎 네이버 뉴스 더보기</a>
+        <h4 style="margin:18px 0 8px;color:var(--navy2);font-size:.95rem">📺 김보미TV 미리보기</h4>
+        <div style="position:relative;width:100%;padding-bottom:56.25%;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#000">
+          <iframe src="https://www.youtube.com/embed/yEtL-xurVK4" title="강진의 봄, 김보미TV — 최신 영상" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
         </div>
-        <div class="fb-embed" style="margin-top:12px">
-          <div style="font-size:.8rem;font-weight:800;color:#1877f2;margin-bottom:6px">📘 페이스북 최근 소식</div>
-          <iframe title="김보미 페이스북 최근 소식" loading="lazy"
-            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fkimbomi1989&tabs=timeline&width=500&height=560&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false"
-            style="width:100%;max-width:500px;height:560px;border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden"
-            scrolling="no" frameborder="0" allowfullscreen="true"
-            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-          <div class="muted" style="font-size:.74rem;margin-top:5px">※ 페이스북 최근 게시물이 자동으로 표시됩니다. 비공개 페이지·임베드 차단 환경에서는 위 ‘📘 페이스북 새 소식’ 버튼으로 열어 보세요.</div>
-        </div>
-        <h4 style="margin:18px 0 6px;color:var(--navy2);font-size:.9rem">🗞️ 주요 보도 기록</h4>
-        <div class="press-list" id="pressList"></div>
+        <div class="muted" style="font-size:.76rem;margin-top:6px">▶️ ‘강진의 봄, 김보미TV’ 최신 영상 · <a href="https://www.youtube.com/@kimbomi1989" target="_blank" rel="noopener">유튜브 채널 바로가기 ↗</a></div>
       </div>
     </div>
       </div>
@@ -2646,6 +2646,7 @@ function renderActions(){
 }
 /* 김보미 보도 기록 (press.json 발췌) */
 const KBM_PRESS=[
+  {d:"2026-06-04",t:"정치",n:"김보미 전 강진군의회 의장 “정청래 대표 사퇴” 촉구 — 6·3 지방선거 참패·공천 사천 비판 (뉴스웍스)",l:"https://www.newsworks.co.kr/news/articleView.html?idxno=842914"},
   {d:"2026-05-17",t:"청년정책",n:"민형배 캠프 ‘청년결정정부’ 선포…청년본부 출범 (김보미 공동총괄위원장)",l:"https://www.newsworks.co.kr/news/articleView.html?idxno=840995"},
   {d:"2026-04-03",t:"선거",n:"“돈을 버는 강진군, 경제 군수 되겠다” — 합동연설회·62개 정책공약집 공개",l:"https://search.naver.com/search.naver?where=news&query=%EA%B9%80%EB%B3%B4%EB%AF%B8%20%EA%B0%95%EC%A7%84%EA%B5%B0%EC%88%98%20%EA%B3%B5%EC%95%BD%EC%A7%91"},
   {d:"2026-03-28",t:"선거",n:"강진군수 예비후보 선거사무소 개소식 대성황 — ‘강진 1호 영업사원증’ 수여",l:"https://www.jninnews.com/news/articleView.html?idxno=26165"},
@@ -2736,10 +2737,10 @@ function printReport(R){
           + '</div>';
         el.innerHTML = html;
       },
-      renderBudget: function(key){
+      renderBudget: function(key, panelId){
         var R = (window.STATE&&window.STATE.byKey&&(window.STATE.byKey[key]||window.STATE.byKey[(key||'').split(' ')[0]]))||null;
         var info = this._info(key);
-        var el = document.getElementById('budgetPanel'); if(!el) return;
+        var el = document.getElementById(panelId||'budgetPanel'); if(!el) return;
         if(!R){ el.innerHTML='<div class="fs-empty">위에서 <b>시·도</b> → <b>시·군·구</b>를 선택하고 "예산 보기"를 눌러주세요.</div>'; return; }
         var won=function(n){ n=Math.round(n||0); return n>=10000?(n/10000).toFixed(1)+'조원':n.toLocaleString('ko-KR')+'억원'; };
         var b=R.budget||0, exec=R.execRate||0;
@@ -2765,19 +2766,24 @@ function printReport(R){
           +'</table></div>';
         html+='<div style="margin-top:12px;font-size:.74rem;color:#94a3b8;line-height:1.6">※ 공시 기준 추정 시연치. 지방재정365 인증키 연동 시 실데이터로 자동 대체. 원본 확인: <a href="https://www.lofin365.go.kr/" target="_blank" rel="noopener" style="color:#1e40af;font-weight:700">지방재정365 ↗</a> · <a href="https://www.localinfo.go.kr/" target="_blank" rel="noopener" style="color:#1e40af;font-weight:700">내고장알리미 ↗</a></div>';
         el.innerHTML=html;
-        try{ this._liveBudget(R.name||info.name); }catch(e){}
+        try{ this._liveBudget(key); }catch(e){}
       },
-      _liveBudget: function(name){
-        fetch('/api/budget?zone='+encodeURIComponent(name)).then(function(r){return r.json();}).then(function(d){
-          if(!d||d.error)return;
-          var src=document.getElementById('fsBudgetSrc'); if(src){src.textContent='✅ 실시간 공식 데이터 (지방재정365)';src.style.background='#dcfce7';src.style.color='#166534';}
-          if(d.s){var sr=document.getElementById('fsBudgetSr'); if(sr)sr.textContent=d.s;}
+      _liveBudget: function(key){
+        var AB={'서울특별시':'서울','부산광역시':'부산','대구광역시':'대구','인천광역시':'인천','광주광역시':'광주','대전광역시':'대전','울산광역시':'울산','세종특별자치시':'세종','경기도':'경기','강원특별자치도':'강원','강원도':'강원','충청북도':'충북','충청남도':'충남','전북특별자치도':'전북','전라북도':'전북','전라남도':'전남','경상북도':'경북','경상남도':'경남','제주특별자치도':'제주','제주도':'제주'};
+        var parts=(key||'').split(' '); var sido=parts[0]; var gu=parts.slice(1).join(' ');
+        var zone;
+        if(sido==='전국'||!sido) zone='ALL';
+        else { var ab=AB[sido]; if(!ab) return; zone= gu? ab+gu : ab+'본청'; }
+        fetch('/api/budget?zone='+encodeURIComponent(zone)).then(function(r){return r.json();}).then(function(d){
+          if(!d||d.error||!d.s) return;
+          var src=document.getElementById('fsBudgetSrc'); if(src){ src.textContent='✅ 재정자립도 실시간 공식 · 지방재정365 '+(d.fyr||'')+'결산'; src.style.background='#dcfce7'; src.style.color='#166534'; }
+          var sr=document.getElementById('fsBudgetSr'); if(sr) sr.textContent=d.s;
         }).catch(function(){});
       },
-      renderContract: function(key){
+      renderContract: function(key, panelId){
         var R=(window.STATE&&window.STATE.byKey&&(window.STATE.byKey[key]||window.STATE.byKey[(key||'').split(' ')[0]]))||null;
         var info=this._info(key);
-        var el=document.getElementById('contractPanel'); if(!el)return;
+        var el=document.getElementById(panelId||'contractPanel'); if(!el)return;
         if(!R){ el.innerHTML='<div class="fs-empty">위에서 <b>시·도</b> → <b>시·군·구</b>를 선택하고 "계약 보기"를 눌러주세요.</div>'; return; }
         var won=function(n){n=Math.round(n||0);return n>=10000?(n/10000).toFixed(1)+'조원':n.toLocaleString('ko-KR')+'억원';};
         var b=R.budget||0, exec=R.execRate||0;
@@ -4471,5 +4477,44 @@ window.restoreKorean = function(){
 })();
 </script>
 <script>window.__openBudgetTree=function(){};</script>
+<script>
+/* 봄: 누락 핸들러 보강 — 상단메뉴(예산/계약/교과서/온톨로지), 정책칩, 진단탭, edu/ontology 닫기 */
+(function(){
+  function showSec(tg){ if(window.__showSection) window.__showSection(tg); else { var s=document.getElementById(tg); if(s) s.classList.add('show'); } }
+  function closeSec(){ if(window.__closeSection) window.__closeSection(); else document.querySelectorAll('.show').forEach(function(e){e.classList.remove('show');}); }
+  function bindOnce(el,fn){ if(!el||el._bx) return; el._bx=1; el.addEventListener('click',fn); }
+  function curKey(){ var R=window.STATE&&window.STATE.region; return R?R.key:'전국'; }
+  function wire(){
+    bindOnce(document.getElementById('navBudget'),function(e){e.preventDefault();showSec('budget-only');setTimeout(function(){try{if(window.FS&&window.FS.renderBudget)window.FS.renderBudget(curKey());}catch(_){}}, 130);});
+    bindOnce(document.getElementById('navContract'),function(e){e.preventDefault();showSec('contract-only');setTimeout(function(){try{if(window.FS&&window.FS.renderContract)window.FS.renderContract(curKey());}catch(_){}}, 130);});
+    bindOnce(document.getElementById('navEdu'),function(e){e.preventDefault();showSec('edu');});
+    bindOnce(document.getElementById('navOntology'),function(e){e.preventDefault();showSec('ontology');});
+    bindOnce(document.getElementById('eduClose'),function(e){e.preventDefault();closeSec();});
+    bindOnce(document.getElementById('ontologyClose'),function(e){e.preventDefault();closeSec();});
+    // 정책 칩
+    document.querySelectorAll('.ps-chip').forEach(function(c){ bindOnce(c,function(){
+      document.querySelectorAll('.ps-chip').forEach(function(x){x.classList.remove('active');});
+      c.classList.add('active');
+      var q=c.getAttribute('data-q')||'';
+      var inp=document.getElementById('psSearchInput'); if(inp) inp.value=q;
+      try{ if(window.PS){ window.PS.query=q; if(window.PS.render) window.PS.render(); } }catch(_){}
+    }); });
+    // 진단 탭
+    document.querySelectorAll('.dt-btn').forEach(function(b){ bindOnce(b,function(){
+      var tab=b.getAttribute('data-tab');
+      document.querySelectorAll('.dt-btn').forEach(function(x){x.classList.remove('active');x.setAttribute('aria-selected','false');});
+      b.classList.add('active'); b.setAttribute('aria-selected','true');
+      document.querySelectorAll('.dt-panel').forEach(function(pp){ pp.hidden=(pp.getAttribute('data-panel')!==tab); });
+      try{
+        var k=curKey();
+        if(tab==='budget'&&window.FS&&window.FS.renderBudget) window.FS.renderBudget(k,'diagBudgetMount');
+        if(tab==='contract'&&window.FS&&window.FS.renderContract) window.FS.renderContract(k,'diagContractMount');
+      }catch(_){}
+    }); });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',wire); else wire();
+  setTimeout(wire,1200);
+})();
+</script>
 </body>
 </html>
