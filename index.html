@@ -4073,6 +4073,249 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
   else patch();
 })();
 
+/* 🏛️ 나라장터 G2B 라이브 — 시군 계약의 "모든 것" (탭 + 업체 드릴다운) */
+(function(){
+  const G2B_API = '/api/contract';
+  let g2bConfigured = null;
+  let g2bCache = {}; // region → response
+
+  async function checkG2B(){
+    try{
+      const r = await fetch(G2B_API + '?selfcheck=1', {cache:'no-store'});
+      const j = await r.json();
+      g2bConfigured = !!j.hasKey;
+      console.log(j.hasKey ? '✅ G2B 키 활성' : '⚠ G2B 키 미설정');
+    }catch(e){ g2bConfigured = false; }
+  }
+
+  async function fetchG2B(region, params){
+    if(!g2bConfigured) return null;
+    const cacheKey = region + '|' + (params || '');
+    if(g2bCache[cacheKey]) return g2bCache[cacheKey];
+    try{
+      const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 12000);
+      const url = G2B_API + '?region=' + encodeURIComponent(region) + (params ? '&' + params : '');
+      const r = await fetch(url, {signal:ctrl.signal, cache:'no-store'});
+      clearTimeout(t);
+      const j = await r.json();
+      if(j.error || !j.bids) return null;
+      g2bCache[cacheKey] = j;
+      return j;
+    }catch(e){ console.warn('G2B fetch 실패', e); return null; }
+  }
+
+  function won억(n){
+    const 억 = n/1e8;
+    return 억>=10000 ? (억/10000).toFixed(1)+'조' : (억>=1 ? 억.toFixed(1)+'억' : Math.round(n/1e4).toLocaleString('ko-KR')+'만');
+  }
+  function esc(s){ return String(s||'').replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+  function renderLive(live, region){
+    const top = live.bids.slice(0,10).map((b,i)=>`
+      <div class="g2b-row">
+        <div style="flex:1;min-width:0">
+          <div class="g2b-ttl">${esc(b.title)}</div>
+          <div class="g2b-sub">${esc(b.org)} · <span class="g2b-method ${/수의|단독/.test(b.method)?'sut':'cmp'}">${esc(b.method||'-')}</span> · ${b.date||''}${b.vendor?` · 낙찰 <b>${esc(b.vendor)}</b>`:''}</div>
+        </div>
+        <div class="g2b-amt">${b.amount?won억(b.amount):'-'}</div>
+      </div>`).join('');
+
+    const yearRows = (live.by_year||[]).map(y => {
+      const maxAmt = Math.max(...live.by_year.map(x=>x.amount));
+      const w = maxAmt ? (y.amount/maxAmt*100).toFixed(1) : 0;
+      return `<div class="g2b-yr">
+        <div class="g2b-yr-lbl">${y.year}</div>
+        <div class="g2b-yr-bar"><div style="width:${w}%"></div></div>
+        <div class="g2b-yr-cnt">${y.count}건</div>
+        <div class="g2b-yr-amt">${won억(y.amount)}</div>
+      </div>`;
+    }).join('');
+
+    const vendorRows = (live.by_vendor||[]).slice(0,30).map(v=>{
+      const sr = v.count ? Math.round(v.sutil/v.count*100) : 0;
+      return `<div class="g2b-vrow" data-vendor="${esc(v.vendor)}">
+        <div class="g2b-vname">${esc(v.vendor)}</div>
+        <div class="g2b-vcnt"><b>${v.count}</b>건</div>
+        <div class="g2b-vamt"><b>${won억(v.amount)}</b></div>
+        <div class="g2b-vsut" style="color:${sr>30?'#DC2626':'#0E7A4A'}">${sr}%</div>
+        <div class="g2b-varr">→</div>
+      </div>`;
+    }).join('');
+
+    return `
+      <div class="g2b-card">
+        <div class="g2b-head">
+          <span class="g2b-live">🟢 LIVE</span>
+          <b>나라장터 G2B 실시간 — ${esc(region)} · 최근 ${live.days_window}일</b>
+          <span class="g2b-cnt">${live.fetched_count}건 (전체 ${live.total_count.toLocaleString('ko-KR')}건)</span>
+        </div>
+        <div class="g2b-stats">
+          <div class="g2b-stat"><div class="l">전체 계약</div><div class="v">${live.fetched_count}건</div></div>
+          <div class="g2b-stat"><div class="l">총 금액</div><div class="v">${won억(live.stats.total_amount)}</div></div>
+          <div class="g2b-stat"><div class="l">평균</div><div class="v">${won억(live.stats.avg_amount)}</div></div>
+          <div class="g2b-stat"><div class="l">수의계약</div><div class="v" style="color:${live.stats.sutil_ratio>30?'#DC2626':'#0E7A4A'}">${live.stats.sutil_ratio}%</div></div>
+          <div class="g2b-stat"><div class="l">참여 업체</div><div class="v">${live.stats.vendor_count}곳</div></div>
+        </div>
+        <div class="g2b-tabs">
+          <button class="g2b-tab on" data-gt="recent">📋 최근 계약</button>
+          <button class="g2b-tab" data-gt="year">📅 연도별</button>
+          <button class="g2b-tab" data-gt="vendor">🏢 업체별 (클릭→드릴다운)</button>
+        </div>
+        <div class="g2b-pane" data-pane="recent">
+          <div class="g2b-rows">${top}</div>
+        </div>
+        <div class="g2b-pane" data-pane="year" hidden>
+          <div class="g2b-yrs">${yearRows || '<div class="g2b-empty">연도별 데이터가 없습니다</div>'}</div>
+        </div>
+        <div class="g2b-pane" data-pane="vendor" hidden>
+          <div class="g2b-vhdr"><div>업체명</div><div>건수</div><div>총액</div><div>수의비중</div><div></div></div>
+          <div class="g2b-vrows">${vendorRows || '<div class="g2b-empty">업체 데이터가 없습니다</div>'}</div>
+        </div>
+        <div class="g2b-foot">갱신 ${new Date(live.fetched_at).toLocaleString('ko-KR')} · 출처 조달청 G2B OpenAPI</div>
+      </div>`;
+  }
+
+  async function showVendorModal(region, vendor){
+    let modal = document.getElementById('g2bVendorModal');
+    if(!modal){
+      modal = document.createElement('div');
+      modal.id = 'g2bVendorModal';
+      modal.className = 'g2b-modal';
+      modal.innerHTML = '<div class="g2b-mbox"><div class="g2b-mhd"><b id="g2bVName">…</b><button id="g2bVClose">✕</button></div><div id="g2bVBody" class="g2b-mbd">로딩 중…</div></div>';
+      document.body.appendChild(modal);
+      document.getElementById('g2bVClose').onclick = ()=>{ modal.classList.remove('show'); };
+      modal.onclick = (e)=>{ if(e.target===modal) modal.classList.remove('show'); };
+    }
+    modal.classList.add('show');
+    document.getElementById('g2bVName').textContent = '🏢 ' + vendor + ' — 계약 내역 (' + region + ')';
+    document.getElementById('g2bVBody').innerHTML = '<div class="g2b-loading">로딩 중…</div>';
+
+    const live = await fetchG2B(region, 'vendor=' + encodeURIComponent(vendor));
+    if(!live || !live.bids.length){
+      document.getElementById('g2bVBody').innerHTML = '<div class="g2b-empty">해당 업체의 계약 데이터가 없습니다</div>';
+      return;
+    }
+    const total = live.stats.total_amount;
+    const rows = live.bids.map(b => `
+      <div class="g2b-row">
+        <div style="flex:1;min-width:0">
+          <div class="g2b-ttl">${esc(b.title)}</div>
+          <div class="g2b-sub">${esc(b.org)} · <span class="g2b-method ${/수의|단독/.test(b.method)?'sut':'cmp'}">${esc(b.method||'-')}</span> · ${b.date||''}</div>
+        </div>
+        <div class="g2b-amt">${b.amount?won억(b.amount):'-'}</div>
+      </div>`).join('');
+    document.getElementById('g2bVBody').innerHTML = `
+      <div class="g2b-stats" style="margin-bottom:14px">
+        <div class="g2b-stat"><div class="l">계약 건수</div><div class="v">${live.filtered_count}건</div></div>
+        <div class="g2b-stat"><div class="l">총 낙찰액</div><div class="v">${won억(total)}</div></div>
+        <div class="g2b-stat"><div class="l">평균 금액</div><div class="v">${won억(live.stats.avg_amount)}</div></div>
+        <div class="g2b-stat"><div class="l">수의 비중</div><div class="v" style="color:${live.stats.sutil_ratio>30?'#DC2626':'#0E7A4A'}">${live.stats.sutil_ratio}%</div></div>
+      </div>
+      <div class="g2b-rows">${rows}</div>`;
+  }
+
+  function wirePanel(panel, region){
+    panel.querySelectorAll('.g2b-tab').forEach(btn => {
+      btn.onclick = ()=>{
+        panel.querySelectorAll('.g2b-tab').forEach(b=>b.classList.remove('on'));
+        btn.classList.add('on');
+        const key = btn.dataset.gt;
+        panel.querySelectorAll('.g2b-pane').forEach(p => p.hidden = p.dataset.pane !== key);
+      };
+    });
+    panel.querySelectorAll('.g2b-vrow').forEach(row => {
+      row.onclick = ()=> showVendorModal(region, row.dataset.vendor);
+    });
+  }
+
+  async function injectIntoContract(){
+    if(typeof FS==='undefined') { setTimeout(injectIntoContract, 300); return; }
+    const origC = FS.renderContract.bind(FS);
+    FS.renderContract = async function(key){
+      origC(key);
+      const R = STATE.byKey[key] || STATE.byKey[key.split(' ')[0]];
+      const panel = document.getElementById('contractPanel');
+      if(!R || !panel) return;
+      if(panel.dataset.g2bFor === key) return;
+      panel.insertAdjacentHTML('beforeend', '<div id="g2bLoading" style="margin-top:18px;padding:14px;background:#FAF3E2;border:1px solid #E0B266;border-radius:12px;color:#7A6A4A;font-size:.86rem">🔄 나라장터 G2B 실시간 데이터 로딩 중…</div>');
+      const region = R.name;
+      const live = await fetchG2B(region);
+      const loading = document.getElementById('g2bLoading'); if(loading) loading.remove();
+      if(!live){ return; }
+      panel.dataset.g2bFor = key;
+      const html = renderLive(live, region);
+      const wrap = document.createElement('div'); wrap.innerHTML = html;
+      panel.appendChild(wrap.firstElementChild);
+      wirePanel(panel.lastElementChild, region);
+    };
+    console.log('✅ G2B 라이브 (탭 + 업체 드릴다운) 활성');
+  }
+
+  // 스타일
+  const css = document.createElement('style');
+  css.textContent = `
+.g2b-card{margin-top:20px;border:2px solid #E0B266;border-radius:14px;background:#fff;overflow:hidden}
+.g2b-head{display:flex;align-items:center;gap:10px;padding:12px 16px;background:linear-gradient(90deg,#FAF3E2,#fff);border-bottom:1px solid #F0E5C8;flex-wrap:wrap}
+.g2b-live{background:#0E7A4A;color:#fff;padding:3px 10px;border-radius:999px;font-size:.7rem;font-weight:800}
+.g2b-head b{font-size:.95rem;color:#0A2542}
+.g2b-cnt{margin-left:auto;font-size:.78rem;color:#4D5B73}
+.g2b-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:12px 16px}
+.g2b-stat{background:#FAFBFC;border-radius:8px;padding:9px 11px}
+.g2b-stat .l{font-size:.68rem;color:#4D5B73}
+.g2b-stat .v{font-size:1.05rem;font-weight:800;color:#0A2542;margin-top:2px}
+.g2b-tabs{display:flex;gap:4px;padding:0 12px;border-bottom:2px solid #F0E5C8}
+.g2b-tab{background:none;border:none;padding:10px 14px;font-family:inherit;font-size:.84rem;font-weight:700;color:#7A6A4A;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.g2b-tab.on{color:#0A2542;border-bottom-color:#E0B266}
+.g2b-pane{padding:12px 16px}
+.g2b-rows{display:flex;flex-direction:column;gap:4px}
+.g2b-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;background:#FAFBFC;border-radius:8px;border-left:3px solid #E0B266;font-size:.84rem}
+.g2b-ttl{font-weight:600;color:#0A2542;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g2b-sub{font-size:.7rem;color:#4D5B73;margin-top:2px}
+.g2b-amt{text-align:right;font-weight:700;color:#0A2542;white-space:nowrap}
+.g2b-method.sut{color:#DC2626;font-weight:700}
+.g2b-method.cmp{color:#0E7A4A;font-weight:700}
+.g2b-yrs{display:flex;flex-direction:column;gap:6px}
+.g2b-yr{display:grid;grid-template-columns:60px 1fr 70px 90px;gap:10px;align-items:center;padding:8px 12px;background:#FAFBFC;border-radius:8px}
+.g2b-yr-lbl{font-weight:800;color:#0A2542}
+.g2b-yr-bar{height:14px;background:#F0E5C8;border-radius:7px;overflow:hidden}
+.g2b-yr-bar>div{height:100%;background:linear-gradient(90deg,#E0B266,#B88A3C);border-radius:7px}
+.g2b-yr-cnt{font-size:.82rem;color:#4D5B73;text-align:right}
+.g2b-yr-amt{font-weight:800;color:#0A2542;text-align:right}
+.g2b-vhdr{display:grid;grid-template-columns:1fr 80px 110px 90px 30px;gap:10px;padding:8px 12px;background:#0A2542;color:#fff;border-radius:8px;font-size:.74rem;font-weight:800}
+.g2b-vrows{display:flex;flex-direction:column;gap:3px;margin-top:6px;max-height:420px;overflow-y:auto}
+.g2b-vrow{display:grid;grid-template-columns:1fr 80px 110px 90px 30px;gap:10px;align-items:center;padding:10px 12px;background:#FAFBFC;border-radius:8px;cursor:pointer;font-size:.84rem;transition:background .15s}
+.g2b-vrow:hover{background:#FAF3E2}
+.g2b-vname{font-weight:700;color:#0A2542;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g2b-vcnt,.g2b-vamt{text-align:right}
+.g2b-varr{color:#B88A3C;font-weight:800;text-align:center}
+.g2b-empty{padding:16px;text-align:center;color:#7A6A4A;font-size:.84rem}
+.g2b-foot{padding:8px 16px;font-size:.7rem;color:#7A6A4A;border-top:1px solid #F0E5C8;background:#FDFAF1}
+.g2b-modal{position:fixed;inset:0;z-index:9999;background:rgba(10,37,66,.6);display:none;align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto}
+.g2b-modal.show{display:flex}
+.g2b-mbox{background:#fff;border-radius:16px;max-width:920px;width:100%;max-height:calc(100vh - 60px);overflow:hidden;display:flex;flex-direction:column}
+.g2b-mhd{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#0A2542;color:#fff}
+.g2b-mhd b{font-size:1rem}
+.g2b-mhd button{background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer}
+.g2b-mbd{padding:16px;overflow-y:auto}
+.g2b-loading{padding:32px;text-align:center;color:#7A6A4A}
+@media (max-width:640px){
+  .g2b-stats{grid-template-columns:repeat(2,1fr)}
+  .g2b-stat .v{font-size:.92rem}
+  .g2b-yr,.g2b-vhdr,.g2b-vrow{grid-template-columns:1fr;gap:4px;text-align:left}
+  .g2b-vhdr{display:none}
+  .g2b-vrow .g2b-vname{font-size:.95rem}
+  .g2b-vcnt::before{content:'건수 '}
+  .g2b-vamt::before{content:'총액 '}
+  .g2b-vsut::before{content:'수의 '}
+  .g2b-varr{display:none}
+}
+`;
+  document.head.appendChild(css);
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', ()=>{ checkG2B(); injectIntoContract(); });
+  else { checkG2B(); injectIntoContract(); }
+})();
+
 
 /* 재정주권 365 · build ready */
 </script>
