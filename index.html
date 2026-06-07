@@ -1167,14 +1167,14 @@ h1{letter-spacing:-.035em;font-weight:900}
       <b>🏛️ 중앙정부·정부 부처 예산도 함께 확인해요</b>
       <p>이 플랫폼 <b>「대한민국 재정 365」</b>는 전국 지방자치단체(지방정부) 재정을 다룹니다. <b>「재정주권시민행동」</b>은 중앙정부 각 부처의 예산 집행을 공개하고 시민 의견을 받는 중앙정부 재정 참여 플랫폼입니다.</p>
     </div>
-    <a href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">재정주권시민행동 ↗</a>
+    <a href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">중앙정부 예산 플랫폼 보기 ↗</a>
   </div>
   <div class="gov-cta" style="background:linear-gradient(120deg,#0f766e,#1aa179)">
     <div class="txt">
       <b>🙋 청년이 결정하는 정책에 함께하세요</b>
       <p><b>「청년결정정부」</b>는 전남·광주 청년이 일자리·주거·복지 정책을 직접 제안하고 함께 결정하는 청년 정책 참여 플랫폼입니다.</p>
     </div>
-    <a href="https://www.xn--p89av0gr2mutka661e.kr" target="_blank" rel="noopener">청년결정정부 · 전남·광주 청년 ↗</a>
+    <a href="https://www.xn--p89av0gr2mutka661e.kr" target="_blank" rel="noopener">전남·광주 정책참여 플랫폼 보기 ↗</a>
   </div>
 
   <!-- ============== K. 3대 가치 (퍼퍼 위) ============== -->
@@ -1234,13 +1234,13 @@ h1{letter-spacing:-.035em;font-weight:900}
       <span class="fs-icon">💰</span>
       <div>
         <h2>우리 동네 예산</h2>
-        <p>시·군·구를 선택하면 <b>예산·집행만</b> 집중해서 보여드립니다 (실시간 공시 기준)</p>
+        <p>선택한 지역의 <b>예산과 집행 현황</b>을 보여드립니다. (실시간 공시 기준)</p>
       </div>
     </div>
     <div class="fs-picker">
       <select id="budgetSido"><option value="">시·도 선택</option></select>
       <select id="budgetSigungu"><option value="">시·군·구 선택</option></select>
-      <button id="budgetGo" type="button">💰 예산 보기</button>
+      <button id="budgetGo" type="button">💰 예산만 보기</button>
     </div>
     <div id="budgetPanel" class="fs-panel">
       <div class="fs-empty">위에서 <b>시·도</b> → <b>시·군·구</b>를 선택하고 "예산 보기"를 눌러주세요.</div>
@@ -1253,13 +1253,13 @@ h1{letter-spacing:-.035em;font-weight:900}
       <span class="fs-icon">📜</span>
       <div>
         <h2>우리 동네 계약 현황</h2>
-        <p>시·군·구를 선택하면 <b>계약·이상신호만</b> 집중해서 보여드립니다 (재정 온톨로지 자동 적용)</p>
+        <p>선택한 지역의 <b>계약 현황과 이상신호</b>를 보여드립니다. (나라장터 실시간 연동)</p>
       </div>
     </div>
     <div class="fs-picker">
       <select id="contractSido"><option value="">시·도 선택</option></select>
       <select id="contractSigungu"><option value="">시·군·구 선택</option></select>
-      <button id="contractGo" type="button">📜 계약 보기</button>
+      <button id="contractGo" type="button">📜 계약만 보기</button>
     </div>
     <div id="contractPanel" class="fs-panel">
       <div class="fs-empty">위에서 <b>시·도</b> → <b>시·군·구</b>를 선택하고 "계약 보기"를 눌러주세요.</div>
@@ -1274,13 +1274,13 @@ h1{letter-spacing:-.035em;font-weight:900}
     <button type="button" id="diagCloseBtn" aria-label="진단 섹션 닫기" style="position:absolute;top:14px;right:8px;background:#fff;border:1px solid #cbd5e1;border-radius:999px;width:34px;height:34px;font-size:1.1rem;cursor:pointer;z-index:10;box-shadow:0 4px 12px rgba(0,0,0,.15);color:#64748b">✕</button>
     <div class="section-h">
       <span class="ic">🩺</span>
-      <div><h2>우리 동네 살림살이 3초 진단</h2><p>지역을 선택하고 <b>[진단하기]</b>를 누르세요. 종합 진단·예산·계약·시각화를 한 섹션에서 탭으로 전환합니다.</p></div>
+      <div><h2>우리 동네 살림살이 3초 진단</h2><p>지역을 선택하고 <b>[종합 진단 시작]</b>을 누르세요. 진단 결과를 예산·계약·추이별로 볼 수 있습니다.</p></div>
     </div>
     <div class="controls">
       <div class="field"><label>광역 시·도</label><select id="sidoSel"></select></div>
       <div class="field"><label>시·군·구</label><select id="sigunguSel"></select></div>
       <div class="field"><label>회계연도</label><select id="yearSel"></select></div>
-      <button class="btn btn-primary" id="diagnoseBtn">진단하기</button>
+      <button class="btn btn-primary" id="diagnoseBtn">종합 진단 시작</button>
       <button class="btn btn-ghost" id="randomBtn">🎲 무작위 동네</button>
       <button class="btn btn-ghost" id="pdfBtn">📄 세출예산 PDF 공개</button>
       <button class="btn btn-primary" id="detailBtn" style="background:var(--teal)">📑 우리동네 상세페이지</button>
@@ -1428,7 +1428,7 @@ h1{letter-spacing:-.035em;font-weight:900}
   <section id="compare">
     <div class="section-h">
       <span class="ic">⚖️</span>
-      <div><h2>우리동네 vs 비교하기</h2><p>물건을 비교하듯 두 지자체를 나란히 놓고, 지표별 전국 순위·상위 비율·전국 평균 대비·우위까지 한눈에 볼 수 있습니다.</p></div>
+      <div><h2>우리동네 vs 비교하기</h2><p>두 지자체를 같은 기준으로 비교합니다. 지표별 전국 순위·상위 비율·전국 평균 대비·우위까지 한눈에 볼 수 있습니다.</p></div>
     </div>
     <div class="card pad">
       <div class="rank-tools" style="align-items:center">
@@ -1586,8 +1586,8 @@ h1{letter-spacing:-.035em;font-weight:900}
         <div class="field" style="flex:2;min-width:240px"><label>핵심 의견 · 질의 · 제안 <span class="muted" style="font-weight:600">(짧아도 OK)</span></label><textarea id="voiceText" rows="2" placeholder="예) 우리 동네 축제 예산이 과한 것 같아요. 항목별 내역을 공개해 주세요." style="width:100%;resize:vertical;padding:10px 12px;border:1.5px solid var(--line);border-radius:var(--r-sm);font-family:inherit;font-size:.9rem;line-height:1.5"></textarea></div>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-        <button class="btn btn-ghost" id="voicePolish">🤖 AI로 다듬기</button>
-        <button class="btn btn-primary" id="voiceMail">📧 우리동네 의회로 시정요구하기</button>
+        <button class="btn btn-ghost" id="voicePolish">🤖 의견 문장 AI 다듬기</button>
+        <button class="btn btn-primary" id="voiceMail">📧 의회에 의견 보내기</button>
         <a id="voiceFind" href="javascript:void(0)" style="align-self:center;font-size:.78rem;font-weight:700">🔎 우리 지역 의회 이메일 찾기</a>
       </div>
       <div id="voicePreviewWrap" style="display:none;margin-top:14px">
@@ -4839,5 +4839,233 @@ window.restoreKorean = function(){
   setTimeout(wire,1200);
 })();
 </script>
+<style id="kbV43css">
+/* ═══ v43 패치 ═══
+   ① 모달 가림 버그: 교과서/분석방법/소개 모달이 dim 오버레이(z310) 아래 깔려
+      "클릭해도 안 뜨는" 것처럼 보이던 문제 → z-index 325로 승격 */
+#edu.show,#ontology.show{z-index:325}
+.detail-overlay.open{z-index:325}
+/* ② 데이터 상태 배지 */
+.kb-badge{display:inline-block;font-size:.68rem;font-weight:800;padding:3px 9px;border-radius:999px;vertical-align:middle;margin-left:6px;white-space:nowrap}
+.kb-badge.official{background:#dcfce7;color:#166534}
+.kb-badge.live{background:#e0f2fe;color:#075985}
+.kb-badge.est{background:#fef3c7;color:#92400e}
+.kb-badge.ref{background:#fde2e7;color:#b21a42}
+/* ③ 분야별 드릴다운 행 */
+tr.kb-drill{cursor:pointer}
+tr.kb-drill:hover td{background:#eef6ff!important}
+.kb-kindrow{display:grid;grid-template-columns:90px 1fr 70px 100px 26px;gap:10px;align-items:center;padding:9px 12px;background:#FAFBFC;border-radius:8px;cursor:pointer;font-size:.85rem}
+.kb-kindrow:hover{background:#FAF3E2}
+.kb-kindbar{height:13px;background:#F0E5C8;border-radius:7px;overflow:hidden}
+.kb-kindbar>div{height:100%;background:linear-gradient(90deg,#7c5cd6,#4c2ba8);border-radius:7px}
+/* ④ IA 개편 — 서브내비 정돈 */
+.subnav .wrap{flex-wrap:wrap}
+</style>
+<script id="kbV43js">
+/* ═══ v43 통합 패치 — 모달 z-index 픽스 · 분야별 드릴다운 · 데이터 배지 · IA 5메뉴 ═══ */
+(function(){
+"use strict";
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function won(n){n=Math.round(n||0);var 억=n/1e8;return 억>=10000?(억/10000).toFixed(1)+'조':(억>=1?억.toFixed(1)+'억':Math.round(n/1e4).toLocaleString('ko-KR')+'만');}
+var DEPT={'사회복지':'주민복지과','농림해양수산':'농업정책과·농업기술센터','문화및관광':'문화관광과','환경':'환경과','국토및지역개발':'도시건설과','교통및물류':'교통행정과','교통':'교통행정과','일반공공행정':'기획예산과','보건':'보건소','산업·중소기업·에너지':'경제진흥과','산업·중소기업':'경제진흥과','과학기술':'미래전략과','교육':'교육지원과','공공질서및안전':'안전총괄과','예비비':'기획예산과','기타':'담당부서'};
+
+/* ── ① 모달 강제닫기 보강: 교과서/분석방법도 ESC·바깥클릭으로 닫힘 + dim 잔류 제거 ── */
+var origForce=window.forceCloseAllModals;
+window.forceCloseAllModals=function(){
+  try{ if(origForce) origForce(); }catch(e){}
+  document.querySelectorAll('#edu.show,#ontology.show').forEach(function(el){el.classList.remove('show');});
+  document.body.classList.remove('section-modal-open');
+  document.body.style.overflow='';
+};
+['edu','ontology'].forEach(function(id){
+  var sec=$(id); if(!sec) return;
+  sec.addEventListener('click',function(e){
+    if(e.target===sec){ window.forceCloseAllModals(); }
+  });
+});
+
+/* ── 공용 상세 모달 (g2b-modal 스타일 재사용) ── */
+function kbModal(title){
+  var m=$('kbDetailModal');
+  if(!m){
+    m=document.createElement('div'); m.id='kbDetailModal'; m.className='g2b-modal';
+    m.innerHTML='<div class="g2b-mbox"><div class="g2b-mhd"><b id="kbDmTitle">…</b><button id="kbDmClose">✕</button></div><div id="kbDmBody" class="g2b-mbd">로딩 중…</div></div>';
+    document.body.appendChild(m);
+    $('kbDmClose').onclick=function(){m.classList.remove('show');};
+    m.onclick=function(e){if(e.target===m)m.classList.remove('show');};
+  }
+  $('kbDmTitle').textContent=title;
+  $('kbDmBody').innerHTML='<div class="g2b-loading">로딩 중…</div>';
+  m.classList.add('show');
+  return $('kbDmBody');
+}
+
+/* ── ② 예산: 분야별 세출예산 행 클릭 → 해당 분야 실제 사업 상세 ── */
+function sectorMatch(field,sector){
+  field=String(field||''); sector=String(sector||'');
+  if(!field||!sector) return false;
+  if(field.indexOf(sector)>=0||sector.indexOf(field)>=0) return true;
+  return field.slice(0,2)===sector.slice(0,2);
+}
+function openSectorDetail(key,sector,sectorAmt){
+  var body=kbModal('📊 '+sector+' — 세부사업 집행내역');
+  if(!window.FS||!window.FS._zoneName||!window.FS._ensureLafcd){ body.innerHTML='<div class="g2b-empty">분석 모듈 로딩 전입니다. 잠시 후 다시 시도해주세요.</div>'; return; }
+  var zname=window.FS._zoneName(key);
+  if(!zname){ body.innerHTML='<div class="g2b-empty">전국 단위는 세부사업이 너무 많습니다.<br>위에서 <b>시·도 → 시·군·구</b>를 선택하면 해당 지역의 실제 사업 내역이 표시됩니다.</div>'; return; }
+  window.FS._ensureLafcd().then(function(map){
+    var code=map[zname];
+    if(!code){ body.innerHTML='<div class="g2b-empty">지역 매칭 코드를 찾지 못했습니다 ('+esc(zname)+')</div>'; return; }
+    fetch('/api/projects?laf_cd='+encodeURIComponent(code)+'&limit=300').then(function(r){return r.json();}).then(function(d){
+      var all=(d&&d.projects)||[];
+      var list=all.filter(function(p){return sectorMatch(p.field,sector);});
+      if(!list.length){ body.innerHTML='<div class="g2b-empty">"'+esc(sector)+'" 분야의 실시간 세부사업 데이터가 없습니다.<br><span style="font-size:.78rem;color:#94a3b8">전체 '+all.length+'건 중 매칭 0건 · 출처: 지방재정365</span></div>'; return; }
+      var gu=zname.replace(/^(서울|부산|대구|인천|광주|대전|울산|세종|경기|강원|충북|충남|전북|전남|경북|경남|제주)/,'');
+      var dept=DEPT[sector]||DEPT[Object.keys(DEPT).filter(function(k){return sectorMatch(k,sector);})[0]]||'담당부서';
+      var deptUrl='https://search.naver.com/search.naver?query='+encodeURIComponent(gu+' '+dept.split('·')[0]+' 전화번호');
+      var rows=list.slice(0,60).map(function(p,i){
+        var rc=p.rate>=80?'#16a34a':(p.rate>=40?'#d97706':'#e11d48');
+        return '<div class="g2b-row"><div style="flex:1;min-width:0"><div class="g2b-ttl">'+(i+1)+'. '+esc(p.name)+'</div><div class="g2b-sub">'+esc(p.field)+' · 집행률 <b style="color:'+rc+'">'+p.rate+'%</b></div></div><div class="g2b-amt">'+esc(p.budget)+'<div style="font-size:.7rem;color:#64748b;font-weight:400">집행 '+esc(p.exec)+'</div></div></div>';
+      }).join('');
+      body.innerHTML='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px"><b style="color:#0A2542">'+esc(zname)+' · '+esc(sector)+' '+list.length+'건</b><span class="kb-badge live">✅ 지방재정365 실데이터</span><a href="'+deptUrl+'" target="_blank" rel="noopener" style="margin-left:auto;font-size:.8rem;font-weight:800;color:#1d6fe0;text-decoration:none">📞 담당 추정: '+esc(dept)+' — 연락처 찾기 ↗</a></div><div class="g2b-rows">'+rows+'</div><div style="font-size:.72rem;color:#94a3b8;margin-top:8px">※ 분야 매칭은 명칭 기준 자동 분류로 일부 오차가 있을 수 있습니다 · 출처: 지방재정365 세부사업별 집행 현황</div>';
+    }).catch(function(){ body.innerHTML='<div class="g2b-empty">실시간 데이터를 불러오지 못했습니다</div>'; });
+  });
+}
+function wireBudgetDrill(panel,key){
+  if(!panel) return;
+  var tables=panel.querySelectorAll('table');
+  if(tables.length<2) return;
+  var secTable=tables[1];
+  Array.prototype.slice.call(secTable.rows,1).forEach(function(tr){
+    if(tr._kbDrill) return; tr._kbDrill=1;
+    tr.classList.add('kb-drill');
+    var nameCell=tr.cells[0];
+    if(nameCell && nameCell.innerHTML.indexOf('▸')<0) nameCell.innerHTML=nameCell.innerHTML+' <span style="color:#1d6fe0;font-weight:900;font-size:.75rem">▸ 상세</span>';
+    tr.addEventListener('click',function(){
+      var sector=(tr.cells[0].textContent||'').replace('▸ 상세','').trim();
+      openSectorDetail(key,sector);
+    });
+  });
+}
+function patchBudget(){
+  if(!window.FS||!window.FS.renderBudget){ setTimeout(patchBudget,400); return; }
+  var oB=window.FS.renderBudget.bind(window.FS);
+  window.FS.renderBudget=function(key,panelId){
+    oB(key,panelId);
+    var self=this;
+    setTimeout(function(){ wireBudgetDrill($(panelId||'budgetPanel'),key); },80);
+  };
+}
+setTimeout(patchBudget,1300);
+
+/* ── ③ 계약: G2B 카드에 '분야별(공사/용역/물품)' 탭 추가 + 클릭 상세 ── */
+function injectKindTab(card,region){
+  if(card._kbKind) return; card._kbKind=1;
+  fetch('/api/contract?region='+encodeURIComponent(region)).then(function(r){return r.json();}).then(function(j){
+    if(!j||j.error||!j.by_kind||!j.by_kind.length) return;
+    var tabs=card.querySelector('.g2b-tabs'); if(!tabs) return;
+    var btn=document.createElement('button'); btn.className='g2b-tab'; btn.dataset.gt='kind'; btn.textContent='📁 분야별 (클릭→상세)';
+    tabs.appendChild(btn);
+    var maxA=Math.max.apply(null,j.by_kind.map(function(k){return k.amount;}));
+    var rows=j.by_kind.map(function(k){
+      var w=maxA?(k.amount/maxA*100).toFixed(1):0;
+      return '<div class="kb-kindrow" data-kind="'+esc(k.kind)+'"><b style="color:#0A2542">'+esc(k.kind||'기타')+'</b><div class="kb-kindbar"><div style="width:'+w+'%"></div></div><div style="text-align:right;color:#4D5B73">'+k.count+'건</div><div style="text-align:right;font-weight:800;color:#0A2542">'+won(k.amount)+'</div><div style="color:#B88A3C;font-weight:800">→</div></div>';
+    }).join('');
+    var pane=document.createElement('div'); pane.className='g2b-pane'; pane.dataset.pane='kind'; pane.hidden=true;
+    pane.innerHTML='<div style="display:flex;flex-direction:column;gap:6px">'+rows+'</div><div id="kbKindDetail" style="margin-top:10px"></div>';
+    var foot=card.querySelector('.g2b-foot');
+    card.insertBefore(pane,foot);
+    btn.addEventListener('click',function(){
+      card.querySelectorAll('.g2b-tab').forEach(function(b){b.classList.remove('on');});
+      btn.classList.add('on');
+      card.querySelectorAll('.g2b-pane').forEach(function(p){p.hidden=p.dataset.pane!=='kind';});
+    });
+    card.querySelectorAll('.g2b-tab:not([data-gt="kind"])').forEach(function(b){
+      b.addEventListener('click',function(){ pane.hidden=true; });
+    });
+    pane.querySelectorAll('.kb-kindrow').forEach(function(row){
+      row.addEventListener('click',function(){
+        var kind=row.dataset.kind;
+        var list=(j.bids||[]).filter(function(b){return (b.kind||'기타')===kind;});
+        var det=pane.querySelector('#kbKindDetail');
+        if(!list.length){ det.innerHTML='<div class="g2b-empty">표시할 '+esc(kind)+' 공고가 없습니다 (상위 50건 기준)</div>'; return; }
+        det.innerHTML='<div style="font-size:.82rem;font-weight:800;color:#0A2542;margin:6px 0">'+esc(kind)+' 최근 공고 '+list.length+'건</div><div class="g2b-rows">'
+          +list.map(function(b){return '<div class="g2b-row"><div style="flex:1;min-width:0"><div class="g2b-ttl">'+(b.url?'<a href="'+esc(b.url)+'" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">'+esc(b.title)+' ↗</a>':esc(b.title))+'</div><div class="g2b-sub">'+esc(b.org)+' · <span class="g2b-method '+(/수의|단독/.test(b.method)?'sut':'cmp')+'">'+esc((b.method||'-').split('-')[0])+'</span> · '+esc(b.date||'')+'</div></div><div class="g2b-amt">'+(b.amount?won(b.amount):'-')+'</div></div>';}).join('')
+          +'</div>';
+        det.scrollIntoView({behavior:'smooth',block:'nearest'});
+      });
+    });
+  }).catch(function(){});
+}
+setInterval(function(){
+  document.querySelectorAll('.g2b-card').forEach(function(card){
+    if(card._kbKind) return;
+    var head=card.querySelector('.g2b-head b');
+    var m=head&&head.textContent.match(/—\s*(\S+)\s*·/);
+    if(m) injectKindTab(card,m[1]);
+  });
+},1500);
+
+/* ── ④ 데이터 상태 배지 자동 부착 ── */
+function addBadges(){
+  // AI 부실징후 → 참고용 경고
+  document.querySelectorAll('h3').forEach(function(h){
+    if(h._kbB) return;
+    if(h.textContent.indexOf('AI 부실징후')>=0){ h._kbB=1; h.insertAdjacentHTML('beforeend',' <span class="kb-badge ref">⚠️ 통계적 참고용 경고</span>'); }
+  });
+  // 섹션 헤더 배지
+  [['charts','est','📊 추정/시연'],['ranking','est','📊 추정/시연'],['compare','est','📊 추정/시연'],['diagnose','official','🟢 공식공시+실데이터 혼합']].forEach(function(cfg){
+    var sec=$(cfg[0]); if(!sec||sec._kbB) return;
+    var h=sec.querySelector('.section-h h2, h2'); if(!h) return;
+    sec._kbB=1; h.insertAdjacentHTML('beforeend',' <span class="kb-badge '+cfg[1]+'">'+cfg[2]+'</span>');
+  });
+}
+setInterval(addBadges,1800); addBadges();
+
+/* ── ⑤ IA 개편: 상단 메뉴 5그룹 재구성 (기존 핸들러 보존 — DOM 이동만) ── */
+function rebuildNav(){
+  var nav=document.querySelector('.subnav .wrap'); if(!nav||nav._kbIA) return; nav._kbIA=1;
+  var get=function(id){return $(id);};
+  var navPolicy=get('navPolicy'),navBudget=get('navBudget'),navContract=get('navContract'),
+      navEdu=get('navEdu'),navOntology=get('navOntology'),navAbout=get('navAbout'),
+      drop=get('navDrop');
+  if(!navPolicy||!navBudget||!drop) return;
+  function mkDrop(label,items){
+    var d=document.createElement('div'); d.className='navdrop';
+    var t=document.createElement('a'); t.href='javascript:void(0)'; t.className='navdrop-toggle'; t.innerHTML=label+' <span class="navdrop-caret">▾</span>';
+    var menu=document.createElement('div'); menu.className='navdrop-menu'; menu.setAttribute('role','menu');
+    items.forEach(function(it){ if(it) menu.appendChild(it); });
+    d.appendChild(t); d.appendChild(menu);
+    t.addEventListener('click',function(e){e.preventDefault();document.querySelectorAll('.navdrop.open').forEach(function(o){if(o!==d)o.classList.remove('open');});d.classList.toggle('open');});
+    menu.addEventListener('click',function(){d.classList.remove('open');});
+    document.addEventListener('click',function(e){if(!d.contains(e.target))d.classList.remove('open');});
+    return d;
+  }
+  function mkLink(html,href){ var a=document.createElement('a'); a.href=href; a.innerHTML=html; return a; }
+  // 기존 진단 드롭다운 메뉴 항목 회수
+  var oldMenu=get('navDropMenu');
+  var diagItems=oldMenu?Array.prototype.slice.call(oldMenu.querySelectorAll('a')):[];
+  var home=mkLink('🏠 홈','#');
+  home.addEventListener('click',function(e){e.preventDefault();try{window.forceCloseAllModals();}catch(_){ }window.scrollTo({top:0,behavior:'smooth'});});
+  navBudget.innerHTML='💰 예산 개요·집행';
+  navContract.innerHTML='📜 계약 현황 (나라장터 LIVE)';
+  var fiscal=mkDrop('📊 지역 재정 보기',[navBudget,navContract].concat(diagItems));
+  navPolicy.innerHTML='🔎 정책 검색';
+  navEdu.innerHTML='📚 재정 교과서·용어';
+  navOntology.innerHTML='🧬 분석 기준·방법';
+  var basis=mkDrop('🧭 분석 기준',[navOntology,navEdu]);
+  var act=mkLink('🌱 시민 참여','#action');
+  navAbout.innerHTML='👤 김보미 소개';
+  nav.innerHTML='';
+  nav.appendChild(home); nav.appendChild(fiscal); nav.appendChild(navPolicy); nav.appendChild(basis); nav.appendChild(act); nav.appendChild(navAbout);
+  if(drop&&drop.parentNode) try{drop.remove();}catch(e){}
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(rebuildNav,800);});
+else setTimeout(rebuildNav,800);
+
+console.log('✅ v43 패치 활성 — 모달픽스·분야드릴다운·배지·IA 5메뉴');
+})();
+</script>
+
 </body>
 </html>
