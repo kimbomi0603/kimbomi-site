@@ -5461,7 +5461,7 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return
 function moveTrust(){
   var anchor=$('action'); if(!anchor||$('kbTrustZone')) return;
   var zone=document.createElement('div'); zone.id='kbTrustZone';
-  zone.innerHTML='<div class="kb46-zone-h" style="font-size:1.5rem;font-weight:700;color:#28251D;margin:18px 0 4px">이 사이트로 할 수 있는 일</div>';
+  zone.innerHTML='<div class="kb46-zone-h" style="font-size:1.5rem;font-weight:700;color:#28251D;margin:18px 0 4px">함께해요!</div>';
   anchor.parentNode.insertBefore(zone,anchor);
   document.querySelectorAll('.gov-cta,.values-row').forEach(function(el){ zone.appendChild(el); });
 }
