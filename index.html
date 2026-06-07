@@ -4094,7 +4094,7 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
     if(g2bCache[cacheKey]) return g2bCache[cacheKey];
     try{
       const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 25000);
-      const url = G2B_API + '?region=' + encodeURIComponent(region) + (params ? '&' + params : '');
+      const url = G2B_API + '?vv=2&region=' + encodeURIComponent(region) + (params ? '&' + params : '');
       const r = await fetch(url, {signal:ctrl.signal, cache:'no-store'});
       clearTimeout(t);
       const j = await r.json();
@@ -4961,7 +4961,7 @@ setTimeout(patchBudget,1300);
 /* ── ③ 계약: G2B 카드에 '분야별(공사/용역/물품)' 탭 추가 + 클릭 상세 ── */
 function injectKindTab(card,region){
   if(card._kbKind) return; card._kbKind=1;
-  fetch('/api/contract?region='+encodeURIComponent(region)).then(function(r){return r.json();}).then(function(j){
+  fetch('/api/contract?vv=2&region='+encodeURIComponent(region)).then(function(r){return r.json();}).then(function(j){
     if(!j||j.error||!j.by_kind||!j.by_kind.length) return;
     var tabs=card.querySelector('.g2b-tabs'); if(!tabs) return;
     var btn=document.createElement('button'); btn.className='g2b-tab'; btn.dataset.gt='kind'; btn.textContent='📁 분야별 (클릭→상세)';
@@ -5070,7 +5070,7 @@ setInterval(function(){
     var R=window.STATE&&window.STATE.region;
     var nm=R&&R.name; if(!nm||kbWarmed[nm]) return;
     kbWarmed[nm]=1;
-    fetch('/api/contract?region='+encodeURIComponent(nm)).catch(function(){});
+    fetch('/api/contract?vv=2&region='+encodeURIComponent(nm)).catch(function(){});
   }catch(e){}
 },2000);
 console.log('✅ v43.1 패치 활성 — 모달픽스·분야드릴다운·배지·IA 5메뉴·G2B 예열');
