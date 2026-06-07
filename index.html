@@ -5636,11 +5636,15 @@ function analysisCards(){
   sec.innerHTML='<div class="section-h"><span class="ic">🧭</span><div><h2>분석 기준 보기</h2><p>이 사이트가 데이터를 읽는 3가지 원칙 — 자세한 방법은 한 번의 클릭으로</p></div></div>'
     +'<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">'
     +C.map(function(c){return '<div class="card pad" style="text-align:left"><div style="font-size:1.7rem">'+c[0]+'</div><b style="display:block;margin-top:6px;color:#0b2545;font-size:.95rem">'+c[1]+'</b><div style="font-size:.81rem;color:#475569;line-height:1.6;margin-top:5px">'+c[2]+'</div></div>';}).join('')
-    +'</div><div style="text-align:center;margin-top:12px"><button type="button" id="kbOntoBtn" style="background:linear-gradient(135deg,#0b2545,#1d4080);color:#fff;border:none;border-radius:11px;padding:12px 24px;font-family:inherit;font-weight:900;font-size:.92rem;cursor:pointer">🧬 분석 방법 자세히 보기</button></div>';
+    +'</div>'
+    +'<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin-top:14px"><span style="font-size:.8rem;font-weight:900;color:#64748b">📚 근거 기관</span><a href="https://www.nabo.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">국회예산정책처(NABO)</a><a href="https://www.mois.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">행정안전부</a><a href="https://www.openfiscaldata.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">열린재정</a><a href="https://www.g2b.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">나라장터 G2B</a><a href="https://www.lofin365.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">지방재정365</a></div>'
+    +'<div style="text-align:center;margin-top:12px"><button type="button" id="kbOntoBtn" style="background:linear-gradient(135deg,#0b2545,#1d4080);color:#fff;border:none;border-radius:11px;padding:12px 24px;font-family:inherit;font-weight:900;font-size:.92rem;cursor:pointer">🧬 분석 방법 자세히 보기</button></div>';
   anchor.parentNode.insertBefore(sec,anchor);
   $('kbOntoBtn').addEventListener('click',function(){ if(window.__showSection) window.__showSection('ontology'); });
 }
 setTimeout(analysisCards,1200);
+function demoteRanking(){try{var sec=document.getElementById('ranking');var act=document.getElementById('action');if(sec&&act&&!sec._kbMoved&&act.parentNode){sec._kbMoved=1;act.parentNode.insertBefore(sec,act);}}catch(e){console.warn('demoteRanking',e);}}
+setTimeout(demoteRanking,1500);
 
 /* ── ⑦ '지방의회가 하는 일' 설명 → 접이식 아코디언 ── */
 function councilAccordion(){
