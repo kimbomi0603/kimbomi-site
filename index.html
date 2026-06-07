@@ -4093,7 +4093,7 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
     const cacheKey = region + '|' + (params || '');
     if(g2bCache[cacheKey]) return g2bCache[cacheKey];
     try{
-      const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 12000);
+      const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 25000);
       const url = G2B_API + '?region=' + encodeURIComponent(region) + (params ? '&' + params : '');
       const r = await fetch(url, {signal:ctrl.signal, cache:'no-store'});
       clearTimeout(t);
@@ -4241,7 +4241,7 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
       const region = R.name;
       const live = await fetchG2B(region);
       const loading = document.getElementById('g2bLoading'); if(loading) loading.remove();
-      if(!live){ return; }
+      if(!live){ panel.insertAdjacentHTML('beforeend','<div style="margin-top:14px;padding:12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;font-size:.84rem;color:#7A6A4A">⏳ 나라장터 응답이 느려 실시간 내역을 불러오지 못했습니다. <button onclick="this.parentNode.remove();window.FS.renderContract(&quot;'+key+'&quot;)" style="margin-left:8px;background:#E0B266;border:none;border-radius:8px;padding:5px 12px;font-weight:800;cursor:pointer;font-family:inherit">🔄 다시 시도</button></div>'); return; }
       panel.dataset.g2bFor = key;
       const html = renderLive(live, region);
       const wrap = document.createElement('div'); wrap.innerHTML = html;
@@ -5063,7 +5063,17 @@ function rebuildNav(){
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(rebuildNav,800);});
 else setTimeout(rebuildNav,800);
 
-console.log('✅ v43 패치 활성 — 모달픽스·분야드릴다운·배지·IA 5메뉴');
+/* 나라장터 CDN 캐시 예열 — 지역 선택 즉시 백그라운드 호출 */
+var kbWarmed={};
+setInterval(function(){
+  try{
+    var R=window.STATE&&window.STATE.region;
+    var nm=R&&R.name; if(!nm||kbWarmed[nm]) return;
+    kbWarmed[nm]=1;
+    fetch('/api/contract?region='+encodeURIComponent(nm)).catch(function(){});
+  }catch(e){}
+},2000);
+console.log('✅ v43.1 패치 활성 — 모달픽스·분야드릴다운·배지·IA 5메뉴·G2B 예열');
 })();
 </script>
 
