@@ -184,7 +184,7 @@ module.exports = async (req, res) => {
     out.hint = KEY ? "ad_live/ao_live 가 ❌면 data.go.kr에서 해당 서비스 활용신청 또는 키 확인 필요" : "⚠️ G2B_API_KEY 미설정 — Vercel 환경변수 추가 필요";
     return res.status(200).json(out);
   }
-  if (!KEY) return res.status(200).json({ configured: false, error: "G2B_API_KEY 미설정" });
+  if (!KEY) { res.setHeader("Cache-Control", "no-store"); return res.status(200).json({ configured: false, error: "G2B_API_KEY 미설정" }); }
 
   try {
     let r = await fetchAD(region, days);
@@ -192,6 +192,7 @@ module.exports = async (req, res) => {
       const fb = await fetchAO(region, days);
       if (fb.ok) { r = fb; }
       else {
+        res.setHeader("Cache-Control", "no-store");
         return res.status(200).json({
           configured: true, region: region,
           error: "나라장터 응답 오류 — ad:[" + (r.code || "") + " " + (r.msg || "") + "] ao:[" + (fb.code || "") + " " + (fb.msg || "") + "]",
@@ -261,6 +262,7 @@ module.exports = async (req, res) => {
       src: "조달청 나라장터 · " + r.src
     });
   } catch (e) {
+    res.setHeader("Cache-Control", "no-store");
     return res.status(200).json({ configured: true, error: String((e && e.message) || e), region: region });
   }
 };
