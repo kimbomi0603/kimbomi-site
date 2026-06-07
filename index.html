@@ -66,15 +66,15 @@
 
 <style>
 :root{
-  /* 🎨 시빅 데이터룸 (1순위) — 흰 캔버스 + 딥네이비 + 골드 + 1포인트 레드 */
-  --navy:#0A2542; --navy2:#143258; --blue:#1B5FAA; --blue-soft:#EBF2F9;
-  --gold:#E0B266; --gold-deep:#B88A3C; --gold-soft:#FAF3E2;
-  --teal:#E0B266; --teal-soft:#FAF3E2;  /* 기존 teal 변수도 골드로 매핑 (호환) */
-  --green:#0E7A4A; --amber:#E0B266; --red:#DC2626; --purple:#5B3DB8;
-  --ink:#0E1A2E; --muted:#4D5B73; --line:#E2E6ED; --bg:#FAFBFC; --card:#FFFFFF;
-  --shadow:0 1px 3px rgba(10,37,66,.06),0 8px 24px rgba(10,37,66,.08);
-  --shadow-lg:0 12px 40px rgba(11,37,69,.16);
-  --r:16px; --r-sm:10px;
+  /* 🎨 A. Public Service — 아이보리 + 딥틸 1포인트 + 절제된 공공 팔레트 */
+  --navy:#0C4E54; --navy2:#01696F; --blue:#355C7D; --blue-soft:#EDF2F6;
+  --gold:#B26A00; --gold-deep:#8A5200; --gold-soft:#F6EFE3;
+  --teal:#01696F; --teal-soft:#E3EFEE;
+  --green:#4C7A3F; --amber:#B26A00; --red:#A13544; --purple:#355C7D;
+  --ink:#28251D; --muted:#6F6A62; --line:#D8D3CC; --bg:#F7F6F2; --card:#FBFBF9;
+  --shadow:0 1px 2px rgba(40,37,29,.05),0 6px 18px rgba(40,37,29,.06);
+  --shadow-lg:0 12px 36px rgba(40,37,29,.12);
+  --r:18px; --r-sm:12px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -85,8 +85,8 @@ a{color:var(--blue);text-decoration:none}
 .mono{font-variant-numeric:tabular-nums}
 
 /* ===== Top bar ===== */
-.topbar{background:linear-gradient(120deg,var(--navy) 0%,var(--navy2) 55%,#1b4a86 100%);color:#fff;position:relative;overflow:hidden}
-.topbar::after{content:"";position:absolute;right:-80px;top:-120px;width:420px;height:420px;background:radial-gradient(circle,rgba(45,212,191,.22),transparent 60%);pointer-events:none}
+.topbar{background:var(--bg);color:var(--ink);position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.topbar::after{content:none}
 .topbar .wrap{position:relative;z-index:1;padding-top:22px;padding-bottom:26px}
 .brandrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .logo{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--teal),#36e0c0);display:grid;place-items:center;font-size:24px;box-shadow:0 6px 18px rgba(15,185,166,.45)}
@@ -109,7 +109,7 @@ a{color:var(--blue);text-decoration:none}
 .tb-btn.ghost{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.32)}
 .tb-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.36)}
 /* 메인 히어로 검색창 — 첫 화면 핵심 액션, 크고 강조 */
-.hero-search{margin-top:22px;background:rgba(255,255,255,.14);border:2px solid rgba(125,240,224,.45);border-radius:22px;padding:24px 26px;backdrop-filter:blur(6px);max-width:900px;box-shadow:0 16px 40px rgba(0,0,0,.32)}
+.hero-search{margin-top:26px;background:transparent;border:none;border-radius:0;padding:0;backdrop-filter:none;max-width:960px;box-shadow:none}
 .hero-search-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
 .hero-search-row select{flex:0 1 auto;min-width:120px;max-width:240px;width:auto;background:#fff;border:none;border-radius:11px;padding:9px 32px 9px 14px;font-family:inherit;font-size:.98rem;font-weight:800;color:#0b2545;cursor:pointer;outline:none;transition:box-shadow .15s;box-shadow:0 3px 10px rgba(0,0,0,.1);appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='%230b2545' d='M6 9L1 4h10z'/></svg>");background-repeat:no-repeat;background-position:right 11px center}
 .hero-search-row select:hover{box-shadow:0 6px 18px rgba(125,240,224,.4)}
@@ -260,10 +260,10 @@ a{color:var(--blue);text-decoration:none}
 .stat-strip .s span{font-size:.72rem;color:#a9c4e8}
 
 /* ===== Nav ===== */
-.subnav{background:var(--navy);border-top:1px solid rgba(255,255,255,.08);position:sticky;top:0;z-index:40}
+.subnav{background:#FFFFFF;border-top:none;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
 .subnav .wrap{display:flex;gap:2px;flex-wrap:wrap;align-items:center}
-.subnav a{color:#c7d7ee;font-size:.84rem;font-weight:600;padding:12px 14px;white-space:nowrap;border-bottom:3px solid transparent}
-.subnav a:hover{color:#fff;border-color:var(--teal)}
+.subnav a{color:#6F6A62;font-size:.86rem;font-weight:600;padding:13px 14px;white-space:nowrap;border-bottom:2px solid transparent}
+.subnav a:hover{color:#01696F;border-color:#01696F}
 /* 통합 드롭다운 */
 .navdrop{position:relative}
 .navdrop-toggle{cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-weight:800;color:#fff;background:linear-gradient(135deg,rgba(15,185,166,.22),rgba(29,111,224,.18));border:1px solid rgba(125,240,224,.35);border-bottom:1px solid rgba(125,240,224,.35);border-radius:10px;margin:6px 2px}
@@ -277,10 +277,10 @@ a{color:var(--blue);text-decoration:none}
 @media(hover:hover){.navdrop:hover .navdrop-menu{display:flex}.navdrop:hover .navdrop-caret{transform:rotate(180deg)}}
 
 /* ===== Panels ===== */
-section{padding:26px 0}
+section{padding:44px 0 24px}
 .section-h{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .section-h .ic{width:30px;height:30px;border-radius:8px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;font-size:16px;flex:none}
-.section-h h2{font-size:1.22rem;font-weight:900;letter-spacing:-.3px}
+.section-h h2{font-size:1.5rem;font-weight:700;letter-spacing:-.02em}
 .section-h p{font-size:.83rem;color:var(--muted)}
 
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
@@ -1080,9 +1080,9 @@ h1{letter-spacing:-.035em;font-weight:900}
         </div>
       </div>
     </div>
-    <div style="display:flex;justify-content:center;margin-top:22px"><span style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,216,77,.16);border:1.5px solid rgba(255,216,77,.45);color:#ffd84d;font-size:.78rem;font-weight:900;padding:7px 16px;border-radius:99px;letter-spacing:.04em;backdrop-filter:blur(8px);box-shadow:0 4px 14px rgba(255,216,77,.18)"><span style="font-size:1rem">🔥</span> 국민주권실행 플랫폼 · 김보미.com</span></div>
-    <h1 class="hero-headline" style="margin:18px auto 0;font-size:2.7rem;line-height:1.2;text-align:center;font-weight:900;letter-spacing:-.035em;color:#fff;text-shadow:0 4px 24px rgba(0,0,0,.45)">무엇이 궁금하신가요?</h1>
-    <p style="text-align:center;color:#dceafb;font-size:1.04rem;font-weight:600;line-height:1.65;margin:14px auto 0;max-width:760px">정책과 담당부서를 찾거나, <b style="color:#7df0e0">우리 동네 재정</b>을 바로 확인할 수 있습니다.</p>
+    <div style="display:flex;justify-content:center;margin-top:22px"><span style="display:inline-flex;align-items:center;gap:8px;background:rgba(1,105,111,.07);border:1px solid rgba(1,105,111,.25);color:#01696F;font-size:.78rem;font-weight:900;padding:7px 16px;border-radius:99px;letter-spacing:.04em;backdrop-filter:blur(8px);box-shadow:0 4px 14px rgba(255,216,77,.18)"><span style="font-size:1rem">🔥</span> 국민주권실행 플랫폼 · 김보미.com</span></div>
+    <h1 class="hero-headline" style="margin:26px auto 0;font-size:clamp(2.4rem,4.6vw,3.1rem);line-height:1.2;text-align:center;font-weight:700;letter-spacing:-.03em;color:#0C4E54;text-shadow:none">무엇이 궁금하신가요?</h1>
+    <p style="text-align:center;color:#6F6A62;font-size:1.05rem;font-weight:500;line-height:1.65;margin:14px auto 0;max-width:760px">정책과 담당부서를 찾거나, <b style="color:#01696F;font-weight:700">우리 동네 재정</b>을 바로 확인할 수 있습니다.</p>
     <!-- v46 메인 히어로 — 2개 대표 진입 -->
     <div class="hero-search" style="margin-left:auto;margin-right:auto">
       <div class="kb46-grid">
@@ -1152,9 +1152,9 @@ h1{letter-spacing:-.035em;font-weight:900}
   <!-- ============== K. 3대 가치 (퍼퍼 위) ============== -->
   <section class="values-row">
     <div class="values">
-      <div class="value v1"><div class="vic">🔍</div><h4>재정 투명성</h4><p>모든 예산의 편성·집행·계약을 시민이 한눈에 — 공식 공시값을 그대로 가져와 누구나 확인하게 합니다.</p></div>
-      <div class="value v2"><div class="vic">🗳️</div><h4>재정 민주주의</h4><p>예산의 우선순위는 정치인이 아니라 시민의 삶에서 나옵니다 — 의견을 모아 의회에 직접 전달합니다.</p></div>
-      <div class="value v3"><div class="vic">⚖️</div><h4>재정 정의</h4><p>새는 돈·일감 몰아주기·짜고 치는 거래까지 찾아내, 사회적 약자와 미래세대를 위한 정의로운 분배가 되도록 시민이 감시합니다.</p></div>
+      <div class="value v1"><div class="vic">▦</div><h4>예산과 집행을 한눈에 확인</h4><p>공식 공시값 그대로, 우리 동네 살림을 확인합니다.</p></div>
+      <div class="value v2"><div class="vic">⌕</div><h4>정책과 담당부서를 바로 찾기</h4><p>키워드 하나로 정책·부서·연락처를 연결합니다.</p></div>
+      <div class="value v3"><div class="vic">✎</div><h4>의견을 작성해 바로 전달</h4><p>AI가 다듬은 의견을 담당부서·의회로 보냅니다.</p></div>
     </div>
   </section>
 
@@ -5407,13 +5407,13 @@ console.log('✅ v45.1 공통 컴포넌트+라이트박스 활성');
 /* ═══ v46: 홈 전면 개편 — 2카드 히어로·담당부서 탭 검색·상세분석 탭·순위 프리뷰 ═══ */
 .kb46-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px}
 @media(max-width:760px){.kb46-grid{grid-template-columns:1fr}}
-.kb46-card{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.18);border-radius:18px;padding:22px 20px;display:flex;flex-direction:column;backdrop-filter:blur(8px)}
-.kb46-card .kb46-t{font-size:1.25rem;font-weight:900;color:#fff;letter-spacing:-.02em}
-.kb46-card .kb46-d{font-size:.88rem;color:#cfe0f5;margin-top:5px;font-weight:600}
-.kb46-card .kb46-sub{font-size:.74rem;color:#9db8d8;margin-top:10px;line-height:1.6}
-.kb46-btn{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;background:linear-gradient(135deg,#ffd84d,#ffb04d);color:#0b2545;font-weight:900;font-size:1.05rem;padding:14px;border-radius:13px;text-decoration:none;box-shadow:0 8px 22px rgba(255,176,77,.35);transition:transform .15s}
-.kb46-btn:hover{transform:translateY(-2px)}
-.kb46-btn.teal{background:linear-gradient(135deg,#7df0e0,#36e0c0);box-shadow:0 8px 22px rgba(54,224,192,.35)}
+.kb46-card{background:#FBFBF9;border:1px solid #D8D3CC;border-radius:18px;padding:26px 24px;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(40,37,29,.05),0 8px 22px rgba(40,37,29,.06)}
+.kb46-card .kb46-t{font-size:1.28rem;font-weight:700;color:#28251D;letter-spacing:-.02em}
+.kb46-card .kb46-d{font-size:.9rem;color:#6F6A62;margin-top:6px;font-weight:500}
+.kb46-card .kb46-sub{font-size:.78rem;color:#8B8579;margin-top:12px;line-height:1.6}
+.kb46-btn{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;background:#01696F;color:#fff;font-weight:700;font-size:1.02rem;padding:14px;border-radius:12px;text-decoration:none;box-shadow:0 4px 14px rgba(1,105,111,.22);transition:background .15s,transform .15s}
+.kb46-btn:hover{background:#0C4E54;transform:translateY(-1px)}
+.kb46-btn.teal{background:#01696F}
 .kb46-card .hero-free-row input{width:100%}
 /* 정책검색 결과 탭 */
 .kbps-tabs{display:flex;gap:6px;margin:4px 0 12px;flex-wrap:wrap}
@@ -5461,7 +5461,7 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return
 function moveTrust(){
   var anchor=$('action'); if(!anchor||$('kbTrustZone')) return;
   var zone=document.createElement('div'); zone.id='kbTrustZone';
-  zone.innerHTML='<div class="kb46-zone-h">🤝 함께하는 플랫폼 · 운영 가치</div>';
+  zone.innerHTML='<div class="kb46-zone-h" style="font-size:1.5rem;font-weight:700;color:#28251D;margin:18px 0 4px">이 사이트로 할 수 있는 일</div>';
   anchor.parentNode.insertBefore(zone,anchor);
   document.querySelectorAll('.gov-cta,.values-row').forEach(function(el){ zone.appendChild(el); });
 }
@@ -5659,6 +5659,118 @@ function councilAccordion(){
 setTimeout(councilAccordion,1400);
 
 console.log('✅ v46.1 홈 개편 활성 — 2카드 히어로·담당부서 탭·상세분석 탭·순위 프리뷰·신뢰영역·분석기준 카드·참여 스테퍼');
+})();
+</script>
+
+<style id="kbV47css">
+/* ═══ v47: A. Public Service 리스킨 — 절제된 팔레트·아이콘 정리·카드 통일 ═══ */
+/* 섹션 헤더 — 이모지 아이콘 박스 제거, 텍스트 위계 중심 */
+.section-h .ic,.ps-icon{display:none!important}
+.section-h{gap:0}
+.section-h h2{color:#28251D}
+.section-h p{font-size:.88rem;color:#6F6A62;margin-top:3px}
+/* 진단 등급카드 — 주황 그라데이션 → 딥틸 */
+.grade-card{background:linear-gradient(150deg,#0C4E54,#01696F)!important}
+/* dt 탭 */
+.dt-btn.active{background:#01696F!important;box-shadow:0 3px 10px rgba(1,105,111,.25)!important}
+/* 배지 4종 — 공공 팔레트 */
+.kb-badge.official{background:#E9F0E5!important;color:#4C7A3F!important}
+.kb-badge.live{background:#E8EEF4!important;color:#355C7D!important}
+.kb-badge.est{background:#F6EFE3!important;color:#B26A00!important}
+.kb-badge.ref{background:#F5E4E8!important;color:#A13544!important}
+.kb-badge.todo{background:#EFEDE9!important;color:#6F6A62!important}
+/* 나라장터 카드 — 골드 → 뉴트럴+틸 */
+.g2b-card{border-color:#D8D3CC!important}
+.g2b-head{background:#F3F0EC!important;border-bottom-color:#E5E1DA!important}
+.g2b-live{background:#4C7A3F!important}
+.g2b-tabs{border-bottom-color:#E5E1DA!important}
+.g2b-tab{color:#6F6A62!important}
+.g2b-tab.on{color:#0C4E54!important;border-bottom-color:#01696F!important}
+.g2b-row{border-left-color:#01696F!important;background:#F7F6F2!important}
+.g2b-yr-bar{background:#EFEDE9!important}
+.g2b-yr-bar>div{background:#01696F!important}
+.g2b-vhdr{background:#0C4E54!important}
+.g2b-vrow{background:#F7F6F2!important}
+.g2b-vrow:hover{background:#E3EFEE!important}
+.g2b-foot{background:#F7F6F2!important;border-top-color:#E5E1DA!important}
+.g2b-stat{background:#F7F6F2!important}
+.kb-kindrow{background:#F7F6F2!important}
+.kb-kindrow:hover{background:#E3EFEE!important}
+.kb-kindbar{background:#EFEDE9!important}
+.kb-kindbar>div{background:linear-gradient(90deg,#01696F,#0C4E54)!important}
+/* 핵심지표 카드 */
+.kb-kpi{border-color:#D8D3CC;background:#FBFBF9}
+.kb-kpi .v{font-variant-numeric:tabular-nums;font-weight:700}
+/* 참여 스테퍼 */
+.kb-step.on{background:#E3EFEE;border-color:#01696F;color:#0C4E54}
+.kb-step.on .n{background:#01696F}
+/* 순위 프리뷰 */
+.kb46-rankprev{background:#FBFBF9;border-color:#D8D3CC}
+.kb46-rankprev button{background:#01696F}
+.kb46-rankprev button:hover{background:#0C4E54}
+/* 정책검색 결과 */
+.kbps-tab.on{background:#01696F}
+.kbps-dept{border-left-color:#01696F}
+.kbps-act1{background:#01696F!important}
+/* 분야드릴 표 hover */
+tr.kb-drill:hover td{background:#E3EFEE!important}
+/* 인풋 */
+.hero-free-row input{background:#fff;border:1px solid #D8D3CC;border-radius:12px;color:#28251D}
+.hero-search-row select{box-shadow:none;border:1px solid #D8D3CC}
+/* 상단 유틸 칩 라이트화 */
+.topbar .translate-fab{background:#fff!important;border:1px solid #D8D3CC!important;box-shadow:none!important;color:#28251D!important}
+/* 모바일 접기 토글 */
+.kb-mtoggle{background:#FBFBF9;border-color:#D8D3CC}
+/* 과한 그림자/펄스 제거 */
+.prim-pulse{display:none!important}
+</style>
+<script id="kbV47js">
+(function(){
+"use strict";
+/* Pretendard 로드 */
+try{
+  if(!document.querySelector('link[href*="pretendard"]')){
+    var l=document.createElement('link'); l.rel='stylesheet';
+    l.href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
+    document.head.appendChild(l);
+  }
+}catch(e){}
+
+/* 차트 기본 톤 정리 */
+function chartDefaults(){
+  if(!window.Chart||!Chart.defaults){ setTimeout(chartDefaults,800); return; }
+  try{
+    Chart.defaults.color='#6F6A62';
+    Chart.defaults.borderColor='#E5E1DA';
+    Chart.defaults.font.family="'Pretendard Variable','Pretendard','Noto Sans KR',sans-serif";
+  }catch(e){}
+}
+chartDefaults();
+
+/* ── 이모지 전면 제거 (텍스트 노드 단위, 데이터·사진·라이트박스 제외) ── */
+var EMOJI=/[\u{1F000}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F1E6}-\u{1F1FF}\u{FE0F}\u{20E3}\u{2B50}\u{2B55}\u{2049}\u{203C}]/gu;
+var SKIP={SCRIPT:1,STYLE:1,TEXTAREA:1,CODE:1,PRE:1,CANVAS:1,SVG:1,OPTION:1};
+function stripEmoji(root){
+  try{
+    var walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+      var p=n.parentElement; if(!p) return NodeFilter.FILTER_REJECT;
+      if(SKIP[p.tagName]) return NodeFilter.FILTER_REJECT;
+      if(p.closest&&(p.closest('#kbLightbox')||p.closest('.kbm-ava')||p.closest('#quickLang')||p.closest('select'))) return NodeFilter.FILTER_REJECT;
+      return EMOJI.test(n.textContent)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;
+    }});
+    var nodes=[],n;
+    while((n=walker.nextNode())) nodes.push(n);
+    nodes.forEach(function(nd){
+      nd.textContent=nd.textContent.replace(EMOJI,'').replace(/^[\s·]+/,'').replace(/\s{2,}/g,' ');
+    });
+  }catch(e){}
+}
+function sweep(){ stripEmoji(document.body); }
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(sweep,400);});
+else setTimeout(sweep,400);
+setInterval(sweep,1500);
+
+console.log('v47 Public Service 리스킨 활성');
 })();
 </script>
 
