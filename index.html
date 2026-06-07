@@ -67,10 +67,10 @@
 <style>
 :root{
   /* 🎨 A. Public Service — 아이보리 + 딥틸 1포인트 + 절제된 공공 팔레트 */
-  --navy:#0C4E54; --navy2:#01696F; --blue:#355C7D; --blue-soft:#EDF2F6;
+  --navy:#0c2954; --navy2:#012d6f; --blue:#355C7D; --blue-soft:#EDF2F6;
   --gold:#B26A00; --gold-deep:#8A5200; --gold-soft:#F6EFE3;
-  --teal:#01696F; --teal-soft:#E3EFEE;
-  --green:#4C7A3F; --amber:#B26A00; --red:#A13544; --purple:#355C7D;
+  --teal:#012d6f; --teal-soft:#e3e8ef;
+  --green:#3f577a; --amber:#B26A00; --red:#A13544; --purple:#355C7D;
   --ink:#28251D; --muted:#6F6A62; --line:#D8D3CC; --bg:#F7F6F2; --card:#FBFBF9;
   --shadow:0 1px 2px rgba(40,37,29,.05),0 6px 18px rgba(40,37,29,.06);
   --shadow-lg:0 12px 36px rgba(40,37,29,.12);
@@ -78,7 +78,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Pretendard Variable','Pretendard','Noto Sans KR',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;letter-spacing:-.012em;word-break:keep-all;overflow-wrap:break-word;font-variant-numeric:tabular-nums}
+body{font-family:'Pretendard Variable','Pretendard','Noto Sans KR',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;letter-spacing:-.012em;word-break:keep-all;overflow-wrap:break-word;font-variant-numeric:tabular-nums}
 a{color:var(--blue);text-decoration:none}
 .wrap{max-width:1280px;margin:0 auto;padding:0 20px}
 .muted{color:var(--muted)}
@@ -89,14 +89,14 @@ a{color:var(--blue);text-decoration:none}
 .topbar::after{content:none}
 .topbar .wrap{position:relative;z-index:1;padding-top:22px;padding-bottom:26px}
 .brandrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.logo{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--teal),#36e0c0);display:grid;place-items:center;font-size:24px;box-shadow:0 6px 18px rgba(15,185,166,.45)}
+.logo{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--teal),#367ae0);display:grid;place-items:center;font-size:24px;box-shadow:0 6px 18px rgba(15,83,185,.45)}
 .brand-h{font-size:1.55rem;font-weight:900;letter-spacing:-.5px}
-.brand-h span{color:#7defd2}
+.brand-h span{color:#7dabef}
 .brand-sub{font-size:.86rem;color:#bcd2f0;font-weight:500;margin-top:2px}
 .live-badge{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);padding:7px 13px;border-radius:999px;font-size:.8rem;font-weight:700;cursor:pointer;transition:.15s}
 .live-badge:hover{background:rgba(255,255,255,.18)}
 .dot{width:9px;height:9px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 4px rgba(245,158,11,.25)}
-.dot.on{background:#34f0a8;box-shadow:0 0 0 4px rgba(52,240,168,.25)}
+.dot.on{background:#347ff0;box-shadow:0 0 0 4px rgba(52,127,240,.25)}
 .tagline{margin-top:16px;font-size:1.02rem;color:#dceafb;max-width:760px}
 .tagline b{color:#fff}
 .hero-headline{font-size:2.15rem;font-weight:900;color:#fff;line-height:1.28;margin-top:20px;letter-spacing:-.02em;max-width:780px}
@@ -105,35 +105,35 @@ a{color:var(--blue);text-decoration:none}
 .hero-subline b{color:#fff}
 .hero-cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
 .tb-btn{font-weight:800;font-size:1rem;padding:13px 22px;border-radius:12px;white-space:nowrap;transition:.15s;box-shadow:0 8px 22px rgba(0,0,0,.28)}
-.tb-btn.primary{background:linear-gradient(135deg,var(--teal),#36e0c0);color:#06201d}
+.tb-btn.primary{background:linear-gradient(135deg,var(--teal),#367ae0);color:#061020}
 .tb-btn.ghost{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.32)}
 .tb-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.36)}
 /* 메인 히어로 검색창 — 첫 화면 핵심 액션, 크고 강조 */
 .hero-search{margin-top:26px;background:transparent;border:none;border-radius:0;padding:0;backdrop-filter:none;max-width:960px;box-shadow:none}
 .hero-search-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
 .hero-search-row select{flex:0 1 auto;min-width:120px;max-width:240px;width:auto;background:#fff;border:none;border-radius:11px;padding:9px 32px 9px 14px;font-family:inherit;font-size:.98rem;font-weight:800;color:#0b2545;cursor:pointer;outline:none;transition:box-shadow .15s;box-shadow:0 3px 10px rgba(0,0,0,.1);appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='%230b2545' d='M6 9L1 4h10z'/></svg>");background-repeat:no-repeat;background-position:right 11px center}
-.hero-search-row select:hover{box-shadow:0 6px 18px rgba(125,240,224,.4)}
+.hero-search-row select:hover{box-shadow:0 6px 18px rgba(125,171,240,.4)}
 .hero-search-row select:disabled{opacity:.55;cursor:not-allowed}
-.hero-search-btn{flex:0 0 auto;background:linear-gradient(135deg,#7df0e0,#36e0c0);color:#06201d;font-weight:900;font-size:1.12rem;padding:18px 34px;border-radius:14px;text-decoration:none;box-shadow:0 10px 28px rgba(125,240,224,.42);white-space:nowrap;transition:.15s;letter-spacing:.01em}
-.hero-search-btn:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(125,240,224,.55)}
+.hero-search-btn{flex:0 0 auto;background:linear-gradient(135deg,#7dabf0,#367ae0);color:#061020;font-weight:900;font-size:1.12rem;padding:18px 34px;border-radius:14px;text-decoration:none;box-shadow:0 10px 28px rgba(125,171,240,.42);white-space:nowrap;transition:.15s;letter-spacing:.01em}
+.hero-search-btn:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(125,171,240,.55)}
 /* 🆕 자유 검색 입력 + 4개 토픽 버튼 */
 .hero-guide-msg{font-size:.92rem;font-weight:700;color:#F0D49A;margin-bottom:8px;padding:7px 14px;background:rgba(224,178,102,.12);border-radius:999px;display:inline-block;border:1px solid rgba(224,178,102,.28);letter-spacing:-.01em}
 .hero-guide-msg b{color:#fde68a;font-weight:900}
 @media(max-width:640px){.hero-guide-msg{font-size:.78rem;padding:6px 11px;display:block}}
 .hero-free-row{position:relative;margin-bottom:10px}
 .hero-free-row input{width:100%;box-sizing:border-box;padding:14px 18px;border-radius:14px;border:2px solid rgba(255,255,255,.22);background:rgba(255,255,255,.96);color:#1e293b;font-size:1rem;font-weight:600;outline:none;font-family:inherit}
-.hero-free-row input:focus{border-color:#7df0e0;box-shadow:0 0 0 4px rgba(125,240,224,.22)}
+.hero-free-row input:focus{border-color:#7dabf0;box-shadow:0 0 0 4px rgba(125,171,240,.22)}
 .hero-free-row input::placeholder{color:#94a3b8;font-weight:500}
 .hero-free-suggest{position:absolute;left:0;right:0;top:calc(100% + 4px);background:#fff;border-radius:14px;box-shadow:0 14px 36px rgba(0,0,0,.28);max-height:280px;overflow-y:auto;z-index:30}
 .hero-free-suggest.hidden{display:none}
 .hero-free-suggest button{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;padding:11px 16px;border:none;background:none;text-align:left;cursor:pointer;font-family:inherit;font-size:.93rem;color:#1e293b;border-bottom:1px solid #f1f5f9;font-weight:700}
-.hero-free-suggest button:hover{background:#ecfdf5}
+.hero-free-suggest button:hover{background:#ecf3fd}
 .hero-free-suggest button:last-child{border-bottom:none}
-.hero-free-suggest .tag{font-size:.72rem;color:#10b981;font-weight:800;background:#d1fae5;padding:3px 8px;border-radius:999px;white-space:nowrap;flex-shrink:0}
+.hero-free-suggest .tag{font-size:.72rem;color:#1054b9;font-weight:800;background:#d1e1fa;padding:3px 8px;border-radius:999px;white-space:nowrap;flex-shrink:0}
 .hero-topic-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
 
 /* 🩺 3초 진단 — 메인 CTA */
-.hero-topic-primary{position:relative;display:flex;align-items:center;gap:14px;width:100%;margin-top:10px;padding:18px 22px;border-radius:18px;background:linear-gradient(135deg,#E0B266 0%,#C9963A 60%,#B88A3C 100%);color:#0b2545;text-decoration:none;font-family:inherit;box-shadow:0 12px 30px rgba(184,138,60,.45),0 0 0 0 rgba(125,240,224,.6);transition:transform .18s,box-shadow .25s;overflow:hidden;animation:primPulse 2.2s ease-out infinite;border:2px solid rgba(255,255,255,.6)}
+.hero-topic-primary{position:relative;display:flex;align-items:center;gap:14px;width:100%;margin-top:10px;padding:18px 22px;border-radius:18px;background:linear-gradient(135deg,#E0B266 0%,#C9963A 60%,#B88A3C 100%);color:#0b2545;text-decoration:none;font-family:inherit;box-shadow:0 12px 30px rgba(184,138,60,.45),0 0 0 0 rgba(125,171,240,.6);transition:transform .18s,box-shadow .25s;overflow:hidden;animation:primPulse 2.2s ease-out infinite;border:2px solid rgba(255,255,255,.6)}
 .hero-topic-primary:hover{transform:translateY(-3px);box-shadow:0 18px 42px rgba(184,138,60,.55);animation:none}
 .hero-topic-primary .prim-emoji{font-size:3.2rem;line-height:1;flex-shrink:0;filter:drop-shadow(0 3px 6px rgba(0,0,0,.2)) drop-shadow(0 0 12px rgba(255,255,255,.5));transform-origin:center;animation:primSpyBounce 2.4s ease-in-out infinite}
 .hero-topic-primary .prim-text{display:flex;flex-direction:column;gap:2px;flex:1;text-align:left}
@@ -142,7 +142,7 @@ a{color:var(--blue);text-decoration:none}
 .hero-topic-primary .prim-arrow{font-size:1.8rem;font-weight:900;flex-shrink:0;transition:transform .25s}
 .hero-topic-primary:hover .prim-arrow{transform:translateX(6px)}
 .hero-topic-primary .prim-pulse{position:absolute;inset:0;border-radius:18px;pointer-events:none;background:radial-gradient(circle at 30% 50%,rgba(255,255,255,.45),transparent 70%);opacity:0;animation:primShine 2.8s ease-in-out infinite}
-@keyframes primPulse{0%{box-shadow:0 12px 30px rgba(184,138,60,.45),0 0 0 0 rgba(125,240,224,.7)}70%{box-shadow:0 12px 30px rgba(184,138,60,.45),0 0 0 14px rgba(125,240,224,0)}100%{box-shadow:0 12px 30px rgba(184,138,60,.45),0 0 0 0 rgba(125,240,224,0)}}
+@keyframes primPulse{0%{box-shadow:0 12px 30px rgba(184,138,60,.45),0 0 0 0 rgba(125,171,240,.7)}70%{box-shadow:0 12px 30px rgba(184,138,60,.45),0 0 0 14px rgba(125,171,240,0)}100%{box-shadow:0 12px 30px rgba(184,138,60,.45),0 0 0 0 rgba(125,171,240,0)}}
 @keyframes primShine{0%,100%{opacity:0;transform:translateX(-30%)}50%{opacity:.45;transform:translateX(30%)}}
 @keyframes primSpyBounce{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(8deg) scale(1.08)}}
 @media(max-width:640px){.hero-topic-primary{padding:14px 16px}.hero-topic-primary .prim-emoji{font-size:2.4rem}.hero-topic-primary .prim-title{font-size:1.18rem}.hero-topic-primary .prim-sub{font-size:.76rem}.hero-topic-primary .prim-arrow{font-size:1.4rem}}
@@ -165,15 +165,15 @@ a{color:var(--blue);text-decoration:none}
 /* ===== 첫 화면 매끄러운 통일 디자인 — 모든 컴포넌트 동일 토큰 ===== */
 .hero-search{padding:24px!important;background:rgba(255,255,255,.05)!important;border:1.5px solid rgba(255,255,255,.18)!important;border-radius:22px!important;max-width:780px!important;margin:22px auto 0!important;box-shadow:0 12px 32px rgba(0,0,0,.28)!important}
 .path-block{padding:20px!important;border-radius:18px!important;margin:0 0 12px!important}
-.path-block.path-a{background:linear-gradient(135deg,rgba(15,185,166,.12),rgba(125,240,224,.04))!important;border:1.5px solid rgba(125,240,224,.32)!important}
+.path-block.path-a{background:linear-gradient(135deg,rgba(15,83,185,.12),rgba(125,171,240,.04))!important;border:1.5px solid rgba(125,171,240,.32)!important}
 .path-block.path-b{background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(251,191,36,.04))!important;border:1.5px solid rgba(251,191,36,.32)!important}
 .path-block .path-label{font-size:.96rem!important;font-weight:900!important;margin-bottom:14px!important;letter-spacing:-.01em!important;line-height:1.4!important;display:flex;align-items:center;gap:8px}
-.path-block.path-a .path-label{color:#7df0e0!important}
+.path-block.path-a .path-label{color:#7dabf0!important}
 .path-block.path-b .path-label{color:#ffd84d!important}
 .hero-search-row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;margin:0 0 12px!important}
 .hero-search-row select{width:100%!important;max-width:none!important;min-width:0!important;height:52px!important;background:#fff!important;border:none!important;border-radius:12px!important;padding:0 36px 0 16px!important;font-size:.96rem!important;font-weight:800!important;color:#0b2545!important;cursor:pointer!important;outline:none!important;appearance:none!important;-webkit-appearance:none!important;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='%230b2545' d='M6 9L1 4h10z'/></svg>")!important;background-repeat:no-repeat!important;background-position:right 14px center!important;box-shadow:0 3px 10px rgba(0,0,0,.12)!important;box-sizing:border-box!important;line-height:52px!important}
-.hero-topic-primary{display:flex!important;align-items:center!important;justify-content:center!important;gap:12px!important;height:64px!important;padding:0 24px!important;border-radius:14px!important;background:linear-gradient(135deg,#7df0e0,#36e0c0)!important;color:#06201d!important;text-decoration:none!important;box-shadow:0 8px 22px rgba(125,240,224,.45)!important;margin:0 0 10px!important;font-weight:900!important;width:100%!important;box-sizing:border-box!important;transition:.15s}
-.hero-topic-primary:hover{transform:translateY(-2px)!important;box-shadow:0 12px 28px rgba(125,240,224,.55)!important}
+.hero-topic-primary{display:flex!important;align-items:center!important;justify-content:center!important;gap:12px!important;height:64px!important;padding:0 24px!important;border-radius:14px!important;background:linear-gradient(135deg,#7dabf0,#367ae0)!important;color:#061020!important;text-decoration:none!important;box-shadow:0 8px 22px rgba(125,171,240,.45)!important;margin:0 0 10px!important;font-weight:900!important;width:100%!important;box-sizing:border-box!important;transition:.15s}
+.hero-topic-primary:hover{transform:translateY(-2px)!important;box-shadow:0 12px 28px rgba(125,171,240,.55)!important}
 .hero-topic-primary .prim-emoji{font-size:1.4rem!important;flex-shrink:0}
 .hero-topic-primary .prim-text{flex:1;min-width:0;display:flex;flex-direction:column;text-align:left;gap:2px}
 .hero-topic-primary .prim-title{font-size:1.08rem!important;font-weight:900!important}
@@ -185,7 +185,7 @@ a{color:var(--blue);text-decoration:none}
 .hero-topic-btn:hover{background:rgba(255,255,255,.14)!important;transform:translateY(-1px)!important}
 .hero-topic-btn .emj{font-size:1.25rem!important;flex-shrink:0}
 .hero-topic-btn .lbl{flex:1;font-size:.94rem!important;font-weight:800!important}
-.hero-topic-btn .go{font-size:.74rem!important;color:#7df0e0!important;font-weight:800!important;white-space:nowrap}
+.hero-topic-btn .go{font-size:.74rem!important;color:#7dabf0!important;font-weight:800!important;white-space:nowrap}
 .hero-topic-btn .go i{margin-left:3px;font-style:normal}
 .hero-free-row{margin:0!important;position:relative}
 .hero-free-row input{width:100%!important;height:52px!important;background:#fff!important;border:none!important;border-radius:12px!important;padding:0 16px!important;font-size:.96rem!important;font-weight:700!important;color:#0b2545!important;outline:none!important;box-sizing:border-box!important;box-shadow:0 3px 10px rgba(0,0,0,.12)!important}
@@ -215,16 +215,16 @@ a{color:var(--blue);text-decoration:none}
 }
 /* 두 경로 명확 분리 — 시각적 매력 강화 */
 .path-block{position:relative;border-radius:22px;padding:22px 24px 24px;margin-bottom:18px;overflow:hidden;transition:.2s}
-.path-block.path-a{background:linear-gradient(135deg,rgba(15,185,166,.18) 0%,rgba(45,212,191,.10) 60%,rgba(125,240,224,.06) 100%);border:1.5px solid rgba(125,240,224,.45);box-shadow:0 10px 30px rgba(15,185,166,.22),inset 0 1px 0 rgba(255,255,255,.08)}
+.path-block.path-a{background:linear-gradient(135deg,rgba(15,83,185,.18) 0%,rgba(45,112,212,.10) 60%,rgba(125,171,240,.06) 100%);border:1.5px solid rgba(125,171,240,.45);box-shadow:0 10px 30px rgba(15,83,185,.22),inset 0 1px 0 rgba(255,255,255,.08)}
 .path-block.path-b{background:linear-gradient(135deg,rgba(255,216,77,.16) 0%,rgba(245,158,11,.10) 60%,rgba(252,211,77,.05) 100%);border:1.5px solid rgba(255,216,77,.42);box-shadow:0 10px 30px rgba(245,158,11,.18),inset 0 1px 0 rgba(255,255,255,.08)}
 .path-block::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;pointer-events:none;opacity:.5}
-.path-block.path-a::before{background:radial-gradient(circle,rgba(125,240,224,.35),transparent 65%)}
+.path-block.path-a::before{background:radial-gradient(circle,rgba(125,171,240,.35),transparent 65%)}
 .path-block.path-b::before{background:radial-gradient(circle,rgba(255,216,77,.32),transparent 65%)}
 .path-block:hover{transform:translateY(-2px)}
 .path-label{position:relative;font-size:1.02rem;font-weight:900;margin-bottom:14px;letter-spacing:-.005em;line-height:1.4;display:flex;align-items:flex-start;gap:10px}
 .path-label::before{flex-shrink:0;font-size:1.4rem;line-height:1;padding:6px 11px;border-radius:11px;font-weight:900;letter-spacing:.02em}
-.path-block.path-a .path-label{color:#d4fff7}
-.path-block.path-a .path-label::before{content:'🅰️';background:linear-gradient(135deg,#0fb9a6,#36e0c0);color:#06322c;box-shadow:0 4px 12px rgba(15,185,166,.45)}
+.path-block.path-a .path-label{color:#d4e5ff}
+.path-block.path-a .path-label::before{content:'🅰️';background:linear-gradient(135deg,#0f53b9,#367ae0);color:#061832;box-shadow:0 4px 12px rgba(15,83,185,.45)}
 .path-block.path-b .path-label{color:#fff8d4}
 .path-block.path-b .path-label::before{content:'🅱️';background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#7c2d12;box-shadow:0 4px 12px rgba(245,158,11,.45)}
 .path-or{position:relative;display:flex;align-items:center;gap:14px;margin:18px 0;color:#cbd5e1;font-weight:700;font-size:.86rem;text-align:center;justify-content:center}
@@ -232,28 +232,28 @@ a{color:var(--blue);text-decoration:none}
 .path-or b{color:#ffd84d;font-weight:900;background:rgba(255,216,77,.12);padding:4px 12px;border-radius:99px;border:1px solid rgba(255,216,77,.32)}
 @media(max-width:680px){.hero-search{padding:18px 18px;margin-top:18px;border-radius:18px}.hero-search-row{flex-direction:row;gap:8px}.hero-search-row select{flex:1 1 0;min-width:0;font-size:.92rem;padding:9px 26px 9px 12px;background-position:right 8px center}.hero-search-hint{font-size:.82rem}}
 /* 차별화 워크플로우 카드 — 정부 미제공 시민 플랫폼만의 3단계 */
-.signature-workflow{margin-top:16px;background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(29,111,224,.12));border:1px solid rgba(125,240,224,.38);border-radius:16px;padding:16px 18px}
+.signature-workflow{margin-top:16px;background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(29,111,224,.12));border:1px solid rgba(125,171,240,.38);border-radius:16px;padding:16px 18px}
 .sw-title{font-size:.86rem;font-weight:800;color:#fff;margin-bottom:11px;letter-spacing:.01em}
 .sw-title b{color:#ffd84d}
 .sw-steps{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap}
 .sw-step{flex:1 1 200px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:11px 13px;text-decoration:none;color:#fff;transition:.15s;display:flex;flex-direction:column;gap:3px;min-width:180px}
-.sw-step:hover{background:rgba(255,255,255,.18);border-color:#7df0e0;transform:translateY(-2px)}
-.sw-num{font-size:1.1rem;font-weight:900;color:#7df0e0}
+.sw-step:hover{background:rgba(255,255,255,.18);border-color:#7dabf0;transform:translateY(-2px)}
+.sw-num{font-size:1.1rem;font-weight:900;color:#7dabf0}
 .sw-name{font-size:.86rem;font-weight:800;color:#fff}
 .sw-desc{font-size:.7rem;font-weight:600;color:#cbd5e1;line-height:1.4}
-.sw-arrow{display:flex;align-items:center;color:#7df0e0;font-size:1.3rem;font-weight:900}
+.sw-arrow{display:flex;align-items:center;color:#7dabf0;font-size:1.3rem;font-weight:900}
 @media(max-width:680px){.sw-arrow{transform:rotate(90deg);align-self:center}.sw-steps{flex-direction:column}.sw-step{min-width:0}}
 /* 데이터 연동 로드맵 */
 .data-roadmap{margin-top:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:13px 15px}
-.dr-title{font-size:.82rem;font-weight:800;color:#7df0e0;margin-bottom:9px;letter-spacing:.02em}
+.dr-title{font-size:.82rem;font-weight:800;color:#7dabf0;margin-bottom:9px;letter-spacing:.02em}
 .dr-grid{display:flex;flex-direction:column;gap:6px}
 .dr-item{display:flex;flex-direction:column;gap:2px;background:rgba(255,255,255,.06);border-radius:9px;padding:8px 11px;border-left:3px solid rgba(255,255,255,.2)}
-.dr-item.done{border-left-color:#34f0a8}
+.dr-item.done{border-left-color:#347ff0}
 .dr-item.now{border-left-color:#ffd84d}
 .dr-item.plan{border-left-color:#bcd2f0}
 .dr-item b{font-size:.78rem;color:#fff;font-weight:800}
 .dr-item span{font-size:.72rem;color:#cbd5e1;font-weight:600;line-height:1.5}
-.dr-item span b{color:#7df0e0;font-size:.72rem}
+.dr-item span b{color:#7dabf0;font-size:.72rem}
 .stat-strip{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
 .stat-strip .s{background:rgba(255,255,255,.08);border:1px solid rgba(224,178,102,.28);border-radius:12px;padding:10px 16px}
 .stat-strip .s b{display:block;font-size:1.22rem;font-weight:900;color:#fff}
@@ -261,12 +261,14 @@ a{color:var(--blue);text-decoration:none}
 
 /* ===== Nav ===== */
 .subnav{background:#FFFFFF;border-top:none;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
-.subnav .wrap{display:flex;gap:2px;flex-wrap:wrap;align-items:center}
+.subnav .wrap{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:9px 0}
 .subnav a{color:#6F6A62;font-size:.86rem;font-weight:600;padding:13px 14px;white-space:nowrap;border-bottom:2px solid transparent}
-.subnav a:hover{color:#01696F;border-color:#01696F}
+.subnav a:hover{color:#012d6f;border-color:#012d6f}
+.subnav .wrap>a{color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;font-weight:800;padding:9px 16px;border-bottom:1px solid #cfddf5}
+.subnav .wrap>a:hover{color:#fff;background:var(--navy2);border-color:var(--navy2);box-shadow:0 4px 12px rgba(1,45,111,.25)}
 /* 통합 드롭다운 */
 .navdrop{position:relative}
-.navdrop-toggle{cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-weight:800;color:#fff;background:linear-gradient(135deg,rgba(15,185,166,.22),rgba(29,111,224,.18));border:1px solid rgba(125,240,224,.35);border-bottom:1px solid rgba(125,240,224,.35);border-radius:10px;margin:6px 2px}
+.navdrop-toggle{cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-weight:800;color:#fff;background:linear-gradient(135deg,rgba(15,83,185,.22),rgba(29,111,224,.18));border:1px solid rgba(125,171,240,.35);border-bottom:1px solid rgba(125,171,240,.35);border-radius:10px;margin:6px 2px}
 .navdrop-toggle:hover{border-color:var(--teal)}
 .navdrop-caret{font-size:.7rem;transition:transform .2s}
 .navdrop.open .navdrop-caret{transform:rotate(180deg)}
@@ -318,38 +320,38 @@ section{padding:44px 0 24px}
 .value p{font-size:.86rem;color:#46566f;line-height:1.65}
 .value.v1{border-top-color:#1d6fe0}.value.v1 .vic{background:#e8f1fd}
 .value.v2{border-top-color:#f59e0b}.value.v2 .vic{background:#fef3e2}
-.value.v3{border-top-color:#0fb9a6}.value.v3 .vic{background:#e2f7f4}
+.value.v3{border-top-color:#0f53b9}.value.v3 .vic{background:#e2eaf7}
 
 /* ===== 홈 히어로(대문) ===== */
 .hero-home{margin-top:18px;display:grid;grid-template-columns:minmax(300px,.92fr) 1fr;gap:30px;align-items:center;background:linear-gradient(125deg,#0a1f3d 0%,#13315c 55%,#1b4a86 100%);border-radius:var(--r);box-shadow:var(--shadow-lg);padding:30px;position:relative;overflow:hidden}
 .hero-home.single{display:block;grid-template-columns:none}
 .hero-home::before{content:"";position:absolute;left:-90px;top:-90px;width:300px;height:300px;background:radial-gradient(circle,rgba(29,111,224,.30),transparent 62%);pointer-events:none}
-.hero-home::after{content:"";position:absolute;right:-90px;bottom:-100px;width:340px;height:340px;background:radial-gradient(circle,rgba(15,185,166,.30),transparent 62%);pointer-events:none}
+.hero-home::after{content:"";position:absolute;right:-90px;bottom:-100px;width:340px;height:340px;background:radial-gradient(circle,rgba(15,83,185,.30),transparent 62%);pointer-events:none}
 .hh-photo{position:relative;z-index:1}
 .hh-photo img{width:100%;display:block;border-radius:18px;box-shadow:0 20px 56px rgba(0,0,0,.5);border:5px solid rgba(255,255,255,.92)}
-.hh-photo .noimg{aspect-ratio:1/1;border-radius:18px;background:linear-gradient(135deg,var(--teal),#36e0c0);display:grid;place-items:center;font-size:5rem;font-weight:900;color:#06322c}
+.hh-photo .noimg{aspect-ratio:1/1;border-radius:18px;background:linear-gradient(135deg,var(--teal),#367ae0);display:grid;place-items:center;font-size:5rem;font-weight:900;color:#061832}
 .hh-text{position:relative;z-index:1;color:#fff;min-width:0}
-.hh-badge{display:inline-block;font-size:.78rem;font-weight:800;letter-spacing:.04em;color:#7df0e0;background:rgba(15,185,166,.16);border:1px solid rgba(125,240,224,.4);padding:5px 12px;border-radius:999px;margin-bottom:14px}
+.hh-badge{display:inline-block;font-size:.78rem;font-weight:800;letter-spacing:.04em;color:#7dabf0;background:rgba(15,83,185,.16);border:1px solid rgba(125,171,240,.4);padding:5px 12px;border-radius:999px;margin-bottom:14px}
 .hh-quote{font-size:1.32rem;font-weight:800;line-height:1.7;color:#fff;text-shadow:0 1px 10px rgba(0,0,0,.3)}
 .hh-quote .hl{background:#ffd84d;color:#0b2545;padding:1px 5px;border-radius:4px;font-weight:900;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .hh-cite{font-size:.9rem;color:#bcd2f0;margin-top:13px;font-weight:600;line-height:1.6}
 .hh-lead{margin-top:18px;background:rgba(255,255,255,.10);border:1px solid rgba(224,178,102,.28);border-radius:14px;padding:17px 19px}
-.hh-big{display:block;font-size:1.14rem;color:#7df0e0;font-weight:900;margin-bottom:9px}
+.hh-big{display:block;font-size:1.14rem;color:#7dabf0;font-weight:900;margin-bottom:9px}
 .hh-lead p{font-size:.95rem;color:#e9f0fc;line-height:1.8}
 .hh-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
-.home-region-picker{margin-top:22px;padding:18px 20px;background:rgba(255,255,255,.08);border:1px solid rgba(125,240,224,.3);border-radius:18px;backdrop-filter:blur(4px)}
-.hrp-title{font-size:.94rem;font-weight:900;color:#7df0e0;margin-bottom:12px;letter-spacing:.02em}
+.home-region-picker{margin-top:22px;padding:18px 20px;background:rgba(255,255,255,.08);border:1px solid rgba(125,171,240,.3);border-radius:18px;backdrop-filter:blur(4px)}
+.hrp-title{font-size:.94rem;font-weight:900;color:#7dabf0;margin-bottom:12px;letter-spacing:.02em}
 .hrp-selectors{display:flex;gap:10px;flex-wrap:wrap}
 .hrp-selectors select{flex:1;min-width:140px;background:#fff;border:none;border-radius:12px;padding:12px 16px;font-family:inherit;font-size:.96rem;font-weight:700;color:#1e3a5f;cursor:pointer;outline:none;transition:box-shadow .15s}
-.hrp-selectors select:hover{box-shadow:0 4px 14px rgba(125,240,224,.3)}
+.hrp-selectors select:hover{box-shadow:0 4px 14px rgba(125,171,240,.3)}
 .hrp-selectors select:disabled{opacity:.6;cursor:not-allowed}
 .hrp-hint{font-size:.76rem;color:#cbd5e1;margin-top:10px;font-weight:600}
-.hrp-hint.set{color:#7df0e0}
-.hrp-cta{display:inline-block;margin-top:14px;background:linear-gradient(135deg,#7df0e0,#36e0c0);color:#06201d;font-weight:900;font-size:1.04rem;padding:14px 28px;border-radius:14px;text-decoration:none;box-shadow:0 10px 24px rgba(125,240,224,.32);transition:.15s;letter-spacing:.02em}
-.hrp-cta:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(125,240,224,.45)}
+.hrp-hint.set{color:#7dabf0}
+.hrp-cta{display:inline-block;margin-top:14px;background:linear-gradient(135deg,#7dabf0,#367ae0);color:#061020;font-weight:900;font-size:1.04rem;padding:14px 28px;border-radius:14px;text-decoration:none;box-shadow:0 10px 24px rgba(125,171,240,.32);transition:.15s;letter-spacing:.02em}
+.hrp-cta:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(125,171,240,.45)}
 /* 컴팩트 통합 박스 (지역 선택 + 8개 빠른이동) */
 .home-combo .hqn-divider{margin:18px 0 12px;border-top:1px solid rgba(255,255,255,.14)}
-.home-combo .hqn-title-compact{font-size:.78rem;font-weight:800;color:#7df0e0;margin-bottom:10px;letter-spacing:.04em}
+.home-combo .hqn-title-compact{font-size:.78rem;font-weight:800;color:#7dabf0;margin-bottom:10px;letter-spacing:.04em}
 .home-combo .hqn-grid{grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
 .home-combo .hqn-btn{padding:10px 10px;border-radius:11px}
 .home-combo .hqn-emoji{font-size:1.32rem;margin-bottom:3px}
@@ -373,7 +375,7 @@ section{padding:44px 0 24px}
 .gov-blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px;margin-top:6px}
 .gov-block{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 2px 10px rgba(11,37,69,.06)}
 .gov-block.gb-blue{border-left:4px solid var(--blue);background:linear-gradient(135deg,#fff,#f1f6ff)}
-.gov-block.gb-teal{border-left:4px solid var(--teal);background:linear-gradient(135deg,#fff,#ecfdf5)}
+.gov-block.gb-teal{border-left:4px solid var(--teal);background:linear-gradient(135deg,#fff,#ecf3fd)}
 .gov-block.gb-amber{border-left:4px solid var(--amber);background:linear-gradient(135deg,#fff,#fff7ed)}
 .gov-block h3{font-size:1rem;font-weight:900;color:var(--navy2);margin-bottom:10px;letter-spacing:.01em}
 .gov-stats{display:grid;grid-template-columns:1fr;gap:7px}
@@ -383,10 +385,10 @@ section{padding:44px 0 24px}
 .gov-stats .gs span em{font-style:normal;font-weight:600;color:#94a3b8;font-size:.74rem;margin-left:3px}
 @media(max-width:720px){.gov-blocks{grid-template-columns:1fr;gap:10px}.gov-block{padding:12px 14px}.gov-stats .gs{padding:7px 9px}.gov-stats .gs b{font-size:.74rem}.gov-stats .gs span{font-size:.82rem}.gov-stats .gs span em{font-size:.68rem}}
 .home-quick-nav{margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)}
-.hqn-title{font-size:.84rem;font-weight:800;color:#7df0e0;margin-bottom:12px;letter-spacing:.02em}
+.hqn-title{font-size:.84rem;font-weight:800;color:#7dabf0;margin-bottom:12px;letter-spacing:.02em}
 .hqn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 .hqn-btn{display:flex;flex-direction:column;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:14px 14px;cursor:pointer;text-decoration:none;transition:all .2s;color:#fff;backdrop-filter:blur(4px)}
-.hqn-btn:hover{background:rgba(255,255,255,.18);border-color:#7df0e0;transform:translateY(-2px);box-shadow:0 8px 22px rgba(125,240,224,.22)}
+.hqn-btn:hover{background:rgba(255,255,255,.18);border-color:#7dabf0;transform:translateY(-2px);box-shadow:0 8px 22px rgba(125,171,240,.22)}
 .hqn-emoji{font-size:1.7rem;margin-bottom:6px}
 .hqn-label{font-weight:900;font-size:1rem;color:#fff;margin-bottom:2px}
 .hqn-sub{font-size:.74rem;color:#cbd5e1;font-weight:600}
@@ -399,24 +401,24 @@ section{padding:44px 0 24px}
   .hqn-sub{font-size:.66rem}
 }
 .hh-btn{font-weight:800;font-size:1rem;padding:14px 24px;border-radius:12px;white-space:nowrap;box-shadow:0 8px 22px rgba(0,0,0,.32);transition:.15s}
-.hh-btn.primary{background:linear-gradient(135deg,var(--teal),#36e0c0);color:#06201d}
+.hh-btn.primary{background:linear-gradient(135deg,var(--teal),#367ae0);color:#061020}
 .hh-btn.ghost{background:rgba(255,255,255,.13);color:#fff;border:1px solid rgba(255,255,255,.32)}
 .hh-btn:hover{transform:translateY(-2px);box-shadow:0 13px 30px rgba(0,0,0,.42)}
 @media(max-width:860px){.hero-home{grid-template-columns:1fr;gap:20px;padding:20px}.hh-quote{font-size:1.12rem}.hh-photo{max-width:420px;margin:0 auto}}
 
 /* ===== 중앙정부 플랫폼 CTA ===== */
 .gov-cta{margin-top:14px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:linear-gradient(120deg,#13315c,#1d6fe0);color:#fff;border-radius:var(--r);padding:18px 22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
-.gov-cta::after{content:"";position:absolute;right:-60px;top:-80px;width:260px;height:260px;background:radial-gradient(circle,rgba(45,212,191,.25),transparent 60%);pointer-events:none}
+.gov-cta::after{content:"";position:absolute;right:-60px;top:-80px;width:260px;height:260px;background:radial-gradient(circle,rgba(45,112,212,.25),transparent 60%);pointer-events:none}
 .gov-cta .txt{flex:1;min-width:240px;position:relative;z-index:1}
-.gov-cta .txt b{font-size:1.02rem}
-.gov-cta .txt p{font-size:.84rem;color:#dbe7f7;margin-top:4px;line-height:1.6}
+.gov-cta .txt b{font-size:1.04rem;line-height:1.5;letter-spacing:-.01em;display:inline-block}
+.gov-cta .txt p{font-size:.86rem;color:#dbe7f7;margin-top:6px;line-height:1.72}
 .gov-cta a{flex:none;position:relative;z-index:1;background:#fff;color:var(--navy2);font-weight:800;font-size:.92rem;padding:13px 22px;border-radius:11px;white-space:nowrap;box-shadow:0 6px 16px rgba(0,0,0,.2);transition:.15s}
 .gov-cta a:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.28)}
 
 /* ===== 김보미 소개 ===== */
 .about{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
 .about-top{display:flex;gap:18px;align-items:center;padding:22px;background:linear-gradient(120deg,#0b2545,#1a4c8f);color:#fff;flex-wrap:wrap}
-.about-ava{width:84px;height:84px;border-radius:20px;background:linear-gradient(135deg,#7c3aed,#2dd4bf);display:grid;place-items:center;font-size:1.5rem;font-weight:900;flex:none;box-shadow:0 8px 20px rgba(124,58,237,.4);text-align:center;line-height:1.15}
+.about-ava{width:84px;height:84px;border-radius:20px;background:linear-gradient(135deg,#7c3aed,#2d70d4);display:grid;place-items:center;font-size:1.5rem;font-weight:900;flex:none;box-shadow:0 8px 20px rgba(124,58,237,.4);text-align:center;line-height:1.15}
 .about-top h3{font-size:1.45rem;font-weight:900}
 .about-top .role{font-size:.9rem;color:#bcd2f0;margin-top:3px}
 .about-top .tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
@@ -437,21 +439,21 @@ section{padding:44px 0 24px}
 .about-card ul{margin:0;padding-left:17px}
 .about-card li{font-size:.82rem;color:#46566f;line-height:1.65;margin-bottom:3px}
 .about-card li b{color:var(--navy2)}
-.motto{margin-top:16px;background:linear-gradient(120deg,#f0fdfa,#eff6ff);border:1px solid #bfeee8;border-left:5px solid var(--teal);border-radius:12px;padding:16px 18px;font-size:.93rem;font-weight:600;color:#0a5e55;line-height:1.7}
+.motto{margin-top:16px;background:linear-gradient(120deg,#f0f5fd,#eff6ff);border:1px solid #bfd2ee;border-left:5px solid var(--teal);border-radius:12px;padding:16px 18px;font-size:.93rem;font-weight:600;color:#0a2c5e;line-height:1.7}
 .about-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
 .about-links a{font-size:.82rem;font-weight:700;background:#eef3f9;color:var(--navy2);border:1px solid var(--line);padding:8px 14px;border-radius:10px}
 .about-links a:hover{background:#e2eaf4}
 
 /* ===== demo banner ===== */
 .demo-banner{display:flex;gap:10px;align-items:center;background:linear-gradient(90deg,#fff7ed,#fffbeb);border:1px solid #fde9c8;color:#92651a;border-radius:12px;padding:11px 15px;margin-top:16px;font-size:.85rem;font-weight:600}
-.demo-banner.live{background:linear-gradient(90deg,#ecfdf5,#f0fdfa);border-color:#bbf7d0;color:#147a4b}
+.demo-banner.live{background:linear-gradient(90deg,#ecf3fd,#f0f5fd);border-color:#bbd3f7;color:#143d7a}
 .src-note{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:11px 15px;margin-top:10px;font-size:.78rem;line-height:1.6;color:#475569}
 .src-note b{color:#1e293b}
 .src-note a{color:#1d6fe0;font-weight:700}
 
 /* === 💰📜 예산·계약 집중 섹션 === */
 .focus-section{margin-top:32px;border-radius:24px;padding:28px;box-shadow:0 6px 24px rgba(29,111,224,.08)}
-.budget-theme{background:linear-gradient(135deg,#ecfdf5 0%,#f0fdfa 100%);border:1px solid #bbf7d0}
+.budget-theme{background:linear-gradient(135deg,#ecf3fd 0%,#f0f5fd 100%);border:1px solid #bbd3f7}
 .contract-theme{background:linear-gradient(135deg,#fef3c7 0%,#fffbeb 100%);border:1px solid #fde9c8}
 .fs-header{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
 .fs-icon{font-size:2.4rem}
@@ -460,7 +462,7 @@ section{padding:44px 0 24px}
 .fs-picker{display:flex;gap:8px;background:#fff;padding:10px;border-radius:14px;margin-bottom:16px;border:1.5px solid #e2e8f0;flex-wrap:wrap;align-items:center}
 .fs-picker select{flex:1;min-width:140px;border:1.5px solid #cbd5e1;border-radius:10px;padding:10px 14px;font-family:inherit;font-size:.92rem;background:#fff;color:#1e293b;font-weight:600;cursor:pointer;outline:none}
 .fs-picker select:focus{border-color:#1d6fe0}
-.budget-theme .fs-picker button{background:#16a34a}
+.budget-theme .fs-picker button{background:#164ea3}
 .contract-theme .fs-picker button{background:#d97706}
 .fs-picker button{border:none;color:#fff;padding:10px 22px;border-radius:10px;font-weight:900;font-size:.9rem;cursor:pointer;font-family:inherit;transition:all .15s}
 .fs-picker button:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.2)}
@@ -480,7 +482,7 @@ section{padding:44px 0 24px}
 }
 
 /* === 📋 정책·민원 찾기 + 카드 시스템 === */
-.policy-search-section{margin-top:32px;background:linear-gradient(135deg,#f1f6ff 0%,#eef9f7 100%);border:1px solid #d9e3f0;border-radius:24px;padding:28px;box-shadow:0 6px 24px rgba(29,111,224,.08);position:relative}
+.policy-search-section{margin-top:32px;background:linear-gradient(135deg,#f1f6ff 0%,#eef2f9 100%);border:1px solid #d9e3f0;border-radius:24px;padding:28px;box-shadow:0 6px 24px rgba(29,111,224,.08);position:relative}
 #psModalClose:hover{background:#fff;transform:scale(1.08)}
 .ps-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
 .ps-icon{font-size:2.4rem}
@@ -497,19 +499,19 @@ section{padding:44px 0 24px}
 .ps-card:hover{border-color:#1d6fe0;box-shadow:0 8px 24px rgba(29,111,224,.16);transform:translateY(-2px)}
 .ps-card-head{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
 .ps-cat{background:#dbeafe;color:#1e40af;font-size:.7rem;font-weight:900;padding:3px 10px;border-radius:999px}
-.ps-status{background:#dcfce7;color:#166534;font-size:.7rem;font-weight:900;padding:3px 10px;border-radius:999px}
+.ps-status{background:#dce9fc;color:#163665;font-size:.7rem;font-weight:900;padding:3px 10px;border-radius:999px}
 .ps-card-title{font-size:1.05rem;font-weight:800;color:#1e3a5f;margin-bottom:4px;line-height:1.4}
 .ps-card-summary{font-size:.86rem;color:#64748b;line-height:1.6;margin-bottom:12px;word-break:keep-all}
 .ps-card-grid{background:#f8fafc;border-radius:10px;padding:11px 13px;font-size:.78rem;line-height:1.8;color:#334155;margin-bottom:10px}
 .ps-card-grid b{color:#1e3a5f;margin-right:8px;display:inline-block;min-width:40px}
-.ps-dept{background:#ecfdf5;border:1px solid #bbf7d0;border-radius:10px;padding:10px 13px;font-size:.8rem;color:#065f46;line-height:1.65;margin-bottom:12px}
-.ps-dept .dept-name{font-weight:900;color:#064e3b;display:block;margin-bottom:2px;font-size:.92rem}
+.ps-dept{background:#ecf3fd;border:1px solid #bbd3f7;border-radius:10px;padding:10px 13px;font-size:.8rem;color:#062a5f;line-height:1.65;margin-bottom:12px}
+.ps-dept .dept-name{font-weight:900;color:#06234e;display:block;margin-bottom:2px;font-size:.92rem}
 .ps-actions{display:flex;gap:6px;flex-wrap:wrap}
 .ps-action{padding:8px 14px;border:none;border-radius:10px;font-weight:800;font-size:.76rem;cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .15s}
 .ps-action:hover{transform:scale(1.05);box-shadow:0 4px 10px rgba(0,0,0,.12)}
 .ps-action.suggest{background:#fef3c7;color:#92400e}
 .ps-action.report{background:#fee2e2;color:#b91c1c}
-.ps-action.contact{background:#dcfce7;color:#166534}
+.ps-action.contact{background:#dce9fc;color:#163665}
 .ps-action.detail{background:#dbeafe;color:#1e40af;margin-left:auto}
 .ps-modal-overlay{position:fixed;inset:0;background:rgba(15,30,53,.6);z-index:200;padding:20px;backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center}
 .ps-modal-overlay.show{display:flex}
@@ -522,8 +524,8 @@ section{padding:44px 0 24px}
 .ps-detail-row{background:#f8fafc;border-radius:10px;padding:11px 14px;font-size:.86rem;line-height:1.75;color:#1e293b}
 .ps-procedure{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .ps-step{background:#fff;border:1px solid #e2e8f0;padding:6px 12px;border-radius:999px;font-size:.78rem;color:#334155;display:inline-block}
-.ps-step b{color:#16a34a;margin-right:4px}
-.ps-arrow{font-size:.9rem;color:#16a34a}
+.ps-step b{color:#164ea3;margin-right:4px}
+.ps-arrow{font-size:.9rem;color:#164ea3}
 @media(max-width:520px){
   .policy-search-section{padding:18px;border-radius:18px}
   .ps-header h2{font-size:1.25rem}
@@ -586,7 +588,7 @@ body{top:0!important}
 .goog-tooltip,.goog-tooltip:hover,.goog-text-highlight{display:none!important;background-color:transparent!important;box-shadow:none!important}
 
 /* === 🌱 시민 참여 광장 (Civic Action Platform) === */
-.civic-action-section{margin-top:32px;background:linear-gradient(135deg,#fef9f3 0%,#f0fdf4 100%);border:1px solid #fde9c8;border-radius:24px;padding:28px;box-shadow:0 6px 28px rgba(255,184,107,.1)}
+.civic-action-section{margin-top:32px;background:linear-gradient(135deg,#fef9f3 0%,#f0f5fd 100%);border:1px solid #fde9c8;border-radius:24px;padding:28px;box-shadow:0 6px 28px rgba(255,184,107,.1)}
 .ca-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
 .ca-icon{font-size:2.4rem;display:inline-block;animation:caBounce 2.5s ease-in-out infinite}
 @keyframes caBounce{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-5px) rotate(3deg)}}
@@ -707,7 +709,7 @@ body{top:0!important}
 .summary-demo .sd .l{font-size:.68rem;color:#8294ad;font-weight:700}
 .summary-demo .sd .v{font-size:.98rem;font-weight:800;color:var(--navy2);margin-top:2px}
 .summary-demo .sd .v small{font-size:.7rem;font-weight:600;color:#8294ad}
-.chip.good{background:var(--teal-soft);color:#0a7d70;border-color:#bfeee8}
+.chip.good{background:var(--teal-soft);color:#0a387d;border-color:#bfd2ee}
 .chip.warn{background:#fff4e5;color:#9a6810;border-color:#fbe2bd}
 .chip.bad{background:#ffe9ef;color:#b21a42;border-color:#fbc9d7}
 
@@ -716,7 +718,7 @@ body{top:0!important}
 @media(max-width:1200px){.kpi-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:780px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
 .kpi{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px;position:relative;overflow:hidden;transition:.15s}
-.kpi-clickable:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(29,111,224,.15);border-color:#7df0e0;cursor:pointer}
+.kpi-clickable:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(29,111,224,.15);border-color:#7dabf0;cursor:pointer}
 .kpi-clickable:active{transform:translateY(0)}
 .kpi .label{font-size:.78rem;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:6px}
 .kpi .val{font-size:1.7rem;font-weight:900;letter-spacing:-.5px;margin-top:6px}
@@ -731,7 +733,7 @@ body{top:0!important}
 /* ===== AI analyst ===== */
 .ai-panel{margin-top:18px;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid #d9e6fb}
 .ai-top{background:linear-gradient(120deg,#0b2545,#1a4c8f);color:#fff;padding:18px 20px;display:flex;align-items:center;gap:14px}
-.ai-ava{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#2dd4bf);display:grid;place-items:center;font-size:22px;flex:none;box-shadow:0 6px 16px rgba(124,58,237,.4)}
+.ai-ava{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#2d70d4);display:grid;place-items:center;font-size:22px;flex:none;box-shadow:0 6px 16px rgba(124,58,237,.4)}
 .ai-top h3{font-size:1.1rem;font-weight:900}
 .ai-top p{font-size:.8rem;color:#bcd2f0}
 .ai-verdict{margin-left:auto;text-align:right}
@@ -742,7 +744,7 @@ body{top:0!important}
 .ai-col h4 .b{font-size:.7rem;padding:2px 8px;border-radius:999px;font-weight:800}
 .b-watch{background:#ffe9ef;color:#b21a42}
 .b-check{background:#fff4e5;color:#9a6810}
-.b-prop{background:var(--teal-soft);color:#0a7d70}
+.b-prop{background:var(--teal-soft);color:#0a387d}
 .ai-item{font-size:.85rem;line-height:1.6;padding:11px 13px;border-radius:10px;margin-bottom:9px;border:1px solid var(--line);background:#fbfdff}
 .ai-item .t{font-weight:800;display:block;margin-bottom:2px}
 .ai-item.sev-high{border-left:4px solid var(--red)}
@@ -776,7 +778,7 @@ tbody tr.me{background:#fff7e6}
 .rk{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:#eef2f7;font-weight:800;font-size:.78rem}
 .rk.g1{background:#fde68a;color:#92400e}.rk.g2{background:#e2e8f0}.rk.g3{background:#fed7aa;color:#9a3412}
 .pill{padding:3px 9px;border-radius:999px;font-size:.74rem;font-weight:800}
-.pill.A{background:#dcfce7;color:#15803d}.pill.B{background:#d1fae5;color:#047857}
+.pill.A{background:#dce9fc;color:#154080}.pill.B{background:#d1e1fa;color:#043278}
 .pill.C{background:#fef3c7;color:#92651a}.pill.D{background:#fee2e2;color:#b91c1c}.pill.E{background:#fecaca;color:#991b1b}
 /* 비교 테이블 */
 #cmpTable td{text-align:center}
@@ -785,8 +787,8 @@ tbody tr.me{background:#fff7e6}
 #cmpTable td:nth-child(3),#cmpTable th:nth-child(3){background:#fcedf2}
 #cmpTable th:nth-child(2){color:#185fa5}
 #cmpTable th:nth-child(3){color:#a3355a}
-.cmp-win{font-weight:900;box-shadow:inset 0 0 0 2px rgba(22,163,74,.55)}
-.cmp-win b{color:#15803d}
+.cmp-win{font-weight:900;box-shadow:inset 0 0 0 2px rgba(22,78,163,.55)}
+.cmp-win b{color:#154080}
 .cmp-rank{font-size:.68rem;color:#7c8aa0;font-weight:700;margin-top:2px}
 
 /* ===== glossary / education ===== */
@@ -834,9 +836,9 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
 .dblock{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px;margin-top:16px}
 .dblock h3{font-size:1.05rem;font-weight:800;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .dblock .desc{font-size:.8rem;color:var(--muted);margin:5px 0 12px}
-.bstat-ok{margin-left:auto;font-size:.74rem;font-weight:800;color:#16a34a;background:#dcfce7;padding:3px 10px;border-radius:999px}
+.bstat-ok{margin-left:auto;font-size:.74rem;font-weight:800;color:#164ea3;background:#dce9fc;padding:3px 10px;border-radius:999px}
 .bstat-wait{margin-left:auto;font-size:.74rem;font-weight:800;color:#b45309;background:#fef3c7;padding:3px 10px;border-radius:999px}
-.ext-gauge{height:14px;border-radius:8px;background:linear-gradient(90deg,#e11d48,#f59e0b,#eab308,#16a34a);position:relative;margin:2px 0}
+.ext-gauge{height:14px;border-radius:8px;background:linear-gradient(90deg,#e11d48,#f59e0b,#eab308,#164ea3);position:relative;margin:2px 0}
 .ext-gauge .mk{position:absolute;top:-4px;width:4px;height:22px;background:#0b2545;border-radius:2px;transform:translateX(-2px)}
 .proj-bar{display:inline-block;height:8px;border-radius:6px;background:#eef2f7;overflow:hidden;width:80px;vertical-align:middle}
 .proj-bar i{display:block;height:100%;border-radius:6px}
@@ -869,7 +871,7 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
 .edu-bot .bot-chips:empty{display:none}
 .edu-bot .bot-msg{max-width:92%}
 .bot-head{background:linear-gradient(120deg,#0b2545,#1a4c8f);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;flex:none}
-.bot-head .ava{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#2dd4bf);display:grid;place-items:center;font-size:18px;flex:none}
+.bot-head .ava{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#2d70d4);display:grid;place-items:center;font-size:18px;flex:none}
 .bot-head h4{font-size:.98rem;font-weight:800}
 .bot-head p{font-size:.72rem;color:#bcd2f0;margin-top:1px}
 .bot-head .x{margin-left:auto;background:rgba(255,255,255,.15);border:none;color:#fff;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:15px}
@@ -886,7 +888,7 @@ footer .disc{font-size:.74rem;color:#7e9bc4;max-width:520px;margin-top:6px}
 .bot-input input{flex:1;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:.86rem}
 .bot-input input:focus{outline:none;border-color:var(--blue)}
 .bot-input button{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:0 16px;font-weight:800;cursor:pointer;font-family:inherit}
-.kbm-ava{position:relative;display:inline-grid;place-items:center;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#2dd4bf);color:#fff;font-weight:900;overflow:hidden;flex:none}
+.kbm-ava{position:relative;display:inline-grid;place-items:center;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#2d70d4);color:#fff;font-weight:900;overflow:hidden;flex:none}
 .kbm-ava img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 16%}
 .bot-fab .kbm-ava{box-shadow:0 0 0 2px rgba(255,255,255,.6)}
 .bot-greet{position:fixed;right:20px;bottom:86px;z-index:84;max-width:252px;background:#fff;border:1px solid var(--line);border-radius:14px;border-bottom-right-radius:4px;box-shadow:var(--shadow-lg);padding:12px 14px 12px 12px;font-size:.84rem;color:var(--ink);display:none;cursor:pointer}
@@ -1052,7 +1054,7 @@ h1{letter-spacing:-.035em;font-weight:900}
     <div class="brandrow" style="justify-content:space-between">
       <div class="topbar-left" style="display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap">
         <div class="live-badge" id="liveBadgeLeft" title="공공데이터 API 실시간 연동" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:999px;height:34px;padding:0 12px;font-size:.78rem;font-weight:800;white-space:nowrap">
-          <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.3)"></span>API 연동
+          <span style="width:8px;height:8px;border-radius:50%;background:#2263c5;box-shadow:0 0 0 3px rgba(34,99,197,.3)"></span>API 연동
         </div>
         <div title="Google AI 자동번역 (15개 언어 — 우측 셀렉터에서 선택)" style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:999px;height:34px;padding:0 12px;color:#fff;font-size:.78rem;font-weight:800;white-space:nowrap"><span>🌐</span>AI 자동번역</div>
       </div>
@@ -1080,9 +1082,9 @@ h1{letter-spacing:-.035em;font-weight:900}
         </div>
       </div>
     </div>
-    <div style="display:flex;justify-content:center;margin-top:22px"><span style="display:inline-flex;align-items:center;gap:8px;background:rgba(1,105,111,.07);border:1px solid rgba(1,105,111,.25);color:#01696F;font-size:.78rem;font-weight:900;padding:7px 16px;border-radius:99px;letter-spacing:.04em;backdrop-filter:blur(8px);box-shadow:0 4px 14px rgba(255,216,77,.18)"><span style="font-size:1rem">🔥</span> 국민주권실행 플랫폼 · 김보미.com</span></div>
-    <h1 class="hero-headline" style="margin:26px auto 0;font-size:clamp(2.4rem,4.6vw,3.1rem);line-height:1.2;text-align:center;font-weight:700;letter-spacing:-.03em;color:#0C4E54;text-shadow:none">무엇이 궁금하신가요?</h1>
-    <p style="text-align:center;color:#6F6A62;font-size:1.05rem;font-weight:500;line-height:1.65;margin:14px auto 0;max-width:760px">정책과 담당부서를 찾거나, <b style="color:#01696F;font-weight:700">우리 동네 재정</b>을 바로 확인할 수 있습니다.</p>
+    <div style="display:flex;justify-content:center;margin-top:22px"><span style="display:inline-flex;align-items:center;gap:8px;background:rgba(1,45,111,.07);border:1px solid rgba(1,45,111,.25);color:#012d6f;font-size:.78rem;font-weight:900;padding:7px 16px;border-radius:99px;letter-spacing:.04em;backdrop-filter:blur(8px);box-shadow:0 4px 14px rgba(255,216,77,.18)"><span style="font-size:1rem">🔥</span> 국민주권실행 플랫폼 · 김보미.com</span></div>
+    <h1 class="hero-headline" style="margin:26px auto 0;font-size:clamp(2.4rem,4.6vw,3.1rem);line-height:1.2;text-align:center;font-weight:700;letter-spacing:-.03em;color:#0c2954;text-shadow:none">무엇이 궁금하신가요?</h1>
+    <p style="text-align:center;color:#6F6A62;font-size:1.05rem;font-weight:500;line-height:1.65;margin:14px auto 0;max-width:760px">정책과 담당부서를 찾거나, <b style="color:#012d6f;font-weight:700">우리 동네 재정</b>을 바로 확인할 수 있습니다.</p>
     <!-- v46 메인 히어로 — 2개 대표 진입 -->
     <div class="hero-search" style="margin-left:auto;margin-right:auto">
       <div class="kb46-grid">
@@ -1136,12 +1138,12 @@ h1{letter-spacing:-.035em;font-weight:900}
   <!-- ============== J. 외부 협력 플랫폼 — 중앙정부/청년 ============== -->
   <div class="gov-cta">
     <div class="txt">
-      <b>🏛️ 중앙정부·정부 부처 예산도 함께 확인해요</b>
+      <b>🏛️ 「재정주권시민행동」에서 중앙정부·정부 부처 예산도 함께 확인해요</b>
       <p>이 플랫폼 <b>「대한민국 재정 365」</b>는 전국 지방자치단체(지방정부) 재정을 다룹니다. <b>「재정주권시민행동」</b>은 중앙정부 각 부처의 예산 집행을 공개하고 시민 의견을 받는 중앙정부 재정 참여 플랫폼입니다.</p>
     </div>
     <a href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">중앙정부 예산 플랫폼 보기 ↗</a>
   </div>
-  <div class="gov-cta" style="background:linear-gradient(120deg,#0f766e,#1aa179)">
+  <div class="gov-cta" style="background:linear-gradient(120deg,#0f3876,#1a50a1)">
     <div class="txt">
       <b>🙋 청년이 결정하는 정책에 함께하세요</b>
       <p><b>「청년결정정부」</b>는 전남·광주 청년이 일자리·주거·복지 정책을 직접 제안하고 함께 결정하는 청년 정책 참여 플랫폼입니다.</p>
@@ -1349,14 +1351,14 @@ h1{letter-spacing:-.035em;font-weight:900}
         <h3>💴 금고(은행) 이자율 — 공식 공시 시작 ✅</h3><div class="cs">행안부 2026.1.27 전국 243개 지방정부 통합공개 (12개월 이상 정기예금 기준)</div>
         <div class="chart-box" style="display:block;align-items:stretch;overflow-y:auto;max-height:none">
           <div style="font-size:.86rem;line-height:1.65;color:#1e293b">
-            <div style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-left:4px solid #059669;border-radius:10px;padding:11px 13px;margin-bottom:10px">
-              <b style="color:#065f46;font-size:.92rem">🎯 시민이 요구해온 '깜깜이 금고' 빗장이 열렸습니다.</b>
+            <div style="background:linear-gradient(135deg,#ecf3fd,#d1e1fa);border-left:4px solid #053f96;border-radius:10px;padding:11px 13px;margin-bottom:10px">
+              <b style="color:#062a5f;font-size:.92rem">🎯 시민이 요구해온 '깜깜이 금고' 빗장이 열렸습니다.</b>
               <p style="margin:5px 0 0;font-size:.84rem;color:#1f2937;line-height:1.6">2025년 12월 「지방회계법 시행령」 개정 → 2026년 1월 27일 <b>전국 243개 지방정부 금고 이자율 통합공개</b>(행정안전부). <b>'대한민국 재정 365'</b>가 출발할 때 외쳤던 그 요구가 제도로 결실을 맺었습니다.</p>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
               <div style="background:#f1f5f9;border-radius:9px;padding:9px 11px"><div style="font-size:.68rem;color:#64748b;font-weight:700">전국 평균</div><div style="font-size:1.14rem;font-weight:900;color:#0b2545">2.53%</div></div>
               <div style="background:#fff7ed;border-radius:9px;padding:9px 11px"><div style="font-size:.68rem;color:#92400e;font-weight:700">광역 평균(17개)</div><div style="font-size:1.14rem;font-weight:900;color:#7c2d12">2.61%</div></div>
-              <div style="background:#ecfeff;border-radius:9px;padding:9px 11px"><div style="font-size:.68rem;color:#155e75;font-weight:700">기초 평균(226개)</div><div style="font-size:1.14rem;font-weight:900;color:#0c4a6e">2.52%</div></div>
+              <div style="background:#ecf4ff;border-radius:9px;padding:9px 11px"><div style="font-size:.68rem;color:#153b75;font-weight:700">기초 평균(226개)</div><div style="font-size:1.14rem;font-weight:900;color:#0c4a6e">2.52%</div></div>
               <div style="background:#fdf2f8;border-radius:9px;padding:9px 11px"><div style="font-size:.68rem;color:#831843;font-weight:700">기초 최저</div><div style="font-size:1.14rem;font-weight:900;color:#9d174d">1.78%</div><div style="font-size:.66rem;color:#831843">경기 양평군</div></div>
             </div>
             <div style="font-size:.78rem;color:#475569;background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:10px 12px;line-height:1.6">
@@ -1450,20 +1452,20 @@ h1{letter-spacing:-.035em;font-weight:900}
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
         <span style="font-size:1.6rem">🎓</span>
         <h3 style="margin:0;font-size:1.1rem;color:#fff;font-weight:900">학술·기술 공신력 — NABO 공식 분석 기법 기반</h3>
-        <span style="margin-left:auto;background:#7df0e0;color:#04342c;font-size:.7rem;font-weight:900;padding:3px 10px;border-radius:99px">v1.3 기술 적용</span>
+        <span style="margin-left:auto;background:#7dabf0;color:#041734;font-size:.7rem;font-weight:900;padding:3px 10px;border-radius:99px">v1.3 기술 적용</span>
       </div>
-      <p style="font-size:.88rem;color:#dceafb;line-height:1.7;margin:0 0 12px">본 플랫폼은 <b style="color:#7df0e0">국회예산정책처(NABO)·한국재정정보원(FIS)·행정안전부 30개 공식문서</b>에서 정립한 <b style="color:#fff">재정 온톨로지(Fiscal Ontology v1.3)</b>를 적용합니다. 단순 수치 시연이 아닌, 학술 기반의 고도화된 3대 매커니즘이 작동합니다.</p>
+      <p style="font-size:.88rem;color:#dceafb;line-height:1.7;margin:0 0 12px">본 플랫폼은 <b style="color:#7dabf0">국회예산정책처(NABO)·한국재정정보원(FIS)·행정안전부 30개 공식문서</b>에서 정립한 <b style="color:#fff">재정 온톨로지(Fiscal Ontology v1.3)</b>를 적용합니다. 단순 수치 시연이 아닌, 학술 기반의 고도화된 3대 매커니즘이 작동합니다.</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px">
-        <div style="background:rgba(125,240,224,.12);border:1px solid rgba(125,240,224,.32);border-radius:10px;padding:11px 13px">
-          <div style="color:#7df0e0;font-size:.74rem;font-weight:900;margin-bottom:4px">① 6단 예산 위계</div>
+        <div style="background:rgba(125,171,240,.12);border:1px solid rgba(125,171,240,.32);border-radius:10px;padding:11px 13px">
+          <div style="color:#7dabf0;font-size:.74rem;font-weight:900;margin-bottom:4px">① 6단 예산 위계</div>
           <div style="font-size:.78rem;color:#dceafb;line-height:1.55">분야 → 부문 → 프로그램 → 단위사업 → 세부사업 → <b style="color:#fff">내역사업</b>까지 위계적 추적</div>
         </div>
-        <div style="background:rgba(125,240,224,.12);border:1px solid rgba(125,240,224,.32);border-radius:10px;padding:11px 13px">
-          <div style="color:#7df0e0;font-size:.74rem;font-weight:900;margin-bottom:4px">② 4단 자금흐름 추적</div>
+        <div style="background:rgba(125,171,240,.12);border:1px solid rgba(125,171,240,.32);border-radius:10px;padding:11px 13px">
+          <div style="color:#7dabf0;font-size:.74rem;font-weight:900;margin-bottom:4px">② 4단 자금흐름 추적</div>
           <div style="font-size:.78rem;color:#dceafb;line-height:1.55">국고 → 광역 → 기초 → <b style="color:#fff">최종수혜자·계약업체</b>까지 4단계 자금 추적</div>
         </div>
-        <div style="background:rgba(125,240,224,.12);border:1px solid rgba(125,240,224,.32);border-radius:10px;padding:11px 13px">
-          <div style="color:#7df0e0;font-size:.74rem;font-weight:900;margin-bottom:4px">③ 5대 위험 플래그</div>
+        <div style="background:rgba(125,171,240,.12);border:1px solid rgba(125,171,240,.32);border-radius:10px;padding:11px 13px">
+          <div style="color:#7dabf0;font-size:.74rem;font-weight:900;margin-bottom:4px">③ 5대 위험 플래그</div>
           <div style="font-size:.78rem;color:#dceafb;line-height:1.55">자전거래·단가부풀리기·일감몰아주기·수의계약과다·집행지연 <b style="color:#fff">자동 탐지</b></div>
         </div>
       </div>
@@ -1494,7 +1496,7 @@ h1{letter-spacing:-.035em;font-weight:900}
         <div style="flex:1;min-width:140px;background:linear-gradient(135deg,#fff,#f1f6ff);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:10px;padding:11px 12px"><div style="font-size:.7rem;color:#94a3b8;font-weight:700">LV2</div><div style="font-size:.84rem;font-weight:800;color:var(--navy2)">부문 (Subsector)</div><div style="font-size:.76rem;color:#5b6b82;margin-top:2px">예) 062 관광</div></div>
         <div style="flex:1;min-width:140px;background:linear-gradient(135deg,#fff,#f1f6ff);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:10px;padding:11px 12px"><div style="font-size:.7rem;color:#94a3b8;font-weight:700">LV3</div><div style="font-size:.84rem;font-weight:800;color:var(--navy2)">프로그램 (Program)</div><div style="font-size:.76rem;color:#5b6b82;margin-top:2px">예) 관광진흥기반확충</div></div>
         <div style="flex:1;min-width:140px;background:linear-gradient(135deg,#fff,#f1f6ff);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:10px;padding:11px 12px"><div style="font-size:.7rem;color:#94a3b8;font-weight:700">LV4</div><div style="font-size:.84rem;font-weight:800;color:var(--navy2)">단위사업 (Activity)</div><div style="font-size:.76rem;color:#5b6b82;margin-top:2px">예) 광역관광자원개발</div></div>
-        <div style="flex:1;min-width:140px;background:linear-gradient(135deg,#fff,#eef9f7);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:10px;padding:11px 12px"><div style="font-size:.7rem;color:#94a3b8;font-weight:700">LV5</div><div style="font-size:.84rem;font-weight:800;color:var(--navy2)">세부사업</div><div style="font-size:.76rem;color:#5b6b82;margin-top:2px">예) 광역권 관광개발(자율)</div></div>
+        <div style="flex:1;min-width:140px;background:linear-gradient(135deg,#fff,#eef2f9);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:10px;padding:11px 12px"><div style="font-size:.7rem;color:#94a3b8;font-weight:700">LV5</div><div style="font-size:.84rem;font-weight:800;color:var(--navy2)">세부사업</div><div style="font-size:.76rem;color:#5b6b82;margin-top:2px">예) 광역권 관광개발(자율)</div></div>
         <div style="flex:1;min-width:140px;background:linear-gradient(135deg,#fff,#fff4e5);border:1px solid var(--line);border-left:4px solid var(--amber);border-radius:10px;padding:11px 12px"><div style="font-size:.7rem;color:#94a3b8;font-weight:700">LV6 · 핵심</div><div style="font-size:.84rem;font-weight:800;color:var(--navy2)">내역사업 (Detail)</div><div style="font-size:.76rem;color:#5b6b82;margin-top:2px">예) 강진 다산초당 권역 관광자원화</div></div>
       </div>
     </div>
@@ -1559,7 +1561,7 @@ h1{letter-spacing:-.035em;font-weight:900}
         <div style="background:#f7faff;border:1px solid var(--line);border-radius:10px;padding:12px 14px"><div style="font-weight:800;color:var(--navy2);font-size:.9rem">📜 조례 제정·개정</div><div style="font-size:.82rem;color:#46566f;line-height:1.55;margin-top:4px">지역의 규칙(조례)을 만들고 고쳐 <b>제도 자체를 바꿀</b> 수 있습니다.</div></div>
         <div style="background:#f7faff;border:1px solid var(--line);border-radius:10px;padding:12px 14px"><div style="font-weight:800;color:var(--navy2);font-size:.9rem">🗣️ 시정질문·5분 발언</div><div style="font-size:.82rem;color:#46566f;line-height:1.55;margin-top:4px">주민 민원을 본회의에서 <b>집행부에 공식 질의</b>해 답변을 끌어냅니다.</div></div>
       </div>
-      <p style="font-size:.83rem;color:#0a5e55;background:#eafaf6;border:1px solid #bfeee8;border-radius:10px;padding:10px 13px;margin-top:12px;line-height:1.6">💡 그래서 <b>시민의 한 줄 의견</b>이 의원을 통해 <b>예산 삭감 · 행정 감사 · 조례 개정</b>으로 이어질 수 있습니다. 집행부에 직접 따지기 어려운 일도, 의회는 ‘견제’가 본업이라 더 효과적입니다. <b>시민의 의견이 의회를 통해 행정에 닿을 때, 비로소 재정주권이 실현됩니다.</b></p>
+      <p style="font-size:.83rem;color:#0a2c5e;background:#eaf0fa;border:1px solid #bfd2ee;border-radius:10px;padding:10px 13px;margin-top:12px;line-height:1.6">💡 그래서 <b>시민의 한 줄 의견</b>이 의원을 통해 <b>예산 삭감 · 행정 감사 · 조례 개정</b>으로 이어질 수 있습니다. 집행부에 직접 따지기 어려운 일도, 의회는 ‘견제’가 본업이라 더 효과적입니다. <b>시민의 의견이 의회를 통해 행정에 닿을 때, 비로소 재정주권이 실현됩니다.</b></p>
     </div>
     <div class="section-h" style="margin-top:18px"><span class="ic">✊</span><div><h2 style="font-size:1.05rem">① 문제를 발견했다면 이렇게 진행하세요</h2><p>의심이 들면 기록 → 근거 수집 → 질문 → 공개 순서가 중요합니다</p></div></div>
     <div class="action-grid" id="actionGrid"></div>
@@ -1582,7 +1584,7 @@ h1{letter-spacing:-.035em;font-weight:900}
       </div>
       <div id="voicePreviewWrap" style="display:none;margin-top:14px">
         <label style="display:block;font-size:.8rem;font-weight:800;color:var(--navy2);margin-bottom:5px">✍️ AI가 다듬은 메일 본문 — 전송 전 확인·수정하세요</label>
-        <textarea id="voicePreview" rows="7" style="width:100%;resize:vertical;padding:12px 14px;border:1.5px solid var(--teal);border-radius:var(--r-sm);font-family:inherit;font-size:.9rem;line-height:1.65;background:#f7fffd"></textarea>
+        <textarea id="voicePreview" rows="7" style="width:100%;resize:vertical;padding:12px 14px;border:1.5px solid var(--teal);border-radius:var(--r-sm);font-family:inherit;font-size:.9rem;line-height:1.65;background:#f7faff"></textarea>
       </div>
       <div class="muted" style="font-size:.74rem;margin-top:10px">※ ‘시정요구하기’를 누르면 위 내용(다듬은 본문이 있으면 그 내용)과 해당 지역 재정 요약이 담긴 <b>메일 작성창</b>이 열립니다. 받는사람에 의회 이메일을 넣고 본인이 최종 확인 후 발송하세요.</div>
     </div>
@@ -1687,7 +1689,7 @@ h1{letter-spacing:-.035em;font-weight:900}
           <a href="https://www.youtube.com/@kimbomi1989" target="_blank" rel="noopener" style="background:#fde8e8;color:#b21a42;border-color:#f6c9c9">▶️ 유튜브 (강진의 봄, 김보미TV)</a>
           <a href="https://www.facebook.com/kimbomi1989" target="_blank" rel="noopener" style="background:#e7f0fe;color:#1559b3;border-color:#cfe0fb">📘 페이스북</a>
           <a href="https://www.instagram.com/kimbomi1989" target="_blank" rel="noopener" style="background:#fdeaf3;color:#a83277;border-color:#f7cde2">📷 인스타그램</a>
-          <a href="https://blog.naver.com/kimbom1204" target="_blank" rel="noopener" style="background:#e6f6e6;color:#1e7a1e;border-color:#c7ead0">📝 네이버 블로그</a>
+          <a href="https://blog.naver.com/kimbom1204" target="_blank" rel="noopener" style="background:#e6ecf6;color:#1e437a;border-color:#c7d5ea">📝 네이버 블로그</a>
           <a href="https://pf.kakao.com/" target="_blank" rel="noopener" title="카카오톡에서 '강진군 김보미' 검색 후 채널 추가" style="background:#fdf3c8;color:#8a6d00;border-color:#f3e29a">💬 카카오톡 (강진군 김보미)</a>
         </div>
 
@@ -1774,9 +1776,9 @@ h1{letter-spacing:-.035em;font-weight:900}
   </div>
   <div class="wrap" style="display:block;border-top:1px solid rgba(255,255,255,.13);margin-top:22px;padding-top:18px">
     <p style="font-size:.95rem;line-height:1.8;color:#dbe7f7;max-width:940px">
-      <b style="color:#fff">김보미.com</b> · <b style="color:#7df0e0">대한민국 재정 365</b>는 <b style="color:#fff">“재정의 주인은 국민이다”</b>라는 한 가지 원칙으로, <b>365일</b> 시민과 함께 만들어가는 <b style="color:#fff">시민주도 국민주권실행 플랫폼</b>입니다.
+      <b style="color:#fff">김보미.com</b> · <b style="color:#7dabf0">대한민국 재정 365</b>는 <b style="color:#fff">“재정의 주인은 국민이다”</b>라는 한 가지 원칙으로, <b>365일</b> 시민과 함께 만들어가는 <b style="color:#fff">시민주도 국민주권실행 플랫폼</b>입니다.
       오류를 발견하거나 좋은 아이디어가 있으시면 언제든지 의견 주십시오 — <b style="color:#fff">모두 수정·반영하겠습니다.</b>
-      <a href="mailto:kimbomi891204@gmail.com" style="display:inline-block;margin-left:6px;background:rgba(125,240,224,.16);border:1px solid rgba(125,240,224,.4);color:#7df0e0;font-weight:800;padding:5px 13px;border-radius:999px;white-space:nowrap">✉️ 의견 보내기</a>
+      <a href="mailto:kimbomi891204@gmail.com" style="display:inline-block;margin-left:6px;background:rgba(125,171,240,.16);border:1px solid rgba(125,171,240,.4);color:#7dabf0;font-weight:800;padding:5px 13px;border-radius:999px;white-space:nowrap">✉️ 의견 보내기</a>
     </p>
     <p style="font-size:.74rem;color:#8aa3c4;margin-top:14px">© 2026 대한민국 재정 365 · 운영 김보미. 재정 데이터는 공공데이터·지방재정365 기반 통계 추론 참고 수치이며, 공식 원부와 다를 수 있습니다.</p>
   </div>
@@ -1796,14 +1798,7 @@ h1{letter-spacing:-.035em;font-weight:900}
   </div>
 </div>
 
-<!-- 좌측: 김보미 소개 FAB (큰 얼굴, 클릭 시 소개 모달) -->
-<div class="intro-greet" id="introGreet">
-  <span class="gx" id="introGreetX">✕</span>
-  <b>김보미</b>를 소개합니다! 👋
-</div>
-<button class="intro-fab" id="introFab" aria-label="김보미를 소개합니다 — 소개 모달 열기" title="김보미를 소개합니다">
-  <span class="kbm-ava" style="font-size:1.7rem"><img class="kbm-face" src="face.jpg" alt="김보미" onerror="this.style.display='none'">김</span>
-</button>
+<!-- 좌측 김보미 소개 FAB 제거됨 — 소개는 하단 내비 '👤 김보미 소개' 클릭 시 모달로 열림 -->
 <!-- ⚠️ 우측 AI 챗봇 FAB 제거됨 — 챗봇 UI는 '📚 재정 교과서' 모달 내부로 통합 -->
 
 <div class="toast" id="toast"></div>
@@ -1976,7 +1971,7 @@ const SECTORS16=["일반·지방행정","공공질서및안전","통일·외교"
    재정주권 365 · 애플리케이션 엔진 (build 2)
    ============================================================ */
 if(window.Chart){ Chart.defaults.font.family="'Noto Sans KR',sans-serif"; Chart.defaults.color="#5b6b82"; }
-const PAL = {blue:"#1d6fe0",teal:"#0fb9a6",green:"#16a34a",amber:"#f59e0b",red:"#e11d48",purple:"#7c3aed",navy:"#13315c",slate:"#94a3b8",sky:"#38bdf8",pink:"#ec4899",lime:"#84cc16",orange:"#fb923c"};
+const PAL = {blue:"#1d6fe0",teal:"#0f53b9",green:"#164ea3",amber:"#f59e0b",red:"#e11d48",purple:"#7c3aed",navy:"#13315c",slate:"#94a3b8",sky:"#3885f8",pink:"#ec4899",lime:"#84cc16",orange:"#fb923c"};
 const fmt = n => Math.round(n).toLocaleString('ko-KR');
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 // 억원 → 표시 문자열. 조 단위는 항상 소수 1자리로 일관 처리하되 불필요한 '.0'은 제거.
@@ -1985,6 +1980,8 @@ const won억 = a => Math.abs(a)>=10000 ? ((a/10000).toFixed(1).replace(/\.0$/,''
 const STATE = { live:false, key:"", proxy:"", year:2025, region:null, charts:{}, model:[], byKey:{} };
 /* ── 전역 노출 (다른 script 블록에서 접근 가능하도록) ── */
 try{window.SIDO=SIDO;window.SIGUNGU=SIGUNGU;window.STATE=STATE;window.NATIONAL=NATIONAL;window.SECTORS=SECTORS;}catch(e){console.warn('global expose',e);}
+window.KB_ORG={"전라남도 목포시":{"h":"https://www.mokpo.go.kr","o":"https://www.mokpo.go.kr/www/introduce/cityhall/organization"},"전라남도 여수시":{"h":"https://www.yeosu.go.kr","o":"https://www.yeosu.go.kr/www/yeosu/guide/organization?view=list&part=623"},"전라남도 순천시":{"h":"https://www.suncheon.go.kr","o":"https://www.suncheon.go.kr/kr/info/0001/0001/"},"전라남도 나주시":{"h":"https://www.naju.go.kr","o":"https://www.naju.go.kr/www/introduction/city/organization"},"전라남도 광양시":{"h":"https://www.gwangyang.go.kr","o":"https://www.gwangyang.go.kr/menu.es?mid=a11306010000"},"전라남도 담양군":{"h":"https://www.damyang.go.kr","o":"https://www.damyang.go.kr/soap/userList?orgId=4850160"},"전라남도 곡성군":{"h":"https://www.gokseong.go.kr","o":"https://www.gokseong.go.kr/kr/orgChartList.do?menuNo=101004001000&searchOrgnztId=511"},"전라남도 구례군":{"h":"https://www.gurye.go.kr"},"전라남도 고흥군":{"h":"https://www.goheung.go.kr","o":"https://www.goheung.go.kr/contentsView.do?pageId=www104"},"전라남도 보성군":{"h":"https://www.boseong.go.kr","o":"https://www.boseong.go.kr/www/open_administration/info_map_build/organ_chart"},"전라남도 화순군":{"h":"https://www.hwasun.go.kr","o":"https://www.hwasun.go.kr/contents.do?S=S01&M=020805000000"},"전라남도 장흥군":{"h":"https://www.jangheung.go.kr","o":"https://www.jangheung.go.kr/www/organization/introduction/organization_chart"},"전라남도 강진군":{"h":"https://www.gangjin.go.kr","o":"https://www.gangjin.go.kr/www/gangjin_story/building/organization"},"전라남도 해남군":{"h":"https://www.haenam.go.kr"},"전라남도 영암군":{"h":"https://www.yeongam.go.kr","o":"https://www.yeongam.go.kr/home/www/new_plus/office/organization"},"전라남도 무안군":{"h":"https://www.muan.go.kr","o":"https://www.muan.go.kr/www/abountmuan/business/organ?view=list&part=29"},"전라남도 함평군":{"h":"https://www.hampyeong.go.kr","o":"https://www.hampyeong.go.kr/contentsView.do?pageId=www379"},"전라남도 영광군":{"h":"https://www.yeonggwang.go.kr","o":"https://www.yeonggwang.go.kr/subpage/?site=headquarter_new&mn=9462"},"전라남도 장성군":{"h":"https://www.jangseong.go.kr"},"전라남도 완도군":{"h":"https://www.wando.go.kr","o":"https://www.wando.go.kr/wando/sub.cs?m=704"},"전라남도 진도군":{"h":"https://www.jindo.go.kr","o":"https://www.jindo.go.kr/home/orgnzt/guide.cs?m=160"},"전라남도 신안군":{"h":"https://www.shinan.go.kr","o":"https://www.shinan.go.kr/home/www/openinfo/participation_03/participation_03_06/page.wscms"},"서울특별시 종로구":{"h":"https://www.jongno.go.kr"},"서울특별시 중구":{"h":"https://www.junggu.seoul.kr"},"서울특별시 용산구":{"h":"https://www.yongsan.go.kr"},"서울특별시 성동구":{"h":"https://www.sd.go.kr"},"서울특별시 광진구":{"h":"https://www.gwangjin.go.kr"},"서울특별시 동대문구":{"h":"https://www.ddm.go.kr"},"서울특별시 중랑구":{"h":"https://www.jungnang.go.kr"},"서울특별시 성북구":{"h":"https://www.sb.go.kr"},"서울특별시 강북구":{"h":"https://www.gangbuk.go.kr"},"서울특별시 도봉구":{"h":"https://www.dobong.go.kr"},"서울특별시 노원구":{"h":"https://www.nowon.go.kr"},"서울특별시 은평구":{"h":"https://www.ep.go.kr"},"서울특별시 서대문구":{"h":"https://www.sdm.go.kr"},"서울특별시 마포구":{"h":"https://www.mapo.go.kr"},"서울특별시 양천구":{"h":"https://www.yangcheon.go.kr"},"서울특별시 강서구":{"h":"https://www.gangseo.seoul.kr"},"서울특별시 구로구":{"h":"https://www.guro.go.kr"},"서울특별시 금천구":{"h":"https://www.geumcheon.go.kr"},"서울특별시 영등포구":{"h":"https://www.ydp.go.kr"},"서울특별시 동작구":{"h":"https://www.dongjak.go.kr"},"서울특별시 관악구":{"h":"https://www.gwanak.go.kr"},"서울특별시 서초구":{"h":"https://www.seocho.go.kr"},"서울특별시 강남구":{"h":"https://www.gangnam.go.kr"},"서울특별시 송파구":{"h":"https://www.songpa.go.kr"},"서울특별시 강동구":{"h":"https://www.gangdong.go.kr"},"부산광역시 중구":{"h":"https://www.bsjunggu.go.kr"},"부산광역시 서구":{"h":"https://www.bsseogu.go.kr"},"부산광역시 동구":{"h":"https://www.bsdonggu.go.kr"},"부산광역시 영도구":{"h":"https://www.yeongdo.go.kr"},"부산광역시 부산진구":{"h":"https://www.busanjin.go.kr"},"부산광역시 동래구":{"h":"https://www.dongnae.go.kr"},"부산광역시 남구":{"h":"https://www.bsnamgu.go.kr"},"부산광역시 북구":{"h":"https://www.bsbukgu.go.kr"},"부산광역시 해운대구":{"h":"https://www.haeundae.go.kr"},"부산광역시 사하구":{"h":"https://www.saha.go.kr"},"부산광역시 금정구":{"h":"https://www.geumjeong.go.kr"},"부산광역시 강서구":{"h":"https://www.bsgangseo.go.kr"},"부산광역시 연제구":{"h":"https://www.yeonje.go.kr"},"부산광역시 수영구":{"h":"https://www.suyeong.go.kr"},"부산광역시 사상구":{"h":"https://www.sasang.go.kr"},"부산광역시 기장군":{"h":"https://www.gijang.go.kr"},"대구광역시 중구":{"h":"https://www.jung.daegu.kr"},"대구광역시 동구":{"h":"https://www.dong.daegu.kr"},"대구광역시 서구":{"h":"https://www.dgs.daegu.kr"},"대구광역시 남구":{"h":"https://www.nam.daegu.kr"},"대구광역시 북구":{"h":"https://www.buk.daegu.kr"},"대구광역시 수성구":{"h":"https://www.suseong.go.kr"},"대구광역시 달서구":{"h":"https://www.dalseo.daegu.kr"},"대구광역시 달성군":{"h":"https://www.dalseong.daegu.kr"},"대구광역시 군위군":{"h":"https://www.gunwi.go.kr"},"인천광역시 중구":{"h":"https://www.icjg.go.kr"},"인천광역시 동구":{"h":"https://www.icdonggu.go.kr"},"인천광역시 미추홀구":{"h":"https://www.michuhol.go.kr"},"인천광역시 연수구":{"h":"https://www.yeonsu.go.kr"},"인천광역시 남동구":{"h":"https://www.namdong.go.kr"},"인천광역시 부평구":{"h":"https://www.icbp.go.kr"},"인천광역시 계양구":{"h":"https://www.gyeyang.go.kr"},"인천광역시 서구":{"h":"https://www.seo.incheon.kr"},"인천광역시 강화군":{"h":"https://www.ganghwa.go.kr"},"인천광역시 옹진군":{"h":"https://www.ongjin.go.kr"},"광주광역시 동구":{"h":"https://www.donggu.gwangju.kr"},"광주광역시 서구":{"h":"https://www.seogu.gwangju.kr"},"광주광역시 남구":{"h":"https://www.namgu.gwangju.kr"},"광주광역시 북구":{"h":"https://www.bukgu.gwangju.kr"},"광주광역시 광산구":{"h":"https://www.gwangsan.go.kr"},"대전광역시 동구":{"h":"https://www.donggu.daejeon.kr"},"대전광역시 중구":{"h":"https://www.djjunggu.go.kr"},"대전광역시 서구":{"h":"https://www.seo.daejeon.kr"},"대전광역시 유성구":{"h":"https://www.yuseong.go.kr"},"대전광역시 대덕구":{"h":"https://www.daedeok.go.kr"},"울산광역시 중구":{"h":"https://www.junggu.ulsan.kr"},"울산광역시 남구":{"h":"https://www.ulsannamgu.go.kr"},"울산광역시 동구":{"h":"https://www.donggu.ulsan.kr"},"울산광역시 북구":{"h":"https://www.bukgu.ulsan.kr"},"울산광역시 울주군":{"h":"https://www.ulju.ulsan.kr"},"세종특별자치시":{"h":"https://www.sejong.go.kr"},"경기도 수원시":{"h":"https://www.suwon.go.kr"},"경기도 성남시":{"h":"https://www.seongnam.go.kr"},"경기도 고양시":{"h":"https://www.goyang.go.kr"},"경기도 용인시":{"h":"https://www.yongin.go.kr"},"경기도 부천시":{"h":"https://www.bucheon.go.kr"},"경기도 안산시":{"h":"https://www.ansan.go.kr"},"경기도 안양시":{"h":"https://www.anyang.go.kr"},"경기도 남양주시":{"h":"https://www.nyj.go.kr"},"경기도 화성시":{"h":"https://www.hscity.go.kr"},"경기도 평택시":{"h":"https://www.pyeongtaek.go.kr"},"경기도 의정부시":{"h":"https://www.ui4u.go.kr"},"경기도 시흥시":{"h":"https://www.siheung.go.kr"},"경기도 파주시":{"h":"https://www.paju.go.kr"},"경기도 광명시":{"h":"https://www.gm.go.kr"},"경기도 김포시":{"h":"https://www.gimpo.go.kr"},"경기도 군포시":{"h":"https://www.gunpo.go.kr"},"경기도 광주시":{"h":"https://www.gjcity.go.kr"},"경기도 이천시":{"h":"https://www.icheon.go.kr"},"경기도 양주시":{"h":"https://www.yangju.go.kr"},"경기도 오산시":{"h":"https://www.osan.go.kr"},"경기도 구리시":{"h":"https://www.guri.go.kr"},"경기도 안성시":{"h":"https://www.anseong.go.kr"},"경기도 포천시":{"h":"https://www.pocheon.go.kr"},"경기도 의왕시":{"h":"https://www.uiwang.go.kr"},"경기도 하남시":{"h":"https://www.hanam.go.kr"},"경기도 여주시":{"h":"https://www.yeoju.go.kr"},"경기도 동두천시":{"h":"https://www.ddc.go.kr"},"경기도 과천시":{"h":"https://www.gccity.go.kr"},"경기도 양평군":{"h":"https://www.yp21.go.kr"},"경기도 가평군":{"h":"https://www.gp.go.kr"},"경기도 연천군":{"h":"https://www.yeoncheon.go.kr"},"강원특별자치도 춘천시":{"h":"https://www.chuncheon.go.kr"},"강원특별자치도 원주시":{"h":"https://www.wonju.go.kr"},"강원특별자치도 강릉시":{"h":"https://www.gn.go.kr"},"강원특별자치도 동해시":{"h":"https://www.donghae.go.kr"},"강원특별자치도 태백시":{"h":"https://www.taebaek.go.kr"},"강원특별자치도 속초시":{"h":"https://www.sokcho.go.kr"},"강원특별자치도 삼척시":{"h":"https://www.samcheok.go.kr"},"강원특별자치도 홍천군":{"h":"https://www.hongcheon.go.kr"},"강원특별자치도 횡성군":{"h":"https://www.hsg.go.kr"},"강원특별자치도 영월군":{"h":"https://www.yw.go.kr"},"강원특별자치도 평창군":{"h":"https://www.pc.go.kr"},"강원특별자치도 정선군":{"h":"https://www.jeongseon.go.kr"},"강원특별자치도 철원군":{"h":"https://www.cwg.go.kr"},"강원특별자치도 화천군":{"h":"https://www.ihc.go.kr"},"강원특별자치도 양구군":{"h":"https://www.yanggu.go.kr"},"강원특별자치도 인제군":{"h":"https://www.inje.go.kr"},"강원특별자치도 고성군":{"h":"https://www.gwgs.go.kr"},"강원특별자치도 양양군":{"h":"https://www.yangyang.go.kr"},"충청북도 청주시":{"h":"https://www.cheongju.go.kr"},"충청북도 충주시":{"h":"https://www.chungju.go.kr"},"충청북도 제천시":{"h":"https://www.jecheon.go.kr"},"충청북도 보은군":{"h":"https://www.boeun.go.kr"},"충청북도 옥천군":{"h":"https://www.oc.go.kr"},"충청북도 영동군":{"h":"https://www.yd21.go.kr"},"충청북도 증평군":{"h":"https://www.jp.go.kr"},"충청북도 진천군":{"h":"https://www.jincheon.go.kr"},"충청북도 괴산군":{"h":"https://www.goesan.go.kr"},"충청북도 음성군":{"h":"https://www.eumseong.go.kr"},"충청북도 단양군":{"h":"https://www.danyang.go.kr"},"충청남도 천안시":{"h":"https://www.cheonan.go.kr"},"충청남도 공주시":{"h":"https://www.gongju.go.kr"},"충청남도 보령시":{"h":"https://www.boryeong.go.kr"},"충청남도 아산시":{"h":"https://www.asan.go.kr"},"충청남도 서산시":{"h":"https://www.seosan.go.kr"},"충청남도 논산시":{"h":"https://www.nonsan.go.kr"},"충청남도 계룡시":{"h":"https://www.gyeryong.go.kr"},"충청남도 당진시":{"h":"https://www.dangjin.go.kr"},"충청남도 금산군":{"h":"https://www.geumsan.go.kr"},"충청남도 부여군":{"h":"https://www.buyeo.go.kr"},"충청남도 서천군":{"h":"https://www.seocheon.go.kr"},"충청남도 청양군":{"h":"https://www.cheongyang.go.kr"},"충청남도 홍성군":{"h":"https://www.hongseong.go.kr"},"충청남도 예산군":{"h":"https://www.yesan.go.kr"},"충청남도 태안군":{"h":"https://www.taean.go.kr"},"전북특별자치도 전주시":{"h":"https://www.jeonju.go.kr"},"전북특별자치도 군산시":{"h":"https://www.gunsan.go.kr"},"전북특별자치도 익산시":{"h":"https://www.iksan.go.kr"},"전북특별자치도 정읍시":{"h":"https://www.jeongeup.go.kr"},"전북특별자치도 남원시":{"h":"https://www.namwon.go.kr"},"전북특별자치도 김제시":{"h":"https://www.gimje.go.kr"},"전북특별자치도 완주군":{"h":"https://www.wanju.go.kr"},"전북특별자치도 진안군":{"h":"https://www.jinan.go.kr"},"전북특별자치도 무주군":{"h":"https://www.muju.go.kr"},"전북특별자치도 장수군":{"h":"https://www.jangsu.go.kr"},"전북특별자치도 임실군":{"h":"https://www.imsil.go.kr"},"전북특별자치도 순창군":{"h":"https://www.sunchang.go.kr"},"전북특별자치도 고창군":{"h":"https://www.gochang.go.kr"},"전북특별자치도 부안군":{"h":"https://www.buan.go.kr"},"경상북도 포항시":{"h":"https://www.pohang.go.kr"},"경상북도 경주시":{"h":"https://www.gyeongju.go.kr"},"경상북도 김천시":{"h":"https://www.gimcheon.go.kr"},"경상북도 안동시":{"h":"https://www.andong.go.kr"},"경상북도 구미시":{"h":"https://www.gumi.go.kr"},"경상북도 영주시":{"h":"https://www.yeongju.go.kr"},"경상북도 영천시":{"h":"https://www.yc.go.kr"},"경상북도 상주시":{"h":"https://www.sangju.go.kr"},"경상북도 문경시":{"h":"https://www.gbmg.go.kr"},"경상북도 경산시":{"h":"https://www.gbgs.go.kr"},"경상북도 의성군":{"h":"https://www.usc.go.kr"},"경상북도 청송군":{"h":"https://www.cs.go.kr"},"경상북도 영양군":{"h":"https://www.yyg.go.kr"},"경상북도 영덕군":{"h":"https://www.yd.go.kr"},"경상북도 청도군":{"h":"https://www.cheongdo.go.kr"},"경상북도 고령군":{"h":"https://www.goryeong.go.kr"},"경상북도 성주군":{"h":"https://www.sj.go.kr"},"경상북도 칠곡군":{"h":"https://www.chilgok.go.kr"},"경상북도 예천군":{"h":"https://www.ycg.go.kr"},"경상북도 봉화군":{"h":"https://www.bonghwa.go.kr"},"경상북도 울진군":{"h":"https://www.uljin.go.kr"},"경상북도 울릉군":{"h":"https://www.ulleung.go.kr"},"경상남도 창원시":{"h":"https://www.changwon.go.kr"},"경상남도 진주시":{"h":"https://www.jinju.go.kr"},"경상남도 통영시":{"h":"https://www.tongyeong.go.kr"},"경상남도 사천시":{"h":"https://www.sacheon.go.kr"},"경상남도 김해시":{"h":"https://www.gimhae.go.kr"},"경상남도 밀양시":{"h":"https://www.miryang.go.kr"},"경상남도 거제시":{"h":"https://www.geoje.go.kr"},"경상남도 양산시":{"h":"https://www.yangsan.go.kr"},"경상남도 의령군":{"h":"https://www.uiryeong.go.kr"},"경상남도 함안군":{"h":"https://www.haman.go.kr"},"경상남도 창녕군":{"h":"https://www.changnyeong.go.kr"},"경상남도 고성군":{"h":"https://www.goseong.go.kr"},"경상남도 남해군":{"h":"https://www.namhae.go.kr"},"경상남도 하동군":{"h":"https://www.hadong.go.kr"},"경상남도 산청군":{"h":"https://www.sancheong.go.kr"},"경상남도 함양군":{"h":"https://www.hygn.go.kr"},"경상남도 거창군":{"h":"https://www.geochang.go.kr"},"경상남도 합천군":{"h":"https://www.hc.go.kr"},"제주특별자치도 제주시":{"h":"https://www.jejusi.go.kr"},"제주특별자치도 서귀포시":{"h":"https://www.seogwipo.go.kr"}};
+window.kbOrgCard=function(rk,gu){var name=gu||(rk?rk.split(' ').slice(-1)[0]:'')||'우리 지역';var rec=(rk&&window.KB_ORG)?window.KB_ORG[rk]:null;var url,sub,vf;if(rec&&rec.o){url=rec.o;sub='조직도·업무분장 바로가기';vf=1;}else if(rec&&rec.h){url=rec.h;sub='공식 홈페이지 → 조직도·업무분장';vf=1;}else{url='https://search.naver.com/search.naver?query='+encodeURIComponent((rk||name)+' 조직도 업무분장');sub='조직도·업무분장 검색';vf=0;}return '<a href="'+url+'" target="_blank" rel="noopener" style="display:block;background:#eef3fc;border:1px solid #cfddf5;border-radius:10px;padding:11px;text-decoration:none;color:#0b2545"><b>🏛️ '+name+' 조직도'+(vf?' <span style=\'font-size:.66rem;color:#1558c0\'>✓</span>':'')+'</b><div style="font-size:.76rem;color:#475569;margin-top:3px">'+sub+'</div></a>';};
 let rankExpanded=false, eduExpanded=false;  // 순위표·용어사전 전체보기 토글 상태
 let cmpBManual=false;  // 사용자가 비교대상을 직접 골랐는지(아니면 인근 시군 자동배치)
 
@@ -2252,8 +2249,8 @@ function aiAnalyze(R){
 /* ---------- 등급 색상 ---------- */
 function gradeStyle(g){
   return ({
-    A:["linear-gradient(135deg,#15803d,#22c55e)","매우 건전"],
-    B:["linear-gradient(135deg,#0f766e,#14b8a6)","양호"],
+    A:["linear-gradient(135deg,#154080,#2263c5)","매우 건전"],
+    B:["linear-gradient(135deg,#0f3876,#1456b8)","양호"],
     C:["linear-gradient(135deg,#b45309,#f59e0b)","보통 · 주의 필요"],
     D:["linear-gradient(135deg,#c2410c,#fb923c)","주의"],
     E:["linear-gradient(135deg,#9f1239,#e11d48)","위험"]
@@ -2291,14 +2288,14 @@ function renderHero(R){
   // 인구통계 (쉬운 말 요약에도 표시)
   const sd=document.getElementById('summaryDemo');
   if(sd){
-    const eg=R.extIndex<0.2?['소멸 고위험','#e11d48']:R.extIndex<0.5?['소멸 위험','#f59e0b']:R.extIndex<1.0?['소멸 주의','#ca8a04']:['양호','#16a34a'];
+    const eg=R.extIndex<0.2?['소멸 고위험','#e11d48']:R.extIndex<0.5?['소멸 위험','#f59e0b']:R.extIndex<1.0?['소멸 주의','#ca8a04']:['양호','#164ea3'];
     sd.innerHTML=`<div class="sd-h">👥 인구통계 <span style="font-size:.72rem;font-weight:600;color:#8294ad">(${R.trend[R.trend.length-1].year} 기준)</span></div>
       <div class="sd-grid">
         <div class="sd"><div class="l">인구</div><div class="v">${fmt(R.pop)}<small> 명</small></div></div>
         <div class="sd"><div class="l">세대수</div><div class="v">${fmt(R.households)}<small> 가구</small></div></div>
         <div class="sd"><div class="l">고령화율(65세+)</div><div class="v" style="color:${R.elderlyRatio>=20?'#e11d48':'var(--navy2)'}">${R.elderlyRatio}%</div></div>
         <div class="sd"><div class="l">청년비율(20-39)</div><div class="v">${R.youthRatio}%</div></div>
-        <div class="sd"><div class="l">인구 증감(전년)</div><div class="v" style="color:${R.popChange>=0?'#16a34a':'#e11d48'}">${R.popChange>0?'+':''}${R.popChange}%</div></div>
+        <div class="sd"><div class="l">인구 증감(전년)</div><div class="v" style="color:${R.popChange>=0?'#164ea3':'#e11d48'}">${R.popChange>0?'+':''}${R.popChange}%</div></div>
         <div class="sd"><div class="l">인구소멸지수</div><div class="v" style="color:${eg[1]}">${R.extIndex} <small style="color:${eg[1]}">${eg[0]}</small></div></div>
       </div>`;
   }
@@ -2345,7 +2342,7 @@ function renderKPI(R){
       <div class="val mono">${c.v}</div>
       <div class="sub">${c.sub}</div>
       ${bar(c.w,c.c)}
-      <div style="position:absolute;top:8px;right:10px;font-size:.6rem;font-weight:800;color:${src.type.startsWith('✅')?'#16a34a':src.type.startsWith('⚠️')?'#92400e':src.type.startsWith('🔬')?'#7c3aed':'#94a3b8'};white-space:nowrap">${src.type.slice(0,1)}</div>
+      <div style="position:absolute;top:8px;right:10px;font-size:.6rem;font-weight:800;color:${src.type.startsWith('✅')?'#164ea3':src.type.startsWith('⚠️')?'#92400e':src.type.startsWith('🔬')?'#7c3aed':'#94a3b8'};white-space:nowrap">${src.type.slice(0,1)}</div>
       ${c.note?`<div class="kpi-note">${c.note}</div>`:''}
     </div>`;}).join('');
   // KPI 카드 클릭 → 상세 모달
@@ -2356,7 +2353,7 @@ function renderKPI(R){
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
           <span style="font-size:2rem">${c.ic}</span>
           <div><h3 style="margin:0;font-size:1.3rem;color:#1e3a5f;font-weight:900">${c.l}</h3>
-          <div style="font-size:.78rem;color:${src.type&&src.type.startsWith('✅')?'#16a34a':src.type&&src.type.startsWith('⚠️')?'#92400e':'#7c3aed'};font-weight:800;margin-top:3px">${src.type||''}</div></div>
+          <div style="font-size:.78rem;color:${src.type&&src.type.startsWith('✅')?'#164ea3':src.type&&src.type.startsWith('⚠️')?'#92400e':'#7c3aed'};font-weight:800;margin-top:3px">${src.type||''}</div></div>
         </div>
         <div style="padding:14px 16px;background:#f8fafc;border-radius:10px;font-size:1rem;line-height:1.7;color:#0b2545;margin-bottom:12px;text-align:center"><b style="font-size:1.5rem;color:#1e3a5f">${c.v.replace(/<[^>]+>/g,'')}</b><div style="font-size:.84rem;color:#64748b;margin-top:4px">${(c.sub||'').replace(/<[^>]+>/g,'')}</div></div>
         <div style="padding:12px 14px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;font-size:.86rem;line-height:1.65;color:#7c2d12;margin-bottom:10px"><b>📌 산출 기준·근거</b><br>${c.tip||src.src||''}</div>
@@ -2438,7 +2435,7 @@ function renderCharts(R){
     datasets:[
       {label:R.display.length>10?R.name:R.display,data:m,borderColor:PAL.blue,backgroundColor:'rgba(29,111,224,.18)',borderWidth:2,pointRadius:3},
       {label:'전국 평균',data:nat,borderColor:PAL.amber,backgroundColor:'rgba(245,158,11,.08)',borderWidth:2,pointRadius:2},
-      {label:'유사단체('+R.type+') 평균',data:sim,borderColor:PAL.teal,backgroundColor:'rgba(15,185,166,.08)',borderWidth:2,borderDash:[5,4],pointRadius:2}
+      {label:'유사단체('+R.type+') 평균',data:sim,borderColor:PAL.teal,backgroundColor:'rgba(15,83,185,.08)',borderWidth:2,borderDash:[5,4],pointRadius:2}
     ]},options:{plugins:{legend:{labels:{boxWidth:12,font:{size:10.5}}}},
       scales:{r:{min:0,max:100,ticks:{stepSize:20,font:{size:9},backdropColor:'transparent'},pointLabels:{font:{size:11,weight:'600'}}}},
       responsive:true,maintainAspectRatio:false}});
@@ -2591,7 +2588,7 @@ function renderCompare(){
     const w=(av==null||bv==null||m.better==='neutral'||av===bv)?0:(m.better==='low'?(av<bv?-1:1):(av>bv?-1:1));
     const cell=(v,rank,win)=>`<td class="${win?'cmp-win':''}"><b>${f(v)}${m.u}</b>${rank?`<div class="cmp-rank">전국 ${rank}위 · 상위 ${pctTop(rank,total)}%</div>`:''}</td>`;
     const winTxt=m.better==='neutral'?'<span class="muted">참고</span>':(av===bv?'무승부':(w===-1?A.name:B.name));
-    return `<tr><td style="font-weight:800;color:var(--navy2)">${m.l}</td>${cell(av,aRank,w===-1)}${cell(bv,bRank,w===1)}<td class="muted">${f(nv)}${m.u}</td><td style="font-weight:800;color:${w?'#15803d':'#94a3b8'}">${w?'✓ '+winTxt:winTxt}</td></tr>`;
+    return `<tr><td style="font-weight:800;color:var(--navy2)">${m.l}</td>${cell(av,aRank,w===-1)}${cell(bv,bRank,w===1)}<td class="muted">${f(nv)}${m.u}</td><td style="font-weight:800;color:${w?'#154080':'#94a3b8'}">${w?'✓ '+winTxt:winTxt}</td></tr>`;
   }).join('');
   const mA=metricsFor(A), mB=metricsFor(B), mN=metricsFor(N);
   mkChart('cmpRadar',{type:'radar',data:{labels:['재정자립도','재정자주도','집행 적정','채무 건전','계약 투명','수지 건전'],datasets:[
@@ -2671,7 +2668,7 @@ function printReport(R){
   '<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel=stylesheet>'+
   '<style>body{font-family:"Noto Sans KR",sans-serif;color:#0f172a;padding:34px;max-width:820px;margin:auto;line-height:1.5}'+
   'h1{font-size:22px;border-bottom:3px solid #0b2545;padding-bottom:8px;margin-bottom:6px}'+
-  'h2{font-size:15px;margin-top:22px;color:#13315c;border-left:4px solid #0fb9a6;padding-left:8px}'+
+  'h2{font-size:15px;margin-top:22px;color:#13315c;border-left:4px solid #0f53b9;padding-left:8px}'+
   '.sub{font-size:12px;color:#5b6b82}table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}'+
   'th,td{border:1px solid #d6deea;padding:6px 9px;text-align:left}th{background:#f1f5fb}td.r,th.r{text-align:right}'+
   '.kpi{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.kpi div{border:1px solid #d6deea;border-radius:8px;padding:8px 12px;font-size:12px;min-width:120px}'+
@@ -2745,8 +2742,8 @@ function printReport(R){
           +kpi('🧍 주민 1인당',(R.perCapitaBudget?R.perCapitaBudget.toLocaleString('ko-KR')+'만원':'-'))
           +kpi('📈 재정자립도','<span id="fsBudgetSr">'+(R.selfReliance||'-')+'</span><span style="font-size:.8rem">%</span>')
           +kpi('🔑 재정자주도',(R.autonomy||'-')+'<span style="font-size:.8rem">%</span>')
-          +kpi('✅ 세출 집행률',exec+'<span style="font-size:.8rem">%</span>',exec<70?'#e11d48':'#16a34a')
-          +kpi('💳 채무비율',(R.debtRatio||'-')+'<span style="font-size:.8rem">%</span>',(R.debtRatio>15?'#e11d48':'#16a34a'))
+          +kpi('✅ 세출 집행률',exec+'<span style="font-size:.8rem">%</span>',exec<70?'#e11d48':'#164ea3')
+          +kpi('💳 채무비율',(R.debtRatio||'-')+'<span style="font-size:.8rem">%</span>',(R.debtRatio>15?'#e11d48':'#164ea3'))
           +'</div>';
         html+='<div style="margin-top:16px"><div style="font-size:.86rem;font-weight:800;color:#475569;margin-bottom:6px">🏦 회계별 예산 구성</div><table style="width:100%;border-collapse:collapse;font-size:.85rem"><tr style="background:#f1f5f9"><th style="text-align:left;padding:6px 8px;border:1px solid #e2e8f0">구분</th><th style="text-align:right;padding:6px 8px;border:1px solid #e2e8f0">금액</th><th style="text-align:right;padding:6px 8px;border:1px solid #e2e8f0">비중</th></tr>'
           +['일반회계','특별회계','기금'].map(function(nm,i){var amt=[a1,a2,a3][i];return '<tr><td style="padding:6px 8px;border:1px solid #e2e8f0">'+nm+'</td><td style="text-align:right;padding:6px 8px;border:1px solid #e2e8f0">'+won(amt)+'</td><td style="text-align:right;padding:6px 8px;border:1px solid #e2e8f0">'+(b?(amt/b*100).toFixed(1):0)+'%</td></tr>';}).join('')
@@ -2766,7 +2763,7 @@ function printReport(R){
         else { var ab=AB[sido]; if(!ab) return; zone= gu? ab+gu : ab+'본청'; }
         fetch('/api/budget?zone='+encodeURIComponent(zone)).then(function(r){return r.json();}).then(function(d){
           if(!d||d.error||!d.s) return;
-          var src=document.getElementById('fsBudgetSrc'); if(src){ src.textContent='✅ 재정자립도 실시간 공식 · 지방재정365 '+(d.fyr||'')+'결산'; src.style.background='#dcfce7'; src.style.color='#166534'; }
+          var src=document.getElementById('fsBudgetSrc'); if(src){ src.textContent='✅ 재정자립도 실시간 공식 · 지방재정365 '+(d.fyr||'')+'결산'; src.style.background='#dce9fc'; src.style.color='#163665'; }
           var sr=document.getElementById('fsBudgetSr'); if(sr) sr.textContent=d.s;
         }).catch(function(){});
       },
@@ -2795,10 +2792,10 @@ function printReport(R){
           if(!code){ box.innerHTML='<div style="color:#94a3b8;font-size:.82rem;padding:6px">실시간 사업 내역 매칭 코드를 찾지 못했습니다 ('+zname+').</div>'; return; }
           fetch('/api/projects?laf_cd='+encodeURIComponent(code)+'&limit=25').then(function(r){return r.json();}).then(function(d){
             if(!d||d.error||!d.projects||!d.projects.length){ box.innerHTML='<div style="color:#94a3b8;font-size:.82rem;padding:6px">해당 조건의 데이터가 없습니다</div>'; return; }
-            var rows=d.projects.map(function(pj,i){ var rc=pj.rate>=80?'#16a34a':(pj.rate>=40?'#d97706':'#e11d48');
+            var rows=d.projects.map(function(pj,i){ var rc=pj.rate>=80?'#164ea3':(pj.rate>=40?'#d97706':'#e11d48');
               return '<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:'+(i%2?'#f8fafc':'#fff')+';border:1px solid #eef2f7;border-radius:9px"><span style="font-size:.7rem;font-weight:800;color:#94a3b8;min-width:20px">'+(i+1)+'</span><span style="flex:1;min-width:0"><b style="color:#1e3a5f;font-size:.86rem">'+pj.name+'</b><span style="font-size:.72rem;color:#64748b;display:block">'+pj.field+'</span></span><span style="text-align:right;font-size:.8rem;white-space:nowrap"><div style="color:#0b2545;font-weight:800">'+pj.budget+'</div><div style="font-size:.72rem;color:#64748b">집행 '+pj.exec+'</div></span><span style="font-size:.74rem;font-weight:900;color:'+rc+';min-width:40px;text-align:right">'+pj.rate+'%</span></div>';
             }).join('');
-            box.innerHTML='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px"><div style="font-size:.9rem;font-weight:800;color:#0b2545">📑 실시간 주요 사업·계약 집행 내역 ('+d.projects.length+'건)</div><span style="font-size:.7rem;font-weight:800;background:#dcfce7;color:#166534;padding:2px 8px;border-radius:99px">✅ 지방재정365 '+(d.fyr||'')+' · '+(d.date||'')+'</span></div><div style="display:flex;flex-direction:column;gap:5px;max-height:460px;overflow-y:auto;padding-right:4px">'+rows+'</div><div style="font-size:.72rem;color:#94a3b8;margin-top:8px;line-height:1.6">※ 지방재정365 세부사업별 세출(집행) 실시간 데이터. 입찰·낙찰업체·계약방식 단위 상세는 <a href="https://www.g2b.go.kr/" target="_blank" rel="noopener" style="color:#1e40af;font-weight:700">나라장터 ↗</a>에서 확인하세요.</div>';
+            box.innerHTML='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px"><div style="font-size:.9rem;font-weight:800;color:#0b2545">📑 실시간 주요 사업·계약 집행 내역 ('+d.projects.length+'건)</div><span style="font-size:.7rem;font-weight:800;background:#dce9fc;color:#163665;padding:2px 8px;border-radius:99px">✅ 지방재정365 '+(d.fyr||'')+' · '+(d.date||'')+'</span></div><div style="display:flex;flex-direction:column;gap:5px;max-height:460px;overflow-y:auto;padding-right:4px">'+rows+'</div><div style="font-size:.72rem;color:#94a3b8;margin-top:8px;line-height:1.6">※ 지방재정365 세부사업별 세출(집행) 실시간 데이터. 입찰·낙찰업체·계약방식 단위 상세는 <a href="https://www.g2b.go.kr/" target="_blank" rel="noopener" style="color:#1e40af;font-weight:700">나라장터 ↗</a>에서 확인하세요.</div>';
           }).catch(function(){ box.innerHTML='<div style="color:#94a3b8;font-size:.82rem;padding:6px">실시간 사업 데이터를 불러오지 못했습니다.</div>'; });
         });
       },
@@ -2812,7 +2809,7 @@ function printReport(R){
         var suui=R.suuiRatio||0, comp=+(100-suui).toFixed(1);
         var total=Math.round(b*0.32);
         var gongsa=Math.round(total*0.52), yongyeok=Math.round(total*0.30), mulpum=total-gongsa-yongyeok;
-        var lvl=function(ok,warn,val){return val>=warn?{t:'경고',c:'#e11d48',bg:'#fee2e2'}:(val>=ok?{t:'주의',c:'#d97706',bg:'#fef3c7'}:{t:'정상',c:'#16a34a',bg:'#dcfce7'});};
+        var lvl=function(ok,warn,val){return val>=warn?{t:'경고',c:'#e11d48',bg:'#fee2e2'}:(val>=ok?{t:'주의',c:'#d97706',bg:'#fef3c7'}:{t:'정상',c:'#164ea3',bg:'#dce9fc'});};
         var monopoly=(R.integrity?(6-R.integrity)*12:30);
         var unitprice=85+suui/5;
         var delay=+(100-exec).toFixed(1);
@@ -2820,7 +2817,7 @@ function printReport(R){
           {nm:'수의계약 과다',desc:'경쟁 없이 특정업체와 직접 계약하는 비중',val:suui+'%',v:lvl(30,40,suui)},
           {nm:'일감 몰아주기',desc:'소수 업체 낙찰 집중도 지수',val:monopoly+'점',v:lvl(40,55,monopoly)},
           {nm:'단가 부풀리기',desc:'예정가 대비 낙찰가율 이상 신호',val:unitprice.toFixed(0)+'%',v:lvl(95,99,unitprice)},
-          {nm:'자전거래',desc:'특수관계 업체 간 반복 거래 신호',val:(suui>35?'감지':'미감지'),v:(suui>45?{t:'경고',c:'#e11d48',bg:'#fee2e2'}:(suui>35?{t:'주의',c:'#d97706',bg:'#fef3c7'}:{t:'정상',c:'#16a34a',bg:'#dcfce7'}))},
+          {nm:'자전거래',desc:'특수관계 업체 간 반복 거래 신호',val:(suui>35?'감지':'미감지'),v:(suui>45?{t:'경고',c:'#e11d48',bg:'#fee2e2'}:(suui>35?{t:'주의',c:'#d97706',bg:'#fef3c7'}:{t:'정상',c:'#164ea3',bg:'#dce9fc'}))},
           {nm:'집행 지연',desc:'연내 미집행·이월 위험',val:delay+'%',v:lvl(25,35,delay)}
         ];
         var warnCnt=pats.filter(function(p){return p.v.t==='경고';}).length, cauCnt=pats.filter(function(p){return p.v.t==='주의';}).length;
@@ -2828,13 +2825,13 @@ function printReport(R){
         if(warnCnt>=2){grade='D';gc='#e11d48';gmsg='다수 위험신호 — 정밀 감시·자료요구 권고';}
         else if(warnCnt===1||cauCnt>=3){grade='C';gc='#d97706';gmsg='일부 위험신호 — 주의 관찰 필요';}
         else if(cauCnt>=1){grade='B';gc='#0b6fe0';gmsg='대체로 양호 — 경미한 주의항목';}
-        else {grade='A';gc='#16a34a';gmsg='건전 — 특이 위험신호 없음';}
+        else {grade='A';gc='#164ea3';gmsg='건전 — 특이 위험신호 없음';}
         var html='';
         html+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px"><div style="font-size:1.1rem;font-weight:900;color:#0b2545">📜 '+info.name+' 계약·발주 분석</div><span style="font-size:.72rem;font-weight:800;background:#fef3c7;color:#92400e;padding:3px 9px;border-radius:99px">📊 참고치 (공시 기반)</span></div>';
         html+='<div class="fs-stat-grid">'
           +'<div class="fs-stat"><div class="label">📦 총 계약규모</div><div class="value" style="font-size:1.05rem">'+won(total)+'</div></div>'
-          +'<div class="fs-stat"><div class="label">🤝 수의계약</div><div class="value" style="color:'+(suui>35?'#e11d48':'#16a34a')+'">'+suui+'<span style="font-size:.8rem">%</span></div></div>'
-          +'<div class="fs-stat"><div class="label">⚖️ 경쟁입찰</div><div class="value" style="color:#16a34a">'+comp+'<span style="font-size:.8rem">%</span></div></div>'
+          +'<div class="fs-stat"><div class="label">🤝 수의계약</div><div class="value" style="color:'+(suui>35?'#e11d48':'#164ea3')+'">'+suui+'<span style="font-size:.8rem">%</span></div></div>'
+          +'<div class="fs-stat"><div class="label">⚖️ 경쟁입찰</div><div class="value" style="color:#164ea3">'+comp+'<span style="font-size:.8rem">%</span></div></div>'
           +'<div class="fs-stat"><div class="label">🏗️ 공사</div><div class="value" style="font-size:1rem">'+won(gongsa)+'</div></div>'
           +'<div class="fs-stat"><div class="label">🧰 용역</div><div class="value" style="font-size:1rem">'+won(yongyeok)+'</div></div>'
           +'<div class="fs-stat"><div class="label">📋 물품</div><div class="value" style="font-size:1rem">'+won(mulpum)+'</div></div>'
@@ -2868,6 +2865,7 @@ function printReport(R){
         }
         var encQ=encodeURIComponent(q||'정책');
         var channels='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">'
+          + (regionKey?window.kbOrgCard(regionKey,regionGu):'')
           + '<a href="https://www.gov.kr/search/applSearchResult?srhQuery='+encQ+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:11px;text-decoration:none;color:#0b2545"><b>정부24 정책</b><div style="font-size:.76rem;color:#475569;margin-top:3px">전국 부처·지자체 통합검색</div></a>'
           + '<a href="https://www.localinfo.go.kr/portal/local/searchKeyword.do?keyword='+encQ+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:11px;text-decoration:none;color:#0b2545"><b>내고장알리미</b><div style="font-size:.76rem;color:#475569;margin-top:3px">행안부 시군구 정책·지표</div></a>'
           + '<a href="https://www.law.go.kr/LSW/ordinSc.do?menuId=2&query='+encQ+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:11px;text-decoration:none;color:#0b2545"><b>자치법규(조례) 검색</b><div style="font-size:.76rem;color:#475569;margin-top:3px">국가법령정보 — 조례·규칙</div></a>'
@@ -2899,7 +2897,7 @@ function printReport(R){
             }
             var rows=matched.slice(0,40).map(function(p){
               var dept=DEPT[p.field]||'담당부서';
-              var rc=p.rate>=80?'#16a34a':(p.rate>=40?'#d97706':'#e11d48');
+              var rc=p.rate>=80?'#164ea3':(p.rate>=40?'#d97706':'#e11d48');
               var deptSearch='https://search.naver.com/search.naver?query='+encodeURIComponent(regionGu+' '+dept.split('·')[0]+' 전화번호');
               return '<div style="padding:11px 13px;background:#fff;border:1px solid #e6eef7;border-radius:11px;margin-bottom:7px">'
                 +'<div style="display:flex;align-items:flex-start;gap:10px"><span style="flex:1;min-width:0"><b style="color:#1e3a5f;font-size:.92rem">'+p.name+'</b><span style="font-size:.74rem;color:#64748b;display:block;margin-top:2px">분야: '+p.field+'</span></span>'
@@ -2907,7 +2905,7 @@ function printReport(R){
                 +'<div style="display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px dashed #eef2f7;font-size:.78rem"><span style="background:#eef3f9;color:#1e3a5f;font-weight:800;border-radius:7px;padding:3px 9px">🏛️ 담당 추정: '+regionGu+' '+dept+'</span><a href="'+deptSearch+'" target="_blank" rel="noopener" style="color:#1d6fe0;font-weight:800;text-decoration:none">📞 담당부서·연락처 찾기 ↗</a></div>'
                 +'</div>';
             }).join('');
-            box.innerHTML='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px"><div style="font-size:.9rem;font-weight:800;color:#0b2545">📋 '+regionGu+' '+(toks.length?('"'+q+'" 관련 '):'')+'사업·정책 '+matched.length+'건</div><span style="font-size:.7rem;font-weight:800;background:#dcfce7;color:#166534;padding:2px 8px;border-radius:99px">✅ 지방재정365 '+(d.fyr||'')+' 실시간</span></div>'
+            box.innerHTML='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px"><div style="font-size:.9rem;font-weight:800;color:#0b2545">📋 '+regionGu+' '+(toks.length?('"'+q+'" 관련 '):'')+'사업·정책 '+matched.length+'건</div><span style="font-size:.7rem;font-weight:800;background:#dce9fc;color:#163665;padding:2px 8px;border-radius:99px">✅ 지방재정365 '+(d.fyr||'')+' 실시간</span></div>'
               +'<div style="max-height:430px;overflow-y:auto;padding-right:4px">'+rows+'</div>'
               +'<div style="font-size:.72rem;color:#94a3b8;margin-top:6px;line-height:1.6">※ 담당부서는 사업 분야 기준 추정이며, 정확한 부서·연락처는 \'담당부서 찾기\'로 확인하세요. 출처: 지방재정365 세부사업.</div>';
             var c3=document.getElementById('psCount'); if(c3) c3.textContent='매칭 '+matched.length+'건';
@@ -2990,10 +2988,10 @@ function printReport(R){
     function destroy(id){ var c=window.STATE.charts[id]; if(c&&c.destroy){c.destroy();} }
     function draw(id, cfg){ var el=document.getElementById(id); if(!el)return; destroy(id); window.STATE.charts[id]=new Chart(el.getContext('2d'), cfg); }
     var common = { responsive:true, maintainAspectRatio:false };
-    draw('chartAccounts', { type:'doughnut', data:{labels:['일반회계','특별회계','기금'],datasets:[{data:[R.accounts['일반회계'],R.accounts['특별회계'],R.accounts['기금']],backgroundColor:['#1d6fe0','#0fb9a6','#f59e0b']}]}, options:common });
+    draw('chartAccounts', { type:'doughnut', data:{labels:['일반회계','특별회계','기금'],datasets:[{data:[R.accounts['일반회계'],R.accounts['특별회계'],R.accounts['기금']],backgroundColor:['#1d6fe0','#0f53b9','#f59e0b']}]}, options:common });
     var trend=[Math.round(R.budget*.85),Math.round(R.budget*.88),Math.round(R.budget*.93),Math.round(R.budget*.98),R.budget];
     draw('chartTrend', { type:'line', data:{labels:['2021','2022','2023','2024','2025'],datasets:[{label:'총예산(억원)',data:trend,borderColor:'#1d6fe0',backgroundColor:'rgba(29,111,224,0.18)',fill:true,tension:.3}]}, options:common });
-    draw('chartRadar', { type:'radar', data:{labels:['재정자립도','재정자주도','집행률','채무관리','청렴도'],datasets:[{label:R.display,data:[R.selfReliance,R.autonomy,R.execRate,100-R.debtRatio,(6-R.integrity)*20],borderColor:'#0fb9a6',backgroundColor:'rgba(15,185,166,.25)',pointBackgroundColor:'#0fb9a6'}]}, options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:100,beginAtZero:true,ticks:{stepSize:20}}}} });
+    draw('chartRadar', { type:'radar', data:{labels:['재정자립도','재정자주도','집행률','채무관리','청렴도'],datasets:[{label:R.display,data:[R.selfReliance,R.autonomy,R.execRate,100-R.debtRatio,(6-R.integrity)*20],borderColor:'#0f53b9',backgroundColor:'rgba(15,83,185,.25)',pointBackgroundColor:'#0f53b9'}]}, options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:100,beginAtZero:true,ticks:{stepSize:20}}}} });
   };
   if(typeof window.selectByKey !== 'function'){
     window.selectByKey = function(key){ window.__renderChartsFallback(key); };
@@ -3072,7 +3070,7 @@ function printReport(R){
         + '🔗 <a href="https://lofin365.go.kr/portal/LF000000000.do" target="_blank" rel="noopener" style="color:#1e40af;font-weight:800">' + name + ' 세입·세출예산서 보기 →</a>'
         + '</div></details>';
     });
-    html += '<div style="margin-top:14px;padding:12px 14px;background:#f0fdf4;border-left:4px solid #22c55e;border-radius:8px;font-size:.82rem;color:#166534">💡 <b>팩트 only</b>: 분야별 % 는 전국 평균 근사값입니다. 실제 ' + name + ' 분야별 세부 예산은 <a href="https://lofin365.go.kr" target="_blank" rel="noopener" style="color:#15803d;font-weight:900">지방재정365 공식 데이터</a>에서 확인하세요.</div>';
+    html += '<div style="margin-top:14px;padding:12px 14px;background:#f0f5fd;border-left:4px solid #2263c5;border-radius:8px;font-size:.82rem;color:#163665">💡 <b>팩트 only</b>: 분야별 % 는 전국 평균 근사값입니다. 실제 ' + name + ' 분야별 세부 예산은 <a href="https://lofin365.go.kr" target="_blank" rel="noopener" style="color:#154080;font-weight:900">지방재정365 공식 데이터</a>에서 확인하세요.</div>';
     html += '</div>';
     ov.innerHTML = html;
     document.body.appendChild(ov);
@@ -3169,7 +3167,7 @@ function findCouncilEmail(){
 }
 
 /* ---------- 시군구 전용 상세 페이지 ---------- */
-function extGrade(x){return x<0.2?['소멸 고위험','#e11d48']:x<0.5?['소멸 위험','#f59e0b']:x<1.0?['소멸 주의','#eab308']:['양호','#16a34a'];}
+function extGrade(x){return x<0.2?['소멸 고위험','#e11d48']:x<0.5?['소멸 위험','#f59e0b']:x<1.0?['소멸 주의','#eab308']:['양호','#164ea3'];}
 function blockStatus(){return STATE.liveConfirmed?'<span class="bstat-ok">✅ 실시간 자동 로드</span>':'<span class="bstat-wait">⏳ 수치 입력 대기 · 시연값 표시</span>';}
 function renderDetail(R){
   if(!R) return;
@@ -3183,7 +3181,7 @@ function renderDetail(R){
   const gov = (function(){
     const h=(s)=>hash01(R.key, s||1);
     const fiscalGrade=['A','B','C','D','E'][Math.min(4, Math.floor((100-R.score)/22))];
-    const fiscalGradeColor={A:'#16a34a',B:'#22c55e',C:'#f59e0b',D:'#fb923c',E:'#e11d48'}[fiscalGrade];
+    const fiscalGradeColor={A:'#164ea3',B:'#2263c5',C:'#f59e0b',D:'#fb923c',E:'#e11d48'}[fiscalGrade];
     const isSido=R.isSido, type=R.type;
     // 업무추진비 (백만원)
     const headRate=isSido?0.0006:type==='시'?0.0008:type==='군'?0.0010:type==='구'?0.0007:0.0006;
@@ -3206,7 +3204,7 @@ function renderDetail(R){
     const foiOpenRate=Math.round(70+h(43)*25);
     // 미세먼지 PM2.5 (㎍/㎥)
     const pm25=+(type==='군'?14+h(47)*6 : type==='구'?20+h(49)*8 : type==='시'?17+h(51)*8 : 18+h(53)*6).toFixed(1);
-    const pm25Grade=pm25<=15?['좋음','#16a34a']:pm25<=25?['보통','#f59e0b']:pm25<=35?['나쁨','#fb923c']:['매우나쁨','#e11d48'];
+    const pm25Grade=pm25<=15?['좋음','#164ea3']:pm25<=25?['보통','#f59e0b']:pm25<=35?['나쁨','#fb923c']:['매우나쁨','#e11d48'];
     // 응급의료기관 수
     const erCount=isSido? 30+Math.round(h(57)*40) : type==='시'? 2+Math.round(h(59)*4) : 1+Math.round(h(61)*1);
     // 응급 도착시간 (분)
@@ -3218,7 +3216,7 @@ function renderDetail(R){
     const fireDamage=Math.round(fireCount*(15+h(81)*20));
     return {fiscalGrade,fiscalGradeColor,headBudget,chairBudget,q1,q2,q3,q4,festivalPct,natFestival,subOrgs,grantBillions,foiRequests,foiOpenRate,pm25,pm25Grade,erCount,erTime,crimeRate,fireCount,fireDamage};
   })();
-  const sevC={high:'#e11d48',mid:'#f59e0b',low:'#16a34a'};
+  const sevC={high:'#e11d48',mid:'#f59e0b',low:'#164ea3'};
   document.getElementById('detailBody').innerHTML=`
    <div class="dblock" style="margin-top:0"><h3>👥 인구통계 ${blockStatus()}</h3>
      <div class="dgrid">
@@ -3245,7 +3243,7 @@ function renderDetail(R){
        <div class="dstat"><div class="l">재정자립도</div><div class="v mono">${R.selfReliance}%</div></div>
        <div class="dstat"><div class="l">재정자주도</div><div class="v mono">${R.autonomy}%</div></div>
        <div class="dstat"><div class="l">채무비율</div><div class="v mono">${R.debtRatio}%</div></div>
-       <div class="dstat"><div class="l">종합청렴도</div><div class="v mono"${R.integrity?` style="color:${R.integrity<=2?'#16a34a':R.integrity===3?'#b45309':'#e11d48'}"`:''}>${R.integrity?R.integrity+'등급':'<span style="font-size:.95rem;color:#64748b">미평가</span>'}</div><div class="s muted">${R.integrity?(['','매우 우수','우수','보통','미흡','매우 미흡'][R.integrity]+' · 국민권익위 2025'):'권익위 평가 대상 아님'}</div></div>
+       <div class="dstat"><div class="l">종합청렴도</div><div class="v mono"${R.integrity?` style="color:${R.integrity<=2?'#164ea3':R.integrity===3?'#b45309':'#e11d48'}"`:''}>${R.integrity?R.integrity+'등급':'<span style="font-size:.95rem;color:#64748b">미평가</span>'}</div><div class="s muted">${R.integrity?(['','매우 우수','우수','보통','미흡','매우 미흡'][R.integrity]+' · 국민권익위 2025'):'권익위 평가 대상 아님'}</div></div>
        <div class="dstat"><div class="l">금고 이자율</div><div class="v mono" style="font-size:.95rem;color:#475569">공개 추진 중</div><div class="s muted">행안부 2025.12~ 누리집 공개</div></div>
      </div></div>
    <div class="dblock"><h3>📈 분기별 집행 현황 ${blockStatus()}</h3>
@@ -3257,14 +3255,14 @@ function renderDetail(R){
        <div class="dstat"><div class="l">행안부 재정분석 등급</div><div class="v mono" style="color:${gov.fiscalGradeColor};font-size:1.6rem">${gov.fiscalGrade}</div><div class="s muted">매년 행안부 종합평가</div></div>
        <div class="dstat"><div class="l">단체장 업무추진비/년</div><div class="v mono" style="font-size:1.05rem">${fmt(gov.headBudget)}<span class="s muted"> 백만원</span></div><div class="s muted">${R.isSido?'시·도지사':'단체장'}</div></div>
        <div class="dstat"><div class="l">의장 업무추진비/년</div><div class="v mono" style="font-size:1.05rem">${fmt(gov.chairBudget)}<span class="s muted"> 백만원</span></div></div>
-       <div class="dstat"><div class="l">행사·축제 경비 비율</div><div class="v mono" style="color:${gov.festivalPct<1.5?'#16a34a':gov.festivalPct<3?'#b45309':'#e11d48'}">${gov.festivalPct}<span class="s muted">%</span></div><div class="s muted">전국 평균 ${gov.natFestival}% · ${gov.festivalPct>gov.natFestival?'⬆ 평균↑':'⬇ 평균↓'}</div></div>
+       <div class="dstat"><div class="l">행사·축제 경비 비율</div><div class="v mono" style="color:${gov.festivalPct<1.5?'#164ea3':gov.festivalPct<3?'#b45309':'#e11d48'}">${gov.festivalPct}<span class="s muted">%</span></div><div class="s muted">전국 평균 ${gov.natFestival}% · ${gov.festivalPct>gov.natFestival?'⬆ 평균↑':'⬇ 평균↓'}</div></div>
        <div class="dstat"><div class="l">출자·출연기관</div><div class="v mono">${gov.subOrgs}<span class="s muted"> 곳</span></div><div class="s muted">산하 공공기관</div></div>
        <div class="dstat"><div class="l">민간이전경비 (보조금)</div><div class="v mono" style="font-size:1.05rem">${won억(gov.grantBillions)}</div><div class="s muted">예산의 ${(gov.grantBillions/R.budget*100).toFixed(1)}%</div></div>
      </div>
      <div style="margin-top:14px">
        <div style="font-size:.84rem;font-weight:800;color:#475569;margin-bottom:8px">📊 단체장 업무추진비 분기별 (백만원)</div>
        <div style="display:flex;gap:8px;align-items:flex-end;height:90px;padding:8px 0;background:#f8fafc;border-radius:10px">
-         ${[gov.q1,gov.q2,gov.q3,gov.q4].map((q,i)=>{const max=Math.max(gov.q1,gov.q2,gov.q3,gov.q4); const h=Math.max(8,Math.round(q/max*70)); return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end"><div style="font-size:.7rem;color:#1e3a5f;font-weight:800;margin-bottom:3px">${fmt(q)}</div><div style="width:80%;height:${h}px;background:linear-gradient(180deg,#1d6fe0,#0ea5e9);border-radius:6px 6px 0 0"></div><div style="font-size:.72rem;color:#64748b;margin-top:4px;font-weight:700">${i+1}분기</div></div>`}).join('')}
+         ${[gov.q1,gov.q2,gov.q3,gov.q4].map((q,i)=>{const max=Math.max(gov.q1,gov.q2,gov.q3,gov.q4); const h=Math.max(8,Math.round(q/max*70)); return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end"><div style="font-size:.7rem;color:#1e3a5f;font-weight:800;margin-bottom:3px">${fmt(q)}</div><div style="width:80%;height:${h}px;background:linear-gradient(180deg,#1d6fe0,#0e66e9);border-radius:6px 6px 0 0"></div><div style="font-size:.72rem;color:#64748b;margin-top:4px;font-weight:700">${i+1}분기</div></div>`}).join('')}
        </div>
      </div>
    </div>
@@ -3272,7 +3270,7 @@ function renderDetail(R){
    <div class="dblock"><h3>🏛️ 행정 투명성 (행안부 정보공개포털)</h3>
      <div class="dgrid">
        <div class="dstat"><div class="l">연간 정보공개 청구</div><div class="v mono" style="font-size:1.1rem">${fmt(gov.foiRequests)}<span class="s muted"> 건</span></div></div>
-       <div class="dstat"><div class="l">정보공개 공개율</div><div class="v mono" style="color:${gov.foiOpenRate>=85?'#16a34a':gov.foiOpenRate>=70?'#b45309':'#e11d48'}">${gov.foiOpenRate}<span class="s muted">%</span></div><div class="s muted">${gov.foiOpenRate>=85?'우수':gov.foiOpenRate>=70?'보통':'미흡'}</div></div>
+       <div class="dstat"><div class="l">정보공개 공개율</div><div class="v mono" style="color:${gov.foiOpenRate>=85?'#164ea3':gov.foiOpenRate>=70?'#b45309':'#e11d48'}">${gov.foiOpenRate}<span class="s muted">%</span></div><div class="s muted">${gov.foiOpenRate>=85?'우수':gov.foiOpenRate>=70?'보통':'미흡'}</div></div>
        <div class="dstat"><div class="l">시정·시민감시 처리율</div><div class="v mono">${Math.round(70+(gov.foiOpenRate-70)*0.6)}<span class="s muted">%</span></div><div class="s muted">민원 회신 비율</div></div>
      </div>
    </div>
@@ -3282,8 +3280,8 @@ function renderDetail(R){
      <div class="dgrid">
        <div class="dstat"><div class="l">🌫️ 미세먼지 PM2.5 연평균</div><div class="v mono" style="color:${gov.pm25Grade[1]}">${gov.pm25}<span class="s muted"> ㎍/㎥</span></div><div class="s muted">${gov.pm25Grade[0]} (WHO 권고 15)</div></div>
        <div class="dstat"><div class="l">🚑 응급의료기관</div><div class="v mono">${gov.erCount}<span class="s muted"> 곳</span></div><div class="s muted">권역·지역응급의료센터</div></div>
-       <div class="dstat"><div class="l">⏱️ 응급실 도착시간</div><div class="v mono" style="color:${gov.erTime<10?'#16a34a':gov.erTime<15?'#b45309':'#e11d48'}">${gov.erTime}<span class="s muted"> 분</span></div><div class="s muted">평균 (전국 8.7분)</div></div>
-       <div class="dstat"><div class="l">👮 5대 범죄 발생률</div><div class="v mono" style="color:${gov.crimeRate<50?'#16a34a':gov.crimeRate<80?'#b45309':'#e11d48'}">${gov.crimeRate}</div><div class="s muted">인구 1만명당/년</div></div>
+       <div class="dstat"><div class="l">⏱️ 응급실 도착시간</div><div class="v mono" style="color:${gov.erTime<10?'#164ea3':gov.erTime<15?'#b45309':'#e11d48'}">${gov.erTime}<span class="s muted"> 분</span></div><div class="s muted">평균 (전국 8.7분)</div></div>
+       <div class="dstat"><div class="l">👮 5대 범죄 발생률</div><div class="v mono" style="color:${gov.crimeRate<50?'#164ea3':gov.crimeRate<80?'#b45309':'#e11d48'}">${gov.crimeRate}</div><div class="s muted">인구 1만명당/년</div></div>
        <div class="dstat"><div class="l">🔥 화재 발생</div><div class="v mono" style="font-size:1.1rem">${fmt(gov.fireCount)}<span class="s muted"> 건/년</span></div></div>
        <div class="dstat"><div class="l">💸 화재 재산피해</div><div class="v mono" style="font-size:1.05rem">${fmt(gov.fireDamage)}<span class="s muted"> 백만원</span></div></div>
      </div>
@@ -3310,14 +3308,14 @@ function renderDetail(R){
    <div class="dblock"><h3>📋 계약 현황 (수의계약 비율 등) ${blockStatus()}</h3>
      <div class="dgrid">
        <div class="dstat"><div class="l">총 계약규모</div><div class="v mono" style="font-size:1.1rem">${won억(R.contractTotal)}</div></div>
-       <div class="dstat"><div class="l">수의계약 비중</div><div class="v mono" style="color:${R.suuiRatio>=45?'#e11d48':R.suuiRatio>=30?'#b45309':'#16a34a'}">${R.suuiRatio}%</div></div>
+       <div class="dstat"><div class="l">수의계약 비중</div><div class="v mono" style="color:${R.suuiRatio>=45?'#e11d48':R.suuiRatio>=30?'#b45309':'#164ea3'}">${R.suuiRatio}%</div></div>
        <div class="dstat"><div class="l">수의계약 추정액</div><div class="v mono" style="font-size:1.1rem">${won억(R.contractTotal*R.suuiRatio/100)}</div></div>
        <div class="dstat"><div class="l">경쟁입찰 비중</div><div class="v mono">${(100-R.suuiRatio).toFixed(1)}%</div></div>
      </div>
      <div class="desc" style="margin:10px 0 0">${R.suuiRatio>=45?'⚠️ 수의계약 비중이 매우 높습니다. 동일업체 반복 수주·1인 견적 내역을 정보공개청구로 확인하세요.':R.suuiRatio>=30?'△ 수의계약 비중이 다소 높은 편입니다. 경쟁입찰 확대 여지를 살펴보세요.':'✓ 경쟁계약 중심으로 운영되고 있습니다.'}</div></div>
    <div class="dblock"><h3>🔬 AI 부실징후 자동 탐지 (Risk Flag) ${dflags.length?`<span class="bstat-wait" style="background:#fde2e7;color:#b21a42">${dflags.length}건 의심신호</span>`:`<span class="bstat-ok">이상 없음</span>`}</h3>
      <div style="background:#fff7ed;border:1px solid #fde9c8;border-radius:10px;padding:11px 13px;font-size:.8rem;color:#92651a;line-height:1.6;margin-bottom:10px">⚠️ 본 탐지 결과는 조달청 나라장터·계약 통계를 기반으로 도출한 <b>통계적 가능성(의심 신호)</b>일 뿐, 실제 위법 여부를 확정하는 것이 아닙니다. 이상 신호가 높게 뜬 사업은 아래 가이드에 따라 <b>'정보공개청구'</b>로 세부 내역을 검증하는 출발점으로 삼아 주세요.</div>
-     ${dflags.length?dflags.map(fl=>{const d=RISKFLAG_DEF[fl.type];return `<div class="ai-item" style="border-left:4px solid ${sevC[fl.sev]};margin-bottom:8px"><span class="t">${fl.sev==='high'?'🔴':'🟠'} ${d[0]} <span style="color:#94a3b8;font-weight:600;font-size:.9em">· 신뢰도 ${Math.round(fl.conf*100)}%</span></span>${fl.desc}<div style="font-size:.74rem;color:#94a3b8;margin-top:3px">룰: ${fl.type} — ${d[1]}</div></div>`;}).join(''):`<div class="ai-item" style="border-left:4px solid #16a34a">🟢 5종 위험룰에서 탐지된 이상 신호가 없습니다.</div>`}</div>
+     ${dflags.length?dflags.map(fl=>{const d=RISKFLAG_DEF[fl.type];return `<div class="ai-item" style="border-left:4px solid ${sevC[fl.sev]};margin-bottom:8px"><span class="t">${fl.sev==='high'?'🔴':'🟠'} ${d[0]} <span style="color:#94a3b8;font-weight:600;font-size:.9em">· 신뢰도 ${Math.round(fl.conf*100)}%</span></span>${fl.desc}<div style="font-size:.74rem;color:#94a3b8;margin-top:3px">룰: ${fl.type} — ${d[1]}</div></div>`;}).join(''):`<div class="ai-item" style="border-left:4px solid #164ea3">🟢 5종 위험룰에서 탐지된 이상 신호가 없습니다.</div>`}</div>
    <div class="dblock"><h3>🏗️ 주요 사업별 집행 현황 (${R.name} 상위 10개) ${blockStatus()}</h3>
      <div class="desc">예산 위계: 분야 → 부문 → 프로그램 → 단위사업 → <b>세부사업</b> → 내역사업. 아래는 세부사업 단위입니다.</div>
      <div class="tbl-scroll" style="margin-top:6px"><table style="min-width:760px"><thead><tr>
@@ -3326,7 +3324,7 @@ function renderDetail(R){
          <td><span style="font-size:.72rem;font-weight:700;color:#155bbf">${p.programType}</span></td>
          <td class=mono>${won억(p.budget)}</td><td class=mono>${won억(p.spent)}</td>
          <td><div style="display:flex;align-items:center;gap:6px;justify-content:flex-end"><span class=mono>${p.rate}%</span>
-         <span class="proj-bar"><i style="width:${p.rate}%;background:${p.rate>=85?'#16a34a':p.rate>=70?'#f59e0b':'#e11d48'}"></i></span></div></td>
+         <span class="proj-bar"><i style="width:${p.rate}%;background:${p.rate>=85?'#164ea3':p.rate>=70?'#f59e0b':'#e11d48'}"></i></span></div></td>
          <td class=mono style="font-size:.78rem;color:#94a3b8">${won억(p.carry)}·${won억(p.unused)}</td>
          <td><span class="pill ${p.method==='수의계약'?'D':p.method==='공모'?'C':'A'}">${p.method}</span></td>
          <td style="font-size:.74rem;color:#5b6b82">${p.beneficiary}/${p.deliverer}</td></tr>`).join('')}
@@ -4000,8 +3998,8 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
           <div class="fs-stat"><div class="label">🏠 부동산교부세</div><div class="value" style="font-size:1.05rem">${won(e.교부세_부동산)}</div></div>
           <div class="fs-stat"><div class="label">📥 국고보조금</div><div class="value" style="font-size:1.05rem">${won(e.국고보조금)}</div></div>
           <div class="fs-stat"><div class="label">📉 비과세·감면</div><div class="value" style="font-size:1.05rem">${won(e.비과세감면)}</div></div>
-          <div class="fs-stat"><div class="label">👥 인건비 비율</div><div class="value" style="color:${e.인건비비율>28?'#e11d48':'#16a34a'}">${e.인건비비율}<span style="font-size:.8rem">%</span></div></div>
-          <div class="fs-stat"><div class="label">🧍 1인당 채무</div><div class="value" style="color:${e.perCapita채무>100?'#e11d48':'#16a34a'}">${e.perCapita채무.toLocaleString('ko-KR')}<span style="font-size:.8rem"> 만원</span></div></div>
+          <div class="fs-stat"><div class="label">👥 인건비 비율</div><div class="value" style="color:${e.인건비비율>28?'#e11d48':'#164ea3'}">${e.인건비비율}<span style="font-size:.8rem">%</span></div></div>
+          <div class="fs-stat"><div class="label">🧍 1인당 채무</div><div class="value" style="color:${e.perCapita채무>100?'#e11d48':'#164ea3'}">${e.perCapita채무.toLocaleString('ko-KR')}<span style="font-size:.8rem"> 만원</span></div></div>
           <div class="fs-stat"><div class="label">📋 통합공시 사업수</div><div class="value">${e.통합공시사업수.toLocaleString('ko-KR')}<span style="font-size:.8rem"> 개</span></div></div>
         </div>
         <div style="margin-top:16px">
@@ -4028,7 +4026,7 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
           <div class="fs-stat"><div class="label">📦 보조사업 비중</div><div class="value">${e.보조사업비중}<span style="font-size:.8rem">%</span></div></div>
           <div class="fs-stat"><div class="label">🏗️ 자체사업 비중</div><div class="value">${(100-e.보조사업비중).toFixed(1)}<span style="font-size:.8rem">%</span></div></div>
           <div class="fs-stat"><div class="label">🇰🇷 국비매칭 규모</div><div class="value" style="font-size:1.05rem">${won(e.국비매칭규모)}</div></div>
-          <div class="fs-stat"><div class="label">🏢 입찰 평균 참여</div><div class="value" style="color:${e.입찰평균참여업체<3?'#e11d48':'#16a34a'}">${e.입찰평균참여업체}<span style="font-size:.8rem"> 업체</span></div></div>
+          <div class="fs-stat"><div class="label">🏢 입찰 평균 참여</div><div class="value" style="color:${e.입찰평균참여업체<3?'#e11d48':'#164ea3'}">${e.입찰평균참여업체}<span style="font-size:.8rem"> 업체</span></div></div>
           <div class="fs-stat"><div class="label">🏘️ 지역업체 낙찰률</div><div class="value">${e.지역업체낙찰률}<span style="font-size:.8rem">%</span></div></div>
           <div class="fs-stat"><div class="label">📅 다년도 계약 비중</div><div class="value">${e.다년도계약비중}<span style="font-size:.8rem">%</span></div></div>
         </div>
@@ -4127,7 +4125,7 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
         <div class="g2b-vname">${esc(v.vendor)}</div>
         <div class="g2b-vcnt"><b>${v.count}</b>건</div>
         <div class="g2b-vamt"><b>${won억(v.amount)}</b></div>
-        <div class="g2b-vsut" style="color:${sr>30?'#DC2626':'#0E7A4A'}">${sr}%</div>
+        <div class="g2b-vsut" style="color:${sr>30?'#DC2626':'#0e397a'}">${sr}%</div>
         <div class="g2b-varr">→</div>
       </div>`;
     }).join('');
@@ -4143,7 +4141,7 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
           <div class="g2b-stat"><div class="l">전체 계약</div><div class="v">${live.fetched_count}건</div></div>
           <div class="g2b-stat"><div class="l">총 금액</div><div class="v">${won억(live.stats.total_amount)}</div></div>
           <div class="g2b-stat"><div class="l">평균</div><div class="v">${won억(live.stats.avg_amount)}</div></div>
-          <div class="g2b-stat"><div class="l">수의계약</div><div class="v" style="color:${live.stats.sutil_ratio>30?'#DC2626':'#0E7A4A'}">${live.stats.sutil_ratio}%</div></div>
+          <div class="g2b-stat"><div class="l">수의계약</div><div class="v" style="color:${live.stats.sutil_ratio>30?'#DC2626':'#0e397a'}">${live.stats.sutil_ratio}%</div></div>
           <div class="g2b-stat"><div class="l">참여 업체</div><div class="v">${live.stats.vendor_count}곳</div></div>
         </div>
         <div class="g2b-tabs">
@@ -4199,7 +4197,7 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
         <div class="g2b-stat"><div class="l">계약 건수</div><div class="v">${live.filtered_count}건</div></div>
         <div class="g2b-stat"><div class="l">총 낙찰액</div><div class="v">${won억(total)}</div></div>
         <div class="g2b-stat"><div class="l">평균 금액</div><div class="v">${won억(live.stats.avg_amount)}</div></div>
-        <div class="g2b-stat"><div class="l">수의 비중</div><div class="v" style="color:${live.stats.sutil_ratio>30?'#DC2626':'#0E7A4A'}">${live.stats.sutil_ratio}%</div></div>
+        <div class="g2b-stat"><div class="l">수의 비중</div><div class="v" style="color:${live.stats.sutil_ratio>30?'#DC2626':'#0e397a'}">${live.stats.sutil_ratio}%</div></div>
       </div>
       <div class="g2b-rows">${rows}</div>`;
   }
@@ -4246,7 +4244,7 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
   css.textContent = `
 .g2b-card{margin-top:20px;border:2px solid #E0B266;border-radius:14px;background:#fff;overflow:hidden}
 .g2b-head{display:flex;align-items:center;gap:10px;padding:12px 16px;background:linear-gradient(90deg,#FAF3E2,#fff);border-bottom:1px solid #F0E5C8;flex-wrap:wrap}
-.g2b-live{background:#0E7A4A;color:#fff;padding:3px 10px;border-radius:999px;font-size:.7rem;font-weight:800}
+.g2b-live{background:#0e397a;color:#fff;padding:3px 10px;border-radius:999px;font-size:.7rem;font-weight:800}
 .g2b-head b{font-size:.95rem;color:#0A2542}
 .g2b-cnt{margin-left:auto;font-size:.78rem;color:#4D5B73}
 .g2b-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:12px 16px}
@@ -4263,7 +4261,7 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
 .g2b-sub{font-size:.7rem;color:#4D5B73;margin-top:2px}
 .g2b-amt{text-align:right;font-weight:700;color:#0A2542;white-space:nowrap}
 .g2b-method.sut{color:#DC2626;font-weight:700}
-.g2b-method.cmp{color:#0E7A4A;font-weight:700}
+.g2b-method.cmp{color:#0e397a;font-weight:700}
 .g2b-yrs{display:flex;flex-direction:column;gap:6px}
 .g2b-yr{display:grid;grid-template-columns:60px 1fr 70px 90px;gap:10px;align-items:center;padding:8px 12px;background:#FAFBFC;border-radius:8px}
 .g2b-yr-lbl{font-weight:800;color:#0A2542}
@@ -4713,7 +4711,7 @@ window.setFontScale = function(scale){
     var idx = labels.indexOf(scale);
     if(idx>=0){
       var btn = document.querySelectorAll('.fontsize-ctrl button')[idx];
-      if(btn){ btn.style.background='#0b9a72'; btn.style.color='#fff'; }
+      if(btn){ btn.style.background='#0b449a'; btn.style.color='#fff'; }
     }
   }catch(e){}
 };
@@ -4837,7 +4835,7 @@ window.restoreKorean = function(){
 .detail-overlay.open{z-index:325}
 /* ② 데이터 상태 배지 */
 .kb-badge{display:inline-block;font-size:.68rem;font-weight:800;padding:3px 9px;border-radius:999px;vertical-align:middle;margin-left:6px;white-space:nowrap}
-.kb-badge.official{background:#dcfce7;color:#166534}
+.kb-badge.official{background:#dce9fc;color:#163665}
 .kb-badge.live{background:#e0f2fe;color:#075985}
 .kb-badge.est{background:#fef3c7;color:#92400e}
 .kb-badge.ref{background:#fde2e7;color:#b21a42}
@@ -4914,7 +4912,7 @@ function openSectorDetail(key,sector,sectorAmt){
       var dept=DEPT[sector]||DEPT[Object.keys(DEPT).filter(function(k){return sectorMatch(k,sector);})[0]]||'담당부서';
       var deptUrl='https://search.naver.com/search.naver?query='+encodeURIComponent(gu+' '+dept.split('·')[0]+' 전화번호');
       var rows=list.slice(0,60).map(function(p,i){
-        var rc=p.rate>=80?'#16a34a':(p.rate>=40?'#d97706':'#e11d48');
+        var rc=p.rate>=80?'#164ea3':(p.rate>=40?'#d97706':'#e11d48');
         return '<div class="g2b-row"><div style="flex:1;min-width:0"><div class="g2b-ttl">'+(i+1)+'. '+esc(p.name)+'</div><div class="g2b-sub">'+esc(p.field)+' · 집행률 <b style="color:'+rc+'">'+p.rate+'%</b></div></div><div class="g2b-amt">'+esc(p.budget)+'<div style="font-size:.7rem;color:#64748b;font-weight:400">집행 '+esc(p.exec)+'</div></div></div>';
       }).join('');
       body.innerHTML='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px"><b style="color:#0A2542">'+esc(zname)+' · '+esc(sector)+' '+list.length+'건</b><span class="kb-badge live">✅ 지방재정365 실데이터</span><a href="'+deptUrl+'" target="_blank" rel="noopener" style="margin-left:auto;font-size:.8rem;font-weight:800;color:#1d6fe0;text-decoration:none">📞 담당 추정: '+esc(dept)+' — 연락처 찾기 ↗</a></div><div class="g2b-rows">'+rows+'</div><div style="font-size:.72rem;color:#94a3b8;margin-top:8px">※ 분야 매칭은 명칭 기준 자동 분류로 일부 오차가 있을 수 있습니다 · 출처: 지방재정365 세부사업별 집행 현황</div>';
@@ -5076,13 +5074,13 @@ console.log('✅ v43.1 패치 활성 — 모달픽스·분야드릴다운·배�
 .kb-kpi .l .i{margin-left:auto;font-size:.72rem;color:#94a3b8}
 .kb-kpi .v{font-size:1.3rem;font-weight:900;color:#0b2545;margin-top:3px;line-height:1.1}
 .kb-kpi .s{font-size:.64rem;font-weight:800;margin-top:5px;display:inline-block;padding:2px 7px;border-radius:99px}
-.kb-kpi .s.of{background:#dcfce7;color:#166534}
+.kb-kpi .s.of{background:#dce9fc;color:#163665}
 .kb-kpi .s.es{background:#fef3c7;color:#92400e}
 .kb-kpi .s.lv{background:#e0f2fe;color:#075985}
 .kb-pop{position:fixed;z-index:9999;max-width:330px;background:#0b2545;color:#e7eefb;border-radius:13px;padding:14px 16px;box-shadow:0 18px 48px rgba(0,0,0,.35);font-size:.82rem;line-height:1.65;display:none}
 .kb-pop.show{display:block;animation:kbPopIn .15s ease-out}
 @keyframes kbPopIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-.kb-pop b{color:#7df0e0}
+.kb-pop b{color:#7dabf0}
 .kb-pop .t{font-size:.9rem;font-weight:900;color:#fff;margin-bottom:6px}
 .kb-pop .row{margin-top:5px}
 .kb-pop .x{position:absolute;top:8px;right:11px;cursor:pointer;color:#94a3b8;font-weight:900}
@@ -5090,10 +5088,10 @@ console.log('✅ v43.1 패치 활성 — 모달픽스·분야드릴다운·배�
 .kb-steps{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 14px}
 .kb-step{flex:1;min-width:130px;display:flex;align-items:center;gap:8px;background:#f1f5f9;border:1.5px solid #e2e8f0;border-radius:11px;padding:9px 12px;font-size:.78rem;font-weight:700;color:#64748b;transition:all .2s}
 .kb-step .n{width:22px;height:22px;border-radius:50%;background:#cbd5e1;color:#fff;display:grid;place-items:center;font-size:.72rem;font-weight:900;flex:none}
-.kb-step.on{background:#ecfdf5;border-color:#0fb9a6;color:#0a5e55}
-.kb-step.on .n{background:#0fb9a6}
-.kb-step.done{background:#f0fdf4;border-color:#86efac;color:#166534}
-.kb-step.done .n{background:#16a34a}
+.kb-step.on{background:#ecf3fd;border-color:#0f53b9;color:#0a2c5e}
+.kb-step.on .n{background:#0f53b9}
+.kb-step.done{background:#f0f5fd;border-color:#86b0ef;color:#163665}
+.kb-step.done .n{background:#164ea3}
 .kb-step.done .n::before{content:'✓'}
 .kb-step.done .n span{display:none}
 /* 모바일 우선 노출 — 보조 섹션 접기 */
@@ -5161,7 +5159,7 @@ function renderKpis(){
   host.dataset.key=R.key;
   var bank=(typeof BANK_RATE_2026!=='undefined'&&BANK_RATE_2026[R.key])||R.bankRate||null;
   var risk=riskCount(R);
-  var gc={'A':'#16a34a','B':'#0b6fe0','C':'#d97706','D':'#e11d48','E':'#9f1239'}[R.grade]||'#0b2545';
+  var gc={'A':'#164ea3','B':'#0b6fe0','C':'#d97706','D':'#e11d48','E':'#9f1239'}[R.grade]||'#0b2545';
   function card(k,label,val,badgeCls,badgeTxt,color){
     return '<div class="kb-kpi" data-k="'+k+'"><div class="l">'+label+'<span class="i">ℹ️</span></div><div class="v"'+(color?' style="color:'+color+'"':'')+'>'+val+'</div><span class="s '+badgeCls+'">'+badgeTxt+'</span></div>';
   }
@@ -5171,10 +5169,10 @@ function renderKpis(){
     +card('self','📈 재정자립도','<span id="kbKpiSelf">'+(R.selfReliance||'-')+'</span><span style="font-size:.8rem">%</span>','of','공식 공시')
     +card('auto','🔑 재정자주도',(R.autonomy||'-')+'<span style="font-size:.8rem">%</span>','es','참고치')
     +card('exec','✅ 집행률',(R.execRate||'-')+'<span style="font-size:.8rem">%</span>','es','참고치',(R.execRate<70?'#e11d48':null))
-    +card('debt','💳 채무비율',(R.debtRatio||'-')+'<span style="font-size:.8rem">%</span>','es','참고치',(R.debtRatio>15?'#e11d48':'#16a34a'))
-    +(bank?card('bank','🏦 금고 이자율',bank+'<span style="font-size:.8rem">%</span>','of','공식 공시',(bank<2.53?'#e11d48':'#16a34a')):'')
+    +card('debt','💳 채무비율',(R.debtRatio||'-')+'<span style="font-size:.8rem">%</span>','es','참고치',(R.debtRatio>15?'#e11d48':'#164ea3'))
+    +(bank?card('bank','🏦 금고 이자율',bank+'<span style="font-size:.8rem">%</span>','of','공식 공시',(bank<2.53?'#e11d48':'#164ea3')):'')
     +card('suui','🤝 수의계약',(R.suuiRatio||'-')+'<span style="font-size:.8rem">%</span>','es','참고치 · 계약탭은 실데이터',(R.suuiRatio>35?'#e11d48':null))
-    +card('risk','🚨 위험 신호',risk+'<span style="font-size:.8rem">건</span>','lv','참고용 경고',(risk>=2?'#e11d48':(risk?'#d97706':'#16a34a')))
+    +card('risk','🚨 위험 신호',risk+'<span style="font-size:.8rem">건</span>','lv','참고용 경고',(risk>=2?'#e11d48':(risk?'#d97706':'#164ea3')))
     +'</div>';
   host.querySelectorAll('.kb-kpi').forEach(function(c){
     c.addEventListener('click',function(e){ var r=c.getBoundingClientRect(); showPop(popHtml(c.dataset.k), r.left+r.width/2, r.bottom); });
@@ -5411,9 +5409,9 @@ console.log('✅ v45.1 공통 컴포넌트+라이트박스 활성');
 .kb46-card .kb46-t{font-size:1.28rem;font-weight:700;color:#28251D;letter-spacing:-.02em}
 .kb46-card .kb46-d{font-size:.9rem;color:#6F6A62;margin-top:6px;font-weight:500}
 .kb46-card .kb46-sub{font-size:.78rem;color:#8B8579;margin-top:12px;line-height:1.6}
-.kb46-btn{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;background:#01696F;color:#fff;font-weight:700;font-size:1.02rem;padding:14px;border-radius:12px;text-decoration:none;box-shadow:0 4px 14px rgba(1,105,111,.22);transition:background .15s,transform .15s}
-.kb46-btn:hover{background:#0C4E54;transform:translateY(-1px)}
-.kb46-btn.teal{background:#01696F}
+.kb46-btn{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;background:#012d6f;color:#fff;font-weight:700;font-size:1.02rem;padding:14px;border-radius:12px;text-decoration:none;box-shadow:0 4px 14px rgba(1,45,111,.22);transition:background .15s,transform .15s}
+.kb46-btn:hover{background:#0c2954;transform:translateY(-1px)}
+.kb46-btn.teal{background:#012d6f}
 .kb46-card .hero-free-row input{width:100%}
 /* 정책검색 결과 탭 */
 .kbps-tabs{display:flex;gap:6px;margin:4px 0 12px;flex-wrap:wrap}
@@ -5425,9 +5423,9 @@ console.log('✅ v45.1 공통 컴포넌트+라이트박스 활성');
 .kbps-dept .row b{color:#1e3a5f}
 .kbps-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
 .kbps-acts a,.kbps-acts button{font-family:inherit;font-size:.78rem;font-weight:800;border:none;border-radius:9px;padding:8px 13px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px}
-.kbps-act1{background:#0b2545;color:#fff}.kbps-act2{background:#ecfdf5;color:#0a5e55;border:1px solid #99e3d2!important}.kbps-act3{background:#eef6ff;color:#1d6fe0;border:1px solid #bcd9f7!important}
+.kbps-act1{background:#0b2545;color:#fff}.kbps-act2{background:#ecf3fd;color:#0a2c5e;border:1px solid #99b7e3!important}.kbps-act3{background:#eef6ff;color:#1d6fe0;border:1px solid #bcd9f7!important}
 /* 순위 프리뷰 */
-.kb46-rankprev{background:linear-gradient(120deg,#f0f7ff,#eafaf6);border:1.5px solid #cfe3f5;border-radius:16px;padding:22px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:14px 0}
+.kb46-rankprev{background:linear-gradient(120deg,#f0f7ff,#eaf0fa);border:1.5px solid #cfe3f5;border-radius:16px;padding:22px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:14px 0}
 .kb46-rankprev b{font-size:1.05rem;color:#0b2545}
 .kb46-rankprev button{margin-left:auto;background:linear-gradient(135deg,#0b2545,#1d4080);color:#fff;border:none;border-radius:11px;padding:12px 22px;font-family:inherit;font-weight:900;font-size:.92rem;cursor:pointer}
 /* 신뢰 영역 */
@@ -5498,8 +5496,8 @@ function renderExec(){
   var exec=R.execRate||0;
   var qs=[Math.min(100,exec*0.22),Math.min(100,exec*0.47),Math.min(100,exec*0.74),exec];
   var delay=+(100-exec).toFixed(1);
-  var warn=delay>=35?['경고','#e11d48','연내 미집행·이월 위험이 높습니다. 사업별 집행계획·이월 사유 확인이 필요합니다.']:(delay>=25?['주의','#d97706','일부 사업의 집행 지연 가능성이 있습니다.']:['정상','#16a34a','집행 흐름이 대체로 양호합니다.']);
-  var bars=qs.map(function(v,i){return '<div style="display:grid;grid-template-columns:64px 1fr 60px;gap:10px;align-items:center;padding:7px 0"><b style="color:#0b2545;font-size:.85rem">'+(i+1)+'분기</b><div style="height:16px;background:#eef2f7;border-radius:8px;overflow:hidden"><div style="width:'+v.toFixed(1)+'%;height:100%;background:linear-gradient(90deg,#36e0c0,#0fb9a6);border-radius:8px"></div></div><span style="text-align:right;font-weight:800;color:#0b2545;font-size:.85rem">'+v.toFixed(1)+'%</span></div>';}).join('');
+  var warn=delay>=35?['경고','#e11d48','연내 미집행·이월 위험이 높습니다. 사업별 집행계획·이월 사유 확인이 필요합니다.']:(delay>=25?['주의','#d97706','일부 사업의 집행 지연 가능성이 있습니다.']:['정상','#164ea3','집행 흐름이 대체로 양호합니다.']);
+  var bars=qs.map(function(v,i){return '<div style="display:grid;grid-template-columns:64px 1fr 60px;gap:10px;align-items:center;padding:7px 0"><b style="color:#0b2545;font-size:.85rem">'+(i+1)+'분기</b><div style="height:16px;background:#eef2f7;border-radius:8px;overflow:hidden"><div style="width:'+v.toFixed(1)+'%;height:100%;background:linear-gradient(90deg,#367ae0,#0f53b9);border-radius:8px"></div></div><span style="text-align:right;font-weight:800;color:#0b2545;font-size:.85rem">'+v.toFixed(1)+'%</span></div>';}).join('');
   m.innerHTML='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px"><div style="font-size:1.05rem;font-weight:900;color:#0b2545">✅ '+esc(R.name||R.key)+' 집행 현황</div><span class="kb-badge est">📊 참고치</span></div>'
     +'<div class="card pad" style="margin-bottom:12px"><div style="font-size:.86rem;font-weight:800;color:#475569;margin-bottom:6px">분기별 누적 집행률 (추정)</div>'+bars+'</div>'
     +'<div style="display:flex;align-items:center;gap:12px;background:'+warn[1]+'12;border:1px solid '+warn[1]+'55;border-left:5px solid '+warn[1]+';border-radius:12px;padding:13px 15px"><b style="font-size:1.2rem;color:'+warn[1]+'">'+warn[0]+'</b><div><b style="color:#0b2545">집행 지연 신호</b><div style="font-size:.83rem;color:#475569;margin-top:2px">미집행 '+delay+'% — '+warn[2]+'</div></div></div>'
@@ -5585,7 +5583,7 @@ function installPS(){
       if(!matched||!matched.length){ pane('policy').innerHTML='<div class="kb-empty">해당 조건의 데이터가 없습니다</div><div style="font-size:.84rem;color:#475569;margin-top:10px">공식 채널에서 더 찾아보기</div>'+chanLinks(q); return; }
       pane('policy').innerHTML='<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><b style="color:#0b2545;font-size:.92rem">관련 사업·정책 '+matched.length+'건</b><span class="kb-badge live">✅ 지방재정365 '+(fyr||'')+' 실데이터</span></div>'
         +'<div style="max-height:420px;overflow-y:auto">'+matched.slice(0,40).map(function(p){
-          var dept=DEPT[p.field]||'담당부서'; var rc=p.rate>=80?'#16a34a':(p.rate>=40?'#d97706':'#e11d48');
+          var dept=DEPT[p.field]||'담당부서'; var rc=p.rate>=80?'#164ea3':(p.rate>=40?'#d97706':'#e11d48');
           return '<div style="padding:10px 13px;background:#fff;border:1px solid #e6eef7;border-radius:11px;margin-bottom:7px"><div style="display:flex;gap:10px"><span style="flex:1"><b style="color:#1e3a5f;font-size:.9rem">'+esc(p.name)+'</b><span style="font-size:.73rem;color:#64748b;display:block">'+esc(p.field)+' · 담당 추정: '+esc(dept)+'</span></span><span style="text-align:right;font-size:.8rem;white-space:nowrap"><div style="color:#0b2545;font-weight:800">'+esc(p.budget)+'</div><div style="font-size:.7rem;color:'+rc+';font-weight:800">집행 '+p.rate+'%</div></span></div></div>';
         }).join('')+'</div>'+'<div style="font-size:.84rem;color:#475569;margin:12px 0 0">법령·조례 근거 / 전국 채널</div>'+chanLinks(q);
     }
@@ -5670,11 +5668,11 @@ console.log('✅ v46.1 홈 개편 활성 — 2카드 히어로·담당부서 탭
 .section-h h2{color:#28251D}
 .section-h p{font-size:.88rem;color:#6F6A62;margin-top:3px}
 /* 진단 등급카드 — 주황 그라데이션 → 딥틸 */
-.grade-card{background:linear-gradient(150deg,#0C4E54,#01696F)!important}
+.grade-card{background:linear-gradient(150deg,#0c2954,#012d6f)!important}
 /* dt 탭 */
-.dt-btn.active{background:#01696F!important;box-shadow:0 3px 10px rgba(1,105,111,.25)!important}
+.dt-btn.active{background:#012d6f!important;box-shadow:0 3px 10px rgba(1,45,111,.25)!important}
 /* 배지 4종 — 공공 팔레트 */
-.kb-badge.official{background:#E9F0E5!important;color:#4C7A3F!important}
+.kb-badge.official{background:#e5e9f0!important;color:#3f577a!important}
 .kb-badge.live{background:#E8EEF4!important;color:#355C7D!important}
 .kb-badge.est{background:#F6EFE3!important;color:#B26A00!important}
 .kb-badge.ref{background:#F5E4E8!important;color:#A13544!important}
@@ -5682,38 +5680,38 @@ console.log('✅ v46.1 홈 개편 활성 — 2카드 히어로·담당부서 탭
 /* 나라장터 카드 — 골드 → 뉴트럴+틸 */
 .g2b-card{border-color:#D8D3CC!important}
 .g2b-head{background:#F3F0EC!important;border-bottom-color:#E5E1DA!important}
-.g2b-live{background:#4C7A3F!important}
+.g2b-live{background:#3f577a!important}
 .g2b-tabs{border-bottom-color:#E5E1DA!important}
 .g2b-tab{color:#6F6A62!important}
-.g2b-tab.on{color:#0C4E54!important;border-bottom-color:#01696F!important}
-.g2b-row{border-left-color:#01696F!important;background:#F7F6F2!important}
+.g2b-tab.on{color:#0c2954!important;border-bottom-color:#012d6f!important}
+.g2b-row{border-left-color:#012d6f!important;background:#F7F6F2!important}
 .g2b-yr-bar{background:#EFEDE9!important}
-.g2b-yr-bar>div{background:#01696F!important}
-.g2b-vhdr{background:#0C4E54!important}
+.g2b-yr-bar>div{background:#012d6f!important}
+.g2b-vhdr{background:#0c2954!important}
 .g2b-vrow{background:#F7F6F2!important}
-.g2b-vrow:hover{background:#E3EFEE!important}
+.g2b-vrow:hover{background:#e3e8ef!important}
 .g2b-foot{background:#F7F6F2!important;border-top-color:#E5E1DA!important}
 .g2b-stat{background:#F7F6F2!important}
 .kb-kindrow{background:#F7F6F2!important}
-.kb-kindrow:hover{background:#E3EFEE!important}
+.kb-kindrow:hover{background:#e3e8ef!important}
 .kb-kindbar{background:#EFEDE9!important}
-.kb-kindbar>div{background:linear-gradient(90deg,#01696F,#0C4E54)!important}
+.kb-kindbar>div{background:linear-gradient(90deg,#012d6f,#0c2954)!important}
 /* 핵심지표 카드 */
 .kb-kpi{border-color:#D8D3CC;background:#FBFBF9}
 .kb-kpi .v{font-variant-numeric:tabular-nums;font-weight:700}
 /* 참여 스테퍼 */
-.kb-step.on{background:#E3EFEE;border-color:#01696F;color:#0C4E54}
-.kb-step.on .n{background:#01696F}
+.kb-step.on{background:#e3e8ef;border-color:#012d6f;color:#0c2954}
+.kb-step.on .n{background:#012d6f}
 /* 순위 프리뷰 */
 .kb46-rankprev{background:#FBFBF9;border-color:#D8D3CC}
-.kb46-rankprev button{background:#01696F}
-.kb46-rankprev button:hover{background:#0C4E54}
+.kb46-rankprev button{background:#012d6f}
+.kb46-rankprev button:hover{background:#0c2954}
 /* 정책검색 결과 */
-.kbps-tab.on{background:#01696F}
-.kbps-dept{border-left-color:#01696F}
-.kbps-act1{background:#01696F!important}
+.kbps-tab.on{background:#012d6f}
+.kbps-dept{border-left-color:#012d6f}
+.kbps-act1{background:#012d6f!important}
 /* 분야드릴 표 hover */
-tr.kb-drill:hover td{background:#E3EFEE!important}
+tr.kb-drill:hover td{background:#e3e8ef!important}
 /* 인풋 */
 .hero-free-row input{background:#fff;border:1px solid #D8D3CC;border-radius:12px;color:#28251D}
 .hero-search-row select{box-shadow:none;border:1px solid #D8D3CC}
@@ -5724,8 +5722,8 @@ tr.kb-drill:hover td{background:#E3EFEE!important}
 /* 과한 그림자/펄스 제거 */
 .prim-pulse{display:none!important}
 /* v47.1 마감 — 히어로 버튼/칩/패널 정리 */
-.kb46-btn,a.kb46-btn,.kb46-btn.teal,.kb46-btn.hero-topic-btn,.kb46-btn.hero-topic-primary{background:#01696F!important;background-image:none!important;color:#fff!important;flex-direction:row!important;padding:14px!important;border:none!important}
-.kb46-btn:hover{background:#0C4E54!important;transform:translateY(-1px)!important;box-shadow:0 6px 16px rgba(1,105,111,.3)!important}
+.kb46-btn,a.kb46-btn,.kb46-btn.teal,.kb46-btn.hero-topic-btn,.kb46-btn.hero-topic-primary{background:#012d6f!important;background-image:none!important;color:#fff!important;flex-direction:row!important;padding:14px!important;border:none!important}
+.kb46-btn:hover{background:#0c2954!important;transform:translateY(-1px)!important;box-shadow:0 6px 16px rgba(1,45,111,.3)!important}
 .kb46-btn::after{content:none!important}
 .hero-search,.hero-search[style]{background:transparent!important;border:none!important;box-shadow:none!important;backdrop-filter:none!important}
 .topbar-left>div,.topbar .live-badge{background:#fff!important;border:1px solid #D8D3CC!important;color:#28251D!important;box-shadow:none!important}
