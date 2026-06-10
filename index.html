@@ -1801,6 +1801,14 @@ h1{letter-spacing:-.035em;font-weight:900}
 <!-- 좌측 김보미 소개 FAB 제거됨 — 소개는 하단 내비 '👤 김보미 소개' 클릭 시 모달로 열림 -->
 <!-- ⚠️ 우측 AI 챗봇 FAB 제거됨 — 챗봇 UI는 '📚 재정 교과서' 모달 내부로 통합 -->
 
+<!-- 좌측: 김보미 소개 FAB (큰 얼굴, 클릭 시 소개 모달) -->
+<div class="intro-greet" id="introGreet">
+  <span class="gx" id="introGreetX">✕</span>
+  <b>김보미</b>를 소개합니다! 👋
+</div>
+<button class="intro-fab" id="introFab" aria-label="김보미를 소개합니다 — 소개 모달 열기" title="김보미를 소개합니다">
+  <span class="kbm-ava" style="font-size:1.7rem"><img class="kbm-face" src="face.jpg" alt="김보미" onerror="this.style.display='none'">김</span>
+</button>
 <div class="toast" id="toast"></div>
 
 <script>
