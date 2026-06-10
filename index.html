@@ -4076,16 +4076,16 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
     if(typeof FS==='undefined' || !FS.renderBudget || !FS.renderContract) { setTimeout(patch, 200); return; }
     const origB = FS.renderBudget.bind(FS);
     const origC = FS.renderContract.bind(FS);
-    FS.renderBudget = function(key){
-      origB(key);
+    FS.renderBudget = function(key, panelId){
+      origB(key, panelId);
       const R = STATE.byKey[key] || STATE.byKey[key.split(' ')[0]];
-      const panel = document.getElementById('budgetPanel');
+      const panel = document.getElementById(panelId||'budgetPanel');
       if(R && panel && !panel.innerHTML.includes('추가 재정 지표 7종')) panel.insertAdjacentHTML('beforeend', blockBudget(R));
     };
-    FS.renderContract = function(key){
-      origC(key);
+    FS.renderContract = function(key, panelId){
+      origC(key, panelId);
       const R = STATE.byKey[key] || STATE.byKey[key.split(' ')[0]];
-      const panel = document.getElementById('contractPanel');
+      const panel = document.getElementById(panelId||'contractPanel');
       if(R && panel && !panel.innerHTML.includes('추가 사업·계약 지표 6종')) panel.insertAdjacentHTML('beforeend', blockContract(R));
     };
     console.log('✅ 봄님 보강 13지표 활성');
