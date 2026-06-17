@@ -309,9 +309,8 @@
       <div class="eyebrow">CONTRACT TRANSPARENCY</div>
       <h2 class="sec">계약 투명성</h2>
       <p class="sec-desc">수의계약·고액계약·특정업체 쏠림을 상시 감시합니다. 나라장터(조달청) 공공데이터 연동 영역입니다.</p>
-      <div class="panel" id="contractsBox">
-        <div class="disc"><span>🔌</span><div><b>계약 데이터 연동 안내</b> — 계약현황은 나라장터(G2B) OpenAPI 키가 필요합니다. 배포 시 <code>G2B_API_KEY</code> 환경변수를 추가하면 이 영역에 수의계약·고액계약·업체별 수주 현황이 실시간 표로 채워집니다. (확인되지 않은 수치는 임의로 표시하지 않습니다.)</div></div>
-      </div>
+      <div id="contractsEmpty" class="panel" style="text-align:center;color:var(--muted)">위 <b>‘우리 동네 3초 진단’</b>에서 지역을 선택하면, 해당 지자체의 나라장터(조달청) 입찰·계약 현황이 여기에 표시됩니다.</div>
+      <div id="contractsBox" style="display:none"></div>
     </div>
   </section>
 
@@ -609,6 +608,39 @@ async function runDiagnosis(code){
   renderRisk(me, {eR,uR,yR,nR,bR,aR});
   renderBudget(me, {aR});
   renderTaxTrend(code);
+  loadContracts(me);
+}
+
+/* ---------- 계약 투명성 (나라장터 G2B, 기존 /api/contract 재사용) ---------- */
+async function loadContracts(me){
+  const box=$('#contractsBox'), empty=$('#contractsEmpty');
+  const region = stripSido(me.name, me.sido) || me.name;
+  if(empty) empty.style.display='none';
+  box.style.display='block';
+  box.innerHTML='<div class="panel">나라장터 입찰·계약 불러오는 중… <span class="muted">('+region+' · 최근 180일)</span></div>';
+  try{
+    const r=await fetch('/api/contract?region='+encodeURIComponent(region)+'&days=180');
+    const j=await r.json();
+    if(j.configured===false){ box.innerHTML='<div class="panel"><div class="disc"><span>🔌</span><div>나라장터 연동 키가 설정되어 있지 않습니다.</div></div></div>'; return; }
+    if(j.error){ box.innerHTML='<div class="panel"><div class="disc"><span>⚠️</span><div>나라장터 응답 오류: '+j.error+(j.hint?'<br><span class="muted">'+j.hint+'</span>':'')+'</div></div></div>'; return; }
+    const s=j.stats||{};
+    const cards=[
+      metric('공고·계약 건수', (j.total_count||j.fetched_count||0).toLocaleString()+'<small>건</small>', '최근 '+(j.days_window||180)+'일'),
+      metric('추정가격 합계', won(s.total_amount)+'<small>원</small>', '평균 '+won(s.avg_amount)+'원'),
+      metric('수의·단독 비율', (s.sutil_ratio||0)+'<small>%</small>', '수의/단독 '+(s.sutil_count||0)+'건', (s.sutil_ratio>=50?'<span class="rank" style="background:#fde8e8;color:#b91c1c">쏠림 주의</span>':'')),
+      metric('참여 기관·업체', (s.vendor_count||0).toLocaleString()+'<small>곳</small>', ''),
+    ].join('');
+    const kinds=(j.by_kind||[]).map(k=>'<span class="chip">'+(k.kind||'기타')+' · '+k.count+'건 · '+won(k.amount)+'원</span>').join('');
+    const vend=(j.by_vendor||[]).slice(0,5).map(v=>'<tr><td>'+v.vendor+'</td><td class="n">'+v.count+'건</td><td class="n">'+won(v.amount)+'원</td></tr>').join('');
+    const rows=(j.bids||[]).slice(0,12).map(b=>'<tr><td class="n">'+(b.date||'')+'</td><td>'+b.title+'</td><td>'+(b.org||'')+'</td><td class="n">'+won(b.amount)+'원</td><td>'+(b.method||'')+'</td></tr>').join('');
+    box.innerHTML='<div class="cards">'+cards+'</div>'
+      +(kinds?'<div class="chips" style="margin-top:14px">'+kinds+'</div>':'')
+      +'<div class="twocol" style="margin-top:8px">'
+        +'<div class="panel"><strong>최근 공고·계약</strong><div class="scrolly" style="margin-top:10px"><table class="rank"><thead><tr><th>일자</th><th>건명</th><th>기관</th><th style="text-align:right">추정가격</th><th>방식</th></tr></thead><tbody>'+(rows||'<tr><td colspan="5" class="muted">표시할 공고가 없습니다.</td></tr>')+'</tbody></table></div></div>'
+        +'<div class="panel"><strong>수주 상위 업체</strong><div class="scrolly" style="margin-top:10px"><table class="rank"><thead><tr><th>업체</th><th style="text-align:right">건수</th><th style="text-align:right">금액</th></tr></thead><tbody>'+(vend||'<tr><td colspan="3" class="muted">입찰공고 단계라 낙찰업체 정보가 아직 없습니다.</td></tr>')+'</tbody></table></div></div>'
+      +'</div>'
+      +'<p class="src">출처: 조달청 나라장터(G2B) OpenAPI · '+(j.region||region)+' · 최근 '+(j.days_window||180)+'일 · 입찰공고 단계 자료라 낙찰업체는 비어 있을 수 있습니다'+(j.partial?' · 전국조회 후 지역필터(부분)':'')+'</p>';
+  }catch(e){ box.innerHTML='<div class="panel"><div class="disc"><span>⚠️</span><div>네트워크 오류로 계약 데이터를 불러오지 못했습니다.</div></div></div>'; }
 }
 
 /* ---------- 재정 건강등급 (견제·감시 취지의 엄격 평가, 플랫폼 자체 지표) ---------- */
@@ -791,7 +823,7 @@ $('#vPolish').addEventListener('click',async()=>{
   try{
     const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'다음 시민 의견을 정중하고 명확한 민원 글로 다듬어 주세요. 사실은 바꾸지 말고 표현만 다듬어 주세요:\n\n'+b})});
     const j=await r.json(); if(j.ok&&j.text) $('#vBody').value=j.text.trim();
-    else alert('AI 다듬기는 배포 후 GEMINI_API_KEY 설정 시 작동합니다.');
+    else alert('AI 다듬기는 GEMINI_API_KEY 설정 시 작동합니다.');
   }catch(e){ alert('네트워크 오류'); } finally{ btn.textContent=old; btn.disabled=false; }
 });
 
@@ -814,9 +846,7 @@ $('#langMenu').addEventListener('click',e=>{ const b=e.target.closest('button');
   $('#langFlag').textContent=l[2]; $('#langName').textContent=l[3]+' '+l[1]; setLang(code); $('#langMenu').classList.remove('open'); $('#autoTrans').classList.toggle('on', code!==''); });
 $('#autoTrans').addEventListener('click',()=>{ const on=!$('#autoTrans').classList.contains('on'); $('#autoTrans').classList.toggle('on',on); if(on){ const code=(navigator.language||'en').slice(0,2); const l=LANGS.find(x=>x[0]===code)||LANGS[1]; $('#langFlag').textContent=l[2];$('#langName').textContent=l[3]+' '+l[1]; setLang(l[0]||'en'); } else setLang(''); });
 
-/* ============================================================
-   start
-   ============================================================ */
+/* start */
 bootstrap();
 </script>
 </body>
