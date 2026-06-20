@@ -1134,6 +1134,7 @@ h1{letter-spacing:-.035em;font-weight:900}
       <a href="javascript:void(0)" onclick="g365Go('exec')">✅ 집행내역</a>
       <a href="javascript:void(0)" onclick="g365Go('contract')">📜 계약·입찰</a>
       <a href="javascript:void(0)" onclick="g365Go('policy')">📋 민원·정책 찾기</a>
+      <a href="javascript:void(0)" onclick="g365Go('partyfunds')">💸 정당 돈 사용내역</a>
       <a href="javascript:void(0)" onclick="g365Go('about')">👤 김보미 소개</a>
     </nav>
     <button type="button" class="g365-burger" aria-label="메뉴 열기" onclick="document.getElementById('g365Drawer').classList.add('open')">
@@ -1152,7 +1153,8 @@ h1{letter-spacing:-.035em;font-weight:900}
     <a href="javascript:void(0)" onclick="g365Go('contract')">📜 계약·입찰</a>
     <div class="lbl">바로가기</div>
     <a href="javascript:void(0)" onclick="g365Go('policy')">📋 민원·정책 찾기</a>
-    <a href="javascript:void(0)" onclick="g365Go('about')">👤 김보미 소개</a>
+    <a href="javascript:void(0)" onclick="g365Go('partyfunds')">💸 정당 돈 사용내역</a>
+      <a href="javascript:void(0)" onclick="g365Go('about')">👤 김보미 소개</a>
   </div>
 </div>
 <header class="topbar">
@@ -1283,19 +1285,20 @@ h1{letter-spacing:-.035em;font-weight:900}
 .gx-head p{color:#6b7280;font-size:.92rem;margin:8px 0 0}
 .gx-rows{display:flex;flex-direction:column;gap:12px}
 .gx-track{display:flex;gap:12px;width:max-content;will-change:transform}
-.gx-track.t1{animation:gxL 120s linear infinite}
-.gx-track.t2{animation:gxR 140s linear infinite}
+.gx-track.t1{animation:gxL 220s linear infinite}
+.gx-track.t2{animation:gxR 260s linear infinite}
+.gx-track.t3{animation:gxL 300s linear infinite}
 .gx-rows:hover .gx-track{animation-play-state:paused}
 @keyframes gxL{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes gxR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
-.gx-track figure{flex:0 0 auto;width:248px;height:165px;margin:0;border-radius:12px;overflow:hidden;cursor:pointer;background:#e7edf5;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.gx-track figure{flex:0 0 auto;width:228px;height:152px;margin:0;border-radius:12px;overflow:hidden;cursor:pointer;background:#e7edf5;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .gx-track img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
 .gx-track figure:hover img{transform:scale(1.06)}
 .gx-lb{position:fixed;inset:0;z-index:1200;background:rgba(8,15,30,.92);display:none;align-items:center;justify-content:center;padding:24px}
 .gx-lb.open{display:flex}
 .gx-lb img{max-width:94vw;max-height:90vh;border-radius:10px}
 .gx-x{position:absolute;top:18px;right:22px;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.16);border:none;color:#fff;font-size:1.7rem;cursor:pointer}
-@media(max-width:560px){.gx-track figure{width:188px;height:128px}}
+@media(max-width:560px){.gx-track figure{width:170px;height:114px}}
 @media(prefers-reduced-motion:reduce){.gx-track{animation:none}}
 </style>
 <section class="gx-section" id="moments" aria-label="여러분과 함께한 순간들">
@@ -1307,6 +1310,7 @@ h1{letter-spacing:-.035em;font-weight:900}
     <div class="gx-rows" id="gxRows">
       <div class="gx-track t1" id="gxT1"></div>
       <div class="gx-track t2" id="gxT2"></div>
+      <div class="gx-track t3" id="gxT3"></div>
     </div>
   </div>
 </section>
@@ -1314,11 +1318,11 @@ h1{letter-spacing:-.035em;font-weight:900}
 <script>
 (function(){
   var N=100,LIST=[]; for(var i=1;i<=N;i++){ LIST.push('assets/gallery/g'+(i<10?'00'+i:(i<100?'0'+i:i))+'.jpg'); }
-  var t1=document.getElementById('gxT1'),t2=document.getElementById('gxT2'); if(!t1||!t2) return;
-  var half=Math.ceil(N/2);
+  var t1=document.getElementById('gxT1'),t2=document.getElementById('gxT2'),t3=document.getElementById('gxT3'); if(!t1||!t2||!t3) return;
+  var k=Math.ceil(N/3);
   function mk(src){ var f=document.createElement('figure'); var im=document.createElement('img'); im.loading='lazy'; im.src=src; im.alt='김보미 활동 사진'; im.onerror=function(){f.style.display='none';}; f.appendChild(im); f.addEventListener('click',function(){ document.getElementById('gxLbImg').src=src; document.getElementById('gxLb').classList.add('open'); }); return f; }
   function fill(track,list){ for(var r=0;r<2;r++){ list.forEach(function(s){ track.appendChild(mk(s)); }); } }
-  fill(t1,LIST.slice(0,half)); fill(t2,LIST.slice(half));
+  fill(t1,LIST.slice(0,k)); fill(t2,LIST.slice(k,2*k)); fill(t3,LIST.slice(2*k));
   var lb=document.getElementById('gxLb');
   document.getElementById('gxX').addEventListener('click',function(){lb.classList.remove('open');});
   lb.addEventListener('click',function(e){ if(e.target===lb) lb.classList.remove('open'); });
@@ -1908,84 +1912,100 @@ h1{letter-spacing:-.035em;font-weight:900}
 </div>
 
 <style id="pf-skin">
-.pf-sec{max-width:1180px;margin:0 auto;padding:46px 20px 34px}
+#party-funds{display:none}
+#party-funds.show{display:block!important;position:fixed!important;inset:0!important;z-index:320;background:#eef2f8;overflow-y:auto!important;-webkit-overflow-scrolling:touch;padding:14px 0 54px;animation:eduFadeIn .22s ease-out}
+#pfClose{display:none;position:fixed;top:14px;right:16px;z-index:340;align-items:center;gap:6px;background:#fff;border:none;border-radius:999px;padding:9px 16px;font-weight:800;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.22);color:#123a90;font-family:inherit;font-size:.92rem}
+.pf-sec{max-width:1040px;margin:0 auto;padding:28px 20px}
 .pf-head{text-align:center;margin-bottom:22px}
-.pf-head h2{font-family:'Paperozi',-apple-system,sans-serif;font-size:clamp(1.5rem,3.2vw,2rem);font-weight:700;color:#123a90;margin:0;letter-spacing:-.02em}
-.pf-head p{color:#6b7280;font-size:.92rem;margin:8px auto 0;max-width:700px;line-height:1.65}
-.pf-stat{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:0 0 24px}
-.pf-stat .card{color:#fff;border-radius:16px;padding:18px 24px;min-width:190px;text-align:center;box-shadow:0 8px 22px rgba(18,58,144,.22)}
-.pf-stat .num{font-size:1.9rem;font-weight:800;letter-spacing:-.02em}
-.pf-stat .lbl{font-size:.82rem;opacity:.92;margin-top:4px;line-height:1.4}
-.pf-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;align-items:stretch}
-@media(max-width:760px){.pf-grid{grid-template-columns:1fr}}
-.pf-box{background:#fff;border:1px solid #e6eef7;border-radius:16px;padding:20px}
-.pf-box h3{font-size:1.02rem;color:#0b2545;margin:0 0 14px;font-weight:800}
-.pf-donut{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:center}
-.pf-leg{display:flex;flex-direction:column;gap:9px;font-size:.85rem}
+.pf-head h2{font-family:'Paperozi',-apple-system,sans-serif;font-size:clamp(1.45rem,3.2vw,1.95rem);font-weight:700;color:#123a90;margin:0;letter-spacing:-.02em}
+.pf-head p{color:#6b7280;font-size:.9rem;margin:8px auto 0;max-width:640px;line-height:1.6}
+.pf-box{background:#fff;border:1px solid #e6eef7;border-radius:16px;padding:20px;margin:0 0 16px}
+.pf-box h3{font-size:1.03rem;color:#0b2545;margin:0 0 14px;font-weight:800}
+.pf-bar{display:flex;align-items:center;gap:10px;margin:9px 0}
+.pf-bar .nm{width:104px;font-size:.85rem;font-weight:700;color:#0b2545;text-align:right;flex:0 0 auto}
+.pf-bar .track{flex:1;background:#eef2f7;border-radius:8px;height:28px;overflow:hidden}
+.pf-bar .fill{height:100%;border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:9px;color:#fff;font-size:.79rem;font-weight:800;white-space:nowrap;min-width:54px}
+.pf-mini{font-size:.76rem;color:#94a3b8;margin:12px 0 0;line-height:1.55}
+.pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.pf-grid{grid-template-columns:1fr}}
+.pf-donut{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center}
+.pf-leg{display:flex;flex-direction:column;gap:8px;font-size:.84rem}
 .pf-leg span{display:inline-flex;align-items:center;gap:8px;color:#334155}
 .pf-leg i{width:12px;height:12px;border-radius:3px;flex:0 0 auto}
-.pf-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pf-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
 @media(max-width:560px){.pf-cats{grid-template-columns:repeat(2,1fr)}}
-.pf-cats .c{background:#f4f7fb;border:1px solid #e6eef7;border-radius:10px;padding:11px 6px;text-align:center;font-size:.82rem;font-weight:700;color:#15448f}
-.pf-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
-.pf-chips span{background:#eef3fb;border:1px solid #d6e2f5;color:#33508a;border-radius:999px;padding:5px 11px;font-size:.8rem;font-weight:600}
-.pf-cta{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
-.pf-cta a{display:inline-flex;align-items:center;gap:6px;background:#123a90;color:#fff;text-decoration:none;font-weight:700;border-radius:11px;padding:11px 18px;font-size:.89rem;box-shadow:0 4px 14px rgba(18,58,144,.22)}
+.pf-cats .c{background:#f4f7fb;border:1px solid #e6eef7;border-radius:9px;padding:10px 5px;text-align:center;font-size:.8rem;font-weight:700;color:#15448f}
+.pf-hi{font-size:.9rem;color:#334155;line-height:1.85;margin:0}
+.pf-hi b{color:#0b2545}
+.pf-cta{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:4px}
+.pf-cta a{display:inline-flex;align-items:center;gap:6px;background:#123a90;color:#fff;text-decoration:none;font-weight:700;border-radius:11px;padding:11px 17px;font-size:.88rem;box-shadow:0 4px 14px rgba(18,58,144,.22)}
 .pf-cta a.alt{background:#fff;color:#123a90;border:1px solid #cfddf5;box-shadow:none}
-.pf-note{font-size:.77rem;color:#94a3b8;text-align:center;margin:16px auto 0;line-height:1.65;max-width:860px}
+.pf-note{font-size:.76rem;color:#94a3b8;text-align:center;margin:16px auto 0;line-height:1.62;max-width:860px}
 </style>
-<section class="pf-section" id="party-funds" aria-label="정당 정치자금 사용내역">
+<button id="pfClose" type="button" onclick="g365_closeAll()" aria-label="닫기">✕ 닫기</button>
+<section id="party-funds" aria-label="정당 정치자금 사용내역">
   <div class="pf-sec">
     <div class="pf-head">
-      <h2>💸 정당·정치인은 우리 세금(정치자금)을 어디에 썼나?</h2>
-      <p>중앙선관위 「정치자금 회계보고 공개」와 언론·시민단체(오마이뉴스·참여연대 등) 전수분석 자료로 본 정치자금 사용 구조입니다. 사용일자·금액·사용처까지 누구나 확인할 수 있습니다.</p>
+      <h2>💸 정당은 우리 세금(정치자금)을 어디에 썼나?</h2>
+      <p>중앙선관위 「정치자금 회계보고 공개」와 언론·시민단체(오마이뉴스·참여연대 등) 분석으로 본 <b>정당별</b> 정치자금 비교입니다.</p>
     </div>
-    <div class="pf-stat">
-      <div class="card" style="background:linear-gradient(135deg,#0e3a86,#2f6bd6)"><div class="num">472.7억원</div><div class="lbl">2023년 국회의원 301명<br>정치자금 지출 총액</div></div>
-      <div class="card" style="background:linear-gradient(135deg,#0e7c5a,#1d9e75)"><div class="num">19,609건</div><div class="lbl">건별 사용일자·금액·<br>사용처까지 공개</div></div>
-      <div class="card" style="background:linear-gradient(135deg,#9a6a00,#c9963a)"><div class="num">2012~2023</div><div class="lbl">12년치 전수 데이터<br>(선관위 정보공개 기반)</div></div>
+    <div class="pf-box">
+      <h3>🏦 정당별 국고보조금(경상보조금) — 2024년 4분기 (총 123.7억원)</h3>
+      <div class="pf-bar"><span class="nm">더불어민주당</span><div class="track"><div class="fill" style="width:90%;background:#0e3a86">54.3억 · 43.9%</div></div></div>
+      <div class="pf-bar"><span class="nm">국민의힘</span><div class="track"><div class="fill" style="width:86%;background:#c0392b">52.2억 · 42.1%</div></div></div>
+      <div class="pf-bar"><span class="nm">조국혁신당</span><div class="track"><div class="fill" style="width:18%;background:#2563eb">10.8억 · 8.7%</div></div></div>
+      <div class="pf-bar"><span class="nm">그 외 군소</span><div class="track"><div class="fill" style="width:10%;background:#94a3b8">약 5.8억</div></div></div>
+      <p class="pf-mini">경상보조금은 2·5·8·11월 분기 지급 → 1년이면 약 4배 규모. 국민의 세금에서 나옵니다. 출처: 중앙선관위·경향신문·아주경제</p>
+    </div>
+    <div class="pf-box">
+      <h3>🗳️ 정당별 총선 선거비용 지출 (제22대 국회의원선거)</h3>
+      <div class="pf-bar"><span class="nm">더불어민주당</span><div class="track"><div class="fill" style="width:95%;background:#0e3a86">535.2억원</div></div></div>
+      <div class="pf-bar"><span class="nm">국민의힘</span><div class="track"><div class="fill" style="width:80%;background:#c0392b">450.0억원</div></div></div>
+      <p class="pf-mini">선거 후 일정 요건을 채우면 선거비용 상당액이 국고에서 보전됩니다. 출처: 중앙선관위 회계보고</p>
     </div>
     <div class="pf-grid">
       <div class="pf-box">
-        <h3>📊 국고보조금은 이렇게 나눠 써야 합니다 (법정 의무)</h3>
+        <h3>📊 국고보조금 법정 의무 배분</h3>
         <div class="pf-donut">
-          <svg width="138" height="138" viewBox="0 0 138 138" role="img" aria-label="경상보조금 법정 의무 배분 도넛">
-            <circle cx="69" cy="69" r="54" fill="none" stroke="#eef2f7" stroke-width="20"></circle>
-            <g transform="rotate(-90 69 69)">
-              <circle cx="69" cy="69" r="54" fill="none" stroke="#123a90" stroke-width="20" stroke-dasharray="101.8 237.5"></circle>
-              <circle cx="69" cy="69" r="54" fill="none" stroke="#2f6bd6" stroke-width="20" stroke-dasharray="33.9 305.4" stroke-dashoffset="-101.8"></circle>
-              <circle cx="69" cy="69" r="54" fill="none" stroke="#d8a200" stroke-width="20" stroke-dasharray="33.9 305.4" stroke-dashoffset="-135.7"></circle>
-              <circle cx="69" cy="69" r="54" fill="none" stroke="#cbd5e1" stroke-width="20" stroke-dasharray="169.6 169.7" stroke-dashoffset="-169.6"></circle>
+          <svg width="132" height="132" viewBox="0 0 132 132" role="img" aria-label="경상보조금 법정 의무 배분">
+            <circle cx="66" cy="66" r="52" fill="none" stroke="#eef2f7" stroke-width="19"></circle>
+            <g transform="rotate(-90 66 66)">
+              <circle cx="66" cy="66" r="52" fill="none" stroke="#123a90" stroke-width="19" stroke-dasharray="98 229"></circle>
+              <circle cx="66" cy="66" r="52" fill="none" stroke="#2f6bd6" stroke-width="19" stroke-dasharray="32.7 294" stroke-dashoffset="-98"></circle>
+              <circle cx="66" cy="66" r="52" fill="none" stroke="#d8a200" stroke-width="19" stroke-dasharray="32.7 294" stroke-dashoffset="-130.7"></circle>
+              <circle cx="66" cy="66" r="52" fill="none" stroke="#cbd5e1" stroke-width="19" stroke-dasharray="163.3 163.4" stroke-dashoffset="-163.4"></circle>
             </g>
-            <text x="69" y="65" text-anchor="middle" font-size="13" font-weight="800" fill="#0b2545">경상보조금</text>
-            <text x="69" y="82" text-anchor="middle" font-size="10.5" fill="#64748b">법정 배분 기준</text>
           </svg>
           <div class="pf-leg">
-            <span><i style="background:#123a90"></i><b>정책연구소 30%</b> 이상</span>
-            <span><i style="background:#2f6bd6"></i><b>시·도당 10%</b> 이상</span>
-            <span><i style="background:#d8a200"></i><b>여성정치발전 10%</b> 이상</span>
-            <span><i style="background:#cbd5e1"></i>그 외 당 운영(인건비·홍보 등)</span>
+            <span><i style="background:#123a90"></i><b>정책연구소 30%</b>↑</span>
+            <span><i style="background:#2f6bd6"></i><b>시·도당 10%</b>↑</span>
+            <span><i style="background:#d8a200"></i><b>여성정치발전 10%</b>↑</span>
+            <span><i style="background:#cbd5e1"></i>그 외 당 운영</span>
           </div>
         </div>
-        <p style="font-size:.77rem;color:#94a3b8;margin:14px 0 0">※ 정치자금법 제28조 의무 배분 비율(법정 기준). 실제 집행액은 정당별 회계보고서에서 확인하세요.</p>
+        <p class="pf-mini">정치자금법 §28 의무 비율(법정 기준).</p>
       </div>
       <div class="pf-box">
-        <h3>🧾 정치자금 법정 사용 용도 (정치자금법 §28)</h3>
+        <h3>🧾 정치자금 법정 사용 용도 (§28)</h3>
         <div class="pf-cats">
           <div class="c">인건비</div><div class="c">사무용품비</div><div class="c">사무소 운영비</div>
-          <div class="c">공공요금</div><div class="c">정책개발비</div><div class="c">당원 교육훈련비</div>
+          <div class="c">공공요금</div><div class="c">정책개발비</div><div class="c">당원교육훈련비</div>
           <div class="c">조직활동비</div><div class="c">선전비</div><div class="c">선거관계비용</div>
         </div>
-        <h3 style="margin-top:18px">🔎 실제 지출은 이렇게 세부 분류됩니다 (언론 전수분석)</h3>
-        <div class="pf-chips"><span>식대</span><span>화환·경조사비</span><span>차량·유류비</span><span>사무실 운영</span><span>홍보·인쇄</span><span>간담회</span><span>후원·기부</span><span>출판기념회</span></div>
       </div>
+    </div>
+    <div class="pf-box">
+      <h3>🔬 시민·언론은 이렇게 감시·분석합니다 (사례)</h3>
+      <p class="pf-hi">· <b>청년정치발전비</b>를 인건비로 사용한 비율 — 국민의힘 <b>약 95%</b> · 더불어민주당 <b>약 30%</b> (오마이뉴스 분석)<br>
+      · 대선 후 ‘순이익’(선거보조금−실지출 차익) — 더불어민주당 약 <b>177억</b> · 국민의힘 약 <b>232억</b> (오마이뉴스)<br>
+      · 정당 회계보고 원문에는 사용일자·금액·사용처가 건별로 공개됩니다 — 누구나 검증할 수 있습니다.</p>
     </div>
     <div class="pf-cta">
       <a href="https://www.nec.go.kr/" target="_blank" rel="noopener">🏛️ 선관위 정치자금 회계보고 공개 ↗</a>
-      <a class="alt" href="https://github.com/OhmyNews/KA-money" target="_blank" rel="noopener">📊 오마이뉴스 정치자금 데이터(2012~2023) ↗</a>
+      <a class="alt" href="https://github.com/OhmyNews/KA-money" target="_blank" rel="noopener">📊 오마이뉴스 정치자금 데이터 ↗</a>
       <a class="alt" href="https://docs.openwatch.kr/data/political-contributions/national-assembly" target="_blank" rel="noopener">🔍 오픈워치 데이터 ↗</a>
     </div>
-    <p class="pf-note">출처: 중앙선거관리위원회 「정치자금 회계보고 공개」 시스템(nec.go.kr) · 오마이뉴스 국회의원 정치자금 전수분석(2012~2023, 선관위 정보공개 기반) · 참여연대 등 시민단체 분석. 표시 수치는 공개·분석 자료 기반 참고치이며, 정확한 내역은 선관위 원문 회계보고서를 확인하세요. 본 플랫폼은 국민이 주도하는 민간 감시 플랫폼으로 공공기관과 무관하며 정치적 중립을 지향합니다.</p>
+    <p class="pf-note">출처: 중앙선거관리위원회 「정치자금 회계보고 공개」 시스템 · 경향신문·아주경제(국고보조금 배분) · 오마이뉴스 정치자금 전수분석 · 참여연대 등. 표시 수치는 공개·보도 자료 기반 참고치이며 시점·집계 기준에 따라 차이가 있을 수 있습니다. 정확한 내역은 선관위 원문 회계보고서를 확인하세요. 본 플랫폼은 정치적 중립을 지향하는 민간 감시 플랫폼입니다.</p>
   </div>
 </section>
 <footer class="g365foot">
@@ -6138,9 +6158,10 @@ console.log('v47 Public Service 리스킨 활성');
 <script>
 /* 헤더 메뉴 라우터 (전역) — 클릭 시 해당 내용만 전체화면으로 */
 function g365_closeAll(){
-  document.querySelectorAll('#policy-search.show,#budget-only.show,#contract-only.show,#diagnose.show,#edu.show,#ontology.show').forEach(function(el){el.classList.remove('show');});
+  document.querySelectorAll('#policy-search.show,#budget-only.show,#contract-only.show,#diagnose.show,#party-funds.show,#edu.show,#ontology.show').forEach(function(el){el.classList.remove('show');});
   document.body.classList.remove('section-modal-open'); document.body.style.overflow='';
   var dc=document.getElementById('diagClose'); if(dc) dc.style.display='none';
+  var pfc=document.getElementById('pfClose'); if(pfc) pfc.style.display='none';
   var sc=document.getElementById('sectionClose'); if(sc) sc.classList.remove('show');
   window.currentSection=null;
 }
@@ -6166,6 +6187,13 @@ function openPolicyModal(){
   var inp=document.getElementById('psSearchInput'); if(inp) setTimeout(function(){ try{inp.focus();}catch(e){} },120);
   try{ if(window.PS&&window.PS.render) window.PS.render(); }catch(e){}
 }
+function openPartyModal(){
+  var sec=document.getElementById('party-funds'); if(!sec) return;
+  g365_closeAll();
+  sec.classList.add('show'); document.body.classList.add('section-modal-open'); document.body.style.overflow='hidden';
+  var c=document.getElementById('pfClose'); if(c) c.style.display='inline-flex';
+  window.currentSection='party-funds'; sec.scrollTop=0;
+}
 function g365Go(kind){
   try{ var dw=document.getElementById('g365Drawer'); if(dw) dw.classList.remove('open'); }catch(e){}
   switch(kind){
@@ -6174,6 +6202,7 @@ function g365Go(kind){
     case 'exec': openDiagModal('exec'); break;
     case 'contract': openDiagModal('contract'); break;
     case 'policy': openPolicyModal(); break;
+    case 'partyfunds': openPartyModal(); break;
     case 'about': var n=document.getElementById('navAbout'); if(n) n.click(); break;
   }
 }
