@@ -1069,7 +1069,9 @@ h1{letter-spacing:-.035em;font-weight:900}
 @keyframes ekgrun{0%{stroke-dashoffset:62}55%{stroke-dashoffset:0}100%{stroke-dashoffset:0}}
 .hero-topic-primary .prim-emoji,.hero-topic-primary .prim-arrow,.hero-topic-primary .prim-pulse{display:none!important}
 /* 진단을 전체화면 모달로 → 클릭 시 그 내용만 */
-#diagnose.show{display:block!important;position:fixed;inset:0;z-index:320;background:#eef2f8;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 0 52px;animation:eduFadeIn .22s ease-out}
+#diagnose.show{display:block!important;position:fixed!important;inset:0!important;z-index:320;background:#eef2f8;overflow-y:auto!important;-webkit-overflow-scrolling:touch;padding:14px 0 52px;animation:eduFadeIn .22s ease-out}
+#diagnose.show .controls{position:static}
+#diagCloseBtn{display:none!important}
 #diagClose{display:none;position:fixed;top:14px;right:16px;z-index:340;align-items:center;gap:6px;background:#fff;border:none;border-radius:999px;padding:9px 16px;font-weight:800;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.22);color:#123a90;font-family:inherit;font-size:.92rem}
 /* 외부 협력 플랫폼 버튼 정리 */
 .gov-cta a{background:#fff!important;color:#123a90!important;border:none!important;border-radius:12px!important;padding:12px 22px!important;font-weight:800!important;text-decoration:none!important;box-shadow:0 4px 14px rgba(0,0,0,.16)!important;transition:transform .15s,box-shadow .2s!important;white-space:nowrap}
@@ -1905,6 +1907,87 @@ h1{letter-spacing:-.035em;font-weight:900}
 
 </div>
 
+<style id="pf-skin">
+.pf-sec{max-width:1180px;margin:0 auto;padding:46px 20px 34px}
+.pf-head{text-align:center;margin-bottom:22px}
+.pf-head h2{font-family:'Paperozi',-apple-system,sans-serif;font-size:clamp(1.5rem,3.2vw,2rem);font-weight:700;color:#123a90;margin:0;letter-spacing:-.02em}
+.pf-head p{color:#6b7280;font-size:.92rem;margin:8px auto 0;max-width:700px;line-height:1.65}
+.pf-stat{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:0 0 24px}
+.pf-stat .card{color:#fff;border-radius:16px;padding:18px 24px;min-width:190px;text-align:center;box-shadow:0 8px 22px rgba(18,58,144,.22)}
+.pf-stat .num{font-size:1.9rem;font-weight:800;letter-spacing:-.02em}
+.pf-stat .lbl{font-size:.82rem;opacity:.92;margin-top:4px;line-height:1.4}
+.pf-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;align-items:stretch}
+@media(max-width:760px){.pf-grid{grid-template-columns:1fr}}
+.pf-box{background:#fff;border:1px solid #e6eef7;border-radius:16px;padding:20px}
+.pf-box h3{font-size:1.02rem;color:#0b2545;margin:0 0 14px;font-weight:800}
+.pf-donut{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:center}
+.pf-leg{display:flex;flex-direction:column;gap:9px;font-size:.85rem}
+.pf-leg span{display:inline-flex;align-items:center;gap:8px;color:#334155}
+.pf-leg i{width:12px;height:12px;border-radius:3px;flex:0 0 auto}
+.pf-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media(max-width:560px){.pf-cats{grid-template-columns:repeat(2,1fr)}}
+.pf-cats .c{background:#f4f7fb;border:1px solid #e6eef7;border-radius:10px;padding:11px 6px;text-align:center;font-size:.82rem;font-weight:700;color:#15448f}
+.pf-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.pf-chips span{background:#eef3fb;border:1px solid #d6e2f5;color:#33508a;border-radius:999px;padding:5px 11px;font-size:.8rem;font-weight:600}
+.pf-cta{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
+.pf-cta a{display:inline-flex;align-items:center;gap:6px;background:#123a90;color:#fff;text-decoration:none;font-weight:700;border-radius:11px;padding:11px 18px;font-size:.89rem;box-shadow:0 4px 14px rgba(18,58,144,.22)}
+.pf-cta a.alt{background:#fff;color:#123a90;border:1px solid #cfddf5;box-shadow:none}
+.pf-note{font-size:.77rem;color:#94a3b8;text-align:center;margin:16px auto 0;line-height:1.65;max-width:860px}
+</style>
+<section class="pf-section" id="party-funds" aria-label="정당 정치자금 사용내역">
+  <div class="pf-sec">
+    <div class="pf-head">
+      <h2>💸 정당·정치인은 우리 세금(정치자금)을 어디에 썼나?</h2>
+      <p>중앙선관위 「정치자금 회계보고 공개」와 언론·시민단체(오마이뉴스·참여연대 등) 전수분석 자료로 본 정치자금 사용 구조입니다. 사용일자·금액·사용처까지 누구나 확인할 수 있습니다.</p>
+    </div>
+    <div class="pf-stat">
+      <div class="card" style="background:linear-gradient(135deg,#0e3a86,#2f6bd6)"><div class="num">472.7억원</div><div class="lbl">2023년 국회의원 301명<br>정치자금 지출 총액</div></div>
+      <div class="card" style="background:linear-gradient(135deg,#0e7c5a,#1d9e75)"><div class="num">19,609건</div><div class="lbl">건별 사용일자·금액·<br>사용처까지 공개</div></div>
+      <div class="card" style="background:linear-gradient(135deg,#9a6a00,#c9963a)"><div class="num">2012~2023</div><div class="lbl">12년치 전수 데이터<br>(선관위 정보공개 기반)</div></div>
+    </div>
+    <div class="pf-grid">
+      <div class="pf-box">
+        <h3>📊 국고보조금은 이렇게 나눠 써야 합니다 (법정 의무)</h3>
+        <div class="pf-donut">
+          <svg width="138" height="138" viewBox="0 0 138 138" role="img" aria-label="경상보조금 법정 의무 배분 도넛">
+            <circle cx="69" cy="69" r="54" fill="none" stroke="#eef2f7" stroke-width="20"></circle>
+            <g transform="rotate(-90 69 69)">
+              <circle cx="69" cy="69" r="54" fill="none" stroke="#123a90" stroke-width="20" stroke-dasharray="101.8 237.5"></circle>
+              <circle cx="69" cy="69" r="54" fill="none" stroke="#2f6bd6" stroke-width="20" stroke-dasharray="33.9 305.4" stroke-dashoffset="-101.8"></circle>
+              <circle cx="69" cy="69" r="54" fill="none" stroke="#d8a200" stroke-width="20" stroke-dasharray="33.9 305.4" stroke-dashoffset="-135.7"></circle>
+              <circle cx="69" cy="69" r="54" fill="none" stroke="#cbd5e1" stroke-width="20" stroke-dasharray="169.6 169.7" stroke-dashoffset="-169.6"></circle>
+            </g>
+            <text x="69" y="65" text-anchor="middle" font-size="13" font-weight="800" fill="#0b2545">경상보조금</text>
+            <text x="69" y="82" text-anchor="middle" font-size="10.5" fill="#64748b">법정 배분 기준</text>
+          </svg>
+          <div class="pf-leg">
+            <span><i style="background:#123a90"></i><b>정책연구소 30%</b> 이상</span>
+            <span><i style="background:#2f6bd6"></i><b>시·도당 10%</b> 이상</span>
+            <span><i style="background:#d8a200"></i><b>여성정치발전 10%</b> 이상</span>
+            <span><i style="background:#cbd5e1"></i>그 외 당 운영(인건비·홍보 등)</span>
+          </div>
+        </div>
+        <p style="font-size:.77rem;color:#94a3b8;margin:14px 0 0">※ 정치자금법 제28조 의무 배분 비율(법정 기준). 실제 집행액은 정당별 회계보고서에서 확인하세요.</p>
+      </div>
+      <div class="pf-box">
+        <h3>🧾 정치자금 법정 사용 용도 (정치자금법 §28)</h3>
+        <div class="pf-cats">
+          <div class="c">인건비</div><div class="c">사무용품비</div><div class="c">사무소 운영비</div>
+          <div class="c">공공요금</div><div class="c">정책개발비</div><div class="c">당원 교육훈련비</div>
+          <div class="c">조직활동비</div><div class="c">선전비</div><div class="c">선거관계비용</div>
+        </div>
+        <h3 style="margin-top:18px">🔎 실제 지출은 이렇게 세부 분류됩니다 (언론 전수분석)</h3>
+        <div class="pf-chips"><span>식대</span><span>화환·경조사비</span><span>차량·유류비</span><span>사무실 운영</span><span>홍보·인쇄</span><span>간담회</span><span>후원·기부</span><span>출판기념회</span></div>
+      </div>
+    </div>
+    <div class="pf-cta">
+      <a href="https://www.nec.go.kr/" target="_blank" rel="noopener">🏛️ 선관위 정치자금 회계보고 공개 ↗</a>
+      <a class="alt" href="https://github.com/OhmyNews/KA-money" target="_blank" rel="noopener">📊 오마이뉴스 정치자금 데이터(2012~2023) ↗</a>
+      <a class="alt" href="https://docs.openwatch.kr/data/political-contributions/national-assembly" target="_blank" rel="noopener">🔍 오픈워치 데이터 ↗</a>
+    </div>
+    <p class="pf-note">출처: 중앙선거관리위원회 「정치자금 회계보고 공개」 시스템(nec.go.kr) · 오마이뉴스 국회의원 정치자금 전수분석(2012~2023, 선관위 정보공개 기반) · 참여연대 등 시민단체 분석. 표시 수치는 공개·분석 자료 기반 참고치이며, 정확한 내역은 선관위 원문 회계보고서를 확인하세요. 본 플랫폼은 국민이 주도하는 민간 감시 플랫폼으로 공공기관과 무관하며 정치적 중립을 지향합니다.</p>
+  </div>
+</section>
 <footer class="g365foot">
   <div class="g365foot-in" style="padding:36px 24px">
     <h3 style="font-size:1.15rem;margin-bottom:12px">김보미.com · 모두의 봄, 나라살림 돋보기</h3>
