@@ -1078,15 +1078,16 @@ h1{letter-spacing:-.035em;font-weight:900}
 .gov-cta a:hover{transform:translateY(-2px)!important;box-shadow:0 8px 22px rgba(0,0,0,.24)!important}
 
 .g365bar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 1px 3px rgba(0,0,0,.06);border-bottom:1px solid #e5e7eb;font-family:'Paperozi',-apple-system,BlinkMacSystemFont,system-ui,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif}
-.g365bar-in{max-width:1280px;margin:0 auto;height:58px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.g365bar-in{max-width:1280px;margin:0 auto;height:58px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+@media(max-width:600px){.g365bar-in{padding:0 14px;gap:10px}.g365-logo .nm{font-size:1.06rem}}
 .g365-logo{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;flex-shrink:0;text-decoration:none}
 .g365-logo .nm{font-size:1.18rem;font-weight:700;color:var(--g365-primary)}
 .g365-logo .beta{font-size:.7rem;padding:2px 8px;border-radius:5px;color:#fff;background:var(--g365-primary);font-weight:700}
 .g365-logo .tag{font-size:.82rem;color:#6b7280;margin-left:4px}
-@media(max-width:899px){.g365-logo .tag{display:none}}
-.g365-nav{display:none;align-items:center;gap:22px}
+@media(max-width:1200px){.g365-logo .tag{display:none}}
+.g365-nav{display:none;align-items:center;gap:14px}
 @media(min-width:1024px){.g365-nav{display:flex}}
-.g365-nav>a,.g365-drop>button{color:#374151;font-size:.95rem;font-weight:500;text-decoration:none}
+.g365-nav>a,.g365-drop>button{color:#374151;font-size:.9rem;font-weight:500;text-decoration:none;white-space:nowrap}
 .g365-nav>a:hover,.g365-drop>button:hover{color:#111827}
 .g365-drop{position:relative}
 .g365-drop>button{display:inline-flex;align-items:center;gap:4px;background:none;border:none;cursor:pointer;font-family:inherit;padding:0}
@@ -1134,7 +1135,7 @@ h1{letter-spacing:-.035em;font-weight:900}
       <a href="javascript:void(0)" onclick="g365Go('exec')">✅ 집행내역</a>
       <a href="javascript:void(0)" onclick="g365Go('contract')">📜 계약·입찰</a>
       <a href="javascript:void(0)" onclick="g365Go('policy')">📋 민원·정책 찾기</a>
-      <a href="javascript:void(0)" onclick="g365Go('partyfunds')">💸 정당 돈 사용내역</a>
+      <a href="javascript:void(0)" onclick="g365Go('partyfunds')">💸 정당 돈, 어디 썼나?</a>
       <a href="javascript:void(0)" onclick="g365Go('about')">👤 김보미 소개</a>
     </nav>
     <button type="button" class="g365-burger" aria-label="메뉴 열기" onclick="document.getElementById('g365Drawer').classList.add('open')">
@@ -1153,7 +1154,7 @@ h1{letter-spacing:-.035em;font-weight:900}
     <a href="javascript:void(0)" onclick="g365Go('contract')">📜 계약·입찰</a>
     <div class="lbl">바로가기</div>
     <a href="javascript:void(0)" onclick="g365Go('policy')">📋 민원·정책 찾기</a>
-    <a href="javascript:void(0)" onclick="g365Go('partyfunds')">💸 정당 돈 사용내역</a>
+    <a href="javascript:void(0)" onclick="g365Go('partyfunds')">💸 정당 돈, 어디 썼나?</a>
       <a href="javascript:void(0)" onclick="g365Go('about')">👤 김보미 소개</a>
   </div>
 </div>
@@ -1919,10 +1920,15 @@ h1{letter-spacing:-.035em;font-weight:900}
 .pf-head{text-align:center;margin-bottom:22px}
 .pf-head h2{font-family:'Paperozi',-apple-system,sans-serif;font-size:clamp(1.45rem,3.2vw,1.95rem);font-weight:700;color:#123a90;margin:0;letter-spacing:-.02em}
 .pf-head p{color:#6b7280;font-size:.9rem;margin:8px auto 0;max-width:640px;line-height:1.6}
+.pf-why{background:linear-gradient(135deg,#fff5f3,#fdeceA);border:1px solid #f3c9c2;border-left:5px solid #c0392b;border-radius:13px;padding:15px 18px;margin:0 0 18px}
+.pf-why-t{font-weight:800;color:#9a2a1e;font-size:1.02rem;margin-bottom:6px;letter-spacing:-.01em}
+.pf-why p{margin:0;font-size:.9rem;color:#3f4753;line-height:1.72}
+.pf-why b{color:#0b2545}
 .pf-box{background:#fff;border:1px solid #e6eef7;border-radius:16px;padding:20px;margin:0 0 16px}
 .pf-box h3{font-size:1.03rem;color:#0b2545;margin:0 0 14px;font-weight:800}
 .pf-bar{display:flex;align-items:center;gap:10px;margin:9px 0}
 .pf-bar .nm{width:104px;font-size:.85rem;font-weight:700;color:#0b2545;text-align:right;flex:0 0 auto}
+@media(max-width:480px){.pf-bar .nm{width:80px;font-size:.77rem}.pf-sec{padding:24px 14px}.pf-bar .fill{font-size:.72rem;padding-right:6px}}
 .pf-bar .track{flex:1;background:#eef2f7;border-radius:8px;height:28px;overflow:hidden}
 .pf-bar .fill{height:100%;border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:9px;color:#fff;font-size:.79rem;font-weight:800;white-space:nowrap;min-width:54px}
 .pf-mini{font-size:.76rem;color:#94a3b8;margin:12px 0 0;line-height:1.55}
@@ -1948,6 +1954,10 @@ h1{letter-spacing:-.035em;font-weight:900}
     <div class="pf-head">
       <h2>💸 정당은 우리 세금(정치자금)을 어디에 썼나?</h2>
       <p>중앙선관위 「정치자금 회계보고 공개」와 언론·시민단체(오마이뉴스·참여연대 등) 분석으로 본 <b>정당별</b> 정치자금 비교입니다.</p>
+    </div>
+    <div class="pf-why">
+      <div class="pf-why-t">⚠️ 정당은 성역이 아닙니다 — 왜 우리가 지켜봐야 할까요?</div>
+      <p>정당이 쓰는 돈의 큰 몫은 <b>국민 세금(국고보조금)</b>입니다. 우리 동네 살림(지방재정)은 이렇게 들여다볼 수 있는데, <b>정당 정치자금은 ‘다 쓰고 난 뒤 사후 보고’</b>라 실시간 감시가 어렵습니다. 세금이 들어가는 곳에 성역은 없습니다 — <b>그 돈의 주인은 국민</b>입니다.</p>
     </div>
     <div class="pf-box">
       <h3>🏦 정당별 국고보조금(경상보조금) — 2024년 4분기 (총 123.7억원)</h3>
