@@ -1947,6 +1947,20 @@ h1{letter-spacing:-.035em;font-weight:900}
 .pf-cta a{display:inline-flex;align-items:center;gap:6px;background:#123a90;color:#fff;text-decoration:none;font-weight:700;border-radius:11px;padding:11px 17px;font-size:.88rem;box-shadow:0 4px 14px rgba(18,58,144,.22)}
 .pf-cta a.alt{background:#fff;color:#123a90;border:1px solid #cfddf5;box-shadow:none}
 .pf-note{font-size:.76rem;color:#94a3b8;text-align:center;margin:16px auto 0;line-height:1.62;max-width:860px}
+.pf-tbl{width:100%;border-collapse:collapse;font-size:.87rem;margin:2px 0 0}
+.pf-tbl th,.pf-tbl td{padding:11px 12px;border-bottom:1px solid #eef2f7;text-align:left;vertical-align:middle}
+.pf-tbl thead th{background:#f4f7fb;color:#15448f;font-weight:800;font-size:.84rem;white-space:nowrap}
+.pf-tbl thead th.dem{color:#0e3a86}.pf-tbl thead th.ppp{color:#c0392b}
+.pf-tbl td .it{font-weight:700;color:#0b2545}
+.pf-tbl td.dem{color:#0e3a86;font-weight:800;text-align:right;white-space:nowrap}
+.pf-tbl td.ppp{color:#c0392b;font-weight:800;text-align:right;white-space:nowrap}
+.pf-tbl .src{display:block;font-size:.72rem;color:#9aa6b5;font-weight:600;margin-top:2px}
+.pf-tbl tbody tr:last-child td{border-bottom:none}
+.pf-tbl tbody tr:nth-child(even){background:#fafcff}
+.pf-cap{font-size:.8rem;color:#64748b;margin:0 0 12px;line-height:1.6}
+.pf-win{font-size:.7rem;font-weight:800;padding:1px 6px;border-radius:6px;margin-left:5px;vertical-align:middle}
+.pf-win.d{background:#e7effb;color:#0e3a86}.pf-win.p{background:#fbe9e7;color:#c0392b}
+@media(max-width:560px){.pf-tbl th,.pf-tbl td{padding:8px 7px;font-size:.78rem}.pf-tbl thead th{font-size:.75rem}.pf-tbl .src{font-size:.66rem}}
 </style>
 <button id="pfClose" type="button" onclick="g365_closeAll()" aria-label="닫기">✕ 닫기</button>
 <section id="party-funds" aria-label="정당 정치자금 사용내역">
@@ -1960,22 +1974,45 @@ h1{letter-spacing:-.035em;font-weight:900}
       <p>정당이 쓰는 돈의 큰 몫은 <b>국민 세금(국고보조금)</b>입니다. 우리 동네 살림(지방재정)은 이렇게 들여다볼 수 있는데, <b>정당 정치자금은 ‘다 쓰고 난 뒤 사후 보고’</b>라 실시간 감시가 어렵습니다. 세금이 들어가는 곳에 성역은 없습니다 — <b>그 돈의 주인은 국민</b>입니다.</p>
     </div>
     <div class="pf-box">
-      <h3>🏦 정당별 국고보조금(경상보조금) — 2024년 4분기 (총 123.7억원)</h3>
-      <div class="pf-bar"><span class="nm">더불어민주당</span><div class="track"><div class="fill" style="width:90%;background:#0e3a86">54.3억 · 43.9%</div></div></div>
-      <div class="pf-bar"><span class="nm">국민의힘</span><div class="track"><div class="fill" style="width:86%;background:#c0392b">52.2억 · 42.1%</div></div></div>
-      <div class="pf-bar"><span class="nm">조국혁신당</span><div class="track"><div class="fill" style="width:18%;background:#2563eb">10.8억 · 8.7%</div></div></div>
-      <div class="pf-bar"><span class="nm">그 외 군소</span><div class="track"><div class="fill" style="width:10%;background:#94a3b8">약 5.8억</div></div></div>
-      <p class="pf-mini">경상보조금은 2·5·8·11월 분기 지급 → 1년이면 약 4배 규모. 국민의 세금에서 나옵니다. 출처: 중앙선관위·경향신문·아주경제</p>
+      <h3>🏦 정당이 받은 국민 세금 ① 경상보조금 — 2026년 2분기 (총 134.06억원)</h3>
+      <p class="pf-cap">정당이 평소 운영에 쓰는 국고보조금입니다. <b>2·5·8·11월 분기마다</b> 지급돼 1년이면 약 4배 규모가 됩니다.</p>
+      <div class="pf-bar"><span class="nm">더불어민주당</span><div class="track"><div class="fill" style="width:95%;background:#0e3a86">59.64억 · 44.49%</div></div></div>
+      <div class="pf-bar"><span class="nm">국민의힘</span><div class="track"><div class="fill" style="width:89%;background:#c0392b">55.85억 · 41.66%</div></div></div>
+      <div class="pf-bar"><span class="nm">조국혁신당</span><div class="track"><div class="fill" style="width:20%;background:#2563eb">11.54억 · 8.61%</div></div></div>
+      <div class="pf-bar"><span class="nm">개혁신당</span><div class="track"><div class="fill" style="width:9%;background:#f59e0b">3.62억 · 2.70%</div></div></div>
+      <div class="pf-bar"><span class="nm">진보당</span><div class="track"><div class="fill" style="width:8%;background:#e11d48">3.22억 · 2.40%</div></div></div>
+      <div class="pf-bar"><span class="nm">기본소득당</span><div class="track"><div class="fill" style="width:4%;background:#10b981">0.10억 · 0.07%</div></div></div>
+      <div class="pf-bar"><span class="nm">사회민주당</span><div class="track"><div class="fill" style="width:4%;background:#8b5cf6">0.10억 · 0.07%</div></div></div>
+      <p class="pf-mini">출처: 중앙선거관리위원회 공고 제2026-111호(2026-05-15). 7개 정당 합계 134억 577만 원.</p>
     </div>
     <div class="pf-box">
-      <h3>🗳️ 정당별 총선 선거비용 지출 (제22대 국회의원선거)</h3>
-      <div class="pf-bar"><span class="nm">더불어민주당</span><div class="track"><div class="fill" style="width:95%;background:#0e3a86">535.2억원</div></div></div>
-      <div class="pf-bar"><span class="nm">국민의힘</span><div class="track"><div class="fill" style="width:80%;background:#c0392b">450.0억원</div></div></div>
-      <p class="pf-mini">선거 후 일정 요건을 채우면 선거비용 상당액이 국고에서 보전됩니다. 출처: 중앙선관위 회계보고</p>
+      <h3>🗳️ 정당이 받은 국민 세금 ② 선거보조금 — 2026년 6·3 지방선거 (총 약 570억원)</h3>
+      <p class="pf-cap">선거가 있는 해에 <b>별도로 한 번 더</b> 지급되는 보조금입니다. 경상보조금과 합치면 규모가 크게 늘어납니다.</p>
+      <div class="pf-bar"><span class="nm">더불어민주당</span><div class="track"><div class="fill" style="width:95%;background:#0e3a86">258.85억 · 45.4%</div></div></div>
+      <div class="pf-bar"><span class="nm">국민의힘</span><div class="track"><div class="fill" style="width:87%;background:#c0392b">237.63억 · 41.6%</div></div></div>
+      <div class="pf-bar"><span class="nm">조국혁신당</span><div class="track"><div class="fill" style="width:17%;background:#2563eb">46.15억 · 8.1%</div></div></div>
+      <div class="pf-bar"><span class="nm">기타 4개 정당</span><div class="track"><div class="fill" style="width:10%;background:#94a3b8">27.37억 · 4.9%</div></div></div>
+      <p class="pf-mini">출처: 중앙선거관리위원회 공고(2026-05-18). 합계·비율은 보도(약 570억·7개 정당) 기준, 기타 4개 정당 금액은 역산 추정치.</p>
+    </div>
+    <div class="pf-box">
+      <h3>🆚 국민의힘 vs 더불어민주당 — 항목별 비교 분석표</h3>
+      <p class="pf-cap">두 거대 정당이 <b>국민 세금을 얼마나 받고, 어떻게 썼는지</b> 공개·보도 자료로 비교했습니다. 각 행마다 출처를 표시했습니다.</p>
+      <div style="overflow-x:auto">
+      <table class="pf-tbl">
+        <thead><tr><th>비교 항목</th><th class="dem">더불어민주당</th><th class="ppp">국민의힘</th></tr></thead>
+        <tbody>
+          <tr><td><span class="it">경상보조금</span> (2026 2분기)<span class="src">선관위 공고 제2026-111호</span></td><td class="dem">59.64억<span class="pf-win d">▲ 많음</span></td><td class="ppp">55.85억</td></tr>
+          <tr><td><span class="it">지방선거 선거보조금</span> (2026 6·3)<span class="src">선관위 공고(2026-05-18)</span></td><td class="dem">258.85억<span class="pf-win d">▲ 많음</span></td><td class="ppp">237.63억</td></tr>
+          <tr><td><span class="it">청년정치발전비를 ‘인건비’로 전용한 비율</span><span class="src">오마이뉴스·경향·뉴스타파 전수분석</span></td><td class="dem">약 30%</td><td class="ppp">약 95%<span class="pf-win p">▲ 높음</span></td></tr>
+          <tr><td><span class="it">대선 ‘순이익’</span> (선거보조금−실지출 차익)<span class="src">오마이뉴스 분석</span></td><td class="dem">약 177억</td><td class="ppp">약 232억<span class="pf-win p">▲ 많음</span></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="pf-mini">‘청년정치발전비 인건비 전용’은 청년 정치 육성에 써야 할 돈을 직원 급여 등으로 돌려쓴 비율입니다. 정당 중앙당의 <b>항목별 사용처 원문</b>은 선관위 회계보고서(열람·정보공개청구)에서 건별로 확인할 수 있습니다.</p>
     </div>
     <div class="pf-grid">
-      <div class="pf-box">
-        <h3>📊 국고보조금 법정 의무 배분</h3>
+      <div class="pf-box" style="margin:0">
+        <h3>📊 경상보조금 법정 의무 배분 (정치자금법 §28)</h3>
         <div class="pf-donut">
           <svg width="132" height="132" viewBox="0 0 132 132" role="img" aria-label="경상보조금 법정 의무 배분">
             <circle cx="66" cy="66" r="52" fill="none" stroke="#eef2f7" stroke-width="19"></circle>
@@ -1987,35 +2024,45 @@ h1{letter-spacing:-.035em;font-weight:900}
             </g>
           </svg>
           <div class="pf-leg">
-            <span><i style="background:#123a90"></i><b>정책연구소 30%</b>↑</span>
-            <span><i style="background:#2f6bd6"></i><b>시·도당 10%</b>↑</span>
-            <span><i style="background:#d8a200"></i><b>여성정치발전 10%</b>↑</span>
+            <span><i style="background:#123a90"></i><b>정책연구소 30%</b> 이상</span>
+            <span><i style="background:#2f6bd6"></i><b>시·도당 10%</b> 이상</span>
+            <span><i style="background:#d8a200"></i><b>여성정치발전 10%</b> 이상</span>
             <span><i style="background:#cbd5e1"></i>그 외 당 운영</span>
           </div>
         </div>
-        <p class="pf-mini">정치자금법 §28 의무 비율(법정 기준).</p>
+        <p class="pf-mini">법으로 정해진 최소 배분 비율(법정 기준).</p>
       </div>
-      <div class="pf-box">
-        <h3>🧾 정치자금 법정 사용 용도 (§28)</h3>
+      <div class="pf-box" style="margin:0">
+        <h3>🧾 정치자금은 이런 ‘항목’으로 씁니다 (10대 분류)</h3>
         <div class="pf-cats">
-          <div class="c">인건비</div><div class="c">사무용품비</div><div class="c">사무소 운영비</div>
-          <div class="c">공공요금</div><div class="c">정책개발비</div><div class="c">당원교육훈련비</div>
-          <div class="c">조직활동비</div><div class="c">선전비</div><div class="c">선거관계비용</div>
+          <div class="c">인건비</div><div class="c">사무소 운영</div><div class="c">홍보·의정보고</div>
+          <div class="c">교통·차량</div><div class="c">간담회</div><div class="c">정책·도서</div>
+          <div class="c">언론</div><div class="c">정치활동</div><div class="c">후원</div>
         </div>
+        <p class="pf-mini">언론 3사가 회계보고를 OCR·전수분석할 때 쓴 분류로, <b>36개 중분류</b>로 더 세분됩니다(선관위 공식 기준과는 별개).</p>
       </div>
     </div>
     <div class="pf-box">
-      <h3>🔬 시민·언론은 이렇게 감시·분석합니다 (사례)</h3>
-      <p class="pf-hi">· <b>청년정치발전비</b>를 인건비로 사용한 비율 — 국민의힘 <b>약 95%</b> · 더불어민주당 <b>약 30%</b> (오마이뉴스 분석)<br>
-      · 대선 후 ‘순이익’(선거보조금−실지출 차익) — 더불어민주당 약 <b>177억</b> · 국민의힘 약 <b>232억</b> (오마이뉴스)<br>
-      · 정당 회계보고 원문에는 사용일자·금액·사용처가 건별로 공개됩니다 — 누구나 검증할 수 있습니다.</p>
+      <h3>📈 국회의원 정치자금 연간 총지출 추이 (선거자금 제외)</h3>
+      <p class="pf-cap">의원 전원의 수입·지출보고서를 언론 3사가 전수분석한 결과입니다. <b>총선이 있던 2024년에 급증</b>한 것이 보입니다.</p>
+      <table class="pf-tbl">
+        <thead><tr><th>연도</th><th class="dem" style="color:#15448f">지출 건수</th><th class="dem" style="color:#15448f">총지출액</th></tr></thead>
+        <tbody>
+          <tr><td><span class="it">2021년</span></td><td class="dem" style="color:#334155">118,865건</td><td class="dem" style="color:#0b2545">410.7억</td></tr>
+          <tr><td><span class="it">2022년</span></td><td class="dem" style="color:#334155">121,896건</td><td class="dem" style="color:#0b2545">437.5억</td></tr>
+          <tr><td><span class="it">2023년</span></td><td class="dem" style="color:#334155">122,651건</td><td class="dem" style="color:#0b2545">472.7억</td></tr>
+          <tr><td><span class="it">2024년</span> (21대+22대, 총선)<span class="src">21대 834.3억 + 22대 393.2억</span></td><td class="dem" style="color:#334155">135,043건</td><td class="dem" style="color:#c0392b">1,227.5억</td></tr>
+        </tbody>
+      </table>
+      <p class="pf-mini">출처: 오마이뉴스·경향신문·뉴스타파 공동 전수분석(선관위 정보공개청구 보고서 OCR, 2012~2024).</p>
     </div>
     <div class="pf-cta">
-      <a href="https://www.nec.go.kr/" target="_blank" rel="noopener">🏛️ 선관위 정치자금 회계보고 공개 ↗</a>
-      <a class="alt" href="https://github.com/OhmyNews/KA-money" target="_blank" rel="noopener">📊 오마이뉴스 정치자금 데이터 ↗</a>
-      <a class="alt" href="https://docs.openwatch.kr/data/political-contributions/national-assembly" target="_blank" rel="noopener">🔍 오픈워치 데이터 ↗</a>
+      <a href="https://www.nec.go.kr/site/nec/ex/bbs/List.do?cbIdx=1086" target="_blank" rel="noopener">🏛️ 선관위 공고(보조금 지급) ↗</a>
+      <a class="alt" href="https://open.nec.go.kr" target="_blank" rel="noopener">📑 선관위 정보공개(원본 청구) ↗</a>
+      <a class="alt" href="http://www.ohmynews.com/NWS_Web/Event/Special/20spf.aspx" target="_blank" rel="noopener">🔍 오마이뉴스 의원별 검색 ↗</a>
+      <a class="alt" href="https://github.com/OhmyNews/KA-money" target="_blank" rel="noopener">📊 원본 데이터(GitHub) ↗</a>
     </div>
-    <p class="pf-note">출처: 중앙선거관리위원회 「정치자금 회계보고 공개」 시스템 · 경향신문·아주경제(국고보조금 배분) · 오마이뉴스 정치자금 전수분석 · 참여연대 등. 표시 수치는 공개·보도 자료 기반 참고치이며 시점·집계 기준에 따라 차이가 있을 수 있습니다. 정확한 내역은 선관위 원문 회계보고서를 확인하세요. 본 플랫폼은 정치적 중립을 지향하는 민간 감시 플랫폼입니다.</p>
+    <p class="pf-note">출처: 중앙선거관리위원회 공고(국고보조금 지급, 공고 제2026-111호 등) · 「정치자금 회계보고 공개」 시스템 · 오마이뉴스·경향신문·뉴스타파 공동 전수분석(2012~2024) · 참여연대 의정감시센터. 보조금 지급액은 선관위 공고 기준 실수치이며, 비율·전용 비율 등 분석 수치는 언론 보도 기준입니다. 정당 중앙당의 항목별 사용처 원문은 선관위 회계보고서 열람·정보공개청구(open.nec.go.kr, 본인 실명인증)로 확인하세요. 본 플랫폼은 정치적 중립을 지향하는 민간 감시 플랫폼입니다.</p>
   </div>
 </section>
 <footer class="g365foot">
@@ -6012,8 +6059,12 @@ tr.kb-drill:hover td{background:#e3e8ef!important}
 /* 인풋 */
 .hero-free-row input{background:#fff;border:1px solid #D8D3CC;border-radius:12px;color:#28251D}
 .hero-search-row select{box-shadow:none;border:1px solid #D8D3CC}
-/* 상단 유틸 칩 라이트화 */
-.topbar .translate-fab{background:#fff!important;border:1px solid #D8D3CC!important;box-shadow:none!important;color:#28251D!important}
+/* 상단 언어 선택 칩 — 투명 글래스(블루 헤더 위 시인성) */
+.topbar .translate-fab{background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,255,255,.26)!important;box-shadow:none!important;color:#fff!important;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.topbar .translate-fab:hover{background:rgba(255,255,255,.14)!important;border-color:rgba(255,255,255,.4)!important}
+.topbar .translate-fab>span{color:#fff!important;opacity:1!important}
+.topbar .translate-fab #quickLang{background:rgba(255,255,255,.12)!important;color:#fff!important;border:1px solid rgba(255,255,255,.32)!important;font-weight:800!important}
+.topbar .translate-fab #quickLang option{background:#0b2545!important;color:#fff!important;font-weight:600}
 /* 모바일 접기 토글 */
 .kb-mtoggle{background:#FBFBF9;border-color:#D8D3CC}
 /* 과한 그림자/펄스 제거 */
