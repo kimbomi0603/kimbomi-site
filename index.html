@@ -2066,29 +2066,103 @@ h1{letter-spacing:-.035em;font-weight:900}
     .pf-acc-in{padding:14px 16px}
     .pf-howto{margin:8px 0 0;padding-left:18px;font-size:.87rem;color:#334155;line-height:1.85}
     .pf-howto li{margin:0 0 5px}
+    .pf-cats2{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+    .pf-cat{border:1px solid #e6edf6;border-radius:10px;background:#fff;overflow:hidden}
+    .pf-cat>summary{cursor:pointer;list-style:none;padding:11px 14px;display:flex;align-items:center;gap:8px;font-weight:800;color:#0b2545;font-size:.9rem}
+    .pf-cat>summary::-webkit-details-marker{display:none}
+    .pf-cat>summary:hover{background:#f6f9fe}
+    .pf-cat>summary .tag{margin-left:auto;font-weight:700;color:#94a3b8;font-size:.74rem;text-align:right}
+    .pf-cat>summary .chev{color:#15448f;transition:.15s;flex:0 0 auto}
+    .pf-cat[open]>summary .chev{transform:rotate(90deg)}
+    .pf-cat[open]>summary{background:#f4f7fb;border-bottom:1px solid #e6edf6}
+    .pf-cat-body{padding:12px 14px;font-size:.85rem;color:#334155;line-height:1.7}
+    .pf-cat-body p{margin:0}
+    .pf-cat-body .watch{margin-top:8px;padding:8px 10px;background:#fff8f0;border:1px solid #ffe3c2;border-radius:8px;font-size:.82rem;color:#9a3412;line-height:1.6}
+    .pf-cat-body .note{margin-top:6px;font-size:.78rem;color:#64748b;line-height:1.6}
     </style>
     <div class="pf-box pf-detailwrap">
       <h3>🔎 상세 집행내역 — 정치자금은 ‘항목별’로 이렇게 나갑니다</h3>
-      <p class="pf-cap">지방 예산의 <b>‘집행내역 상세보기’</b>처럼, 정당·의원 정치자금도 <b>항목(분류)별</b>로 들여다봅니다. 아래 항목을 눌러 펼쳐 보세요. <b>‘국장’ 등 사무처 간부 급여는 ① 인건비</b>에 잡힙니다.</p>
+      <p class="pf-cap">지방 예산의 <b>‘집행내역 상세보기’</b>처럼, 정당·의원 정치자금도 <b>항목(분류)별</b>로 들여다봅니다. 아래 <b>각 항목을 누르면</b> 세부 구성과 <b>정당별 실제 지출(확인된 범위)</b>이 열립니다. <b>‘국장’ 등 사무처 간부 급여는 ① 인건비</b>에 잡힙니다.</p>
 
       <details class="pf-acc" open>
         <summary><span>① 항목별 분류 체계 — 대분류 → 세부 집행 (예시)</span><span>▾</span></summary>
         <div class="pf-acc-in">
-          <div style="overflow-x:auto">
-          <table class="pf-tbl">
-            <thead><tr><th>대분류</th><th>여기에 포함되는 세부 집행 (예시)</th><th>감시 포인트</th></tr></thead>
-            <tbody>
-              <tr><td><span class="it">① 인건비</span></td><td>사무처 직원 급여·상여·4대보험·퇴직금 — <b>사무총장·국장 등 간부 인건비 포함</b></td><td>청년·여성 발전비를 인건비로 전용했는지</td></tr>
-              <tr><td><span class="it">② 사무소 운영</span></td><td>임차료·관리비·공공요금·비품·통신비</td><td>중앙당·시도당 사무소 규모</td></tr>
-              <tr><td><span class="it">③ 홍보·의정보고</span></td><td>현수막·인쇄물·문자·온라인 광고·의정보고서</td><td>선거 임박 시 급증 여부</td></tr>
-              <tr><td><span class="it">④ 교통·차량</span></td><td>차량 리스·유류비·택시·KTX·항공</td><td>사적 사용 의심 건</td></tr>
-              <tr><td><span class="it">⑤ 간담회·식대</span></td><td>회의·간담회 식비·다과 — 의원 <b>‘밥값’</b></td><td>고액·반복 결제처</td></tr>
-              <tr><td><span class="it">⑥ 정책·도서</span></td><td>정책연구소 운영·연구용역·자료·도서 구입</td><td>법정 30% 의무지출 충족 여부</td></tr>
-              <tr><td><span class="it">⑦ 언론</span></td><td>구독료·모니터링·언론 대응</td><td>—</td></tr>
-              <tr><td><span class="it">⑧ 정치활동</span></td><td>조직활동·행사·당원 교육·경조사</td><td>조직 동원성 지출</td></tr>
-              <tr><td><span class="it">⑨ 후원·기부</span></td><td>당비·후원 이관·기부</td><td>—</td></tr>
-            </tbody>
-          </table>
+          <div class="pf-cats2">
+            <details class="pf-cat">
+              <summary><span class="chev">▸</span> ① 인건비 <span class="tag">사무처 직원 급여·국장 등 간부</span></summary>
+              <div class="pf-cat-body">
+                <p><b>무엇에 쓰나</b> — 사무처 직원 급여·상여, 4대보험 사용자부담, 퇴직급여, <b>사무총장·국장 등 간부 인건비</b>.</p>
+                <p style="margin-top:8px"><b>실제 확인된 ‘사무처 직원 급여’ 지출</b> — 청년정치발전비 중 인건비 전용분(2025 상반기)</p>
+                <div style="overflow-x:auto">
+                <table class="pf-tbl">
+                  <thead><tr><th>정당</th><th class="dem">사무처 급여로 쓴 금액</th></tr></thead>
+                  <tbody>
+                    <tr><td><span class="it">더불어민주당</span></td><td class="dem">1억 322만원 <span class="pf-win d">청년발전비의 30.2%</span></td></tr>
+                    <tr><td><span class="it">국민의힘</span></td><td class="ppp">월 약 1억원 — ‘청년본부 사무처 급여’ <span class="pf-win p">전용률 ~95%</span></td></tr>
+                  </tbody>
+                </table>
+                </div>
+                <div class="watch">⚠️ 감시: 청년·여성정치발전비를 ‘사무처 인건비’로 전용했는지. 국민의힘은 청년 몫의 약 95%를 인건비로 썼습니다.</div>
+                <div class="note">※ 위 수치는 <b>청년정치발전비 중 인건비 전용분</b>(오마이뉴스·경향·뉴스타파 분석)입니다. 정당 <b>전체 인건비 총액</b>·<b>개인별 급여(예: 특정 국장 연봉)</b>는 선관위 「정당 회계보고」·정보공개청구(open.nec.go.kr)에서 확인하세요.</div>
+              </div>
+            </details>
+            <details class="pf-cat">
+              <summary><span class="chev">▸</span> ② 사무소 운영 <span class="tag">임차료·공공요금</span></summary>
+              <div class="pf-cat-body">
+                <p><b>무엇에 쓰나</b> — 중앙당·시도당 임차료·관리비, 공공요금(전기·수도·가스), 통신·인터넷, 사무용품·비품.</p>
+                <div class="watch">⚠️ 감시: 사무소 규모·임차료 적정성, 불필요하게 호화로운 사무실.</div>
+              </div>
+            </details>
+            <details class="pf-cat">
+              <summary><span class="chev">▸</span> ③ 홍보·의정보고 <span class="tag">현수막·광고·보고서</span></summary>
+              <div class="pf-cat-body">
+                <p><b>무엇에 쓰나</b> — 현수막·인쇄물, 문자·이메일 대량발송, 온라인·SNS 광고, 의정보고서 제작·발송.</p>
+                <div class="watch">⚠️ 감시: 선거 임박 시 급증(사실상 사전 선거운동성) 여부.</div>
+              </div>
+            </details>
+            <details class="pf-cat">
+              <summary><span class="chev">▸</span> ④ 교통·차량 <span class="tag">차량·유류·출장</span></summary>
+              <div class="pf-cat-body">
+                <p><b>무엇에 쓰나</b> — 차량 구입·리스, 유류비, 택시·대중교통, KTX·항공·숙박(출장).</p>
+                <div class="watch">⚠️ 감시: 사적 사용 의심 건, 고가 차량.</div>
+              </div>
+            </details>
+            <details class="pf-cat">
+              <summary><span class="chev">▸</span> ⑤ 간담회·식대 <span class="tag">의원 ‘밥값’</span></summary>
+              <div class="pf-cat-body">
+                <p><b>무엇에 쓰나</b> — 회의·간담회 식비, 다과·음료, 경조사비.</p>
+                <p style="margin-top:8px"><b>실제 확인</b> — 의원들이 정치자금으로 결제한 ‘밥값(식대)’ <b>약 20억원</b> (경향신문 전수분석).</p>
+                <div class="watch">⚠️ 감시: 고액·반복 결제처, 부적절한 업소 결제.</div>
+              </div>
+            </details>
+            <details class="pf-cat">
+              <summary><span class="chev">▸</span> ⑥ 정책·도서 <span class="tag">정책연구소·연구용역</span></summary>
+              <div class="pf-cat-body">
+                <p><b>무엇에 쓰나</b> — 정책연구소 운영·연구용역, 자료·도서 구입, 세미나·토론회.</p>
+                <div class="watch">⚠️ 감시: 경상보조금의 <b>법정 30%(정책연구소)</b> 의무지출 충족 여부.</div>
+              </div>
+            </details>
+            <details class="pf-cat">
+              <summary><span class="chev">▸</span> ⑦ 언론 <span class="tag">구독·모니터링</span></summary>
+              <div class="pf-cat-body">
+                <p><b>무엇에 쓰나</b> — 신문·잡지 구독, 언론 모니터링, 대응·기고.</p>
+                <div class="watch">⚠️ 감시: 특정 매체 편중.</div>
+              </div>
+            </details>
+            <details class="pf-cat">
+              <summary><span class="chev">▸</span> ⑧ 정치활동 <span class="tag">조직·행사·교육</span></summary>
+              <div class="pf-cat-body">
+                <p><b>무엇에 쓰나</b> — 조직활동, 행사·집회, 당원 교육, 격려·경조사.</p>
+                <div class="watch">⚠️ 감시: 조직 동원성·현금성 지출.</div>
+              </div>
+            </details>
+            <details class="pf-cat">
+              <summary><span class="chev">▸</span> ⑨ 후원·기부 <span class="tag">이관·기부</span></summary>
+              <div class="pf-cat-body">
+                <p><b>무엇에 쓰나</b> — 당비·후원금 이관, 기부·찬조.</p>
+                <div class="watch">⚠️ 감시: 용처 불명 이관.</div>
+              </div>
+            </details>
           </div>
           <p class="pf-mini">분류는 오마이뉴스·경향신문·뉴스타파 3사가 회계보고를 OCR·전수분석할 때 쓴 <b>9개 대분류 → 36개 중분류</b> 기준입니다(선관위 공식 항목과는 별개). 세부 집행은 이해를 돕기 위한 <b>대표 예시</b>입니다.</p>
         </div>
