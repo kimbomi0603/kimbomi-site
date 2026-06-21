@@ -1245,21 +1245,7 @@ h1{letter-spacing:-.035em;font-weight:900}
 
 <div class="wrap">
 
-  <!-- ============== J. 외부 협력 플랫폼 — 중앙정부/청년 ============== -->
-  <div class="gov-cta">
-    <div class="txt">
-      <b>🏛️ 「재정주권시민행동」에서 중앙정부·정부 부처 예산도 함께 확인해요</b>
-      <p>대한민국 재정 365는 전국 지방자치단체의 예산·집행·계약 정보를 보여주는 서비스입니다. 중앙정부 부처 예산은 <b>「재정주권시민행동」</b>에서 확인할 수 있습니다.</p>
-    </div>
-    <a href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">중앙정부 예산 플랫폼 보기 ↗</a>
-  </div>
-  <div class="gov-cta" style="background:linear-gradient(120deg,#0f3876,#1a50a1)">
-    <div class="txt">
-      <b>🙋 청년이 결정하는 정책에 함께하세요</b>
-      <p>전남·광주 청년 정책 참여는 <b>「청년결정정부」</b>에서 이용할 수 있습니다. 일자리·주거·복지 정책을 제안하고 의견을 나눌 수 있습니다.</p>
-    </div>
-    <a href="https://www.xn--p89av0gr2mutka661e.kr" target="_blank" rel="noopener">전남·광주 정책참여 플랫폼 보기 ↗</a>
-  </div>
+  <!-- J. 외부 협력 플랫폼 CTA — 간결화 후 '여러분과 함께한 순간들' 위로 이동(아래 #moments 직전) -->
 
   <!-- ============== K. 3대 가치 (퍼퍼 위) ============== -->
   <section class="values-row">
@@ -1302,6 +1288,31 @@ h1{letter-spacing:-.035em;font-weight:900}
 @media(max-width:560px){.gx-track figure{width:170px;height:114px}}
 @media(prefers-reduced-motion:reduce){.gx-track{animation:none}}
 </style>
+<!-- 외부 협력 플랫폼 CTA (간결화 · 2단) — '여러분과 함께한 순간들' 위 -->
+<style>
+.partner-ctas{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:1180px;margin:36px auto 6px;padding:0 20px}
+.partner-ctas .gov-cta{margin:0;padding:18px 20px}
+.partner-ctas .gov-cta .txt b{font-size:1rem;line-height:1.4}
+.partner-ctas .gov-cta .txt p{font-size:.82rem;margin-top:5px;line-height:1.62}
+.partner-ctas .gov-cta a{margin-top:14px}
+@media(max-width:760px){.partner-ctas{grid-template-columns:1fr;margin-top:26px}}
+</style>
+<div class="partner-ctas" aria-label="외부 협력 플랫폼 바로가기">
+  <div class="gov-cta">
+    <div class="txt">
+      <b>🏛️ 중앙정부·정부 부처 예산도 함께</b>
+      <p>지방재정은 여기서, 중앙정부 예산은 <b>「재정주권시민행동」</b>에서 확인하세요.</p>
+    </div>
+    <a href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">재정주권시민행동 바로가기 ↗</a>
+  </div>
+  <div class="gov-cta" style="background:linear-gradient(120deg,#0f3876,#1a50a1)">
+    <div class="txt">
+      <b>🙋 청년이 결정하는 정책</b>
+      <p>전남·광주 청년정책 제안·참여는 <b>「청년결정정부」</b>에서 함께하세요.</p>
+    </div>
+    <a href="https://www.xn--p89av0gr2mutka661e.kr" target="_blank" rel="noopener">청년결정정부 바로가기 ↗</a>
+  </div>
+</div>
 <section class="gx-section" id="moments" aria-label="여러분과 함께한 순간들">
   <div class="gx-wrap">
     <div class="gx-head">
@@ -2042,6 +2053,83 @@ h1{letter-spacing:-.035em;font-weight:900}
         <p class="pf-mini">언론 3사가 회계보고를 OCR·전수분석할 때 쓴 분류로, <b>36개 중분류</b>로 더 세분됩니다(선관위 공식 기준과는 별개).</p>
       </div>
     </div>
+
+    <!-- ⬇️ 상세 집행내역 (상세보기) — 항목별 드릴다운 -->
+    <style>
+    .pf-detailwrap{border:2px solid #dbe6f6;background:#fbfdff}
+    .pf-detailwrap>h3{display:flex;align-items:center;gap:8px}
+    .pf-acc{border:1px solid #e6edf6;border-radius:12px;margin:12px 0 0;background:#fff;overflow:hidden}
+    .pf-acc>summary{cursor:pointer;list-style:none;padding:13px 16px;font-weight:800;color:#15448f;background:#f4f7fb;font-size:.92rem;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .pf-acc>summary::-webkit-details-marker{display:none}
+    .pf-acc>summary:hover{background:#eef3fb}
+    .pf-acc[open]>summary{border-bottom:1px solid #e6edf6}
+    .pf-acc-in{padding:14px 16px}
+    .pf-howto{margin:8px 0 0;padding-left:18px;font-size:.87rem;color:#334155;line-height:1.85}
+    .pf-howto li{margin:0 0 5px}
+    </style>
+    <div class="pf-box pf-detailwrap">
+      <h3>🔎 상세 집행내역 — 정치자금은 ‘항목별’로 이렇게 나갑니다</h3>
+      <p class="pf-cap">지방 예산의 <b>‘집행내역 상세보기’</b>처럼, 정당·의원 정치자금도 <b>항목(분류)별</b>로 들여다봅니다. 아래 항목을 눌러 펼쳐 보세요. <b>‘국장’ 등 사무처 간부 급여는 ① 인건비</b>에 잡힙니다.</p>
+
+      <details class="pf-acc" open>
+        <summary><span>① 항목별 분류 체계 — 대분류 → 세부 집행 (예시)</span><span>▾</span></summary>
+        <div class="pf-acc-in">
+          <div style="overflow-x:auto">
+          <table class="pf-tbl">
+            <thead><tr><th>대분류</th><th>여기에 포함되는 세부 집행 (예시)</th><th>감시 포인트</th></tr></thead>
+            <tbody>
+              <tr><td><span class="it">① 인건비</span></td><td>사무처 직원 급여·상여·4대보험·퇴직금 — <b>사무총장·국장 등 간부 인건비 포함</b></td><td>청년·여성 발전비를 인건비로 전용했는지</td></tr>
+              <tr><td><span class="it">② 사무소 운영</span></td><td>임차료·관리비·공공요금·비품·통신비</td><td>중앙당·시도당 사무소 규모</td></tr>
+              <tr><td><span class="it">③ 홍보·의정보고</span></td><td>현수막·인쇄물·문자·온라인 광고·의정보고서</td><td>선거 임박 시 급증 여부</td></tr>
+              <tr><td><span class="it">④ 교통·차량</span></td><td>차량 리스·유류비·택시·KTX·항공</td><td>사적 사용 의심 건</td></tr>
+              <tr><td><span class="it">⑤ 간담회·식대</span></td><td>회의·간담회 식비·다과 — 의원 <b>‘밥값’</b></td><td>고액·반복 결제처</td></tr>
+              <tr><td><span class="it">⑥ 정책·도서</span></td><td>정책연구소 운영·연구용역·자료·도서 구입</td><td>법정 30% 의무지출 충족 여부</td></tr>
+              <tr><td><span class="it">⑦ 언론</span></td><td>구독료·모니터링·언론 대응</td><td>—</td></tr>
+              <tr><td><span class="it">⑧ 정치활동</span></td><td>조직활동·행사·당원 교육·경조사</td><td>조직 동원성 지출</td></tr>
+              <tr><td><span class="it">⑨ 후원·기부</span></td><td>당비·후원 이관·기부</td><td>—</td></tr>
+            </tbody>
+          </table>
+          </div>
+          <p class="pf-mini">분류는 오마이뉴스·경향신문·뉴스타파 3사가 회계보고를 OCR·전수분석할 때 쓴 <b>9개 대분류 → 36개 중분류</b> 기준입니다(선관위 공식 항목과는 별개). 세부 집행은 이해를 돕기 위한 <b>대표 예시</b>입니다.</p>
+        </div>
+      </details>
+
+      <details class="pf-acc">
+        <summary><span>② 실제로 확인된 집행 사례 — 실수치·출처</span><span>▾</span></summary>
+        <div class="pf-acc-in">
+          <div style="overflow-x:auto">
+          <table class="pf-tbl">
+            <thead><tr><th>집행 사례</th><th class="dem">규모</th><th>근거</th></tr></thead>
+            <tbody>
+              <tr><td><span class="it">의원 ‘밥값(식대)’ 총액</span> — 정치자금으로 결제</td><td class="dem">약 20억원</td><td>경향신문 전수분석<span class="src">19~21대 의정활동</span></td></tr>
+              <tr><td><span class="it">청년정치발전비 → ‘인건비’ 전용 비율</span></td><td class="dem">민주 ~30% / 국힘 ~95%</td><td>오마이뉴스·경향·뉴스타파</td></tr>
+              <tr><td><span class="it">2024년 의원 정치자금 회계보고 규모</span></td><td class="dem">39,058쪽 · 약 14.9만 건</td><td>오마이뉴스 전수분석</td></tr>
+              <tr><td><span class="it">의원 연간 총지출</span> — 2024년(총선)</td><td class="dem">1,227.5억</td><td>3사 공동 전수분석</td></tr>
+            </tbody>
+          </table>
+          </div>
+          <p class="pf-mini">금액은 언론 보도·전수분석 기준입니다. 정당 중앙당 보조금의 항목별 ‘원문’은 선관위 회계보고서에서 건별로 공개됩니다.</p>
+        </div>
+      </details>
+
+      <details class="pf-acc">
+        <summary><span>③ ‘국장 개인 급여’처럼 더 깊은 건별 내역은 어떻게 보나</span><span>▾</span></summary>
+        <div class="pf-acc-in">
+          <p class="pf-mini" style="font-size:.87rem">개인 실명·개인별 급여 같은 <b>최세부 내역은 선관위가 일반에 공개하지 않습니다.</b> 다만 아래 경로로 <b>건별(영수증 단위)</b>까지 직접 확인할 수 있습니다.</p>
+          <ul class="pf-howto">
+            <li><b>선관위 정치자금 회계보고 열람</b> — 매년 공개 기간에 정당·의원 회계보고서 열람.</li>
+            <li><b>정보공개청구 (open.nec.go.kr)</b> — 실명인증 후 특정 정당·의원의 <b>건별 지출 원문</b> 청구.</li>
+            <li><b>오마이뉴스 의원별 검색 · GitHub 원본</b> — 의원별 엑셀로 모든 지출 건 내려받기.</li>
+          </ul>
+          <div class="pf-cta" style="margin-top:12px">
+            <a href="https://open.nec.go.kr" target="_blank" rel="noopener">📑 선관위 정보공개(건별 원문) ↗</a>
+            <a class="alt" href="http://www.ohmynews.com/NWS_Web/Event/Special/20spf.aspx" target="_blank" rel="noopener">🔍 오마이뉴스 의원별 검색 ↗</a>
+            <a class="alt" href="https://github.com/OhmyNews/KA-money" target="_blank" rel="noopener">📊 원본 데이터(GitHub) ↗</a>
+          </div>
+        </div>
+      </details>
+    </div>
+
     <div class="pf-box">
       <h3>📈 국회의원 정치자금 연간 총지출 추이 (선거자금 제외)</h3>
       <p class="pf-cap">의원 전원의 수입·지출보고서를 언론 3사가 전수분석한 결과입니다. <b>총선이 있던 2024년에 급증</b>한 것이 보입니다.</p>
