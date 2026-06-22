@@ -2079,10 +2079,17 @@ h1{letter-spacing:-.035em;font-weight:900}
     .pf-cat-body p{margin:0}
     .pf-cat-body .watch{margin-top:8px;padding:8px 10px;background:#fff8f0;border:1px solid #ffe3c2;border-radius:8px;font-size:.82rem;color:#9a3412;line-height:1.6}
     .pf-cat-body .note{margin-top:6px;font-size:.78rem;color:#64748b;line-height:1.6}
+    .pf-know{margin:10px 0 4px;padding:12px 14px;background:#fff7ed;border:1px solid #fed7aa;border-left:4px solid #ea580c;border-radius:11px}
+    .pf-know>b{color:#9a3412;font-size:.92rem}
+    .pf-know p{margin:6px 0 0;font-size:.84rem;color:#7c2d12;line-height:1.7}
     </style>
     <div class="pf-box pf-detailwrap">
       <h3>🔎 상세 집행내역 — 정치자금은 ‘항목별’로 이렇게 나갑니다</h3>
       <p class="pf-cap">지방 예산의 <b>‘집행내역 상세보기’</b>처럼, 정당·의원 정치자금도 <b>항목(분류)별</b>로 들여다봅니다. 아래 <b>각 항목을 누르면</b> 세부 구성과 <b>정당별 실제 지출(확인된 범위)</b>이 열립니다. <b>‘국장’ 등 사무처 간부 급여는 ① 인건비</b>에 잡힙니다.</p>
+      <div class="pf-know">
+        <b>🔎 국민 알권리 — 지금 공개 수준의 한계</b>
+        <p>정당이 받은 <b>국고보조금(우리 세금)의 사용내역</b>은 선관위 <b>회계보고 ‘열람’·정보공개청구로만</b> 공개돼 <b>일괄 다운로드가 안 됩니다.</b> 더구나 <b>‘국장 개인 급여’ 같은 개인별 금액은 선관위가 아예 공개하지 않아, 국민이 알 수 없습니다.</b> 세금이 들어간 돈인 만큼 <b>건별·개인별 내역의 상시 전면공개</b>가 필요합니다 — 이것이 바로 국민 알권리의 과제입니다.</p>
+      </div>
 
       <details class="pf-acc" open>
         <summary><span>① 항목별 분류 체계 — 대분류 → 세부 집행 (예시)</span><span>▾</span></summary>
@@ -2168,37 +2175,36 @@ h1{letter-spacing:-.035em;font-weight:900}
         </div>
       </details>
 
-      <details class="pf-acc">
-        <summary><span>② 실제로 확인된 집행 사례 — 실수치·출처</span><span>▾</span></summary>
+      <details class="pf-acc" open>
+        <summary><span>② 실제로 확인된 집행 — 검증된 실수치 (출처 명시)</span><span>▾</span></summary>
         <div class="pf-acc-in">
+          <p class="pf-mini" style="margin:0 0 8px;font-size:.86rem">아래는 <b>지어낸 값이 아니라</b> 선관위 공고·언론 3사 전수분석으로 <b>실제 확인된 수치</b>입니다.</p>
           <div style="overflow-x:auto">
           <table class="pf-tbl">
             <thead><tr><th>집행 사례</th><th class="dem">규모</th><th>근거</th></tr></thead>
             <tbody>
-              <tr><td><span class="it">의원 ‘밥값(식대)’ 총액</span> — 정치자금으로 결제</td><td class="dem">약 20억원</td><td>경향신문 전수분석<span class="src">19~21대 의정활동</span></td></tr>
-              <tr><td><span class="it">청년정치발전비 → ‘인건비’ 전용 비율</span></td><td class="dem">민주 ~30% / 국힘 ~95%</td><td>오마이뉴스·경향·뉴스타파</td></tr>
-              <tr><td><span class="it">2024년 의원 정치자금 회계보고 규모</span></td><td class="dem">39,058쪽 · 약 14.9만 건</td><td>오마이뉴스 전수분석</td></tr>
+              <tr><td><span class="it">국고보조금 · 경상보조금</span> — 연간(2026 분기 134억×4)</td><td class="dem">약 536억원</td><td>선관위 공고 제2026-111호</td></tr>
+              <tr><td><span class="it">국고보조금 · 지방선거 선거보조금</span> — 2026 6·3</td><td class="dem">약 570억원</td><td>선관위 공고(2026-05-18)</td></tr>
+              <tr><td><span class="it">6·1 지방선거(2022) 선거비용 총지출</span></td><td class="dem">4,416억원</td><td>중앙선관위 공개</td></tr>
+              <tr><td><span class="it">의원 ‘밥값(식대)’ 총액</span> — 정치자금 결제</td><td class="dem">약 20억원</td><td>경향신문 전수분석<span class="src">19~21대</span></td></tr>
+              <tr><td><span class="it">청년정치발전비 → ‘인건비’ 전용</span></td><td class="dem">민주 ~30% / 국힘 ~95%</td><td>오마이뉴스·경향·뉴스타파</td></tr>
               <tr><td><span class="it">의원 연간 총지출</span> — 2024년(총선)</td><td class="dem">1,227.5억</td><td>3사 공동 전수분석</td></tr>
+              <tr><td><span class="it">2024년 의원 회계보고 규모</span></td><td class="dem">39,058쪽 · 약 14.9만 건</td><td>오마이뉴스 전수분석</td></tr>
             </tbody>
           </table>
           </div>
-          <p class="pf-mini">금액은 언론 보도·전수분석 기준입니다. 정당 중앙당 보조금의 항목별 ‘원문’은 선관위 회계보고서에서 건별로 공개됩니다.</p>
+          <p class="pf-mini">금액은 선관위 공고·언론 전수분석 기준입니다. 정당 보조금의 <b>건별 원문</b>은 선관위 회계보고서(열람·정보공개청구)에, 의원 지출내역은 아래 ③에서 <b>엑셀로 전체 다운로드</b>할 수 있습니다.</p>
         </div>
       </details>
 
       <details class="pf-acc">
-        <summary><span>③ ‘국장 개인 급여’처럼 더 깊은 건별 내역은 어떻게 보나</span><span>▾</span></summary>
+        <summary><span>③ 전체 ‘건별’ 실데이터 — 직접 다운로드·조회</span><span>▾</span></summary>
         <div class="pf-acc-in">
-          <p class="pf-mini" style="font-size:.87rem">개인 실명·개인별 급여 같은 <b>최세부 내역은 선관위가 일반에 공개하지 않습니다.</b> 다만 아래 경로로 <b>건별(영수증 단위)</b>까지 직접 확인할 수 있습니다.</p>
-          <ul class="pf-howto">
-            <li><b>선관위 정치자금 회계보고 열람</b> — 매년 공개 기간에 정당·의원 회계보고서 열람.</li>
-            <li><b>정보공개청구 (open.nec.go.kr)</b> — 실명인증 후 특정 정당·의원의 <b>건별 지출 원문</b> 청구.</li>
-            <li><b>오마이뉴스 의원별 검색 · GitHub 원본</b> — 의원별 엑셀로 모든 지출 건 내려받기.</li>
-          </ul>
+          <p class="pf-mini" style="font-size:.87rem"><b>의원별 모든 지출 건(2012~2023)</b>은 언론 3사가 공개한 <b>엑셀 원본</b>으로 누구나 내려받을 수 있습니다. 정당 보조금 <b>건별 원문</b>은 선관위 회계보고 열람·정보공개청구로 확인합니다. 단, <b>개인 실명·개인별 급여(예: 특정 국장 연봉)는 선관위가 공개하지 않습니다.</b></p>
           <div class="pf-cta" style="margin-top:12px">
-            <a href="https://open.nec.go.kr" target="_blank" rel="noopener">📑 선관위 정보공개(건별 원문) ↗</a>
+            <a href="https://github.com/OhmyNews/KA-money" target="_blank" rel="noopener">📊 의원별 전체 지출내역 엑셀 다운로드(실데이터) ↗</a>
+            <a class="alt" href="https://open.nec.go.kr" target="_blank" rel="noopener">📑 선관위 정보공개(건별 원문) ↗</a>
             <a class="alt" href="http://www.ohmynews.com/NWS_Web/Event/Special/20spf.aspx" target="_blank" rel="noopener">🔍 오마이뉴스 의원별 검색 ↗</a>
-            <a class="alt" href="https://github.com/OhmyNews/KA-money" target="_blank" rel="noopener">📊 원본 데이터(GitHub) ↗</a>
           </div>
         </div>
       </details>
