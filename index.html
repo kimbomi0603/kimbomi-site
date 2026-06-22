@@ -6013,10 +6013,16 @@ function parse억(t){t=String(t||'');var m=t.match(/([\d,.]+)\s*조/);var v=0;if
 function fmt억(v){return v>=10000?(v/10000).toFixed(1)+'조원':(v>=1?v.toFixed(1)+'억원':Math.round(v*10000).toLocaleString('ko-KR')+'만원');}
 function chanLinks(q){
   var e=encodeURIComponent(q||'정책');
-  return '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:9px;margin-top:8px">'
-    +'<a href="https://www.gov.kr/search/applSearchResult?srhQuery='+e+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:10px;text-decoration:none;color:#0b2545"><b>정부24</b><div style="font-size:.74rem;color:#475569">전국 정책·민원 통합검색</div></a>'
-    +'<a href="https://www.law.go.kr/LSW/ordinSc.do?menuId=2&query='+e+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:10px;text-decoration:none;color:#0b2545"><b>자치법규(조례)</b><div style="font-size:.74rem;color:#475569">법령·조례 근거 확인</div></a>'
-    +'<a href="https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/searchTwataaWlfareInfoForm.do?keyword='+e+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:10px;text-decoration:none;color:#0b2545"><b>복지로</b><div style="font-size:.74rem;color:#475569">복지정책 검색</div></a>'
+  var L=[
+    ['정부24','전국 정책·민원·혜택 통합검색','https://www.gov.kr/search/applSearchResult?srhQuery='+e],
+    ['보조금24','정부 보조금·수당·바우처 안내','https://www.gov.kr/portal/rcvfvrSvc/main'],
+    ['복지로','중앙·지자체 복지서비스 검색','https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/searchTwataaWlfareInfoForm.do?keyword='+e],
+    ['온통청년','청년 일자리·주거·복지 정책','https://www.youthcenter.go.kr/main.do'],
+    ['자치법규(조례)','우리 지역 조례·법령 근거','https://www.law.go.kr/LSW/ordinSc.do?menuId=2&query='+e]
+  ];
+  return '<div style="font-size:.82rem;font-weight:800;color:#15448f;margin:6px 0 7px">🔗 공식 포털에서 “'+esc(q||'키워드')+'” 바로 검색 — 관련 정책을 모두 확인하세요</div>'
+    +'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:9px">'
+    +L.map(function(x){return '<a href="'+x[2]+'" target="_blank" rel="noopener" style="display:block;background:#f6f9ff;border:1px solid #d9e6f5;border-radius:10px;padding:10px 12px;text-decoration:none;color:#0b2545"><b>'+x[0]+' ↗</b><div style="font-size:.74rem;color:#475569;margin-top:2px">'+x[1]+'</div></a>';}).join('')
     +'</div>';
 }
 function gotoAction(){ try{window.forceCloseAllModals();}catch(e){} var a=$('action'); if(a) a.scrollIntoView({behavior:'smooth',block:'start'}); }
