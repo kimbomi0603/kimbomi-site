@@ -38,6 +38,12 @@
   .alme-tag{color:#b5832f;font-weight:800;font-size:clamp(.96rem,2vw,1.08rem)}
   .alme-loc{margin-top:12px;color:#56616e;font-weight:700;font-size:.84rem}
   .alme-sched{margin-top:6px;display:inline-flex;align-items:center;gap:6px;color:#0c8a74;font-weight:800;font-size:.8rem;background:rgba(22,224,192,.12);padding:4px 12px;border-radius:999px}
+  .alme-entry{display:flex;flex-direction:column;gap:3px;width:100%;margin:14px 0 6px;padding:14px 18px;cursor:pointer;text-align:left;
+    background:linear-gradient(135deg,#0a1c33,#11314a);color:#fff;border:2px solid #16e0c0;border-radius:14px;font-family:inherit;
+    box-shadow:0 10px 26px rgba(10,28,51,.25);transition:transform .15s,box-shadow .15s}
+  .alme-entry:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(10,28,51,.35)}
+  .alme-entry .ae-t{font-weight:900;font-size:1.02rem;color:#fff}
+  .alme-entry .ae-s{font-weight:700;font-size:.8rem;color:#bfe9e0}
   .alme-bio{display:flex;gap:16px;align-items:center;background:#fff;border:1px solid rgba(10,28,51,.1);border-left:6px solid #16e0c0;
     border-radius:16px;padding:15px 17px;margin-bottom:22px;box-shadow:0 8px 24px rgba(10,28,51,.08)}
   .alme-photo{flex:none;width:90px;height:112px;object-fit:cover;border-radius:13px;border:2px solid #0a1c33;background:#dfe6ee}
@@ -122,13 +128,23 @@
   function close(){ov.classList.remove('on');document.documentElement.style.overflow='';if(fab)fab.classList.add('on');}
 
   if(!STANDALONE){
-    fab=document.createElement('button');fab.className='alme-fab';fab.innerHTML='<i></i><span>📜</span>';
-    fab.onclick=open;document.body.appendChild(fab);
     var xb=ov.querySelector('.alme-x'); if(xb) xb.onclick=close;
     ov.addEventListener('click',function(e){if(e.target===ov)close();});
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&ov.classList.contains('on'))close();});
-    if(document.readyState==='complete'||document.readyState==='interactive'){setTimeout(open,500);}
-    else{window.addEventListener('DOMContentLoaded',function(){setTimeout(open,500);});}
+    var injectEntry=function(){
+      var ab=document.getElementById('aboutOverlay'); if(!ab) return false;
+      if(ab.querySelector('.alme-entry')) return true;
+      var hs=[].slice.call(ab.querySelectorAll('h2,h3')); var anchor=null;
+      for(var i=0;i<hs.length;i++){ if(/혁신적 재정 운동가|金甫美|Kim Bomi/.test(hs[i].textContent)){anchor=hs[i];break;} }
+      var b=document.createElement('button'); b.type='button'; b.className='alme-entry';
+      b.innerHTML='<span class="ae-t">🇸🇪 2026 알메달렌 광장연설 보기</span><span class="ae-s">스웨덴어 · English · 한국어 · 전문</span>';
+      b.onclick=function(e){e.preventDefault();e.stopPropagation();open();};
+      var body=ab.querySelector('.detail-body')||ab;
+      if(anchor&&anchor.parentNode){ anchor.parentNode.insertBefore(b, anchor.nextSibling); } else { body.insertBefore(b, body.firstChild); }
+      return true;
+    };
+    injectEntry();
+    var _t=0, _iv=setInterval(function(){ if(injectEntry()||++_t>30) clearInterval(_iv); }, 500);
   }else{
     render();ov.classList.add('on');
   }
