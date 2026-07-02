@@ -159,6 +159,12 @@ textarea.field{resize:vertical}
 .tl p{margin:0;color:var(--muted);font-size:.98rem}
 .roles{margin-top:36px;padding-top:26px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px}
 .roles span{font-size:.9rem;font-weight:600;color:#33405a;background:var(--tint);border-radius:999px;padding:8px 15px}
+.bio{margin-top:38px;border-top:1px solid var(--line)}
+.bio-row{display:grid;grid-template-columns:66px 1fr;gap:20px;align-items:baseline;padding:15px 2px;border-bottom:1px solid var(--line)}
+.bio-row:last-child{border-bottom:0}
+.bio-lab{font-family:var(--serif);font-weight:700;color:var(--dpk);font-size:1.02rem;letter-spacing:.02em}
+.bio-val{color:#3c4759;font-size:1rem;line-height:1.72}
+@media(max-width:600px){.bio-row{grid-template-columns:52px 1fr;gap:14px}}
 .record-more{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap}
 .record-more a{display:inline-flex;align-items:center;gap:10px;font-weight:700;color:var(--dpk);border:1.5px solid var(--dpk);border-radius:999px;padding:13px 26px;transition:.18s}
 .record-more a:hover{background:var(--tint)}
@@ -383,7 +389,7 @@ footer .flink:hover{color:#fff}
     <div class="wrap">
       <div class="sec-head">
         <p class="eyebrow">김보미는</p>
-        <h2>말이 아니라, 실천과 결과로 책임져 온 시간.</h2>
+        <h2>실력과 결과로 증명해 온 시간.</h2>
         <p>정치 13년, 지방의원 8년. 여성·청년·지방의 힘으로 "지방에서 시작된 변화가 대한민국을 바꾼다"를 증명해 왔습니다.</p>
       </div>
       <div class="timeline">
@@ -393,14 +399,19 @@ footer .flink:hover{color:#fff}
         <div class="tl"><div class="yr">2024 · 34세</div><h4>청년 정치 플랫폼 구축</h4><p>더민주전국혁신회의 상임대표로 '더민주청년혁신회의' 출범. 지역과 중앙을 잇는 청년 정치 플랫폼 설계·운영.</p></div>
         <div class="tl"><div class="yr">2026 · 36세</div><h4>강진군수 도전, 그리고 당대표 도전</h4><p>제9회 지방선거에서 전국 최연소로 기초단체장(전라남도 강진군수)에 도전했습니다. 이제 문제 제기를 넘어 문제 해결의 주체로, 새로운 시대·새로운 민주당을 향해 나섭니다.</p></div>
       </div>
-      <div class="roles">
-        <span>강진고(26회) · 전남대학교 졸업 · 일반대학원 석사 수료</span>
-        <span>現 전남대학교 총동창회 부회장</span>
-        <span>現 더불어민주당 참좋은지방정부위원회 상임위원</span>
-        <span>現 더불어민주당 청년정책연구소 부소장</span>
-        <span>前 더민주전국혁신회의 상임대표</span>
-        <span>前 더민주청년혁신회의 상임대표</span>
-        <span>前 (사)한국청년문화예술인협회 창립회장</span>
+      <div class="bio">
+        <div class="bio-row">
+          <div class="bio-lab">학력</div>
+          <div class="bio-val">강진고등학교(26회) 졸업 · 전남대학교 졸업 · 일반대학원 석사 수료</div>
+        </div>
+        <div class="bio-row">
+          <div class="bio-lab">現</div>
+          <div class="bio-val">전남대학교 총동창회 부회장 · 더불어민주당 참좋은지방정부위원회 상임위원 · 더불어민주당 청년정책연구소 부소장</div>
+        </div>
+        <div class="bio-row">
+          <div class="bio-lab">前</div>
+          <div class="bio-val">전라남도 강진군의회 의원(제8·9대) · 제9대 전반기 의장 · 더민주전국혁신회의 상임대표 · 더민주청년혁신회의 상임대표 · (사)한국청년문화예술인협회 창립회장</div>
+        </div>
       </div>
       <div class="record-more"><a href="narasalim.html">제가 만든 시민 재정 감시 플랫폼 '나라살림 돋보기' 보기 &rarr;</a><a href="https://namu.wiki/w/%EA%B9%80%EB%B3%B4%EB%AF%B8(%EC%A0%95%EC%B9%98%EC%9D%B8)" target="_blank" rel="noopener">나무위키 프로필 &rarr;</a></div>
     </div>
@@ -411,7 +422,7 @@ footer .flink:hover{color:#fff}
       <div class="sec-head tc">
         <p class="eyebrow">주요 의정 성과</p>
         <h2>변화와 혁신의 자치분권 2.0</h2>
-        <p>8년의 의정활동, 말이 아닌 데이터와 결과로 증명해 온 김보미의 실력입니다.</p>
+        <p>8년의 의정활동, 말이 아닌 데이터와 결과로 말하는 김보미의 실력입니다.</p>
       </div>
       <div class="rec-grid">
         <div class="rec-card">
