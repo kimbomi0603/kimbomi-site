@@ -1121,13 +1121,13 @@ h1{letter-spacing:-.035em;font-weight:900}
 .g365foot .legal{font-size:.76rem;color:rgba(255,255,255,.55);display:flex;flex-wrap:wrap;justify-content:center;gap:4px 10px;line-height:1.7}
 .g365foot .legal a{color:rgba(255,255,255,.7);text-decoration:none}
 .g365foot .legal a:hover{color:#fff;text-decoration:underline}
+@media(max-width:600px){.kb-tag{display:none}}
 </style>
 <header class="g365bar">
   <div class="g365bar-in">
     <a href="index.html" class="g365-logo" aria-label="김보미.com 홈">
-      <span class="nm">김보미.com</span>
-      <span class="beta">Beta</span>
-      <span class="tag">모두의 봄, 나라살림 돋보기</span>
+      <span class="nm" style="font-weight:800;color:#15223b;letter-spacing:-.01em">김보미<span style="color:#004EA2">.com</span></span>
+      <span class="kb-tag" style="font-size:.66rem;font-weight:700;color:#004EA2;background:#eaf1fb;border-radius:999px;padding:4px 10px;letter-spacing:.02em;white-space:nowrap">더불어민주당 당대표 후보</span>
     </a>
     <nav class="g365-nav" aria-label="주요 메뉴">
       <a href="javascript:void(0)" onclick="g365Go('diag3')">🩺 우리동네 3초진단</a>
@@ -6472,6 +6472,6 @@ function g365Go(kind){
 </script>
 
 <script defer src="/almedalen.js"></script>
-<!--KBHOME--><script>document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('#introFab, .g365-logo');if(t){e.preventDefault();e.stopImmediatePropagation();e.stopPropagation();location.href='index.html';}},true);</script>
+<!--KBHOME--><script>document.addEventListener('click',function(e){var el=e.target.closest&&e.target.closest('a,button');if(!el)return;var home=el.matches&&el.matches('#introFab,.g365-logo');var oc=(el.getAttribute&&el.getAttribute('onclick'))||'';var about=el.id==='navAbout'||oc.indexOf("g365Go('about')")>=0;if(home||about){e.preventDefault();e.stopImmediatePropagation();e.stopPropagation();location.href='index.html';}},true);</script>
 </body>
 </html>

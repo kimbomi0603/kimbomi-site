@@ -163,6 +163,17 @@ textarea.field{resize:vertical}
 .record-more a{display:inline-flex;align-items:center;gap:10px;font-weight:700;color:var(--dpk);border:1.5px solid var(--dpk);border-radius:999px;padding:13px 26px;transition:.18s}
 .record-more a:hover{background:var(--tint)}
 
+.record{background:var(--cream)}
+.rec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.rec-card{background:#fff;border:1px solid var(--tint-2);border-radius:18px;padding:30px 32px;box-shadow:0 14px 34px rgba(0,44,94,.06)}
+.rec-card .lab{display:inline-block;font-size:.74rem;font-weight:700;letter-spacing:.1em;color:#fff;background:var(--dpk);border-radius:999px;padding:5px 13px;margin-bottom:14px}
+.rec-card h3{font-size:1.3rem;line-height:1.35;margin-bottom:16px}
+.rec-card ul{list-style:none;margin:0;padding:0}
+.rec-card li{position:relative;padding-left:19px;margin-bottom:12px;color:#3c4759;font-size:.97rem;line-height:1.62}
+.rec-card li:last-child{margin-bottom:0}
+.rec-card li::before{content:"";position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;background:var(--dpk)}
+.rec-card li b{color:var(--dpk);font-weight:700}
+.rec-note{margin-top:26px;font-size:.9rem;color:var(--muted);text-align:center}
 .press{background:#fafbfd;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .art-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .art{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;transition:.18s}
@@ -223,7 +234,7 @@ footer .flink:hover{color:#fff}
   .stats{margin-top:44px}
   .stats .grid{grid-template-columns:repeat(2,1fr)}
   .stat:nth-child(3){border-left:0}
-  .pillars,.chan,.join .grid,.fgrid,.pledge .plist,.tw-grid,.art-grid{grid-template-columns:1fr}
+  .pillars,.chan,.join .grid,.fgrid,.pledge .plist,.tw-grid,.rec-grid,.art-grid{grid-template-columns:1fr}
   .pillar{padding:26px 0;border-left:0;border-top:1px solid var(--line)}
   .pillar:first-child{border-top:0;padding-top:0}
   section{padding:60px 0}
@@ -383,12 +394,67 @@ footer .flink:hover{color:#fff}
         <div class="tl"><div class="yr">2026 · 36세</div><h4>강진군수 도전, 그리고 당대표 도전</h4><p>제9회 지방선거에서 전국 최연소로 기초단체장(전라남도 강진군수)에 도전했습니다. 이제 문제 제기를 넘어 문제 해결의 주체로, 새로운 시대·새로운 민주당을 향해 나섭니다.</p></div>
       </div>
       <div class="roles">
+        <span>강진고(26회) · 전남대학교 졸업 · 일반대학원 석사 수료</span>
         <span>現 전남대학교 총동창회 부회장</span>
         <span>現 더불어민주당 참좋은지방정부위원회 상임위원</span>
         <span>現 더불어민주당 청년정책연구소 부소장</span>
         <span>前 더민주전국혁신회의 상임대표</span>
+        <span>前 더민주청년혁신회의 상임대표</span>
+        <span>前 (사)한국청년문화예술인협회 창립회장</span>
       </div>
       <div class="record-more"><a href="narasalim.html">제가 만든 시민 재정 감시 플랫폼 '나라살림 돋보기' 보기 &rarr;</a><a href="https://namu.wiki/w/%EA%B9%80%EB%B3%B4%EB%AF%B8(%EC%A0%95%EC%B9%98%EC%9D%B8)" target="_blank" rel="noopener">나무위키 프로필 &rarr;</a></div>
+    </div>
+  </section>
+
+  <section class="record" id="record">
+    <div class="wrap">
+      <div class="sec-head tc">
+        <p class="eyebrow">주요 의정 성과</p>
+        <h2>변화와 혁신의 자치분권 2.0</h2>
+        <p>8년의 의정활동, 말이 아닌 데이터와 결과로 증명해 온 김보미의 실력입니다.</p>
+      </div>
+      <div class="rec-grid">
+        <div class="rec-card">
+          <span class="lab">투명성·소통</span>
+          <h3>열린 의회</h3>
+          <ul>
+            <li>제8대 <b>4년치 언론 노출(약 970건)</b>을 제9대 단 1년 만에 돌파 &mdash; '변화와 혁신의 의회'로 주목</li>
+            <li>페이스북·인스타그램·블로그 신규 개설 &mdash; 조례·의사일정·입법예고를 카드뉴스로 전달</li>
+            <li>유튜브 채널로 본회의·행정사무감사 <b>실시간 생중계</b> 및 의정 하이라이트 제공</li>
+            <li>업무추진비 사용내역 정보공개 게시판 <b>상시 전면 공개</b></li>
+          </ul>
+        </div>
+        <div class="rec-card">
+          <span class="lab">견제·감시</span>
+          <h3>일하는 의회</h3>
+          <ul>
+            <li>강진군의회 개원 이래 <b>최초 '일문일답 군정질문'</b> 도입 &mdash; 집행부 정책 실시간 검증</li>
+            <li>역대 최대 규모 낭비성 예산 <b>108억원 삭감</b> (2023 본예산 4,790억의 2.25%)</li>
+            <li>역대 최다 행정사무감사 <b>시정요구 195건</b></li>
+            <li>조례 <b>165건 제·개정</b>(제8대 전반기 대비 +44%) · 대표발의 24건 · 조례정비특위 운영</li>
+          </ul>
+        </div>
+        <div class="rec-card">
+          <span class="lab">인구소멸 대응</span>
+          <h3>체감형 복지</h3>
+          <ul>
+            <li>전남 최초·전국 최고 수준 <b>강진형 육아양육수당</b> &mdash; 소득·자녀수 무관, 자녀 1명당 만 7세까지 월 60만원(아동 1인 최대 5,040만원)</li>
+            <li>시행 후 출생아·전입 인구 증가 + 전액 지역화폐 지급으로 골목경제 활성화</li>
+            <li><b>8년 연속</b> 12월 의정활동비 전액 지역아동센터 기탁</li>
+            <li>최초 AI 참여행정·재정 플랫폼 『대한민국 재정 365』 구축</li>
+          </ul>
+        </div>
+        <div class="rec-card">
+          <span class="lab">광역·중앙 공조</span>
+          <h3>숙원 해결</h3>
+          <ul>
+            <li>강진~마량 4차선 확·포장, 강진만 패류 보상금 신속 지급, 월출산 생태탐방원 유치, 호남고속철 강진 구간 연장 등 <b>대정부 건의</b></li>
+            <li>군의원&ndash;도의원&ndash;국회의원 <b>'원팀' 공조체계</b> 구축</li>
+            <li>'도군도군 신강진 공부 모임' 정례 추진 &mdash; 현안 공유·공동 전략 마련</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rec-note">※ 제8·9대 전라남도 강진군의회 의원 · 제9대 전반기 의장 재임 중 주요 성과</div>
     </div>
   </section>
 
@@ -499,6 +565,7 @@ footer .flink:hover{color:#fff}
         <a class="flink" href="manifesto.html">출사표</a>
         <a class="flink" href="#vision">비전·공약</a>
         <a class="flink" href="#journey">김보미는</a>
+        <a class="flink" href="#record">의정 성과</a>
         <a class="flink" href="#press">기사 모음</a>
         <a class="flink" href="#thoughts">생각 나누기</a>
         <a class="flink" href="narasalim.html">나라살림 돋보기</a>
