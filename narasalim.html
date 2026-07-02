@@ -6472,6 +6472,6 @@ function g365Go(kind){
 </script>
 
 <script defer src="/almedalen.js"></script>
-<!--KBHOME--><script>window.addEventListener('load',function(){function home(e){if(e){e.preventDefault();e.stopImmediatePropagation();}location.href='index.html';}var f=document.getElementById('introFab');if(f){var n=f.cloneNode(true);n.addEventListener('click',home,true);n.setAttribute('title','김보미.com 홈으로');n.setAttribute('aria-label','김보미.com 홈으로');f.parentNode.replaceChild(n,f);}var lg=document.querySelector('.g365-logo');if(lg){var m=lg.cloneNode(true);m.setAttribute('href','index.html');m.addEventListener('click',home,true);lg.parentNode.replaceChild(m,lg);}});</script>
+<!--KBHOME--><script>document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('#introFab, .g365-logo');if(t){e.preventDefault();e.stopImmediatePropagation();e.stopPropagation();location.href='index.html';}},true);</script>
 </body>
 </html>
