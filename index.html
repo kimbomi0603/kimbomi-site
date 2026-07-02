@@ -184,6 +184,15 @@ textarea.field{resize:vertical}
 .rec-card li::before{content:"";position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;background:var(--dpk)}
 .rec-card li b{color:var(--dpk);font-weight:700}
 .rec-note{margin-top:26px;font-size:.9rem;color:var(--muted);text-align:center}
+.proof{background:#fff;border-top:1px solid var(--line)}
+.proof-nums{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:38px}
+.pnum{background:var(--tint);border-radius:18px;padding:26px 20px;text-align:center}
+.pnum .n{font-family:var(--serif);font-weight:700;font-size:1.8rem;color:var(--dpk);line-height:1.14}
+.pnum .l{margin-top:9px;font-size:.9rem;color:#42506a;font-weight:600}
+.proof-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:14px 34px}
+.proof-list li{position:relative;padding-left:32px;color:#33405a;font-size:1rem;line-height:1.55}
+.proof-list li::before{content:"";position:absolute;left:0;top:1px;width:21px;height:21px;border-radius:50%;background:var(--dpk) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/13px no-repeat}
+@media(max-width:860px){.proof-nums{grid-template-columns:repeat(2,1fr)}.proof-list{grid-template-columns:1fr}}
 .press{background:#fafbfd;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .art-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .art{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;transition:.18s}
@@ -379,7 +388,7 @@ footer .flink:hover{color:#fff}
           </div>
           <textarea class="field" id="twMsg" placeholder="여러분이 그리는 민주당, 만들고 싶은 대한민국을 자유롭게 남겨주세요." maxlength="1000" required></textarea>
           <button type="submit" class="btn btn-primary">생각 남기기</button>
-          <p class="tw-note">남겨주신 생각은 소중히 모아 더 나은 민주당을 만드는 데 사용됩니다.</p>
+          <p class="tw-note">남겨주신 생각은 매일 모두 읽고, 모아서 공약과 활동으로 답하겠습니다.</p>
         </form>
         <div class="tw-wall">
           <div class="tw-wall-head"><span>함께 나눈 생각</span> <span class="c" id="twCount">0</span></div>
@@ -389,19 +398,49 @@ footer .flink:hover{color:#fff}
     </div>
   </section>
 
+  <section class="proof" id="proof">
+    <div class="wrap">
+      <div class="sec-head tc">
+        <p class="eyebrow">한눈에 보는 실적</p>
+        <h2>숫자와 결과로 증명합니다.</h2>
+      </div>
+      <div class="proof-nums">
+        <div class="pnum"><div class="n">13년</div><div class="l">더불어민주당 정당활동</div></div>
+        <div class="pnum"><div class="n">만 32세</div><div class="l">전국 최연소 기초의회 의장</div></div>
+        <div class="pnum"><div class="n">하루 1,000명</div><div class="l">불신임 철회 지지 서명</div></div>
+        <div class="pnum"><div class="n">62개</div><div class="l">5대 분야 정책 공약집</div></div>
+      </div>
+      <ul class="proof-list">
+        <li>업무추진비 전면 공개 — 지방의회 투명성의 새 기준</li>
+        <li>사상 최초 '일문일답' 군정질문 도입</li>
+        <li>역대 최대 규모 낭비예산 삭감</li>
+        <li>육아양육수당 지원 조례 대표 발의</li>
+        <li>매년 12월 의정활동비·수당 전액 지역사회 기탁</li>
+        <li>100여 건 허위·비방 보도 손해배상 승소 (2024)</li>
+        <li>표적 고소·감사·수사 전 건 '혐의없음·불송치' 종결</li>
+        <li>시민 재정감시 플랫폼 '나라살림 돋보기'·'김보미365' 구축</li>
+        <li>전남·광주 '청년결정정부' AI 통합 디지털 플랫폼 참여 (2026)</li>
+        <li>세계 최대 민주주의 축제 '알메달렌' 참가 (2026)</li>
+      </ul>
+    </div>
+  </section>
+
   <section id="journey">
     <div class="wrap">
       <div class="sec-head">
         <p class="eyebrow">김보미는</p>
         <h2>실력과 결과로 증명해 온 시간.</h2>
-        <p>정치 13년, 지방의원 8년. 여성·청년·지방의 힘으로 "지방에서 시작된 변화가 대한민국을 바꾼다"를 증명해 왔습니다.</p>
+        <p>정당활동 13년, 의정활동 8년. 여성·청년·지방의 힘으로 "지방에서 시작된 변화가 대한민국을 바꾼다"를 증명해 왔습니다.</p>
       </div>
       <div class="timeline">
         <div class="tl"><div class="yr">2013 · 23세</div><h4>더불어민주당 입당</h4><p>'내 고장 강진에서부터 대한민국을 바꿔보겠다'는 꿈으로 변화와 혁신의 첫걸음.</p></div>
         <div class="tl"><div class="yr">2018 · 28세</div><h4>지역 최초의 청년 군의원</h4><p>통합 최다득표 1순위로 당선. 강진군의회 역대 최연소이자 지역 최초 20대 여성·청년 의원.</p></div>
         <div class="tl"><div class="yr">2022 · 32세</div><h4>전국 최연소 기초의회 의장</h4><p>재선 후 전국 최연소 의장 선출. 업무추진비 전면 공개, 최대 규모 낭비예산 삭감, 사상 최초 '일문일답' 군정질문 도입.</p></div>
+        <div class="tl"><div class="yr">2022–2024 · 시련</div><h4>표적 징계·수난, 그러나 굽히지 않은 진실</h4><p>세 번째 정밀심사 표적, 여론조사 후보 이름 배제, 100여 건의 허위·비방 보도. 그러나 표적 고소·감사·수사는 전 건 '혐의없음·불송치'로 종결됐고, 허위보도 손해배상 소송에서도 승소(2024)했습니다.</p></div>
         <div class="tl"><div class="yr">2024 · 34세</div><h4>청년 정치 플랫폼 구축</h4><p>더민주전국혁신회의 상임대표로 '더민주청년혁신회의' 출범. 지역과 중앙을 잇는 청년 정치 플랫폼 설계·운영.</p></div>
-        <div class="tl"><div class="yr">2026 · 36세</div><h4>강진군수 도전, 그리고 당대표 도전</h4><p>제9회 지방선거에서 전국 최연소로 기초단체장(전라남도 강진군수)에 도전했습니다. 이제 문제 제기를 넘어 문제 해결의 주체로, 새로운 시대·새로운 민주당을 향해 나섭니다.</p></div>
+        <div class="tl"><div class="yr">2026 · 36세</div><h4>강진군수 도전</h4><p>제9회 지방선거에서 전국 최연소로 기초단체장(전라남도 강진군수)에 도전했습니다. 화환 대신 3,000원 공약집으로 채운 개소식 — 문제 제기를 넘어 문제 해결의 주체로 나섰습니다.</p></div>
+        <div class="tl"><div class="yr">2026 · 승복의 품격</div><h4>&ldquo;경선 결과를 겸허히 받아들입니다.&rdquo;</h4><p>억울함을 삼키고 당 후보들의 본선 승리를 도왔습니다. 승자도 패자도 함께 빛나는 민주당 — 말이 아니라 행동으로 먼저 보여드렸습니다.</p></div>
+        <div class="tl"><div class="yr">2026 · 당대표 도전</div><h4>새로운 시대, 새로운 민주당</h4><p>이제 새로운 시대의 민주당을 향해 나섭니다. 뽑고 싶은 민주당, 뽑고 싶은 김보미 — 청년이 주도하는 전면적 세대교체를 완성하겠습니다.</p></div>
       </div>
       <div class="bio">
         <div class="bio-row">
@@ -481,15 +520,11 @@ footer .flink:hover{color:#fff}
         <p>청년 정치의 도전과 수난, 재정 혁신까지 — 주요 언론이 기록한 김보미의 발자취입니다.</p>
       </div>
       <div class="art-grid">
-        <a class="art" href="http://www.kwangju.co.kr/news_view.php?aid=1528988400633930004" target="_blank" rel="noopener"><div class="src">광주일보 <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg></div><div class="t">[이색당선자] 20대 청자도공 아가씨… 광주일보 선정 '뉴파워'</div></a>
-        <a class="art" href="https://www.news1.kr/local/gwangju-jeonnam/4053058" target="_blank" rel="noopener"><div class="src">뉴스1 <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg></div><div class="t">민주당 전남도당, 강진군의회 문춘단·김보미 의원 제명</div></a>
-        <a class="art" href="https://www.newsworker.co.kr/news/articleView.html?idxno=160661" target="_blank" rel="noopener"><div class="src">뉴스워커 <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg></div><div class="t">김보미 당선인, 강진군의원 최다득표… '재선 성공'</div></a>
         <a class="art" href="https://www.seoul.co.kr/news/newsView.php?id=20220710500041" target="_blank" rel="noopener"><div class="src">서울신문 <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg></div><div class="t">만 32세 김보미 강진군의장… 전국 최연소 기초의회 의장 영예</div></a>
+        <a class="art" href="http://www.kwangju.co.kr/news_view.php?aid=1528988400633930004" target="_blank" rel="noopener"><div class="src">광주일보 <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg></div><div class="t">[이색당선자] 20대 청자도공 아가씨… 광주일보 선정 '뉴파워'</div></a>
+        <a class="art" href="https://www.newsworker.co.kr/news/articleView.html?idxno=160661" target="_blank" rel="noopener"><div class="src">뉴스워커 <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg></div><div class="t">김보미 당선인, 강진군의원 최다득표… '재선 성공'</div></a>
+        <a class="art" href="https://m.ekn.kr/view.php?key=20241129027529049" target="_blank" rel="noopener"><div class="src">에너지경제 <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg></div><div class="t">허위보도 손해배상 소송 승소 — 김보미 전 의장 '가짜뉴스에 맞선 작은 승리'</div></a>
         <a class="art" href="https://www.hani.co.kr/arti/area/area_general/1141526.html" target="_blank" rel="noopener"><div class="src">한겨레 <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg></div><div class="t">당적 박탈·불신임·수사… 34살 최연소 여성의장 '청년정치 수난기'</div></a>
-        <a class="art" href="https://www.khan.co.kr/article/202405250900051" target="_blank" rel="noopener"><div class="src">경향신문 <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg></div><div class="t">'최연소 의장'의 수난… 강진군의회에 무슨 일이</div></a>
-        <a class="art" href="https://www.cnbnews.com/news/articleView.html?idxno=778985" target="_blank" rel="noopener"><div class="src">CNB뉴스 <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg></div><div class="t">김보미 강진군의원, 강진군수 출마 선언</div></a>
-        <a class="art" href="https://www.kukinews.com/article/view/kuk202601250034" target="_blank" rel="noopener"><div class="src">쿠키뉴스 <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg></div><div class="t">'강진의 봄' 김보미, 출판기념회서 강진 미래 비전 제시</div></a>
-        <a class="art" href="https://www.newstnt.com/news/articleView.html?idxno=601158" target="_blank" rel="noopener"><div class="src">뉴스티앤티 <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg></div><div class="t">김보미 강진군수 예비후보, 정책 공약집 전격 발간</div></a>
         <a class="art" href="https://www.khan.co.kr/article/202603210800001" target="_blank" rel="noopener"><div class="src">경향신문 <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg></div><div class="t">징계엔 엄격, 범죄엔 관대?… 민주당 공천지침 '이중잣대' 논란</div></a>
       </div>
     </div>
@@ -616,6 +651,7 @@ footer .flink:hover{color:#fff}
   function fmt(d){try{return new Date(d).toLocaleDateString('ko-KR')}catch(e){return ''}}
   function paint(items){
     cntEl.textContent=items.length;
+    cntEl.style.display=items.length>=10?'':'none';
     if(!items.length){listEl.innerHTML='<div class="tw-empty">아직 남겨진 생각이 없어요.<br>첫 생각을 나눠주세요.</div>';return;}
     listEl.innerHTML=items.map(function(t){
       var who=[t.name,t.region].filter(Boolean).join(' · ')||'익명';
