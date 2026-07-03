@@ -626,19 +626,19 @@ function drawPaddle(){
   const cx = paddle.x + paddle.w/2;
   const topY = paddle.y + paddle.h;
   ctx.fillStyle = boosted ? "#8A5A20" : "#5A3812";
-  ctx.fillRect(cx-5, topY-2, 10, 6);
-  const gy = topY + 3, gripW = 24, gripH = 15;
+  ctx.fillRect(cx-6, topY-2, 12, 7);
+  const gy = topY + 4, gripW = 32, gripH = 19;
   const gg = ctx.createLinearGradient(cx, gy, cx, gy+gripH);
   gg.addColorStop(0, boosted ? "#E4B45E" : "#B07B3E");
   gg.addColorStop(1, boosted ? "#A96E2C" : "#5A3812");
   ctx.fillStyle = gg;
-  roundRect(cx-gripW/2, gy, gripW, gripH, 7); ctx.fill();
+  roundRect(cx-gripW/2, gy, gripW, gripH, 8); ctx.fill();
   ctx.strokeStyle = "rgba(30,18,6,.5)"; ctx.lineWidth = 1;
-  roundRect(cx-gripW/2, gy, gripW, gripH, 7); ctx.stroke();
-  ctx.strokeStyle = "rgba(255,240,220,.4)"; ctx.lineWidth = 1.3;
-  for(let gi=0; gi<2; gi++){
+  roundRect(cx-gripW/2, gy, gripW, gripH, 8); ctx.stroke();
+  ctx.strokeStyle = "rgba(255,240,220,.42)"; ctx.lineWidth = 1.4;
+  for(let gi=0; gi<3; gi++){
     const ly = gy + 5 + gi*5;
-    ctx.beginPath(); ctx.moveTo(cx-gripW/2+5, ly); ctx.lineTo(cx+gripW/2-5, ly); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx-gripW/2+6, ly); ctx.lineTo(cx+gripW/2-6, ly); ctx.stroke();
   }
 }
 
