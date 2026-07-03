@@ -59,8 +59,20 @@ module.exports = async (req, res) => {
 
     if (action === 'thoughts') {
       var t = await redis(['LRANGE','kb_thoughts',0,499]);
-      var items = (t.result||[]).map(function(s){ try { return JSON.parse(s); } catch(e){ return null; } }).filter(Boolean);
+      var items = (t.result||[]).map(function(s){ try { var o=JSON.parse(s); o._raw=s; return o; } catch(e){ return null; } }).filter(Boolean);
       res.status(200).json({ ok:true, count: items.length, items: items }); return;
+    }
+
+    if (action === 'removethought' && req.method === 'POST') {
+      if (!isAdmin) { res.status(401).json({ ok:false, error:'admin only' }); return; }
+      var raw2 = await readBody(req); var bb = raw2;
+      if (typeof raw2 === 'string') { try { bb = JSON.parse(raw2||'{}'); } catch(e){ bb={}; } }
+      var target = bb && bb.raw;
+      if (!target) { res.status(200).json({ ok:false, error:'no target' }); return; }
+      var rem = await redis(['LREM','kb_thoughts',1,target]);
+      var n = parseInt((rem&&rem.result)||0,10)||0;
+      if (n > 0) { await pipeline([ ['LPUSH','kb_thoughts_removed', target], ['LTRIM','kb_thoughts_removed',0,499] ]); }
+      res.status(200).json({ ok:true, removed:n }); return;
     }
 
     if (action === 'reports') {

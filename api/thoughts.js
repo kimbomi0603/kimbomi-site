@@ -52,6 +52,12 @@ module.exports = async (req, res) => {
     if (!body || typeof body !== "object") body = {};
     const msg = clean(body.msg, 1000);
     if (!msg) return res.status(400).json({ ok: false, error: "empty" });
+    const ip = ((req.headers["x-forwarded-for"] || "").split(",")[0].trim()) || req.headers["x-real-ip"] || "anon";
+    try {
+      const c = await redis(["INCR", "rl:th:" + ip]);
+      if (c === 1) await redis(["EXPIRE", "rl:th:" + ip, "600"]);
+      if (c > 5) return res.status(200).json({ ok: false, configured: true, error: "rate" });
+    } catch (e) {}
     const item = { name: clean(body.name, 20), region: clean(body.region, 20), msg: msg, date: new Date().toISOString() };
     try {
       await redis(["LPUSH", LKEY, JSON.stringify(item)]);
