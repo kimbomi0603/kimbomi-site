@@ -77,6 +77,15 @@ module.exports = async (req, res) => {
       return;
     }
 
+    if (action === 'list') {
+      var offset = Math.max(0, parseInt(req.query.offset,10) || 0);
+      var limit = Math.min(10, Math.max(1, parseInt(req.query.limit,10) || 10));
+      var alll = await redis(['LRANGE', LIST, 0, MAXKEEP-1]);
+      var arrl = parse(alll.result).sort(cmp);
+      res.status(200).json({ ok:true, total:arrl.length, offset:offset, limit:limit, items:arrl.slice(offset, offset+limit) });
+      return;
+    }
+
     if (action === 'all') {
       var akey = req.query.key || req.headers['x-admin-key'] || '';
       if (!ADMIN_KEY || akey !== ADMIN_KEY) { res.status(401).json({ ok:false, error:'unauthorized' }); return; }
