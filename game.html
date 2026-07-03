@@ -148,6 +148,13 @@ h1.title .accent{color:var(--blue-soft)}
 .btn.blue:active{box-shadow:0 2px 0 #103E8F}
 .btn.small{font-size:15px;padding:10px 22px}
 .btnrow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.btn.ghost{color:var(--egg);background:rgba(255,255,255,.07);background-image:none;border:1.5px solid rgba(255,246,227,.5);box-shadow:none}
+.btn.ghost:active{transform:translateY(2px);box-shadow:none}
+.share-sep{font-size:11px;letter-spacing:1px;color:var(--dim);margin:15px 0 8px}
+.share-row{display:flex;gap:10px;justify-content:center}
+.share-row .btn{flex:1;max-width:150px}
+.restart{margin-top:13px;background:none;border:0;color:var(--dim);font-size:12.5px;font-weight:600;font-family:inherit;cursor:pointer}
+.restart:hover{color:var(--egg)}
 
 /* stage clear */
 .clear-kw{
@@ -249,7 +256,7 @@ h1.title .accent{color:var(--blue-soft)}
       <p class="tagline"><b>이번 생에 바꿉시다!</b></p>
       <div class="howto">
         <b style="color:var(--yolk)">10개의 기득권 바위 중 5개가 랜덤 출제!</b> 모두 깨보세요.<br>
-        <b style="color:var(--blue-soft)">5개를 모두 깨면 → 3대 위기(경제·평화·기후) 히든 스테이지!</b><br>
+        <b style="color:var(--blue-soft)">5개를 모두 깨면 → 3대 위기 히든 스테이지 등장!</b><br>
         <span class="k">회초리</span>를 움직여 <span class="k">계란</span>을 튕기세요.<br>
         기득권 바위 속 <span class="k">금빛 핵심 벽돌</span>을 깨면 클리어!<br>
         바위에서 떨어지는 <span class="k">국민의 응원</span>을 받으세요.<br>
@@ -281,26 +288,26 @@ h1.title .accent{color:var(--blue-soft)}
     <!-- 최종 클리어 -->
     <div class="overlay hidden" id="scrFinal">
       <div class="eyebrow">1단계 완료</div>
-      <h1 class="title" style="font-size:30px">공정한 민주당,<br>완성!</h1>
+      <h1 class="title" style="font-size:23px;margin:2px 0 8px">공정한 민주당, 완성!</h1>
       <div class="card" id="resultCard">
         <div class="c-eyebrow">내가 깬 기득권 바위</div>
-        <div class="c-title">기득권 5개,<br>계란으로 깼다</div>
+        <div class="c-title" style="font-size:18px;line-height:1.2;margin-bottom:9px">기득권 5개, 계란으로 깼다</div>
         <div class="c-rocks" id="fRocks"></div>
         <div class="c-stats">
           <div><div class="n" id="fRun">1</div><div class="l">회차 만에</div></div>
           <div><div class="n" id="fScore">0</div><div class="l">점수</div></div>
           <div><div class="n" id="fCleared">5/5</div><div class="l">격파</div></div>
         </div>
-        <div class="c-tags">#민주당을살려야합니다 #이번생에살립시다 #김보미</div>
-        <div class="c-url">김보미.com</div>
+        <div class="c-url">#민주당을살려야합니다 · 김보미.com</div>
       </div>
-      <p class="hidden-tease">이제 <b>대한민국의 성장을 막는 3대 위기</b><br>경제 · 평화 · 기후에 도전하세요!</p>
-      <div class="btnrow"><button class="btn" id="btnHidden" style="width:100%;max-width:none">🔓 히든 스테이지 도전 →</button></div>
-      <div class="btnrow">
-        <button class="btn small" id="btnShare">🥚 결과 공유</button>
-        <button class="btn small" id="btnShareGame">🔗 게임 공유</button>
+      <p class="hidden-tease" style="margin:8px 0 4px">이제 <b>대한민국을 위협하는 3대 위기</b>에 도전!</p>
+      <div class="btnrow"><button class="btn" id="btnHidden" style="width:100%;max-width:none">🔓 히든 스테이지 도전 &rarr;</button></div>
+      <div class="share-sep">— 또는 공유하기 —</div>
+      <div class="share-row">
+        <button class="btn ghost small" id="btnShare">결과 공유</button>
+        <button class="btn ghost small" id="btnShareGame">게임 공유</button>
       </div>
-      <div class="btnrow"><button class="btn blue small" id="btnAgain">처음부터</button></div>
+      <button class="restart" id="btnAgain" type="button">&#8635; 처음부터 다시하기</button>
     </div>
 
     <!-- 히든 클리어: 대한민국 수호 훈장 -->
