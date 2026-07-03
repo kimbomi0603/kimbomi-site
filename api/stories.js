@@ -11,7 +11,7 @@ const RURL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL |
 const RTOK = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || process.env.REDIS_REST_TOKEN;
 const ADMIN_KEY = process.env.ADMIN_KEY || '';
 const MAXKEEP = 300;
-const RKEYS = ['cry','heart','up','fire','lol'];
+const RKEYS = ['cry','heart','up','fire','lol','agree','right','over','change','ache'];
 const ROOMS = { personal:1, party:1 };
 const BADWORDS = ['시발','씨발','ㅅㅂ','병신','ㅂㅅ','개새끼','개새','새끼','좆','존나','꺼져','닥쳐','엿먹','죽어','지랄','미친놈','미친년','fuck','shit','asshole'];
 
