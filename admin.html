@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>관리자 · 김보미.com</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--dpk:#004EA2;--dpk-d:#00376e;--tint:#eaf1fb;--ink:#15223b;--muted:#5a6474;--line:#e7ebf1;--bg:#f5f7fb;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Pretendard',-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.hbar{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{font-weight:800;font-size:1.15rem}.brand .d{color:var(--dpk)}
+.brand .t{font-size:.66rem;font-weight:700;color:var(--dpk);background:var(--tint);border-radius:999px;padding:3px 9px;margin-left:8px}
+.hbtns{display:flex;gap:8px;align-items:center}
+.btn{font-family:inherit;font-weight:700;font-size:.86rem;padding:8px 14px;border-radius:9px;border:1.5px solid var(--dpk);background:#fff;color:var(--dpk);cursor:pointer}
+.btn.p{background:var(--dpk);color:#fff}
+.btn.g{border-color:var(--line);color:var(--muted)}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);background:#fff}
+.tabs .wrap{display:flex;gap:4px}
+.tab{padding:14px 16px;font-weight:700;font-size:.92rem;color:var(--muted);border-bottom:2px solid transparent;cursor:pointer}
+.tab.on{color:var(--dpk);border-bottom-color:var(--dpk)}
+main{padding:26px 0 60px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.card .l{font-size:.8rem;color:var(--muted);font-weight:600}
+.card .n{font-size:1.9rem;font-weight:800;color:var(--dpk);line-height:1.2;margin-top:4px}
+.card .s{font-size:.76rem;color:#9aa3b0;margin-top:2px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:16px}
+.panel h3{font-size:1rem;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.row{display:flex;align-items:center;gap:10px;margin-bottom:9px;font-size:.9rem}
+.row .lab{width:150px;flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#33405a}
+.row .bar{flex:1;height:9px;background:var(--tint);border-radius:5px;overflow:hidden}
+.row .bar i{display:block;height:100%;background:var(--dpk);border-radius:5px}
+.row .v{width:52px;flex:none;text-align:right;font-weight:700;color:var(--dpk);font-variant-numeric:tabular-nums}
+.empty{color:#9aa3b0;font-size:.88rem;padding:14px 0;text-align:center}
+svg.trend{width:100%;height:180px;display:block}
+.tsel{display:flex;align-items:center;gap:8px;margin-bottom:16px;font-size:.9rem}
+select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);border-radius:9px;background:#fff;font-size:.9rem}
+.th{border-bottom:1px solid var(--line);padding:14px 2px}
+.th:last-child{border-bottom:0}
+.th .m{white-space:pre-wrap;word-break:break-word;color:#2b3646}
+.th .meta{margin-top:6px;font-size:.8rem;color:#9aa3b0}
+.rep{border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.rep h4{font-size:.98rem;color:var(--dpk);margin-bottom:6px}
+.rep .d{font-size:.78rem;color:#9aa3b0;margin-bottom:10px}
+.rep pre{white-space:pre-wrap;word-break:break-word;font-family:inherit;font-size:.9rem;color:#2b3646;line-height:1.7}
+/* login */
+.login{max-width:380px;margin:12vh auto;background:#fff;border:1px solid var(--line);border-radius:16px;padding:34px 30px;text-align:center}
+.login h2{font-size:1.3rem;margin-bottom:6px}
+.login p{color:var(--muted);font-size:.9rem;margin-bottom:20px}
+.login input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:11px;font-size:1rem;font-family:inherit;margin-bottom:12px}
+.login input:focus{outline:0;border-color:var(--dpk)}
+.login .btn{width:100%;justify-content:center;padding:12px}
+.err{color:#d23f3f;font-size:.85rem;margin-top:10px;min-height:1em}
+.hide{display:none!important}
+@media(max-width:820px){.cards{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.row .lab{width:110px}}
+</style>
+</head>
+<body>
+
+<div id="loginView">
+  <div class="login">
+    <h2>관리자 로그인</h2>
+    <p>김보미.com 분석 대시보드</p>
+    <input id="keyInput" type="password" placeholder="관리자 비밀키" autocomplete="off">
+    <button class="btn p" id="loginBtn">입장</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+</div>
+
+<div id="appView" class="hide">
+  <header>
+    <div class="wrap hbar">
+      <div class="brand">김보미<span class="d">.com</span><span class="t">관리자</span></div>
+      <div class="hbtns">
+        <button class="btn g" id="refreshBtn">새로고침</button>
+        <button class="btn g" id="logoutBtn">로그아웃</button>
+      </div>
+    </div>
+  </header>
+  <div class="tabs"><div class="wrap">
+    <div class="tab on" data-tab="dash">대시보드</div>
+    <div class="tab" data-tab="thoughts">생각 나누기</div>
+    <div class="tab" data-tab="reports">리포트 보관함</div>
+  </div></div>
+
+  <main class="wrap">
+    <!-- DASH -->
+    <section id="tab-dash">
+      <div class="cards">
+        <div class="card"><div class="l">오늘 방문(PV)</div><div class="n" id="c-pv">–</div><div class="s" id="c-pv-s"></div></div>
+        <div class="card"><div class="l">오늘 순방문(UV)</div><div class="n" id="c-uv">–</div><div class="s">중복 제외 · 익명</div></div>
+        <div class="card"><div class="l">최근 14일 방문</div><div class="n" id="c-tot">–</div><div class="s">누적 PV</div></div>
+        <div class="card"><div class="l">생각 나누기</div><div class="n" id="c-th">–</div><div class="s">총 등록 건수</div></div>
+      </div>
+      <div class="panel"><h3>📈 최근 14일 방문 추이 <span style="font-weight:400;font-size:.8rem;color:#9aa3b0">■ PV(연한) · ■ UV(진한)</span></h3><svg class="trend" id="trend" viewBox="0 0 700 180" preserveAspectRatio="none"></svg></div>
+
+      <div class="tsel">날짜별 상세: <select id="daySel"></select> <span id="dayStat" style="color:#9aa3b0"></span></div>
+      <div class="grid2">
+        <div class="panel"><h3>🔗 유입 경로</h3><div id="d-src"></div></div>
+        <div class="panel"><h3>📍 지역</h3><div id="d-rg"></div></div>
+        <div class="panel"><h3>📄 인기 페이지</h3><div id="d-path"></div></div>
+        <div class="panel"><h3>🚪 진입 페이지</h3><div id="d-enter"></div></div>
+        <div class="panel"><h3>🖱️ 메뉴 클릭</h3><div id="d-menu"></div></div>
+        <div class="panel"><h3>↗ 외부로 이동</h3><div id="d-out"></div></div>
+        <div class="panel"><h3>⏰ 시간대</h3><div id="d-hr"></div></div>
+        <div class="panel"><h3>💻 기기</h3><div id="d-dev"></div></div>
+      </div>
+    </section>
+
+    <!-- THOUGHTS -->
+    <section id="tab-thoughts" class="hide">
+      <div class="panel"><h3>생각 나누기 <span id="thCount" style="color:var(--dpk)"></span></h3><div id="thList"></div></div>
+    </section>
+
+    <!-- REPORTS -->
+    <section id="tab-reports" class="hide">
+      <div class="panel"><h3>매일 분석 리포트 보관함</h3><div id="repList"></div></div>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+  var KEYLS='kb_admin_key';
+  var $=function(id){return document.getElementById(id);};
+  function getKey(){try{return localStorage.getItem(KEYLS)||'';}catch(e){return '';}}
+  function setKey(k){try{localStorage.setItem(KEYLS,k);}catch(e){}}
+  function clearKey(){try{localStorage.removeItem(KEYLS);}catch(e){}}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  function api(action, params){
+    var q='/api/admin?action='+encodeURIComponent(action)+'&key='+encodeURIComponent(getKey());
+    if(params){for(var k in params) q+='&'+k+'='+encodeURIComponent(params[k]);}
+    return fetch(q,{cache:'no-store'}).then(function(r){ if(r.status===401){var e=new Error('unauth');e.code=401;throw e;} return r.json(); });
+  }
+
+  function barList(el, obj, opts){
+    opts=opts||{};
+    var entries=Object.keys(obj||{}).map(function(k){return [k,obj[k]];}).sort(function(a,b){return b[1]-a[1];});
+    if(opts.sortKey){ entries=Object.keys(obj||{}).map(function(k){return [k,obj[k]];}).sort(function(a,b){return a[0]<b[0]?-1:1;}); }
+    if(opts.top) entries=entries.slice(0,opts.top);
+    if(!entries.length){ el.innerHTML='<div class="empty">데이터 없음</div>'; return; }
+    var max=Math.max.apply(null,entries.map(function(e){return e[1];}))||1;
+    el.innerHTML=entries.map(function(e){
+      var w=Math.max(3, Math.round(e[1]/max*100));
+      var lab=opts.hr? (e[0]+'시') : e[0];
+      return '<div class="row"><span class="lab" title="'+esc(e[0])+'">'+esc(lab)+'</span><span class="bar"><i style="width:'+w+'%"></i></span><span class="v">'+e[1].toLocaleString()+'</span></div>';
+    }).join('');
+  }
+
+  function drawTrend(trend){
+    var W=700,H=180,pad=24,n=trend.length;
+    var max=Math.max(1, Math.max.apply(null, trend.map(function(t){return t.pv;})));
+    var bw=(W-pad*2)/n;
+    var s='';
+    trend.forEach(function(t,i){
+      var x=pad+i*bw;
+      var pvh=Math.round((t.pv/max)*(H-pad*2));
+      var uvh=Math.round((t.uv/max)*(H-pad*2));
+      var w=Math.max(6,bw*0.62), ox=x+(bw-w)/2;
+      s+='<rect x="'+ox+'" y="'+(H-pad-pvh)+'" width="'+w+'" height="'+pvh+'" rx="3" fill="#bcd4f2"></rect>';
+      s+='<rect x="'+(ox+w*0.28)+'" y="'+(H-pad-uvh)+'" width="'+(w*0.44)+'" height="'+uvh+'" rx="2" fill="#004EA2"></rect>';
+      if(i%2===0||n<=10){ s+='<text x="'+(x+bw/2)+'" y="'+(H-7)+'" font-size="9" fill="#9aa3b0" text-anchor="middle">'+t.date.slice(5)+'</text>'; }
+    });
+    $('trend').innerHTML=s;
+  }
+
+  function fillDaySel(trend){
+    var sel=$('daySel'); if(sel.options.length) return;
+    var opts=trend.slice().reverse().map(function(t,idx){ return '<option value="'+t.date+'">'+t.date+(idx===0?' (오늘)':'')+'</option>'; }).join('');
+    sel.innerHTML=opts;
+    sel.addEventListener('change',function(){ loadDay(sel.value); });
+  }
+
+  function renderDims(dims, stat){
+    barList($('d-src'),dims.src,{top:8});
+    barList($('d-rg'),dims.rg,{top:8});
+    barList($('d-path'),dims.path,{top:8});
+    barList($('d-enter'),dims.enter,{top:6});
+    barList($('d-menu'),dims.menu,{top:8});
+    barList($('d-out'),dims.out,{top:8});
+    barList($('d-hr'),dims.hr,{sortKey:true,hr:true});
+    barList($('d-dev'),dims.dev,{});
+    if(stat) $('dayStat').textContent=stat;
+  }
+
+  function loadDay(date){
+    api('day',{date:date}).then(function(d){
+      if(!d.ok) return;
+      renderDims(d.dims||{}, 'PV '+ (d.pv||0).toLocaleString()+' · UV '+(d.uv||0).toLocaleString());
+    });
+  }
+
+  function loadDash(){
+    return api('overview',{days:14}).then(function(d){
+      if(!d.ok){ if(d.needsKey){ throw Object.assign(new Error('needsKey'),{code:'needsKey'}); } return; }
+      var today=d.trend[d.trend.length-1]||{pv:0,uv:0};
+      $('c-pv').textContent=(today.pv||0).toLocaleString();
+      $('c-uv').textContent=(today.uv||0).toLocaleString();
+      $('c-tot').textContent=(d.totalPvRange||0).toLocaleString();
+      $('c-th').textContent=(d.thoughtCount||0).toLocaleString();
+      $('c-pv-s').textContent=d.today;
+      drawTrend(d.trend);
+      fillDaySel(d.trend);
+      renderDims(d.dims||{}, 'PV '+(today.pv||0).toLocaleString()+' · UV '+(today.uv||0).toLocaleString());
+    });
+  }
+  function loadThoughts(){
+    return api('thoughts').then(function(d){
+      if(!d.ok) return;
+      $('thCount').textContent=(d.count||0)+'건';
+      var el=$('thList');
+      if(!d.items.length){ el.innerHTML='<div class="empty">아직 등록된 생각이 없습니다.</div>'; return; }
+      el.innerHTML=d.items.map(function(t){
+        var who=[t.name,t.region].filter(Boolean).join(' · ')||'익명';
+        var dt=''; try{dt=new Date(t.date).toLocaleString('ko-KR');}catch(e){}
+        return '<div class="th"><div class="m">'+esc(t.msg)+'</div><div class="meta">'+esc(who)+' · '+esc(dt)+'</div></div>';
+      }).join('');
+    });
+  }
+  function loadReports(){
+    return api('reports').then(function(d){
+      if(!d.ok) return;
+      var el=$('repList');
+      if(!d.items||!d.items.length){ el.innerHTML='<div class="empty">아직 발행된 리포트가 없습니다. 매일 아침 자동 발행됩니다.</div>'; return; }
+      el.innerHTML=d.items.map(function(r){
+        var dt=''; try{dt=new Date(r.ts).toLocaleString('ko-KR');}catch(e){}
+        return '<div class="rep"><h4>'+esc(r.title||('일일 리포트 '+(r.date||'')))+'</h4><div class="d">'+esc(r.date||'')+(dt?(' · 발행 '+esc(dt)):'')+'</div><pre>'+esc(r.md||'')+'</pre></div>';
+      }).join('');
+    });
+  }
+
+  var loaded={};
+  function showTab(name){
+    ['dash','thoughts','reports'].forEach(function(t){
+      $('tab-'+t).classList.toggle('hide', t!==name);
+    });
+    document.querySelectorAll('.tab').forEach(function(el){ el.classList.toggle('on', el.getAttribute('data-tab')===name); });
+    if(name==='thoughts' && !loaded.thoughts){ loaded.thoughts=1; loadThoughts(); }
+    if(name==='reports' && !loaded.reports){ loaded.reports=1; loadReports(); }
+  }
+
+  function enterApp(){
+    $('loginView').classList.add('hide');
+    $('appView').classList.remove('hide');
+    loadDash().catch(handleErr);
+  }
+  function handleErr(e){
+    if(e && (e.code===401)){ clearKey(); showLogin('비밀키가 올바르지 않습니다.'); }
+    else if(e && e.code==='needsKey'){ showLogin('서버에 ADMIN_KEY가 설정되지 않았습니다. Vercel 환경변수를 확인하세요.'); }
+  }
+  function showLogin(msg){
+    $('appView').classList.add('hide');
+    $('loginView').classList.remove('hide');
+    $('loginErr').textContent=msg||'';
+    $('keyInput').value='';
+  }
+
+  document.querySelectorAll('.tab').forEach(function(el){ el.addEventListener('click',function(){ showTab(el.getAttribute('data-tab')); }); });
+  $('loginBtn').addEventListener('click',function(){
+    var k=$('keyInput').value.trim(); if(!k) return;
+    setKey(k);
+    api('overview',{days:1}).then(function(d){
+      if(d.ok){ enterApp(); }
+      else if(d.needsKey){ showLogin('서버에 ADMIN_KEY가 설정되지 않았습니다.'); }
+      else { clearKey(); showLogin('비밀키가 올바르지 않습니다.'); }
+    }).catch(function(e){ clearKey(); showLogin('비밀키가 올바르지 않습니다.'); });
+  });
+  $('keyInput').addEventListener('keydown',function(e){ if(e.key==='Enter') $('loginBtn').click(); });
+  $('logoutBtn').addEventListener('click',function(){ clearKey(); loaded={}; showLogin(''); });
+  $('refreshBtn').addEventListener('click',function(){ loaded={}; loadDash().catch(handleErr); if(!$('tab-thoughts').classList.contains('hide')){loadThoughts();} if(!$('tab-reports').classList.contains('hide')){loadReports();} });
+
+  if(getKey()){ enterApp(); } else { showLogin(''); }
+})();
+</script>
+</body>
+</html>
