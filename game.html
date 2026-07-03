@@ -315,11 +315,11 @@ h1.title .accent{color:var(--blue-soft)}
       <div class="eyebrow">히든 스테이지 클리어</div>
       <h1 class="title" style="font-size:28px">대한민국을<br>지켜냈다</h1>
       <canvas id="medalCanvas" width="1080" height="1080"></canvas>
-      <div class="btnrow">
+      <div class="btnrow" style="margin-top:10px">
         <button class="btn small" id="btnMedalSave">🖼️ 이미지 저장</button>
         <button class="btn small" id="btnMedalShare">📢 훈장 공유</button>
       </div>
-      <div class="btnrow"><button class="btn blue small" id="btnMedalAgain">다시 도전</button></div>
+      <button class="restart" id="btnMedalAgain" type="button">&#8635; 다시 도전</button>
     </div>
   </div>
 
@@ -946,33 +946,58 @@ function drawEmblem(g,cx,cy,r){
   g.lineWidth=3; g.strokeStyle="rgba(217,139,20,0.85)"; g.beginPath(); g.arc(cx,cy,r*0.8,0,Math.PI*2); g.stroke();
   drawStar(g,cx,cy,5,r*0.52,r*0.22,"#0A2148");
 }
+function wrapLines(g, text, maxW){
+  var words=text.split(" "), lines=[], line="";
+  for(var i=0;i<words.length;i++){
+    var t=line?line+" "+words[i]:words[i];
+    if(g.measureText(t).width>maxW && line){ lines.push(line); line=words[i]; }
+    else { line=t; }
+  }
+  if(line) lines.push(line);
+  return lines;
+}
+function drawWrap(g, text, cx, y, maxW, lh){
+  var lines=wrapLines(g,text,maxW);
+  for(var i=0;i<lines.length;i++){ g.fillText(lines[i], cx, y+i*lh); }
+  return y+(lines.length-1)*lh;
+}
 function drawMedal(){
   var c=document.getElementById("medalCanvas"); if(!c) return;
   var S=1080; c.width=S; c.height=S; var g=c.getContext("2d");
   var bg=g.createLinearGradient(0,0,0,S); bg.addColorStop(0,"#0C1533"); bg.addColorStop(1,"#0A1128");
   g.fillStyle=bg; g.fillRect(0,0,S,S);
-  var rd=g.createRadialGradient(S/2,S*0.34,60,S/2,S*0.34,S*0.62);
+  var rd=g.createRadialGradient(S/2,S*0.28,60,S/2,S*0.28,S*0.62);
   rd.addColorStop(0,"rgba(45,125,255,0.22)"); rd.addColorStop(1,"rgba(45,125,255,0)");
   g.fillStyle=rd; g.fillRect(0,0,S,S);
   g.strokeStyle="rgba(255,197,61,0.45)"; g.lineWidth=6; g.strokeRect(30,30,S-60,S-60);
   g.textAlign="center";
-  g.fillStyle="#FFC53D"; g.font="600 32px 'Noto Sans KR',sans-serif";
-  g.fillText("계란으로 바위치기 · 히든 스테이지 클리어", S/2, 120);
-  drawEmblem(g,S/2,330,132);
-  g.fillStyle="#FFF6E3"; g.font="72px 'Black Han Sans','Noto Sans KR',sans-serif";
-  g.fillText("대한민국 수호 훈장", S/2, 572);
-  g.fillStyle="#6FA5FF"; g.font="700 40px 'Noto Sans KR',sans-serif";
-  g.fillText("경제 · 평화 · 기후 — 3대 위기 격파", S/2, 640);
-  g.fillStyle="#EAF0FF"; g.font="500 34px 'Noto Sans KR',sans-serif";
-  g.fillText(runCount+"회 만에 완수 · "+score+"점", S/2, 708);
+  g.fillStyle="#FFC53D"; g.font="600 29px 'Noto Sans KR',sans-serif";
+  g.fillText("계란으로 바위치기 · 히든 스테이지 클리어", S/2, 90);
+  drawEmblem(g,S/2,252,100);
+  g.fillStyle="#FFF6E3"; g.font="60px 'Black Han Sans','Noto Sans KR',sans-serif";
+  g.fillText("대한민국 수호 훈장", S/2, 470);
+  g.fillStyle="#EAF0FF"; g.font="500 30px 'Noto Sans KR',sans-serif";
+  g.fillText(runCount+"회 만에 완수 · "+score+"점", S/2, 522);
   g.strokeStyle="rgba(255,255,255,0.14)"; g.lineWidth=2;
-  g.beginPath(); g.moveTo(S*0.22,764); g.lineTo(S*0.78,764); g.stroke();
-  g.fillStyle="#FFF6E3"; g.font="700 46px 'Noto Sans KR',sans-serif";
-  g.fillText("김보미 — 뽑고 싶은 민주당", S/2, 840);
-  g.fillStyle="#8FB3E6"; g.font="700 36px 'Noto Sans KR',sans-serif";
-  g.fillText("김보미.com", S/2, 896);
-  g.fillStyle="#FFC53D"; g.font="500 26px 'Noto Sans KR',sans-serif";
-  g.fillText("#민주당을살려야합니다 #이번생에살립시다 #김보미", S/2, 982);
+  g.beginPath(); g.moveTo(S*0.20,566); g.lineTo(S*0.80,566); g.stroke();
+  // 내가 깬 기득권 5개
+  var rocks=(lastFive.length? lastFive : clearedRocks);
+  g.fillStyle="#9DB4DE"; g.font="600 28px 'Noto Sans KR',sans-serif";
+  g.fillText("내가 깨부순 기득권 "+rocks.length+"개", S/2, 616);
+  g.fillStyle="#FFF6E3"; g.font="700 33px 'Noto Sans KR',sans-serif";
+  var rockStr=rocks.map(function(r){return r.replace(/ /g,"\u00A0");}).join(" · ");
+  var y=drawWrap(g, rockStr, S/2, 664, S-170, 44);
+  // → 공정한 민주당으로 3대 위기 격파
+  g.fillStyle="#6FA5FF"; g.font="700 32px 'Noto Sans KR',sans-serif";
+  y=drawWrap(g, "이 힘으로 공정한 민주당을 완성해 경제·평화·기후 3대 위기 격파!", S/2, y+56, S-150, 44);
+  g.strokeStyle="rgba(255,255,255,0.14)"; g.lineWidth=2;
+  g.beginPath(); g.moveTo(S*0.20,y+26); g.lineTo(S*0.80,y+26); g.stroke();
+  g.fillStyle="#FFF6E3"; g.font="700 44px 'Noto Sans KR',sans-serif";
+  g.fillText("김보미 — 뽑고 싶은 민주당", S/2, y+88);
+  g.fillStyle="#8FB3E6"; g.font="700 34px 'Noto Sans KR',sans-serif";
+  g.fillText("김보미.com", S/2, y+138);
+  g.fillStyle="#FFC53D"; g.font="500 25px 'Noto Sans KR',sans-serif";
+  g.fillText("#민주당을살려야합니다 #이번생에살립시다 #김보미", S/2, y+190);
 }
 
 function hideAll(){
@@ -1064,7 +1089,8 @@ $("btnMedalShare").addEventListener("click", ()=>{
   medalBlob(async function(blob){
     if(!blob){ showToast("공유를 지원하지 않는 환경입니다"); return; }
     const file=new File([blob],"김보미_대한민국수호훈장.png",{type:"image/png"});
-    const text="대한민국 3대 위기(경제·평화·기후)를 전부 깼다! 대한민국 수호 훈장 획득 🏅 계란으로 바위치기 "+HASHTAGS;
+    const rlist=(lastFive.length? lastFive : clearedRocks).join(", ");
+    const text="기득권 "+(lastFive.length||clearedRocks.length)+"개("+rlist+")를 깨고 만든 공정한 민주당으로 경제·평화·기후 3대 위기까지 격파! 대한민국 수호 훈장 획득 🏅 계란으로 바위치기 "+HASHTAGS;
     if(navigator.canShare && navigator.canShare({files:[file]})){
       try{ await navigator.share({files:[file], text:text, url:SHARE_URL}); return; }catch(e){ if(e&&e.name==="AbortError") return; }
     }
