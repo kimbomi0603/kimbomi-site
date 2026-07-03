@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>계란으로 바위치기 — 이번 생에 바꿉시다!</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="계란으로 바위치기 — 이번 생에 바꿉시다!">
+<meta property="og:description" content="기득권 바위를 계란으로 깨는 게임! 몇 회 만에 민주당을 회귀시킬 수 있을까? 도전하고 결과를 공유해보세요. 김보미.com">
+<meta property="og:url" content="https://xn--4k0b53xuva.com/game.html">
+<meta property="og:image" content="https://xn--4k0b53xuva.com/og-campaign.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="계란으로 바위치기 — 이번 생에 바꿉시다!">
+<meta name="twitter:description" content="기득권 바위를 계란으로 깨는 게임! 도전하고 결과를 공유해보세요.">
+<meta name="twitter:image" content="https://xn--4k0b53xuva.com/og-campaign.jpg">
 <meta name="description" content="계란으로 바위를 깨는 벽돌깨기. 10개의 기득권 벽을 깨고 민주당을 바꿔보세요.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -205,7 +216,7 @@ h1.title .accent{color:var(--blue-soft)}
   <div class="hud">
     <div class="badge" id="hudRun">1회차</div>
     <div class="prog">
-      <div class="label"><span>민주당 회귀 진행률</span><span id="hudStage">0 / 10</span></div>
+      <div class="label"><span>민주당 회귀 진행률</span><span id="hudStage">0 / 5</span></div>
       <div class="bar"><div class="fill" id="hudFill"></div></div>
     </div>
     <div class="score"><b id="hudScore">0</b>점수</div>
@@ -232,6 +243,7 @@ h1.title .accent{color:var(--blue-soft)}
       <h1 class="title">계란으로<br><span class="accent">바위치기</span></h1>
       <p class="tagline"><b>이번 생에 바꿉시다!</b></p>
       <div class="howto">
+        <b style="color:var(--yolk)">10개의 기득권 바위 중 5개가 랜덤 출제!</b> 모두 깨보세요.<br>
         <span class="k">회초리</span>를 움직여 <span class="k">계란</span>을 튕기세요.<br>
         기득권 바위 속 <span class="k">금빛 핵심 벽돌</span>을 깨면 클리어!<br>
         바위에서 떨어지는 <span class="k">국민의 응원</span>을 받으세요.<br>
@@ -263,20 +275,23 @@ h1.title .accent{color:var(--blue-soft)}
     <!-- 최종 클리어 -->
     <div class="overlay hidden" id="scrFinal">
       <div class="eyebrow">회귀 완료</div>
-      <h1 class="title" style="font-size:34px">10개의 벽,<br>전부 깨졌다</h1>
+      <h1 class="title" style="font-size:34px">5개의 벽,<br>전부 깨졌다</h1>
       <div class="card" id="resultCard">
         <div class="c-eyebrow">민주당 회귀물 · 클리어 인증</div>
         <div class="c-title">나는 민주당을<br>회귀시켰다</div>
         <div class="c-stats">
           <div><div class="n" id="fRun">1</div><div class="l">회차 만에</div></div>
           <div><div class="n" id="fScore">0</div><div class="l">점수</div></div>
-          <div><div class="n">10/10</div><div class="l">기득권 격파</div></div>
+          <div><div class="n" id="fCleared">5/5</div><div class="l">기득권 격파</div></div>
         </div>
         <div class="c-tags">#민주당을살려야합니다<br>#이번생에살립시다 #김보미</div>
         <div class="c-url">김보미.com</div>
       </div>
       <div class="btnrow">
-        <button class="btn small" id="btnShare">결과 공유하기</button>
+        <button class="btn small" id="btnShare">🥚 결과 공유하기</button>
+        <button class="btn small" id="btnShareGame">🔗 게임 공유하기</button>
+      </div>
+      <div class="btnrow">
         <button class="btn blue small" id="btnAgain">다시 회귀</button>
       </div>
     </div>
@@ -308,6 +323,8 @@ const STAGES = [
 ];
 
 const HASHTAGS = "#민주당을살려야합니다 #이번생에살립시다 #김보미";
+const STAGE_COUNT = 5;
+const SHARE_URL = "https://www.xn--4k0b53xuva.com/game.html";
 
 /* 아이템 정의 */
 const ITEMS = {
@@ -797,13 +814,13 @@ function startLoop(){
 /* ================= 진행 흐름 ================= */
 function updateHUD(){
   $("hudRun").textContent = runCount + "회차";
-  $("hudStage").textContent = stageNo + " / 10";
-  $("hudFill").style.width = (stageNo*10) + "%";
+  $("hudStage").textContent = stageNo + " / " + (order&&order.length?order.length:STAGE_COUNT);
+  $("hudFill").style.width = ((order&&order.length?stageNo/order.length:0)*100) + "%";
   $("hudScore").textContent = score;
 }
 
 function startRun(){
-  order = shuffle(STAGES.map((_,i)=>i));
+  order = shuffle(STAGES.map((_,i)=>i)).slice(0, STAGE_COUNT);
   stageNo = 0; runCount = 1; score = 0;
   startStage();
 }
@@ -822,7 +839,7 @@ function onStageClear(){
   const s = STAGES[order[stageNo]];
   stageNo++;
   updateHUD();
-  if(stageNo >= 10){
+  if(stageNo >= order.length){
     showFinal();
     return;
   }
@@ -844,6 +861,7 @@ function onDeath(){
 function showFinal(){
   $("fRun").textContent = runCount;
   $("fScore").textContent = score;
+  $("fCleared").textContent = order.length + "/" + order.length;
   show("scrFinal");
   beep(784,0.1,0.06,"triangle");
   setTimeout(()=>beep(988,0.1,0.06,"triangle"),120);
@@ -903,21 +921,25 @@ $("btnRegress").addEventListener("click", ()=>{
 });
 $("btnAgain").addEventListener("click", startRun);
 
-$("btnShare").addEventListener("click", async ()=>{
-  const text = "나는 "+runCount+"회차 만에 민주당을 회귀시켰다. "
-    + "10개의 기득권 벽 전부 격파, "+score+"점! "
-    + HASHTAGS + " — 김보미.com";
+async function doShare(text){
   if(navigator.share){
-    try{ await navigator.share({ text }); return; }catch(e){}
+    try{ await navigator.share({ title:"계란으로 바위치기", text: text, url: SHARE_URL }); return; }
+    catch(e){ if(e && e.name==="AbortError") return; }
   }
   try{
-    await navigator.clipboard.writeText(text);
+    await navigator.clipboard.writeText(text + " " + SHARE_URL);
     const t = $("toast");
     t.classList.add("show");
     setTimeout(()=>t.classList.remove("show"), 1800);
   }catch(e){
-    alert(text);
+    prompt("아래 내용을 복사해 공유하세요", text + " " + SHARE_URL);
   }
+}
+$("btnShare").addEventListener("click", ()=>{
+  doShare("나는 "+runCount+"회 만에 민주당을 회귀시켰다! 기득권 바위 "+order.length+"개 전부 격파, "+score+"점 🥚 당신도 도전! " + HASHTAGS);
+});
+$("btnShareGame").addEventListener("click", ()=>{
+  doShare("계란으로 바위치기 🥚 기득권 바위를 계란으로 깨는 게임! 이번 생에 바꿉시다. " + HASHTAGS);
 });
 
 /* 초기 화면 렌더 */
