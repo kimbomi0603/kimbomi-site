@@ -292,6 +292,35 @@ footer .flink:hover{color:#fff}
   .manifesto blockquote p{font-size:1.4rem}
   .quote-sec blockquote p.q{font-size:1.6rem}
 }
+
+/* ===== 실시간 명예의 전당 위젯 ===== */
+.lb-wrap{margin-top:42px}
+.lb{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:22px 22px 18px;max-width:760px;margin:0 auto}
+.lb-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.lb-title{display:flex;align-items:center;gap:9px;font-size:1.16rem;font-weight:800;color:#fff}
+.lb-total{font-size:.8rem;font-weight:600;color:#bcd4f2}
+.lb-live{width:9px;height:9px;border-radius:50%;background:#ff5b5b;animation:lbpulse 1.6s infinite;flex:none}
+@keyframes lbpulse{0%{box-shadow:0 0 0 0 rgba(255,91,91,.55)}70%{box-shadow:0 0 0 8px rgba(255,91,91,0)}100%{box-shadow:0 0 0 0 rgba(255,91,91,0)}}
+.lb-cta{background:#fff;color:var(--dpk);font-weight:800;font-size:.9rem;padding:9px 18px;border-radius:999px;white-space:nowrap;transition:.15s}
+.lb-cta:hover{transform:translateY(-1px)}
+.lb-list{display:flex;flex-direction:column;gap:7px;min-height:84px}
+.lb-row{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 14px}
+.lb-row.top{background:rgba(255,216,115,.15);border-color:rgba(255,216,115,.4)}
+.lb-row.flash{animation:lbflash 1.1s ease}
+@keyframes lbflash{0%{background:rgba(255,216,115,.55)}100%{background:rgba(255,255,255,.06)}}
+.lb-rank{font-family:var(--serif);font-weight:900;font-size:1.05rem;min-width:40px;text-align:center;color:#fff;flex:none}
+.lb-main{flex:1;min-width:0}
+.lb-msg{font-size:.98rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-meta{font-size:.76rem;color:#bcd4f2;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-score{font-family:var(--serif);font-weight:800;font-size:1.05rem;color:#ffd873;white-space:nowrap;flex:none}
+.lb-score small{font-size:.72rem;color:#bcd4f2;font-weight:600;margin-left:2px}
+.lb-empty{color:#bcd4f2;font-size:.9rem;text-align:center;padding:28px 0;line-height:1.6}
+.lb-pager{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:14px;flex-wrap:wrap}
+.lb-pager button{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff;font-weight:700;font-size:.85rem;min-width:32px;height:32px;border-radius:8px;cursor:pointer;padding:0 8px}
+.lb-pager button.on{background:#fff;color:var(--dpk);border-color:#fff}
+.lb-pager button:disabled{opacity:.38;cursor:default}
+.lb-pager .dots{color:#bcd4f2;padding:0 2px}
+@media(max-width:640px){.lb{padding:18px 16px 14px}.lb-msg{font-size:.92rem}.lb-rank{min-width:30px;font-size:.95rem}.lb-title{font-size:1.05rem}}
 </style>
 </head>
 <body>
@@ -420,6 +449,16 @@ footer .flink:hover{color:#fff}
         <img src="game-preview.png" alt="계란으로 바위치기 게임 플레이 화면" loading="lazy" width="640" height="900">
         <span class="shot-play">&#9654;</span>
       </a>
+    </div>
+    <div class="wrap lb-wrap">
+      <div class="lb">
+        <div class="lb-head">
+          <div class="lb-title"><span class="lb-live"></span> 실시간 명예의 전당 <span class="lb-total" id="lbTotal"></span></div>
+          <a class="lb-cta" href="game.html">🥚 나도 도전 &rarr;</a>
+        </div>
+        <div class="lb-list" id="lbList"><div class="lb-empty">불러오는 중…</div></div>
+        <div class="lb-pager" id="lbPager"></div>
+      </div>
     </div>
   </section>
 
@@ -752,6 +791,63 @@ footer .flink:hover{color:#fff}
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))close();});
   /* 공유 링크(?play)로 들어오면 게임 모달 자동 실행 */
   try{if(new URLSearchParams(location.search).has('play')){open();history.replaceState(null,'',location.pathname);}}catch(e){}
+})();
+</script>
+<script>
+/* 실시간 명예의 전당 위젯 */
+(function(){
+  var listEl=document.getElementById('lbList'); if(!listEl) return;
+  var pagerEl=document.getElementById('lbPager'), totalEl=document.getElementById('lbTotal');
+  var page=0, PAGE=10, total=0, timer=null, lastTopId='';
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function fmt(n){try{return (n||0).toLocaleString('ko-KR');}catch(e){return ''+(n||0);}}
+  function medal(r){return r===1?'🥇':r===2?'🥈':r===3?'🥉':('#'+r);}
+  function kwSum(k){k=k||[];if(k.length<=2)return k.join(' · ');return k.slice(0,2).join(' · ')+' 외 '+(k.length-2)+'개';}
+  function rel(ts){if(!ts)return '';var s=Math.floor((Date.now()-ts)/1000);if(s<60)return '방금';if(s<3600)return Math.floor(s/60)+'분 전';if(s<86400)return Math.floor(s/3600)+'시간 전';return Math.floor(s/86400)+'일 전';}
+  function render(items, offset){
+    if(!items.length){ listEl.innerHTML='<div class="lb-empty">아직 기록이 없어요.<br>첫 번째 주인공이 되어보세요! 🥚</div>'; return; }
+    var flashTop = (page===0 && items[0] && items[0].id!==lastTopId && lastTopId!=='');
+    listEl.innerHTML=items.map(function(it,i){
+      var rank=offset+i+1;
+      var meta='🧱 '+esc(kwSum(it.keywords))+' · '+(it.runCount===1?'1회 완수':it.runCount+'회차')+(it.ts?(' · '+rel(it.ts)):'');
+      return '<div class="lb-row'+(rank<=3?' top':'')+(flashTop&&i===0?' flash':'')+'">'
+        +'<div class="lb-rank">'+medal(rank)+'</div>'
+        +'<div class="lb-main"><div class="lb-msg">'+esc(it.msg||'익명의 계란')+'</div><div class="lb-meta">'+meta+'</div></div>'
+        +'<div class="lb-score">'+fmt(it.score)+'<small>점</small></div>'
+        +'</div>';
+    }).join('');
+    if(page===0 && items[0]) lastTopId=items[0].id;
+  }
+  function renderPager(){
+    var pages=Math.max(1, Math.ceil(total/PAGE));
+    if(pages<=1){ pagerEl.innerHTML=''; return; }
+    var html='<button '+(page<=0?'disabled':'')+' data-p="'+(page-1)+'">&lsaquo;</button>';
+    var win=5, start=Math.max(0, Math.min(page-2, pages-win)); if(start<0)start=0;
+    var end=Math.min(pages, start+win);
+    if(start>0){ html+='<button data-p="0">1</button>'; if(start>1) html+='<span class="dots">…</span>'; }
+    for(var p=start;p<end;p++){ html+='<button class="'+(p===page?'on':'')+'" data-p="'+p+'">'+(p+1)+'</button>'; }
+    if(end<pages){ if(end<pages-1) html+='<span class="dots">…</span>'; html+='<button data-p="'+(pages-1)+'">'+pages+'</button>'; }
+    html+='<button '+(page>=pages-1?'disabled':'')+' data-p="'+(page+1)+'">&rsaquo;</button>';
+    pagerEl.innerHTML=html;
+  }
+  function load(){
+    fetch('/api/scores?action=list&offset='+(page*PAGE)+'&limit='+PAGE,{cache:'no-store'})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(!d||!d.ok){ listEl.innerHTML='<div class="lb-empty">랭킹을 불러올 수 없어요.</div>'; pagerEl.innerHTML=''; return; }
+        total=d.total||0;
+        totalEl.textContent = total ? ('· 총 '+fmt(total)+'명 참여') : '';
+        var pages=Math.max(1, Math.ceil(total/PAGE));
+        if(page>pages-1){ page=pages-1; load(); return; }
+        render(d.items||[], d.offset||0);
+        renderPager();
+      })
+      .catch(function(){ listEl.innerHTML='<div class="lb-empty">랭킹을 불러올 수 없어요.</div>'; pagerEl.innerHTML=''; });
+  }
+  pagerEl.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('button'); if(!b||b.disabled) return; var p=parseInt(b.getAttribute('data-p'),10); if(isNaN(p)) return; page=p; load(); });
+  load();
+  timer=setInterval(function(){ if(!document.hidden) load(); }, 15000);
+  document.addEventListener('visibilitychange',function(){ if(!document.hidden) load(); });
 })();
 </script>
 <script src="/a.js" defer></script>
