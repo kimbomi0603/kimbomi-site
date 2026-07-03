@@ -236,6 +236,16 @@ textarea.field{resize:vertical}
 .game-cta .play a{display:inline-flex;align-items:center;gap:9px;background:#fff;color:var(--dpk);font-weight:800;font-size:1.05rem;padding:17px 32px;border-radius:999px;transition:.18s;white-space:nowrap}
 .game-cta .play a:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(0,0,0,.25)}
 @media(max-width:700px){.game-cta h2{font-size:1.7rem}.game-cta .play{width:100%}.game-cta .play a{width:100%;justify-content:center}}
+.game-modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:18px}
+.game-modal.open{display:flex}
+.gm-backdrop{position:absolute;inset:0;background:rgba(6,12,28,.85);backdrop-filter:blur(4px)}
+.gm-dialog{position:relative;z-index:1;width:100%;max-width:460px;height:min(90vh,880px);display:flex;flex-direction:column;gap:10px}
+.gm-bar{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.gm-bar .gm-full{color:rgba(255,255,255,.85);font-size:.86rem;font-weight:600}
+.gm-bar .gm-full:hover{color:#fff}
+.gm-close{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:.86rem;font-weight:700;padding:8px 14px;border-radius:9px;cursor:pointer}
+.gm-close:hover{background:rgba(255,255,255,.24)}
+.gm-frame{flex:1;width:100%;border:0;border-radius:16px;background:#0A1128;box-shadow:0 30px 80px rgba(0,0,0,.55)}
 footer{background:var(--navy);color:#c4cddc;padding:60px 0 34px}
 .fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
 .fbrand{font-family:var(--serif);font-weight:700;font-size:1.4rem;color:#fff}
@@ -285,7 +295,7 @@ footer .flink:hover{color:#fff}
       <a href="#vision">비전·공약</a>
       <a href="#journey">김보미는</a>
       <a href="#thoughts">생각 나누기</a>
-      <a href="game.html">게임</a>
+      <a href="game.html">참여 콘텐츠</a>
       <a href="narasalim.html" class="nara">나라살림 돋보기</a>
       <a href="#join" class="btn btn-primary">함께하기</a>
     </nav>
@@ -388,7 +398,7 @@ footer .flink:hover{color:#fff}
       <div class="txt">
         <p class="eyebrow">참여 콘텐츠 · 미니게임</p>
         <h2>이번 생엔, 계란으로 바위를 깹시다.</h2>
-        <p>기득권이라는 10개의 벽 — 작은 계란으로 직접 깨보세요. 통쾌한 한 판으로 만나는 '뽑고 싶은 민주당'.</p>
+        <p>혁신을 가로막는 10개의 바위 — 작은 계란으로 직접 깨보세요. '뽑고 싶은 민주당'을 만들기 위해 함께 부딪혀봅시다.</p>
       </div>
       <div class="play"><a href="game.html">🥚 게임 시작하기 &rarr;</a></div>
     </div>
@@ -657,6 +667,17 @@ footer .flink:hover{color:#fff}
   </div>
 </footer>
 
+<div class="game-modal" id="gameModal" aria-hidden="true">
+  <div class="gm-backdrop" data-close></div>
+  <div class="gm-dialog">
+    <div class="gm-bar">
+      <a class="gm-full" href="game.html" target="_blank" rel="noopener">↗ 전체 화면으로 열기</a>
+      <button class="gm-close" type="button" data-close aria-label="게임 닫기">✕ 닫기</button>
+    </div>
+    <iframe class="gm-frame" id="gameFrame" title="계란으로 바위치기 게임" src="about:blank"></iframe>
+  </div>
+</div>
+
 <script>
 (function(){
   var burger=document.getElementById('burger'),menu=document.getElementById('menu');
@@ -698,6 +719,18 @@ footer .flink:hover{color:#fff}
       }).catch(function(){saveLocal(p);}).then(function(){btn.disabled=false;});
   });
   refresh();
+})();
+(function(){
+  var modal=document.getElementById('gameModal'),frame=document.getElementById('gameFrame');
+  if(!modal)return;
+  function open(){if(frame.getAttribute('src')!=='game.html')frame.setAttribute('src','game.html');modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
+  function close(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';frame.setAttribute('src','about:blank');}
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href="game.html"]');
+    if(a&&!a.classList.contains('gm-full')){e.preventDefault();open();return;}
+    if(e.target.closest&&e.target.closest('[data-close]'))close();
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))close();});
 })();
 </script>
 </body>
