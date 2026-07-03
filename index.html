@@ -690,7 +690,7 @@ footer .flink:hover{color:#fff}
   <div class="gm-backdrop" data-close></div>
   <div class="gm-dialog">
     <div class="gm-bar">
-      <a class="gm-full" href="game.html" target="_blank" rel="noopener">↗ 전체 화면으로 열기</a>
+      <a class="gm-full" href="game.html?full=1" target="_blank" rel="noopener">↗ 전체 화면으로 열기</a>
       <button class="gm-close" type="button" data-close aria-label="게임 닫기">✕ 닫기</button>
     </div>
     <iframe class="gm-frame" id="gameFrame" title="계란으로 바위치기 게임" src="about:blank"></iframe>
@@ -750,6 +750,8 @@ footer .flink:hover{color:#fff}
     if(e.target.closest&&e.target.closest('[data-close]'))close();
   });
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))close();});
+  /* 공유 링크(?play)로 들어오면 게임 모달 자동 실행 */
+  try{if(new URLSearchParams(location.search).has('play')){open();history.replaceState(null,'',location.pathname);}}catch(e){}
 })();
 </script>
 <script src="/a.js" defer></script>

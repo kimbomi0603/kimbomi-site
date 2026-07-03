@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<script>
+/* 공유 링크로 단독 진입하면 홈페이지 모달로 유도 — 게임 후 다른 콘텐츠도 자연스럽게 노출 */
+(function(){try{var q=new URLSearchParams(location.search);if(window.top===window.self&&!q.has('full')){location.replace('/?play=1');}}catch(e){}})();
+</script>
 <title>계란으로 바위치기 — 이번 생에 바꿉시다!</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="계란으로 바위치기 — 이번 생에 바꿉시다!">
