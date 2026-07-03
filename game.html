@@ -559,12 +559,15 @@ cv.addEventListener("mousemove", e=>{ if(playing) movePaddleTo(pointerX(e)); });
 cv.addEventListener("mousedown", ()=>{ if(playing) launchBall(); });
 cv.addEventListener("touchstart", e=>{ if(playing){ movePaddleTo(pointerX(e)); launchBall(); } e.preventDefault(); }, {passive:false});
 cv.addEventListener("touchmove", e=>{ if(playing) movePaddleTo(pointerX(e)); e.preventDefault(); }, {passive:false});
+function isTyping(e){ var t=e.target; return !!(t && (t.tagName==="INPUT" || t.tagName==="TEXTAREA" || t.isContentEditable)); }
 document.addEventListener("keydown", e=>{
+  if(isTyping(e)) return;
   if(e.key==="ArrowLeft") keyL=true;
   if(e.key==="ArrowRight") keyR=true;
   if(e.key===" "||e.key==="ArrowUp"){ if(playing) launchBall(); e.preventDefault(); }
 });
 document.addEventListener("keyup", e=>{
+  if(isTyping(e)) return;
   if(e.key==="ArrowLeft") keyL=false;
   if(e.key==="ArrowRight") keyR=false;
 });
@@ -1133,6 +1136,7 @@ $("btnPause").addEventListener("click", pauseGame);
 $("btnResume").addEventListener("click", resumeGame);
 $("btnQuit").addEventListener("click", quitToTitle);
 document.addEventListener("keydown", e=>{
+  if(isTyping(e)) return;
   if(e.key==="Escape" || e.key==="p" || e.key==="P"){
     if(paused) resumeGame(); else pauseGame();
   }
