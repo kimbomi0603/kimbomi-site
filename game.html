@@ -622,9 +622,24 @@ function drawPaddle(){
   ctx.moveTo(paddle.x+8,paddle.y+paddle.h/2);
   ctx.lineTo(paddle.x+paddle.w-8,paddle.y+paddle.h/2);
   ctx.stroke();
-  ctx.fillStyle="#5A3812";
-  ctx.fillRect(paddle.x+paddle.w*0.42, paddle.y-1, 4, paddle.h+2);
-  ctx.fillRect(paddle.x+paddle.w*0.56, paddle.y-1, 4, paddle.h+2);
+  // 손잡이(grip) — 모바일에서 '잡고 움직이는' 컨트롤임을 알림
+  const cx = paddle.x + paddle.w/2;
+  const topY = paddle.y + paddle.h;
+  ctx.fillStyle = boosted ? "#8A5A20" : "#5A3812";
+  ctx.fillRect(cx-5, topY-2, 10, 6);
+  const gy = topY + 3, gripW = 24, gripH = 15;
+  const gg = ctx.createLinearGradient(cx, gy, cx, gy+gripH);
+  gg.addColorStop(0, boosted ? "#E4B45E" : "#B07B3E");
+  gg.addColorStop(1, boosted ? "#A96E2C" : "#5A3812");
+  ctx.fillStyle = gg;
+  roundRect(cx-gripW/2, gy, gripW, gripH, 7); ctx.fill();
+  ctx.strokeStyle = "rgba(30,18,6,.5)"; ctx.lineWidth = 1;
+  roundRect(cx-gripW/2, gy, gripW, gripH, 7); ctx.stroke();
+  ctx.strokeStyle = "rgba(255,240,220,.4)"; ctx.lineWidth = 1.3;
+  for(let gi=0; gi<2; gi++){
+    const ly = gy + 5 + gi*5;
+    ctx.beginPath(); ctx.moveTo(cx-gripW/2+5, ly); ctx.lineTo(cx+gripW/2-5, ly); ctx.stroke();
+  }
 }
 
 function drawBall(){
