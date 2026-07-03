@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>이생망 공유방 — 이번 생에 바꿉시다!</title>
+<meta name="description" content="이번 생은 망했다 싶었던 순간, 가볍게 털어놓고 서로 응원하는 공간. 김보미.com">
+<meta property="og:type" content="website">
+<meta property="og:title" content="이생망 공유방 — 이번 생에 바꿉시다!">
+<meta property="og:description" content="우리 모두 이생망을 겪었지만 견뎌냈습니다. 이번엔 함께 극복합시다. 🥚">
+<meta property="og:url" content="https://xn--4k0b53xuva.com/story.html">
+<meta property="og:image" content="https://xn--4k0b53xuva.com/og-campaign.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://xn--4k0b53xuva.com/og-campaign.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0A1128; --deep:#141F45; --panel:#101A38;
+  --blue:#2D7DFF; --blue-soft:#6FA5FF; --egg:#FFF6E3; --yolk:#FFC53D; --gold:#FFB020;
+  --danger:#FF6B6B; --text:#EAF0FF; --dim:#8B97B8;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:var(--night);color:var(--text);font-family:'Noto Sans KR',sans-serif;line-height:1.6;
+  background-image:radial-gradient(circle at 15% 8%,rgba(45,125,255,.10),transparent 42%),radial-gradient(circle at 85% 92%,rgba(255,197,61,.06),transparent 45%);
+  min-height:100vh;}
+a{color:inherit;text-decoration:none}
+.wrap{width:100%;max-width:520px;margin:0 auto;padding:16px 14px 60px}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.brand{font-family:'Black Han Sans',sans-serif;font-size:1.15rem;color:#fff}
+.brand .d{color:var(--blue-soft)}
+.home{font-size:.82rem;color:var(--dim);border:1px solid rgba(139,151,184,.4);border-radius:999px;padding:6px 13px}
+.home:hover{color:var(--egg);border-color:var(--egg)}
+h1.big{font-family:'Do Hyeon',sans-serif;font-size:1.9rem;text-align:center;color:#fff;margin:6px 0 4px;letter-spacing:.5px}
+.lead{background:linear-gradient(135deg,rgba(45,125,255,.16),rgba(255,197,61,.08));border:1px solid rgba(111,165,255,.28);border-radius:14px;padding:13px 16px;font-size:.9rem;color:var(--egg);text-align:center;line-height:1.65;margin:12px 0 16px}
+.lead b{color:var(--yolk)}
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tab{flex:1;font-family:'Do Hyeon',sans-serif;font-size:1rem;text-align:center;padding:13px 8px;border-radius:12px;cursor:pointer;
+  background:rgba(20,31,69,.6);border:1.5px solid rgba(111,165,255,.2);color:var(--dim);transition:.15s;line-height:1.25}
+.tab small{display:block;font-family:'Noto Sans KR';font-size:.68rem;font-weight:500;margin-top:2px;opacity:.8}
+.tab.on{color:#0A1128;border-color:transparent}
+.room-a .tab.on{background:linear-gradient(180deg,var(--yolk),var(--gold))}
+.room-b .tab.on{background:linear-gradient(180deg,var(--blue-soft),var(--blue));color:#fff}
+.qhead{margin-bottom:10px}
+.qhead .q{font-size:1.02rem;font-weight:700;color:#fff;line-height:1.5}
+.qhead .sub{font-size:.85rem;color:var(--dim);margin-top:5px;line-height:1.6}
+.counter{font-size:.82rem;color:var(--blue-soft);margin:10px 0 4px;text-align:center}
+.counter b{color:var(--yolk);font-family:'Black Han Sans',sans-serif;font-size:1rem}
+/* form */
+.form{background:rgba(20,31,69,.7);border:1px solid rgba(111,165,255,.22);border-radius:14px;padding:14px;margin:10px 0 16px}
+.room-a .form{border-color:rgba(255,197,61,.3)}
+.form input,.form textarea{width:100%;box-sizing:border-box;font-family:'Noto Sans KR',sans-serif;color:var(--egg);background:rgba(10,17,40,.7);border:1.5px solid rgba(111,165,255,.28);border-radius:10px;padding:10px 12px;font-size:.95rem}
+.form input{margin-bottom:8px}
+.form textarea{resize:none;line-height:1.55}
+.form input:focus,.form textarea:focus{outline:none;border-color:var(--yolk)}
+.form .frow{display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:10px}
+.form .cnt{font-size:.75rem;color:var(--dim)}
+.btn{font-family:'Do Hyeon',sans-serif;font-size:.98rem;color:#0A1128;background:linear-gradient(180deg,var(--yolk),var(--gold));border:none;border-radius:10px;padding:11px 22px;cursor:pointer;box-shadow:0 4px 0 #9C6A00;transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #9C6A00}
+.btn.blue{color:#fff;background:linear-gradient(180deg,var(--blue-soft),var(--blue));box-shadow:0 4px 0 #103E8F}
+.btn.blue:active{box-shadow:0 1px 0 #103E8F}
+.btn:disabled{opacity:.5;cursor:default;box-shadow:none;transform:none}
+/* sort */
+.sortbar{display:flex;align-items:center;justify-content:space-between;margin:4px 0 10px}
+.sortbar .lbl{font-size:.8rem;color:var(--dim)}
+.seg{display:inline-flex;background:rgba(20,31,69,.7);border:1px solid rgba(111,165,255,.2);border-radius:999px;overflow:hidden}
+.seg button{background:none;border:0;color:var(--dim);font-family:'Noto Sans KR';font-weight:700;font-size:.8rem;padding:7px 14px;cursor:pointer}
+.seg button.on{background:var(--egg);color:#0A1128}
+/* cards */
+.list{display:flex;flex-direction:column;gap:11px}
+.card{background:rgba(20,31,69,.6);border:1px solid rgba(111,165,255,.16);border-radius:14px;padding:14px 15px}
+.room-a .card{background:rgba(35,30,14,.42);border-color:rgba(255,197,61,.2)}
+.card.hot{border-color:rgba(255,197,61,.5)}
+.card .chead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px}
+.card .nick{font-size:.82rem;font-weight:700;color:var(--blue-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.room-a .card .nick{color:var(--yolk)}
+.card .time{font-size:.72rem;color:var(--dim);white-space:nowrap;flex:none}
+.card .txt{font-size:.98rem;color:var(--egg);white-space:pre-wrap;word-break:break-word;line-height:1.65}
+.card .hotbadge{font-size:.66rem;font-weight:800;color:#0A1128;background:var(--yolk);border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:middle}
+.reacts{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.rbtn{display:inline-flex;align-items:center;gap:5px;background:rgba(10,17,40,.55);border:1px solid rgba(111,165,255,.22);border-radius:999px;padding:6px 11px;font-size:.82rem;color:var(--text);cursor:pointer;transition:transform .1s,background .15s;font-family:'Noto Sans KR'}
+.rbtn .em{font-size:1rem}
+.rbtn .c{font-weight:700;color:var(--blue-soft);min-width:8px}
+.rbtn.mine{background:rgba(255,197,61,.2);border-color:var(--yolk)}
+.rbtn.mine .c{color:var(--yolk)}
+.rbtn:active{transform:scale(.9)}
+.rbtn.bump{animation:bump .35s ease}
+@keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.25)}100%{transform:scale(1)}}
+.cfoot{display:flex;align-items:center;justify-content:flex-end;gap:14px;margin-top:10px}
+.linkbtn{background:none;border:0;font-size:.76rem;color:var(--dim);cursor:pointer;font-family:'Noto Sans KR';display:inline-flex;align-items:center;gap:4px}
+.linkbtn:hover{color:var(--egg)}
+.linkbtn.rep:hover{color:var(--danger)}
+.more{display:block;width:100%;margin:16px auto 0;background:rgba(20,31,69,.7);border:1px solid rgba(111,165,255,.25);color:var(--egg);font-family:'Do Hyeon';font-size:.95rem;padding:12px;border-radius:11px;cursor:pointer}
+.more:disabled{opacity:.5}
+.empty{text-align:center;color:var(--dim);font-size:.9rem;padding:30px 10px;line-height:1.7}
+.gamelink{margin-top:26px;text-align:center;font-size:.85rem;color:var(--dim)}
+.gamelink a{color:var(--blue-soft);font-weight:700}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:var(--egg);color:#0A1128;font-size:.85rem;font-weight:700;padding:10px 18px;border-radius:20px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:60}
+.toast.show{opacity:1}
+/* share modal */
+.smodal{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(6,10,26,.9)}
+.smodal.open{display:flex}
+.sbox{width:100%;max-width:360px;text-align:center}
+#shareCanvas{width:100%;max-width:300px;height:auto;border-radius:14px;box-shadow:0 16px 44px rgba(0,0,0,.6);margin:0 auto 14px}
+.sbtns{display:flex;gap:10px;justify-content:center}
+.sclose{margin-top:12px;background:none;border:0;color:var(--dim);font-size:.85rem;cursor:pointer}
+@media(max-width:430px){h1.big{font-size:1.6rem}.wrap{padding:14px 12px 54px}}
+</style>
+</head>
+<body>
+<div class="wrap room-a" id="root">
+  <div class="top">
+    <div class="brand">김보미<span class="d">.com</span></div>
+    <a class="home" href="index.html">← 홈으로</a>
+  </div>
+  <h1 class="big">🥚 이생망 공유방</h1>
+  <div class="lead">우리 모두 <b>이생망</b>을 겪었지만 견뎌냈습니다.<br>민주당, 이대로 가면 이생망입니다. <b>이번엔 함께 극복합시다.</b></div>
+
+  <div class="tabs">
+    <div class="tab on" data-room="personal">나의 이생망<small>개인 경험·흑역사</small></div>
+    <div class="tab" data-room="party">민주당의 이생망<small>진단·극복 아이디어</small></div>
+  </div>
+
+  <div class="qhead">
+    <div class="q" id="qText"></div>
+    <div class="sub" id="qSub"></div>
+  </div>
+  <div class="counter" id="counter"></div>
+
+  <div class="form">
+    <input id="nick" maxlength="16" placeholder="닉네임 (선택 · 미입력 시 '익명의 계란')">
+    <textarea id="content" maxlength="200" rows="3" placeholder=""></textarea>
+    <div class="frow">
+      <span class="cnt"><span id="cnt">0</span>/200</span>
+      <button class="btn" id="btnPost">🥚 남기기</button>
+    </div>
+  </div>
+
+  <div class="sortbar">
+    <span class="lbl">함께 나눈 이야기</span>
+    <span class="seg">
+      <button class="on" data-sort="new">최신순</button>
+      <button data-sort="top">공감순</button>
+    </span>
+  </div>
+
+  <div class="list" id="list"></div>
+  <button class="more" id="btnMore" style="display:none">더 보기</button>
+
+  <div class="gamelink">잠깐 쉬어가고 싶다면? <a href="game.html">🎮 계란으로 바위치기 게임 →</a></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="smodal" id="smodal">
+  <div class="sbox">
+    <canvas id="shareCanvas" width="1080" height="1350"></canvas>
+    <div class="sbtns">
+      <button class="btn small" id="sSave">🖼️ 이미지 저장</button>
+      <button class="btn blue small" id="sShare">📢 공유하기</button>
+    </div>
+    <button class="sclose" id="sClose">닫기</button>
+  </div>
+</div>
+
+<script>
+"use strict";
+var $=function(id){return document.getElementById(id);};
+var API="/api/stories";
+var HASHTAGS="#민주당을살려야합니다 #이번생에살립시다 #김보미";
+var SHARE_URL="https://www.xn--4k0b53xuva.com/story.html";
+var REACTS=[
+  {k:'cry',  e:'😢', label:'나도 그랬어요'},
+  {k:'heart',e:'🫶', label:'응원해요'},
+  {k:'up',   e:'👍', label:'멋져요'},
+  {k:'fire', e:'🔥', label:'강렬해요'},
+  {k:'lol',  e:'😂', label:'웃프네요'}
+];
+var ROOM={
+  personal:{ q:"여러분의 '이번 생은 망했다' 싶었던 순간은 언제였나요? 어떻게 극복했나요?",
+             sub:"이불킥해도 괜찮아요. 우리 다 그랬으니까. 가볍게 털어놓고 서로 응원해요 🥚",
+             ph:"예: 첫 면접에서 내 이름을 틀리게 말했다… 근데 붙었다ㅋㅋ", theme:"room-a", noun:"이생망" },
+  party:{ q:"민주당이 '이번 생은 망했다' 싶었던 순간은 언제였나요? 어떻게 극복할까요?",
+          sub:"우리가 사랑해서 더 아픈 민주당. 그 순간들과, 다시 일어설 방법을 나눠주세요.",
+          ph:"진단과 극복 아이디어를 자유롭게 남겨주세요.", theme:"room-b", noun:"이야기" }
+};
+var BADWORDS=["시발","씨발","ㅅㅂ","병신","ㅂㅅ","개새끼","개새","새끼","좆","존나","꺼져","닥쳐","엿먹","죽어","지랄","미친놈","미친년","fuck","shit"];
+function badWord(s){ var t=(s||"").replace(/\s/g,"").toLowerCase(); return BADWORDS.some(function(w){return t.indexOf(w)>=0;}); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];}); }
+function fmt(n){ try{return (n||0).toLocaleString('ko-KR');}catch(e){return ''+(n||0);} }
+function rel(ts){ if(!ts)return ''; var s=Math.floor((Date.now()-ts)/1000); if(s<60)return '방금'; if(s<3600)return Math.floor(s/60)+'분 전'; if(s<86400)return Math.floor(s/3600)+'시간 전'; return Math.floor(s/86400)+'일 전'; }
+
+var room='personal', sort='new', offset=0, PAGE=10, total=0, items=[], loading=false, shareStory=null;
+
+function mineGet(){ try{return JSON.parse(localStorage.getItem('kb_st_mine')||'{}');}catch(e){return {};} }
+function mineSet(m){ try{localStorage.setItem('kb_st_mine',JSON.stringify(m));}catch(e){} }
+function myReacts(id){ var m=mineGet(); return m[id]||{}; }
+
+function toast(msg){ var t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},1800); }
+
+function applyRoom(){
+  var r=ROOM[room];
+  $('root').className='wrap '+r.theme;
+  document.querySelectorAll('.tab').forEach(function(el){ el.classList.toggle('on', el.getAttribute('data-room')===room); });
+  $('qText').textContent=r.q; $('qSub').textContent=r.sub; $('content').placeholder=r.ph;
+}
+function cardHtml(it){
+  var mine=myReacts(it.id);
+  var hot=it.reactSum>=8;
+  var reacts=REACTS.map(function(rc){
+    var cnt=(it.reactions&&it.reactions[rc.k])||0;
+    return '<button class="rbtn'+(mine[rc.k]?' mine':'')+'" data-id="'+it.id+'" data-k="'+rc.k+'" title="'+rc.label+'">'
+      +'<span class="em">'+rc.e+'</span><span class="c">'+cnt+'</span></button>';
+  }).join('');
+  return '<div class="card'+(hot?' hot':'')+'" data-id="'+it.id+'">'
+    +'<div class="chead"><div class="nick">'+esc(it.nick)+(hot?'<span class="hotbadge">공감 UP</span>':'')+'</div><div class="time">'+rel(it.ts)+'</div></div>'
+    +'<div class="txt">'+esc(it.content)+'</div>'
+    +'<div class="reacts">'+reacts+'</div>'
+    +'<div class="cfoot"><button class="linkbtn share" data-id="'+it.id+'">🔗 공유</button><button class="linkbtn rep" data-id="'+it.id+'">🚩 신고</button></div>'
+    +'</div>';
+}
+function renderAll(){
+  var el=$('list');
+  if(!items.length){ el.innerHTML='<div class="empty">아직 이야기가 없어요.<br>첫 번째로 '+(room==='personal'?'이생망을':'생각을')+' 남겨보세요! 🥚</div>'; $('btnMore').style.display='none'; return; }
+  el.innerHTML=items.map(cardHtml).join('');
+  $('btnMore').style.display = (items.length<total)?'block':'none';
+}
+function updateCounter(){
+  var noun = room==='personal' ? '명이 이생망을 나눴어요' : '개의 목소리가 모였어요';
+  $('counter').innerHTML = total? ('지금까지 <b>'+fmt(total)+'</b>'+noun) : '첫 번째 이야기를 기다리고 있어요 🥚';
+}
+function load(reset){
+  if(loading) return; loading=true;
+  if(reset){ offset=0; items=[]; $('list').innerHTML='<div class="empty">불러오는 중…</div>'; }
+  fetch(API+'?action=list&room='+room+'&sort='+sort+'&offset='+offset+'&limit='+PAGE,{cache:'no-store'})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      loading=false;
+      if(!d||!d.ok){ $('list').innerHTML='<div class="empty">불러올 수 없어요. 잠시 후 다시 시도해주세요.</div>'; return; }
+      total=d.total||0;
+      items=items.concat(d.items||[]);
+      offset=items.length;
+      renderAll(); updateCounter();
+    })
+    .catch(function(){ loading=false; $('list').innerHTML='<div class="empty">불러올 수 없어요.</div>'; });
+}
+
+/* 탭 전환 */
+document.querySelectorAll('.tab').forEach(function(el){
+  el.addEventListener('click',function(){ room=el.getAttribute('data-room'); applyRoom(); load(true); window.scrollTo({top:0,behavior:'smooth'}); });
+});
+/* 정렬 */
+document.querySelectorAll('.seg button').forEach(function(b){
+  b.addEventListener('click',function(){ sort=b.getAttribute('data-sort'); document.querySelectorAll('.seg button').forEach(function(x){x.classList.toggle('on',x===b);}); load(true); });
+});
+/* 글자수 */
+$('content').addEventListener('input',function(){ $('cnt').textContent=this.value.length; });
+/* 게임 키 가로채기 방지 대비: 입력 요소는 자연 동작 */
+/* 작성 */
+$('btnPost').addEventListener('click',function(){
+  var content=($('content').value||'').trim();
+  var nick=($('nick').value||'').trim();
+  if(!content){ toast('내용을 입력해주세요'); return; }
+  if(badWord(content)||badWord(nick)){ toast('부적절한 표현이 있어요. 다시 적어주세요'); return; }
+  $('btnPost').disabled=true;
+  fetch(API+'?action=post',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:room,nick:nick,content:content})})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      $('btnPost').disabled=false;
+      if(d&&d.ok&&d.item){
+        $('content').value=''; $('nick').value=''; $('cnt').textContent='0';
+        if(sort!=='new'){ sort='new'; document.querySelectorAll('.seg button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-sort')==='new');}); }
+        items.unshift(d.item); total++; offset++; renderAll(); updateCounter();
+        toast('이야기가 등록됐어요 🥚'); window.scrollTo({top:$('list').offsetTop-80,behavior:'smooth'});
+      } else if(d&&d.error==='badword'){ toast('부적절한 표현이 있어요');
+      } else if(d&&d.error==='rate'){ toast('잠시 후 다시 시도해주세요');
+      } else { toast('등록에 실패했어요'); }
+    })
+    .catch(function(){ $('btnPost').disabled=false; toast('등록에 실패했어요'); });
+});
+/* 리스트 이벤트 위임: 반응/공유/신고 */
+$('list').addEventListener('click',function(e){
+  var rb=e.target.closest&&e.target.closest('.rbtn');
+  if(rb){ onReact(rb); return; }
+  var sh=e.target.closest&&e.target.closest('.share');
+  if(sh){ openShare(sh.getAttribute('data-id')); return; }
+  var rp=e.target.closest&&e.target.closest('.rep');
+  if(rp){ onReport(rp.getAttribute('data-id')); return; }
+});
+function findItem(id){ for(var i=0;i<items.length;i++) if(items[i].id===id) return items[i]; return null; }
+function onReact(btn){
+  var id=btn.getAttribute('data-id'), k=btn.getAttribute('data-k');
+  var it=findItem(id); if(!it) return;
+  var m=mineGet(); m[id]=m[id]||{};
+  var have=!!m[id][k];
+  var op=have?'remove':'add';
+  // optimistic UI
+  it.reactions[k]=Math.max(0,(it.reactions[k]||0)+(have?-1:1));
+  it.reactSum=Math.max(0,(it.reactSum||0)+(have?-1:1));
+  if(have){ delete m[id][k]; } else { m[id][k]=1; }
+  mineSet(m);
+  var cEl=btn.querySelector('.c'); if(cEl) cEl.textContent=it.reactions[k];
+  btn.classList.toggle('mine',!have);
+  btn.classList.remove('bump'); void btn.offsetWidth; if(!have) btn.classList.add('bump');
+  fetch(API+'?action=react',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:room,id:id,key:k,op:op})})
+    .then(function(r){return r.json();})
+    .then(function(d){ if(d&&d.ok){ it.reactions[k]=d.count; if(cEl) cEl.textContent=d.count; } })
+    .catch(function(){});
+}
+function onReport(id){
+  if(!confirm('이 글을 신고할까요?\n부적절한 내용은 관리자가 확인 후 조치합니다.')) return;
+  fetch(API+'?action=report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:room,id:id})})
+    .then(function(r){return r.json();}).then(function(d){ toast(d&&d.ok?'신고가 접수됐어요. 감사합니다.':'신고에 실패했어요'); })
+    .catch(function(){ toast('신고에 실패했어요'); });
+}
+
+/* ===== 공유 카드 ===== */
+function wrapChars(g,text,maxW){
+  var lines=[], cur='';
+  var paras=String(text).split('\n');
+  for(var p=0;p<paras.length;p++){
+    var s=paras[p]; cur='';
+    for(var i=0;i<s.length;i++){ var t=cur+s[i]; if(g.measureText(t).width>maxW && cur){ lines.push(cur); cur=s[i]; } else { cur=t; } }
+    lines.push(cur);
+  }
+  return lines;
+}
+function drawCard(it){
+  var c=$('shareCanvas'); var S=1080, HGT=1350; c.width=S; c.height=HGT; var g=c.getContext('2d');
+  var bg=g.createLinearGradient(0,0,0,HGT); bg.addColorStop(0,'#0C1533'); bg.addColorStop(1,'#0A1128');
+  g.fillStyle=bg; g.fillRect(0,0,S,HGT);
+  var rd=g.createRadialGradient(S/2,300,80,S/2,300,760); rd.addColorStop(0,'rgba(45,125,255,.22)'); rd.addColorStop(1,'rgba(45,125,255,0)');
+  g.fillStyle=rd; g.fillRect(0,0,S,HGT);
+  g.strokeStyle='rgba(255,197,61,.45)'; g.lineWidth=6; g.strokeRect(30,30,S-60,HGT-60);
+  g.textAlign='center';
+  g.fillStyle='#FFC53D'; g.font="600 30px 'Noto Sans KR',sans-serif";
+  g.fillText('이생망 공유방 · '+(it.room==='personal'?'나의 이생망':'민주당의 이생망'), S/2, 108);
+  // 큰 따옴표
+  g.fillStyle='rgba(255,246,227,.18)'; g.font="140px 'Black Han Sans',sans-serif"; g.fillText('“', S/2, 250);
+  // 본문
+  g.fillStyle='#FFF6E3'; g.textAlign='left';
+  var fs = it.content.length>120?38:(it.content.length>70?44:50);
+  g.font="500 "+fs+"px 'Noto Sans KR',sans-serif";
+  var lh=Math.round(fs*1.5);
+  var lines=wrapChars(g, it.content, S-200);
+  if(lines.length>11){ lines=lines.slice(0,11); lines[10]=lines[10].slice(0,-1)+'…'; }
+  var blockH=lines.length*lh;
+  var startY=Math.max(300, (HGT-360-blockH)/2 + 300);
+  for(var i=0;i<lines.length;i++){ g.fillText(lines[i], 100, startY+i*lh); }
+  var y=startY+blockH+30;
+  // 닉네임
+  g.textAlign='center'; g.fillStyle='#9DB4DE'; g.font="500 26px 'Noto Sans KR',sans-serif";
+  g.fillText('— '+it.nick, S/2, y); y+=54;
+  // 반응 요약
+  var parts=[]; REACTS.forEach(function(rc){ var v=(it.reactions&&it.reactions[rc.k])||0; if(v>0) parts.push(rc.e+' '+v); });
+  if(parts.length){ g.fillStyle='#FFC53D'; g.font="700 34px 'Noto Sans KR',sans-serif"; g.fillText(parts.join('   '), S/2, y); y+=20; }
+  // 하단 브랜드 고정
+  g.strokeStyle='rgba(255,255,255,.14)'; g.lineWidth=2; g.beginPath(); g.moveTo(S*0.2,HGT-250); g.lineTo(S*0.8,HGT-250); g.stroke();
+  g.fillStyle='#FFF6E3'; g.font="44px 'Black Han Sans','Noto Sans KR',sans-serif"; g.fillText('이번 생에 바꿉시다', S/2, HGT-180);
+  g.fillStyle='#FFF6E3'; g.font="700 40px 'Noto Sans KR',sans-serif"; g.fillText('김보미 — 뽑고 싶은 민주당', S/2, HGT-128);
+  g.fillStyle='#8FB3E6'; g.font="700 32px 'Noto Sans KR',sans-serif"; g.fillText('김보미.com', S/2, HGT-84);
+  g.fillStyle='#FFC53D'; g.font="500 24px 'Noto Sans KR',sans-serif"; g.fillText(HASHTAGS, S/2, HGT-46);
+}
+function openShare(id){
+  var it=findItem(id); if(!it) return; shareStory=it;
+  drawCard(it);
+  if(document.fonts&&document.fonts.ready){ document.fonts.ready.then(function(){ drawCard(it); }); }
+  $('smodal').classList.add('open');
+}
+function shareText(it){
+  var parts=[]; REACTS.forEach(function(rc){ var v=(it.reactions&&it.reactions[rc.k])||0; if(v>0) parts.push(rc.e+v); });
+  var r=parts.length?(' ('+parts.join(' ')+')'):'';
+  return '“'+it.content.slice(0,80)+(it.content.length>80?'…':'')+'”'+r+' — 이생망 공유방 🥚 '+HASHTAGS;
+}
+function canvasBlob(cb){ var c=$('shareCanvas'); if(c&&c.toBlob){ c.toBlob(cb,'image/png'); } else cb(null); }
+$('sSave').addEventListener('click',function(){
+  canvasBlob(function(blob){ if(!blob){toast('저장을 지원하지 않는 환경');return;} var u=URL.createObjectURL(blob); var a=document.createElement('a'); a.href=u; a.download='이생망_공유카드.png'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){URL.revokeObjectURL(u);},4000); toast('이미지를 저장했어요'); });
+});
+$('sShare').addEventListener('click',function(){
+  if(!shareStory) return; var text=shareText(shareStory);
+  canvasBlob(async function(blob){
+    if(blob&&navigator.canShare){ var file=new File([blob],'이생망_공유카드.png',{type:'image/png'}); if(navigator.canShare({files:[file]})){ try{ await navigator.share({files:[file],text:text,url:SHARE_URL}); return; }catch(e){ if(e&&e.name==='AbortError') return; } } }
+    if(navigator.share){ try{ await navigator.share({text:text,url:SHARE_URL}); return; }catch(e){ if(e&&e.name==='AbortError') return; } }
+    try{ await navigator.clipboard.writeText(text+' '+SHARE_URL); toast('클립보드에 복사됐어요'); }catch(e){ prompt('복사해 공유하세요', text+' '+SHARE_URL); }
+  });
+});
+$('sClose').addEventListener('click',function(){ $('smodal').classList.remove('open'); });
+$('smodal').addEventListener('click',function(e){ if(e.target===$('smodal')) $('smodal').classList.remove('open'); });
+
+$('btnMore').addEventListener('click',function(){ load(false); });
+
+/* init */
+applyRoom(); load(true);
+/* 공유방 진입 파라미터: ?room=party 지원 */
+try{ var qp=new URLSearchParams(location.search); if(qp.get('room')==='party'){ room='party'; applyRoom(); load(true); } }catch(e){}
+</script>
+</body>
+</html>

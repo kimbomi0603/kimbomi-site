@@ -90,6 +90,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     <div class="tab on" data-tab="dash">대시보드</div>
     <div class="tab" data-tab="thoughts">생각 나누기</div>
     <div class="tab" data-tab="scores">명예의 전당</div>
+    <div class="tab" data-tab="stories">이생망 공유방</div>
     <div class="tab" data-tab="reports">리포트 보관함</div>
   </div></div>
 
@@ -125,6 +126,11 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     <!-- SCORES (명예의 전당) -->
     <section id="tab-scores" class="hide">
       <div class="panel"><h3>명예의 전당 · 게임 랭킹 <span id="scCount" style="color:var(--dpk)"></span></h3><div id="scList"></div></div>
+    </section>
+
+    <!-- STORIES (이생망 공유방) -->
+    <section id="tab-stories" class="hide">
+      <div class="panel"><h3>이생망 공유방 · 신고순 <span id="stCount" style="color:var(--dpk)"></span></h3><div id="stList"></div></div>
     </section>
 
     <!-- REPORTS -->
@@ -265,14 +271,35 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
       });
   }
 
+  var stItems=[];
+  function loadStories(){
+    return fetch('/api/stories?action=all&key='+encodeURIComponent(getKey()),{cache:'no-store'})
+      .then(function(r){ if(r.status===401){var e=new Error('unauth');e.code=401;throw e;} return r.json(); })
+      .then(function(d){
+        if(!d.ok) return;
+        stItems=d.items||[];
+        $('stCount').textContent=(d.total||0)+'건';
+        var el=$('stList');
+        if(!stItems.length){ el.innerHTML='<div class="empty">아직 등록된 글이 없습니다.</div>'; return; }
+        el.innerHTML=stItems.map(function(t,i){
+          var roomLab=t.room==='personal'?'나의 이생망':'민주당의 이생망';
+          var rep=t.report||0, rsum=t.reactSum||0;
+          var dt=''; try{dt=new Date(t.ts).toLocaleString('ko-KR');}catch(e){}
+          var repBadge = rep>0 ? '<span style="background:#c0392b;color:#fff;border-radius:6px;padding:1px 7px;font-size:.72rem;font-weight:700;margin-right:6px">\u{1F6A9} 신고 '+rep+'</span>' : '';
+          return '<div class="th"'+(rep>0?' style="background:#fdecec;border-radius:8px;padding:12px 12px"':'')+'><div class="m">'+repBadge+'<b>['+roomLab+']</b> '+esc(t.content)+'</div><div class="meta">'+esc(t.nick)+' · 공감 '+rsum+' · '+esc(dt)+' <button class="del" data-i="'+i+'">삭제</button></div></div>';
+        }).join('');
+      });
+  }
+
   var loaded={};
   function showTab(name){
-    ['dash','thoughts','scores','reports'].forEach(function(t){
+    ['dash','thoughts','scores','stories','reports'].forEach(function(t){
       $('tab-'+t).classList.toggle('hide', t!==name);
     });
     document.querySelectorAll('.tab').forEach(function(el){ el.classList.toggle('on', el.getAttribute('data-tab')===name); });
     if(name==='thoughts' && !loaded.thoughts){ loaded.thoughts=1; loadThoughts(); }
     if(name==='scores' && !loaded.scores){ loaded.scores=1; loadScores().catch(handleErr); }
+    if(name==='stories' && !loaded.stories){ loaded.stories=1; loadStories().catch(handleErr); }
     if(name==='reports' && !loaded.reports){ loaded.reports=1; loadReports(); }
   }
 
@@ -304,7 +331,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
   });
   $('keyInput').addEventListener('keydown',function(e){ if(e.key==='Enter') $('loginBtn').click(); });
   $('logoutBtn').addEventListener('click',function(){ clearKey(); loaded={}; showLogin(''); });
-  $('refreshBtn').addEventListener('click',function(){ loaded={}; loadDash().catch(handleErr); if(!$('tab-thoughts').classList.contains('hide')){loadThoughts();} if(!$('tab-scores').classList.contains('hide')){loadScores().catch(handleErr);} if(!$('tab-reports').classList.contains('hide')){loadReports();} });
+  $('refreshBtn').addEventListener('click',function(){ loaded={}; loadDash().catch(handleErr); if(!$('tab-thoughts').classList.contains('hide')){loadThoughts();} if(!$('tab-scores').classList.contains('hide')){loadScores().catch(handleErr);} if(!$('tab-stories').classList.contains('hide')){loadStories().catch(handleErr);} if(!$('tab-reports').classList.contains('hide')){loadReports();} });
 
   $('thList').addEventListener('click',function(e){
     var b=e.target.closest&&e.target.closest('.del'); if(!b) return;
@@ -322,6 +349,15 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     b.disabled=true; b.textContent='삭제중…';
     fetch('/api/scores?action=remove&key='+encodeURIComponent(getKey()),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:t.id})})
       .then(function(r){return r.json();}).then(function(d){ if(d&&d.ok&&d.removed){ loadScores().catch(handleErr); } else { alert('삭제에 실패했습니다.'); b.disabled=false; b.textContent='삭제'; } })
+      .catch(function(){ alert('삭제에 실패했습니다.'); b.disabled=false; b.textContent='삭제'; });
+  });
+  $('stList').addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('.del'); if(!b) return;
+    var i=parseInt(b.getAttribute('data-i'),10); var t=stItems[i]; if(!t) return;
+    if(!confirm('이 글을 삭제(숨김)할까요?\n\n"'+String(t.content||'').slice(0,60)+'"\n\n삭제한 글은 보관함에 남습니다.')) return;
+    b.disabled=true; b.textContent='삭제중…';
+    fetch('/api/stories?action=remove&key='+encodeURIComponent(getKey()),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:t.room,id:t.id})})
+      .then(function(r){return r.json();}).then(function(d){ if(d&&d.ok&&d.removed){ loadStories().catch(handleErr); } else { alert('삭제에 실패했습니다.'); b.disabled=false; b.textContent='삭제'; } })
       .catch(function(){ alert('삭제에 실패했습니다.'); b.disabled=false; b.textContent='삭제'; });
   });
   if(getKey()){ enterApp(); } else { showLogin(''); }
