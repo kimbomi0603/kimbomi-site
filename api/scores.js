@@ -77,6 +77,15 @@ module.exports = async (req, res) => {
       return;
     }
 
+    if (action === 'all') {
+      var akey = req.query.key || req.headers['x-admin-key'] || '';
+      if (!ADMIN_KEY || akey !== ADMIN_KEY) { res.status(401).json({ ok:false, error:'unauthorized' }); return; }
+      var alla = await redis(['LRANGE', LIST, 0, MAXKEEP-1]);
+      var arra = parse(alla.result).sort(cmp);
+      res.status(200).json({ ok:true, total:arra.length, items:arra });
+      return;
+    }
+
     if (action === 'remove' && req.method === 'POST') {
       var key = req.query.key || req.headers['x-admin-key'] || '';
       if (!ADMIN_KEY || key !== ADMIN_KEY) { res.status(401).json({ ok:false, error:'unauthorized' }); return; }
