@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>계란으로 바위치기 — 이번 생에 바꿉시다!</title>
+<meta name="description" content="계란으로 바위를 깨는 벽돌깨기. 10개의 기득권 벽을 깨고 민주당을 바꿔보세요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0A1128;
+  --deep:#141F45;
+  --panel:#101A38;
+  --blue:#2D7DFF;
+  --blue-soft:#6FA5FF;
+  --egg:#FFF6E3;
+  --yolk:#FFC53D;
+  --gold:#FFB020;
+  --rock:#5B6478;
+  --rock-dark:#3D4457;
+  --danger:#FF6B6B;
+  --text:#EAF0FF;
+  --dim:#8B97B8;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  background:var(--night);
+  color:var(--text);
+  font-family:'Noto Sans KR',sans-serif;
+  display:flex;justify-content:center;align-items:flex-start;
+  min-height:100vh;
+  overscroll-behavior:none;
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(45,125,255,.10), transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(255,197,61,.06), transparent 45%);
+}
+.wrap{width:100%;max-width:430px;padding:14px 12px 28px;position:relative}
+
+/* ---------- HUD ---------- */
+.hud{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:10px;user-select:none;
+}
+.hud .badge{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:14px;letter-spacing:.5px;
+  background:var(--deep);border:1px solid rgba(111,165,255,.35);
+  color:var(--blue-soft);
+  padding:6px 10px;border-radius:8px;white-space:nowrap;
+}
+.hud .prog{flex:1}
+.hud .prog .label{
+  display:flex;justify-content:space-between;
+  font-size:11px;color:var(--dim);margin-bottom:4px;
+}
+.hud .bar{
+  height:10px;border-radius:6px;background:var(--deep);
+  border:1px solid rgba(111,165,255,.25);overflow:hidden;
+}
+.hud .bar .fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--blue),var(--yolk));
+  transition:width .5s ease;
+}
+.hud .score{
+  font-size:12px;color:var(--dim);text-align:right;min-width:64px;
+}
+.hud .score b{display:block;color:var(--egg);font-size:15px}
+
+/* ---------- Canvas ---------- */
+.stage{
+  position:relative;border-radius:14px;overflow:hidden;
+  border:1px solid rgba(111,165,255,.28);
+  box-shadow:0 12px 40px rgba(0,0,0,.5), inset 0 0 60px rgba(20,31,69,.6);
+  background:linear-gradient(180deg,#0C1533 0%, #0A1128 70%);
+  touch-action:none;
+}
+canvas{display:block;width:100%;height:auto}
+.pausebtn{
+  position:absolute;top:10px;right:10px;z-index:3;
+  width:38px;height:38px;border-radius:10px;border:1px solid rgba(111,165,255,.35);
+  background:rgba(20,31,69,.75);color:var(--egg);
+  font-size:16px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.pausebtn:active{background:rgba(45,125,255,.35)}
+
+/* ---------- Overlays ---------- */
+.overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;text-align:center;
+  background:rgba(6,10,26,.96);backdrop-filter:blur(4px);
+  padding:26px 22px;gap:0;
+  animation:fadeIn .35s ease;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.hidden{display:none!important}
+
+.eyebrow{
+  font-size:12px;letter-spacing:3px;color:var(--yolk);
+  margin-bottom:10px;font-weight:700;
+}
+h1.title{
+  font-family:'Do Hyeon',sans-serif;
+  font-size:46px;line-height:1.2;letter-spacing:3px;
+  color:var(--egg);
+  text-shadow:none;
+  margin-bottom:8px;
+}
+h1.title .accent{color:var(--blue-soft)}
+.tagline{
+  font-size:14px;color:var(--dim);line-height:1.7;margin-bottom:18px;
+}
+.tagline b{color:var(--egg)}
+.howto{
+  font-size:12.5px;color:var(--dim);line-height:1.8;word-break:keep-all;
+  background:rgba(20,31,69,.7);border:1px solid rgba(111,165,255,.2);
+  border-radius:10px;padding:12px 16px;margin-bottom:18px;
+}
+.howto .k{color:var(--yolk);font-weight:700}
+.btn{
+  font-family:'Black Han Sans',sans-serif;
+  font-size:20px;letter-spacing:1px;
+  color:#0A1128;background:linear-gradient(180deg,var(--yolk),var(--gold));
+  border:none;border-radius:12px;padding:14px 38px;cursor:pointer;
+  box-shadow:0 6px 0 #9C6A00, 0 10px 24px rgba(255,176,32,.25);
+  transition:transform .08s ease, box-shadow .08s ease;
+}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #9C6A00}
+.btn.blue{
+  color:#fff;background:linear-gradient(180deg,var(--blue-soft),var(--blue));
+  box-shadow:0 6px 0 #103E8F, 0 10px 24px rgba(45,125,255,.25);
+}
+.btn.blue:active{box-shadow:0 2px 0 #103E8F}
+.btn.small{font-size:15px;padding:10px 22px}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+
+/* stage clear */
+.clear-kw{
+  font-family:'Do Hyeon',sans-serif;
+  font-size:34px;color:var(--yolk);margin:6px 0 2px;
+  animation:pop .4s cubic-bezier(.2,1.6,.4,1);
+}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.clear-sub{
+  font-family:'Black Han Sans',sans-serif;font-size:22px;color:var(--egg);
+  margin-bottom:12px;
+}
+.quote{
+  font-size:14px;color:var(--blue-soft);line-height:1.7;
+  border-left:3px solid var(--yolk);padding-left:12px;text-align:left;
+  margin:0 auto 22px;max-width:290px;
+}
+
+/* game over */
+.dead-title{
+  font-family:'Do Hyeon',sans-serif;font-size:36px;letter-spacing:2px;color:var(--danger);
+  margin-bottom:6px;
+}
+.dead-sub{font-size:13px;color:var(--dim);line-height:1.8;margin-bottom:22px}
+.dead-sub b{color:var(--egg)}
+
+/* final */
+.card{
+  width:100%;max-width:300px;background:linear-gradient(160deg,#16255A,#0C1533);
+  border:1px solid rgba(255,197,61,.45);border-radius:14px;
+  padding:20px 18px;margin:14px 0 18px;text-align:left;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+.card .c-eyebrow{font-size:10px;letter-spacing:3px;color:var(--yolk);margin-bottom:6px}
+.card .c-title{font-family:'Black Han Sans',sans-serif;font-size:24px;color:var(--egg);line-height:1.25;margin-bottom:12px}
+.card .c-stats{display:flex;gap:14px;margin-bottom:12px}
+.card .c-stats div{flex:1}
+.card .c-stats .n{font-family:'Black Han Sans',sans-serif;font-size:22px;color:var(--blue-soft)}
+.card .c-stats .l{font-size:10.5px;color:var(--dim)}
+.card .c-tags{font-size:11.5px;color:var(--yolk);line-height:1.6;word-break:keep-all}
+.card .c-url{font-size:11px;color:var(--dim);margin-top:8px}
+.toast{
+  position:fixed;left:50%;bottom:34px;transform:translateX(-50%);
+  background:var(--egg);color:#0A1128;font-size:13px;font-weight:700;
+  padding:10px 18px;border-radius:20px;opacity:0;pointer-events:none;
+  transition:opacity .3s ease;z-index:50;
+}
+.toast.show{opacity:1}
+
+.footer{
+  margin-top:12px;text-align:center;font-size:11px;color:var(--dim);line-height:1.7;
+}
+.footer a{color:var(--blue-soft);text-decoration:none}
+
+@media (max-width:380px){
+  h1.title{font-size:36px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hud">
+    <div class="badge" id="hudRun">1회차</div>
+    <div class="prog">
+      <div class="label"><span>민주당 회귀 진행률</span><span id="hudStage">0 / 10</span></div>
+      <div class="bar"><div class="fill" id="hudFill"></div></div>
+    </div>
+    <div class="score"><b id="hudScore">0</b>점수</div>
+  </div>
+
+  <div class="stage" id="stageBox">
+    <canvas id="game" width="400" height="600"></canvas>
+    <button class="pausebtn hidden" id="btnPause" aria-label="일시정지">&#10073;&#10073;</button>
+
+    <!-- 일시정지 -->
+    <div class="overlay hidden" id="scrPause">
+      <div class="eyebrow">잠시 숨 고르기</div>
+      <h1 class="title" style="font-size:34px">일시정지</h1>
+      <p class="tagline">계란도 쉬어가며 두드립니다.</p>
+      <div class="btnrow">
+        <button class="btn small" id="btnResume">계속하기</button>
+        <button class="btn blue small" id="btnQuit">처음으로</button>
+      </div>
+    </div>
+
+    <!-- 타이틀 -->
+    <div class="overlay" id="scrTitle">
+      <div class="eyebrow">김보미.com 인터랙티브</div>
+      <h1 class="title">계란으로<br><span class="accent">바위치기</span></h1>
+      <p class="tagline"><b>이번 생에 바꿉시다!</b></p>
+      <div class="howto">
+        <span class="k">회초리</span>를 움직여 <span class="k">계란</span>을 튕기세요.<br>
+        기득권 바위 속 <span class="k">금빛 핵심 벽돌</span>을 깨면 클리어!<br>
+        바위에서 떨어지는 <span class="k">국민의 응원</span>을 받으세요.<br>
+        📣 함성=황금계란 · 👏 박수=긴 회초리 · 💙 응원=슬로우<br>
+        <small style="color:var(--dim)">조작: 터치 드래그 · 마우스 · ← → 방향키</small>
+      </div>
+      <button class="btn" id="btnStart">회귀 시작</button>
+    </div>
+
+    <!-- 스테이지 클리어 -->
+    <div class="overlay hidden" id="scrClear">
+      <div class="eyebrow">기득권 격파</div>
+      <div class="clear-kw" id="clearKw"></div>
+      <div class="clear-sub">깨부쉈다!</div>
+      <p class="quote" id="clearQuote"></p>
+      <button class="btn blue" id="btnNext">다음 벽으로</button>
+    </div>
+
+    <!-- 사망(회귀) -->
+    <div class="overlay hidden" id="scrDead">
+      <div class="dead-title">이번 생은 망했다…</div>
+      <p class="dead-sub">
+        계란은 깨졌지만 기억은 남는다.<br>
+        지금까지 깬 바위는 <b>그대로 유지</b>됩니다.
+      </p>
+      <button class="btn" id="btnRegress">회귀한다 <span id="deadRun"></span></button>
+    </div>
+
+    <!-- 최종 클리어 -->
+    <div class="overlay hidden" id="scrFinal">
+      <div class="eyebrow">회귀 완료</div>
+      <h1 class="title" style="font-size:34px">10개의 벽,<br>전부 깨졌다</h1>
+      <div class="card" id="resultCard">
+        <div class="c-eyebrow">민주당 회귀물 · 클리어 인증</div>
+        <div class="c-title">나는 민주당을<br>회귀시켰다</div>
+        <div class="c-stats">
+          <div><div class="n" id="fRun">1</div><div class="l">회차 만에</div></div>
+          <div><div class="n" id="fScore">0</div><div class="l">점수</div></div>
+          <div><div class="n">10/10</div><div class="l">기득권 격파</div></div>
+        </div>
+        <div class="c-tags">#민주당을살려야합니다<br>#이번생에살립시다 #김보미</div>
+        <div class="c-url">김보미.com</div>
+      </div>
+      <div class="btnrow">
+        <button class="btn small" id="btnShare">결과 공유하기</button>
+        <button class="btn blue small" id="btnAgain">다시 회귀</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    계란으로 바위 치기 — 끝까지 두드려, 결국 해냅니다.<br>
+    <a href="index.html" >김보미.com에서 여러분의 생각을 나눠주세요</a>
+  </div>
+</div>
+
+<div class="toast" id="toast">클립보드에 복사되었습니다</div>
+
+<script>
+"use strict";
+
+/* ================= 데이터 ================= */
+const STAGES = [
+  { kw:"줄세우기 정치", quote:"생각이 달라도 참아야 출세하는 당이 아니라, 다른 의견을 마음껏 말하는 정당으로 바꾸겠습니다." },
+  { kw:"불공정 경선",   quote:"동원 경선이 아니라 실력으로, 토론으로, 정책으로 뽑는 공정 경선을 정착시키겠습니다." },
+  { kw:"불투명 정당",   quote:"내가 몇 표를 얻었는지도 모르는 선거. 경선 결과, 낱낱이 공개하겠습니다." },
+  { kw:"청년 들러리",   quote:"선거 때만 앞줄에 세워 사진 찍는 정치는 끝. 청년에게 진짜 권한을 주는 민주당으로." },
+  { kw:"계파 갈라치기", quote:"친문·친명을 가르는 정치 대신, 누가 더 좋은 정책이 있는지 토론하는 정당으로." },
+  { kw:"입틀막",        quote:"가만히 있어라, 줄을 서라, 나서면 다친다 — 청년의 입을 틀어막는 정치를 끝냅니다." },
+  { kw:"무능력",        quote:"AI·반도체·재생에너지의 시대, 과거가 아니라 미래를 설계하는 유능한 정당으로 바꾸겠습니다." },
+  { kw:"꼰대 정신",     quote:"내가 아니면 안 된다는 정신은 이제 그만. 멋진 이별, 아름다운 퇴장을 준비할 때입니다." },
+  { kw:"고무줄 규칙",   quote:"규정이 너무 많아 규정이 없는 것과 같은 경선 규칙, 전면 혁신하겠습니다." },
+  { kw:"오만한 정치",   quote:"권력은 강하지만 민심은 더 강합니다. 민주당을 다시 국민의 품으로 돌려드리겠습니다." }
+];
+
+const HASHTAGS = "#민주당을살려야합니다 #이번생에살립시다 #김보미";
+
+/* 아이템 정의 */
+const ITEMS = {
+  cheer: { icon:"📣", label:"지지의 함성!", desc:"황금 계란 — 바위 관통", dur:360 },
+  clap:  { icon:"👏", label:"응원의 박수!", desc:"회초리 길어짐",        dur:480 },
+  heart: { icon:"💙", label:"국민의 응원!", desc:"계란이 차분해짐",      dur:390 }
+};
+const ITEM_KEYS = Object.keys(ITEMS);
+
+/* ================= 상태 ================= */
+const cv = document.getElementById("game");
+const ctx = cv.getContext("2d");
+const W = cv.width, H = cv.height;
+
+let order = [];
+let stageNo = 0;
+let runCount = 1;
+let score = 0;
+let playing = false;
+let paused = false;
+let ballLaunched = false;
+let loopId = 0;
+let tick = 0;                 // 프레임 카운터 (속도 파동용)
+
+const PADDLE_BASE = 96;
+const paddle = { w:PADDLE_BASE, h:12, x:(W-PADDLE_BASE)/2, y:H-46 };
+let ball = { x:W/2, y:paddle.y-12, r:9, dx:0, dy:-1, base:3.7 };
+let bricks = [];
+let particles = [];
+let drops = [];               // 떨어지는 아이템
+let floats = [];              // 떠오르는 텍스트
+let shake = 0;
+let fx = { cheer:0, clap:0, heart:0 };  // 남은 프레임
+
+/* ================= 유틸 ================= */
+const $ = id => document.getElementById(id);
+function shuffle(a){
+  const arr = a.slice();
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+
+/* 사운드 (WebAudio 미니 비프) */
+let AC = null;
+function beep(freq, dur, vol, type){
+  try{
+    if(!AC) AC = new (window.AudioContext||window.webkitAudioContext)();
+    const o = AC.createOscillator(), g = AC.createGain();
+    o.type = type||"square"; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol||0.04, AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, AC.currentTime+(dur||0.08));
+    o.connect(g); g.connect(AC.destination);
+    o.start(); o.stop(AC.currentTime+(dur||0.08));
+  }catch(e){}
+}
+
+/* ================= 속도 파동 =================
+   계란으로 바위 치기: 천천히 → 조금 빨라졌다 → 다시 느려지는 호흡 */
+function currentSpeed(){
+  const wave = 0.82 + 0.30 * Math.sin(tick * 0.016);   // 약 6.5초 주기
+  const slow = fx.heart > 0 ? 0.68 : 1;
+  return (ball.base + stageNo*0.11) * wave * slow;
+}
+function normalizeBall(){
+  const mag = Math.hypot(ball.dx, ball.dy) || 1;
+  const s = currentSpeed();
+  ball.dx = ball.dx/mag*s;
+  ball.dy = ball.dy/mag*s;
+  // 수평 고착 방지
+  if(Math.abs(ball.dy) < s*0.22){
+    ball.dy = (ball.dy>=0?1:-1) * s*0.22;
+    const nm = Math.hypot(ball.dx, ball.dy);
+    ball.dx = ball.dx/nm*s; ball.dy = ball.dy/nm*s;
+  }
+}
+
+/* ================= 벽돌 배치 ================= */
+function buildBricks(stageIdx){
+  bricks = [];
+  drops = [];
+  const cols = 7, rows = 5;
+  const pad = 6, top = 64, side = 14;
+  const bw = (W - side*2 - pad*(cols-1)) / cols;
+  const bh = 24;
+
+  const keyRow = Math.floor(Math.random()*2);
+  const keyCol = Math.floor(Math.random()*(cols-1));
+
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      if(r===keyRow && (c===keyCol || c===keyCol+1)) continue;
+      const density = 0.74 + stageNo*0.012;
+      if(Math.random() > density) continue;
+      const hard = Math.random() < (0.08 + stageNo*0.03) ? 2 : 1;
+      bricks.push({
+        x: side + c*(bw+pad), y: top + r*(bh+pad),
+        w: bw, h: bh, hp: hard, max: hard, type:"rock"
+      });
+    }
+  }
+  bricks.push({
+    x: side + keyCol*(bw+pad), y: top + keyRow*(bh+pad),
+    w: bw*2+pad, h: bh, hp: 3, max: 3, type:"key",
+    kw: STAGES[stageIdx].kw
+  });
+}
+
+/* ================= 볼/패들 리셋 ================= */
+function resetBall(){
+  ball.x = paddle.x + paddle.w/2;
+  ball.y = paddle.y - ball.r - 2;
+  ball.dx = 0; ball.dy = -1;
+  ballLaunched = false;
+  fx.cheer = 0; fx.clap = 0; fx.heart = 0;
+  paddle.w = PADDLE_BASE;
+}
+function launchBall(){
+  if(ballLaunched) return;
+  const ang = (-Math.PI/2) + (Math.random()*0.8 - 0.4);
+  ball.dx = Math.cos(ang); ball.dy = Math.sin(ang);
+  normalizeBall();
+  ballLaunched = true;
+  beep(520,0.06,0.05);
+}
+
+/* ================= 입력 ================= */
+let keyL=false, keyR=false;
+function movePaddleTo(px){
+  paddle.x = Math.max(6, Math.min(W-paddle.w-6, px - paddle.w/2));
+  if(!ballLaunched){ ball.x = paddle.x + paddle.w/2; }
+}
+function pointerX(e){
+  const rect = cv.getBoundingClientRect();
+  const clientX = (e.touches? e.touches[0].clientX : e.clientX);
+  return (clientX - rect.left) * (W/rect.width);
+}
+cv.addEventListener("mousemove", e=>{ if(playing) movePaddleTo(pointerX(e)); });
+cv.addEventListener("mousedown", ()=>{ if(playing) launchBall(); });
+cv.addEventListener("touchstart", e=>{ if(playing){ movePaddleTo(pointerX(e)); launchBall(); } e.preventDefault(); }, {passive:false});
+cv.addEventListener("touchmove", e=>{ if(playing) movePaddleTo(pointerX(e)); e.preventDefault(); }, {passive:false});
+document.addEventListener("keydown", e=>{
+  if(e.key==="ArrowLeft") keyL=true;
+  if(e.key==="ArrowRight") keyR=true;
+  if(e.key===" "||e.key==="ArrowUp"){ if(playing) launchBall(); e.preventDefault(); }
+});
+document.addEventListener("keyup", e=>{
+  if(e.key==="ArrowLeft") keyL=false;
+  if(e.key==="ArrowRight") keyR=false;
+});
+
+/* ================= 파티클 / 플로팅 텍스트 ================= */
+function burst(x,y,color,n){
+  for(let i=0;i<n;i++){
+    particles.push({
+      x,y,
+      dx:(Math.random()-0.5)*5, dy:(Math.random()-0.8)*5,
+      life: 24+Math.random()*14, color, size: 2+Math.random()*3
+    });
+  }
+}
+function floatText(x,y,text,color){
+  floats.push({x,y,text,color:color||"#FFC53D",life:70});
+}
+
+/* ================= 아이템 ================= */
+function maybeDrop(x,y){
+  if(Math.random() < 0.22){
+    const type = ITEM_KEYS[Math.floor(Math.random()*ITEM_KEYS.length)];
+    drops.push({x, y, type, vy: 1.6});
+  }
+}
+function applyItem(type){
+  const it = ITEMS[type];
+  fx[type] = it.dur;
+  if(type==="clap"){ paddle.w = Math.min(150, PADDLE_BASE*1.5); }
+  floatText(paddle.x+paddle.w/2, paddle.y-24, it.icon+" "+it.label, "#FFF6E3");
+  score += 30;
+  beep(880,0.08,0.06,"triangle");
+  setTimeout(()=>beep(1174,0.1,0.05,"triangle"),90);
+  updateHUD();
+}
+
+/* ================= 그리기 ================= */
+function roundRect(x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+
+function drawBrick(b){
+  if(b.type==="rock"){
+    const g = ctx.createLinearGradient(b.x,b.y,b.x,b.y+b.h);
+    if(b.hp>=2){ g.addColorStop(0,"#6E7890"); g.addColorStop(1,"#454D63"); }
+    else{ g.addColorStop(0,"#59637B"); g.addColorStop(1,"#3A4155"); }
+    ctx.fillStyle = g;
+    roundRect(b.x,b.y,b.w,b.h,4); ctx.fill();
+    ctx.fillStyle = "rgba(255,255,255,.08)";
+    ctx.fillRect(b.x+4,b.y+4,b.w*0.3,2);
+    if(b.max===2 && b.hp===2){
+      ctx.strokeStyle="rgba(255,255,255,.18)";
+      ctx.lineWidth=1;
+      roundRect(b.x+1.5,b.y+1.5,b.w-3,b.h-3,3); ctx.stroke();
+    }
+    if(b.hp < b.max){ drawCracks(b, 1); }
+  }else{
+    const g = ctx.createLinearGradient(b.x,b.y,b.x,b.y+b.h);
+    g.addColorStop(0,"#FFD667"); g.addColorStop(1,"#E89A00");
+    ctx.fillStyle = g;
+    roundRect(b.x,b.y,b.w,b.h,5); ctx.fill();
+    ctx.strokeStyle="rgba(255,255,255,.5)"; ctx.lineWidth=1.2;
+    roundRect(b.x+1,b.y+1,b.w-2,b.h-2,4); ctx.stroke();
+    ctx.save();
+    ctx.shadowColor="rgba(255,197,61,.8)"; ctx.shadowBlur=14;
+    roundRect(b.x,b.y,b.w,b.h,5); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle="#3A2600";
+    ctx.font="700 13px 'Noto Sans KR',sans-serif";
+    ctx.textAlign="center"; ctx.textBaseline="middle";
+    ctx.fillText(b.kw, b.x+b.w/2, b.y+b.h/2+1);
+    if(b.hp < b.max){ drawCracks(b, b.max-b.hp); }
+  }
+}
+function drawCracks(b, level){
+  ctx.strokeStyle = "rgba(10,17,40,.55)";
+  ctx.lineWidth = 1.4;
+  const cx = b.x+b.w/2, cy=b.y+b.h/2;
+  for(let i=0;i<level*2;i++){
+    const a = (i/(level*2))*Math.PI*2 + 0.4;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+Math.cos(a)*b.w*0.45, cy+Math.sin(a)*b.h*0.7);
+    ctx.stroke();
+  }
+}
+
+function drawPaddle(){
+  const boosted = fx.clap > 0;
+  const g = ctx.createLinearGradient(paddle.x,paddle.y,paddle.x,paddle.y+paddle.h);
+  if(boosted){ g.addColorStop(0,"#D9A254"); g.addColorStop(0.5,"#B0762F"); g.addColorStop(1,"#8A5A20"); }
+  else{ g.addColorStop(0,"#B07B3E"); g.addColorStop(0.5,"#8A5A26"); g.addColorStop(1,"#6B4318"); }
+  ctx.fillStyle = g;
+  roundRect(paddle.x,paddle.y,paddle.w,paddle.h,6); ctx.fill();
+  if(boosted){
+    ctx.save();
+    ctx.shadowColor="rgba(255,197,61,.7)"; ctx.shadowBlur=10;
+    ctx.strokeStyle="rgba(255,214,103,.8)"; ctx.lineWidth=1.5;
+    roundRect(paddle.x,paddle.y,paddle.w,paddle.h,6); ctx.stroke();
+    ctx.restore();
+  }
+  ctx.strokeStyle="rgba(60,35,10,.5)"; ctx.lineWidth=1;
+  ctx.beginPath();
+  ctx.moveTo(paddle.x+8,paddle.y+paddle.h/2);
+  ctx.lineTo(paddle.x+paddle.w-8,paddle.y+paddle.h/2);
+  ctx.stroke();
+  ctx.fillStyle="#5A3812";
+  ctx.fillRect(paddle.x+paddle.w*0.42, paddle.y-1, 4, paddle.h+2);
+  ctx.fillRect(paddle.x+paddle.w*0.56, paddle.y-1, 4, paddle.h+2);
+}
+
+function drawBall(){
+  const golden = fx.cheer > 0;
+  ctx.save();
+  ctx.translate(ball.x, ball.y);
+  if(golden){
+    ctx.shadowColor = "rgba(255,197,61,.95)";
+    ctx.shadowBlur = 16;
+  }
+  ctx.beginPath();
+  ctx.ellipse(0, 0, ball.r*0.86, ball.r*1.05, 0, 0, Math.PI*2);
+  const g = ctx.createRadialGradient(-2,-3,1, 0,0, ball.r*1.2);
+  if(golden){
+    g.addColorStop(0,"#FFF3C0"); g.addColorStop(0.6,"#FFD667"); g.addColorStop(1,"#E8A400");
+  }else{
+    g.addColorStop(0,"#FFFDF6"); g.addColorStop(0.7,"#FFF3D8"); g.addColorStop(1,"#EAD9AE");
+  }
+  ctx.fillStyle=g; ctx.fill();
+  ctx.strokeStyle= golden? "rgba(200,140,0,.6)" : "rgba(160,130,70,.4)";
+  ctx.lineWidth=1; ctx.stroke();
+  ctx.beginPath();
+  ctx.ellipse(-2.5,-3.5, 2.4, 3.2, -0.5, 0, Math.PI*2);
+  ctx.fillStyle="rgba(255,255,255,.75)"; ctx.fill();
+  ctx.restore();
+}
+
+function drawDrops(){
+  ctx.font="20px sans-serif";
+  ctx.textAlign="center"; ctx.textBaseline="middle";
+  for(const d of drops){
+    // 살짝 흔들리며 낙하
+    const wob = Math.sin((tick+d.y)*0.15)*2;
+    ctx.fillText(ITEMS[d.type].icon, d.x+wob, d.y);
+  }
+}
+
+function drawFx(){
+  // 좌상단 활성 효과 표시
+  let x = 12, y = 16;
+  ctx.font="13px sans-serif";
+  ctx.textAlign="left"; ctx.textBaseline="middle";
+  for(const k of ITEM_KEYS){
+    if(fx[k] > 0){
+      ctx.globalAlpha = 0.9;
+      ctx.fillText(ITEMS[k].icon, x, y);
+      // 남은 시간 바
+      const ratio = fx[k]/ITEMS[k].dur;
+      ctx.fillStyle = "rgba(255,197,61,.8)";
+      ctx.fillRect(x+22, y-3, 34*ratio, 5);
+      ctx.strokeStyle = "rgba(255,255,255,.25)";
+      ctx.strokeRect(x+22, y-3, 34, 5);
+      ctx.globalAlpha = 1;
+      y += 22;
+      ctx.fillStyle = "#EAF0FF";
+    }
+  }
+}
+
+function drawFloats(){
+  for(let i=floats.length-1;i>=0;i--){
+    const f = floats[i];
+    f.y -= 0.7; f.life--;
+    ctx.globalAlpha = Math.min(1, f.life/30);
+    ctx.fillStyle = f.color;
+    ctx.font = "700 15px 'Noto Sans KR',sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(f.text, f.x, f.y);
+    ctx.globalAlpha = 1;
+    if(f.life<=0) floats.splice(i,1);
+  }
+}
+
+function drawBackdropText(){
+  ctx.save();
+  ctx.globalAlpha = 0.07;
+  ctx.fillStyle = "#6FA5FF";
+  ctx.font = "34px 'Do Hyeon',sans-serif";
+  ctx.textAlign="center";
+  ctx.fillText("뽑고 싶은 민주당", W/2, H*0.56);
+  ctx.fillText("뽑고 싶은 김보미", W/2, H*0.56 + 44);
+  ctx.restore();
+}
+
+function drawHint(){
+  if(!ballLaunched && playing){
+    ctx.fillStyle="rgba(234,240,255,.75)";
+    ctx.font="500 13px 'Noto Sans KR',sans-serif";
+    ctx.textAlign="center";
+    ctx.fillText("터치 또는 스페이스로 계란 발사", W/2, H-84);
+    ctx.fillStyle="rgba(255,197,61,.9)";
+    ctx.font="700 12px 'Noto Sans KR',sans-serif";
+    ctx.fillText("목표: 금빛 「"+STAGES[order[stageNo]].kw+"」 벽돌 격파", W/2, H-104);
+  }
+}
+
+/* ================= 물리 ================= */
+function step(){
+  tick++;
+  if(keyL) movePaddleTo(paddle.x + paddle.w/2 - 7);
+  if(keyR) movePaddleTo(paddle.x + paddle.w/2 + 7);
+
+  // 아이템 효과 타이머
+  for(const k of ITEM_KEYS){
+    if(fx[k] > 0){
+      fx[k]--;
+      if(fx[k]===0 && k==="clap"){ paddle.w = PADDLE_BASE; movePaddleTo(paddle.x+paddle.w/2); }
+    }
+  }
+
+  // 아이템 낙하 & 획득
+  for(let i=drops.length-1;i>=0;i--){
+    const d = drops[i];
+    d.y += d.vy;
+    if(d.y > paddle.y-6 && d.y < paddle.y+paddle.h+14 &&
+       d.x > paddle.x-12 && d.x < paddle.x+paddle.w+12){
+      applyItem(d.type);
+      drops.splice(i,1);
+      continue;
+    }
+    if(d.y > H+24) drops.splice(i,1);
+  }
+
+  if(ballLaunched){
+    normalizeBall();                 // 속도 파동 적용
+    ball.x += ball.dx; ball.y += ball.dy;
+
+    if(ball.x < ball.r){ ball.x = ball.r; ball.dx = Math.abs(ball.dx); beep(300,0.03,0.02); }
+    if(ball.x > W-ball.r){ ball.x = W-ball.r; ball.dx = -Math.abs(ball.dx); beep(300,0.03,0.02); }
+    if(ball.y < ball.r+2){ ball.y = ball.r+2; ball.dy = Math.abs(ball.dy); beep(300,0.03,0.02); }
+
+    if(ball.dy > 0 &&
+       ball.y+ball.r >= paddle.y && ball.y+ball.r <= paddle.y+paddle.h+8 &&
+       ball.x >= paddle.x-4 && ball.x <= paddle.x+paddle.w+4){
+      const rel = (ball.x - (paddle.x+paddle.w/2)) / (paddle.w/2);
+      const ang = -Math.PI/2 + rel*1.05;
+      ball.dx = Math.cos(ang); ball.dy = Math.sin(ang);
+      normalizeBall();
+      ball.y = paddle.y - ball.r - 1;
+      beep(440,0.04,0.035);
+    }
+
+    if(ball.y > H + 20){ onDeath(); return; }
+
+    for(let i=bricks.length-1;i>=0;i--){
+      const b = bricks[i];
+      if(ball.x+ball.r > b.x && ball.x-ball.r < b.x+b.w &&
+         ball.y+ball.r > b.y && ball.y-ball.r < b.y+b.h){
+        const pierce = fx.cheer > 0 && b.type==="rock";
+        if(!pierce){
+          const overlapX = Math.min(ball.x+ball.r-b.x, b.x+b.w-(ball.x-ball.r));
+          const overlapY = Math.min(ball.y+ball.r-b.y, b.y+b.h-(ball.y-ball.r));
+          if(overlapX < overlapY) ball.dx = -ball.dx; else ball.dy = -ball.dy;
+        }
+
+        b.hp -= pierce ? b.hp : 1;   // 황금 계란은 바위 즉시 파괴
+        shake = 4;
+        if(b.type==="key"){
+          burst(ball.x, ball.y, "#FFC53D", 14);
+          beep(660,0.07,0.06,"triangle");
+          if(b.hp<=0){
+            burst(b.x+b.w/2, b.y+b.h/2, "#FFC53D", 40);
+            score += 500;
+            onStageClear();
+            return;
+          }
+        }else{
+          burst(ball.x, ball.y, pierce? "#FFD667" : "#8B97B8", pierce? 12 : 8);
+          beep(pierce? 500 : 360, 0.05, 0.04);
+          if(b.hp<=0){
+            maybeDrop(b.x+b.w/2, b.y+b.h/2);
+            bricks.splice(i,1);
+            score += (b.max===2? 40 : 20);
+          }
+        }
+        updateHUD();
+        if(!pierce) break;           // 관통 시엔 같은 프레임에 연속 파괴 허용
+      }
+    }
+  }
+}
+
+/* ================= 루프 ================= */
+function loop(myId){
+  if(!playing || myId !== loopId) return;
+  step();
+  if(!playing) return;
+
+  ctx.save();
+  if(shake>0){
+    ctx.translate((Math.random()-0.5)*shake, (Math.random()-0.5)*shake);
+    shake *= 0.82; if(shake<0.4) shake=0;
+  }
+  ctx.clearRect(-8,-8,W+16,H+16);
+  drawBackdropText();
+  bricks.forEach(drawBrick);
+  drawDrops();
+  drawPaddle();
+  drawBall();
+  drawHint();
+  drawFx();
+
+  for(let i=particles.length-1;i>=0;i--){
+    const p = particles[i];
+    p.x+=p.dx; p.y+=p.dy; p.dy+=0.15; p.life--;
+    ctx.globalAlpha = Math.max(0, p.life/30);
+    ctx.fillStyle = p.color;
+    ctx.fillRect(p.x, p.y, p.size, p.size);
+    ctx.globalAlpha = 1;
+    if(p.life<=0) particles.splice(i,1);
+  }
+  drawFloats();
+  ctx.restore();
+
+  requestAnimationFrame(()=>loop(myId));
+}
+function startLoop(){
+  loopId++;
+  const myId = loopId;
+  requestAnimationFrame(()=>loop(myId));
+}
+
+/* ================= 진행 흐름 ================= */
+function updateHUD(){
+  $("hudRun").textContent = runCount + "회차";
+  $("hudStage").textContent = stageNo + " / 10";
+  $("hudFill").style.width = (stageNo*10) + "%";
+  $("hudScore").textContent = score;
+}
+
+function startRun(){
+  order = shuffle(STAGES.map((_,i)=>i));
+  stageNo = 0; runCount = 1; score = 0;
+  startStage();
+}
+function startStage(){
+  buildBricks(order[stageNo]);
+  resetBall();
+  updateHUD();
+  hideAll();
+  setPauseBtn(true);
+  playing = true;
+  startLoop();
+}
+function onStageClear(){
+  playing = false;
+  setPauseBtn(false);
+  const s = STAGES[order[stageNo]];
+  stageNo++;
+  updateHUD();
+  if(stageNo >= 10){
+    showFinal();
+    return;
+  }
+  $("clearKw").textContent = s.kw;
+  $("clearQuote").textContent = s.quote;
+  show("scrClear");
+  beep(784,0.12,0.06,"triangle");
+  setTimeout(()=>beep(1046,0.15,0.06,"triangle"), 130);
+}
+function onDeath(){
+  playing = false;
+  setPauseBtn(false);
+  runCount++;
+  $("deadRun").textContent = "("+runCount+"회차)";
+  updateHUD();
+  show("scrDead");
+  beep(180,0.25,0.06,"sawtooth");
+}
+function showFinal(){
+  $("fRun").textContent = runCount;
+  $("fScore").textContent = score;
+  show("scrFinal");
+  beep(784,0.1,0.06,"triangle");
+  setTimeout(()=>beep(988,0.1,0.06,"triangle"),120);
+  setTimeout(()=>beep(1318,0.25,0.07,"triangle"),240);
+}
+
+function hideAll(){
+  ["scrTitle","scrClear","scrDead","scrFinal","scrPause"].forEach(id=>$(id).classList.add("hidden"));
+}
+function show(id){ hideAll(); $(id).classList.remove("hidden"); }
+function setPauseBtn(on){ $("btnPause").classList.toggle("hidden", !on); }
+
+/* ================= 일시정지 ================= */
+function pauseGame(){
+  if(!playing || paused) return;
+  paused = true;
+  playing = false;           // 루프 정지 (상태는 그대로 보존)
+  setPauseBtn(false);
+  show("scrPause");
+  beep(392,0.08,0.04);
+}
+function resumeGame(){
+  if(!paused) return;
+  paused = false;
+  hideAll();
+  setPauseBtn(true);
+  playing = true;
+  startLoop();
+}
+function quitToTitle(){
+  paused = false;
+  playing = false;
+  setPauseBtn(false);
+  show("scrTitle");
+}
+
+/* ================= 버튼 ================= */
+$("btnStart").addEventListener("click", startRun);
+$("btnNext").addEventListener("click", startStage);
+$("btnPause").addEventListener("click", pauseGame);
+$("btnResume").addEventListener("click", resumeGame);
+$("btnQuit").addEventListener("click", quitToTitle);
+document.addEventListener("keydown", e=>{
+  if(e.key==="Escape" || e.key==="p" || e.key==="P"){
+    if(paused) resumeGame(); else pauseGame();
+  }
+});
+document.addEventListener("visibilitychange", ()=>{
+  if(document.hidden) pauseGame();   // 탭 이탈 시 자동 일시정지
+});
+$("btnRegress").addEventListener("click", ()=>{
+  resetBall();
+  hideAll();
+  setPauseBtn(true);
+  playing = true;
+  startLoop();
+});
+$("btnAgain").addEventListener("click", startRun);
+
+$("btnShare").addEventListener("click", async ()=>{
+  const text = "나는 "+runCount+"회차 만에 민주당을 회귀시켰다. "
+    + "10개의 기득권 벽 전부 격파, "+score+"점! "
+    + HASHTAGS + " — 김보미.com";
+  if(navigator.share){
+    try{ await navigator.share({ text }); return; }catch(e){}
+  }
+  try{
+    await navigator.clipboard.writeText(text);
+    const t = $("toast");
+    t.classList.add("show");
+    setTimeout(()=>t.classList.remove("show"), 1800);
+  }catch(e){
+    alert(text);
+  }
+});
+
+/* 초기 화면 렌더 */
+ctx.clearRect(0,0,W,H);
+updateHUD();
+</script>
+</body>
+</html>
