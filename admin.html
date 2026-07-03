@@ -46,6 +46,8 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
 .th:last-child{border-bottom:0}
 .th .m{white-space:pre-wrap;word-break:break-word;color:#2b3646}
 .th .meta{margin-top:6px;font-size:.8rem;color:#9aa3b0}
+.th .meta .del{margin-left:10px;border:1px solid #e5b4b4;background:#fff;color:#c0392b;font-size:.74rem;font-weight:700;padding:3px 10px;border-radius:7px;cursor:pointer}
+.th .meta .del:hover{background:#fdecec}
 .rep{border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px}
 .rep h4{font-size:.98rem;color:var(--dpk);margin-bottom:6px}
 .rep .d{font-size:.78rem;color:#9aa3b0;margin-bottom:10px}
@@ -212,16 +214,18 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
       renderDims(d.dims||{}, 'PV '+(today.pv||0).toLocaleString()+' · UV '+(today.uv||0).toLocaleString());
     });
   }
+  var thItems=[];
   function loadThoughts(){
     return api('thoughts').then(function(d){
       if(!d.ok) return;
+      thItems=d.items||[];
       $('thCount').textContent=(d.count||0)+'건';
       var el=$('thList');
-      if(!d.items.length){ el.innerHTML='<div class="empty">아직 등록된 생각이 없습니다.</div>'; return; }
-      el.innerHTML=d.items.map(function(t){
+      if(!thItems.length){ el.innerHTML='<div class="empty">아직 등록된 생각이 없습니다.</div>'; return; }
+      el.innerHTML=thItems.map(function(t,i){
         var who=[t.name,t.region].filter(Boolean).join(' · ')||'익명';
         var dt=''; try{dt=new Date(t.date).toLocaleString('ko-KR');}catch(e){}
-        return '<div class="th"><div class="m">'+esc(t.msg)+'</div><div class="meta">'+esc(who)+' · '+esc(dt)+'</div></div>';
+        return '<div class="th"><div class="m">'+esc(t.msg)+'</div><div class="meta">'+esc(who)+' · '+esc(dt)+' <button class="del" data-i="'+i+'">삭제</button></div></div>';
       }).join('');
     });
   }
@@ -277,6 +281,15 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
   $('logoutBtn').addEventListener('click',function(){ clearKey(); loaded={}; showLogin(''); });
   $('refreshBtn').addEventListener('click',function(){ loaded={}; loadDash().catch(handleErr); if(!$('tab-thoughts').classList.contains('hide')){loadThoughts();} if(!$('tab-reports').classList.contains('hide')){loadReports();} });
 
+  $('thList').addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('.del'); if(!b) return;
+    var i=parseInt(b.getAttribute('data-i'),10); var t=thItems[i]; if(!t) return;
+    if(!confirm('이 글을 삭제(숨김)할까요?\n\n"'+String(t.msg||'').slice(0,60)+'"\n\n삭제한 글은 보관함에 따로 남습니다.')) return;
+    b.disabled=true; b.textContent='삭제중…';
+    fetch('/api/admin?action=removethought&key='+encodeURIComponent(getKey()),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({raw:t._raw})})
+      .then(function(r){return r.json();}).then(function(d){ if(d&&d.ok&&d.removed){ loaded.dash=0; loadThoughts(); } else { alert('삭제에 실패했습니다.'); b.disabled=false; b.textContent='삭제'; } })
+      .catch(function(){ alert('삭제에 실패했습니다.'); b.disabled=false; b.textContent='삭제'; });
+  });
   if(getKey()){ enterApp(); } else { showLogin(''); }
 })();
 </script>
