@@ -952,7 +952,11 @@ footer .flink:hover{color:#fff}
   var API="/api/stories";
   var HASHTAGS="#민주당을살려야합니다 #이번생에살립시다 #김보미";
   var SHARE_URL="https://www.xn--4k0b53xuva.com/#story";
-  var REACTS=[{k:'cry',e:'\u{1F622}',label:'나도 그랬어요'},{k:'heart',e:'\u{1FAF6}',label:'응원해요'},{k:'up',e:'\u{1F44D}',label:'멋져요'},{k:'fire',e:'\u{1F525}',label:'강렬해요'},{k:'lol',e:'\u{1F602}',label:'웃프네요'}];
+  var REACTSET={
+    personal:[{k:'cry',e:'😢',label:'나도 그랬어요'},{k:'heart',e:'🫶',label:'응원해요'},{k:'up',e:'👍',label:'멋져요'},{k:'fire',e:'🔥',label:'강렬해요'},{k:'lol',e:'😂',label:'웃프네요'}],
+    party:[{k:'agree',e:'🙏',label:'공감해요'},{k:'right',e:'✊',label:'맞아요'},{k:'over',e:'💪',label:'함께 극복해요'},{k:'change',e:'🔥',label:'바꿔내자'},{k:'ache',e:'😮',label:'뼈아파요'}]
+  };
+  function reactsFor(rm){return REACTSET[rm]||REACTSET.personal;}
   var ROOM={
     personal:{q:"여러분의 '이번 생은 망했다' 싶었던 순간은 언제였나요? 어떻게 극복했나요?",sub:"이불킥해도 괜찮아요. 우리 다 그랬으니까. 가볍게 털어놓고 서로 응원해요 \u{1F95A}",ph:"예: 첫 면접에서 내 이름을 틀리게 말했다\u2026 근데 붙었다ㅋㅋ"},
     party:{q:"민주당이 '이번 생은 망했다' 싶었던 순간은 언제였나요? 어떻게 극복할까요?",sub:"우리가 사랑해서 더 아픈 민주당. 그 순간들과, 다시 일어설 방법을 나눠주세요.",ph:"진단과 극복 아이디어를 자유롭게 남겨주세요."}
@@ -974,7 +978,7 @@ footer .flink:hover{color:#fff}
   }
   function cardHtml(it){
     var mine=myReacts(it.id), hot=it.reactSum>=8;
-    var rx=REACTS.map(function(rc){var cnt=(it.reactions&&it.reactions[rc.k])||0;return '<button class="rc'+(mine[rc.k]?' mine':'')+'" data-id="'+it.id+'" data-k="'+rc.k+'" title="'+rc.label+'"><span class="em">'+rc.e+'</span><span class="c">'+cnt+'</span></button>';}).join('');
+    var rx=reactsFor(it.room).map(function(rc){var cnt=(it.reactions&&it.reactions[rc.k])||0;return '<button class="rc'+(mine[rc.k]?' mine':'')+'" data-id="'+it.id+'" data-k="'+rc.k+'" title="'+rc.label+'"><span class="em">'+rc.e+'</span><span class="c">'+cnt+'</span></button>';}).join('');
     return '<div class="sc'+(hot?' hot':'')+'"><div class="h"><div class="nk">'+esc(it.nick)+(hot?'<span class="hotb">공감 UP</span>':'')+'</div><div class="tm">'+rel(it.ts)+'</div></div><div class="tx">'+esc(it.content)+'</div><div class="rx">'+rx+'</div><div class="f"><button class="share" data-id="'+it.id+'">\uD83D\uDD17 공유</button><button class="rep" data-id="'+it.id+'">\uD83D\uDEA9 신고</button></div></div>';
   }
   function renderAll(){
@@ -1054,7 +1058,7 @@ footer .flink:hover{color:#fff}
     var blockH=lines.length*lh,startY=Math.max(300,(H-360-blockH)/2+300);
     for(var i=0;i<lines.length;i++){g.fillText(lines[i],100,startY+i*lh);}
     var y=startY+blockH+30;g.textAlign='center';g.fillStyle='#9DB4DE';g.font="500 26px 'Noto Sans KR',sans-serif";g.fillText('\u2014 '+it.nick,S/2,y);y+=54;
-    var parts=[];REACTS.forEach(function(rc){var v=(it.reactions&&it.reactions[rc.k])||0;if(v>0)parts.push(rc.e+' '+v);});
+    var parts=[];reactsFor(it.room).forEach(function(rc){var v=(it.reactions&&it.reactions[rc.k])||0;if(v>0)parts.push(rc.e+' '+v);});
     if(parts.length){g.fillStyle='#FFC53D';g.font="700 34px 'Noto Sans KR',sans-serif";g.fillText(parts.join('   '),S/2,y);}
     g.strokeStyle='rgba(255,255,255,.14)';g.lineWidth=2;g.beginPath();g.moveTo(S*0.2,H-250);g.lineTo(S*0.8,H-250);g.stroke();
     g.fillStyle='#FFF6E3';g.font="44px 'Black Han Sans','Noto Sans KR',sans-serif";g.fillText('이번 생에 바꿉시다',S/2,H-180);
@@ -1063,7 +1067,7 @@ footer .flink:hover{color:#fff}
     g.fillStyle='#FFC53D';g.font="500 24px 'Noto Sans KR',sans-serif";g.fillText(HASHTAGS,S/2,H-46);
   }
   function openShare(id){var it=findItem(id);if(!it)return;shareStory=it;drawCard(it);if(document.fonts&&document.fonts.ready){document.fonts.ready.then(function(){drawCard(it);});}$('stShareModal').classList.add('open');}
-  function shareText(it){var parts=[];REACTS.forEach(function(rc){var v=(it.reactions&&it.reactions[rc.k])||0;if(v>0)parts.push(rc.e+v);});var r=parts.length?(' ('+parts.join(' ')+')'):'';return '\u201C'+it.content.slice(0,80)+(it.content.length>80?'\u2026':'')+'\u201D'+r+' \u2014 이생망 공유방 \uD83E\uDD5A '+HASHTAGS;}
+  function shareText(it){var parts=[];reactsFor(it.room).forEach(function(rc){var v=(it.reactions&&it.reactions[rc.k])||0;if(v>0)parts.push(rc.e+v);});var r=parts.length?(' ('+parts.join(' ')+')'):'';return '\u201C'+it.content.slice(0,80)+(it.content.length>80?'\u2026':'')+'\u201D'+r+' \u2014 이생망 공유방 \uD83E\uDD5A '+HASHTAGS;}
   function cBlob(cb){var c=$('stShareCanvas');if(c&&c.toBlob){c.toBlob(cb,'image/png');}else cb(null);}
   $('stSSave').addEventListener('click',function(){cBlob(function(blob){if(!blob){toast('저장 미지원');return;}var u=URL.createObjectURL(blob);var a=document.createElement('a');a.href=u;a.download='이생망_공유카드.png';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u);},4000);toast('이미지를 저장했어요');});});
   $('stSShare').addEventListener('click',function(){if(!shareStory)return;var text=shareText(shareStory);cBlob(async function(blob){if(blob&&navigator.canShare){var file=new File([blob],'이생망_공유카드.png',{type:'image/png'});if(navigator.canShare({files:[file]})){try{await navigator.share({files:[file],text:text,url:SHARE_URL});return;}catch(e){if(e&&e.name==='AbortError')return;}}}if(navigator.share){try{await navigator.share({text:text,url:SHARE_URL});return;}catch(e){if(e&&e.name==='AbortError')return;}}try{await navigator.clipboard.writeText(text+' '+SHARE_URL);toast('클립보드에 복사됐어요');}catch(e){prompt('복사해 공유하세요',text+' '+SHARE_URL);}});});
