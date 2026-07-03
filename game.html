@@ -102,7 +102,7 @@ canvas{display:block;width:100%;height:auto}
 /* ---------- Overlays ---------- */
 .overlay{
   position:absolute;inset:0;display:flex;flex-direction:column;
-  justify-content:center;align-items:center;text-align:center;
+  justify-content:safe center;align-items:center;text-align:center;overflow-y:auto;
   background:rgba(6,10,26,.96);backdrop-filter:blur(4px);
   padding:26px 22px;gap:0;
   animation:fadeIn .35s ease;
@@ -188,6 +188,11 @@ h1.title .accent{color:var(--blue-soft)}
 .card .c-stats .n{font-family:'Black Han Sans',sans-serif;font-size:22px;color:var(--blue-soft)}
 .card .c-stats .l{font-size:10.5px;color:var(--dim)}
 .card .c-tags{font-size:11.5px;color:var(--yolk);line-height:1.6;word-break:keep-all}
+.card .c-rocks{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:2px 0 12px}
+.card .c-rocks span{font-size:11px;font-weight:700;color:#0A1128;background:var(--yolk);border-radius:999px;padding:3px 9px}
+.hidden-tease{font-size:12.5px;color:var(--blue-soft);line-height:1.55;margin:6px 0 8px}
+.hidden-tease b{color:var(--yolk)}
+#medalCanvas{width:min(232px,64vw);height:auto;border-radius:14px;box-shadow:0 12px 34px rgba(0,0,0,.55);margin:8px auto}
 .card .c-url{font-size:11px;color:var(--dim);margin-top:8px}
 .toast{
   position:fixed;left:50%;bottom:34px;transform:translateX(-50%);
@@ -216,7 +221,7 @@ h1.title .accent{color:var(--blue-soft)}
   <div class="hud">
     <div class="badge" id="hudRun">1회차</div>
     <div class="prog">
-      <div class="label"><span>민주당 회귀 진행률</span><span id="hudStage">0 / 5</span></div>
+      <div class="label"><span id="hudLabel">민주당 회귀 진행률</span><span id="hudStage">0 / 5</span></div>
       <div class="bar"><div class="fill" id="hudFill"></div></div>
     </div>
     <div class="score"><b id="hudScore">0</b>점수</div>
@@ -244,6 +249,7 @@ h1.title .accent{color:var(--blue-soft)}
       <p class="tagline"><b>이번 생에 바꿉시다!</b></p>
       <div class="howto">
         <b style="color:var(--yolk)">10개의 기득권 바위 중 5개가 랜덤 출제!</b> 모두 깨보세요.<br>
+        <b style="color:var(--blue-soft)">5개를 모두 깨면 → 3대 위기(경제·평화·기후) 히든 스테이지!</b><br>
         <span class="k">회초리</span>를 움직여 <span class="k">계란</span>을 튕기세요.<br>
         기득권 바위 속 <span class="k">금빛 핵심 벽돌</span>을 깨면 클리어!<br>
         바위에서 떨어지는 <span class="k">국민의 응원</span>을 받으세요.<br>
@@ -255,7 +261,7 @@ h1.title .accent{color:var(--blue-soft)}
 
     <!-- 스테이지 클리어 -->
     <div class="overlay hidden" id="scrClear">
-      <div class="eyebrow">기득권 격파</div>
+      <div class="eyebrow" id="clearEyebrow">기득권 격파</div>
       <div class="clear-kw" id="clearKw"></div>
       <div class="clear-sub">깨부쉈다!</div>
       <p class="quote" id="clearQuote"></p>
@@ -274,26 +280,39 @@ h1.title .accent{color:var(--blue-soft)}
 
     <!-- 최종 클리어 -->
     <div class="overlay hidden" id="scrFinal">
-      <div class="eyebrow">회귀 완료</div>
-      <h1 class="title" style="font-size:34px">5개의 벽,<br>전부 깨졌다</h1>
+      <div class="eyebrow">1단계 완료</div>
+      <h1 class="title" style="font-size:30px">공정한 민주당,<br>완성!</h1>
       <div class="card" id="resultCard">
-        <div class="c-eyebrow">민주당 회귀물 · 클리어 인증</div>
-        <div class="c-title">나는 민주당을<br>회귀시켰다</div>
+        <div class="c-eyebrow">내가 깬 기득권 바위</div>
+        <div class="c-title">기득권 5개,<br>계란으로 깼다</div>
+        <div class="c-rocks" id="fRocks"></div>
         <div class="c-stats">
           <div><div class="n" id="fRun">1</div><div class="l">회차 만에</div></div>
           <div><div class="n" id="fScore">0</div><div class="l">점수</div></div>
-          <div><div class="n" id="fCleared">5/5</div><div class="l">기득권 격파</div></div>
+          <div><div class="n" id="fCleared">5/5</div><div class="l">격파</div></div>
         </div>
-        <div class="c-tags">#민주당을살려야합니다<br>#이번생에살립시다 #김보미</div>
+        <div class="c-tags">#민주당을살려야합니다 #이번생에살립시다 #김보미</div>
         <div class="c-url">김보미.com</div>
       </div>
+      <p class="hidden-tease">이제 <b>대한민국의 성장을 막는 3대 위기</b><br>경제 · 평화 · 기후에 도전하세요!</p>
+      <div class="btnrow"><button class="btn" id="btnHidden" style="width:100%;max-width:none">🔓 히든 스테이지 도전 →</button></div>
       <div class="btnrow">
-        <button class="btn small" id="btnShare">🥚 결과 공유하기</button>
-        <button class="btn small" id="btnShareGame">🔗 게임 공유하기</button>
+        <button class="btn small" id="btnShare">🥚 결과 공유</button>
+        <button class="btn small" id="btnShareGame">🔗 게임 공유</button>
       </div>
+      <div class="btnrow"><button class="btn blue small" id="btnAgain">처음부터</button></div>
+    </div>
+
+    <!-- 히든 클리어: 대한민국 수호 훈장 -->
+    <div class="overlay hidden" id="scrMedal">
+      <div class="eyebrow">히든 스테이지 클리어</div>
+      <h1 class="title" style="font-size:28px">대한민국을<br>지켜냈다</h1>
+      <canvas id="medalCanvas" width="1080" height="1080"></canvas>
       <div class="btnrow">
-        <button class="btn blue small" id="btnAgain">다시 회귀</button>
+        <button class="btn small" id="btnMedalSave">🖼️ 이미지 저장</button>
+        <button class="btn small" id="btnMedalShare">📢 훈장 공유</button>
       </div>
+      <div class="btnrow"><button class="btn blue small" id="btnMedalAgain">다시 도전</button></div>
     </div>
   </div>
 
@@ -322,6 +341,13 @@ const STAGES = [
   { kw:"오만한 정치",   quote:"권력은 강하지만 민심은 더 강합니다. 민주당을 다시 국민의 품으로 돌려드리겠습니다." }
 ];
 
+/* 히든 스테이지 — 대한민국의 성장을 막는 3대 위기 */
+const HIDDEN_STAGES = [
+  { kw:"경제 위기", quote:"AI 대전환기, 청년 일자리와 성장동력을 지켜 대한민국의 미래 먹거리를 만들겠습니다." },
+  { kw:"평화 위기", quote:"한반도의 항구적 평화, 대화와 튼튼한 안보의 균형으로 지켜내겠습니다." },
+  { kw:"기후 위기", quote:"재생에너지 대전환으로 기후위기를 넘어 지속가능한 대한민국을 만들겠습니다." }
+];
+
 const HASHTAGS = "#민주당을살려야합니다 #이번생에살립시다 #김보미";
 const STAGE_COUNT = 5;
 const SHARE_URL = "https://www.xn--4k0b53xuva.com/game.html";
@@ -343,6 +369,9 @@ let order = [];
 let stageNo = 0;
 let runCount = 1;
 let score = 0;
+let hiddenMode = false;
+let clearedRocks = [];
+let lastFive = [];
 let playing = false;
 let paused = false;
 let ballLaunched = false;
@@ -405,7 +434,7 @@ function normalizeBall(){
 }
 
 /* ================= 벽돌 배치 ================= */
-function buildBricks(stageIdx){
+function buildBricks(stageObj){
   bricks = [];
   drops = [];
   const cols = 7, rows = 5;
@@ -431,7 +460,7 @@ function buildBricks(stageIdx){
   bricks.push({
     x: side + keyCol*(bw+pad), y: top + keyRow*(bh+pad),
     w: bw*2+pad, h: bh, hp: 3, max: 3, type:"key",
-    kw: STAGES[stageIdx].kw
+    kw: stageObj.kw
   });
 }
 
@@ -681,7 +710,7 @@ function drawHint(){
     ctx.fillText("터치 또는 스페이스로 계란 발사", W/2, H-84);
     ctx.fillStyle="rgba(255,197,61,.9)";
     ctx.font="700 12px 'Noto Sans KR',sans-serif";
-    ctx.fillText("목표: 금빛 「"+STAGES[order[stageNo]].kw+"」 벽돌 격파", W/2, H-104);
+    ctx.fillText("목표: 금빛 「"+order[stageNo].kw+"」 벽돌 격파", W/2, H-104);
   }
 }
 
@@ -820,7 +849,9 @@ function updateHUD(){
 }
 
 function startRun(){
-  order = shuffle(STAGES.map((_,i)=>i)).slice(0, STAGE_COUNT);
+  order = shuffle(STAGES.slice()).slice(0, STAGE_COUNT);
+  hiddenMode = false; clearedRocks = [];
+  $("hudLabel").textContent = "민주당 회귀 진행률";
   stageNo = 0; runCount = 1; score = 0;
   startStage();
 }
@@ -833,16 +864,26 @@ function startStage(){
   playing = true;
   startLoop();
 }
+function startHidden(){
+  hiddenMode = true;
+  order = HIDDEN_STAGES.slice();
+  clearedRocks = [];
+  stageNo = 0;
+  $("hudLabel").textContent = "대한민국 3대 위기";
+  startStage();
+}
 function onStageClear(){
   playing = false;
   setPauseBtn(false);
-  const s = STAGES[order[stageNo]];
+  const s = order[stageNo];
+  clearedRocks.push(s.kw);
   stageNo++;
   updateHUD();
   if(stageNo >= order.length){
-    showFinal();
+    if(hiddenMode){ showMedal(); } else { showFive(); }
     return;
   }
+  $("clearEyebrow").textContent = hiddenMode ? "위기 격파" : "기득권 격파";
   $("clearKw").textContent = s.kw;
   $("clearQuote").textContent = s.quote;
   show("scrClear");
@@ -858,18 +899,77 @@ function onDeath(){
   show("scrDead");
   beep(180,0.25,0.06,"sawtooth");
 }
-function showFinal(){
+function showFive(){
+  lastFive = clearedRocks.slice();
   $("fRun").textContent = runCount;
   $("fScore").textContent = score;
   $("fCleared").textContent = order.length + "/" + order.length;
+  $("fRocks").innerHTML = lastFive.map(function(k){ return "<span>"+k+"</span>"; }).join("");
   show("scrFinal");
   beep(784,0.1,0.06,"triangle");
   setTimeout(()=>beep(988,0.1,0.06,"triangle"),120);
   setTimeout(()=>beep(1318,0.25,0.07,"triangle"),240);
 }
+function showMedal(){
+  drawMedal();
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(drawMedal); }
+  show("scrMedal");
+  beep(880,0.1,0.06,"triangle");
+  setTimeout(()=>beep(1174,0.12,0.06,"triangle"),130);
+  setTimeout(()=>beep(1568,0.32,0.08,"triangle"),270);
+}
+function drawStar(g,cx,cy,spikes,outer,inner,color){
+  let rot=-Math.PI/2, step=Math.PI/spikes;
+  g.beginPath(); g.moveTo(cx+Math.cos(rot)*outer, cy+Math.sin(rot)*outer);
+  for(let i=0;i<spikes;i++){
+    rot+=step; g.lineTo(cx+Math.cos(rot)*inner, cy+Math.sin(rot)*inner);
+    rot+=step; g.lineTo(cx+Math.cos(rot)*outer, cy+Math.sin(rot)*outer);
+  }
+  g.closePath(); g.fillStyle=color; g.fill();
+}
+function drawEmblem(g,cx,cy,r){
+  g.fillStyle="#004EA2";
+  g.beginPath(); g.moveTo(cx-48,cy+r*0.5); g.lineTo(cx-6,cy+r*0.5); g.lineTo(cx-6,cy+r*1.78); g.lineTo(cx-27,cy+r*1.52); g.lineTo(cx-48,cy+r*1.78); g.closePath(); g.fill();
+  g.fillStyle="#C0392B";
+  g.beginPath(); g.moveTo(cx+48,cy+r*0.5); g.lineTo(cx+6,cy+r*0.5); g.lineTo(cx+6,cy+r*1.78); g.lineTo(cx+27,cy+r*1.52); g.lineTo(cx+48,cy+r*1.78); g.closePath(); g.fill();
+  var grd=g.createRadialGradient(cx-r*0.3,cy-r*0.35,r*0.2,cx,cy,r);
+  grd.addColorStop(0,"#FFE9A8"); grd.addColorStop(0.55,"#FFC53D"); grd.addColorStop(1,"#D98B14");
+  g.fillStyle=grd; g.beginPath(); g.arc(cx,cy,r,0,Math.PI*2); g.fill();
+  g.lineWidth=9; g.strokeStyle="#FFF6E3"; g.beginPath(); g.arc(cx,cy,r,0,Math.PI*2); g.stroke();
+  g.lineWidth=3; g.strokeStyle="rgba(217,139,20,0.85)"; g.beginPath(); g.arc(cx,cy,r*0.8,0,Math.PI*2); g.stroke();
+  drawStar(g,cx,cy,5,r*0.52,r*0.22,"#0A2148");
+}
+function drawMedal(){
+  var c=document.getElementById("medalCanvas"); if(!c) return;
+  var S=1080; c.width=S; c.height=S; var g=c.getContext("2d");
+  var bg=g.createLinearGradient(0,0,0,S); bg.addColorStop(0,"#0C1533"); bg.addColorStop(1,"#0A1128");
+  g.fillStyle=bg; g.fillRect(0,0,S,S);
+  var rd=g.createRadialGradient(S/2,S*0.34,60,S/2,S*0.34,S*0.62);
+  rd.addColorStop(0,"rgba(45,125,255,0.22)"); rd.addColorStop(1,"rgba(45,125,255,0)");
+  g.fillStyle=rd; g.fillRect(0,0,S,S);
+  g.strokeStyle="rgba(255,197,61,0.45)"; g.lineWidth=6; g.strokeRect(30,30,S-60,S-60);
+  g.textAlign="center";
+  g.fillStyle="#FFC53D"; g.font="600 32px 'Noto Sans KR',sans-serif";
+  g.fillText("계란으로 바위치기 · 히든 스테이지 클리어", S/2, 120);
+  drawEmblem(g,S/2,330,132);
+  g.fillStyle="#FFF6E3"; g.font="72px 'Black Han Sans','Noto Sans KR',sans-serif";
+  g.fillText("대한민국 수호 훈장", S/2, 572);
+  g.fillStyle="#6FA5FF"; g.font="700 40px 'Noto Sans KR',sans-serif";
+  g.fillText("경제 · 평화 · 기후 — 3대 위기 격파", S/2, 640);
+  g.fillStyle="#EAF0FF"; g.font="500 34px 'Noto Sans KR',sans-serif";
+  g.fillText(runCount+"회 만에 완수 · "+score+"점", S/2, 708);
+  g.strokeStyle="rgba(255,255,255,0.14)"; g.lineWidth=2;
+  g.beginPath(); g.moveTo(S*0.22,764); g.lineTo(S*0.78,764); g.stroke();
+  g.fillStyle="#FFF6E3"; g.font="700 46px 'Noto Sans KR',sans-serif";
+  g.fillText("김보미 — 뽑고 싶은 민주당", S/2, 840);
+  g.fillStyle="#8FB3E6"; g.font="700 36px 'Noto Sans KR',sans-serif";
+  g.fillText("김보미.com", S/2, 896);
+  g.fillStyle="#FFC53D"; g.font="500 26px 'Noto Sans KR',sans-serif";
+  g.fillText("#민주당을살려야합니다 #이번생에살립시다 #김보미", S/2, 982);
+}
 
 function hideAll(){
-  ["scrTitle","scrClear","scrDead","scrFinal","scrPause"].forEach(id=>$(id).classList.add("hidden"));
+  ["scrTitle","scrClear","scrDead","scrFinal","scrMedal","scrPause"].forEach(id=>$(id).classList.add("hidden"));
 }
 function show(id){ hideAll(); $(id).classList.remove("hidden"); }
 function setPauseBtn(on){ $("btnPause").classList.toggle("hidden", !on); }
@@ -921,6 +1021,7 @@ $("btnRegress").addEventListener("click", ()=>{
 });
 $("btnAgain").addEventListener("click", startRun);
 
+function showToast(msg){ const t=$("toast"); if(msg) t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1900); }
 async function doShare(text){
   if(navigator.share){
     try{ await navigator.share({ title:"계란으로 바위치기", text: text, url: SHARE_URL }); return; }
@@ -928,18 +1029,44 @@ async function doShare(text){
   }
   try{
     await navigator.clipboard.writeText(text + " " + SHARE_URL);
-    const t = $("toast");
-    t.classList.add("show");
-    setTimeout(()=>t.classList.remove("show"), 1800);
+    showToast("클립보드에 복사되었습니다");
   }catch(e){
     prompt("아래 내용을 복사해 공유하세요", text + " " + SHARE_URL);
   }
 }
 $("btnShare").addEventListener("click", ()=>{
-  doShare("나는 "+runCount+"회 만에 민주당을 회귀시켰다! 기득권 바위 "+order.length+"개 전부 격파, "+score+"점 🥚 당신도 도전! " + HASHTAGS);
+  const list = (lastFive.length ? lastFive : clearedRocks).join(", ");
+  doShare("계란으로 바위치기 🥚 내가 깬 기득권 바위: "+list+" ("+lastFive.length+"개) · "+runCount+"회 만에 공정한 민주당 완성! " + HASHTAGS);
 });
 $("btnShareGame").addEventListener("click", ()=>{
-  doShare("계란으로 바위치기 🥚 기득권 바위를 계란으로 깨는 게임! 이번 생에 바꿉시다. " + HASHTAGS);
+  doShare("계란으로 바위치기 🥚 기득권 바위를 계란으로 깨는 게임! 5개를 깨면 3대 위기 히든 스테이지가 열립니다. 이번 생에 바꿉시다. " + HASHTAGS);
+});
+$("btnHidden").addEventListener("click", startHidden);
+$("btnMedalAgain").addEventListener("click", startRun);
+function medalBlob(cb){ const c=document.getElementById("medalCanvas"); if(c && c.toBlob){ c.toBlob(cb, "image/png"); } else { cb(null); } }
+$("btnMedalSave").addEventListener("click", ()=>{
+  medalBlob(function(blob){
+    if(!blob){ showToast("저장을 지원하지 않는 환경입니다"); return; }
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a"); a.href=url; a.download="김보미_대한민국수호훈장.png"; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),4000);
+    showToast("훈장 이미지를 저장했어요");
+  });
+});
+$("btnMedalShare").addEventListener("click", ()=>{
+  medalBlob(async function(blob){
+    if(!blob){ showToast("공유를 지원하지 않는 환경입니다"); return; }
+    const file=new File([blob],"김보미_대한민국수호훈장.png",{type:"image/png"});
+    const text="대한민국 3대 위기(경제·평화·기후)를 전부 깼다! 대한민국 수호 훈장 획득 🏅 계란으로 바위치기 "+HASHTAGS;
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      try{ await navigator.share({files:[file], text:text, url:SHARE_URL}); return; }catch(e){ if(e&&e.name==="AbortError") return; }
+    }
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a"); a.href=url; a.download="김보미_대한민국수호훈장.png"; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),4000);
+    try{ await navigator.clipboard.writeText(text+" "+SHARE_URL); }catch(e){}
+    showToast("훈장 저장 + 문구 복사 완료");
+  });
 });
 
 /* 초기 화면 렌더 */
