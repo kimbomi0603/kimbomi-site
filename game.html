@@ -224,6 +224,32 @@ h1.title .accent{color:var(--blue-soft)}
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
 }
+
+/* ===== 응원 한마디 입력 / 명예의 전당 ===== */
+.cheer{margin-top:14px;text-align:center;width:100%}
+.cheer-guide{font-size:12.5px;color:var(--blue-soft);margin-bottom:8px}
+.cheer-guide b{color:var(--yolk)}
+#cheerInput{width:100%;max-width:320px;box-sizing:border-box;resize:none;font-family:'Noto Sans KR',sans-serif;font-size:14px;line-height:1.5;color:var(--egg);background:rgba(20,31,69,.75);border:1.5px solid rgba(111,165,255,.35);border-radius:10px;padding:10px 12px}
+#cheerInput:focus{outline:none;border-color:var(--yolk)}
+.cheer-count{font-size:11px;color:var(--dim);margin:5px auto 10px;max-width:320px;text-align:right}
+.rank-sub{font-size:12px;color:var(--dim);margin-bottom:10px;line-height:1.5}
+.rank-list{width:100%;max-width:344px;max-height:44vh;overflow-y:auto;margin:0 auto 6px;-webkit-overflow-scrolling:touch}
+.rank-empty{color:var(--dim);font-size:13px;padding:22px 8px;line-height:1.6}
+.rank-item{display:flex;gap:9px;align-items:flex-start;text-align:left;background:rgba(20,31,69,.6);border:1px solid rgba(111,165,255,.16);border-radius:11px;padding:10px 11px;margin-bottom:7px}
+.rank-item.top{border-color:rgba(255,197,61,.5);background:rgba(50,40,15,.5)}
+.rank-item.mine{border-color:var(--yolk);box-shadow:0 0 0 2px rgba(255,197,61,.35)}
+.rank-item .rk{font-family:'Black Han Sans',sans-serif;font-size:19px;min-width:34px;text-align:center;color:var(--egg);line-height:1.2}
+.rank-item .rc{flex:1;min-width:0}
+.rank-item .rmsg{font-size:13.5px;font-weight:700;color:var(--egg);word-break:break-word;line-height:1.35}
+.rank-item .newb{display:inline-block;font-size:9px;font-weight:800;color:#0A1128;background:var(--yolk);border-radius:5px;padding:1px 5px;margin-right:5px;vertical-align:middle;letter-spacing:.5px}
+.rank-item .rkw{font-size:11px;color:var(--blue-soft);margin-top:3px;cursor:pointer;word-break:break-word;line-height:1.4}
+.rank-item .rkw .more{color:var(--yolk);text-decoration:underline;white-space:nowrap}
+.rank-item .rmeta{font-size:10.5px;color:var(--dim);margin-top:3px}
+.rank-item .badge3{color:var(--yolk);font-weight:700}
+.rank-item .rs{font-family:'Black Han Sans',sans-serif;font-size:16px;color:var(--blue-soft);white-space:nowrap;align-self:center}
+.rank-item .rs small{font-size:10px;color:var(--dim);margin-left:1px}
+.rank-mine{max-width:344px;margin:4px auto 8px;font-size:13px;color:var(--egg);background:rgba(255,197,61,.14);border:1px solid rgba(255,197,61,.4);border-radius:9px;padding:8px 12px}
+.rank-mine b{color:var(--yolk)}
 </style>
 </head>
 <body>
@@ -323,7 +349,30 @@ h1.title .accent{color:var(--blue-soft)}
         <button class="btn small" id="btnMedalSave">🖼️ 이미지 저장</button>
         <button class="btn small" id="btnMedalShare">📢 훈장 공유</button>
       </div>
-      <button class="restart" id="btnMedalAgain" type="button">&#8635; 다시 도전</button>
+      <div class="cheer" id="cheerBox">
+        <div class="cheer-guide">✍️ 당신의 한마디가 <b>명예의 전당</b>에 오릅니다</div>
+        <textarea id="cheerInput" maxlength="40" rows="2" placeholder="응원 한마디를 남겨주세요 (예: 뽑고 싶은 민주당, 이번엔 계란이 이긴다!)"></textarea>
+        <div class="cheer-count"><span id="cheerCount">0</span>/40</div>
+        <div class="btnrow">
+          <button class="btn small" id="btnEnroll">🏆 명예의 전당에 올리기</button>
+          <button class="btn ghost small" id="btnSkip">건너뛰기</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 명예의 전당 (랭킹) -->
+    <div class="overlay hidden" id="scrRank">
+      <div class="eyebrow">명예의 전당</div>
+      <h1 class="title" style="font-size:26px;margin-bottom:2px">🏆 명예의 전당</h1>
+      <p class="rank-sub" id="rankSub">전국의 계란들이 남긴 응원과 기록</p>
+      <div class="rank-list" id="rankList"></div>
+      <div class="rank-mine" id="rankMine" hidden></div>
+      <div class="share-sep">— 내 훈장 공유하기 —</div>
+      <div class="share-row">
+        <button class="btn small" id="btnRankSave">🖼️ 이미지 저장</button>
+        <button class="btn small" id="btnRankShare">📢 공유하기</button>
+      </div>
+      <button class="restart" id="btnRankAgain" type="button">&#8635; 다시 도전</button>
     </div>
   </div>
 
@@ -383,6 +432,8 @@ let score = 0;
 let hiddenMode = false;
 let clearedRocks = [];
 let lastFive = [];
+let cheerMsg = "";
+let myRecord = null;
 let playing = false;
 let paused = false;
 let ballLaunched = false;
@@ -937,6 +988,11 @@ function showFive(){
   setTimeout(()=>beep(1318,0.25,0.07,"triangle"),240);
 }
 function showMedal(){
+  cheerMsg=""; myRecord=null;
+  var _ci=$("cheerInput"); if(_ci) _ci.value="";
+  var _cc=$("cheerCount"); if(_cc) _cc.textContent="0";
+  var _be=$("btnEnroll"); if(_be) _be.disabled=false;
+  var _bs=$("btnSkip"); if(_bs) _bs.disabled=false;
   drawMedal();
   if(document.fonts && document.fonts.ready){ document.fonts.ready.then(drawMedal); }
   show("scrMedal");
@@ -980,47 +1036,68 @@ function drawWrap(g, text, cx, y, maxW, lh){
   for(var i=0;i<lines.length;i++){ g.fillText(lines[i], cx, y+i*lh); }
   return y+(lines.length-1)*lh;
 }
+function wrapCharLines(g,text,maxW){
+  var out=[],line="";
+  for(var i=0;i<text.length;i++){
+    var t=line+text[i];
+    if(g.measureText(t).width>maxW && line){ out.push(line); line=text[i]; } else { line=t; }
+  }
+  if(line) out.push(line);
+  return out;
+}
+function medalRR(g,x,y,w,h,r){ g.beginPath(); g.moveTo(x+r,y); g.arcTo(x+w,y,x+w,y+h,r); g.arcTo(x+w,y+h,x,y+h,r); g.arcTo(x,y+h,x,y,r); g.arcTo(x,y,x+w,y,r); g.closePath(); }
 function drawMedal(){
   var c=document.getElementById("medalCanvas"); if(!c) return;
   var S=1080; c.width=S; c.height=S; var g=c.getContext("2d");
   var bg=g.createLinearGradient(0,0,0,S); bg.addColorStop(0,"#0C1533"); bg.addColorStop(1,"#0A1128");
   g.fillStyle=bg; g.fillRect(0,0,S,S);
-  var rd=g.createRadialGradient(S/2,S*0.28,60,S/2,S*0.28,S*0.62);
+  var rd=g.createRadialGradient(S/2,S*0.26,60,S/2,S*0.26,S*0.62);
   rd.addColorStop(0,"rgba(45,125,255,0.22)"); rd.addColorStop(1,"rgba(45,125,255,0)");
   g.fillStyle=rd; g.fillRect(0,0,S,S);
   g.strokeStyle="rgba(255,197,61,0.45)"; g.lineWidth=6; g.strokeRect(30,30,S-60,S-60);
   g.textAlign="center";
-  g.fillStyle="#FFC53D"; g.font="600 29px 'Noto Sans KR',sans-serif";
-  g.fillText("계란으로 바위치기 · 히든 스테이지 클리어", S/2, 90);
-  drawEmblem(g,S/2,252,100);
-  g.fillStyle="#FFF6E3"; g.font="60px 'Black Han Sans','Noto Sans KR',sans-serif";
-  g.fillText("대한민국 수호 훈장", S/2, 470);
-  g.fillStyle="#EAF0FF"; g.font="500 30px 'Noto Sans KR',sans-serif";
-  g.fillText(runCount+"회 만에 완수 · "+score+"점", S/2, 522);
-  g.strokeStyle="rgba(255,255,255,0.14)"; g.lineWidth=2;
-  g.beginPath(); g.moveTo(S*0.20,566); g.lineTo(S*0.80,566); g.stroke();
-  // 내가 깬 기득권 5개
+  var y=82;
+  g.fillStyle="#FFC53D"; g.font="600 28px 'Noto Sans KR',sans-serif";
+  g.fillText("계란으로 바위치기 · 히든 스테이지 클리어", S/2, y);
+  var quote=(cheerMsg||"").trim();
+  if(quote){
+    g.font="italic 700 34px 'Noto Sans KR',sans-serif";
+    var qLines=wrapCharLines(g,"“"+quote+"”",S-240);
+    var lh=46, boxTop=y+24, boxH=qLines.length*lh+30, boxW=S-150, boxX=(S-boxW)/2;
+    g.fillStyle="rgba(45,125,255,0.14)"; medalRR(g,boxX,boxTop,boxW,boxH,16); g.fill();
+    g.strokeStyle="rgba(111,165,255,0.5)"; g.lineWidth=2; medalRR(g,boxX,boxTop,boxW,boxH,16); g.stroke();
+    g.fillStyle="#EAF0FF"; g.font="italic 700 34px 'Noto Sans KR',sans-serif";
+    for(var qi=0;qi<qLines.length;qi++){ g.fillText(qLines[qi],S/2,boxTop+42+qi*lh); }
+    y=boxTop+boxH;
+  }
+  var er=quote?86:104;
+  var ec=y+er+(quote?26:34);
+  drawEmblem(g,S/2,ec,er);
+  y=ec+er*1.85+(quote?10:14);
+  g.fillStyle="#FFF6E3"; g.font=(quote?52:60)+"px 'Black Han Sans','Noto Sans KR',sans-serif";
+  g.fillText("대한민국 수호 훈장", S/2, y); y+=42;
+  g.fillStyle="#EAF0FF"; g.font="500 29px 'Noto Sans KR',sans-serif";
+  g.fillText(runCount+"회 만에 완수 · "+fmtNum(score)+"점", S/2, y); y+=28;
+  g.strokeStyle="rgba(255,255,255,0.14)"; g.lineWidth=2; g.beginPath(); g.moveTo(S*0.20,y); g.lineTo(S*0.80,y); g.stroke(); y+=44;
   var rocks=(lastFive.length? lastFive : clearedRocks);
-  g.fillStyle="#9DB4DE"; g.font="600 28px 'Noto Sans KR',sans-serif";
-  g.fillText("내가 깨부순 기득권 "+rocks.length+"개", S/2, 616);
-  g.fillStyle="#FFF6E3"; g.font="700 33px 'Noto Sans KR',sans-serif";
+  g.fillStyle="#9DB4DE"; g.font="600 27px 'Noto Sans KR',sans-serif";
+  g.fillText("내가 깨부순 기득권 "+rocks.length+"개", S/2, y); y+=46;
+  g.fillStyle="#FFF6E3"; g.font="700 32px 'Noto Sans KR',sans-serif";
   var rockStr=rocks.map(function(r){return r.replace(/ /g,"\u00A0");}).join(" · ");
-  var y=drawWrap(g, rockStr, S/2, 664, S-170, 44);
-  // → 공정한 민주당으로 3대 위기 격파
-  g.fillStyle="#6FA5FF"; g.font="700 32px 'Noto Sans KR',sans-serif";
-  y=drawWrap(g, "이 힘으로 공정한 민주당을 완성해 경제·평화·기후 3대 위기 격파!", S/2, y+56, S-150, 44);
-  g.strokeStyle="rgba(255,255,255,0.14)"; g.lineWidth=2;
-  g.beginPath(); g.moveTo(S*0.20,y+26); g.lineTo(S*0.80,y+26); g.stroke();
-  g.fillStyle="#FFF6E3"; g.font="700 44px 'Noto Sans KR',sans-serif";
-  g.fillText("김보미 — 뽑고 싶은 민주당", S/2, y+88);
-  g.fillStyle="#8FB3E6"; g.font="700 34px 'Noto Sans KR',sans-serif";
-  g.fillText("김보미.com", S/2, y+138);
-  g.fillStyle="#FFC53D"; g.font="500 25px 'Noto Sans KR',sans-serif";
-  g.fillText("#민주당을살려야합니다 #이번생에살립시다 #김보미", S/2, y+190);
+  y=drawWrap(g, rockStr, S/2, y, S-170, 42); y+=54;
+  g.fillStyle="#6FA5FF"; g.font="700 31px 'Noto Sans KR',sans-serif";
+  y=drawWrap(g, "이 힘으로 공정한 민주당을 완성해 경제·평화·기후 3대 위기 격파!", S/2, y, S-150, 42); y+=24;
+  g.strokeStyle="rgba(255,255,255,0.14)"; g.lineWidth=2; g.beginPath(); g.moveTo(S*0.20,y); g.lineTo(S*0.80,y); g.stroke(); y+=58;
+  g.fillStyle="#FFF6E3"; g.font="700 43px 'Noto Sans KR',sans-serif";
+  g.fillText("김보미 — 뽑고 싶은 민주당", S/2, y); y+=48;
+  g.fillStyle="#8FB3E6"; g.font="700 33px 'Noto Sans KR',sans-serif";
+  g.fillText("김보미.com", S/2, y); y+=50;
+  g.fillStyle="#FFC53D"; g.font="500 24px 'Noto Sans KR',sans-serif";
+  g.fillText(HASHTAGS, S/2, y);
 }
 
 function hideAll(){
-  ["scrTitle","scrClear","scrDead","scrFinal","scrMedal","scrPause"].forEach(id=>$(id).classList.add("hidden"));
+  ["scrTitle","scrClear","scrDead","scrFinal","scrMedal","scrRank","scrPause"].forEach(id=>$(id).classList.add("hidden"));
 }
 function show(id){ hideAll(); $(id).classList.remove("hidden"); }
 function setPauseBtn(on){ $("btnPause").classList.toggle("hidden", !on); }
@@ -1093,33 +1170,129 @@ $("btnShareGame").addEventListener("click", ()=>{
   doShare("계란으로 바위치기 🥚 기득권 바위를 계란으로 깨는 게임! 5개를 깨면 3대 위기 히든 스테이지가 열립니다. 이번 생에 바꿉시다. " + HASHTAGS);
 });
 $("btnHidden").addEventListener("click", startHidden);
-$("btnMedalAgain").addEventListener("click", startRun);
-function medalBlob(cb){ const c=document.getElementById("medalCanvas"); if(c && c.toBlob){ c.toBlob(cb, "image/png"); } else { cb(null); } }
-$("btnMedalSave").addEventListener("click", ()=>{
-  medalBlob(function(blob){
-    if(!blob){ showToast("저장을 지원하지 않는 환경입니다"); return; }
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement("a"); a.href=url; a.download="김보미_대한민국수호훈장.png"; document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),4000);
-    showToast("훈장 이미지를 저장했어요");
-  });
-});
-$("btnMedalShare").addEventListener("click", ()=>{
+/* ================= 명예의 전당 (랭킹) ================= */
+const RANK_API = "/api/scores";
+const BADWORDS = ["시발","씨발","ㅅㅂ","병신","ㅂㅅ","개새끼","개새","새끼","좆","존나","꺼져","닥쳐","엿먹","죽어","지랄","미친놈","미친년","fuck","shit"];
+function badWord(x){ var t=(x||"").replace(/\s/g,"").toLowerCase(); return BADWORDS.some(function(w){return t.indexOf(w)>=0;}); }
+function escHtml(x){ return String(x==null?"":x).replace(/[&<>"']/g,function(ch){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch];}); }
+function fmtNum(n){ try{ return (n||0).toLocaleString("ko-KR"); }catch(e){ return ""+(n||0); } }
+function relTime(ts){ if(!ts) return ""; var s=Math.floor((Date.now()-ts)/1000); if(s<60)return "방금 전"; if(s<3600)return Math.floor(s/60)+"분 전"; if(s<86400)return Math.floor(s/3600)+"시간 전"; return Math.floor(s/86400)+"일 전"; }
+function kwSummary(k){ k=k||[]; if(k.length<=2) return k.join(" · "); return k.slice(0,2).join(" · ")+" 외 "+(k.length-2)+"개"; }
+function rankIcon(r){ return r===1?"🥇":r===2?"🥈":r===3?"🥉":("#"+r); }
+function cmpRec(a,b){ return (b.score-a.score)||(a.runCount-b.runCount)||((b.ts||0)-(a.ts||0)); }
+
+/* 데이터 계층: 서버(Redis) 우선, 실패 시 localStorage 폴백 */
+function lsGet(){ try{ return JSON.parse(localStorage.getItem("kb_scores_local")||"[]"); }catch(e){ return []; } }
+function lsSet(a){ try{ localStorage.setItem("kb_scores_local", JSON.stringify(a.slice(0,50))); }catch(e){} }
+function saveLocal(rec){
+  var a=lsGet(); var id="L"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  var item={ id:id, msg:rec.msg||"익명의 계란", score:rec.score, keywords:rec.keywords, runCount:rec.runCount, ts:Date.now() };
+  a.push(item); a.sort(cmpRec); lsSet(a);
+  myRecord={ id:id, rank:a.findIndex(function(x){return x.id===id;})+1, local:true };
+  return { ok:true, id:id, rank:myRecord.rank, total:a.length, top:a.slice(0,10), local:true };
+}
+function loadLocal(){
+  var a=lsGet().slice().sort(cmpRec), myRank=null;
+  if(myRecord){ var idx=a.findIndex(function(x){return x.id===myRecord.id;}); myRank=idx>=0?idx+1:null; }
+  return { items:a.slice(0,10), total:a.length, myRank:myRank, source:"local" };
+}
+async function saveScore(){
+  var rec={ msg:cheerMsg, score:score, keywords:(lastFive.length?lastFive:clearedRocks), runCount:runCount };
+  try{
+    var r=await fetch(RANK_API+"?action=submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(rec)});
+    var j=await r.json();
+    if(j&&j.ok){ myRecord={ id:j.id, rank:j.rank }; return j; }
+    throw new Error((j&&j.error)||"fail");
+  }catch(e){ return saveLocal(rec); }
+}
+async function loadRanking(){
+  try{
+    var url=RANK_API+"?action=top"+(myRecord&&myRecord.id&&!myRecord.local?("&id="+encodeURIComponent(myRecord.id)):"");
+    var r=await fetch(url); var j=await r.json();
+    if(j&&j.ok){ return { items:j.top||[], total:j.total||0, myRank:(j.myRank!=null?j.myRank:(myRecord&&myRecord.rank)), source:"server" }; }
+    throw new Error("fail");
+  }catch(e){ return loadLocal(); }
+}
+
+async function showRank(){
+  show("scrRank");
+  var listEl=$("rankList"); listEl.innerHTML='<div class="rank-empty">불러오는 중…</div>';
+  var data=await loadRanking();
+  $("rankSub").textContent = data.source==="local" ? "⚠️ 서버에 연결하지 못해 이 기기 기록만 표시합니다" : "전국의 계란들이 남긴 응원과 기록";
+  var items=data.items||[];
+  if(!items.length){
+    listEl.innerHTML='<div class="rank-empty">아직 기록이 없어요.<br>첫 번째 주인공이 되어보세요! 🥚</div>';
+  } else {
+    listEl.innerHTML=items.map(function(it,i){
+      var rank=i+1, mine=myRecord&&it.id===myRecord.id, kws=it.keywords||[];
+      var meta='<span class="badge3">🏅 3대 위기 격파</span> · '+(it.runCount===1?"1회 만에 완수":it.runCount+"회차")+(it.ts?(" · "+relTime(it.ts)):"");
+      return '<div class="rank-item'+(rank<=3?" top":"")+(mine?" mine":"")+'">'
+        +'<div class="rk">'+rankIcon(rank)+'</div>'
+        +'<div class="rc">'
+          +'<div class="rmsg">'+(mine?'<span class="newb">NEW</span>':"")+escHtml(it.msg||"익명의 계란")+'</div>'
+          +'<div class="rkw" data-full="'+escHtml(kws.join(" · "))+'">🧱 '+escHtml(kwSummary(kws))+(kws.length>2?' <span class="more">펼치기</span>':"")+'</div>'
+          +'<div class="rmeta">'+meta+'</div>'
+        +'</div>'
+        +'<div class="rs">'+fmtNum(it.score)+'<small>점</small></div>'
+        +'</div>';
+    }).join("");
+    listEl.querySelectorAll(".rkw").forEach(function(el){
+      el.addEventListener("click",function(){ el.innerHTML="🧱 "+escHtml(el.getAttribute("data-full")); });
+    });
+  }
+  var mineEl=$("rankMine");
+  if(data.myRank&&data.myRank>10){ mineEl.hidden=false; mineEl.innerHTML='내 기록: <b>'+data.myRank+'위</b> · '+fmtNum(score)+'점'; }
+  else { mineEl.hidden=true; }
+  var mine2=listEl.querySelector(".rank-item.mine");
+  if(mine2&&mine2.scrollIntoView){ try{ mine2.scrollIntoView({block:"nearest"}); }catch(e){} }
+}
+
+/* ================= 훈장 이미지 저장/공유 ================= */
+function medalBlob(cb){ var c=document.getElementById("medalCanvas"); if(c&&c.toBlob){ c.toBlob(cb,"image/png"); } else { cb(null); } }
+function dlBlob(blob,name){ var url=URL.createObjectURL(blob); var a=document.createElement("a"); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){URL.revokeObjectURL(url);},4000); }
+function personalText(){
+  var list=(lastFive.length?lastFive:clearedRocks).join(", ");
+  var q=cheerMsg?("『"+cheerMsg+"』 "):"";
+  return q+"나는 "+runCount+"회 만에 기득권 5개("+list+")를 깨고 3대 위기까지 격파했다! "+score+"점 🥚🏅 "+HASHTAGS;
+}
+function saveMedalImage(){ medalBlob(function(blob){ if(!blob){ showToast("저장을 지원하지 않는 환경입니다"); return; } dlBlob(blob,"김보미_대한민국수호훈장.png"); showToast("훈장 이미지를 저장했어요"); }); }
+function shareMedalImage(){
   medalBlob(async function(blob){
     if(!blob){ showToast("공유를 지원하지 않는 환경입니다"); return; }
-    const file=new File([blob],"김보미_대한민국수호훈장.png",{type:"image/png"});
-    const rlist=(lastFive.length? lastFive : clearedRocks).join(", ");
-    const text="기득권 "+(lastFive.length||clearedRocks.length)+"개("+rlist+")를 깨고 만든 공정한 민주당으로 경제·평화·기후 3대 위기까지 격파! 대한민국 수호 훈장 획득 🏅 계란으로 바위치기 "+HASHTAGS;
-    if(navigator.canShare && navigator.canShare({files:[file]})){
-      try{ await navigator.share({files:[file], text:text, url:SHARE_URL}); return; }catch(e){ if(e&&e.name==="AbortError") return; }
+    var file=new File([blob],"김보미_대한민국수호훈장.png",{type:"image/png"});
+    var text=personalText();
+    if(navigator.canShare&&navigator.canShare({files:[file]})){
+      try{ await navigator.share({files:[file],text:text,url:SHARE_URL}); return; }catch(e){ if(e&&e.name==="AbortError") return; }
     }
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement("a"); a.href=url; a.download="김보미_대한민국수호훈장.png"; document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),4000);
+    dlBlob(blob,"김보미_대한민국수호훈장.png");
     try{ await navigator.clipboard.writeText(text+" "+SHARE_URL); }catch(e){}
     showToast("훈장 저장 + 문구 복사 완료");
   });
+}
+
+/* ================= 응원 입력 / 랭킹 버튼 ================= */
+$("cheerInput").addEventListener("input", function(){ $("cheerCount").textContent=this.value.length; });
+$("cheerInput").addEventListener("focus", function(){ var el=this; setTimeout(function(){ try{ el.scrollIntoView({block:"center"}); }catch(e){} },250); });
+$("btnEnroll").addEventListener("click", async function(){
+  var raw=($("cheerInput").value||"").trim();
+  if(raw && badWord(raw)){ showToast("부적절한 표현이 있어요. 다시 적어주세요"); return; }
+  cheerMsg=raw;
+  $("btnEnroll").disabled=true; $("btnSkip").disabled=true;
+  drawMedal();
+  await saveScore();
+  await showRank();
 });
+$("btnSkip").addEventListener("click", async function(){
+  cheerMsg="";
+  $("btnEnroll").disabled=true; $("btnSkip").disabled=true;
+  await saveScore();
+  await showRank();
+});
+$("btnMedalSave").addEventListener("click", saveMedalImage);
+$("btnMedalShare").addEventListener("click", shareMedalImage);
+$("btnRankSave").addEventListener("click", saveMedalImage);
+$("btnRankShare").addEventListener("click", shareMedalImage);
+$("btnRankAgain").addEventListener("click", startRun);
 
 /* 초기 화면 렌더 */
 ctx.clearRect(0,0,W,H);
