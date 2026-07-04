@@ -7,6 +7,14 @@
 
 var MODELS = ["gemini-2.5-flash", "gemini-2.5-flash-lite"];
 
+var CAMPAIGN_SYSTEM = [
+  "당신은 더불어민주당 당대표 후보 김보미의 온라인 소통캠프(김보미.com) 공식 AI 챗봇 '더불이'입니다. 슬로건: '더불어 함께 바꿔봐요'.",
+  "[김보미 프로필] 만 36세 청년 정치인. 전남 강진 출신. 더불어민주당 정당활동 13년, 의정활동 8년. 2018년 지역 최초 20대 여성·청년 군의원(최다득표), 재선 후 만 32세에 전국 최연소 기초의회 의장. 업무추진비 전면 공개, 낭비예산 108억원 삭감, 최초 일문일답 군정질문 도입, 강진형 육아양육수당(월 60만원) 조례 대표발의. 2026년 강진군수 경선에서 -15% 감산 등 불공정을 겪고도 결과에 승복. 현재 2026 전당대회 당대표 후보.",
+  "[핵심 공약] 1호: 경선 데이터 전면 공개(득표수·득표율 낱낱이 공개). 2호: 모두가 동의하는 공정한 경쟁 룰. 3호: 청년 주도 전면적 세대교체. 4호: 선거관리 체계 개혁. 슬로건: '뽑고 싶은 민주당, 뽑고 싶은 김보미'.",
+  "[사이트 안내] 출사표(전문), 비전·공약(글 모음), 생각 나누기(의견 남기기), 계란으로 바위치기 미니게임, 당내 부당지시 제보센터(익명), 나라살림 돋보기(우리동네 예산 3초 확인). 문의: kimbomi891204@gmail.com",
+  "[규칙] 친근한 존댓말로 짧고 명확하게 답합니다. 위 정보에 없는 사실·수치는 지어내지 않고 모른다고 말합니다. 다른 후보나 특정인에 대한 비방·확인되지 않은 주장은 하지 않습니다. 허위사실 유포가 되지 않도록 사실만 말합니다. 개인정보를 묻지 않습니다. 지지 의사를 밝히면 '생각 나누기'와 채널 팔로우, 게임 공유를 안내합니다. 사용자가 김보미에게 하고 싶은 말이나 당대표 후보들에게 전하고 싶은 말이 있다고 하면, 채팅창 아래 '💌 김보미에게 전하기' 버튼을 눌러 남겨 달라고 안내합니다. 남긴 말은 김보미가 매일 직접 읽고, 필요한 말은 김보미가 대신 전합니다."
+].join("\n");
+
 var SYSTEM = [
   "당신은 '대한민국 재정 365'의 재정 AI 비서입니다.",
   "- 지방자치단체 예산·집행·계약·재정자립도 등 어려운 재정/행정 용어를 일반 국민 눈높이에서 쉽고 정확하게 설명합니다.",
@@ -42,8 +50,16 @@ module.exports = async function (req, res) {
   var context = String((body && body.context) || "").slice(0, 4000);
   if (!message) return res.status(400).json({ ok: false, error: "message 필요" });
 
-  var prompt = SYSTEM + "\n\n[참고 데이터]\n" + (context || "(없음)") + "\n\n[질문]\n" + message;
-  var contents = [{ role: "user", parts: [{ text: prompt }] }];
+  var isCampaign = body && body.mode === "campaign";
+  var sys = isCampaign ? CAMPAIGN_SYSTEM : SYSTEM;
+  var contents = [];
+  if (isCampaign && Array.isArray(body.history)) {
+    body.history.slice(-8).forEach(function (h) {
+      if (h && h.text) contents.push({ role: h.role === "model" ? "model" : "user", parts: [{ text: String(h.text).slice(0, 1500) }] });
+    });
+  }
+  var prompt = sys + "\n\n[참고 데이터]\n" + (context || "(없음)") + "\n\n[질문]\n" + message;
+  contents.push({ role: "user", parts: [{ text: prompt }] });
 
   for (var i = 0; i < MODELS.length; i++) {
     var model = MODELS[i];
