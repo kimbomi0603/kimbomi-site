@@ -1318,13 +1318,13 @@ footer .flink:hover{color:#fff}
 })();
 </script>
 <script>
-/* 언론이 기록한 김보미 — 최신 보도 자동 로드(/api/news, 24시간 캐시) */
+/* 언론이 기록한 김보미 — 최신 보도 자동 로드(/api/chat?action=news, 24시간 캐시) */
 (function(){
   var wrap=document.getElementById('newsLive'), grid=document.getElementById('newsGrid');
   if(!wrap||!grid) return;
   function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function fd(ts){try{var d=new Date(ts);return d.getFullYear()+'.'+('0'+(d.getMonth()+1)).slice(-2)+'.'+('0'+d.getDate()).slice(-2);}catch(e){return '';}}
-  fetch('/api/news',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){
+  fetch('/api/chat?action=news',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){
     var items=(d&&d.ok&&d.items)?d.items.slice(0,6):[];
     if(!items.length) return;
     grid.innerHTML=items.map(function(n){
