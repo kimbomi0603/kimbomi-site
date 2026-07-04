@@ -12,7 +12,9 @@ var CAMPAIGN_SYSTEM = [
   "[김보미 프로필] 만 36세 청년 정치인. 전남 강진 출신. 더불어민주당 정당활동 13년, 의정활동 8년. 2018년 지역 최초 20대 여성·청년 군의원(최다득표), 재선 후 만 32세에 전국 최연소 기초의회 의장. 업무추진비 전면 공개, 낭비예산 108억원 삭감, 최초 일문일답 군정질문 도입, 강진형 육아양육수당(월 60만원) 조례 대표발의. 2026년 강진군수 경선에서 -15% 감산 등 불공정을 겪고도 결과에 승복. 현재 2026 전당대회 당대표 후보.",
   "[핵심 공약] 1호: 경선 데이터 전면 공개(득표수·득표율 낱낱이 공개). 2호: 모두가 동의하는 공정한 경쟁 룰. 3호: 청년 주도 전면적 세대교체. 4호: 선거관리 체계 개혁. 슬로건: '뽑고 싶은 민주당, 뽑고 싶은 김보미'.",
   "[사이트 안내] 출사표(전문), 비전·공약(글 모음), 생각 나누기(의견 남기기), 계란으로 바위치기 미니게임, 당내 부당지시 제보센터(익명), 나라살림 돋보기(우리동네 예산 3초 확인). 문의: kimbomi891204@gmail.com",
-  "[규칙] 친근한 존댓말로 짧고 명확하게 답합니다. 위 정보에 없는 사실·수치는 지어내지 않고 모른다고 말합니다. 다른 후보나 특정인에 대한 비방·확인되지 않은 주장은 하지 않습니다. 허위사실 유포가 되지 않도록 사실만 말합니다. 개인정보를 묻지 않습니다. 지지 의사를 밝히면 '생각 나누기'와 채널 팔로우, 게임 공유를 안내합니다. 사용자가 김보미에게 하고 싶은 말이나 당대표 후보들에게 전하고 싶은 말이 있다고 하면, 채팅창 아래 '💌 김보미에게 전하기' 버튼을 눌러 남겨 달라고 안내합니다. 남긴 말은 김보미가 매일 직접 읽고, 필요한 말은 김보미가 대신 전합니다."
+  "[말투] 친근한 존댓말로 짧고 명확하게. 사용자를 '고객님'이라 부르지 않습니다. 호칭이 필요하면 '당원님' 또는 생략합니다.",
+  "[전달 요청 응대 — 매우 중요] 사용자가 누군가에게(다른 정치인·당 지도부 포함) 말을 전해 달라고 하면 절대 거절하지 않습니다. '네, 이 목소리 김보미 후보에게 그대로 전해집니다. 김보미가 당원님을 대신해 목소리를 내겠습니다.'처럼 확실하게 접수합니다. 이 대화는 캠프에 자동 기록되어 김보미가 직접 확인합니다(사실임). 더 확실히 남기고 싶으면 아래 '💌 김보미에게 전하기' 버튼도 안내합니다. 단, 더불이 스스로 특정인을 비방하는 문장을 만들지는 않습니다.",
+  "[규칙] 위 정보에 없는 사실·수치는 지어내지 않고 모른다고 말합니다. 허위사실을 말하지 않습니다. 개인정보를 묻지 않습니다. 지지 의사를 밝히면 '생각 나누기'와 채널 팔로우, 게임 공유를 안내합니다."
 ].join("\n");
 
 var SYSTEM = [
@@ -88,9 +90,24 @@ module.exports = async function (req, res) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   res.setHeader("Cache-Control", "no-store");
   if (req.method === "GET" && req.query && req.query.action === "news") return handleNews(req, res);
+  /* 관리자 — 더불이 대화 기록 조회: GET /api/chat?action=chatlog&key=ADMIN_KEY */
+  if (req.method === "GET" && req.query && req.query.action === "chatlog") {
+    var RURLq = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.REDIS_REST_URL || "";
+    var RTOKq = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || process.env.REDIS_REST_TOKEN || "";
+    if (!process.env.ADMIN_KEY || req.query.key !== process.env.ADMIN_KEY) return res.status(403).json({ ok:false, error:"forbidden" });
+    if (!RURLq) return res.status(200).json({ ok:true, items:[], note:"Redis 미설정" });
+    try {
+      var rr = await fetch(RURLq, { method:"POST", headers:{ Authorization:"Bearer "+RTOKq, "Content-Type":"application/json" }, body: JSON.stringify(["LRANGE","kb_chatlog","0","199"]) });
+      var dd = await rr.json();
+      var items = (dd.result||[]).map(function(x){ try{ return JSON.parse(x); }catch(e){ return null; } }).filter(Boolean);
+      return res.status(200).json({ ok:true, items:items });
+    } catch(e){ return res.status(200).json({ ok:false, items:[] }); }
+  }
   if (req.method !== "POST") return res.status(405).json({ ok: false, error: "POST only" });
 
   var KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "";
+  var RURL2 = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.REDIS_REST_URL || "";
+  var RTOK2 = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || process.env.REDIS_REST_TOKEN || "";
   if (!KEY) return res.status(500).json({ ok: false, error: "GEMINI_API_KEY 미설정(Vercel 환경변수)" });
 
   var body = await readBody(req);
@@ -126,6 +143,32 @@ module.exports = async function (req, res) {
       }
       var parts = (j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts) || [];
       var text = parts.map(function (p) { return p.text; }).join("") || "";
+      /* 캠프 확인용 — 더불이 대화 기록(Redis) + 메일 알림(Resend 키 있을 때) */
+      if (isCampaign) {
+        var entry = JSON.stringify({ q: message.slice(0,600), a: text.slice(0,800), ts: Date.now() });
+        try {
+          if (RURL2) {
+            await fetch(RURL2, { method:"POST", headers:{ Authorization:"Bearer "+RTOK2, "Content-Type":"application/json" }, body: JSON.stringify(["LPUSH","kb_chatlog",entry]) });
+            await fetch(RURL2, { method:"POST", headers:{ Authorization:"Bearer "+RTOK2, "Content-Type":"application/json" }, body: JSON.stringify(["LTRIM","kb_chatlog","0","999"]) });
+          }
+        } catch(e) {}
+        try {
+          var RESEND = process.env.RESEND_API_KEY || "";
+          if (RESEND) {
+            await fetch("https://api.resend.com/emails", {
+              method:"POST",
+              headers:{ Authorization:"Bearer "+RESEND, "Content-Type":"application/json" },
+              body: JSON.stringify({
+                from: process.env.MAIL_FROM || "dobuli@resend.dev",
+                to: [process.env.MAIL_TO || "kimbomi891204@gmail.com"],
+                subject: "💬 더불이 대화 — " + message.slice(0,40),
+                html: "<b>질문</b><p>"+message.replace(/</g,"&lt;")+"</p><b>더불이 답변</b><p>"+text.replace(/</g,"&lt;")+"</p><p style=\"color:#888\">김보미.com 더불이 챗봇 자동 전달</p>"
+              }),
+              signal: AbortSignal.timeout(6000)
+            });
+          }
+        } catch(e) {}
+      }
       return res.status(200).json({ ok: true, model: model, text: text });
     } catch (e) {
       if (i === MODELS.length - 1) return res.status(504).json({ ok: false, error: "AI 응답 시간초과", detail: String((e && e.message) || e) });
