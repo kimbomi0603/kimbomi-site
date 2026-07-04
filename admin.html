@@ -104,6 +104,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     <div class="tab" data-tab="scores">명예의 전당</div>
     <div class="tab" data-tab="stories">이생망 공유방</div>
     <div class="tab" data-tab="posts">비전·공약 글</div>
+    <div class="tab" data-tab="reportcenter">🛡️ 제보센터</div>
     <div class="tab" data-tab="reports">리포트 보관함</div>
   </div></div>
 
@@ -168,6 +169,11 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
         </div>
         <div id="poList"></div>
       </div>
+    </section>
+
+    <!-- REPORT CENTER (제보센터) -->
+    <section id="tab-reportcenter" class="hide">
+      <div class="panel"><h3>🛡️ 제보센터 <span id="rcCount" style="color:var(--dpk)"></span> <span style="font-weight:400;font-size:.8rem;color:#9aa3b0;margin-left:auto">관리자 전용 · 비공개</span></h3><div id="rcList"></div></div>
     </section>
 
     <!-- REPORTS -->
@@ -328,9 +334,28 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
       });
   }
 
+  var rcItems=[];
+  function loadReportCenter(){
+    return fetch('/api/admin?action=reportlist&key='+encodeURIComponent(getKey()),{cache:'no-store'})
+      .then(function(r){ if(r.status===401){var e=new Error('unauth');e.code=401;throw e;} return r.json(); })
+      .then(function(d){
+        if(!d.ok) return;
+        rcItems=(d.items||[]).slice().sort(function(a,b){return (b.ts||0)-(a.ts||0);});
+        $('rcCount').textContent=(rcItems.length)+'건';
+        var el=$('rcList');
+        if(!rcItems.length){ el.innerHTML='<div class="empty">접수된 제보가 없습니다.</div>'; return; }
+        var CAT={line:'줄세우기·투표 강요',pressure:'부당한 압박·불이익',watch:'SNS·좋아요 감시',etc:'기타'};
+        el.innerHTML=rcItems.map(function(t,i){
+          var dt=''; try{dt=new Date(t.ts).toLocaleString('ko-KR');}catch(e){}
+          var meta=[]; if(t.region) meta.push('지역: '+esc(t.region)); if(t.contact) meta.push('연락: '+esc(t.contact)); meta.push(esc(dt));
+          return '<div class="th"><div class="m"><span class="po-badge scheduled">'+(CAT[t.category]||'기타')+'</span>'+esc(t.content)+'</div><div class="meta">'+meta.join(' · ')+' <button class="del" data-i="'+i+'">삭제</button></div></div>';
+        }).join('');
+      });
+  }
+
   var loaded={};
   function showTab(name){
-    ['dash','thoughts','scores','stories','posts','reports'].forEach(function(t){
+    ['dash','thoughts','scores','stories','posts','reportcenter','reports'].forEach(function(t){
       $('tab-'+t).classList.toggle('hide', t!==name);
     });
     document.querySelectorAll('.tab').forEach(function(el){ el.classList.toggle('on', el.getAttribute('data-tab')===name); });
@@ -338,6 +363,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     if(name==='scores' && !loaded.scores){ loaded.scores=1; loadScores().catch(handleErr); }
     if(name==='stories' && !loaded.stories){ loaded.stories=1; loadStories().catch(handleErr); }
     if(name==='posts' && !loaded.posts){ loaded.posts=1; loadPosts().catch(handleErr); }
+    if(name==='reportcenter' && !loaded.reportcenter){ loaded.reportcenter=1; loadReportCenter().catch(handleErr); }
     if(name==='reports' && !loaded.reports){ loaded.reports=1; loadReports(); }
   }
 
@@ -369,7 +395,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
   });
   $('keyInput').addEventListener('keydown',function(e){ if(e.key==='Enter') $('loginBtn').click(); });
   $('logoutBtn').addEventListener('click',function(){ clearKey(); loaded={}; showLogin(''); });
-  $('refreshBtn').addEventListener('click',function(){ loaded={}; loadDash().catch(handleErr); if(!$('tab-thoughts').classList.contains('hide')){loadThoughts();} if(!$('tab-scores').classList.contains('hide')){loadScores().catch(handleErr);} if(!$('tab-stories').classList.contains('hide')){loadStories().catch(handleErr);} if(!$('tab-posts').classList.contains('hide')){loadPosts().catch(handleErr);} if(!$('tab-reports').classList.contains('hide')){loadReports();} });
+  $('refreshBtn').addEventListener('click',function(){ loaded={}; loadDash().catch(handleErr); if(!$('tab-thoughts').classList.contains('hide')){loadThoughts();} if(!$('tab-scores').classList.contains('hide')){loadScores().catch(handleErr);} if(!$('tab-stories').classList.contains('hide')){loadStories().catch(handleErr);} if(!$('tab-posts').classList.contains('hide')){loadPosts().catch(handleErr);} if(!$('tab-reportcenter').classList.contains('hide')){loadReportCenter().catch(handleErr);} if(!$('tab-reports').classList.contains('hide')){loadReports();} });
 
   $('thList').addEventListener('click',function(e){
     var b=e.target.closest&&e.target.closest('.del'); if(!b) return;
@@ -448,6 +474,15 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     fetch('/api/posts?action=save&key='+encodeURIComponent(getKey()),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
       .then(function(r){return r.json();}).then(function(d){ e.target.disabled=false; if(d&&d.ok){ $('poEditor').classList.add('hide'); loadPosts(); } else alert('저장에 실패했습니다.'+((d&&d.error)?(' ('+d.error+')'):'')); })
       .catch(function(){ e.target.disabled=false; alert('저장에 실패했습니다.'); });
+  });
+  $('rcList').addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('.del'); if(!b) return;
+    var i=parseInt(b.getAttribute('data-i'),10); var t=rcItems[i]; if(!t) return;
+    if(!confirm('이 제보를 삭제할까요?\n\n"'+String(t.content||'').slice(0,60)+'"')) return;
+    b.disabled=true; b.textContent='삭제중…';
+    fetch('/api/admin?action=reportremove&key='+encodeURIComponent(getKey()),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:t.id})})
+      .then(function(r){return r.json();}).then(function(d){ if(d&&d.ok&&d.removed){ loadReportCenter().catch(handleErr); } else { alert('삭제에 실패했습니다.'); b.disabled=false; b.textContent='삭제'; } })
+      .catch(function(){ alert('삭제에 실패했습니다.'); b.disabled=false; b.textContent='삭제'; });
   });
   if(getKey()){ enterApp(); } else { showLogin(''); }
 })();

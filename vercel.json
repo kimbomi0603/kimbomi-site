@@ -2,6 +2,7 @@
   "rewrites": [
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/story", "destination": "/story.html" },
-    { "source": "/vision", "destination": "/vision.html" }
+    { "source": "/vision", "destination": "/vision.html" },
+    { "source": "/report", "destination": "/report.html" }
   ]
 }

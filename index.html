@@ -385,6 +385,17 @@ footer .flink:hover{color:#fff}
 .vp-more{text-align:center;margin-top:36px}
 .vp-empty{grid-column:1/-1;text-align:center;color:#9aa3b0;padding:30px;font-size:.95rem}
 @media(max-width:760px){.vp-grid{grid-template-columns:1fr}}
+
+/* ===== 제보센터 홈 배너 ===== */
+.report-cta{background:linear-gradient(160deg,var(--dpk-dark),var(--navy));color:#fff}
+.report-cta .in{display:flex;align-items:center;justify-content:space-between;gap:36px;flex-wrap:wrap}
+.report-cta .txt{flex:1;min-width:280px}
+.report-cta .eyebrow{color:#9fc0ea;margin-bottom:10px}
+.report-cta h2{color:#fff;font-size:1.9rem;line-height:1.32;margin:0}
+.report-cta p{color:#cfe0f5;font-size:1.02rem;margin:14px 0 0;max-width:600px}
+.report-cta .cta a{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--dpk);font-weight:800;font-size:1.05rem;padding:16px 30px;border-radius:999px;white-space:nowrap;transition:.18s}
+.report-cta .cta a:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(0,0,0,.28)}
+@media(max-width:700px){.report-cta h2{font-size:1.55rem}.report-cta .cta{width:100%}.report-cta .cta a{width:100%;justify-content:center}}
 </style>
 </head>
 <body>
@@ -496,6 +507,17 @@ footer .flink:hover{color:#fff}
       </div>
       <div class="vp-grid" id="vpGrid"><div class="vp-empty">불러오는 중…</div></div>
       <div class="vp-more"><a href="vision.html" class="btn btn-ghost">비전·공약 전체 보기 &rarr;</a></div>
+    </div>
+  </section>
+
+  <section class="report-cta" id="report">
+    <div class="wrap in">
+      <div class="txt">
+        <p class="eyebrow">🛡️ 자유로운 민주당</p>
+        <h2>당내 부당지시·입틀막 제보센터</h2>
+        <p>줄세우기·투표 강요·부당한 압박을 당하셨나요? 철저한 비밀이 보장됩니다. 이름·연락처 없이 익명으로 알려주세요. 여러분의 방패가 되어 제가 대신 싸우겠습니다.</p>
+      </div>
+      <div class="cta"><a href="report.html">🔒 제보하기 &rarr;</a></div>
     </div>
   </section>
 
