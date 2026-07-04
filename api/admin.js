@@ -106,6 +106,30 @@ module.exports = async (req, res) => {
     } catch(e){ res.status(200).json({ ok:false, error:String(e&&e.message||e) }); }
     return;
   }
+  if (action === 'reportsubmit' && req.method === 'POST') {
+    try {
+      var _ip = ((req.headers['x-forwarded-for']||'').split(',')[0]||'').trim();
+      var _rk = 'rl:rep2:'+_ip;
+      var _r = await redis(['INCR', _rk]); var _n = parseInt((_r&&_r.result)||0,10)||0;
+      if(_n===1){ await redis(['EXPIRE', _rk, 600]); }
+      if(_n>5){ res.status(200).json({ ok:false, error:'rate' }); return; }
+      var rraw = await readBody(req); var rb = rraw;
+      if (typeof rraw === 'string') { try { rb = JSON.parse(rraw||'{}'); } catch(e){ rb={}; } }
+      var _clean = function(v,max){ var x=String(v==null?'':v); var o=''; for(var i=0;i<x.length;i++){var c=x.charCodeAt(i); if(c===9||c===10||c>=32)o+=x[i];} o=o.replace(/\r/g,'').replace(/\n{3,}/g,'\n\n').trim(); if(o.length>max)o=o.slice(0,max); return o; };
+      var CATS = {line:1,pressure:1,watch:1,etc:1};
+      var cat = CATS[rb.category] ? rb.category : 'etc';
+      var content = _clean(rb.content, 1500);
+      if(!content){ res.status(200).json({ ok:false, error:'empty' }); return; }
+      var region = _clean(rb.region, 30);
+      var contact = _clean(rb.contact, 100);
+      var rid = Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+      // 개인정보(IP 등)는 제보 레코드에 저장하지 않는다.
+      var rrec = JSON.stringify({ id:rid, category:cat, content:content, region:region, contact:contact, ts:Date.now() });
+      await pipeline([ ['LPUSH','kb_reports', rrec], ['LTRIM','kb_reports',0,499] ]);
+      res.status(200).json({ ok:true });
+    } catch(e){ res.status(200).json({ ok:false, error:String(e&&e.message||e) }); }
+    return;
+  }
   if (!ADMIN_KEY && !REPORT_TOKEN) { res.status(200).json({ ok:false, configured:false, needsKey:true }); return; }
   if (!isAdmin && !isReporter) { res.status(401).json({ ok:false, error:'unauthorized' }); return; }
 
@@ -116,6 +140,26 @@ module.exports = async (req, res) => {
       var rec = JSON.stringify({ date: (b.date||kstDate(1)), title: String(b.title||'').slice(0,200), md: String(b.md||'').slice(0,20000), stats: b.stats||{}, ts: Date.now() });
       await pipeline([ ['LPUSH','a:reports', rec], ['LTRIM','a:reports',0,199] ]);
       res.status(200).json({ ok:true }); return;
+    }
+
+    if (action === 'reportlist') {
+      var rl = await redis(['LRANGE','kb_reports',0,499]);
+      var ritems = (rl.result||[]).map(function(x){ try{ var o=JSON.parse(x); return o; }catch(e){ return null; } }).filter(Boolean);
+      res.status(200).json({ ok:true, count:ritems.length, items:ritems }); return;
+    }
+
+    if (action === 'reportremove' && req.method === 'POST') {
+      if (!isAdmin) { res.status(401).json({ ok:false, error:'admin only' }); return; }
+      var rr2 = await readBody(req); var rb2 = rr2;
+      if (typeof rr2 === 'string') { try { rb2 = JSON.parse(rr2||'{}'); } catch(e){ rb2={}; } }
+      var rtid = rb2 && rb2.id; if(!rtid){ res.status(200).json({ ok:false, error:'no id' }); return; }
+      var rall = await redis(['LRANGE','kb_reports',0,499]);
+      var rtarget = (rall.result||[]).find(function(x){ try{ return JSON.parse(x).id===rtid; }catch(e){ return false; } });
+      if(!rtarget){ res.status(200).json({ ok:false, error:'not found' }); return; }
+      var rrem = await redis(['LREM','kb_reports',1,rtarget]);
+      var rremoved = parseInt((rrem&&rrem.result)||0,10)||0;
+      if(rremoved>0){ await pipeline([ ['LPUSH','kb_reports_removed', rtarget], ['LTRIM','kb_reports_removed',0,199] ]); }
+      res.status(200).json({ ok:true, removed:rremoved }); return;
     }
 
     if (action === 'thoughts') {
