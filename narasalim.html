@@ -1064,6 +1064,15 @@ h1{letter-spacing:-.035em;font-weight:900}
 #sovereign .sv-who .w-t b{color:#fff;font-size:1.05rem}
 #sovereign .sv-who .w-t span{display:block;font-size:.86rem;color:#bcd2f0;margin-top:3px;line-height:1.6}
 #sovereign .sv-who a{background:#fff;color:#123a90;font-weight:800;font-size:.9rem;padding:11px 18px;border-radius:11px;text-decoration:none;white-space:nowrap}
+#sovereign .sv-cta{margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.15)}
+#sovereign .sv-cta p{margin:0 0 12px;font-size:.92rem;color:#cfe0f5}
+#sovereign .sv-cta p b{color:#FFC53D}
+#sovereign .sv-btns{display:flex;flex-wrap:wrap;gap:10px}
+#sovereign .sv-btns a{background:#fff;color:#123a90;font-weight:800;font-size:.9rem;padding:12px 18px;border-radius:11px;text-decoration:none;box-shadow:0 6px 16px rgba(0,0,0,.2);transition:transform .15s}
+#sovereign .sv-btns a:hover{transform:translateY(-2px)}
+#sovereign .sv-btns a small{font-weight:700;color:#8a97ad;font-size:.76rem;margin-left:4px}
+.kb-act{background:#fff;border:1.5px solid #cfddf5;color:#123a90;border-radius:12px;padding:13px 20px;font-family:inherit;font-weight:800;font-size:.92rem;cursor:pointer;box-shadow:0 4px 12px rgba(18,58,144,.08);transition:transform .15s,box-shadow .2s}
+.kb-act:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(18,58,144,.16);background:#f3f8ff}
 @media(max-width:640px){#sovereign{padding:26px 14px 6px}#sovereign .sv-card{padding:26px 20px}}
 </style>
 </head>
@@ -1283,11 +1292,19 @@ h1{letter-spacing:-.035em;font-weight:900}
   <section id="sovereign">
     <div class="sv-card">
       <h2>✊ 재정주권운동이란?</h2>
-      <p class="sv-lead">세금과 예산의 주인은 시민입니다. 재정주권운동은 <b style="color:#fff">모든 시민이 우리 동네 예산이 어디에, 어떻게 쓰이는지 알고 · 감시하고 · 참여할 권리</b>를 되찾는 시민운동입니다. '대한민국 재정 365'는 그 실천 도구로, 전국 243개 지방자치단체의 공식 공시 데이터를 누구나 3초 만에 확인할 수 있도록 만들었습니다.</p>
+      <p class="sv-lead">세금과 예산의 주인은 시민입니다. 재정주권운동은 <b style="color:#fff">모든 시민이 우리 동네 예산이 어디에, 어떻게 쓰이는지 알고 · 감시하고 · 참여할 권리</b>를 되찾는 시민운동입니다. '나라살림 돋보기(우리동네 3초 확인)'는 그 실천 도구로, 전국 243개 지방자치단체의 공식 공시 데이터를 누구나 3초 만에 확인할 수 있도록 만들었습니다. 지방재정뿐 아니라 <b style="color:#fff">중앙정부·정부 부처 예산</b>도 함께 살핍니다.</p>
       <div class="sv-grid">
         <div class="sv-item"><b>① 알 권리</b><p>예산·집행·계약·금고 이자율·청렴도 — 흩어진 공시 데이터를 한 화면에서 쉽게 확인합니다.</p></div>
         <div class="sv-item"><b>② 감시할 권리</b><p>수의계약 과다, 집행 지연 같은 이상 신호를 자동으로 짚어 시민의 눈으로 살핍니다.</p></div>
         <div class="sv-item"><b>③ 참여할 권리</b><p>발견한 문제를 AI로 다듬어 담당 부서와 지방의회에 직접 의견으로 보냅니다.</p></div>
+      </div>
+      <div class="sv-cta">
+        <p>지방재정은 이곳 <b>나라살림 돋보기</b>에서, 중앙정부·정부 부처 예산은 <b>「재정주권시민행동」</b>에서 확인하세요.</p>
+        <div class="sv-btns">
+          <!-- TODO: 재정주권시민행동 자체 사이트 오픈 시 아래 URL 교체 -->
+          <a href="https://www.openfiscaldata.go.kr/" target="_blank" rel="noopener">🏛️ 중앙정부 예산 확인 — 재정주권시민행동 ↗</a>
+          <a href="javascript:void(0)" onclick="var t=document.getElementById('toast');if(t){t.textContent='🌱 청년결정정부 플랫폼은 오픈 준비 중입니다';t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2500);}">🌱 청년결정정부 <small>오픈 준비 중</small></a>
+        </div>
       </div>
       <div class="sv-who">
         <img src="face.jpg" alt="김보미" onerror="this.src='about.jpg'">
@@ -6114,6 +6131,17 @@ function analysisCards(){
     +'</div>'
     +'<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin-top:14px"><span style="font-size:.8rem;font-weight:900;color:#64748b">📚 근거 기관</span><a href="https://www.nabo.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">국회예산정책처(NABO)</a><a href="https://www.mois.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">행정안전부</a><a href="https://www.openfiscaldata.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">열린재정</a><a href="https://www.g2b.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">나라장터 G2B</a><a href="https://www.lofin365.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">지방재정365</a></div>'
     +'<div style="text-align:center;margin-top:12px"><button type="button" id="kbOntoBtn" style="background:linear-gradient(135deg,#0b2545,#1d4080);color:#fff;border:none;border-radius:11px;padding:12px 24px;font-family:inherit;font-weight:900;font-size:.92rem;cursor:pointer">🧬 분석 방법 자세히 보기</button></div>';
+  /* 핵심 기능 바로가기 버튼 3종 */
+  var actRow=document.createElement('div');
+  actRow.style.cssText='display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px';
+  [['▦ 예산과 집행을 한눈에 확인',function(){ g365Go('diag3'); }],
+   ['⌕ 정책과 담당 부서를 바로 찾기',function(){ if(window.openPolicyModal) openPolicyModal(); }],
+   ['✎ 의견을 작성해 바로 전달',function(){ var a=document.getElementById('action'); if(a){ a.style.display='block'; a.scrollIntoView({behavior:'smooth',block:'start'}); } }]
+  ].forEach(function(it){
+    var b=document.createElement('button'); b.type='button'; b.className='kb-act'; b.textContent=it[0];
+    b.addEventListener('click',it[1]); actRow.appendChild(b);
+  });
+  sec.appendChild(actRow);
   anchor.parentNode.insertBefore(sec,anchor);
   $('kbOntoBtn').addEventListener('click',function(){ if(window.__showSection) window.__showSection('ontology'); });
 }
