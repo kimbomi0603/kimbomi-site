@@ -1,26 +1,7 @@
-# 대한민국 재정 365 — 검색엔진 수집 허용
+# 김보미.com — 검색엔진 수집 허용
 User-agent: *
 Allow: /
+Disallow: /admin.html
+Disallow: /admin
 
-# 네이버 검색로봇
-User-agent: Yeti
-Allow: /
-
-# 구글 / 구글 이미지
-User-agent: Googlebot
-Allow: /
-User-agent: Googlebot-Image
-Allow: /
-
-# 다음(카카오)
-User-agent: Daumoa
-Allow: /
-
-# 마이크로소프트 빙
-User-agent: bingbot
-Allow: /
-User-agent: msnbot
-Allow: /
-
-Sitemap: https://xn--4k0b53xuva.com/sitemap.xml
-Sitemap: https://kimbomi-site.vercel.app/sitemap.xml
+Sitemap: https://www.xn--4k0b53xuva.com/sitemap.xml

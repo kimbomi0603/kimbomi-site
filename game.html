@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
 /* 공유 링크로 단독 진입하면 홈페이지 모달로 유도 — 게임 후 다른 콘텐츠도 자연스럽게 노출 */
 (function(){try{var q=new URLSearchParams(location.search);if(window.top===window.self&&!q.has('full')){location.replace('/?play=1');}}catch(e){}})();
@@ -10,16 +10,17 @@
 <title>계란으로 바위치기 — 이번 생에 바꿉시다!</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="계란으로 바위치기 — 이번 생에 바꿉시다!">
-<meta property="og:description" content="기득권 바위를 계란으로 깨는 게임! 몇 회 만에 민주당을 회귀시킬 수 있을까? 도전하고 결과를 공유해보세요. 김보미.com">
-<meta property="og:url" content="https://xn--4k0b53xuva.com/game.html">
-<meta property="og:image" content="https://xn--4k0b53xuva.com/og-campaign.jpg">
+<meta property="og:description" content="기득권 바위를 계란으로 깨는 게임! 몇 회차 만에 바위 5개를 다 깰 수 있을까? 도전하고 결과를 공유해보세요. 김보미.com">
+<meta property="og:url" content="https://www.xn--4k0b53xuva.com/game.html">
+<link rel="canonical" href="https://www.xn--4k0b53xuva.com/game.html">
+<meta property="og:image" content="https://www.xn--4k0b53xuva.com/og-campaign.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="계란으로 바위치기 — 이번 생에 바꿉시다!">
 <meta name="twitter:description" content="기득권 바위를 계란으로 깨는 게임! 도전하고 결과를 공유해보세요.">
-<meta name="twitter:image" content="https://xn--4k0b53xuva.com/og-campaign.jpg">
-<meta name="description" content="계란으로 바위를 깨는 벽돌깨기. 10개의 기득권 벽을 깨고 민주당을 바꿔보세요.">
+<meta name="twitter:image" content="https://www.xn--4k0b53xuva.com/og-campaign.jpg">
+<meta name="description" content="계란으로 바위를 깨는 벽돌깨기. 10개의 기득권 바위 중 5개가 랜덤 출제 — 모두 깨고 3대 위기 히든 스테이지까지 도전하세요. 김보미.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
@@ -250,6 +251,13 @@ h1.title .accent{color:var(--blue-soft)}
 .rank-item .rs small{font-size:10px;color:var(--dim);margin-left:1px}
 .rank-mine{max-width:344px;margin:4px auto 8px;font-size:13px;color:var(--egg);background:rgba(255,197,61,.14);border:1px solid rgba(255,197,61,.4);border-radius:9px;padding:8px 12px}
 .rank-mine b{color:var(--yolk)}
+.crisis-flash{position:absolute;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;text-align:center;
+  background:radial-gradient(circle at 50% 45%,rgba(180,20,30,.55),rgba(90,5,12,.92));animation:cfPulse .5s ease-in-out infinite alternate;pointer-events:none}
+.crisis-flash.hidden{display:none}
+.crisis-flash .cf-inner{font-family:'Black Han Sans','Do Hyeon',sans-serif;font-size:30px;line-height:1.35;color:#fff;
+  text-shadow:0 0 18px rgba(255,60,60,.9),0 4px 14px rgba(0,0,0,.6);animation:cfZoom 1.7s ease-out forwards}
+@keyframes cfPulse{from{filter:brightness(.92)}to{filter:brightness(1.15)}}
+@keyframes cfZoom{0%{transform:scale(.6);opacity:0}18%{transform:scale(1.12);opacity:1}30%{transform:scale(1)}85%{transform:scale(1.02);opacity:1}100%{opacity:.95}}
 </style>
 </head>
 <body>
@@ -271,13 +279,15 @@ h1.title .accent{color:var(--blue-soft)}
     <!-- 일시정지 -->
     <div class="overlay hidden" id="scrPause">
       <div class="eyebrow">잠시 숨 고르기</div>
-      <h1 class="title" style="font-size:34px">일시정지</h1>
+      <h2 class="title" style="font-size:34px">일시정지</h2>
       <p class="tagline">계란도 쉬어가며 두드립니다.</p>
       <div class="btnrow">
         <button class="btn small" id="btnResume">계속하기</button>
         <button class="btn blue small" id="btnQuit">처음으로</button>
       </div>
     </div>
+
+    <div class="crisis-flash hidden" id="crisisFlash"><div class="cf-inner">🚨 비상 🚨<br>대한민국 3대 위기 등장!</div></div>
 
     <!-- 타이틀 -->
     <div class="overlay" id="scrTitle">
@@ -291,7 +301,7 @@ h1.title .accent{color:var(--blue-soft)}
         기득권 바위 속 <span class="k">금빛 핵심 벽돌</span>을 깨면 클리어!<br>
         바위에서 떨어지는 <span class="k">국민의 응원</span>을 받으세요.<br>
         📣 함성=황금계란 · 👏 박수=긴 회초리 · 💙 응원=슬로우<br>
-        <small style="color:var(--dim)">조작: 터치 드래그 · 마우스 · ← → 방향키</small>
+        <small style="color:var(--dim)">조작: 터치 드래그 · 마우스 · ← → 방향키</small><br><small style="color:var(--dim)">'회귀'란? 실패해도 깬 바위는 그대로 — 기억을 안고 다시 도전한다는 뜻!</small>
       </div>
       <button class="btn" id="btnStart">회귀 시작</button>
     </div>
@@ -317,8 +327,8 @@ h1.title .accent{color:var(--blue-soft)}
 
     <!-- 최종 클리어 -->
     <div class="overlay hidden" id="scrFinal">
-      <div class="eyebrow">1단계 완료</div>
-      <h1 class="title" style="font-size:23px;margin:2px 0 8px">공정한 민주당, 완성!</h1>
+      <div class="eyebrow">민주당 혁신 완수</div>
+      <h2 class="title" style="font-size:23px;margin:2px 0 8px">공정한 민주당, 완성!</h2>
       <div class="card" id="resultCard">
         <div class="c-eyebrow">내가 깬 기득권 바위</div>
         <div class="c-title" style="font-size:18px;line-height:1.2;margin-bottom:9px">기득권 5개, 계란으로 깼다</div>
@@ -338,17 +348,27 @@ h1.title .accent{color:var(--blue-soft)}
         <button class="btn ghost small" id="btnShareGame">게임 공유</button>
       </div>
       <button class="restart" id="btnAgain" type="button">&#8635; 처음부터 다시하기</button>
+      <div class="share-row" style="margin-top:10px">
+        <a class="btn ghost small" href="manifesto.html" target="_top">📜 출사표 읽기</a>
+        <a class="btn ghost small" href="index.html#join" target="_top">🤝 김보미와 함께하기</a>
+      </div>
     </div>
 
-    <!-- 히든 클리어: 대한민국 수호 훈장 -->
+    <!-- 히든 클리어: 민주당 혁신 완수 → 대한민국 수호 훈장 -->
     <div class="overlay hidden" id="scrMedal">
       <div class="eyebrow">히든 스테이지 클리어</div>
-      <h1 class="title" style="font-size:28px">대한민국을<br>지켜냈다</h1>
+      <h2 class="title" style="font-size:28px">대한민국을<br>지켜냈다</h2>
       <canvas id="medalCanvas" width="1080" height="1080"></canvas>
       <div class="btnrow" style="margin-top:10px">
         <button class="btn small" id="btnMedalSave">🖼️ 이미지 저장</button>
         <button class="btn small" id="btnMedalShare">📢 훈장 공유</button>
       </div>
+      <div class="btnrow" style="margin-top:6px">
+        <button class="btn ghost small" id="btnMedalFb">페이스북</button>
+        <button class="btn ghost small" id="btnMedalX">X(트위터)</button>
+        <button class="btn ghost small" id="btnMedalLink">🔗 링크 복사</button>
+      </div>
+      <div style="font-size:12.5px;color:var(--dim);margin-top:4px">훈장을 올리고 <b style="color:#FFC53D">#김보미</b> 를 붙여 주세요 — 당원 게시판·커뮤니티 공유 환영!</div>
       <div class="cheer" id="cheerBox">
         <div class="cheer-guide">✍️ 당신의 한마디가 <b>명예의 전당</b>에 오릅니다</div>
         <textarea id="cheerInput" maxlength="40" rows="2" placeholder="응원 한마디를 남겨주세요 (예: 뽑고 싶은 민주당, 이번엔 계란이 이긴다!)"></textarea>
@@ -363,7 +383,7 @@ h1.title .accent{color:var(--blue-soft)}
     <!-- 명예의 전당 (랭킹) -->
     <div class="overlay hidden" id="scrRank">
       <div class="eyebrow">명예의 전당</div>
-      <h1 class="title" style="font-size:26px;margin-bottom:2px">🏆 명예의 전당</h1>
+      <h2 class="title" style="font-size:26px;margin-bottom:2px">🏆 명예의 전당</h2>
       <p class="rank-sub" id="rankSub">전국의 계란들이 남긴 응원과 기록</p>
       <div class="rank-list" id="rankList"></div>
       <div class="rank-mine" id="rankMine" hidden></div>
@@ -373,12 +393,16 @@ h1.title .accent{color:var(--blue-soft)}
         <button class="btn small" id="btnRankShare">📢 공유하기</button>
       </div>
       <button class="restart" id="btnRankAgain" type="button">&#8635; 다시 도전</button>
+      <div class="share-row" style="margin-top:10px">
+        <a class="btn ghost small" href="manifesto.html" target="_top">📜 출사표 읽기</a>
+        <a class="btn ghost small" href="index.html#join" target="_top">🤝 김보미와 함께하기</a>
+      </div>
     </div>
   </div>
 
   <div class="footer">
     계란으로 바위 치기 — 끝까지 두드려, 결국 해냅니다.<br>
-    <a href="index.html" >김보미.com에서 여러분의 생각을 나눠주세요</a>
+    <a href="index.html" target="_top">김보미.com에서 여러분의 생각을 나눠주세요</a> · <a href="manifesto.html" target="_top">출사표 읽기</a>
   </div>
 </div>
 
@@ -409,8 +433,41 @@ const HIDDEN_STAGES = [
 ];
 
 const HASHTAGS = "#민주당을살려야합니다 #이번생에살립시다 #김보미";
+const MEDAL_TITLE = "대한민국 수호 훈장";   /* 민주당을 혁신하여 대한민국을 지켰다는 서사 */
+const SUPPORT_LINE = "김보미 당대표 후보 지지";
+const HOME_URL = "https://www.xn--4k0b53xuva.com/";
 const STAGE_COUNT = 5;
 const SHARE_URL = "https://www.xn--4k0b53xuva.com/game.html";
+
+/* 기득권 바위 각인 키워드 — 최종 확정 26종 (단어 · 설명 · 격파 후 약속) */
+const ROCK_WORDS = [
+  {w:"가짜1인1표",     d:"기득권 방패막이용 변질 투표권",              y:"뽑고 싶은 후보가 있어야 진짜 1인 1표"},
+  {w:"입틀막",         d:"청년·당원 입 막는 구태 행태",               y:"다른 의견을 마음껏 말하는 정당으로"},
+  {w:"깜깜이경선",     d:"투표자·득표수 비공개 깜깜이 선거",           y:"득표수·득표율, 낱낱이 공개하겠습니다"},
+  {w:"686꼰대",        d:"40~50년 독점 기득권 세대",                  y:"아름다운 퇴장, 전면적 세대교체로"},
+  {w:"줄서기귀재",     d:"실력 대신 줄서기로 출세하려는 자",           y:"줄이 아니라 실력으로 서게 하겠습니다"},
+  {w:"고무줄규칙",     d:"지도부 입맛대로 바뀌는 경선 규정",           y:"모두가 동의하는 공정한 룰로 교체"},
+  {w:"족보캐기정쟁",   d:"정책 대신 적통만 따지는 과거 정치",          y:"과거가 아니라 미래로 경쟁합시다"},
+  {w:"들러리청년",     d:"선거용 사진 찍기용 소모품 청년",             y:"청년에게 진짜 권한을 주는 민주당으로"},
+  {w:"민생외면",       d:"당리당략에 빠져 민생 버린 무능",             y:"정쟁 대신 민생 — 국민 삶부터 챙깁니다"},
+  {w:"꼰대정치",       d:"내가 아니면 안 된다는 낡은 독선",            y:"독선을 끝내고 토론하는 정당으로"},
+  {w:"줄세우기",       d:"권력 줄세우기 구태 정치",                   y:"자발적 열정이 살아나는 당으로"},
+  {w:"밀실예산",       d:"군민 몰래 새 나가는 어두운 예산",            y:"예산 흐름, 시민 눈앞에 전면 공개"},
+  {w:"늙고낡은정당",   d:"시대 뒤처진 꼰대 의원만 가득",              y:"청년이 주도하는 새로운 민주당으로"},
+  {w:"갈라치기분열",   d:"친문·친명 편 가르기 망조 정치",             y:"편 가르기 대신 정책으로 하나되게"},
+  {w:"발목잡기정치",   d:"미래 대신 정쟁으로 정부 발목잡기",           y:"정부의 미래 행보, 당이 견인하겠습니다"},
+  {w:"구태기득권",     d:"반칙과 특권의 낡은 세력",                   y:"반칙과 특권 없는 공정한 경쟁으로"},
+  {w:"내로남불",       d:"민주당 실종 공정의 상징",                   y:"남에게도 나에게도 같은 잣대로"},
+  {w:"구태정치",       d:"변화 거부하고 밥그릇만 지키는 관행",         y:"관행을 깨고 혁신이 기본인 정당으로"},
+  {w:"기득권꼰대",     d:"청년 세대 밀어내고 독식하는 주류",           y:"청년과 함께 나누는 민주당으로"},
+  {w:"불공정공천",     d:"소명 기회도 없이 날려버리는 사천 카르텔",    y:"소명 기회 보장 — 공천 과정 전면 공개"},
+  {w:"낙하산공천",     d:"지역 헌신 외면하고 위에서 꽂는 특혜",        y:"지역에 헌신한 사람이 공천받는 당으로"},
+  {w:"내부총질프레임", d:"다른 의견을 배신으로 모는 당내 독재",        y:"쓴소리가 존중받는 민주정당으로"},
+  {w:"386퇴장거부",    d:"세대교체 막아서는 낡은 정치인들의 탐욕",     y:"멋진 이별, 아름다운 퇴장을 준비할 때"},
+  {w:"과거복수극",     d:"민생·미래 산업 대신 정쟁에만 매몰된 무능",   y:"복수 대신 미래 — AI 시대를 준비합니다"},
+  {w:"청년소모품",     d:"선거 때만 청년 영입, 끝나면 토사구팽",       y:"청년을 주역으로 — 진짜 권한을 드립니다"},
+  {w:"들러리당원",     d:"투표·당비 납부에만 동원되는 당원 잔혹사",    y:"당원이 주인 되는 진짜 당원주권으로"}
+];
 
 /* 아이템 정의 */
 const ITEMS = {
@@ -507,15 +564,22 @@ function buildBricks(stageObj){
   const keyRow = Math.floor(Math.random()*2);
   const keyCol = Math.floor(Math.random()*(cols-1));
 
-  for(let r=0;r<rows;r++){
+  /* 초반(1~3판)은 바위 수·내구도를 낮춰 1~2분 내 히든 진입이 가능하게 */
+  const early = !hiddenMode && stageNo < 3;
+  const density = early ? (0.56 + stageNo*0.06) : (0.74 + stageNo*0.012);
+  const hardP  = early ? 0.03 : (0.08 + stageNo*0.03);
+  const useRows = (!hiddenMode && stageNo < 2) ? 4 : rows;
+
+  for(let r=0;r<useRows;r++){
     for(let c=0;c<cols;c++){
       if(r===keyRow && (c===keyCol || c===keyCol+1)) continue;
-      const density = 0.74 + stageNo*0.012;
       if(Math.random() > density) continue;
-      const hard = Math.random() < (0.08 + stageNo*0.03) ? 2 : 1;
+      const hard = Math.random() < hardP ? 2 : 1;
+      const rw = ROCK_WORDS[Math.floor(Math.random()*ROCK_WORDS.length)];
       bricks.push({
         x: side + c*(bw+pad), y: top + r*(bh+pad),
-        w: bw, h: bh, hp: hard, max: hard, type:"rock"
+        w: bw, h: bh, hp: hard, max: hard, type:"rock",
+        word: rw.w, desc: rw.d, why: rw.y
       });
     }
   }
@@ -628,6 +692,12 @@ function drawBrick(b){
       ctx.strokeStyle="rgba(255,255,255,.18)";
       ctx.lineWidth=1;
       roundRect(b.x+1.5,b.y+1.5,b.w-3,b.h-3,3); ctx.stroke();
+    }
+    if(b.word){
+      ctx.fillStyle="rgba(255,255,255,.6)";
+      ctx.font="600 9.5px 'Noto Sans KR',sans-serif";
+      ctx.textAlign="center"; ctx.textBaseline="middle";
+      ctx.fillText(b.word, b.x+b.w/2, b.y+b.h/2+1, b.w-6);
     }
     if(b.hp < b.max){ drawCracks(b, 1); }
   }else{
@@ -757,6 +827,79 @@ function drawFx(){
   }
 }
 
+/* 바위 키워드 설명 캡션 — 회초리 위 가장 읽기 편한 위치 */
+let capWord="",capDesc="",capWhy="",capBroke=false,capUntil=0,capIdx=0,capNext=0;
+function capSet(w,d,y,broke){ capWord=w; capDesc=d||""; capWhy=y||""; capBroke=!!broke; capUntil=performance.now()+(broke?3600:3200); }
+
+/* 격파 연출: 글자 파편 + 충격파 링 */
+let shards=[], rings=[];
+function spawnShards(b){
+  const cx=b.x+b.w/2, cy=b.y+b.h/2, chs=(b.word||"").split("");
+  for(let i=0;i<chs.length;i++){
+    shards.push({ch:chs[i], x:cx, y:cy, vx:(Math.random()-0.5)*4.6, vy:-2.2-Math.random()*2.4,
+                 rot:(Math.random()-0.5)*0.8, vr:(Math.random()-0.5)*0.24, life:64});
+  }
+  rings.push({x:cx,y:cy,r:6,vr:3.4,life:26});
+}
+function drawShards(){
+  for(let i=shards.length-1;i>=0;i--){
+    const f=shards[i];
+    f.x+=f.vx; f.y+=f.vy; f.vy+=0.12; f.rot+=f.vr; f.life--;
+    ctx.save();
+    ctx.globalAlpha=Math.min(1,f.life/28);
+    ctx.translate(f.x,f.y); ctx.rotate(f.rot);
+    ctx.fillStyle="#FFC53D";
+    ctx.font="800 16px 'Noto Sans KR',sans-serif";
+    ctx.textAlign="center"; ctx.textBaseline="middle";
+    ctx.fillText(f.ch,0,0);
+    ctx.restore();
+    if(f.life<=0) shards.splice(i,1);
+  }
+  for(let i=rings.length-1;i>=0;i--){
+    const r=rings[i];
+    r.r+=r.vr; r.life--;
+    ctx.save();
+    ctx.globalAlpha=Math.max(0,r.life/26)*0.8;
+    ctx.strokeStyle="#FFC53D"; ctx.lineWidth=2.4;
+    ctx.beginPath(); ctx.arc(r.x,r.y,r.r,0,Math.PI*2); ctx.stroke();
+    ctx.restore();
+    if(r.life<=0) rings.splice(i,1);
+  }
+}
+function drawCaption(){
+  if(!ballLaunched) return;  /* 발사 안내 문구와 겹침 방지 */
+  const now=performance.now();
+  if(now>capUntil && now>capNext){
+    const rocks=bricks.filter(b=>b.type==="rock"&&b.word);
+    if(rocks.length){ const b=rocks[capIdx++ % rocks.length]; capWord=b.word; capDesc=b.desc||""; }
+    capNext=now+4000;
+  }
+  if(!capWord) return;
+  const active = performance.now()<capUntil;
+  ctx.save();
+  ctx.textAlign="center";
+  if(active && capBroke && capWhy){
+    /* 격파 직후 — 왜 깨야 했는지 설득 카드 */
+    ctx.font="800 15px 'Noto Sans KR',sans-serif";
+    ctx.fillStyle="#FFC53D";
+    ctx.fillText("『"+capWord+"』 격파!", W/2, paddle.y-56);
+    ctx.font="500 11.5px 'Noto Sans KR',sans-serif";
+    ctx.fillStyle="rgba(214,226,248,.85)";
+    ctx.fillText(capDesc, W/2, paddle.y-39);
+    ctx.font="700 13px 'Noto Sans KR',sans-serif";
+    ctx.fillStyle="#8FD0FF";
+    ctx.fillText("→ "+capWhy, W/2, paddle.y-19);
+  }else{
+    ctx.font="700 13px 'Noto Sans KR',sans-serif";
+    ctx.fillStyle="rgba(255,197,61,.95)";
+    ctx.fillText("『"+capWord+"』", W/2, paddle.y-36);
+    ctx.font="500 11.5px 'Noto Sans KR',sans-serif";
+    ctx.fillStyle="rgba(214,226,248,.85)";
+    ctx.fillText(capDesc, W/2, paddle.y-19);
+  }
+  ctx.restore();
+}
+
 function drawFloats(){
   for(let i=floats.length-1;i>=0;i--){
     const f = floats[i];
@@ -865,10 +1008,17 @@ function step(){
             return;
           }
         }else{
+          if(b.word) capSet(b.word, b.desc);
           burst(ball.x, ball.y, pierce? "#FFD667" : "#8B97B8", pierce? 12 : 8);
           beep(pierce? 500 : 360, 0.05, 0.04);
           if(b.hp<=0){
             maybeDrop(b.x+b.w/2, b.y+b.h/2);
+            if(b.word){
+              capSet(b.word, b.desc, b.why, true);
+              spawnShards(b);
+              burst(b.x+b.w/2, b.y+b.h/2, "#FFC53D", 16);
+              shake = 9;
+            }
             bricks.splice(i,1);
             score += (b.max===2? 40 : 20);
           }
@@ -894,6 +1044,7 @@ function loop(myId){
   ctx.clearRect(-8,-8,W+16,H+16);
   drawBackdropText();
   bricks.forEach(drawBrick);
+  drawCaption();
   drawDrops();
   drawPaddle();
   drawBall();
@@ -910,6 +1061,7 @@ function loop(myId){
     if(p.life<=0) particles.splice(i,1);
   }
   drawFloats();
+  drawShards();
   ctx.restore();
 
   requestAnimationFrame(()=>loop(myId));
@@ -950,7 +1102,15 @@ function startHidden(){
   clearedRocks = [];
   stageNo = 0;
   $("hudLabel").textContent = "대한민국 3대 위기";
-  startStage();
+  hideAll();
+  var cf = $("crisisFlash");
+  if(cf){
+    cf.classList.remove("hidden");
+    beep(140,0.32,0.07,"sawtooth");
+    setTimeout(function(){ beep(120,0.32,0.07,"sawtooth"); }, 380);
+    setTimeout(function(){ beep(160,0.4,0.08,"sawtooth"); }, 760);
+    setTimeout(function(){ cf.classList.add("hidden"); startStage(); }, 1750);
+  } else { startStage(); }
 }
 function onStageClear(){
   playing = false;
@@ -1061,7 +1221,7 @@ function drawMedal(){
   g.textAlign="center";
   var y=82;
   g.fillStyle="#FFC53D"; g.font="600 28px 'Noto Sans KR',sans-serif";
-  g.fillText("계란으로 바위치기 · 히든 스테이지 클리어", S/2, y);
+  g.fillText("민주당 혁신 완수 · 대한민국 3대 위기 격파", S/2, y);
   var quote=(cheerMsg||"").trim();
   if(quote){
     g.font="italic 700 34px 'Noto Sans KR',sans-serif";
@@ -1078,7 +1238,7 @@ function drawMedal(){
   drawEmblem(g,S/2,ec,er);
   y=ec+er*1.85+(quote?10:14);
   g.fillStyle="#FFF6E3"; g.font=(quote?52:60)+"px 'Black Han Sans','Noto Sans KR',sans-serif";
-  g.fillText("대한민국 수호 훈장", S/2, y); y+=42;
+  g.fillText(MEDAL_TITLE, S/2, y); y+=42;
   g.fillStyle="#EAF0FF"; g.font="500 29px 'Noto Sans KR',sans-serif";
   g.fillText(runCount+"회 만에 완수 · "+fmtNum(score)+"점", S/2, y); y+=28;
   g.strokeStyle="rgba(255,255,255,0.14)"; g.lineWidth=2; g.beginPath(); g.moveTo(S*0.20,y); g.lineTo(S*0.80,y); g.stroke(); y+=44;
@@ -1092,7 +1252,7 @@ function drawMedal(){
   y=drawWrap(g, "이 힘으로 공정한 민주당을 완성해 경제·평화·기후 3대 위기 격파!", S/2, y, S-150, 42); y+=24;
   g.strokeStyle="rgba(255,255,255,0.14)"; g.lineWidth=2; g.beginPath(); g.moveTo(S*0.20,y); g.lineTo(S*0.80,y); g.stroke(); y+=58;
   g.fillStyle="#FFF6E3"; g.font="700 43px 'Noto Sans KR',sans-serif";
-  g.fillText("김보미 — 뽑고 싶은 민주당", S/2, y); y+=48;
+  g.fillText(SUPPORT_LINE+" — 뽑고 싶은 민주당", S/2, y); y+=48;
   g.fillStyle="#8FB3E6"; g.font="700 33px 'Noto Sans KR',sans-serif";
   g.fillText("김보미.com", S/2, y); y+=50;
   g.fillStyle="#FFC53D"; g.font="500 24px 'Noto Sans KR',sans-serif";
@@ -1257,7 +1417,7 @@ function dlBlob(blob,name){ var url=URL.createObjectURL(blob); var a=document.cr
 function personalText(){
   var list=(lastFive.length?lastFive:clearedRocks).join(", ");
   var q=cheerMsg?("『"+cheerMsg+"』 "):"";
-  return q+"나는 "+runCount+"회 만에 기득권 5개("+list+")를 깨고 3대 위기까지 격파했다! "+score+"점 🥚🏅 "+HASHTAGS;
+  return q+"나는 "+runCount+"회 만에 기득권 5개("+list+")를 깨고 민주당을 혁신, 3대 위기까지 격파했다! "+score+"점 🥚🏅 "+MEDAL_TITLE+" 획득 · "+SUPPORT_LINE+" "+HASHTAGS+" "+HOME_URL;
 }
 function saveMedalImage(){ medalBlob(function(blob){ if(!blob){ showToast("저장을 지원하지 않는 환경입니다"); return; } dlBlob(blob,"김보미_대한민국수호훈장.png"); showToast("훈장 이미지를 저장했어요"); }); }
 function shareMedalImage(){
@@ -1268,7 +1428,7 @@ function shareMedalImage(){
     if(navigator.canShare&&navigator.canShare({files:[file]})){
       try{ await navigator.share({files:[file],text:text,url:SHARE_URL}); return; }catch(e){ if(e&&e.name==="AbortError") return; }
     }
-    dlBlob(blob,"김보미_대한민국수호훈장.png");
+    dlBlob(blob,"김보미_민주당혁신훈장.png");
     try{ await navigator.clipboard.writeText(text+" "+SHARE_URL); }catch(e){}
     showToast("훈장 저장 + 문구 복사 완료");
   });
@@ -1292,6 +1452,10 @@ $("btnSkip").addEventListener("click", async function(){
   await saveScore();
   await showRank();
 });
+function openShareWin(u){ try{ window.open(u,"_blank","noopener,width=620,height=540"); }catch(e){ location.href=u; } }
+$("btnMedalFb").addEventListener("click", function(){ openShareWin("https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(SHARE_URL)); });
+$("btnMedalX").addEventListener("click", function(){ openShareWin("https://twitter.com/intent/tweet?text="+encodeURIComponent(personalText())+"&url="+encodeURIComponent(SHARE_URL)); });
+$("btnMedalLink").addEventListener("click", function(){ var t=personalText()+" "+SHARE_URL; try{ navigator.clipboard.writeText(t).then(function(){ showToast("링크와 문구를 복사했어요"); }); }catch(e){ prompt("복사해 공유하세요", t); } });
 $("btnMedalSave").addEventListener("click", saveMedalImage);
 $("btnMedalShare").addEventListener("click", shareMedalImage);
 $("btnRankSave").addEventListener("click", saveMedalImage);

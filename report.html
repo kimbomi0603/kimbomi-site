@@ -8,10 +8,11 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="당내 부당지시·입틀막 제보센터 — 김보미">
 <meta property="og:description" content="철저한 비밀 보장. 줄세우기·투표 강요·부당한 압박, 주저 없이 알려주세요.">
-<meta property="og:url" content="https://xn--4k0b53xuva.com/report.html">
-<meta property="og:image" content="https://xn--4k0b53xuva.com/og-campaign.jpg">
+<meta property="og:url" content="https://www.xn--4k0b53xuva.com/report.html">
+<link rel="canonical" href="https://www.xn--4k0b53xuva.com/report.html">
+<meta property="og:image" content="https://www.xn--4k0b53xuva.com/og-campaign.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://xn--4k0b53xuva.com/og-campaign.jpg">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://www.xn--4k0b53xuva.com/og-campaign.jpg">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;900&display=swap" rel="stylesheet">
@@ -31,7 +32,10 @@ header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdro
 .menu{display:flex;align-items:center;gap:23px}
 .menu a{font-size:.94rem;font-weight:600;color:#33405a;white-space:nowrap}
 .menu a:hover{color:var(--dpk)}
-.menu a.nara{color:var(--dpk);font-weight:700}
+.menu a.nara{display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1.15;gap:1px;
+  background:var(--tint);border:1px solid var(--tint-2);border-radius:10px;padding:6px 12px;color:var(--dpk);font-weight:700}
+.menu a.nara .nara-sub{font-size:.68rem;font-weight:600;color:#4a6fa5;letter-spacing:-.01em}
+.menu a.nara:hover{background:var(--tint-2)}
 .nav-right{display:flex;align-items:center;gap:12px;flex:none}
 .home-link{font-size:.88rem;font-weight:700;color:var(--muted);border:1.5px solid var(--line);border-radius:999px;padding:8px 15px;white-space:nowrap}
 .home-link:hover{color:var(--dpk);border-color:var(--dpk)}
@@ -90,9 +94,10 @@ textarea.field{min-height:180px;resize:vertical;line-height:1.7}
       <a href="vision.html">비전·공약</a>
       <a href="index.html#journey">김보미는</a>
       <a href="index.html#thoughts">생각 나누기</a>
-      <a href="game.html">참여 콘텐츠</a>
+      <a href="game.html">미니게임</a>
+      <a href="report.html" class="cur">제보센터</a>
       <a href="index.html#story">이생망 공유방</a>
-      <a href="narasalim.html" class="nara">나라살림 돋보기</a>
+      <a href="narasalim.html" class="nara">🔍 나라살림 돋보기<span class="nara-sub">우리동네 예산·정책 3초 확인</span></a>
     </nav>
     <div class="nav-right">
       <a href="index.html" class="home-link">← 홈으로</a>
@@ -150,7 +155,7 @@ textarea.field{min-height:180px;resize:vertical;line-height:1.7}
 </main>
 
 <div class="foot">
-  <div class="wrap">김보미 · 더불어민주당 당대표 후보 — <a href="index.html">김보미.com</a> · <a href="vision.html">비전·공약</a></div>
+  <div class="wrap">김보미 · 더불어민주당 당대표 후보 — <a href="index.html">김보미.com</a> · <a href="vision.html">비전·공약</a> · <a href="privacy.html">개인정보처리방침</a></div>
 </div>
 <div class="toast" id="toast"></div>
 
