@@ -413,6 +413,17 @@ footer .flink:hover{color:#fff}
 .vh-row .va{color:var(--dpk);font-weight:800;flex:none}
 .vh-list .vp-empty{grid-column:1/-1;text-align:center;color:#9aa3b0;padding:20px;font-size:.92rem}
 @media(max-width:760px){.vh-list{grid-template-columns:1fr}}
+
+.pledge-mini{background:#fff;border:1px solid var(--tint-2);border-radius:16px;padding:20px 24px;box-shadow:0 8px 22px rgba(0,44,94,.05)}
+.pledge-mini .pm-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:9px}
+.pledge-mini .tagn{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.1em;color:#fff;background:var(--dpk);border-radius:999px;padding:5px 13px}
+.pledge-mini .pm-head b{font-size:1.28rem;color:var(--ink)}
+.pledge-mini .pm-desc{color:var(--muted);font-size:.95rem;line-height:1.65;margin-bottom:14px}
+.pledge-mini .pm-pills{display:flex;flex-wrap:wrap;gap:8px}
+.pledge-mini .pm-pills span{font-size:.82rem;font-weight:600;color:#33405a;background:var(--tint);border-radius:999px;padding:6px 13px}
+.vision-hub .vp-block{margin-bottom:24px}
+.vision-hub .vp-more{margin:20px 0 0;text-align:center}
+@media(max-width:600px){.pledge-mini .pm-head b{font-size:1.12rem}}
 </style>
 </head>
 <body>
@@ -506,20 +517,14 @@ footer .flink:hover{color:#fff}
         <h2>공약을 글로 소상히 밝힙니다.</h2>
         <p>대표 공약과 김보미의 생각을, 한 줄 요약이 아니라 글로 소상히 밝힙니다.</p>
       </div>
-      <div class="pledge">
-        <span class="tagn">1호 공약</span>
-        <h2>경선 데이터 전면 공개</h2>
-        <p class="desc">지금 민주당은 당사자에게조차 득표수와 득표율을 알려주지 않는 '블랙박스'입니다. 제가 당대표가 된다면, 지난 지방선거의 모든 경선 데이터를 상세하고 투명하게 전면 공개하겠습니다. 다른 후보님들께도 이 공약을 전당대회 공통 공약으로 삼자고 제안합니다.</p>
-        <div class="plist">
-          <div class="pi"><div class="no">01</div><div><b>경선 데이터 전면 공개</b><span>득표수·득표율·세대·지역별 데이터 투명 공개</span></div></div>
-          <div class="pi"><div class="no">02</div><div><b>공정한 경쟁 룰</b><span>밀실 공천·깜깜이 경선 종식, 모두가 동의하는 시스템</span></div></div>
-          <div class="pi"><div class="no">03</div><div><b>청년 주도 세대교체</b><span>청년이 결정에 직접 참여하는 민주당</span></div></div>
-          <div class="pi"><div class="no">04</div><div><b>선거관리 체계 개혁</b><span>개헌을 통한 공정한 선거 관리 체계 재구축</span></div></div>
-        </div>
+      <div class="vp-block">
+        <div class="vp-grid" id="vpGrid"><div class="vp-empty">불러오는 중…</div></div>
+        <div class="vp-more"><a href="vision.html" class="btn btn-ghost">비전·공약 전체 보기 &rarr;</a></div>
       </div>
-      <div class="vh-more">
-        <div class="vh-more-head"><span>📄 공약을 글로 — 더 읽어보기</span><a href="vision.html">전체 보기 &rarr;</a></div>
-        <div id="vpGrid" class="vh-list"><div class="vp-empty">불러오는 중…</div></div>
+      <div class="pledge-mini">
+        <div class="pm-head"><span class="tagn">1호 공약</span><b>경선 데이터 전면 공개</b></div>
+        <p class="pm-desc">당사자에게조차 득표수·득표율을 알려주지 않는 '블랙박스' 민주당. 지난 지방선거의 모든 경선 데이터를 투명하게 전면 공개하겠습니다.</p>
+        <div class="pm-pills"><span>01 경선 데이터 전면 공개</span><span>02 공정한 경쟁 룰</span><span>03 청년 주도 세대교체</span><span>04 선거관리 체계 개혁</span></div>
       </div>
     </div>
   </section>
@@ -1150,10 +1155,11 @@ footer .flink:hover{color:#fff}
   fetch('/api/posts?action=list').then(function(r){return r.json();}).then(function(d){
     var items=(d&&d.ok&&d.items)?d.items:[];
     if(!items.length){ el.innerHTML='<div class="vp-empty">아직 공개된 글이 없습니다.</div>'; return; }
-    el.innerHTML=items.slice(0,6).map(function(pp){ return '<a class="vh-row" href="vision.html?post='+encodeURIComponent(pp.id)+'"><span class="vchip">비전·공약</span><span class="vt">'+esc(pp.title)+'</span><span class="vd">'+fmtDate(pp.publishAt)+'</span><span class="va">&rarr;</span></a>'; }).join('');
+    el.innerHTML=items.slice(0,4).map(function(pp){ return '<a class="vp-card" href="vision.html?post='+encodeURIComponent(pp.id)+'"><div class="m"><span class="chip">비전·공약</span><span>'+fmtDate(pp.publishAt)+'</span></div><h3>'+esc(pp.title)+'</h3><div class="ex">'+esc(excerpt(pp.body))+'…</div><div class="go">전문 읽기 &rarr;</div></a>'; }).join('');
   }).catch(function(){ el.innerHTML='<div class="vp-empty">불러올 수 없어요.</div>'; });
 })();
 </script>
 <script src="/a.js" defer></script>
 </body>
 </html>
+x
