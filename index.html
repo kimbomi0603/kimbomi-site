@@ -434,17 +434,22 @@ footer .flink:hover{color:#fff}
 .ai-strip{background:var(--navy);color:#cfe0f5;font-size:.95rem;padding:12px 0;text-align:center;line-height:1.6}
 .ai-strip b{color:#fff}
 /* 봄이 챗봇 위젯 */
-.bomi-fab{position:fixed;right:18px;bottom:18px;z-index:190;width:72px;height:72px;border:3px solid #fff;cursor:pointer;border-radius:50%;
-  background:var(--dpk) url('dobuli-button.png') center/cover no-repeat;box-shadow:0 10px 30px rgba(0,45,100,.4);padding:0;
-  animation:bomiPulse 2.6s ease-in-out infinite}
-.bomi-fab:hover{transform:scale(1.06)}
-@keyframes bomiPulse{0%,100%{box-shadow:0 10px 30px rgba(0,45,100,.4)}50%{box-shadow:0 10px 30px rgba(0,45,100,.4),0 0 0 12px rgba(0,78,162,.12)}}
-.bomi-call{position:fixed;right:16px;bottom:104px;z-index:190;background:#fff;border:2px solid var(--tint-2);color:var(--ink);
-  font-weight:800;font-size:1.06rem;font-family:var(--sans);padding:14px 20px;border-radius:18px;border-bottom-right-radius:5px;cursor:pointer;
-  box-shadow:0 14px 34px rgba(10,25,60,.22);animation:bomiBob 1.7s ease-in-out infinite;white-space:nowrap}
+.bomi-fab{position:fixed;right:18px;bottom:18px;z-index:190;display:flex;align-items:center;gap:11px;cursor:pointer;border:none;
+  background:linear-gradient(135deg,#0a63c4,var(--dpk) 60%,#00376e);border-radius:999px;padding:9px 24px 9px 9px;font-family:var(--sans);
+  box-shadow:0 14px 36px rgba(0,45,100,.5),0 0 0 3px rgba(255,255,255,.9);animation:bomiFloat 2.2s ease-in-out infinite}
+.bomi-fab:hover{animation-play-state:paused;transform:translateY(-4px) scale(1.04)}
+.bomi-fab .bf-img{width:56px;height:56px;border-radius:50%;border:2.5px solid #fff;background:url('dobuli-button.png') center/cover no-repeat;flex:none}
+.bomi-fab .bf-txt{color:#fff;text-align:left;line-height:1.2;font-size:.8rem;font-weight:700;opacity:.95;letter-spacing:.01em}
+.bomi-fab .bf-txt b{display:block;font-size:1.34rem;font-weight:900;letter-spacing:.03em;color:#fff}
+@keyframes bomiFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.bomi-call{position:fixed;right:18px;bottom:104px;z-index:190;background:#fff;border:2.5px solid #FFC53D;color:var(--ink);
+  font-weight:900;font-size:1.12rem;font-family:var(--sans);padding:15px 22px;border-radius:20px;border-bottom-right-radius:5px;cursor:pointer;
+  box-shadow:0 16px 40px rgba(10,25,60,.28);animation:bomiBob 1.6s ease-in-out infinite;white-space:nowrap}
 .bomi-call b{color:var(--dpk)}
-@keyframes bomiBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@media(max-width:600px){.bomi-call{bottom:96px;right:14px;font-size:.95rem;padding:12px 16px}}
+.bomi-call:after{content:'';position:absolute;right:26px;bottom:-11px;border:11px solid transparent;border-top-color:#FFC53D;border-bottom:0}
+@keyframes bomiBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@media(max-width:600px){.bomi-call{bottom:98px;right:14px;font-size:1rem;padding:13px 17px}
+.bomi-fab .bf-img{width:48px;height:48px}.bomi-fab .bf-txt b{font-size:1.18rem}}
 .bomi-panel{position:fixed;right:18px;bottom:84px;z-index:191;width:min(370px,calc(100vw - 24px));height:min(520px,calc(100vh - 120px));
   background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 24px 70px rgba(10,25,60,.3);display:none;flex-direction:column;overflow:hidden}
 .bomi-panel.open{display:flex}
@@ -769,7 +774,7 @@ footer .flink:hover{color:#fff}
       <div class="sec-head">
         <p class="eyebrow">생각 나누기</p>
         <h2>여러분의 생각을 나눠주세요.</h2>
-        <p>여러분이 생각하시는 민주당의 핵심가치는 무엇입니까? 여러분이 그리는 민주당은 어떤 모습입니까. 여러분이 만들고자 하는 대한민국은 어떤 나라입니까. 여러분의 생각을 모아 더불어 함께 나아가고자 합니다.</p>
+        <p>여러분이 생각하시는 민주당의 핵심 가치는 무엇입니까? 여러분이 그리는 민주당은 어떤 모습입니까? 여러분이 만들고자 하는 대한민국은 어떤 나라입니까? 여러분의 생각을 모아 더불어 함께 나아가겠습니다.</p>
       </div>
       <div class="tw-grid">
         <form class="tw-form" id="twForm">
@@ -931,8 +936,11 @@ footer .flink:hover{color:#fff}
   </div>
 </footer>
 
-<div class="bomi-call" id="bomiCall">AI 챗봇 <b>더불이</b>를 불러주세요! 🤝</div>
-<button class="bomi-fab" id="bomiFab" aria-label="AI 챗봇 더불이 열기"></button>
+<div class="bomi-call" id="bomiCall">💬 AI 챗봇 <b>더불이</b>를 불러주세요!</div>
+<button class="bomi-fab" id="bomiFab" aria-label="AI 챗봇 더불이 열기">
+  <span class="bf-img"></span>
+  <span class="bf-txt">AI 챗봇 · 무엇이든 물어보세요<b>더불이</b></span>
+</button>
 <div class="bomi-panel" id="bomiPanel" role="dialog" aria-label="더불이 챗봇">
   <div class="bomi-head">
     <div class="bh-ava">🤝</div>

@@ -1046,6 +1046,25 @@ h1{letter-spacing:-.035em;font-weight:900}
   .hero-headline span[style*="font-size:1.65rem"]{font-size:1rem!important}
 }
 
+
+/* v45: 페이지 정돈 — 캠페인 사진 갤러리 숨김 */
+#moments,.gx-lb{display:none!important}
+/* v45: 재정주권운동 소개 섹션 */
+#sovereign{max-width:1160px;margin:0 auto;padding:34px 22px 10px}
+#sovereign .sv-card{background:linear-gradient(135deg,#0b2545,#153a6e);border-radius:22px;padding:34px 30px;color:#e8f0fc;box-shadow:0 18px 44px rgba(11,37,69,.28)}
+#sovereign h2{font-size:1.5rem;font-weight:900;color:#fff;margin:0 0 10px}
+#sovereign .sv-lead{font-size:1rem;line-height:1.75;color:#cfe0f5;max-width:820px}
+#sovereign .sv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:20px}
+#sovereign .sv-item{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:16px}
+#sovereign .sv-item b{display:block;color:#FFC53D;font-size:.98rem;margin-bottom:5px}
+#sovereign .sv-item p{margin:0;font-size:.86rem;color:#c4d6ef;line-height:1.6}
+#sovereign .sv-who{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.15)}
+#sovereign .sv-who img{width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid rgba(255,255,255,.85)}
+#sovereign .sv-who .w-t{flex:1;min-width:240px}
+#sovereign .sv-who .w-t b{color:#fff;font-size:1.05rem}
+#sovereign .sv-who .w-t span{display:block;font-size:.86rem;color:#bcd2f0;margin-top:3px;line-height:1.6}
+#sovereign .sv-who a{background:#fff;color:#123a90;font-weight:800;font-size:.9rem;padding:11px 18px;border-radius:11px;text-decoration:none;white-space:nowrap}
+@media(max-width:640px){#sovereign{padding:26px 14px 6px}#sovereign .sv-card{padding:26px 20px}}
 </style>
 </head>
 <body>
@@ -1257,6 +1276,27 @@ h1{letter-spacing:-.035em;font-weight:900}
       <div class="value v1"><div class="vic">▦</div><h4>예산과 집행을 한눈에 확인</h4><p>공식 공시 데이터를 바탕으로 우리 지역의 예산과 집행 현황을 확인할 수 있습니다.</p></div>
       <div class="value v2"><div class="vic">⌕</div><h4>정책과 담당부서를 바로 찾기</h4><p>키워드로 관련 정책, 담당 부서, 연락처를 한 번에 찾을 수 있습니다.</p></div>
       <div class="value v3"><div class="vic">✎</div><h4>의견을 작성해 바로 전달</h4><p>의견 초안을 AI로 정리한 뒤 담당 부서나 지방의회에 보낼 수 있습니다.</p></div>
+    </div>
+  </section>
+
+  <!-- v45: 재정주권운동 소개 -->
+  <section id="sovereign">
+    <div class="sv-card">
+      <h2>✊ 재정주권운동이란?</h2>
+      <p class="sv-lead">세금과 예산의 주인은 시민입니다. 재정주권운동은 <b style="color:#fff">모든 시민이 우리 동네 예산이 어디에, 어떻게 쓰이는지 알고 · 감시하고 · 참여할 권리</b>를 되찾는 시민운동입니다. '대한민국 재정 365'는 그 실천 도구로, 전국 243개 지방자치단체의 공식 공시 데이터를 누구나 3초 만에 확인할 수 있도록 만들었습니다.</p>
+      <div class="sv-grid">
+        <div class="sv-item"><b>① 알 권리</b><p>예산·집행·계약·금고 이자율·청렴도 — 흩어진 공시 데이터를 한 화면에서 쉽게 확인합니다.</p></div>
+        <div class="sv-item"><b>② 감시할 권리</b><p>수의계약 과다, 집행 지연 같은 이상 신호를 자동으로 짚어 시민의 눈으로 살핍니다.</p></div>
+        <div class="sv-item"><b>③ 참여할 권리</b><p>발견한 문제를 AI로 다듬어 담당 부서와 지방의회에 직접 의견으로 보냅니다.</p></div>
+      </div>
+      <div class="sv-who">
+        <img src="face.jpg" alt="김보미" onerror="this.src='about.jpg'">
+        <div class="w-t">
+          <b>김보미 · 재정주권시민행동 공동대표</b>
+          <span>前 강진군의회 의장(전국 최연소) · 13년 의정 경험에서 마주한 지방재정의 구조적 문제를 바꾸기 위해, AI를 활용해 이 플랫폼을 직접 설계·운영하고 있습니다.</span>
+        </div>
+        <a href="javascript:void(0)" onclick="var n=document.getElementById('navAbout'); if(n) n.click();">소개 자세히 보기 →</a>
+      </div>
     </div>
   </section>
 
@@ -1770,7 +1810,7 @@ h1{letter-spacing:-.035em;font-weight:900}
   <div class="detail-overlay" id="aboutOverlay">
     <div class="detail-sheet">
       <div class="detail-head">
-        <div><h2>👤 김보미 — 더불어민주당 당대표 후보 · 재정 운동가</h2><div class="meta" style="max-width:680px">"세금은 시민이 의회에 위임한 권력이지, 단체장의 사유물이 아닙니다." 13년 차 의정 경험과 의장직에서 직접 마주한 지방재정의 구조적 문제를 자산으로 — 전국 243개 지자체 예산·집행·계약·금고이자율·청렴도를 시민이 직접 추적하도록 만든 <b>시민주도 국민주권실행 플랫폼 『대한민국 재정 365』</b>를 설계·운영합니다.</div></div>
+        <div><h2>👤 김보미 — 재정주권시민행동 공동대표</h2><div class="meta" style="max-width:680px">"세금은 시민이 의회에 위임한 권력이지, 단체장의 사유물이 아닙니다." 13년 차 의정 경험과 의장직에서 직접 마주한 지방재정의 구조적 문제를 자산으로 — 전국 243개 지자체 예산·집행·계약·금고이자율·청렴도를 시민이 직접 추적하도록 만든 <b>시민주도 국민주권실행 플랫폼 『대한민국 재정 365』</b>를 설계·운영합니다.</div></div>
         <div class="sp"><button class="detail-close" id="aboutClose" title="닫기">✕</button></div>
       </div>
       <div class="detail-body">
@@ -1780,8 +1820,8 @@ h1{letter-spacing:-.035em;font-weight:900}
         <div>
           <h3>김보미 <span style="font-size:.9rem;font-weight:600;color:#bcd2f0">金甫美 · Kim Bomi · Fiscal Reform Activist</span></h3>
           <div class="role" style="opacity:.92">시민주도 국민주권실행 플랫폼 『대한민국 재정 365』 설계·운영자</div>
-          <div class="role">前 강진군의회 의장 · 13년 차 의정 경험을 바탕으로 한 전국 재정 감시 운동가</div>
-          <div class="tags"><span>더불어민주당 당대표 후보</span><span>혁신적 재정 운동가</span><span>『대한민국 재정 365』 설계자</span><span>243개 지자체 재정 감시</span><span>지방재정 투명성·재정주권</span><span>부패방지 청렴인 표창</span></div>
+          <div class="role">재정주권시민행동 공동대표 · 前 강진군의회 의장(전국 최연소) · 더불어민주당 당대표 후보</div>
+          <div class="tags"><span>재정주권시민행동 공동대표</span><span>더불어민주당 당대표 후보</span><span>『대한민국 재정 365』 설계자</span><span>243개 지자체 재정 감시</span><span>지방재정 투명성·재정주권</span><span>부패방지 청렴인 표창</span></div>
         </div>
       </div>
       <div class="about-body">
