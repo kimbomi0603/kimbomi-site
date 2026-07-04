@@ -3,6 +3,12 @@
   try{
     var EP = '/api/track';
     var host = location.host;
+    /* 내 방문 제외: ?notrack=1 로 한 번 접속하면 이 브라우저는 이후 집계 제외 (?notrack=0 으로 해제) */
+    try{
+      var _nt = new URLSearchParams(location.search);
+      if (_nt.has('notrack')) { if (_nt.get('notrack') === '0') localStorage.removeItem('kb_notrack'); else localStorage.setItem('kb_notrack','1'); }
+    }catch(e){}
+    try{ if (localStorage.getItem('kb_notrack') === '1') return; }catch(e){}
     function send(ev){
       try{
         var payload = JSON.stringify({ e:[ev] });
