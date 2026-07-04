@@ -396,6 +396,23 @@ footer .flink:hover{color:#fff}
 .report-cta .cta a{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--dpk);font-weight:800;font-size:1.05rem;padding:16px 30px;border-radius:999px;white-space:nowrap;transition:.18s}
 .report-cta .cta a:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(0,0,0,.28)}
 @media(max-width:700px){.report-cta h2{font-size:1.55rem}.report-cta .cta{width:100%}.report-cta .cta a{width:100%;justify-content:center}}
+
+/* ===== 비전·공약 통합 섹션 ===== */
+.vision-hub{background:#fafbfd;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.vision-hub .sec-head{margin-bottom:30px}
+.vision-hub .pledge{margin-bottom:26px}
+.vh-more-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}
+.vh-more-head span{font-size:1.05rem;font-weight:800;color:var(--ink)}
+.vh-more-head a{font-size:.9rem;font-weight:700;color:var(--dpk);white-space:nowrap}
+.vh-list{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.vh-row{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px 18px;transition:.14s}
+.vh-row:hover{border-color:var(--dpk-2);box-shadow:0 8px 22px rgba(0,78,162,.08);transform:translateY(-1px)}
+.vh-row .vchip{font-size:.66rem;font-weight:800;color:var(--dpk);background:var(--tint);border-radius:999px;padding:3px 9px;flex:none}
+.vh-row .vt{flex:1;min-width:0;font-family:var(--serif);font-weight:700;font-size:1.06rem;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vh-row .vd{font-size:.76rem;color:#9aa3b0;white-space:nowrap;flex:none}
+.vh-row .va{color:var(--dpk);font-weight:800;flex:none}
+.vh-list .vp-empty{grid-column:1/-1;text-align:center;color:#9aa3b0;padding:20px;font-size:.92rem}
+@media(max-width:760px){.vh-list{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -482,8 +499,13 @@ footer .flink:hover{color:#fff}
     </div>
   </section>
 
-  <section class="pledge-sec">
+  <section class="vision-hub" id="vision-posts">
     <div class="wrap">
+      <div class="sec-head tc">
+        <p class="eyebrow">비전·공약</p>
+        <h2>공약을 글로 소상히 밝힙니다.</h2>
+        <p>대표 공약과 김보미의 생각을, 한 줄 요약이 아니라 글로 소상히 밝힙니다.</p>
+      </div>
       <div class="pledge">
         <span class="tagn">1호 공약</span>
         <h2>경선 데이터 전면 공개</h2>
@@ -495,18 +517,10 @@ footer .flink:hover{color:#fff}
           <div class="pi"><div class="no">04</div><div><b>선거관리 체계 개혁</b><span>개헌을 통한 공정한 선거 관리 체계 재구축</span></div></div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="vision-posts" id="vision-posts">
-    <div class="wrap">
-      <div class="sec-head tc">
-        <p class="eyebrow">비전·공약</p>
-        <h2>공약을 글로 소상히 밝힙니다.</h2>
-        <p>왜 이 공약인지, 무엇을 어떻게 이룰지 — 김보미의 생각을 글로 나눕니다.</p>
+      <div class="vh-more">
+        <div class="vh-more-head"><span>📄 공약을 글로 — 더 읽어보기</span><a href="vision.html">전체 보기 &rarr;</a></div>
+        <div id="vpGrid" class="vh-list"><div class="vp-empty">불러오는 중…</div></div>
       </div>
-      <div class="vp-grid" id="vpGrid"><div class="vp-empty">불러오는 중…</div></div>
-      <div class="vp-more"><a href="vision.html" class="btn btn-ghost">비전·공약 전체 보기 &rarr;</a></div>
     </div>
   </section>
 
@@ -1136,13 +1150,7 @@ footer .flink:hover{color:#fff}
   fetch('/api/posts?action=list').then(function(r){return r.json();}).then(function(d){
     var items=(d&&d.ok&&d.items)?d.items:[];
     if(!items.length){ el.innerHTML='<div class="vp-empty">아직 공개된 글이 없습니다.</div>'; return; }
-    el.innerHTML=items.slice(0,4).map(function(pp){
-      return '<a class="vp-card" href="vision.html?post='+encodeURIComponent(pp.id)+'">'
-        +'<div class="m"><span class="chip">비전·공약</span><span>'+fmtDate(pp.publishAt)+'</span></div>'
-        +'<h3>'+esc(pp.title)+'</h3>'
-        +'<div class="ex">'+esc(excerpt(pp.body))+'\u2026</div>'
-        +'<div class="go">전문 읽기 &rarr;</div></a>';
-    }).join('');
+    el.innerHTML=items.slice(0,6).map(function(pp){ return '<a class="vh-row" href="vision.html?post='+encodeURIComponent(pp.id)+'"><span class="vchip">비전·공약</span><span class="vt">'+esc(pp.title)+'</span><span class="vd">'+fmtDate(pp.publishAt)+'</span><span class="va">&rarr;</span></a>'; }).join('');
   }).catch(function(){ el.innerHTML='<div class="vp-empty">불러올 수 없어요.</div>'; });
 })();
 </script>
