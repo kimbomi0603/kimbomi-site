@@ -300,8 +300,8 @@ h1.title .accent{color:var(--blue-soft)}
         <span class="k">회초리</span>를 움직여 <span class="k">계란</span>을 튕기세요.<br>
         기득권 바위 속 <span class="k">금빛 핵심 벽돌</span>을 깨면 클리어!<br>
         바위에서 떨어지는 <span class="k">국민의 응원</span>을 받으세요.<br>
-        📣 함성=황금계란 · 👏 박수=긴 회초리 · 💙 응원=슬로우<br>
-        <small style="color:var(--dim)">조작: 터치 드래그 · 마우스 · ← → 방향키</small><br><small style="color:var(--dim)">'회귀'란? 실패해도 깬 바위는 그대로 — 기억을 안고 다시 도전한다는 뜻!</small>
+        📣 함성=황금 계란(관통) · 👏 박수=파워 계란(한 방 격파+긴 회초리) · 💙 응원=슬로우<br>
+        <small style="color:var(--dim)">조작: 터치 드래그 · 마우스 · ← → 방향키</small><br><small style="color:var(--dim)">'회귀'란? 실패해도 깬 바위는 그대로 — 기억을 안고 다시 도전한다는 뜻!</small><br><b style="color:#8FD0FF">💙 이 게임 한 판이 김보미를 응원하는 가장 재미있는 방법입니다!</b>
       </div>
       <button class="btn" id="btnStart">회귀 시작</button>
     </div>
@@ -472,7 +472,7 @@ const ROCK_WORDS = [
 /* 아이템 정의 */
 const ITEMS = {
   cheer: { icon:"📣", label:"지지의 함성!", desc:"황금 계란 — 바위 관통", dur:360 },
-  clap:  { icon:"👏", label:"응원의 박수!", desc:"회초리 길어짐",        dur:480 },
+  clap:  { icon:"👏", label:"응원의 박수!", desc:"긴 회초리 + 파워 계란(바위 한 방 격파)", dur:480 },
   heart: { icon:"💙", label:"국민의 응원!", desc:"계란이 차분해짐",      dur:390 }
 };
 const ITEM_KEYS = Object.keys(ITEMS);
@@ -499,7 +499,8 @@ let tick = 0;                 // 프레임 카운터 (속도 파동용)
 
 const PADDLE_BASE = 96;
 const paddle = { w:PADDLE_BASE, h:12, x:(W-PADDLE_BASE)/2, y:H-46 };
-let ball = { x:W/2, y:paddle.y-12, r:9, dx:0, dy:-1, base:3.7 };
+const BALL_R = 9, BALL_R_POWER = 13;
+let ball = { x:W/2, y:paddle.y-12, r:BALL_R, dx:0, dy:-1, base:3.7 };
 let bricks = [];
 let particles = [];
 let drops = [];               // 떨어지는 아이템
@@ -661,7 +662,8 @@ function applyItem(type){
   const it = ITEMS[type];
   fx[type] = it.dur;
   if(type==="clap"){ paddle.w = Math.min(150, PADDLE_BASE*1.5); }
-  floatText(paddle.x+paddle.w/2, paddle.y-24, it.icon+" "+it.label, "#FFF6E3");
+  const msg = type==="clap" ? it.icon+" 파워 계란! 바위가 한 방에!" : it.icon+" "+it.label;
+  floatText(paddle.x+paddle.w/2, paddle.y-24, msg, type==="clap" ? "#8FD0FF" : "#FFF6E3");
   score += 30;
   beep(880,0.08,0.06,"triangle");
   setTimeout(()=>beep(1174,0.1,0.05,"triangle"),90);
@@ -772,9 +774,24 @@ function drawPaddle(){
 
 function drawBall(){
   const golden = fx.cheer > 0;
+  const power  = fx.clap  > 0;
   ctx.save();
   ctx.translate(ball.x, ball.y);
-  if(golden){
+  if(power){
+    /* 파워 오라 — 은은하게 맥동하는 링 */
+    const pulse = 0.75 + Math.sin(tick*0.18)*0.25;
+    ctx.save();
+    ctx.globalAlpha = 0.5*pulse;
+    ctx.strokeStyle = golden ? "#FFD667" : "#8FD0FF";
+    ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.arc(0,0, ball.r*1.55, 0, Math.PI*2); ctx.stroke();
+    ctx.globalAlpha = 0.22*pulse;
+    ctx.fillStyle = golden ? "#FFD667" : "#8FD0FF";
+    ctx.beginPath(); ctx.arc(0,0, ball.r*1.55, 0, Math.PI*2); ctx.fill();
+    ctx.restore();
+    ctx.shadowColor = golden ? "rgba(255,197,61,.95)" : "rgba(143,208,255,.85)";
+    ctx.shadowBlur = 18;
+  }else if(golden){
     ctx.shadowColor = "rgba(255,197,61,.95)";
     ctx.shadowBlur = 16;
   }
@@ -806,23 +823,30 @@ function drawDrops(){
 }
 
 function drawFx(){
-  // 좌상단 활성 효과 표시
-  let x = 12, y = 16;
-  ctx.font="13px sans-serif";
-  ctx.textAlign="left"; ctx.textBaseline="middle";
+  /* 좌상단 활성 버프 — 필 배지 + 남은 시간 게이지 */
+  const NAME = { cheer:"황금 계란", clap:"파워 계란", heart:"슬로우" };
+  let y = 14;
   for(const k of ITEM_KEYS){
     if(fx[k] > 0){
-      ctx.globalAlpha = 0.9;
-      ctx.fillText(ITEMS[k].icon, x, y);
-      // 남은 시간 바
-      const ratio = fx[k]/ITEMS[k].dur;
-      ctx.fillStyle = "rgba(255,197,61,.8)";
-      ctx.fillRect(x+22, y-3, 34*ratio, 5);
-      ctx.strokeStyle = "rgba(255,255,255,.25)";
-      ctx.strokeRect(x+22, y-3, 34, 5);
+      const ratio = fx[k]/ITEMS[k].dur, w = 96, h = 22, x = 10;
+      ctx.save();
+      ctx.globalAlpha = .92;
+      ctx.fillStyle = "rgba(10,18,42,.72)";
+      roundRect(x, y-h/2, w, h, 11); ctx.fill();
+      ctx.strokeStyle = "rgba(255,255,255,.16)"; ctx.lineWidth = 1;
+      roundRect(x, y-h/2, w, h, 11); ctx.stroke();
+      /* 게이지 */
+      ctx.globalAlpha = .35;
+      ctx.fillStyle = k==="clap" ? "#8FD0FF" : (k==="cheer" ? "#FFD667" : "#7FE0A8");
+      roundRect(x, y-h/2, Math.max(10, w*ratio), h, 11); ctx.fill();
       ctx.globalAlpha = 1;
-      y += 22;
+      ctx.font = "13px sans-serif"; ctx.textAlign="left"; ctx.textBaseline="middle";
+      ctx.fillText(ITEMS[k].icon, x+8, y+1);
+      ctx.font = "800 11px 'Noto Sans KR',sans-serif";
       ctx.fillStyle = "#EAF0FF";
+      ctx.fillText(NAME[k]||"", x+28, y+1);
+      ctx.restore();
+      y += 28;
     }
   }
 }
@@ -940,6 +964,7 @@ function drawHint(){
 /* ================= 물리 ================= */
 function step(){
   tick++;
+  ball.r = fx.clap > 0 ? BALL_R_POWER : BALL_R;   // 파워 계란 — 크기 확대
   if(keyL) movePaddleTo(paddle.x + paddle.w/2 - 7);
   if(keyR) movePaddleTo(paddle.x + paddle.w/2 + 7);
 
@@ -990,13 +1015,14 @@ function step(){
       if(ball.x+ball.r > b.x && ball.x-ball.r < b.x+b.w &&
          ball.y+ball.r > b.y && ball.y-ball.r < b.y+b.h){
         const pierce = fx.cheer > 0 && b.type==="rock";
+        const power  = fx.clap  > 0 && b.type==="rock";   // 파워 계란 — 바위 즉시 파괴(튕김은 유지)
         if(!pierce){
           const overlapX = Math.min(ball.x+ball.r-b.x, b.x+b.w-(ball.x-ball.r));
           const overlapY = Math.min(ball.y+ball.r-b.y, b.y+b.h-(ball.y-ball.r));
           if(overlapX < overlapY) ball.dx = -ball.dx; else ball.dy = -ball.dy;
         }
 
-        b.hp -= pierce ? b.hp : 1;   // 황금 계란은 바위 즉시 파괴
+        b.hp -= (pierce || power) ? b.hp : 1;   // 황금·파워 계란은 바위 즉시 파괴
         shake = 4;
         if(b.type==="key"){
           burst(ball.x, ball.y, "#FFC53D", 14);
