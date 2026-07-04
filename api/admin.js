@@ -37,6 +37,15 @@ function groupDims(result){
   return g;
 }
 
+
+const CRON_SECRET = process.env.CRON_SECRET || '';
+function kstDateFrom(ms){ return new Date(ms + 9*3600*1000).toISOString().slice(0,10); }
+var DOW = ['일','월','화','수','목','금','토'];
+function dow(dstr){ try { return DOW[new Date(dstr+'T00:00:00+09:00').getDay()]; } catch(e){ return ''; } }
+function topN(obj, n){ return Object.keys(obj||{}).map(function(k){return [k,obj[k]];}).sort(function(a,b){return b[1]-a[1];}).slice(0,n); }
+function listLines(entries, unit){ if(!entries.length) return '  · (없음)'; return entries.map(function(e,i){ return '  '+(i+1)+'. '+e[0]+' — '+e[1].toLocaleString()+(unit||''); }).join('\n'); }
+function pctc(a,b){ if(!b) return a>0?'신규':'0%'; var d=Math.round((a-b)/b*100); return (d>=0?'+':'')+d+'%'; }
+
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control','no-store');
   const action = (req.query.action || 'overview');
@@ -45,6 +54,58 @@ module.exports = async (req, res) => {
   const isReporter = REPORT_TOKEN && key === REPORT_TOKEN;
 
   if (!RURL || !RTOK) { res.status(200).json({ ok:false, configured:false }); return; }
+  if (action === 'cronreport') {
+    if (CRON_SECRET) { var _a=req.headers['authorization']||''; var _t=req.query.t||''; if(_a!=='Bearer '+CRON_SECRET && _t!==CRON_SECRET){ res.status(401).json({ok:false,error:'unauthorized'}); return; } }
+    try {
+      var cdate = req.query.date || kstDate(1);
+      var cprev = kstDateFrom(new Date(cdate+'T00:00:00+09:00').getTime() - 86400000);
+      var cpr = await pipeline([['GET','a:pv:'+cdate],['PFCOUNT','a:uv:'+cdate],['HGETALL','a:h:'+cdate],['GET','a:pv:'+cprev],['PFCOUNT','a:uv:'+cprev],['LRANGE','kb_thoughts',0,499]]);
+      var cpv=parseInt((cpr[0]&&cpr[0].result)||0,10)||0, cuv=parseInt((cpr[1]&&cpr[1].result)||0,10)||0;
+      var cdims=groupDims(cpr[2]&&cpr[2].result);
+      var cpvPrev=parseInt((cpr[3]&&cpr[3].result)||0,10)||0, cuvPrev=parseInt((cpr[4]&&cpr[4].result)||0,10)||0;
+      var cAll=((cpr[5]&&cpr[5].result)||[]).map(function(x){try{return JSON.parse(x);}catch(e){return null;}}).filter(Boolean);
+      var cNew=cAll.filter(function(t){ try{return kstDateFrom(new Date(t.date).getTime())===cdate;}catch(e){return false;} });
+      var cDevPc=(cdims.dev&&cdims.dev['PC'])||0, cDevMo=(cdims.dev&&cdims.dev['모바일'])||0, cDevTot=cDevPc+cDevMo;
+      var cSrcTop=topN(cdims.src,1)[0], cPathTop=topN(cdims.path,1)[0], cHrTop=topN(cdims.hr,1)[0];
+      var L=[];
+      L.push('# 일일 분석 리포트 · '+cdate+' ('+dow(cdate)+')'); L.push('');
+      L.push('## 한눈에');
+      L.push('- 방문(PV): '+cpv.toLocaleString()+'  (전일 '+cpvPrev.toLocaleString()+' · '+pctc(cpv,cpvPrev)+')');
+      L.push('- 순방문(UV): '+cuv.toLocaleString()+'  (전일 '+cuvPrev.toLocaleString()+' · '+pctc(cuv,cuvPrev)+')');
+      L.push('- 생각 나누기: 신규 '+cNew.length+'건 (누적 '+cAll.length+'건)');
+      L.push('- 주 유입: '+(cSrcTop?cSrcTop[0]+' ('+cSrcTop[1]+')':'-'));
+      L.push('- 관심 페이지 1위: '+(cPathTop?cPathTop[0]+' ('+cPathTop[1]+')':'-'));
+      L.push('- 접속 피크: '+(cHrTop?cHrTop[0]+'시 ('+cHrTop[1]+')':'-'));
+      L.push('- 기기: '+(cDevTot?('PC '+Math.round(cDevPc/cDevTot*100)+'% · 모바일 '+Math.round(cDevMo/cDevTot*100)+'%'):'-'));
+      L.push(''); L.push('## 유입 경로'); L.push(listLines(topN(cdims.src,6)));
+      L.push(''); L.push('## 지역 (상위)'); L.push(listLines(topN(cdims.rg,6)));
+      L.push(''); L.push('## 인기 페이지'); L.push(listLines(topN(cdims.path,6)));
+      L.push(''); L.push('## 메뉴 클릭 · 외부 이동');
+      var cmt=topN(cdims.menu,5), cot=topN(cdims.out,5);
+      L.push('- 메뉴 클릭: '+(cmt.length?cmt.map(function(e){return e[0]+'('+e[1]+')';}).join(', '):'(없음)'));
+      L.push('- 외부로 이동: '+(cot.length?cot.map(function(e){return e[0]+'('+e[1]+')';}).join(', '):'(없음)'));
+      L.push(''); L.push('## 생각 나누기 신규');
+      if(cNew.length){ cNew.slice(0,5).forEach(function(t){ var who=[t.name,t.region].filter(Boolean).join('·')||'익명'; var msg=String(t.msg||'').replace(/\s+/g,' ').slice(0,80); L.push('- "'+msg+'" — '+who); }); } else { L.push('- (오늘 새 글 없음)'); }
+      L.push(''); L.push('## 인사이트');
+      var ci=[];
+      if(cpvPrev===0&&cpv>0) ci.push('데이터 수집 첫 구간입니다. 오늘 방문 '+cpv+'건이 기록되었습니다.');
+      else if(cpv>cpvPrev) ci.push('전일 대비 방문이 '+pctc(cpv,cpvPrev)+' 늘었습니다.');
+      else if(cpv<cpvPrev) ci.push('전일 대비 방문이 '+pctc(cpv,cpvPrev)+' 줄었습니다.');
+      if(cSrcTop) ci.push('유입은 '+cSrcTop[0]+'이(가) 가장 많았습니다('+cSrcTop[1]+'건).');
+      if(cPathTop) ci.push('가장 많이 본 페이지는 '+cPathTop[0]+'입니다.');
+      if(cot.length) ci.push('사이트에서 '+cot[0][0]+'(으)로 나간 이동이 가장 많았습니다.');
+      if(cNew.length) ci.push('생각 나누기 신규 '+cNew.length+'건이 등록되었습니다. 내용을 확인해 공약·활동에 반영해 보세요.');
+      if(!ci.length) ci.push('이 날은 특별한 변동이 없었습니다.');
+      ci.forEach(function(x){ L.push('- '+x); });
+      var cmd=L.join('\n');
+      var crec=JSON.stringify({ date:cdate, title:'일일 분석 리포트 · '+cdate+' ('+dow(cdate)+')', md:cmd, stats:{pv:cpv,uv:cuv,newThoughts:cNew.length}, ts:Date.now() });
+      var chead=await redis(['LRANGE','a:reports',0,0]); var csame=false;
+      try{ csame=chead.result&&chead.result[0]&&JSON.parse(chead.result[0]).date===cdate; }catch(e){}
+      if(csame){ await redis(['LSET','a:reports',0,crec]); } else { await pipeline([['LPUSH','a:reports',crec],['LTRIM','a:reports',0,199]]); }
+      res.status(200).json({ ok:true, date:cdate, pv:cpv, uv:cuv, saved:true, replaced:csame });
+    } catch(e){ res.status(200).json({ ok:false, error:String(e&&e.message||e) }); }
+    return;
+  }
   if (!ADMIN_KEY && !REPORT_TOKEN) { res.status(200).json({ ok:false, configured:false, needsKey:true }); return; }
   if (!isAdmin && !isReporter) { res.status(401).json({ ok:false, error:'unauthorized' }); return; }
 
