@@ -210,7 +210,45 @@ module.exports = async (req, res) => {
     var thoughtCount = parseInt((tb[1]&&tb[1].result)||0,10)||0;
     var totPv = trend.reduce(function(a,x){return a+x.pv;},0);
     res.status(200).json({ ok:true, today:today, trend:trend, dims:dims, thoughtCount:thoughtCount, totalPvRange:totPv });
-  } catch(e) {
+  
+  if (action === 'suggestions') {
+    var sl = await redis(['LRANGE','kb_suggestions',0,499]);
+    var sgItems = (sl.result||[]).map(function(x){ try{ return JSON.parse(x); }catch(e){ return null; } }).filter(Boolean);
+    res.status(200).json({ ok:true, count:sgItems.length, items:sgItems }); return;
+  }
+
+  if (action === 'listknowledge') {
+    var kl = await redis(['LRANGE','kb_knowledge',0,49]);
+    var knItems = (kl.result||[]).map(function(x){ try{ return JSON.parse(x); }catch(e){ return null; } }).filter(Boolean);
+    res.status(200).json({ ok:true, count:knItems.length, items:knItems }); return;
+  }
+
+  if (action === 'addknowledge' && req.method === 'POST') {
+    if (!isAdmin) { res.status(401).json({ ok:false, error:'admin only' }); return; }
+    var knRaw = await readBody(req); var knB = knRaw;
+    if (typeof knRaw === 'string') { try { knB = JSON.parse(knRaw||'{}'); } catch(e){ knB={}; } }
+    var knContent = String(knB.content||'').trim().slice(0,50000);
+    var knFilename = String(knB.filename||'').trim().slice(0,100);
+    if (!knContent) { res.status(200).json({ ok:false, error:'empty' }); return; }
+    var knRec = JSON.stringify({ filename:knFilename, content:knContent, ts:Date.now() });
+    await pipeline([ ['LPUSH','kb_knowledge', knRec], ['LTRIM','kb_knowledge',0,49] ]);
+    res.status(200).json({ ok:true }); return;
+  }
+
+  if (action === 'removeknowledge' && req.method === 'POST') {
+    if (!isAdmin) { res.status(401).json({ ok:false, error:'admin only' }); return; }
+    var rkRaw = await readBody(req); var rkB = rkRaw;
+    if (typeof rkRaw === 'string') { try { rkB = JSON.parse(rkRaw||'{}'); } catch(e){ rkB={}; } }
+    var rkTs = rkB && rkB.ts;
+    if (!rkTs) { res.status(200).json({ ok:false, error:'no ts' }); return; }
+    var rkAll = await redis(['LRANGE','kb_knowledge',0,49]);
+    var rkTarget = (rkAll.result||[]).find(function(x){ try{ return JSON.parse(x).ts===rkTs; }catch(e){ return false; } });
+    if (!rkTarget) { res.status(200).json({ ok:false, error:'not found' }); return; }
+    var rkRem = await redis(['LREM','kb_knowledge',1,rkTarget]);
+    res.status(200).json({ ok:true, removed:parseInt((rkRem&&rkRem.result)||0,10)||0 }); return;
+  }
+
+} catch(e) {
     res.status(200).json({ ok:false, error:String(e && e.message || e) });
   }
 };
