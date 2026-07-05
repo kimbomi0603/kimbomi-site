@@ -4540,6 +4540,7 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
       const j = await r.json();
       if(j.error || !j.bids) return null;
       g2bCache[cacheKey] = j;
+      if(!params){ try{ localStorage.setItem('g2b_last_'+region, JSON.stringify({ts:Date.now(), data:j})); }catch(e){} }
       return j;
     }catch(e){ console.warn('G2B fetch 실패', e); return null; }
   }
@@ -4677,11 +4678,30 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
       const panel = document.getElementById(panelId||'contractPanel');
       if(!R || !panel) return;
       if(panel.dataset.g2bFor === key) return;
-      panel.insertAdjacentHTML('beforeend', '<div id="g2bLoading" style="margin-top:18px;padding:14px;background:#FAF3E2;border:1px solid #E0B266;border-radius:12px;color:#7A6A4A;font-size:.86rem">⏳ 공식 공시 데이터를 불러오는 중입니다</div>');
       const region = R.name;
+      /* ① 지난 수신 자료가 있으면 즉시 먼저 표시 */
+      let cached = null;
+      try{ cached = JSON.parse(localStorage.getItem('g2b_last_'+region)||'null'); }catch(e){}
+      const fmtD = ts => { const d=new Date(ts); return d.getFullYear()+'.'+(d.getMonth()+1)+'.'+d.getDate(); };
+      if(cached && cached.data){
+        panel.dataset.g2bFor = key;
+        const wrapC = document.createElement('div'); wrapC.id='g2bCachedWrap';
+        wrapC.innerHTML = '<div id="g2bStatus" style="margin-top:18px;padding:11px 14px;background:#eef6ff;border:1px solid #bfdbfe;border-radius:10px;color:#1e40af;font-size:.85rem;font-weight:700">🗂️ 지난 수신 계약내역('+fmtD(cached.ts)+' 기준)을 먼저 표시했습니다 · 📡 최신 계약정보 받는 중…</div>' + renderLive(cached.data, region);
+        panel.appendChild(wrapC);
+        wirePanel(wrapC.lastElementChild, region);
+      }else{
+        panel.insertAdjacentHTML('beforeend', '<div id="g2bLoading" style="margin-top:18px;padding:13px 15px;background:#eef6ff;border:1px solid #bfdbfe;border-radius:10px;color:#1e40af;font-size:.86rem;font-weight:700">📡 나라장터 실시간 계약내역 받는 중… <span style="font-weight:600;color:#475569">(위 기본 분석은 공시 기반으로 먼저 표시했습니다)</span></div>');
+      }
+      /* ② 라이브 수신 시 교체, 실패 시 캐시 유지 + 안내 */
       const live = await fetchG2B(region);
       const loading = document.getElementById('g2bLoading'); if(loading) loading.remove();
-      if(!live){ panel.insertAdjacentHTML('beforeend','<div style="margin-top:14px;padding:12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;font-size:.84rem;color:#7A6A4A">⏳ 나라장터 응답이 느려 실시간 내역을 불러오지 못했습니다. <button onclick="this.parentNode.remove();window.FS.renderContract(&quot;'+key+'&quot;)" style="margin-left:8px;background:#E0B266;border:none;border-radius:8px;padding:5px 12px;font-weight:800;cursor:pointer;font-family:inherit">🔄 다시 시도</button></div>'); return; }
+      if(!live){
+        const st = document.getElementById('g2bStatus');
+        if(st){ st.innerHTML = '🗂️ 지난 수신 계약내역('+fmtD(cached.ts)+' 기준) 표시 중 · ⏳ 최신 수신이 지연되고 있습니다 <button onclick="window.FS.renderContract(&quot;'+key+'&quot;,&quot;'+(panelId||'contractPanel')+'&quot;)" style="margin-left:8px;background:#1d6fe0;color:#fff;border:none;border-radius:8px;padding:4px 12px;font-weight:800;cursor:pointer;font-family:inherit">🔄 다시 시도</button>'; panel.dataset.g2bFor=''; }
+        else panel.insertAdjacentHTML('beforeend','<div style="margin-top:14px;padding:12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;font-size:.84rem;color:#7A6A4A">⏳ 나라장터 응답이 느려 실시간 내역을 불러오지 못했습니다. <button onclick="this.parentNode.remove();window.FS.renderContract(&quot;'+key+'&quot;,&quot;'+(panelId||'contractPanel')+'&quot;)" style="margin-left:8px;background:#E0B266;border:none;border-radius:8px;padding:5px 12px;font-weight:800;cursor:pointer;font-family:inherit">🔄 다시 시도</button></div>');
+        return;
+      }
+      const oldWrap = document.getElementById('g2bCachedWrap'); if(oldWrap) oldWrap.remove();
       panel.dataset.g2bFor = key;
       const html = renderLive(live, region);
       const wrap = document.createElement('div'); wrap.innerHTML = html;
