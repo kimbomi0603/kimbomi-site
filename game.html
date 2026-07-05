@@ -295,8 +295,8 @@ h1.title .accent{color:var(--blue-soft)}
       <h1 class="title">계란으로<br><span class="accent">바위치기</span></h1>
       <p class="tagline"><b>이번 생에 바꿉시다!</b></p>
       <div class="howto">
-        <b style="color:var(--yolk)">10개의 기득권 바위 중 5개가 랜덤 출제!</b> 모두 깨보세요.<br>
-        <b style="color:var(--blue-soft)">5개를 모두 깨면 → 3대 위기 히든 스테이지 등장!</b><br>
+        <b style="color:var(--yolk)">10개의 기득권 바위 중 3개가 랜덤 출제!</b> 1~2분이면 충분해요.<br>
+        <b style="color:var(--blue-soft)">3개를 모두 깨면 → 3대 위기 히든 스테이지 등장!</b><br>
         <span class="k">회초리</span>를 움직여 <span class="k">계란</span>을 튕기세요.<br>
         기득권 바위 속 <span class="k">금빛 핵심 벽돌</span>을 깨면 클리어!<br>
         바위에서 떨어지는 <span class="k">국민의 응원</span>을 받으세요.<br>
@@ -331,7 +331,7 @@ h1.title .accent{color:var(--blue-soft)}
       <h2 class="title" style="font-size:23px;margin:2px 0 8px">공정한 민주당, 완성!</h2>
       <div class="card" id="resultCard">
         <div class="c-eyebrow">내가 깬 기득권 바위</div>
-        <div class="c-title" style="font-size:18px;line-height:1.2;margin-bottom:9px">기득권 5개, 계란으로 깼다</div>
+        <div class="c-title" style="font-size:18px;line-height:1.2;margin-bottom:9px">기득권 바위, 계란으로 깼다</div>
         <div class="c-rocks" id="fRocks"></div>
         <div class="c-stats">
           <div><div class="n" id="fRun">1</div><div class="l">회차 만에</div></div>
@@ -436,7 +436,7 @@ const HASHTAGS = "#민주당을살려야합니다 #이번생에살립시다 #김
 const MEDAL_TITLE = "대한민국 수호 훈장";   /* 민주당을 혁신하여 대한민국을 지켰다는 서사 */
 const SUPPORT_LINE = "김보미 당대표 후보 지지";
 const HOME_URL = "https://www.xn--4k0b53xuva.com/";
-const STAGE_COUNT = 5;
+const STAGE_COUNT = 3;   // 이탈 방지 — 3판이면 1차 클리어
 const SHARE_URL = "https://www.xn--4k0b53xuva.com/game.html";
 
 /* 기득권 바위 각인 키워드 — 최종 확정 26종 (단어 · 설명 · 격파 후 약속) */
@@ -653,7 +653,8 @@ function floatText(x,y,text,color){
 
 /* ================= 아이템 ================= */
 function maybeDrop(x,y){
-  if(Math.random() < 0.22){
+  var dropP = Math.min(0.5, 0.22 + (runCount-1)*0.08);   // 러버밴딩: 회귀할수록 응원 아이템 증가
+  if(Math.random() < dropP){
     const type = ITEM_KEYS[Math.floor(Math.random()*ITEM_KEYS.length)];
     drops.push({x, y, type, vy: 1.6});
   }
@@ -1153,6 +1154,12 @@ function onStageClear(){
   $("clearKw").textContent = s.kw;
   $("clearQuote").textContent = s.quote;
   show("scrClear");
+  /* 자동 진행 — 버튼을 누르지 않아도 2.2초 뒤 다음 판 */
+  clearTimeout(window._autoNext);
+  window._autoNext = setTimeout(function(){
+    var sc=document.getElementById("scrClear");
+    if(sc && !sc.classList.contains("hidden")) startStage();
+  }, 2200);
   beep(784,0.12,0.06,"triangle");
   setTimeout(()=>beep(1046,0.15,0.06,"triangle"), 130);
 }
@@ -1443,7 +1450,7 @@ function dlBlob(blob,name){ var url=URL.createObjectURL(blob); var a=document.cr
 function personalText(){
   var list=(lastFive.length?lastFive:clearedRocks).join(", ");
   var q=cheerMsg?("『"+cheerMsg+"』 "):"";
-  return q+"나는 "+runCount+"회 만에 기득권 5개("+list+")를 깨고 민주당을 혁신, 3대 위기까지 격파했다! "+score+"점 🥚🏅 "+MEDAL_TITLE+" 획득 · "+SUPPORT_LINE+" "+HASHTAGS+" "+HOME_URL;
+  return q+"나는 "+runCount+"회 만에 기득권 바위("+list+")를 깨고 민주당을 혁신, 3대 위기까지 격파했다! "+score+"점 🥚🏅 "+MEDAL_TITLE+" 획득 · "+SUPPORT_LINE+" "+HASHTAGS+" "+HOME_URL;
 }
 function saveMedalImage(){ medalBlob(function(blob){ if(!blob){ showToast("저장을 지원하지 않는 환경입니다"); return; } dlBlob(blob,"김보미_대한민국수호훈장.png"); showToast("훈장 이미지를 저장했어요"); }); }
 function shareMedalImage(){
