@@ -5518,14 +5518,6 @@ console.log('✅ v43.1 패치 활성 — 모달픽스·분야드릴다운·배�
 })();
 </script>
 
-<style id="kbV44css">
-/* ═══ v44R — 3초 진단: 렉 이슈로 인라인 롤백, 모달 유지 + 여백 대폭 개선 ═══ */
-#diagnose.show{padding:22px max(18px, calc((100vw - 1180px)/2)) 64px!important}
-#diagnose.show .section-h{margin:8px 0 18px}
-#diagnose.show .dt-panel{padding:8px 2px 0}
-#diagnose.show .kpi-grid{gap:14px}
-@media(max-width:640px){#diagnose.show{padding:16px 12px 56px!important}}
-</style>
 
 
 <style id="kbV45css">
@@ -6332,81 +6324,12 @@ function g365Go(kind){
 <script src="/a.js" defer></script>
 
 <style id="kbV44css">
-/* ═══ v44 패치 — 3초 진단: 별도 창 → 인라인 페이지 + 여백 + 추이 연속 스크롤 ═══ */
-/* ① 전체화면 고정 모달 해제 → 일반 페이지 흐름 */
-#diagnose.show{position:static!important;inset:auto!important;z-index:auto!important;background:transparent!important;
-  overflow:visible!important}
-#diagnose.show,#diagnose.diag-open{display:block!important;animation:diagFadeIn .35s ease-out}
-/* ② 여백 — 콘텐츠가 화면에 붙지 않게 */
-#diagnose{max-width:1160px;margin:0 auto;padding:42px 24px 72px!important}
-@media(max-width:640px){#diagnose{padding:30px 16px 58px!important}}
-#diagnose .section-h{margin-bottom:20px}
-#diagnose .controls{margin-bottom:6px}
-#diagnose .dt-panel{padding:8px 2px 0}
-#diagnose .kpi-grid{gap:14px}
-#diagClose{display:none!important}
-/* ③ 추이·시각화 인라인 블록 */
-#diagTrendInline{margin-top:34px;padding-top:22px;border-top:2px dashed #cfddf5}
-#diagTrendInline .ti-h{display:flex;align-items:center;gap:10px;margin:0 0 4px;font-size:1.18rem;font-weight:900;color:#0b2545}
-#diagTrendInline .ti-sub{font-size:.84rem;color:#64748b;margin:0 0 14px}
-#diagTrendInline #charts{display:block!important;padding:10px 0 0}
-#diagTrendInline canvas{max-height:320px!important;height:320px!important;width:100%!important}
-#diagTrendInline .card,#diagTrendInline [class*="chart"]{max-height:460px;overflow:hidden}
+/* ═══ v44R — 3초 진단: 모달 유지 + 여백 개선 (인라인 모드는 렉으로 롤백) ═══ */
+#diagnose.show{padding:22px max(18px, calc((100vw - 1180px)/2)) 64px!important}
+#diagnose.show .section-h{margin:8px 0 18px}
+#diagnose.show .dt-panel{padding:8px 2px 0}
+#diagnose.show .kpi-grid{gap:14px}
+@media(max-width:640px){#diagnose.show{padding:16px 12px 56px!important}}
 </style>
-<script id="kbV44js">
-/* ═══ v44 — 3초 진단 인라인화 + 추이 연속 스크롤 ═══ */
-(function(){
-"use strict";
-function $(id){return document.getElementById(id);}
-/* 진단이 열려 있고 다른 모달 섹션이 없으면 body 잠금·딤 제거 */
-function inlineFix(){
-  var sec=$('diagnose'); if(!sec) return;
-  if(!(sec.classList.contains('show')||sec.classList.contains('diag-open'))) return;
-  var other=document.querySelector('#policy-search.show,#budget-only.show,#contract-only.show,#party-funds.show,#edu.show,#ontology.show');
-  if(other) return;
-  document.body.classList.remove('section-modal-open');
-  document.body.style.overflow='';
-  var dc=$('diagClose'); if(dc) dc.style.display='none';
-}
-/* 추이(#charts 섹션)를 종합 요약 하단으로 이동 — 진단 후 쭉 스크롤해 보이게 */
-function trendInline(){
-  var ov=document.querySelector('.dt-panel[data-panel="overview"]'); if(!ov) return;
-  var box=$('diagTrendInline');
-  if(!box){
-    box=document.createElement('div'); box.id='diagTrendInline';
-    box.innerHTML='<div class="ti-h">📈 추이 · 데이터 시각화</div><p class="ti-sub">최근 연도별 예산·채무 추이와 데이터 시각화입니다. 진단 결과에 이어 아래로 계속 보세요.</p>';
-    ov.appendChild(box);
-  }
-  var charts=$('charts');
-  if(charts && charts.parentElement!==box){ box.appendChild(charts); charts.style.display='block'; }
-}
-/* 진단 열릴 때: 인라인 보정 + 페이지 스크롤 이동 */
-function watch(){
-  var sec=$('diagnose'); if(!sec) return;
-  new MutationObserver(function(){
-    if(sec.classList.contains('show')){
-      inlineFix();
-      setTimeout(function(){ inlineFix(); trendInline(); try{ sec.scrollIntoView({block:'start'}); }catch(e){} },160);
-    }
-  }).observe(sec,{attributes:true,attributeFilter:['class']});
-  new MutationObserver(inlineFix).observe(document.body,{attributes:true,attributeFilter:['class']});
-}
-/* 진단 실행 시에도 추이 이동 보장 */
-document.addEventListener('click',function(e){
-  var db=e.target.closest&&e.target.closest('#diagnoseBtn,#randomBtn');
-  if(db){ setTimeout(trendInline,700); }
-  /* 추이 탭 → 종합 요약의 인라인 추이 블록으로 스크롤 */
-  var tb=e.target.closest&&e.target.closest('.dt-btn[data-tab="trend"]');
-  if(tb){
-    setTimeout(function(){
-      var ovBtn=document.querySelector('.dt-btn[data-tab="overview"]'); if(ovBtn) ovBtn.click();
-      setTimeout(function(){ trendInline(); var b=$('diagTrendInline'); if(b) b.scrollIntoView({behavior:'smooth',block:'start'}); },120);
-    },80);
-  }
-},true);
-if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){ watch(); setTimeout(trendInline,1500); });
-else { watch(); setTimeout(trendInline,1500); }
-})();
-</script>
 </body>
 </html>
