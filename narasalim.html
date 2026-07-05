@@ -1076,9 +1076,9 @@ h1{letter-spacing:-.035em;font-weight:900}
 </style>
 </head>
 <body>
-<div style="background:#004EA2;color:#fff;text-align:center;padding:10px 16px;font-size:14.5px;line-height:1.55;position:relative;z-index:9000">
-  📢 김보미는 지금 <b>더불어민주당 당대표 후보</b>로 뛰고 있습니다 &nbsp;·&nbsp;
-  <a href="index.html" style="color:#FFC53D;font-weight:700;text-decoration:underline">출사표·비전 보러 가기 →</a>
+<div style="background:linear-gradient(90deg,#003c7e,#004EA2 50%,#0a63c4);color:#fff;text-align:center;padding:16px 18px;font-size:18px;font-weight:700;line-height:1.6;position:relative;z-index:30;box-shadow:0 3px 12px rgba(0,40,90,.25)">
+  📢 김보미는 지금 <b style="color:#FFC53D">더불어민주당 당대표 후보</b>로 뛰고 있습니다 &nbsp;·&nbsp;
+  <a href="index.html" style="display:inline-block;background:#FFC53D;color:#0b2545;font-weight:900;font-size:17px;padding:7px 18px;border-radius:999px;text-decoration:none;margin-left:4px;box-shadow:0 4px 12px rgba(0,0,0,.25)">출사표·비전 보러 가기 →</a>
 </div>
 
 <style id="g365-skin">
@@ -3882,7 +3882,6 @@ function renderGovExt(R){
         <div class="gs"><b>단체장 업무추진비</b><span>${headExp.toLocaleString()}만원/연</span></div>
         <div class="gs"><b>의장 업무추진비</b><span>${chairExp.toLocaleString()}만원/연</span></div>
         <div class="gs"><b>단체장 급여(연봉)</b><span>${headSalary.toLocaleString()}만원/연 <em>(행안부 보수규정)</em></span></div>
-        <div class="gs"><b>의장 의정비(연)</b><span>${chairSalary.toLocaleString()}만원/연 <em>(의정활동비+월정수당)</em></span></div>
         <div class="gs"><b>의원 1인 평균 의정비(연)</b><span>${memberSalary.toLocaleString()}만원/연 <em>(의정활동비+월정수당)</em></span></div>
         <div class="gs"><b>행사·축제경비 비율</b><span>${festRatio}% <em>(전국 1.8%)</em></span></div>
         <div class="gs"><b>출자·출연기관 수</b><span>${sponsorOrg}개</span></div>
@@ -6325,10 +6324,17 @@ function g365Go(kind){
 
 <style id="kbV44css">
 /* ═══ v44R — 3초 진단: 모달 유지 + 여백 개선 (인라인 모드는 렉으로 롤백) ═══ */
-#diagnose.show{padding:22px max(18px, calc((100vw - 1180px)/2)) 64px!important}
+#diagnose.show{padding:34px max(18px, calc((100vw - 1180px)/2)) 64px!important}
 #diagnose.show .section-h{margin:8px 0 18px}
 #diagnose.show .dt-panel{padding:8px 2px 0}
 #diagnose.show .kpi-grid{gap:14px}
+/* 진단 탭 — 시인성·클릭 유도 강화 */
+#diagnose .diag-tabs{gap:8px;padding:8px;border-radius:16px;background:#e8f1fd;border:1.5px solid #cfe0f8}
+#diagnose .dt-btn{font-size:1.04rem;font-weight:800;padding:15px 16px;min-width:120px;border-radius:12px;color:#3d4f6b;transition:all .15s}
+#diagnose .dt-btn:not(.active){background:#fff;box-shadow:0 2px 8px rgba(18,58,144,.08)}
+#diagnose .dt-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(18,58,144,.15);color:#123a90}
+#diagnose .dt-btn.active{font-size:1.06rem;box-shadow:0 8px 20px rgba(29,111,224,.4)}
+@media(max-width:640px){#diagnose .dt-btn{min-width:calc(33.3% - 8px);font-size:.92rem;padding:12px 6px}}
 @media(max-width:640px){#diagnose.show{padding:16px 12px 56px!important}}
 </style>
 </body>
