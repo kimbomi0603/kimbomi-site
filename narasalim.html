@@ -2195,17 +2195,19 @@ h1{letter-spacing:-.035em;font-weight:900}
 </section>
 <footer class="g365foot">
   <div class="g365foot-in" style="padding:36px 24px">
-    <h3 style="font-size:1.15rem;margin-bottom:12px">김보미.com · 모두의 봄, 나라살림 돋보기</h3>
-    <p class="ops">
-      <span>운영자 · 김보미 재정주권시민행동</span>
-      <a href="mailto:kimbomi891204@gmail.com">✉️ kimbomi891204@gmail.com</a>
-      <a href="tel:010-7331-0179">☎️ 010-7331-0179</a>
+    <p class="ops" style="justify-content:center;font-weight:700;margin-bottom:14px">
+      <span>운영자 · <b style="color:#fff">김보미 재정주권시민행동</b></span>
     </p>
-    <p class="legal" style="margin-top:14px">
-      <span>🔒 HTTPS 보안 적용 · 입력 정보는 암호화되어 전송됩니다</span><span>·</span>
-      <span>국민이 주도하는 민간 감시 플랫폼</span>
+    <p class="ops" style="justify-content:center;margin-bottom:16px">
+      <a href="mailto:kimbomi891204@gmail.com">✉ kimbomi891204@gmail.com</a>
+      <span style="opacity:.5">|</span>
+      <a href="tel:010-7331-0179">☎ 010-7331-0179</a>
     </p>
-    <p class="legal" style="margin-top:6px">© 2026 김보미.com (재정주권시민행동). All rights reserved.</p>
+    <p class="ops" style="justify-content:center;margin-bottom:18px">
+      <span>🔒 HTTPS 보안 적용 · 입력 정보는 암호화되어 전송됩니다</span>
+      <a href="privacy.html" style="text-decoration:underline;font-weight:800;color:#fff">개인정보 처리방침</a>
+    </p>
+    <p class="legal">© 2026 김보미365.com (김보미 재정주권시민행동). All rights reserved.</p>
   </div>
 </footer>
 
@@ -5919,7 +5921,7 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return
 function moveTrust(){
   var anchor=$('action'); if(!anchor||$('kbTrustZone')) return;
   var zone=document.createElement('div'); zone.id='kbTrustZone';
-  zone.innerHTML='<div class="kb46-zone-h" style="font-size:1.5rem;font-weight:700;color:#28251D;margin:18px 0 4px">함께해요!</div>';
+  zone.innerHTML='';  /* '함께해요!' 제목 제거 — 분석기준 앵커용 빈 영역 */
   anchor.parentNode.insertBefore(zone,anchor);
   document.querySelectorAll('.gov-cta,.values-row').forEach(function(el){ zone.appendChild(el); });
 }
