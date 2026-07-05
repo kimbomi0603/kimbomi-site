@@ -1357,22 +1357,6 @@ h1{letter-spacing:-.035em;font-weight:900}
 .partner-ctas .gov-cta a{margin-top:14px}
 @media(max-width:760px){.partner-ctas{grid-template-columns:1fr;margin-top:26px}}
 </style>
-<div class="partner-ctas" aria-label="외부 협력 플랫폼 바로가기">
-  <div class="gov-cta">
-    <div class="txt">
-      <b>🏛️ 중앙정부·정부 부처 예산도 함께</b>
-      <p>지방재정은 여기서, 중앙정부 예산은 <b>「재정주권시민행동」</b>에서 확인하세요.</p>
-    </div>
-    <a href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">재정주권시민행동 바로가기 ↗</a>
-  </div>
-  <div class="gov-cta" style="background:linear-gradient(120deg,#0f3876,#1a50a1)">
-    <div class="txt">
-      <b>🙋 청년이 결정하는 정책</b>
-      <p>전남·광주 청년정책 제안·참여는 <b>「청년결정정부」</b>에서 함께하세요.</p>
-    </div>
-    <a href="https://www.xn--p89av0gr2mutka661e.kr" target="_blank" rel="noopener">청년결정정부 바로가기 ↗</a>
-  </div>
-</div>
 <section class="gx-section" id="moments" aria-label="여러분과 함께한 순간들">
   <div class="gx-wrap">
     <div class="gx-head">
@@ -6131,6 +6115,7 @@ function analysisCards(){
     +'<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin-top:14px"><span style="font-size:.8rem;font-weight:900;color:#64748b">📚 근거 기관</span><a href="https://www.nabo.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">국회예산정책처(NABO)</a><a href="https://www.mois.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">행정안전부</a><a href="https://www.openfiscaldata.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">열린재정</a><a href="https://www.g2b.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">나라장터 G2B</a><a href="https://www.lofin365.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">지방재정365</a></div>'
     +'<div style="text-align:center;margin-top:12px"><button type="button" id="kbOntoBtn" style="background:linear-gradient(135deg,#0b2545,#1d4080);color:#fff;border:none;border-radius:11px;padding:12px 24px;font-family:inherit;font-weight:900;font-size:.92rem;cursor:pointer">🧬 분석 방법 자세히 보기</button></div>';
   /* 핵심 기능 바로가기 버튼 3종 */
+  /* 기능 3카드(values-row)를 분석 기준 바로 위로 이동 */
   var actRow=document.createElement('div');
   actRow.style.cssText='display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px';
   [['▦ 예산과 집행을 한눈에 확인',function(){ g365Go('diag3'); }],
@@ -6142,6 +6127,7 @@ function analysisCards(){
   });
   sec.appendChild(actRow);
   anchor.parentNode.insertBefore(sec,anchor);
+  try{ var vr=document.querySelector('.values-row'); if(vr) sec.parentNode.insertBefore(vr,sec); }catch(e){}
   $('kbOntoBtn').addEventListener('click',function(){ if(window.__showSection) window.__showSection('ontology'); });
 }
 setTimeout(analysisCards,1200);
