@@ -106,6 +106,8 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     <div class="tab" data-tab="posts">비전·공약 글</div>
     <div class="tab" data-tab="reportcenter">🛡️ 제보센터</div>
     <div class="tab" data-tab="reports">리포트 보관함</div>
+<div class="tab" data-tab="dobuli">💬 더불이 대화</div>
+<div class="tab" data-tab="knowledge">🧠 지식 주입</div>
   </div></div>
 
   <main class="wrap">
@@ -180,7 +182,34 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     <section id="tab-reports" class="hide">
       <div class="panel"><h3>매일 분석 리포트 보관함</h3><div id="repList"></div></div>
     </section>
-  </main>
+  <!-- DOBULI CHAT LOG + SUGGESTIONS -->
+<section id="tab-dobuli" class="hide">
+<div class="panel"><h3>💬 더불이 대화 기록 <span id="dlCount" style="color:var(--dpk)"></span></h3>
+<p style="font-size:.85rem;color:var(--muted);margin:0 0 14px">시민과 더불이가 나눈 모든 대화 (최근 200건, 최신순)</p>
+<div id="dlList"></div></div>
+<div class="panel"><h3>🌱 시민 의견 수집 <span id="sgCount" style="color:var(--dpk)"></span></h3>
+<p style="font-size:.85rem;color:var(--muted);margin:0 0 14px">더불이가 '공약을 함께 만들어가요'로 답하며 시민 의견을 요청한 항목입니다.</p>
+<div id="sgList"></div></div>
+</section>
+<!-- KNOWLEDGE INJECTION -->
+<section id="tab-knowledge" class="hide">
+<div class="panel">
+<h3>🧠 더불이 지식 주입 <span id="knCount" style="color:var(--dpk)"></span></h3>
+<p style="font-size:.85rem;color:var(--muted);margin:0 0 14px">업로드한 내용이 더불이의 공약·정책 답변에 자동으로 활용됩니다. 최대 50개 항목.</p>
+<div id="knDropZone" style="border:2px dashed var(--line);border-radius:12px;padding:24px;text-align:center;margin-bottom:14px;cursor:pointer"
+  ondragover="event.preventDefault();this.style.borderColor='var(--dpk)'"
+  ondragleave="this.style.borderColor=''"
+  ondrop="event.preventDefault();this.style.borderColor='';window._knHandleFiles(event.dataTransfer.files)">
+  <div style="font-size:2rem;margin-bottom:8px">📄</div>
+  <div style="font-weight:700;margin-bottom:4px">파일을 끌어다 놓거나 클릭하여 업로드</div>
+  <div style="font-size:.82rem;color:var(--muted)">.txt · .pdf 지원 / 파일당 최대 500KB</div>
+  <input type="file" id="knFile" accept=".txt,.pdf,text/plain,application/pdf" multiple style="display:none">
+</div>
+<div id="knStatus" style="font-size:.88rem;margin-bottom:10px;min-height:1.2em"></div>
+<div id="knList"></div>
+</div>
+</section>
+</main>
 </div>
 
 <script>
@@ -355,7 +384,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
 
   var loaded={};
   function showTab(name){
-    ['dash','thoughts','scores','stories','posts','reportcenter','reports'].forEach(function(t){
+    ['dash','thoughts','scores','stories','posts','reportcenter','reports','dobuli','knowledge'].forEach(function(t){
       $('tab-'+t).classList.toggle('hide', t!==name);
     });
     document.querySelectorAll('.tab').forEach(function(el){ el.classList.toggle('on', el.getAttribute('data-tab')===name); });
@@ -365,6 +394,8 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     if(name==='posts' && !loaded.posts){ loaded.posts=1; loadPosts().catch(handleErr); }
     if(name==='reportcenter' && !loaded.reportcenter){ loaded.reportcenter=1; loadReportCenter().catch(handleErr); }
     if(name==='reports' && !loaded.reports){ loaded.reports=1; loadReports(); }
+if(name==='dobuli' && !loaded.dobuli){ loaded.dobuli=1; loadDobuli().catch(handleErr); }
+if(name==='knowledge' && !loaded.knowledge){ loaded.knowledge=1; loadKnowledge().catch(handleErr); }
   }
 
   function enterApp(){
@@ -395,7 +426,9 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
   });
   $('keyInput').addEventListener('keydown',function(e){ if(e.key==='Enter') $('loginBtn').click(); });
   $('logoutBtn').addEventListener('click',function(){ clearKey(); loaded={}; showLogin(''); });
-  $('refreshBtn').addEventListener('click',function(){ loaded={}; loadDash().catch(handleErr); if(!$('tab-thoughts').classList.contains('hide')){loadThoughts();} if(!$('tab-scores').classList.contains('hide')){loadScores().catch(handleErr);} if(!$('tab-stories').classList.contains('hide')){loadStories().catch(handleErr);} if(!$('tab-posts').classList.contains('hide')){loadPosts().catch(handleErr);} if(!$('tab-reportcenter').classList.contains('hide')){loadReportCenter().catch(handleErr);} if(!$('tab-reports').classList.contains('hide')){loadReports();} });
+  $('refreshBtn').addEventListener('click',function(){ loaded={}; loadDash().catch(handleErr); if(!$('tab-thoughts').classList.contains('hide')){loadThoughts();} if(!$('tab-scores').classList.contains('hide')){loadScores().catch(handleErr);} if(!$('tab-stories').classList.contains('hide')){loadStories().catch(handleErr);} if(!$('tab-posts').classList.contains('hide')){loadPosts().catch(handleErr);} if(!$('tab-reportcenter').classList.contains('hide')){loadReportCenter().catch(handleErr);} if(!$('tab-reports').classList.contains('hide')){loadReports();}
+if(!$('tab-dobuli').classList.contains('hide')){loadDobuli().catch(handleErr);}
+if(!$('tab-knowledge').classList.contains('hide')){loadKnowledge().catch(handleErr);} });
 
   $('thList').addEventListener('click',function(e){
     var b=e.target.closest&&e.target.closest('.del'); if(!b) return;
@@ -484,7 +517,109 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
       .then(function(r){return r.json();}).then(function(d){ if(d&&d.ok&&d.removed){ loadReportCenter().catch(handleErr); } else { alert('삭제에 실패했습니다.'); b.disabled=false; b.textContent='삭제'; } })
       .catch(function(){ alert('삭제에 실패했습니다.'); b.disabled=false; b.textContent='삭제'; });
   });
-  if(getKey()){ enterApp(); } else { showLogin(''); }
+  
+/* ===== 더불이 대화 & 의견수집 ===== */
+function loadDobuli(){
+  var p1=fetch('/api/chat?action=chatlog&key='+encodeURIComponent(getKey()),{cache:'no-store'})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var el=$('dlList');
+      if(!d.ok||!d.items||!d.items.length){el.innerHTML='<div class="empty">대화 기록이 없습니다.</div>';$('dlCount').textContent='';return;}
+      $('dlCount').textContent=d.items.length+'건';
+      el.innerHTML=d.items.map(function(t){
+        var dt='';try{dt=new Date(t.ts).toLocaleString('ko-KR');}catch(e){}
+        return '<div class="th"><div class="m"><b>Q:</b> '+esc(t.q)+'</div>'
+          +'<div class="m" style="color:#33405a;margin-top:4px"><b>A:</b> '+esc(t.a)+'</div>'
+          +'<div class="meta">'+esc(dt)+'</div></div>';
+      }).join('');
+    });
+  var p2=fetch('/api/chat?action=suggestions&key='+encodeURIComponent(getKey()),{cache:'no-store'})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var el=$('sgList');
+      if(!d.ok||!d.items||!d.items.length){el.innerHTML='<div class="empty">수집된 시민 의견이 없습니다.</div>';$('sgCount').textContent='';return;}
+      var grouped={};
+      d.items.forEach(function(x){var t=x.topic||'(미분류)';if(!grouped[t])grouped[t]=[];grouped[t].push(x);});
+      $('sgCount').textContent=d.items.length+'건';
+      el.innerHTML=Object.keys(grouped).map(function(topic){
+        var rows=grouped[topic].map(function(x){
+          var dt='';try{dt=new Date(x.ts).toLocaleString('ko-KR');}catch(e){}
+          return '<div class="th" style="padding:8px 0"><div class="m" style="font-size:.88rem">'+esc(x.q)+'</div><div class="meta">'+esc(dt)+'</div></div>';
+        }).join('');
+        return '<div style="margin-bottom:14px"><div style="font-weight:700;color:var(--dpk);margin-bottom:6px">📌 '+esc(topic)+' ('+grouped[topic].length+'건)</div>'+rows+'</div>';
+      }).join('');
+    });
+  return Promise.all([p1,p2]);
+}
+/* ===== 더불이 지식 주입 ===== */
+var knItems=[];
+function loadKnowledge(){
+  return fetch('/api/admin?action=listknowledge&key='+encodeURIComponent(getKey()),{cache:'no-store'})
+    .then(function(r){if(r.status===401){var e=new Error('unauth');e.code=401;throw e;}return r.json();})
+    .then(function(d){
+      if(!d.ok)return;
+      knItems=d.items||[];
+      $('knCount').textContent='('+knItems.length+'/50)';
+      var el=$('knList');
+      if(!knItems.length){el.innerHTML='<div class="empty">아직 업로드된 지식이 없습니다.</div>';return;}
+      el.innerHTML=knItems.map(function(k,i){
+        var dt='';try{dt=new Date(k.ts).toLocaleString('ko-KR');}catch(e){}
+        var preview=String(k.content||'').slice(0,120).replace(/
+/g,' ');
+        return '<div class="po-item"><div class="t">📄 '+esc(k.filename||'(이름없음)')+'</div>'
+          +'<div class="meta" style="font-size:.8rem;color:var(--muted);margin:4px 0">'+esc(dt)+' · '+String(k.content||'').length.toLocaleString()+'자</div>'
+          +'<div style="font-size:.82rem;color:#5a6474;margin-bottom:8px">'+esc(preview)+'…</div>'
+          +'<div class="a"><button class="del" data-ts="'+k.ts+'">삭제</button></div></div>';
+      }).join('');
+    });
+}
+function knSetStatus(msg,ok){var el=$('knStatus');el.style.color=ok?'#1c7a43':'#c0392b';el.textContent=msg;if(ok)setTimeout(function(){el.textContent='';},3000);}
+async function _knUploadText(filename,text){
+  if(text.length>500000){knSetStatus('파일이 너무 큽니다 (500KB 초과).',false);return;}
+  knSetStatus('업로드 중… '+filename,true);
+  var r=await fetch('/api/admin?action=addknowledge&key='+encodeURIComponent(getKey()),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:filename,content:text.slice(0,50000)})});
+  var d=await r.json();
+  if(d&&d.ok){knSetStatus('✅ '+filename+' 업로드 완료!',true);loaded.knowledge=0;loadKnowledge().catch(handleErr);}
+  else{knSetStatus('업로드 실패: '+(d&&d.error||'오류'),false);}
+}
+window._knHandleFiles=async function(files){
+  if(!files||!files.length)return;
+  for(var i=0;i<files.length;i++){
+    var file=files[i];
+    var name=file.name;
+    if(file.type==='application/pdf'||name.endsWith('.pdf')){
+      if(!window.pdfjsLib){
+        knSetStatus('PDF.js 로딩 중…',true);
+        await new Promise(function(resolve){var sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';sc.onload=resolve;document.head.appendChild(sc);});
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      }
+      try{
+        var ab=await file.arrayBuffer();
+        var pdf=await window.pdfjsLib.getDocument({data:ab}).promise;
+        var txt='';
+        for(var p=1;p<=pdf.numPages;p++){var pg=await pdf.getPage(p);var ct=await pg.getTextContent();txt+=ct.items.map(function(it){return it.str;}).join(' ')+'
+';}
+        await _knUploadText(name,txt.trim());
+      }catch(e){knSetStatus('PDF 파싱 오류: '+e.message,false);}
+    }else{
+      var txt2=await new Promise(function(resolve){var fr=new FileReader();fr.onload=function(ev){resolve(ev.target.result);};fr.readAsText(file,'utf-8');});
+      await _knUploadText(name,txt2);
+    }
+  }
+};
+document.getElementById('knDropZone').addEventListener('click',function(e){if(e.target.tagName==='INPUT')return;document.getElementById('knFile').click();});
+document.getElementById('knFile').addEventListener('change',function(e){window._knHandleFiles(e.target.files);e.target.value='';});
+document.getElementById('knList').addEventListener('click',function(e){
+  var b=e.target.closest&&e.target.closest('.del');if(!b)return;
+  var ts=parseInt(b.getAttribute('data-ts'),10);if(!ts)return;
+  if(!confirm('이 지식 항목을 삭제할까요?'))return;
+  b.disabled=true;b.textContent='삭제중…';
+  fetch('/api/admin?action=removeknowledge&key='+encodeURIComponent(getKey()),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ts:ts})})
+    .then(function(r){return r.json();})
+    .then(function(d){if(d&&d.ok){loaded.knowledge=0;loadKnowledge().catch(handleErr);}else{alert('삭제 실패');b.disabled=false;b.textContent='삭제';}})
+    .catch(function(){alert('삭제 실패');b.disabled=false;b.textContent='삭제';});
+});
+if(getKey()){ enterApp(); } else { showLogin(''); }
 })();
 </script>
 </body>
