@@ -6533,6 +6533,8 @@ function g365Go(kind){
 #diagTrendInline .ti-h{display:flex;align-items:center;gap:10px;margin:0 0 4px;font-size:1.18rem;font-weight:900;color:#0b2545}
 #diagTrendInline .ti-sub{font-size:.84rem;color:#64748b;margin:0 0 14px}
 #diagTrendInline #charts{display:block!important;padding:10px 0 0}
+#diagTrendInline canvas{max-height:320px!important;height:320px!important;width:100%!important}
+#diagTrendInline .card,#diagTrendInline [class*="chart"]{max-height:460px;overflow:hidden}
 </style>
 <script id="kbV44js">
 /* ═══ v44 — 3초 진단 인라인화 + 추이 연속 스크롤 ═══ */
@@ -6560,7 +6562,6 @@ function trendInline(){
   }
   var charts=$('charts');
   if(charts && charts.parentElement!==box){ box.appendChild(charts); charts.style.display='block'; }
-  try{ window.dispatchEvent(new Event('resize')); }catch(e){}
 }
 /* 진단 열릴 때: 인라인 보정 + 페이지 스크롤 이동 */
 function watch(){
@@ -6568,8 +6569,7 @@ function watch(){
   new MutationObserver(function(){
     if(sec.classList.contains('show')){
       inlineFix();
-      setTimeout(function(){ inlineFix(); trendInline(); try{ sec.scrollIntoView({behavior:'smooth',block:'start'}); }catch(e){} },140);
-      setTimeout(function(){ inlineFix(); trendInline(); },1300);
+      setTimeout(function(){ inlineFix(); trendInline(); try{ sec.scrollIntoView({block:'start'}); }catch(e){} },160);
     }
   }).observe(sec,{attributes:true,attributeFilter:['class']});
   new MutationObserver(inlineFix).observe(document.body,{attributes:true,attributeFilter:['class']});
@@ -6577,7 +6577,7 @@ function watch(){
 /* 진단 실행 시에도 추이 이동 보장 */
 document.addEventListener('click',function(e){
   var db=e.target.closest&&e.target.closest('#diagnoseBtn,#randomBtn');
-  if(db){ setTimeout(trendInline,600); setTimeout(trendInline,1600); }
+  if(db){ setTimeout(trendInline,700); }
   /* 추이 탭 → 종합 요약의 인라인 추이 블록으로 스크롤 */
   var tb=e.target.closest&&e.target.closest('.dt-btn[data-tab="trend"]');
   if(tb){
