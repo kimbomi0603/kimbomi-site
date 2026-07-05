@@ -596,8 +596,7 @@ window._knHandleFiles=async function(files){
         var ab=await file.arrayBuffer();
         var pdf=await window.pdfjsLib.getDocument({data:ab}).promise;
         var txt='';
-        for(var p=1;p<=pdf.numPages;p++){var pg=await pdf.getPage(p);var ct=await pg.getTextContent();txt+=ct.items.map(function(it){return it.str;}).join(' ')+'
-';}
+        for(var p=1;p<=pdf.numPages;p++){var pg=await pdf.getPage(p);var ct=await pg.getTextContent();txt+=ct.items.map(function(it){return it.str;}).join(' ')+'\n';}
         await _knUploadText(name,txt.trim());
       }catch(e){knSetStatus('PDF 파싱 오류: '+e.message,false);}
     }else{
