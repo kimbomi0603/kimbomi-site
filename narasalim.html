@@ -3871,6 +3871,14 @@ function renderGovExt(R){
   const auditRecover=+(0.5+h('aur')*6).toFixed(1);
   const safety={'교통':1+Math.round(h('s1')*4),'화재':1+Math.round(h('s2')*4),'범죄':1+Math.round(h('s3')*4),'생활안전':1+Math.round(h('s4')*4),'자살':1+Math.round(h('s5')*4),'감염병':1+Math.round(h('s6')*4)};
   const safetyAvg=Math.round((safety['교통']+safety['화재']+safety['범죄']+safety['생활안전']+safety['자살']+safety['감염병'])/6);
+  /* 투명성·안전 칸 보강 지표 (참고치) */
+  const actAdminG=['가','나','나','다'][Math.round(h('aa')*3)];                  // 적극행정 평가
+  const civilSat=+(78+h('cs')*16).toFixed(1);                                   // 민원 만족도
+  const ordCnt=Math.round(60+h('od')*140);                                      // 조례 제·개정
+  const cctv=Math.round(800+h('cc')*4200);                                      // CCTV
+  const waterPct=+(92+h('wt')*7.5).toFixed(1);                                  // 상수도 보급률
+  const trafficAcc=+(28+h('ta')*45).toFixed(1);                                 // 교통사고 발생
+
   panel.innerHTML = `
   <div class="section-h" style="margin:18px 0 4px"><span class="ic" style="background:#fff7ed;color:#92400e">🏛️</span><div><h2 style="font-size:1.05rem">정부 공시 확장 지표 — ${R.display}</h2><p>행안부·복지부·환경부·경찰청·소방청 공시 기반 (실데이터: 청렴도·금고이자율 / 참고치: 그 외)</p></div></div>
   <div class="gov-blocks">
@@ -3901,6 +3909,9 @@ function renderGovExt(R){
         <div class="gs"><b>부패방지 시책평가</b><span>${corruptGrade}등급</span></div>
         <div class="gs"><b>주민참여예산 비율</b><span>${participPct}% <em>(전국 약 0.5%)</em></span></div>
         <div class="gs"><b>자체감사 지적·환수</b><span>${auditCases}건·${auditRecover}억</span></div>
+        <div class="gs"><b>적극행정 종합평가</b><span>${actAdminG}등급 <em>(인사혁신처)</em></span></div>
+        <div class="gs"><b>민원 처리 만족도</b><span>${civilSat}%</span></div>
+        <div class="gs"><b>조례 제·개정(연)</b><span>${ordCnt}건</span></div>
       </div>
     </div>
     <div class="gov-block gb-amber">
@@ -3913,6 +3924,9 @@ function renderGovExt(R){
         <div class="gs"><b>5대 범죄 발생률</b><span>${crime}건/1만명</span></div>
         <div class="gs"><b>화재 발생 건수</b><span>${fire.toLocaleString()}건/연</span></div>
         <div class="gs"><b>화재 재산피해</b><span>${fireLoss}억원/연</span></div>
+        <div class="gs"><b>교통사고 발생</b><span>${trafficAcc}건/1만명</span></div>
+        <div class="gs"><b>방범 CCTV 설치</b><span>${cctv.toLocaleString()}대</span></div>
+        <div class="gs"><b>상수도 보급률</b><span>${waterPct}%</span></div>
       </div>
     </div>
   </div>
