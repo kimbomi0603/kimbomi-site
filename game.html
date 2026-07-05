@@ -296,7 +296,7 @@ h1.title .accent{color:var(--blue-soft)}
       <p class="tagline"><b>이번 생에 바꿉시다!</b></p>
       <div class="howto">
         <b style="color:var(--yolk)">10개의 기득권 바위 중 3개가 랜덤 출제!</b> 1~2분이면 충분해요.<br>
-        <b style="color:var(--blue-soft)">3개를 모두 깨면 → 3대 위기 히든 스테이지 등장!</b><br>
+        <b style="color:var(--blue-soft)">3개를 모두 깨면 → 3대 위기 히든 스테이지(2판) 등장!</b><br>
         <span class="k">회초리</span>를 움직여 <span class="k">계란</span>을 튕기세요.<br>
         기득권 바위 속 <span class="k">금빛 핵심 벽돌</span>을 깨면 클리어!<br>
         바위에서 떨어지는 <span class="k">국민의 응원</span>을 받으세요.<br>
@@ -339,6 +339,17 @@ h1.title .accent{color:var(--blue-soft)}
           <div><div class="n" id="fCleared">5/5</div><div class="l">격파</div></div>
         </div>
         <div class="c-url">#민주당을살려야합니다 · 김보미.com</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;justify-content:center;margin:10px 0 4px">
+        <canvas id="badgeCanvas" width="720" height="720" style="width:118px;height:118px;border-radius:50%;box-shadow:0 10px 26px rgba(0,0,0,.45)"></canvas>
+        <div style="text-align:left">
+          <div style="font-weight:900;color:#FFD667;font-size:15px">🎖️ 민주당 혁신 배지 획득!</div>
+          <div style="font-size:12px;color:var(--dim);margin:3px 0 7px">히든까지 깨면 '대한민국 수호 훈장'으로 승급!</div>
+          <div style="display:flex;gap:6px">
+            <button class="btn ghost small" id="btnBadgeSave" style="padding:7px 12px;font-size:12px">🖼️ 저장</button>
+            <button class="btn ghost small" id="btnBadgeShare" style="padding:7px 12px;font-size:12px">📢 공유</button>
+          </div>
+        </div>
       </div>
       <p class="hidden-tease" style="margin:8px 0 4px">이제 <b>대한민국을 위협하는 3대 위기</b>에 도전!</p>
       <div class="btnrow"><button class="btn" id="btnHidden" style="width:100%;max-width:none">🔓 히든 스테이지 도전 &rarr;</button></div>
@@ -655,7 +666,8 @@ function floatText(x,y,text,color){
 function maybeDrop(x,y){
   var dropP = Math.min(0.5, 0.22 + (runCount-1)*0.08);   // 러버밴딩: 회귀할수록 응원 아이템 증가
   if(Math.random() < dropP){
-    const type = ITEM_KEYS[Math.floor(Math.random()*ITEM_KEYS.length)];
+    const pool = ["clap","clap","clap","cheer","heart"];   // 파워 계란(박수) 60% — 빈도 2배 상향
+    const type = pool[Math.floor(Math.random()*pool.length)];
     drops.push({x, y, type, vy: 1.6});
   }
 }
@@ -1125,7 +1137,7 @@ function startStage(){
 }
 function startHidden(){
   hiddenMode = true;
-  order = HIDDEN_STAGES.slice();
+  order = shuffle(HIDDEN_STAGES.slice()).slice(0, 2);   // 3대 위기 중 2개 랜덤 — 플레이 타임 단축
   clearedRocks = [];
   stageNo = 0;
   $("hudLabel").textContent = "대한민국 3대 위기";
@@ -1178,6 +1190,8 @@ function showFive(){
   $("fScore").textContent = score;
   $("fCleared").textContent = order.length + "/" + order.length;
   $("fRocks").innerHTML = lastFive.map(function(k){ return "<span>"+k+"</span>"; }).join("");
+  drawBadge();
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(drawBadge); }
   show("scrFinal");
   beep(784,0.1,0.06,"triangle");
   setTimeout(()=>beep(988,0.1,0.06,"triangle"),120);
@@ -1443,6 +1457,42 @@ async function showRank(){
   var mine2=listEl.querySelector(".rank-item.mine");
   if(mine2&&mine2.scrollIntoView){ try{ mine2.scrollIntoView({block:"nearest"}); }catch(e){} }
 }
+
+/* ── 민주당 혁신 배지 (1단 보상) ── */
+function drawBadge(){
+  var c=document.getElementById("badgeCanvas"); if(!c) return;
+  var S=720, g=c.getContext("2d");
+  g.clearRect(0,0,S,S);
+  var bg=g.createRadialGradient(S/2,S/2,60,S/2,S/2,S/2);
+  bg.addColorStop(0,"#1d4080"); bg.addColorStop(1,"#0b1f45");
+  g.fillStyle=bg; g.beginPath(); g.arc(S/2,S/2,S/2-8,0,Math.PI*2); g.fill();
+  g.strokeStyle="#FFD667"; g.lineWidth=14; g.beginPath(); g.arc(S/2,S/2,S/2-18,0,Math.PI*2); g.stroke();
+  g.strokeStyle="rgba(255,214,103,.4)"; g.lineWidth=4; g.beginPath(); g.arc(S/2,S/2,S/2-42,0,Math.PI*2); g.stroke();
+  drawStar(g,S/2,S*0.36,5,86,36,"#FFD667");
+  g.fillStyle="#FFD667"; g.beginPath(); g.arc(S/2,S*0.36,26,0,Math.PI*2); g.fill();
+  g.textAlign="center";
+  g.fillStyle="#fff"; g.font="900 64px 'Black Han Sans','Noto Sans KR',sans-serif";
+  g.fillText("민주당 혁신 배지", S/2, S*0.62);
+  g.fillStyle="#bcd2f0"; g.font="700 34px 'Noto Sans KR',sans-serif";
+  g.fillText(runCount+"회차 · "+fmtNum(score)+"점", S/2, S*0.71);
+  g.fillStyle="#FFD667"; g.font="800 30px 'Noto Sans KR',sans-serif";
+  g.fillText("김보미.com · 뽑고 싶은 민주당", S/2, S*0.80);
+}
+function badgeText(){
+  var list=(lastFive.length?lastFive:clearedRocks).join(", ");
+  return "🎖️ 민주당 혁신 배지 획득! 기득권 바위("+list+") "+runCount+"회 만에 격파 · "+fmtNum(score)+"점 · "+SUPPORT_LINE+" "+HASHTAGS+" "+HOME_URL;
+}
+(function(){
+  var bs=document.getElementById("btnBadgeSave"), bh=document.getElementById("btnBadgeShare");
+  function blob(cb){ var c=document.getElementById("badgeCanvas"); if(c&&c.toBlob){ c.toBlob(cb,"image/png"); } else cb(null); }
+  if(bs) bs.addEventListener("click", function(){ blob(function(b){ if(!b){ showToast("저장을 지원하지 않는 환경입니다"); return; } dlBlob(b,"김보미_민주당혁신배지.png"); showToast("배지 이미지를 저장했어요"); }); });
+  if(bh) bh.addEventListener("click", function(){ blob(async function(b){
+    var text=badgeText();
+    if(b&&navigator.canShare){ var f=new File([b],"김보미_민주당혁신배지.png",{type:"image/png"});
+      if(navigator.canShare({files:[f]})){ try{ await navigator.share({files:[f],text:text,url:SHARE_URL}); return; }catch(e){ if(e&&e.name==="AbortError") return; } } }
+    try{ await navigator.clipboard.writeText(text+" "+SHARE_URL); showToast("배지 문구를 복사했어요"); }catch(e){ if(b) dlBlob(b,"김보미_민주당혁신배지.png"); }
+  }); });
+})();
 
 /* ================= 훈장 이미지 저장/공유 ================= */
 function medalBlob(cb){ var c=document.getElementById("medalCanvas"); if(c&&c.toBlob){ c.toBlob(cb,"image/png"); } else { cb(null); } }
