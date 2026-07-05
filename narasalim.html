@@ -1193,10 +1193,6 @@ h1{letter-spacing:-.035em;font-weight:900}
   <div class="wrap">
     <div class="brandrow" style="justify-content:space-between">
       <div class="topbar-left" style="display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <div class="live-badge" id="liveBadgeLeft" title="공공데이터 API 실시간 연동" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);color:#fff;border-radius:999px;height:34px;padding:0 12px;font-size:.78rem;font-weight:800;white-space:nowrap">
-          <span style="width:8px;height:8px;border-radius:50%;background:#2263c5;box-shadow:0 0 0 3px rgba(34,99,197,.3)"></span>API 연동
-        </div>
-        <div title="Google AI 자동번역 (15개 언어 — 우측 셀렉터에서 선택)" style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);border-radius:999px;height:34px;padding:0 12px;color:#fff;font-size:.78rem;font-weight:800;white-space:nowrap"><span>🌐</span>AI 자동번역</div>
       </div>
       <div class="topbar-actions" style="display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap">
         <div class="translate-fab" title="다국어 자동번역 — 15개 언어 지원" aria-label="언어 변경 가능" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);box-shadow:none;position:relative">
@@ -1279,13 +1275,6 @@ h1{letter-spacing:-.035em;font-weight:900}
   <!-- J. 외부 협력 플랫폼 CTA — 간결화 후 '여러분과 함께한 순간들' 위로 이동(아래 #moments 직전) -->
 
   <!-- ============== K. 3대 가치 (퍼퍼 위) ============== -->
-  <section class="values-row">
-    <div class="values">
-      <div class="value v1"><div class="vic">▦</div><h4>예산과 집행을 한눈에 확인</h4><p>공식 공시 데이터를 바탕으로 우리 지역의 예산과 집행 현황을 확인할 수 있습니다.</p></div>
-      <div class="value v2"><div class="vic">⌕</div><h4>정책과 담당부서를 바로 찾기</h4><p>키워드로 관련 정책, 담당 부서, 연락처를 한 번에 찾을 수 있습니다.</p></div>
-      <div class="value v3"><div class="vic">✎</div><h4>의견을 작성해 바로 전달</h4><p>의견 초안을 AI로 정리한 뒤 담당 부서나 지방의회에 보낼 수 있습니다.</p></div>
-    </div>
-  </section>
 
   <!-- v45: 재정주권운동 소개 -->
   <section id="sovereign">
@@ -6109,26 +6098,14 @@ function analysisCards(){
   var anchor=$('kbTrustZone')||$('action'); if(!anchor) return;
   var sec=document.createElement('section'); sec.id='kbAnalysisSec';
   var C=[['🏛️','공식 공시와 행정 데이터 기반','지방재정365·행안부·권익위·조달청 공시값을 그대로 사용합니다.'],['🧬','정책·부서·예산 관계 분석','예산이 분야→사업→계약→수혜자로 흐르는 관계를 추적합니다.'],['🚨','위험 신호 자동 점검','수의계약 과다·집행 지연 등 5대 패턴을 자동 점검합니다.']];
-  sec.innerHTML='<div class="section-h"><span class="ic">🧭</span><div><h2>이 사이트의 분석 기준</h2><p>예산, 사업, 계약, 수혜 관계를 함께 분석해 주요 이상신호를 찾습니다.</p></div></div>'
+  sec.innerHTML='<div class="section-h" style="flex-wrap:wrap"><span class="ic">🧭</span><div><h2 style="display:inline-flex;align-items:center;gap:12px;flex-wrap:wrap">이 사이트의 분석 기준 <button type="button" id="kbOntoBtn" style="background:linear-gradient(135deg,#0b2545,#1d4080);color:#fff;border:none;border-radius:10px;padding:9px 18px;font-family:inherit;font-weight:900;font-size:.82rem;cursor:pointer">🧬 분석 방법 자세히 보기</button></h2><p>예산, 사업, 계약, 수혜 관계를 함께 분석해 주요 이상신호를 찾습니다.</p></div></div>'
     +'<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">'
     +C.map(function(c){return '<div class="card pad" style="text-align:left"><div style="font-size:1.7rem">'+c[0]+'</div><b style="display:block;margin-top:6px;color:#0b2545;font-size:.95rem">'+c[1]+'</b><div style="font-size:.81rem;color:#475569;line-height:1.6;margin-top:5px">'+c[2]+'</div></div>';}).join('')
     +'</div>'
     +'<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin-top:14px"><span style="font-size:.8rem;font-weight:900;color:#64748b">📚 근거 기관</span><a href="https://www.nabo.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">국회예산정책처(NABO)</a><a href="https://www.mois.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">행정안전부</a><a href="https://www.openfiscaldata.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">열린재정</a><a href="https://www.g2b.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">나라장터 G2B</a><a href="https://www.lofin365.go.kr/" target="_blank" rel="noopener" style="font-size:.78rem;font-weight:700;color:#15448f;background:#eef3fc;border:1px solid #cfddf5;border-radius:999px;padding:6px 12px;text-decoration:none">지방재정365</a></div>'
-    +'<div style="text-align:center;margin-top:12px"><button type="button" id="kbOntoBtn" style="background:linear-gradient(135deg,#0b2545,#1d4080);color:#fff;border:none;border-radius:11px;padding:12px 24px;font-family:inherit;font-weight:900;font-size:.92rem;cursor:pointer">🧬 분석 방법 자세히 보기</button></div>';
+    ;
   /* 핵심 기능 바로가기 버튼 3종 */
-  /* 기능 3카드(values-row)를 분석 기준 바로 위로 이동 */
-  var actRow=document.createElement('div');
-  actRow.style.cssText='display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px';
-  [['▦ 예산과 집행을 한눈에 확인',function(){ g365Go('diag3'); }],
-   ['⌕ 정책과 담당 부서를 바로 찾기',function(){ if(window.openPolicyModal) openPolicyModal(); }],
-   ['✎ 의견을 작성해 바로 전달',function(){ var a=document.getElementById('action'); if(a){ a.style.display='block'; a.scrollIntoView({behavior:'smooth',block:'start'}); } }]
-  ].forEach(function(it){
-    var b=document.createElement('button'); b.type='button'; b.className='kb-act'; b.textContent=it[0];
-    b.addEventListener('click',it[1]); actRow.appendChild(b);
-  });
-  sec.appendChild(actRow);
   anchor.parentNode.insertBefore(sec,anchor);
-  try{ var vr=document.querySelector('.values-row'); if(vr) sec.parentNode.insertBefore(vr,sec); }catch(e){}
   $('kbOntoBtn').addEventListener('click',function(){ if(window.__showSection) window.__showSection('ontology'); });
 }
 setTimeout(analysisCards,1200);
