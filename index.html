@@ -1316,18 +1316,18 @@ footer .flink:hover{color:#fff}
 })();
 </script>
 <script>
-/* 전당대회 D-day 배지 — 날짜 확정 시 DATE에 'YYYY-MM-DD' 입력하면 자동 카운트다운 */
+/* D-day 배지 — 예비경선 컷오프(7/21) → 전당대회(8/17) 순차 카운트다운 */
 (function(){
-  var DATE='';   // 예: '2026-08-29'
+  var CUTOFF='2026-07-21', CONV='2026-08-17';
   var el=document.getElementById('ddayBadge'); if(!el)return;
-  if(DATE){
-    var t=new Date(DATE+'T00:00:00+09:00'), now=new Date();
-    var d=Math.ceil((t-now)/86400000);
-    el.textContent = d>0 ? ('🗳️ 2026 전당대회 D-'+d) : (d===0?'🗳️ 오늘은 전당대회 날입니다!':'🗳️ 2026 전당대회');
-  }else{
-    el.textContent='🗳️ 2026 전당대회 · 당대표 경선 진행 중';
-  }
-  el.hidden=false;
+  function dd(x){ return Math.ceil((new Date(x+'T00:00:00+09:00') - new Date())/86400000); }
+  var dc=dd(CUTOFF), dv=dd(CONV), t;
+  if(dc>0)       t='🗳️ 예비경선 컷오프 D-'+dc+' · 전당대회 8.17';
+  else if(dc===0)t='🗳️ 오늘은 예비경선 컷오프! · 전당대회 8.17';
+  else if(dv>0)  t='🗳️ 2026 전당대회 D-'+dv+' (8.17)';
+  else if(dv===0)t='🗳️ 오늘은 전당대회 날입니다!';
+  else           t='🗳️ 2026 전당대회';
+  el.textContent=t; el.hidden=false;
 })();
 </script>
 <script>
