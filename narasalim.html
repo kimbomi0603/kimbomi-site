@@ -2397,7 +2397,7 @@ const SECTORS16=["일반·지방행정","공공질서및안전","통일·외교"
    재정주권 365 · 애플리케이션 엔진 (build 2)
    ============================================================ */
 if(window.Chart){ Chart.defaults.font.family="'Noto Sans KR',sans-serif"; Chart.defaults.color="#5b6b82"; }
-const PAL = {blue:"#1d6fe0",teal:"#0f53b9",green:"#164ea3",amber:"#f59e0b",red:"#e11d48",purple:"#7c3aed",navy:"#13315c",slate:"#94a3b8",sky:"#3885f8",pink:"#ec4899",lime:"#84cc16",orange:"#fb923c"};
+const PAL = {blue:"#1d6fe0",teal:"#0d9488",green:"#16a34a",amber:"#f59e0b",red:"#e11d48",purple:"#7c3aed",navy:"#13315c",slate:"#94a3b8",sky:"#3885f8",pink:"#ec4899",lime:"#84cc16",orange:"#fb923c"};
 const fmt = n => Math.round(n).toLocaleString('ko-KR');
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 // 억원 → 표시 문자열. 조 단위는 항상 소수 1자리로 일관 처리하되 불필요한 '.0'은 제거.
@@ -2817,7 +2817,7 @@ function renderCharts(R){
   // 세입 구성
   const rev=R.revenue; const rk=Object.keys(rev); const rv=rk.map(k=>rev[k]);
   mkChart('chartRevenue',{type:'doughnut',data:{labels:rk,datasets:[{data:rv,
-    backgroundColor:[PAL.blue,PAL.sky,PAL.amber,PAL.orange,PAL.red,PAL.slate],borderWidth:2,borderColor:'#fff'}]},
+    backgroundColor:[PAL.blue,PAL.teal,PAL.amber,PAL.purple,PAL.red,PAL.slate],borderWidth:2,borderColor:'#fff'}]},
     options:{plugins:{legend:{position:'right',labels:{boxWidth:12,font:{size:11}}},
       tooltip:{callbacks:{label:c=>` ${c.label}: ${won억(c.parsed)} (${(c.parsed/R.budget*100).toFixed(1)}%)`}}},
       cutout:'58%',responsive:true,maintainAspectRatio:false}});
@@ -2846,7 +2846,7 @@ function renderCharts(R){
   // 회계별 예산현황
   const ac=R.accounts, ak=Object.keys(ac);
   mkChart('chartAccounts',{type:'doughnut',data:{labels:ak,datasets:[{data:ak.map(k=>ac[k]),
-    backgroundColor:[PAL.navy,PAL.teal,PAL.amber],borderWidth:2,borderColor:'#fff'}]},
+    backgroundColor:[PAL.blue,PAL.teal,PAL.amber],borderWidth:2,borderColor:'#fff'}]},
     options:{plugins:{legend:{position:'bottom',labels:{boxWidth:12}},
       tooltip:{callbacks:{label:c=>` ${c.label}: ${won억(c.parsed)} (${(c.parsed/R.budget*100).toFixed(1)}%)`}}},
       cutout:'58%',responsive:true,maintainAspectRatio:false}});
@@ -3419,7 +3419,7 @@ function printReport(R){
     function destroy(id){ var c=window.STATE.charts[id]; if(c&&c.destroy){c.destroy();} }
     function draw(id, cfg){ var el=document.getElementById(id); if(!el)return; destroy(id); window.STATE.charts[id]=new Chart(el.getContext('2d'), cfg); }
     var common = { responsive:true, maintainAspectRatio:false };
-    draw('chartAccounts', { type:'doughnut', data:{labels:['일반회계','특별회계','기금'],datasets:[{data:[R.accounts['일반회계'],R.accounts['특별회계'],R.accounts['기금']],backgroundColor:['#1d6fe0','#0f53b9','#f59e0b']}]}, options:common });
+    draw('chartAccounts', { type:'doughnut', data:{labels:['일반회계','특별회계','기금'],datasets:[{data:[R.accounts['일반회계'],R.accounts['특별회계'],R.accounts['기금']],backgroundColor:['#1d6fe0','#0d9488','#f59e0b']}]}, options:common });
     var trend=[Math.round(R.budget*.85),Math.round(R.budget*.88),Math.round(R.budget*.93),Math.round(R.budget*.98),R.budget];
     draw('chartTrend', { type:'line', data:{labels:['2021','2022','2023','2024','2025'],datasets:[{label:'총예산(억원)',data:trend,borderColor:'#1d6fe0',backgroundColor:'rgba(29,111,224,0.18)',fill:true,tension:.3}]}, options:common });
     draw('chartRadar', { type:'radar', data:{labels:['재정자립도','재정자주도','집행률','채무관리','청렴도'],datasets:[{label:R.display,data:[R.selfReliance,R.autonomy,R.execRate,100-R.debtRatio,(6-R.integrity)*20],borderColor:'#0f53b9',backgroundColor:'rgba(15,83,185,.25)',pointBackgroundColor:'#0f53b9'}]}, options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:100,beginAtZero:true,ticks:{stepSize:20}}}} });
@@ -4671,10 +4671,10 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
   async function injectIntoContract(){
     if(typeof FS==='undefined') { setTimeout(injectIntoContract, 300); return; }
     const origC = FS.renderContract.bind(FS);
-    FS.renderContract = async function(key){
-      origC(key);
+    FS.renderContract = async function(key, panelId){
+      origC(key, panelId);
       const R = STATE.byKey[key] || STATE.byKey[key.split(' ')[0]];
-      const panel = document.getElementById('contractPanel');
+      const panel = document.getElementById(panelId||'contractPanel');
       if(!R || !panel) return;
       if(panel.dataset.g2bFor === key) return;
       panel.insertAdjacentHTML('beforeend', '<div id="g2bLoading" style="margin-top:18px;padding:14px;background:#FAF3E2;border:1px solid #E0B266;border-radius:12px;color:#7A6A4A;font-size:.86rem">⏳ 공식 공시 데이터를 불러오는 중입니다</div>');
@@ -5762,10 +5762,31 @@ function renderExec(){
   var delay=+(100-exec).toFixed(1);
   var warn=delay>=35?['경고','#e11d48','연내 미집행·이월 위험이 높습니다. 사업별 집행계획·이월 사유 확인이 필요합니다.']:(delay>=25?['주의','#d97706','일부 사업의 집행 지연 가능성이 있습니다.']:['정상','#164ea3','집행 흐름이 대체로 양호합니다.']);
   var bars=qs.map(function(v,i){return '<div style="display:grid;grid-template-columns:64px 1fr 60px;gap:10px;align-items:center;padding:7px 0"><b style="color:#0b2545;font-size:.85rem">'+(i+1)+'분기</b><div style="height:16px;background:#eef2f7;border-radius:8px;overflow:hidden"><div style="width:'+v.toFixed(1)+'%;height:100%;background:linear-gradient(90deg,#367ae0,#0f53b9);border-radius:8px"></div></div><span style="text-align:right;font-weight:800;color:#0b2545;font-size:.85rem">'+v.toFixed(1)+'%</span></div>';}).join('');
+  /* 분야별 집행 내역 (예산 분야 × 추정 집행률) */
+  function h32x(str){ var h=2166136261>>>0; for(var i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return h>>>0; }
+  function wonx(a){ return a>=10000?(a/10000).toFixed(1)+'조원':Math.round(a).toLocaleString('ko-KR')+'억원'; }
+  var secRows='';
+  (R.sectors||[]).slice(0,10).forEach(function(sc){
+    var v=(h32x(sc.name+(R.key||''))%9)-4;
+    var er=Math.max(55,Math.min(99, exec+v));
+    var spent=sc.amt*er/100;
+    secRows+='<div style="display:grid;grid-template-columns:minmax(90px,140px) 1fr 64px minmax(90px,110px);gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #f1f5f9">'
+      +'<b style="color:#0b2545;font-size:.86rem">'+esc(sc.name)+'</b>'
+      +'<div style="height:14px;background:#eef2f7;border-radius:7px;overflow:hidden"><div style="width:'+er.toFixed(1)+'%;height:100%;background:linear-gradient(90deg,#367ae0,#0f53b9);border-radius:7px"></div></div>'
+      +'<span style="text-align:right;font-weight:800;color:#0b2545;font-size:.85rem">'+er.toFixed(1)+'%</span>'
+      +'<span style="text-align:right;font-size:.8rem;color:#475569">'+wonx(spent)+' <em style="color:#94a3b8;font-style:normal">/ '+wonx(sc.amt)+'</em></span>'
+      +'</div>';
+  });
+  var secBlock = secRows
+    ? '<div class="card pad" style="margin-bottom:12px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><div style="font-size:.92rem;font-weight:900;color:#0b2545">📂 예산 분야별 집행 내역</div><span class="kb-badge est">📊 참고치</span></div>'
+      +'<div style="display:grid;grid-template-columns:minmax(90px,140px) 1fr 64px minmax(90px,110px);gap:10px;padding:4px 0 8px;border-bottom:2px solid #e2e8f0;font-size:.74rem;font-weight:800;color:#64748b"><span>분야</span><span>집행률</span><span style="text-align:right">비율</span><span style="text-align:right">집행액 / 예산</span></div>'
+      +secRows+'</div>'
+    : '';
   m.innerHTML='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px"><div style="font-size:1.05rem;font-weight:900;color:#0b2545">✅ '+esc(R.name||R.key)+' 집행 현황</div><span class="kb-badge est">📊 참고치</span></div>'
     +'<div class="card pad" style="margin-bottom:12px"><div style="font-size:.86rem;font-weight:800;color:#475569;margin-bottom:6px">분기별 누적 집행률 (추정)</div>'+bars+'</div>'
+    +secBlock
     +'<div style="display:flex;align-items:center;gap:12px;background:'+warn[1]+'12;border:1px solid '+warn[1]+'55;border-left:5px solid '+warn[1]+';border-radius:12px;padding:13px 15px"><b style="font-size:1.2rem;color:'+warn[1]+'">'+warn[0]+'</b><div><b style="color:#0b2545">집행 지연 신호</b><div style="font-size:.83rem;color:#475569;margin-top:2px">미집행 '+delay+'% — '+warn[2]+'</div></div></div>'
-    +(window.KB?KB.sourceCard([['ref','집행률·분기 분포','공시 기반 추정(시연)','2025 공시']]):'');
+    +(window.KB?KB.sourceCard([['ref','집행률·분기 분포·분야별 집행','공시 기반 추정(시연)','2025 공시']]):'');
 }
 document.addEventListener('click',function(e){
   var b=e.target.closest&&e.target.closest('.dt-btn'); if(!b) return;
