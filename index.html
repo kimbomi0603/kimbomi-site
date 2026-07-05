@@ -984,7 +984,7 @@ footer .flink:hover{color:#fff}
   function send(q){
     if(busy||!q)return; busy=true; $('bomiSend').disabled=true;
     add('user',q); hist.push({role:'user',text:q});
-    var w=add('bot','봄이가 생각 중… 🌱',true);
+    var w=add('bot','더불이가 생각 중… 🌱',true);
     fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({mode:'campaign',message:q,history:hist.slice(0,-1)})})
       .then(function(r){return r.json();})
