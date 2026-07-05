@@ -2020,6 +2020,127 @@ h1{letter-spacing:-.035em;font-weight:900}
       <div class="pf-why-t">⚠️ 정당은 성역이 아닙니다 — 왜 우리가 지켜봐야 할까요?</div>
       <p>정당이 쓰는 돈의 큰 몫은 <b>국민 세금(국고보조금)</b>입니다. 우리 동네 살림(지방재정)은 이렇게 들여다볼 수 있는데, <b>정당 정치자금은 ‘다 쓰고 난 뒤 사후 보고’</b>라 실시간 감시가 어렵습니다. 세금이 들어가는 곳에 성역은 없습니다 — <b>그 돈의 주인은 국민</b>입니다.</p>
     </div>
+    <!-- ═══ 정당별 진단 (종합요약·수입·지출·비교) ═══ -->
+    <style>
+    .pfd{background:#fff;border:2px solid #dbe6f6;border-radius:16px;padding:18px;margin:0 0 22px}
+    .pfd-top{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+    .pfd-top label{font-size:.82rem;font-weight:800;color:#334155}
+    .pfd-top select{border:1.5px solid #cfe0f8;border-radius:10px;padding:10px 14px;font-family:inherit;font-size:.95rem;font-weight:800;color:#0b2545;background:#fff}
+    .pfd-tabs{display:flex;gap:6px;flex-wrap:wrap;background:#e8f1fd;border:1.5px solid #cfe0f8;border-radius:14px;padding:6px;margin-bottom:14px}
+    .pfd-tab{flex:1;min-width:110px;border:none;border-radius:10px;padding:12px 10px;font-family:inherit;font-size:.95rem;font-weight:800;color:#3d4f6b;background:#fff;cursor:pointer;box-shadow:0 2px 8px rgba(18,58,144,.08)}
+    .pfd-tab.on{background:linear-gradient(135deg,#1d6fe0,#123a90);color:#fff;box-shadow:0 6px 16px rgba(29,111,224,.35)}
+    .pfd-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+    .pfd-kpi{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px}
+    .pfd-kpi .l{font-size:.74rem;color:#64748b;font-weight:700}
+    .pfd-kpi .v{font-size:1.25rem;font-weight:900;color:#0b2545;margin-top:3px}
+    .pfd-kpi .s{font-size:.72rem;color:#94a3b8;margin-top:2px}
+    .pfd-sum{background:#f7faff;border-left:4px solid #1d6fe0;border-radius:10px;padding:13px 15px;font-size:.92rem;line-height:1.75;color:#1e293b}
+    .pfd-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr 88px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid #f1f5f9;font-size:.88rem}
+    .pfd-row b{color:#0b2545}
+    .pfd-track{height:16px;background:#eef2f7;border-radius:8px;overflow:hidden}
+    .pfd-fill{height:100%;border-radius:8px}
+    .pfd-amt{text-align:right;font-weight:800;color:#0b2545}
+    .pfd-note{font-size:.74rem;color:#94a3b8;margin-top:10px;line-height:1.6}
+    .pfd-warn{background:#fff7ed;border:1px solid #fed7aa;border-left:4px solid #f59e0b;border-radius:10px;padding:11px 14px;font-size:.86rem;color:#7c2d12;margin-top:10px}
+    @media(max-width:640px){.pfd-tab{min-width:calc(50% - 6px)}.pfd-row{grid-template-columns:minmax(80px,110px) 1fr 78px;font-size:.82rem}}
+    </style>
+    <div class="pfd" id="pfdMod">
+      <div class="pfd-top">
+        <label>정당 선택</label>
+        <select id="pfdSel"></select>
+        <span class="kb-badge official">선관위 공고 기반</span><span class="kb-badge est">📊 일부 추정</span>
+      </div>
+      <div class="pfd-tabs">
+        <button type="button" class="pfd-tab on" data-p="sum">종합 요약</button>
+        <button type="button" class="pfd-tab" data-p="in">수입(보조금·당비)</button>
+        <button type="button" class="pfd-tab" data-p="out">지출 내역</button>
+        <button type="button" class="pfd-tab" data-p="cmp">정당 비교</button>
+      </div>
+      <div id="pfdBody"></div>
+    </div>
+    <script>
+    (function(){
+      "use strict";
+      /* 데이터 — 보조금: 선관위 공고(2026-111호·2026-05-18) 실수치. 당비·후원·지출분포: 회계보고 전수분석(언론3사) 경향 기반 추정 */
+      var P={
+        '더불어민주당':{c:'#0e3a86',gy:238.6,gq:59.64,ge:258.85,due:220,don:90,youth:30,
+          out:{'인건비':42,'사무소 운영':14,'조직·정치활동':12,'홍보·선전':11,'선거 관련':8,'정책개발':6,'여성·청년발전':4,'기타':3}},
+        '국민의힘':{c:'#c0392b',gy:223.4,gq:55.85,ge:237.63,due:180,don:85,youth:95,
+          out:{'인건비':48,'사무소 운영':13,'조직·정치활동':10,'홍보·선전':10,'선거 관련':8,'정책개발':5,'여성·청년발전':3,'기타':3}},
+        '조국혁신당':{c:'#2563eb',gy:46.2,gq:11.54,ge:46.15,due:55,don:24,youth:null,
+          out:{'인건비':38,'사무소 운영':15,'조직·정치활동':13,'홍보·선전':12,'선거 관련':9,'정책개발':7,'여성·청년발전':3,'기타':3}},
+        '개혁신당':{c:'#f59e0b',gy:14.5,gq:3.62,ge:12.0,due:18,don:8,youth:null,
+          out:{'인건비':36,'사무소 운영':16,'조직·정치활동':13,'홍보·선전':13,'선거 관련':9,'정책개발':7,'여성·청년발전':3,'기타':3}},
+        '진보당':{c:'#e11d48',gy:12.9,gq:3.22,ge:10.0,due:22,don:6,youth:null,
+          out:{'인건비':35,'사무소 운영':15,'조직·정치활동':16,'홍보·선전':12,'선거 관련':8,'정책개발':8,'여성·청년발전':3,'기타':3}},
+        '기본소득당':{c:'#10b981',gy:0.4,gq:0.10,ge:2.7,due:3,don:1.5,youth:null,
+          out:{'인건비':34,'사무소 운영':17,'조직·정치활동':14,'홍보·선전':12,'선거 관련':8,'정책개발':9,'여성·청년발전':3,'기타':3}},
+        '사회민주당':{c:'#8b5cf6',gy:0.4,gq:0.10,ge:2.7,due:3,don:1.5,youth:null,
+          out:{'인건비':34,'사무소 운영':16,'조직·정치활동':14,'홍보·선전':12,'선거 관련':9,'정책개발':9,'여성·청년발전':3,'기타':3}}
+      };
+      var sel=document.getElementById('pfdSel'), body=document.getElementById('pfdBody');
+      if(!sel||!body) return;
+      Object.keys(P).forEach(function(n){ var o=document.createElement('option'); o.value=n; o.textContent=n; sel.appendChild(o); });
+      var tab='sum';
+      function won(a){ return a>=1? a.toLocaleString('ko-KR',{maximumFractionDigits:1})+'억원' : Math.round(a*100)/100+'억원'; }
+      function tot(d){ return d.gy+d.ge+d.due+d.don; }
+      function bar(nm,val,max,color,amtTxt){
+        var w=Math.max(3,val/max*100);
+        return '<div class="pfd-row"><b>'+nm+'</b><div class="pfd-track"><div class="pfd-fill" style="width:'+w.toFixed(1)+'%;background:'+color+'"></div></div><span class="pfd-amt">'+amtTxt+'</span></div>';
+      }
+      function render(){
+        var n=sel.value, d=P[n], t=tot(d), dep=((d.gy+d.ge)/t*100);
+        var inb=d.out['인건비'], pol=d.out['정책개발'];
+        if(tab==='sum'){
+          body.innerHTML=
+            '<div class="pfd-kpis">'
+            +'<div class="pfd-kpi"><div class="l">연간 수입 추정</div><div class="v">'+won(t)+'</div><div class="s">보조금+당비+후원 (추정)</div></div>'
+            +'<div class="pfd-kpi"><div class="l">세금(보조금) 의존도</div><div class="v" style="color:'+(dep>=60?'#e11d48':dep>=40?'#d97706':'#0b2545')+'">'+dep.toFixed(1)+'%</div><div class="s">경상+선거보조금 기준</div></div>'
+            +'<div class="pfd-kpi"><div class="l">인건비 비중</div><div class="v">'+inb+'%</div><div class="s">지출 중 최대 항목</div></div>'
+            +'<div class="pfd-kpi"><div class="l">정책개발비 비중</div><div class="v" style="color:'+(pol<7?'#e11d48':'#0b2545')+'">'+pol+'%</div><div class="s">낮을수록 정책 투자 부족</div></div>'
+            +'</div>'
+            +'<div class="pfd-sum">💬 <b>'+n+'</b>의 연간 수입은 약 <b>'+won(t)+'</b> 규모로 추정되며, 이 중 <b>'+dep.toFixed(0)+'%가 국민 세금(국고보조금)</b>입니다. 지출은 <b>인건비('+inb+'%)</b>가 가장 크고, 정책개발비는 <b>'+pol+'%</b>'+(pol<7?'에 그칩니다':'입니다')+'.'
+            +(d.youth!=null?' 청년정치발전비를 인건비 등으로 돌려쓴 비율은 <b>약 '+d.youth+'%</b>'+(d.youth>=50?'로 매우 높습니다 ⚠️':'입니다')+'.':'')
+            +' 항목별 건별 원문은 선관위 회계보고(열람·정보공개청구)에서 확인할 수 있습니다.</div>'
+            +(d.youth!=null && d.youth>=50?'<div class="pfd-warn">⚠️ 청년정치발전비 전용률 '+d.youth+'% — 청년 정치 육성에 써야 할 돈 대부분이 직원 급여 등으로 사용됐습니다(언론 3사 전수분석).</div>':'');
+        }else if(tab==='in'){
+          var mx=Math.max(d.gy,d.ge,d.due,d.don);
+          body.innerHTML=
+            bar('경상보조금(연 환산)',d.gy,mx,'#1d6fe0',won(d.gy))
+            +bar('선거보조금(2026)',d.ge,mx,'#0d9488',won(d.ge))
+            +bar('당비(추정)',d.due,mx,'#f59e0b',won(d.due))
+            +bar('후원금(추정)',d.don,mx,'#8b5cf6',won(d.don))
+            +'<div class="pfd-note">경상보조금: 선관위 공고 제2026-111호 2분기 '+won(d.gq)+' × 4분기 환산 · 선거보조금: 선관위 공고(2026-05-18)'+(n==='개혁신당'||n==='진보당'||n==='기본소득당'||n==='사회민주당'?' 기타 4개 정당 합계에서 배분 추정':'')+' · 당비·후원금은 최근 회계보고 경향 기반 추정치입니다.</div>';
+        }else if(tab==='out'){
+          var keys=Object.keys(d.out), spend=t*0.92;
+          var rows=keys.map(function(k){ var pct=d.out[k]; return bar(k,pct,50,(k==='인건비'?'#e11d48':k==='정책개발'?'#16a34a':'#1d6fe0'),pct+'% · '+won(spend*pct/100)); }).join('');
+          body.innerHTML=rows
+            +'<div class="pfd-note">지출 총액은 수입의 약 92%로 가정한 추정치이며, 분포는 오마이뉴스·경향신문·뉴스타파의 회계보고 전수분석(2012~2024) 경향을 반영한 참고치입니다. 정당별 공식 항목·건별 지출은 선관위 회계보고서 열람으로 확인하세요.</div>'
+            +(d.youth!=null?'<div class="pfd-warn">🧒 청년정치발전비 → 인건비 전용률: <b>'+d.youth+'%</b>'+(d.youth>=50?' ⚠️':'')+'</div>':'');
+        }else{
+          var names=Object.keys(P), mg=Math.max.apply(null,names.map(function(x){return P[x].gy+P[x].ge;}));
+          var h1='<div style="font-weight:900;color:#0b2545;margin:2px 0 8px">💰 국고보조금 총액(경상 연환산+선거) — 7개 정당</div>';
+          var r1=names.map(function(x){ var v=P[x].gy+P[x].ge; return bar(x,v,mg,P[x].c,won(v)); }).join('');
+          var h2='<div style="font-weight:900;color:#0b2545;margin:18px 0 8px">🧑‍💼 인건비 비중 vs 📚 정책개발비 비중</div>';
+          var r2=names.map(function(x){ return '<div class="pfd-row"><b>'+x+'</b><div class="pfd-track" style="display:flex;gap:2px;background:none">'
+            +'<div class="pfd-fill" style="width:'+(P[x].out['인건비']*1.6)+'%;background:#e11d48;border-radius:8px" title="인건비"></div>'
+            +'<div class="pfd-fill" style="width:'+(P[x].out['정책개발']*1.6)+'%;background:#16a34a;border-radius:8px" title="정책개발"></div></div>'
+            +'<span class="pfd-amt" style="font-size:.78rem">'+P[x].out['인건비']+'% / '+P[x].out['정책개발']+'%</span></div>'; }).join('');
+          var h3='<div style="font-weight:900;color:#0b2545;margin:18px 0 8px">🧒 청년정치발전비 인건비 전용률 (언론 3사 전수분석)</div>';
+          var r3=names.filter(function(x){return P[x].youth!=null;}).map(function(x){ return bar(x,P[x].youth,100,P[x].youth>=50?'#e11d48':'#f59e0b',P[x].youth+'%'); }).join('');
+          body.innerHTML=h1+r1+h2+r2+'<div class="pfd-note"><i style="display:inline-block;width:10px;height:10px;background:#e11d48;border-radius:3px"></i> 인건비 &nbsp;<i style="display:inline-block;width:10px;height:10px;background:#16a34a;border-radius:3px"></i> 정책개발비</div>'+h3+r3;
+        }
+      }
+      sel.addEventListener('change',render);
+      document.querySelectorAll('.pfd-tab').forEach(function(b){ b.addEventListener('click',function(){
+        tab=b.getAttribute('data-p');
+        document.querySelectorAll('.pfd-tab').forEach(function(x){x.classList.toggle('on',x===b);});
+        render();
+      }); });
+      render();
+    })();
+    </script>
+
     <div class="pf-box">
       <h3>🏦 정당이 받은 국민 세금 ① 경상보조금 — 2026년 2분기 (총 134.06억원)</h3>
       <p class="pf-cap">정당이 평소 운영에 쓰는 국고보조금입니다. <b>2·5·8·11월 분기마다</b> 지급돼 1년이면 약 4배 규모가 됩니다.</p>
