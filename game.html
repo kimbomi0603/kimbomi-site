@@ -10,7 +10,7 @@
 <title>계란으로 바위치기 — 이번 생에 바꿉시다!</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="계란으로 바위치기 — 이번 생에 바꿉시다!">
-<meta property="og:description" content="기득권 바위를 계란으로 깨는 게임! 몇 회차 만에 바위 5개를 다 깰 수 있을까? 도전하고 결과를 공유해보세요. 김보미.com">
+<meta property="og:description" content="기득권 바위를 계란으로 깨는 게임! 몇 회차 만에 바위 3개를 다 깰 수 있을까? 도전하고 결과를 공유해보세요. 김보미.com">
 <meta property="og:url" content="https://www.xn--4k0b53xuva.com/game.html">
 <link rel="canonical" href="https://www.xn--4k0b53xuva.com/game.html">
 <meta property="og:image" content="https://www.xn--4k0b53xuva.com/og-campaign.jpg">
@@ -20,7 +20,7 @@
 <meta name="twitter:title" content="계란으로 바위치기 — 이번 생에 바꿉시다!">
 <meta name="twitter:description" content="기득권 바위를 계란으로 깨는 게임! 도전하고 결과를 공유해보세요.">
 <meta name="twitter:image" content="https://www.xn--4k0b53xuva.com/og-campaign.jpg">
-<meta name="description" content="계란으로 바위를 깨는 벽돌깨기. 10개의 기득권 바위 중 5개가 랜덤 출제 — 모두 깨고 3대 위기 히든 스테이지까지 도전하세요. 김보미.com">
+<meta name="description" content="계란으로 바위를 깨는 벽돌깨기. 10개의 기득권 바위 중 3개가 등장 — 모두 깨고 3대 위기 히든 스테이지까지 도전하세요. 김보미.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
@@ -137,6 +137,13 @@ h1.title .accent{color:var(--blue-soft)}
   border-radius:10px;padding:12px 16px;margin-bottom:18px;
 }
 .howto .k{color:var(--yolk);font-weight:700}
+@media(max-height:820px){
+  .overlay{padding:16px 18px}
+  h1.title{font-size:32px;margin-bottom:6px}
+  .eyebrow{margin-bottom:6px}
+  .tagline{margin-bottom:10px;font-size:13px}
+  .howto{font-size:12px;line-height:1.7;padding:10px 12px;margin-bottom:14px}
+}
 .btn{
   font-family:'Black Han Sans',sans-serif;
   font-size:20px;letter-spacing:1px;
@@ -295,13 +302,11 @@ h1.title .accent{color:var(--blue-soft)}
       <h1 class="title">계란으로<br><span class="accent">바위치기</span></h1>
       <p class="tagline"><b>이번 생에 바꿉시다!</b></p>
       <div class="howto">
-        <b style="color:var(--yolk)">10개의 기득권 바위 중 3개가 랜덤 출제!</b> 1~2분이면 충분해요.<br>
-        <b style="color:var(--blue-soft)">3개를 모두 깨면 → 3대 위기 히든 스테이지(2판) 등장!</b><br>
-        <span class="k">회초리</span>를 움직여 <span class="k">계란</span>을 튕기세요.<br>
-        기득권 바위 속 <span class="k">금빛 핵심 벽돌</span>을 깨면 클리어!<br>
-        바위에서 떨어지는 <span class="k">국민의 응원</span>을 받으세요.<br>
-        📣 함성=황금 계란(관통) · 👏 박수=파워 계란(한 방 격파+긴 회초리) · 💙 응원=슬로우<br>
-        <small style="color:var(--dim)">조작: 터치 드래그 · 마우스 · ← → 방향키</small><br><small style="color:var(--dim)">'회귀'란? 실패해도 깬 바위는 그대로 — 기억을 안고 다시 도전한다는 뜻!</small><br><b style="color:#8FD0FF">💙 이 게임 한 판이 김보미를 응원하는 가장 재미있는 방법입니다!</b>
+        <b style="color:var(--yolk)">10개의 기득권 바위 중 3개가 등장!</b><br>
+        <b style="color:var(--blue-soft)">3개를 모두 깨면 3대 위기 히든 스테이지(3판)!</b><br>
+        <span class="k">회초리</span>로 <span class="k">계란</span>을 튕겨 <span class="k">금빛 핵심 벽돌</span>을 깨면 클리어!<br>
+        📣 함성=관통 · 👏 박수=격파 · 💙 응원=슬로우<br>
+        <small style="color:var(--dim)">조작: 터치 드래그 · 마우스 · ← → 방향키</small>
       </div>
       <button class="btn" id="btnStart">회귀 시작</button>
     </div>
@@ -677,7 +682,7 @@ function applyItem(type){
   if(type==="clap"){ paddle.w = Math.min(150, PADDLE_BASE*1.5); }
   const msg = type==="clap" ? it.icon+" 파워 계란! 바위가 한 방에!" : it.icon+" "+it.label;
   floatText(paddle.x+paddle.w/2, paddle.y-24, msg, type==="clap" ? "#8FD0FF" : "#FFF6E3");
-  score += 30;
+  score += 60;
   beep(880,0.08,0.06,"triangle");
   setTimeout(()=>beep(1174,0.1,0.05,"triangle"),90);
   updateHUD();
@@ -1042,7 +1047,7 @@ function step(){
           beep(660,0.07,0.06,"triangle");
           if(b.hp<=0){
             burst(b.x+b.w/2, b.y+b.h/2, "#FFC53D", 40);
-            score += 500;
+            score += 1000;
             onStageClear();
             return;
           }
@@ -1059,7 +1064,7 @@ function step(){
               shake = 9;
             }
             bricks.splice(i,1);
-            score += (b.max===2? 40 : 20);
+            score += (b.max===2? 80 : 40);
           }
         }
         updateHUD();
@@ -1137,7 +1142,7 @@ function startStage(){
 }
 function startHidden(){
   hiddenMode = true;
-  order = shuffle(HIDDEN_STAGES.slice()).slice(0, 2);   // 3대 위기 중 2개 랜덤 — 플레이 타임 단축
+  order = shuffle(HIDDEN_STAGES.slice());   // 3대 위기 3판 모두 등장
   clearedRocks = [];
   stageNo = 0;
   $("hudLabel").textContent = "대한민국 3대 위기";
@@ -1378,7 +1383,7 @@ $("btnShare").addEventListener("click", ()=>{
   doShare("계란으로 바위치기 🥚 내가 깬 기득권 바위: "+list+" ("+lastFive.length+"개) · "+runCount+"회 만에 공정한 민주당 완성! " + HASHTAGS);
 });
 $("btnShareGame").addEventListener("click", ()=>{
-  doShare("계란으로 바위치기 🥚 기득권 바위를 계란으로 깨는 게임! 5개를 깨면 3대 위기 히든 스테이지가 열립니다. 이번 생에 바꿉시다. " + HASHTAGS);
+  doShare("계란으로 바위치기 🥚 기득권 바위를 계란으로 깨는 게임! 3개를 깨면 3대 위기 히든 스테이지가 열립니다. 이번 생에 바꿉시다. " + HASHTAGS);
 });
 $("btnHidden").addEventListener("click", startHidden);
 /* ================= 명예의 전당 (랭킹) ================= */
