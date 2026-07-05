@@ -564,8 +564,7 @@ function loadKnowledge(){
       if(!knItems.length){el.innerHTML='<div class="empty">아직 업로드된 지식이 없습니다.</div>';return;}
       el.innerHTML=knItems.map(function(k,i){
         var dt='';try{dt=new Date(k.ts).toLocaleString('ko-KR');}catch(e){}
-        var preview=String(k.content||'').slice(0,120).replace(/
-/g,' ');
+        var preview=String(k.content||'').slice(0,120).replace(new RegExp('\n','g'),' ');
         return '<div class="po-item"><div class="t">📄 '+esc(k.filename||'(이름없음)')+'</div>'
           +'<div class="meta" style="font-size:.8rem;color:var(--muted);margin:4px 0">'+esc(dt)+' · '+String(k.content||'').length.toLocaleString()+'자</div>'
           +'<div style="font-size:.82rem;color:#5a6474;margin-bottom:8px">'+esc(preview)+'…</div>'
