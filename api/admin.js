@@ -195,7 +195,8 @@ module.exports = async (req, res) => {
       res.status(200).json({ ok:true, date:d, pv:pv, uv:uv, dims:dims }); return;
     }
 
-    // overview (default): trend + today breakdown + thoughts count
+    if (action !== 'suggestions' && action !== 'listknowledge' && action !== 'addknowledge' && action !== 'removeknowledge') {
+// overview (default): trend + today breakdown + thoughts count
     var days = Math.min(parseInt(req.query.days||'14',10)||14, 60);
     var dates = []; for (var i=days-1;i>=0;i--) dates.push(kstDate(i));
     var tcmds = [];
@@ -210,6 +211,8 @@ module.exports = async (req, res) => {
     var thoughtCount = parseInt((tb[1]&&tb[1].result)||0,10)||0;
     var totPv = trend.reduce(function(a,x){return a+x.pv;},0);
     res.status(200).json({ ok:true, today:today, trend:trend, dims:dims, thoughtCount:thoughtCount, totalPvRange:totPv });
+return;
+}
   
   if (action === 'suggestions') {
     var sl = await redis(['LRANGE','kb_suggestions',0,499]);
@@ -252,3 +255,4 @@ module.exports = async (req, res) => {
     res.status(200).json({ ok:false, error:String(e && e.message || e) });
   }
 };
+x
