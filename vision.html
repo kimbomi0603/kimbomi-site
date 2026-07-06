@@ -148,12 +148,12 @@ function renderList(){
       +'<div class="go">전문 읽기 →</div></a>';
   }).join('');
 }
-function renderDetail(p){
+var ARTICLE_LINKS=[{url:"https://www.hani.co.kr/arti/politics/politics_general/1266723.html?utm_source=copy&utm_medium=copy&utm_campaign=btn_share&utm_content=20260706",refs:["['젊은 층은 민주당' 무너진 구도...2030 외면 시 재집권 없다] 기사","[ '젊은 층은 민주당' 무너진 구도...2030 외면 시 재집권 없다 ] 기사"]}];function linkifyArticles(h){ARTICLE_LINKS.forEach(function(it){var a='<a href="'+it.url+'" target="_blank" rel="noopener">';it.refs.forEach(function(ref){h=h.split(ref).join(a+ref+'</a>');});});return h;}function renderDetail(p){
   var paras=String(p.body||'').split(/\n{2,}/).map(function(t){return t.trim();}).filter(Boolean);
   var html='<div class="meta">'+fmtDate(p.publishAt)+'</div><h1>'+esc(p.title)+'</h1>';
   paras.forEach(function(t){
     if(/^\[.*\]$/.test(t)){ html+='<p class="tagline">'+esc(t.replace(/^\[\s*|\s*\]$/g,''))+'</p>'; }
-    else { html+='<p>'+esc(t)+'</p>'; }
+    else { html+='<p>'+linkifyArticles(esc(t))+'</p>'; }
   });
   html+='<div class="share"><button class="btn p" id="shareBtn">📢 공유하기</button><a class="btn g" href="vision.html">← 다른 글 보기</a></div>';
   $('article').innerHTML=html;
@@ -200,3 +200,4 @@ fetch(API+'?action=list').then(function(r){return r.json();}).then(function(d){
 <script src="/a.js" defer></script>
 </body>
 </html>
+x
