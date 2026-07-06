@@ -123,7 +123,9 @@ module.exports = async function (req, res) {
       if (h && h.text) contents.push({ role: h.role === "model" ? "model" : "user", parts: [{ text: String(h.text).slice(0, 1500) }] });
     });
   }
-  var prompt = sys + "\n\n[참고 데이터]\n" + (context || "(없음)") + "\n\n[질문]\n" + message;
+  var kb="";
+  if(isCampaign&&RURL2){try{var kr=await fetch(RURL2,{method:"POST",headers:{Authorization:"Bearer "+RTOK2,"Content-Type":"application/json"},body:JSON.stringify(["LRANGE","kb_knowledge","0","9"])});var kd=await kr.json();var kitems=(kd.result||[]).map(function(x){try{return JSON.parse(x).content||"";}catch(e){return "";}}).filter(Boolean);kb=kitems.join("  ").slice(0,16000);}catch(e){}}
+  var prompt = sys + (kb?("  [더불이 지식자료 — 아래 내용을 최우선 근거로 사용하세요] "+kb):"") + "\n\n[참고 데이터]\n" + (context || "(없음)") + "\n\n[질문]\n" + message;
   contents.push({ role: "user", parts: [{ text: prompt }] });
 
   for (var i = 0; i < MODELS.length; i++) {
@@ -175,3 +177,4 @@ module.exports = async function (req, res) {
     }
   }
 };
+x
