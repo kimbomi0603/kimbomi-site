@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>미니게임 🎮 — 김보미.com</title>
+<meta name="description" content="김보미.com 참여 콘텐츠 미니게임 — 계란으로 바위치기 & 공약 뽑기. 놀다 보면 어느새 '뽑고 싶은 민주당'!">
+<meta property="og:title" content="🎮 김보미.com 미니게임">
+<meta property="og:description" content="계란으로 바위치기 & 공약 뽑기 — 놀다 보면 어느새 '뽑고 싶은 민주당'!">
+<meta property="og:type" content="website">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --blue:#004EA2; --deep:#081A44; --yellow:#FFD447; --gold:#FFB020; --ink:#0E1B3D;
+  --text:#EAF0FF; --dim:#9fb0d8;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  color:var(--text);min-height:100dvh;overflow-x:hidden;
+  background:
+    radial-gradient(900px 600px at 85% -10%,#1b4ea8 0%,transparent 55%),
+    radial-gradient(700px 500px at -10% 105%,#41156a 0%,transparent 50%),
+    linear-gradient(165deg,#050f2e 0%,#081A44 45%,#0e2a6e 100%);
+}
+.wrap{max-width:900px;margin:0 auto;padding:20px 18px calc(30px + env(safe-area-inset-bottom));min-height:100dvh;display:flex;flex-direction:column}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px}
+.brand{font-weight:900;font-size:15px;color:#fff;text-decoration:none}
+.brand span{color:var(--yellow)}
+.home{font-size:13px;font-weight:800;color:#fff;text-decoration:none;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:8px 16px}
+.head{text-align:center;margin-bottom:30px}
+.eyebrow{display:inline-block;font-size:12.5px;font-weight:900;letter-spacing:.06em;color:var(--yellow);background:rgba(255,212,71,.12);border:1px solid rgba(255,212,71,.4);border-radius:999px;padding:6px 16px;margin-bottom:14px}
+h1{font-size:clamp(28px,6.5vw,40px);font-weight:900;letter-spacing:-.02em;line-height:1.25}
+h1 b{color:var(--yellow)}
+.sub{margin-top:10px;font-size:15px;color:var(--dim);font-weight:600;line-height:1.6}
+.cards{display:grid;grid-template-columns:1fr;gap:20px;flex:1;align-content:start}
+@media(min-width:720px){.cards{grid-template-columns:1fr 1fr}}
+.card{
+  position:relative;display:flex;flex-direction:column;gap:12px;border-radius:26px;padding:28px 24px;
+  text-decoration:none;color:var(--text);overflow:hidden;
+  background:linear-gradient(170deg,rgba(255,255,255,.09),rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 24px 50px rgba(0,0,0,.45);
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,border-color .25s;
+}
+.card:hover{transform:translateY(-8px) scale(1.015);border-color:rgba(255,212,71,.55);box-shadow:0 34px 70px rgba(0,0,0,.55),0 0 40px rgba(255,212,71,.18)}
+.card .glow{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .25s;
+  background:radial-gradient(420px 200px at 50% 0%,rgba(255,212,71,.14),transparent 70%)}
+.card:hover .glow{opacity:1}
+.card .emoji{font-size:54px;line-height:1;filter:drop-shadow(0 8px 16px rgba(0,0,0,.4))}
+.card h2{font-size:23px;font-weight:900;letter-spacing:-.01em;line-height:1.3}
+.card h2 .new{display:inline-block;vertical-align:middle;margin-left:8px;font-size:11px;font-weight:900;color:var(--ink);background:linear-gradient(180deg,#FFE27A,var(--yellow));padding:4px 10px;border-radius:999px;box-shadow:0 0 16px rgba(255,212,71,.6);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.55}}
+.card p{font-size:14px;line-height:1.65;color:var(--dim);font-weight:600}
+.card p b{color:var(--text)}
+.card ul{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;color:var(--dim)}
+.card ul li::before{content:"🥚 ";font-size:12px}
+.card .cta{
+  margin-top:auto;text-align:center;font-size:16.5px;font-weight:900;color:var(--ink);
+  background:linear-gradient(180deg,#FFE27A,var(--yellow));border-radius:15px;padding:15px;
+  box-shadow:0 7px 0 #b8890e,0 14px 26px rgba(0,0,0,.35);transition:.12s;
+}
+.card:active .cta{transform:translateY(4px);box-shadow:0 3px 0 #b8890e}
+.card.blue .cta{color:#fff;background:linear-gradient(180deg,#2f77d8,var(--blue));box-shadow:0 7px 0 #032a63,0 14px 26px rgba(0,0,0,.35)}
+.card.blue:active .cta{box-shadow:0 3px 0 #032a63}
+.gy{
+  margin-top:26px;text-align:center;font-size:14px;font-weight:700;color:var(--dim);line-height:1.7;
+  background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.25);border-radius:16px;padding:16px 18px;
+}
+.gy a{color:var(--yellow);font-weight:900}
+footer{text-align:center;font-size:12px;color:var(--dim);opacity:.75;margin-top:24px;line-height:1.7}
+footer a{color:inherit}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="index.html">김보미<span>.com</span></a>
+    <a class="home" href="index.html">← 홈으로</a>
+  </header>
+
+  <div class="head">
+    <div class="eyebrow">참여 콘텐츠 · 미니게임</div>
+    <h1>게임 한 판 = <b>응원 한 번!</b></h1>
+    <p class="sub">놀다 보면 어느새 '뽑고 싶은 민주당' — 두 가지 게임으로 함께해 주세요.</p>
+  </div>
+
+  <div class="cards">
+    <a class="card" href="game.html?full=1">
+      <span class="glow"></span>
+      <span class="emoji">🥚🪨</span>
+      <h2>계란으로 바위치기</h2>
+      <p>약한 <b>계란</b>으로 강한 <b>기득권 바위</b>를 깨는 아케이드! 혁신을 가로막는 바위들이 랜덤으로 등장합니다.</p>
+      <ul>
+        <li>단 3판 — 1~2분이면 클리어</li>
+        <li>3판을 깨면 열리는 3대 위기 히든 스테이지</li>
+        <li>완주 시 '대한민국 수호 훈장' 획득 · 공유</li>
+      </ul>
+      <span class="cta">🪨 바위 깨러 가기 →</span>
+    </a>
+
+    <a class="card blue" href="gacha.html">
+      <span class="glow"></span>
+      <span class="emoji">🥚🎁</span>
+      <h2>공약 뽑기<span class="new">NEW</span></h2>
+      <p>황금 계란을 깨면 <b>김보미의 공약 카드</b>가 팡! 홀로그램 카드로 <b>25개 약속</b>을 전부 모아보세요.</p>
+      <ul>
+        <li>무제한 뽑기 — 중복 없이 25장 수집</li>
+        <li>분야별 5색 홀로그램 카드 도감</li>
+        <li>전부 모으면 '공약 마스터' 등극 · 공유</li>
+      </ul>
+      <span class="cta">🎁 계란 깨러 가기 →</span>
+    </a>
+  </div>
+
+  <div class="gy">📘 게임 속 그 약속들이 궁금하다면? <a href="gongyak.html">공약집에서 5대 분야 25개 약속 전문 보기 →</a></div>
+
+  <footer>© 2026 김보미 · 더불어민주당 당대표 후보 · <a href="index.html">김보미.com</a></footer>
+</div>
+</body>
+</html>
