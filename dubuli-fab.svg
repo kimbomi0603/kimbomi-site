@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 270" role="img" aria-label="AI 챗봇 더불이 열기">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 300" role="img" aria-label="AI 챗봇 더불이 열기">
   <defs>
-    <radialGradient id="shell" cx="0.35" cy="0.25" r="0.95">
-      <stop offset="0" stop-color="#FFFDF4"/>
-      <stop offset="0.38" stop-color="#FFF3D0"/>
-      <stop offset="0.74" stop-color="#F5D98A"/>
-      <stop offset="1" stop-color="#D9AE4E"/>
+    <radialGradient id="shell" cx="0.34" cy="0.22" r="1">
+      <stop offset="0" stop-color="#FFFEF8"/>
+      <stop offset="0.34" stop-color="#FFF0BE"/>
+      <stop offset="0.7" stop-color="#F8CF6B"/>
+      <stop offset="1" stop-color="#D99A26"/>
     </radialGradient>
     <linearGradient id="scarf" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#4D8FE0"/>
@@ -12,73 +12,89 @@
       <stop offset="1" stop-color="#063A78"/>
     </linearGradient>
     <linearGradient id="board" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#3E8BE8"/>
-      <stop offset="1" stop-color="#0B4C9C"/>
+      <stop offset="0" stop-color="#2E77D8"/>
+      <stop offset="1" stop-color="#0B3C82"/>
     </linearGradient>
     <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#B4EDA6"/>
-      <stop offset="1" stop-color="#4CAF5E"/>
+      <stop offset="0" stop-color="#A9E896"/>
+      <stop offset="1" stop-color="#3D9C4F"/>
     </linearGradient>
     <linearGradient id="stem" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#8FD884"/>
-      <stop offset="1" stop-color="#3E9A4E"/>
+      <stop offset="0" stop-color="#7FCE74"/>
+      <stop offset="1" stop-color="#2F8A40"/>
     </linearGradient>
     <linearGradient id="foot" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#F7B23C"/>
-      <stop offset="1" stop-color="#D98D14"/>
+      <stop offset="0" stop-color="#FFB13C"/>
+      <stop offset="1" stop-color="#D9820A"/>
     </linearGradient>
-    <clipPath id="mouthClipF"><path d="M-14 -2 h28 a2 2 0 0 1 2 2 v2 a16 14 0 0 1 -32 0 v-2 a2 2 0 0 1 2 -2 Z"/></clipPath>
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#0E2B66" stop-opacity="0.5"/>
+      <stop offset="0.7" stop-color="#0E2B66" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#0E2B66" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="mouthClipF"><path d="M-16 -2 h32 a2 2 0 0 1 2 2 v2 a18 15 0 0 1 -36 0 v-2 a2 2 0 0 1 2 -2 Z"/></clipPath>
     <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.35"/>
+      <feDropShadow dx="0" dy="9" stdDeviation="9" flood-color="#04102b" flood-opacity="0.45"/>
     </filter>
   </defs>
 
+  <!-- 대비용 후광 -->
+  <ellipse cx="118" cy="160" rx="150" ry="140" fill="url(#halo)"/>
+  <ellipse cx="320" cy="128" rx="180" ry="110" fill="url(#halo)"/>
+
   <!-- ===== 말풍선 보드 ===== -->
   <g filter="url(#soft)">
-    <rect x="176" y="52" width="272" height="132" rx="30" fill="url(#board)" stroke="#FFD447" stroke-width="5"/>
-    <path d="M196 168 L166 206 L226 178 Z" fill="#0B4C9C" stroke="#FFD447" stroke-width="5" stroke-linejoin="round"/>
-    <rect x="188" y="62" width="248" height="34" rx="17" fill="#FFFFFF" opacity="0.14"/>
-    <text x="312" y="118" text-anchor="middle" font-family="Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="44" font-weight="900" fill="#FFFFFF">더불이 챗봇</text>
-    <text x="312" y="158" text-anchor="middle" font-family="Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="24" font-weight="800" fill="#FFD447">무엇이든 물어봐요! 💬</text>
+    <rect x="184" y="42" width="278" height="140" rx="32" fill="url(#board)" stroke="#FFD447" stroke-width="7"/>
+    <path d="M206 164 L172 210 L238 176 Z" fill="#0B3C82" stroke="#FFD447" stroke-width="7" stroke-linejoin="round"/>
+    <rect x="198" y="54" width="250" height="36" rx="18" fill="#FFFFFF" opacity="0.16"/>
+    <text x="323" y="112" text-anchor="middle" font-family="Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="48" font-weight="900" fill="#FFFFFF" stroke="#062B5E" stroke-width="1.5" paint-order="stroke">더불이 챗봇</text>
+    <text x="323" y="156" text-anchor="middle" font-family="Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="27" font-weight="900" fill="#FFE27A">무엇이든 물어봐요! 💬</text>
   </g>
-  <text x="440" y="46" text-anchor="middle" font-size="30">✨</text>
-  <text x="196" y="34" text-anchor="middle" font-size="24">✨</text>
+  <text x="448" y="38" text-anchor="middle" font-size="32">✨</text>
+  <text x="204" y="28" text-anchor="middle" font-size="25">✨</text>
 
   <!-- ===== 에그 더불이 ===== -->
-  <g transform="translate(8 22) scale(0.93)" filter="url(#soft)">
+  <g transform="translate(4 30) scale(1.02)" filter="url(#soft)">
+    <!-- 바닥 그림자 -->
+    <ellipse cx="102" cy="252" rx="78" ry="13" fill="#04102b" opacity="0.35"/>
     <!-- 날개(뒤) -->
-    <ellipse cx="24" cy="160" rx="18" ry="30" fill="url(#shell)" stroke="#D9AE4E" stroke-width="1.5" transform="rotate(22 24 160)"/>
-    <ellipse cx="176" cy="160" rx="18" ry="30" fill="url(#shell)" stroke="#D9AE4E" stroke-width="1.5" transform="rotate(-42 176 160)"/>
+    <ellipse cx="22" cy="158" rx="19" ry="31" fill="url(#shell)" stroke="#8A5A10" stroke-width="3" transform="rotate(24 22 158)"/>
+    <ellipse cx="182" cy="150" rx="19" ry="31" fill="url(#shell)" stroke="#8A5A10" stroke-width="3" transform="rotate(-46 182 150)"/>
     <!-- 발 -->
-    <ellipse cx="72" cy="243" rx="17" ry="8" fill="url(#foot)"/>
-    <ellipse cx="128" cy="243" rx="17" ry="8" fill="url(#foot)"/>
+    <ellipse cx="70" cy="245" rx="19" ry="9" fill="url(#foot)" stroke="#9C5E06" stroke-width="2.5"/>
+    <ellipse cx="132" cy="245" rx="19" ry="9" fill="url(#foot)" stroke="#9C5E06" stroke-width="2.5"/>
     <!-- 새싹 -->
-    <g transform="translate(100 24) rotate(-4)">
-      <rect x="-5" y="-14" width="10" height="26" rx="5" fill="url(#stem)"/>
-      <path d="M-4 -10 C-30 -26 -34 -2 -12 -2 C-6 -2 -4 -6 -4 -10 Z" fill="url(#leaf)"/>
-      <path d="M4 -10 C30 -26 34 -2 12 -2 C6 -2 4 -6 4 -10 Z" fill="url(#leaf)"/>
-      <circle cx="-18" cy="-16" r="3.4" fill="#EAF7FF" opacity="0.95"/>
+    <g transform="translate(101 22) rotate(-4)">
+      <rect x="-6" y="-15" width="12" height="28" rx="6" fill="url(#stem)" stroke="#1F6B2E" stroke-width="2"/>
+      <path d="M-5 -10 C-34 -28 -38 -1 -13 -1 C-7 -1 -5 -5 -5 -10 Z" fill="url(#leaf)" stroke="#1F6B2E" stroke-width="2.5"/>
+      <path d="M5 -10 C34 -28 38 -1 13 -1 C7 -1 5 -5 5 -10 Z" fill="url(#leaf)" stroke="#1F6B2E" stroke-width="2.5"/>
+      <circle cx="-20" cy="-17" r="3.6" fill="#EAF7FF"/>
     </g>
     <!-- 몸통 -->
-    <path d="M100 20 C146 20 173 84 173 152 C173 205 141 242 100 242 C59 242 27 205 27 152 C27 84 54 20 100 20 Z" fill="url(#shell)"/>
-    <path d="M100 20 C146 20 173 84 173 152 C173 205 141 242 100 242 C120 230 148 204 148 150 C148 90 128 34 100 20 Z" fill="#B8862B" opacity="0.18"/>
-    <ellipse cx="66" cy="72" rx="20" ry="30" fill="#FFFFFF" opacity="0.85" transform="rotate(-22 66 72)"/>
-    <ellipse cx="46" cy="128" rx="7" ry="11" fill="#FFFFFF" opacity="0.5" transform="rotate(-18 46 128)"/>
-    <!-- 눈/볼/입 -->
-    <ellipse cx="74" cy="120" rx="8.5" ry="13" fill="#2A1F16"/>
-    <circle cx="71" cy="114" r="3.2" fill="#FFF"/>
-    <ellipse cx="126" cy="120" rx="8.5" ry="13" fill="#2A1F16"/>
-    <circle cx="123" cy="114" r="3.2" fill="#FFF"/>
-    <ellipse cx="50" cy="144" rx="14" ry="8.5" fill="#FFB3AD" opacity="0.8"/>
-    <ellipse cx="150" cy="144" rx="14" ry="8.5" fill="#FFB3AD" opacity="0.8"/>
-    <g transform="translate(100 150)">
-      <path d="M-14 -2 h28 a2 2 0 0 1 2 2 v2 a16 14 0 0 1 -32 0 v-2 a2 2 0 0 1 2 -2 Z" fill="#8A4B3A"/>
-      <ellipse cx="0" cy="16" rx="10" ry="6" fill="#FF9D94" clip-path="url(#mouthClipF)"/>
+    <path d="M101 18 C149 18 177 84 177 153 C177 208 144 246 101 246 C58 246 25 208 25 153 C25 84 53 18 101 18 Z"
+          fill="url(#shell)" stroke="#8A5A10" stroke-width="4"/>
+    <path d="M101 18 C149 18 177 84 177 153 C177 208 144 246 101 246 C122 233 151 206 151 151 C151 90 130 32 101 18 Z" fill="#B8791C" opacity="0.22"/>
+    <ellipse cx="64" cy="70" rx="21" ry="31" fill="#FFFFFF" opacity="0.9" transform="rotate(-22 64 70)"/>
+    <ellipse cx="44" cy="128" rx="7" ry="12" fill="#FFFFFF" opacity="0.55" transform="rotate(-18 44 128)"/>
+    <!-- 눈 -->
+    <ellipse cx="72" cy="118" rx="10" ry="15" fill="#221709"/>
+    <circle cx="68.5" cy="111" r="4" fill="#FFF"/>
+    <circle cx="76" cy="125" r="2" fill="#FFF" opacity="0.65"/>
+    <ellipse cx="130" cy="118" rx="10" ry="15" fill="#221709"/>
+    <circle cx="126.5" cy="111" r="4" fill="#FFF"/>
+    <circle cx="134" cy="125" r="2" fill="#FFF" opacity="0.65"/>
+    <!-- 볼 -->
+    <ellipse cx="46" cy="145" rx="15" ry="9" fill="#FF9E96" opacity="0.9"/>
+    <ellipse cx="156" cy="145" rx="15" ry="9" fill="#FF9E96" opacity="0.9"/>
+    <!-- 입 -->
+    <g transform="translate(101 148)">
+      <path d="M-16 -2 h32 a2 2 0 0 1 2 2 v2 a18 15 0 0 1 -36 0 v-2 a2 2 0 0 1 2 -2 Z" fill="#7A3D2C" stroke="#5c2c1f" stroke-width="1.5"/>
+      <ellipse cx="0" cy="17" rx="11" ry="7" fill="#FF9D94" clip-path="url(#mouthClipF)"/>
     </g>
     <!-- 목도리 -->
-    <rect x="20" y="182" width="160" height="36" rx="18" fill="url(#scarf)"/>
-    <rect x="24" y="185" width="152" height="10" rx="5" fill="#FFFFFF" opacity="0.22"/>
-    <rect x="146" y="208" width="26" height="32" rx="9" fill="url(#scarf)" transform="rotate(10 159 224)"/>
-    <text x="100" y="207" text-anchor="middle" font-family="Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="19" font-weight="900" fill="#FFD447" letter-spacing="5">더불이</text>
+    <rect x="17" y="184" width="168" height="40" rx="20" fill="url(#scarf)" stroke="#052B5C" stroke-width="3.5"/>
+    <rect x="22" y="188" width="158" height="11" rx="5.5" fill="#FFFFFF" opacity="0.25"/>
+    <rect x="148" y="214" width="28" height="34" rx="10" fill="url(#scarf)" stroke="#052B5C" stroke-width="3" transform="rotate(10 162 231)"/>
+    <text x="101" y="212" text-anchor="middle" font-family="Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="22" font-weight="900" fill="#FFD447" letter-spacing="5" stroke="#052B5C" stroke-width="0.8" paint-order="stroke">더불이</text>
   </g>
 </svg>
