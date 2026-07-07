@@ -129,7 +129,12 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 /* 흔들림 & 파워 변신 */
 .egg-wrap.shake{animation:shakeHard .12s linear infinite}
 @keyframes shakeHard{0%{transform:translate(-3px,1px) rotate(-4deg)}25%{transform:translate(3px,-2px) rotate(3deg)}50%{transform:translate(-4px,2px) rotate(-3deg)}75%{transform:translate(4px,1px) rotate(4deg)}100%{transform:translate(-2px,-1px) rotate(-2deg)}}
-.crack{display:none}
+.crack{position:absolute;left:8%;right:8%;top:46%;height:5px;opacity:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,transparent 0 8px,#7a4a00 8px 20px);
+  clip-path:polygon(0 40%,10% 0,22% 80%,34% 10%,47% 90%,60% 0,72% 75%,85% 15%,100% 60%,100% 100%,0 100%);
+  transition:opacity .15s}
+.egg-wrap.cracked .crack{opacity:1}
+.egg-wrap.cracked .egg{animation:none;transform:scale(1.03)}
 .egg-wrap.power .egg{
   background:
     radial-gradient(circle at 34% 26%,#fffce0 0%,#FFE9A0 18%,transparent 45%),
@@ -287,12 +292,12 @@ footer a{color:inherit}
     <div class="podium"></div>
     <div class="ring"></div><div class="ring r2"></div>
     <button class="egg-wrap" id="eggBtn" onclick="draw()" aria-label="공약 뽑기">
-      <div class="egg" id="egg"><div class="face" id="eggFace">🐣</div></div>
+      <div class="egg" id="egg"><div class="crack"></div><div class="face" id="eggFace">🐣</div></div>
       <span class="lbl" id="eggLbl">공약이 들어있어요!</span>
     </button>
   </div>
 
-  <button class="draw-cta" id="drawBtn" onclick="draw()">🥚 공약 뽑기! <span class="s2" id="drawBtnSub">더불어 함께! 파워 계란으로 변신 — 무제한!</span></button>
+  <button class="draw-cta" id="drawBtn" onclick="draw()">🥚 공약 뽑기! <span class="s2" id="drawBtnSub">작은 계란을 깨고 파워 계란으로 변신! — 무제한</span></button>
 
   <div class="draw-info" id="drawInfo"></div>
   <div class="bonus-tip">💡 마음에 드는 공약을 발견하면 <a href="https://www.xn--4k0b53xuva.com/gongyak.html" target="_blank" rel="noopener">공약집에서 전문</a>을 꼭 읽어보세요 — 카드보다 훨씬 진합니다.</div>
@@ -412,20 +417,22 @@ function draw(){
   if (isNew){ store.collected = [...got, card.n]; }
   lastCard = card;
 
-  // 연출: 기 모으기(흔들) → 파워 계란 변신 → 섬광 → 카드 팡!
+  // 연출: 기 모으기(흔들) → 작은 껍질에 금이 쫙 → 껍질을 깨고 파워 계란 변신! → 섬광 → 카드 팡!
   const ew = $("eggBtn");
   ew.classList.add("shake"); $("eggFace").textContent = "😤";
-  setTimeout(()=>{ ew.classList.remove("shake"); ew.classList.add("power"); $("eggFace").textContent = "😆"; }, 700);
+  setTimeout(()=>{ ew.classList.add("cracked"); $("eggFace").textContent = "😣"; }, 650);
   setTimeout(()=>{
+    ew.classList.remove("shake","cracked");
+    ew.classList.add("power"); $("eggFace").textContent = "😆";
     $("flash").classList.add("on");
     setTimeout(()=> $("flash").classList.remove("on"), 220);
-  }, 1250);
+  }, 1100);
   setTimeout(()=>{
     showCard(card, isNew);
     burst();
     busy = false;
     refresh();
-  }, 1450);
+  }, 1500);
 }
 
 function wobble(){
@@ -545,7 +552,7 @@ function refresh(){
     $("drawInfo").innerHTML = `🏅 25개 완주! 컬렉션에서 <b>공약 마스터 훈장</b>을 확인하세요`;
   } else {
     $("eggLbl").textContent = "공약이 들어있어요!";
-    btn.innerHTML = `🥚 공약 뽑기! <span class="s2">더불어 함께! 파워 계란으로 변신 — 무제한!</span>`;
+    btn.innerHTML = `🥚 공약 뽑기! <span class="s2">작은 계란을 깨고 파워 계란으로 변신! — 무제한</span>`;
     $("drawInfo").innerHTML = `남은 공약 <b>${25-got2}개</b> — 다음 계란엔 어떤 약속이?`;
   }
 }
