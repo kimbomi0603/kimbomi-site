@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>공약 뽑기 🥚 — 김보미의 25개 약속</title>
+<meta name="description" content="계란 하나에 공약 하나! 황금 계란을 깨고 김보미의 25개 약속을 모아보세요. 전부 모으면 공약 마스터 등극!">
+<meta property="og:title" content="🥚 공약 뽑기 — 계란 하나에 공약 하나">
+<meta property="og:description" content="황금 계란을 깨면 김보미의 공약 카드가! 25장을 모두 모아 공약 마스터가 되어보세요.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --blue:#004EA2; --deep:#081A44; --yellow:#FFD447; --gold:#FFC93C; --ink:#0E1B3D;
+  --c1:#37A6FF; --c2:#2458D6; --c3:#FF9F2E; --c4:#9B5CFF; --c5:#2ED8A7;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  color:#fff;min-height:100dvh;overflow-x:hidden;
+  background:
+    radial-gradient(900px 600px at 80% -10%,#1b4ea8 0%,transparent 55%),
+    radial-gradient(800px 600px at -10% 100%,#41156a 0%,transparent 50%),
+    linear-gradient(165deg,#050f2e 0%,#081A44 45%,#0e2a6e 100%);
+}
+/* 별 배경 */
+.stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.stars i{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;opacity:.6;animation:tw 3s infinite}
+@keyframes tw{50%{opacity:.1;transform:scale(.6)}}
+.wrap{position:relative;z-index:2;max-width:560px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;padding:18px 16px calc(24px + env(safe-area-inset-bottom))}
+
+/* ---------- 헤더 ---------- */
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.brand{font-size:13px;font-weight:800;display:flex;gap:6px;align-items:center}
+.brand .chip{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:4px 12px;backdrop-filter:blur(6px)}
+.coll-btn{border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:900;color:var(--ink);
+  background:linear-gradient(180deg,#FFE27A,var(--yellow));border-radius:999px;padding:8px 14px;
+  box-shadow:0 4px 0 #c99a12;transition:.12s}
+.coll-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #c99a12}
+
+/* ---------- 메인 ---------- */
+.title{text-align:center;margin:10px 0 4px}
+.title h1{font-size:clamp(26px,7vw,34px);font-weight:900;letter-spacing:-.02em;line-height:1.25}
+.title h1 b{color:var(--yellow)}
+.title p{font-size:14px;opacity:.85;margin-top:6px;font-weight:600}
+.progress-pill{margin:12px auto 0;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:8px 16px;font-size:13.5px;font-weight:800;width:fit-content}
+.progress-pill .bar{width:110px;height:8px;border-radius:99px;background:rgba(0,0,0,.35);overflow:hidden}
+.progress-pill .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--c1),var(--yellow));transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.progress-pill .n{color:var(--yellow)}
+
+/* ---------- 3D 계란 무대 ---------- */
+.stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;perspective:900px;min-height:340px;position:relative}
+.podium{
+  position:absolute;bottom:8%;width:230px;height:56px;border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(77,163,255,.55),rgba(77,163,255,.08) 65%,transparent 70%);
+  transform:rotateX(65deg);filter:blur(2px);
+  animation:podPulse 2.6s ease-in-out infinite;
+}
+@keyframes podPulse{50%{opacity:.55;transform:rotateX(65deg) scale(.92)}}
+.ring{position:absolute;bottom:10%;width:250px;height:66px;border-radius:50%;border:2px solid rgba(255,212,71,.5);transform:rotateX(70deg);animation:spinRing 8s linear infinite}
+.ring.r2{width:300px;height:82px;border-color:rgba(77,163,255,.35);animation-duration:13s;animation-direction:reverse}
+@keyframes spinRing{to{transform:rotateX(70deg) rotate(360deg)}}
+
+.egg-wrap{position:relative;transform-style:preserve-3d;animation:floatY 3s ease-in-out infinite;cursor:pointer;border:none;background:none;padding:0}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+.egg{
+  width:170px;height:215px;position:relative;
+  background:
+    radial-gradient(circle at 34% 26%,#fff8d8 0%,#ffe793 18%,transparent 45%),
+    radial-gradient(circle at 62% 80%,#c98a00 0%,transparent 55%),
+    linear-gradient(160deg,#FFE58A 0%,#FFC93C 48%,#E8A200 100%);
+  border-radius:50% 50% 50% 50% / 60% 60% 42% 42%;
+  box-shadow:
+    inset -14px -18px 34px rgba(160,90,0,.45),
+    inset 12px 14px 30px rgba(255,255,255,.55),
+    0 30px 60px rgba(0,0,0,.55),
+    0 0 90px rgba(255,201,60,.4);
+  animation:eggSpin 7s ease-in-out infinite;
+}
+@keyframes eggSpin{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.egg::after{content:"";position:absolute;top:14%;left:20%;width:34px;height:58px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(255,255,255,.95),transparent 70%);transform:rotate(-24deg)}
+.egg .face{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);font-size:34px;filter:drop-shadow(0 2px 3px rgba(120,60,0,.4))}
+.egg-wrap .lbl{
+  position:absolute;left:50%;top:-52px;transform:translateX(-50%);white-space:nowrap;
+  font-size:15px;font-weight:900;color:var(--ink);
+  background:linear-gradient(180deg,#fff,#FFE27A);padding:8px 18px;border-radius:999px;
+  box-shadow:0 6px 18px rgba(0,0,0,.45),0 0 24px rgba(255,212,71,.55);
+  animation:lblBob 1.2s ease-in-out infinite;
+}
+.egg-wrap .lbl::after{content:"";position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);
+  border:8px solid transparent;border-top-color:#FFE27A;border-bottom:0}
+@keyframes lblBob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-7px)}}
+@keyframes pulse{50%{opacity:.35}}
+
+/* 🥚 대형 뽑기 CTA 버튼 */
+.draw-cta{
+  position:relative;display:block;width:min(360px,88vw);margin:30px auto 0;border:none;cursor:pointer;font-family:inherit;
+  font-size:21px;font-weight:900;color:var(--ink);letter-spacing:-.01em;
+  background:linear-gradient(180deg,#FFEB9C,#FFD447 55%,#F5B90A);
+  padding:19px 22px;border-radius:20px;overflow:hidden;
+  box-shadow:0 10px 0 #b8890e,0 24px 44px rgba(0,0,0,.45),0 0 44px rgba(255,212,71,.5);
+  animation:ctaPulse 1.6s ease-in-out infinite;
+  transition:transform .12s,box-shadow .12s,filter .3s;
+}
+.draw-cta:active{transform:translateY(7px);box-shadow:0 3px 0 #b8890e,0 10px 18px rgba(0,0,0,.35)}
+.draw-cta .s2{display:block;font-size:12.5px;font-weight:800;opacity:.75;margin-top:3px}
+.draw-cta::after{content:"";position:absolute;top:0;bottom:0;left:-80%;width:50%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.75),transparent);
+  transform:skewX(-20deg);animation:ctaShine 2.2s ease-in-out infinite}
+@keyframes ctaShine{0%,55%{left:-80%}100%{left:130%}}
+@keyframes ctaPulse{0%,100%{transform:scale(1);box-shadow:0 10px 0 #b8890e,0 24px 44px rgba(0,0,0,.45),0 0 30px rgba(255,212,71,.35)}
+  50%{transform:scale(1.035);box-shadow:0 10px 0 #b8890e,0 24px 44px rgba(0,0,0,.45),0 0 60px rgba(255,212,71,.75)}}
+.draw-cta.off{
+  animation:none;cursor:default;color:#fff;
+  background:linear-gradient(180deg,#3a4a75,#232f55);
+  box-shadow:0 8px 0 #101a38,0 16px 30px rgba(0,0,0,.4);filter:none;
+}
+.draw-cta.off::after{display:none}
+.draw-cta.off .s2{opacity:.85;color:#8fc2ff}
+/* 흔들림 & 크랙 */
+.egg-wrap.shake{animation:shakeHard .12s linear infinite}
+@keyframes shakeHard{0%{transform:translate(-3px,1px) rotate(-4deg)}25%{transform:translate(3px,-2px) rotate(3deg)}50%{transform:translate(-4px,2px) rotate(-3deg)}75%{transform:translate(4px,1px) rotate(4deg)}100%{transform:translate(-2px,-1px) rotate(-2deg)}}
+.crack{position:absolute;left:8%;right:8%;top:46%;height:4px;opacity:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,transparent 0 8px,#7a4a00 8px 20px);
+  clip-path:polygon(0 40%,10% 0,22% 80%,34% 10%,47% 90%,60% 0,72% 75%,85% 15%,100% 60%,100% 100%,0 100%);
+  transition:opacity .2s}
+.egg-wrap.cracked .crack{opacity:1}
+.flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:40;transition:opacity .18s}
+.flash.on{opacity:1}
+
+.draw-info{text-align:center;margin-top:52px;font-size:13.5px;font-weight:700;opacity:.85;line-height:1.6}
+.draw-info b{color:var(--yellow)}
+.cd{font-variant-numeric:tabular-nums;font-weight:900;color:#8fc2ff}
+
+.bonus-tip{margin:14px auto 0;max-width:420px;text-align:center;font-size:13px;line-height:1.6;
+  background:rgba(255,212,71,.1);border:1px dashed rgba(255,212,71,.5);border-radius:14px;padding:11px 14px}
+.bonus-tip a{color:var(--yellow);font-weight:900;text-decoration:underline}
+
+/* ---------- 카드 리빌 오버레이 ---------- */
+.overlay{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;flex-direction:column;padding:20px;
+  background:rgba(4,10,32,.88);backdrop-filter:blur(10px)}
+.overlay.on{display:flex;animation:fadeIn .3s both}
+@keyframes fadeIn{from{opacity:0}}
+.rays{position:absolute;left:50%;top:44%;width:900px;height:900px;transform:translate(-50%,-50%);pointer-events:none;opacity:.55;
+  background:conic-gradient(from 0deg,transparent 0deg 12deg,rgba(255,212,71,.28) 12deg 20deg,transparent 20deg 42deg,rgba(77,163,255,.22) 42deg 50deg,transparent 50deg 72deg,rgba(255,212,71,.28) 72deg 80deg,transparent 80deg 102deg,rgba(77,163,255,.22) 102deg 110deg,transparent 110deg 132deg,rgba(255,212,71,.28) 132deg 140deg,transparent 140deg 162deg,rgba(77,163,255,.22) 162deg 170deg,transparent 170deg 192deg,rgba(255,212,71,.28) 192deg 200deg,transparent 200deg 222deg,rgba(77,163,255,.22) 222deg 230deg,transparent 230deg 252deg,rgba(255,212,71,.28) 252deg 260deg,transparent 260deg 282deg,rgba(77,163,255,.22) 282deg 290deg,transparent 290deg 312deg,rgba(255,212,71,.28) 312deg 320deg,transparent 320deg 342deg,rgba(77,163,255,.22) 342deg 350deg,transparent 350deg 360deg);
+  animation:rot 14s linear infinite;border-radius:50%}
+@keyframes rot{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.new-badge{position:relative;z-index:2;font-size:15px;font-weight:900;color:var(--ink);background:linear-gradient(180deg,#fff,var(--yellow));
+  padding:7px 22px;border-radius:999px;margin-bottom:16px;box-shadow:0 0 30px rgba(255,212,71,.8);
+  animation:badgeIn .5s cubic-bezier(.2,1.8,.4,1) .75s both}
+@keyframes badgeIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+
+.scene{perspective:1200px;position:relative;z-index:2}
+.pcard{
+  width:min(310px,80vw);aspect-ratio:63/88;border-radius:22px;position:relative;transform-style:preserve-3d;
+  animation:cardIn 1s cubic-bezier(.25,.9,.3,1.1) both;
+  transition:transform .15s ease-out;
+}
+/* ✨ 금빛 테두리 프레임 + 글로우 */
+.pcard::before{
+  content:"";position:absolute;inset:-5px;border-radius:27px;z-index:0;
+  background:linear-gradient(120deg,#8a5a00,#FFE27A,#FFC93C,#fff6c9,#e0a400,#FFE27A,#8a5a00);
+  background-size:300% 300%;
+  animation:goldFlow 3.2s linear infinite;
+}
+.pcard::after{
+  content:"";position:absolute;inset:-10px;border-radius:32px;z-index:-1;
+  background:linear-gradient(120deg,#FFE27A,#FFC93C,#fff6c9,#FFD447);
+  background-size:300% 300%;filter:blur(20px);
+  animation:goldFlow 3.2s linear infinite,goldPulse 2s ease-in-out infinite;
+}
+@keyframes goldFlow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+@keyframes goldPulse{0%,100%{opacity:.75}50%{opacity:.35}}
+@keyframes cardIn{0%{transform:rotateY(540deg) scale(.1) translateY(160px);opacity:0}60%{opacity:1}100%{transform:rotateY(0) scale(1) translateY(0)}}
+.pcard .inner{
+  position:absolute;inset:0;border-radius:22px;overflow:hidden;display:flex;flex-direction:column;align-items:center;
+  background:linear-gradient(168deg,var(--cc1,#37A6FF) 0%,var(--cc2,#2458D6) 100%);
+  box-shadow:0 34px 68px rgba(0,0,0,.6),0 0 46px rgba(255,201,60,.45),inset 0 0 0 2px rgba(255,226,150,.55),inset 0 0 26px rgba(255,214,90,.18);
+  padding:22px 20px;color:#fff;z-index:1;
+}
+/* 홀로그램 포일 */
+.foil{position:absolute;inset:0;border-radius:22px;pointer-events:none;mix-blend-mode:color-dodge;opacity:.5;z-index:2;
+  background:linear-gradient(115deg,transparent 20%,rgba(255,120,200,.5) 36%,rgba(120,255,230,.55) 46%,rgba(255,230,120,.55) 56%,transparent 74%);
+  background-size:250% 250%;background-position:var(--fx,50%) var(--fy,50%)}
+.glare{position:absolute;inset:0;border-radius:22px;pointer-events:none;z-index:2;
+  background:radial-gradient(circle at var(--gx,50%) var(--gy,30%),rgba(255,255,255,.5),transparent 55%);opacity:.6}
+.pcard .cat{width:100%;font-size:12px;font-weight:900;letter-spacing:.02em;display:flex;justify-content:space-between;align-items:center}
+.pcard .cat .no{font-size:15px;background:rgba(0,0,0,.28);padding:3px 12px;border-radius:99px;box-shadow:inset 0 0 0 1px rgba(255,226,150,.45)}
+.pcard .emoji{font-size:64px;text-align:center;margin:auto 0 10px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.35))}
+.pcard .divider{width:56px;height:3px;border-radius:99px;margin:0 auto 12px;
+  background:linear-gradient(90deg,transparent,#FFE27A,#fff6c9,#FFE27A,transparent);
+  box-shadow:0 0 10px rgba(255,214,90,.6)}
+.pcard h2{width:100%;text-align:center;font-size:20px;font-weight:900;line-height:1.4;letter-spacing:-.01em;text-shadow:0 2px 8px rgba(0,0,0,.3);word-break:keep-all}
+.pcard .sub{width:100%;text-align:center;font-size:13.5px;line-height:1.6;margin-top:10px;opacity:.94;font-weight:600;word-break:keep-all}
+.pcard .foot{width:100%;margin-top:auto;padding-top:14px;font-size:11.5px;font-weight:800;opacity:.9;display:flex;justify-content:space-between;align-items:center}
+.pcard .foot .star{color:#FFE27A;text-shadow:0 0 8px rgba(255,214,90,.7)}
+.rv-btns{position:relative;z-index:2;display:flex;flex-direction:column;gap:10px;width:min(330px,84vw);margin-top:22px;
+  animation:fadeUp .5s 1.15s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.btn{display:block;width:100%;border:none;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;
+  font-size:16.5px;font-weight:900;color:var(--ink);background:linear-gradient(180deg,#FFE27A,var(--yellow));
+  padding:15px 18px;border-radius:15px;box-shadow:0 7px 0 #c99a12,0 16px 28px rgba(0,0,0,.35);transition:.12s}
+.btn:active{transform:translateY(5px);box-shadow:0 2px 0 #c99a12}
+.btn.blue{color:#fff;background:linear-gradient(180deg,#2f77d8,var(--blue));box-shadow:0 7px 0 #032a63,0 16px 28px rgba(0,0,0,.35)}
+.btn.blue:active{box-shadow:0 2px 0 #032a63}
+.btn.ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.35);box-shadow:none;font-weight:700;font-size:14.5px;padding:12px}
+.btn.ghost:active{transform:scale(.98)}
+.btn .mini{display:block;font-size:11.5px;font-weight:700;opacity:.75;margin-top:2px}
+
+/* ---------- 컬렉션 ---------- */
+.overlay .panel{position:relative;z-index:2;width:min(520px,94vw);max-height:86dvh;overflow-y:auto;border-radius:24px;
+  background:linear-gradient(170deg,#0d2456,#081A44);border:1px solid rgba(255,255,255,.16);padding:22px 18px;
+  box-shadow:0 30px 60px rgba(0,0,0,.6)}
+.panel h3{font-size:20px;font-weight:900;text-align:center}
+.panel .pdesc{text-align:center;font-size:13px;opacity:.8;margin:6px 0 16px;line-height:1.5}
+.panel .pdesc b{color:var(--yellow)}
+.cat-h{font-size:13px;font-weight:900;margin:16px 0 8px;display:flex;align-items:center;gap:7px}
+.cat-h .sw{width:11px;height:11px;border-radius:3px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.cell{aspect-ratio:3/4;border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  font-size:10px;font-weight:800;cursor:pointer;border:none;font-family:inherit;color:#fff;padding:4px;text-align:center;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);transition:transform .15s}
+.cell .n{font-size:13px;font-weight:900;opacity:.55}
+.cell.got{background:linear-gradient(165deg,var(--cc1),var(--cc2));border-color:rgba(255,255,255,.35);box-shadow:0 4px 14px rgba(0,0,0,.4)}
+.cell.got:hover{transform:translateY(-3px) scale(1.05)}
+.cell .em{font-size:17px}
+.cell.lock{opacity:.55}
+.close-x{position:absolute;top:14px;right:14px;z-index:3;width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;
+  background:rgba(255,255,255,.14);color:#fff;font-size:16px;font-weight:900}
+
+/* 완성 축하 */
+.master{text-align:center;padding:10px 0 4px}
+.master .tr{font-size:64px;animation:floatY 2.5s ease-in-out infinite}
+.master h3{font-size:24px;color:var(--yellow)}
+.master p{font-size:14px;opacity:.9;margin:10px 0 16px;line-height:1.6}
+
+/* 파티클 */
+.pt{position:fixed;z-index:45;pointer-events:none;font-size:18px;animation:ptFly 1.4s ease-out forwards}
+@keyframes ptFly{from{transform:translate(0,0) rotate(0);opacity:1}to{transform:translate(var(--dx),var(--dy)) rotate(var(--rot));opacity:0}}
+.toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(20px);background:rgba(10,20,50,.94);border:1px solid rgba(255,255,255,.25);
+  color:#fff;font-size:14px;font-weight:700;padding:12px 22px;border-radius:99px;opacity:0;transition:.3s;z-index:60;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+footer{text-align:center;font-size:11.5px;opacity:.5;margin-top:16px;line-height:1.6}
+footer a{color:inherit}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<div class="flash" id="flash"></div>
+
+<div class="wrap">
+  <header>
+    <div class="brand"><span class="chip">🥚 김보미.com</span></div>
+    <button class="coll-btn" onclick="openCollection()">📚 컬렉션 <span id="collCnt">0</span>/25</button>
+  </header>
+
+  <div class="title">
+    <h1>🥚 <b>공약 뽑기</b></h1>
+    <p>계란 하나에 공약 하나 — 25개를 모두 모아보세요!</p>
+    <div class="progress-pill">
+      <span>수집률</span>
+      <span class="bar"><i id="pbar"></i></span>
+      <span class="n" id="pct">0%</span>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="podium"></div>
+    <div class="ring"></div><div class="ring r2"></div>
+    <button class="egg-wrap" id="eggBtn" onclick="draw()" aria-label="공약 뽑기">
+      <div class="egg" id="egg"><div class="crack"></div><div class="face" id="eggFace">🐣</div></div>
+      <span class="lbl" id="eggLbl">오늘의 공약이 들어있어요!</span>
+    </button>
+  </div>
+
+  <button class="draw-cta" id="drawBtn" onclick="draw()">🥚 공약 뽑기! <span class="s2" id="drawBtnSub">계란을 깨고 약속을 확인하세요 — 무제한!</span></button>
+
+  <div class="draw-info" id="drawInfo"></div>
+  <div class="bonus-tip">💡 마음에 드는 공약을 발견하면 <a href="https://www.xn--4k0b53xuva.com/gongyak.html" target="_blank" rel="noopener">공약집에서 전문</a>을 꼭 읽어보세요 — 카드보다 훨씬 진합니다.</div>
+
+  <footer>© 2026 김보미 · 더불어민주당 당대표 후보 · <a href="https://www.xn--4k0b53xuva.com/">김보미.com</a><br>5대 분야 25개 약속 — <a href="https://www.xn--4k0b53xuva.com/gongyak.html">공약집 전체 보기</a></footer>
+</div>
+
+<!-- 카드 리빌 -->
+<div class="overlay" id="ovCard">
+  <div class="rays"></div>
+  <div class="new-badge" id="newBadge">✨ NEW! 공약 획득 ✨</div>
+  <div class="scene">
+    <div class="pcard" id="pcard">
+      <div class="inner" id="cardInner">
+        <div class="cat"><span id="cCat"></span><span class="no" id="cNo"></span></div>
+        <div class="emoji" id="cEmoji"></div>
+        <div class="divider"></div>
+        <h2 id="cTitle"></h2>
+        <div class="sub" id="cSub"></div>
+        <div class="foot"><span>김보미의 25개 약속</span><span class="star">★ 모든 공약은 SSR</span></div>
+      </div>
+      <div class="foil" id="foil"></div>
+      <div class="glare" id="glare"></div>
+    </div>
+  </div>
+  <div class="rv-btns">
+    <a class="btn" id="readBtn" href="https://www.xn--4k0b53xuva.com/gongyak.html" target="_blank" rel="noopener">📖 이 공약 전문 읽기 → <span class="mini">카드는 요약본, 진짜는 공약집에!</span></a>
+    <button class="btn blue" onclick="shareCard()">📢 카드 자랑하기</button>
+    <button class="btn ghost" onclick="closeOverlays()">닫기</button>
+  </div>
+</div>
+
+<!-- 컬렉션 -->
+<div class="overlay" id="ovColl">
+  <div class="panel">
+    <button class="close-x" onclick="closeOverlays()">✕</button>
+    <div id="masterBox"></div>
+    <h3>📚 나의 공약 컬렉션</h3>
+    <p class="pdesc"><b id="collCnt2">0</b> / 25 수집 — 카드를 누르면 다시 볼 수 있어요.<br>빈 칸은 다음 계란 속에! 계속 뽑아보세요 🥚</p>
+    <div id="collGrid"></div>
+    <div style="margin-top:18px;display:flex;flex-direction:column;gap:10px">
+      <a class="btn" href="https://www.xn--4k0b53xuva.com/gongyak.html" target="_blank" rel="noopener">📘 공약집에서 한 번에 몰아보기 →</a>
+      <button class="btn blue" onclick="shareColl()">📢 내 컬렉션 공유하기</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   공약 뽑기 — 김보미의 25개 약속
+   ---------------------------------------------------------
+   · 무제한 뽑기, 중복 없이 25개 수집 (localStorage)
+   · 25개 완주 후에는 랜덤 재감상 모드
+   · 통계 수집이 필요하면 draw() 내부에 서버 POST 한 줄만
+     추가하면 됩니다.
+   ========================================================= */
+
+const CATS = [
+  {name:"유리상자 경선", c1:"#37A6FF", c2:"#1E63C4", glow:"rgba(77,163,255,.55)"},
+  {name:"진짜 1인 1표",   c1:"#4D7CFF", c2:"#2437B8", glow:"rgba(90,110,255,.55)"},
+  {name:"청년 결정권",   c1:"#FFB13C", c2:"#E86A1E", glow:"rgba(255,160,50,.55)"},
+  {name:"미래 설계 정당", c1:"#B06CFF", c2:"#6A2ED6", glow:"rgba(160,100,255,.55)"},
+  {name:"성장 사다리 정당",c1:"#2ED8A7", c2:"#0E9C74", glow:"rgba(46,216,167,.55)"},
+];
+const P = [
+ // 1. 유리상자 경선
+ {n:1, cat:0, em:"🔍", t:"경선 결과 전량 공개 — 48시간 룰", s:"모든 당내 경선의 선거인 수·투표자 수·득표수를 48시간 내 의무 공개합니다."},
+ {n:2, cat:0, em:"🧊", t:"경선 룰 D-180 동결제", s:"경선 규칙은 선거 180일 전 확정하고, 이후에는 전당원 투표로만 바꿀 수 있습니다."},
+ {n:3, cat:0, em:"⚖️", t:"가산·감산 사전 확정·소명 의무제", s:"가산·감산 기준은 경선 공고와 동시에 수치까지 공표하고, 감산에는 증거와 소명 기회를 의무화합니다."},
+ {n:4, cat:0, em:"🎙️", t:"경선 토론 의무제 + 전량 아카이브", s:"모든 공직 후보 경선에 최소 1회 공개 토론을 의무화하고, 영상을 전량 공개 보관합니다."},
+ {n:5, cat:0, em:"🛡️", t:"공정경선 옴부즈맨 상설화", s:"외부 인사가 절반 이상 참여하는 상설 감독기구가 경선의 공정을 지킵니다."},
+ // 2. 진짜 1인 1표
+ {n:6, cat:1, em:"🪪", t:"권리당원 실명·거주 인증제", s:"본인인증과 주소지 검증으로 유령·동원 당원 구조를 정리합니다."},
+ {n:7, cat:1, em:"🗳️", t:"상시 정책투표 플랫폼 「당원국회」", s:"분기마다 주요 정책·당론을 전 당원 표결에 부치고, 지도부가 공개 답변합니다."},
+ {n:8, cat:1, em:"✍️", t:"당원 1만인 발의제", s:"권리당원 1만 명이 서명한 안건은 당무위원회에 자동 상정됩니다."},
+ {n:9, cat:1, em:"💳", t:"당비 실시간 공개 대시보드", s:"당원의 돈이 어디에 쓰이는지, 당원이 직접 봅니다."},
+ {n:10,cat:1, em:"🎪", t:"한국형 알메달렌 — 전당원 토론 주간", s:"당대표부터 평당원까지, 직급 없이 토론하는 개방형 정치 축제를 만듭니다."},
+ // 3. 청년 결정권
+ {n:11,cat:2, em:"🚀", t:"청년 공천 목표제 + 청년정치펀드", s:"지역구 공천의 일정 비율을 2030에 배정하고, 도전 비용을 당이 함께 집니다."},
+ {n:12,cat:2, em:"💰", t:"청년 예산 의결권 10%", s:"당 예산의 10%를 청년 당원 기구가 직접 편성·집행·평가합니다."},
+ {n:13,cat:2, em:"🎯", t:"청년 선택권 — 최우선 공약, 청년이 뽑는다", s:"매년 청년 당원 투표로 당의 청년 분야 최우선 정책 3개를 직접 선정합니다."},
+ {n:14,cat:2, em:"🏆", t:"청년 정책 오디션 — 채택되면 법이 된다", s:"공개 토론으로 겨루는 정책 오디션, 최우수작은 당론 입법으로 추진합니다."},
+ {n:15,cat:2, em:"🪂", t:"낙선 청년 재도전 안전망", s:"낙선이 청년 정치인생의 끝이 되지 않도록, 경력의 다리를 놓습니다."},
+ // 4. 미래 설계 정당
+ {n:16,cat:3, em:"🧠", t:"당 미래전략원 신설 — 민간 전문가 절반", s:"AI·기후·지방소멸·인구를 전담하는 상설 싱크탱크를 계파 무풍지대로 만듭니다."},
+ {n:17,cat:3, em:"🏭", t:"미래 일자리 창출 메가 프로젝트", s:"하청의 시대를 끝냅니다. 공정한 일자리·질 좋은 일자리·꿈꾸는 일자리, 세 개의 기둥으로 제조업을 다시 위대하게."},
+ {n:18,cat:3, em:"🤖", t:"AI 대전환 3대 약속", s:"노동전환·기본 AI·소버린 AI — 버텨내는 삶에서 올라타는 삶으로, AI 격차 없는 대한민국으로."},
+ {n:19,cat:3, em:"🏛️", t:"개혁의 완수 — 검·경 견제, 선관위 개혁, 개헌 국민투표", s:"계속 외치는 개혁이 아니라 끝내는 개혁. 시한을 박고 완수합니다."},
+ {n:20,cat:3, em:"📱", t:"디지털 정당 전환 — 손안의 정당으로", s:"당원 앱 하나로 투표·발의·토론·당비 확인까지 가능한 정당을 만듭니다."},
+ // 5. 성장 사다리 정당
+ {n:21,cat:4, em:"🪜", t:"풀뿌리 성장 사다리 — 열여섯부터 국회까지", s:"청소년기부터 기초·광역의원을 거쳐 국회까지, 첫 칸부터 국회로 이어지는 성장 사다리를 놓습니다."},
+ {n:22,cat:4, em:"🥊", t:"공정 경쟁 공천 — 현역도 신인도 같은 링 위에서", s:"전략공천은 최소화하고 원칙적 경선을 명문화합니다. 물갈이가 아니라 링의 공정성입니다."},
+ {n:23,cat:4, em:"🎖️", t:"명예 퇴장 예우제", s:"스스로 물러나는 중진에게 명예로운 역할 전환을 공식 보장합니다."},
+ {n:24,cat:4, em:"📦", t:"공천 유리상자 — 결과 공표 + 과정 보고", s:"공천 결과의 세대·성별 분포 공표에 더해, 지역구별 공천 과정 보고서를 의무화합니다."},
+ {n:25,cat:4, em:"🚪", t:"인사 대개방 — 실력이 이기는 공직", s:"당 사무처 블라인드 공채부터 정부 주요 보직 진짜 개방 공모까지, 인사의 문을 엽니다."},
+];
+
+const $ = id => document.getElementById(id);
+const store = {
+  get collected(){ try{ return JSON.parse(localStorage.getItem("bomi_g_col")||"[]"); }catch(e){ return []; } },
+  set collected(v){ localStorage.setItem("bomi_g_col", JSON.stringify(v)); },
+};
+
+let busy = false, lastCard = null;
+
+/* ---------- 뽑기 ---------- */
+function draw(){
+  if (busy) return;
+  busy = true;
+
+  const got = store.collected;
+  const pool = P.filter(p => !got.includes(p.n));
+  const card = (pool.length ? pool : P)[Math.floor(Math.random() * (pool.length ? pool.length : P.length))];
+  const isNew = pool.length > 0;
+  if (isNew){ store.collected = [...got, card.n]; }
+  lastCard = card;
+
+  // 연출: 흔들 → 크랙 → 플래시 → 카드
+  const ew = $("eggBtn");
+  ew.classList.add("shake"); $("eggFace").textContent = "😣";
+  setTimeout(()=> ew.classList.add("cracked"), 700);
+  setTimeout(()=>{
+    $("flash").classList.add("on");
+    setTimeout(()=> $("flash").classList.remove("on"), 220);
+  }, 1150);
+  setTimeout(()=>{
+    ew.classList.remove("shake","cracked"); $("eggFace").textContent = "🐣";
+    showCard(card, isNew);
+    burst();
+    busy = false;
+    refresh();
+  }, 1350);
+}
+
+function wobble(){
+  const ew = $("eggBtn");
+  ew.classList.add("shake");
+  setTimeout(()=> ew.classList.remove("shake"), 300);
+}
+
+function showCard(card, isNew){
+  const c = CATS[card.cat];
+  const inner = $("cardInner");
+  inner.style.setProperty("--cc1", c.c1);
+  inner.style.setProperty("--cc2", c.c2);
+  $("pcard").parentElement.parentElement.style.setProperty("--glow", c.glow);
+  inner.style.boxShadow = `0 34px 68px rgba(0,0,0,.6),0 0 60px ${c.glow},0 0 46px rgba(255,201,60,.45),inset 0 0 0 2px rgba(255,226,150,.55),inset 0 0 26px rgba(255,214,90,.18)`;
+  $("cCat").textContent = "제" + (card.cat+1) + "분야 · " + c.name;
+  $("cNo").textContent = "No." + String(card.n).padStart(2,"0");
+  $("cEmoji").textContent = card.em;
+  $("cTitle").textContent = card.t;
+  $("cSub").textContent = card.s;
+  $("newBadge").textContent = isNew ? "✨ NEW! 공약 획득 ✨" : "🔁 다시 만난 공약 (전부 모으셨어요!)";
+  // 애니메이션 재시작
+  const pc = $("pcard");
+  pc.style.animation = "none"; pc.offsetHeight; pc.style.animation = "";
+  $("ovCard").classList.add("on");
+}
+
+/* ---------- 홀로 틸트 ---------- */
+const pc = document.getElementById("pcard");
+function tilt(x, y){
+  const r = pc.getBoundingClientRect();
+  const px = (x - r.left) / r.width, py = (y - r.top) / r.height;
+  pc.style.transform = `rotateY(${(px-.5)*26}deg) rotateX(${(py-.5)*-26}deg)`;
+  $("foil").style.setProperty("--fx", (px*100)+"%");
+  $("foil").style.setProperty("--fy", (py*100)+"%");
+  $("glare").style.setProperty("--gx", (px*100)+"%");
+  $("glare").style.setProperty("--gy", (py*100)+"%");
+}
+pc.addEventListener("pointermove", e => tilt(e.clientX, e.clientY));
+pc.addEventListener("pointerleave", ()=> pc.style.transform = "");
+
+/* ---------- 파티클 ---------- */
+function burst(){
+  const icons = ["🥚","✨","💙","⭐","🎉"];
+  const cx = innerWidth/2, cy = innerHeight/2.4;
+  for (let i=0;i<26;i++){
+    const s = document.createElement("span");
+    s.className = "pt"; s.textContent = icons[i % icons.length];
+    const ang = Math.random()*Math.PI*2, d = 90+Math.random()*220;
+    s.style.left = cx+"px"; s.style.top = cy+"px";
+    s.style.setProperty("--dx", Math.cos(ang)*d+"px");
+    s.style.setProperty("--dy", Math.sin(ang)*d - 60+"px");
+    s.style.setProperty("--rot", (Math.random()*720-360)+"deg");
+    document.body.appendChild(s);
+    setTimeout(()=> s.remove(), 1500);
+  }
+}
+
+/* ---------- 컬렉션 ---------- */
+function openCollection(){
+  const got = store.collected;
+  $("collCnt2").textContent = got.length;
+  $("masterBox").innerHTML = got.length >= 25
+    ? `<div class="master"><div class="tr">🏅</div><h3>공약 마스터 등극!</h3><p>25개 약속을 모두 모으셨습니다.<br>이제 '뽑고 싶은 민주당'을 함께 만들 시간 — 공유로 완주를 자랑해 주세요!</p></div>` : "";
+  $("collGrid").innerHTML = CATS.map((c,ci)=>{
+    const cells = P.filter(p=>p.cat===ci).map(p=>{
+      const has = got.includes(p.n);
+      return has
+        ? `<button class="cell got" style="--cc1:${c.c1};--cc2:${c.c2}" onclick='reviewCard(${p.n})'><span class="em">${p.em}</span>${p.t.split("—")[0].trim().slice(0,14)}</button>`
+        : `<button class="cell lock" onclick="toast('다음 계란 속에 잠들어 있어요 — 계속 뽑아보세요 🥚')"><span class="n">${String(p.n).padStart(2,"0")}</span>🔒</button>`;
+    }).join("");
+    return `<div class="cat-h"><span class="sw" style="background:${c.c1}"></span>${ci+1}. ${c.name}</div><div class="grid">${cells}</div>`;
+  }).join("");
+  $("ovColl").classList.add("on");
+}
+function reviewCard(n){
+  closeOverlays();
+  const card = P.find(p=>p.n===n);
+  lastCard = card;
+  showCard(card, false);
+  $("newBadge").textContent = "📖 컬렉션 다시 보기";
+}
+
+/* ---------- 공유 ---------- */
+function shareCard(){
+  const c = lastCard;
+  const text = `🥚 공약 뽑기!\n[No.${String(c.n).padStart(2,"0")}] ${c.t}\n— 김보미의 25개 약속 중 ${store.collected.length}개 수집!\n너도 뽑아볼래? 👉`;
+  doShare(text);
+}
+function shareColl(){
+  const n = store.collected.length;
+  const text = n >= 25
+    ? `🏅 공약 마스터 등극!\n김보미의 25개 약속, 전부 모았다!\n너도 도전해 볼래? 👉`
+    : `📚 김보미의 25개 약속, 벌써 ${n}개 모았다!\n계란 하나에 공약 하나 🥚 너도 뽑아볼래? 👉`;
+  doShare(text);
+}
+function doShare(text){
+  const url = "https://www.xn--4k0b53xuva.com/gacha.html";
+  if (navigator.share) navigator.share({title:"공약 뽑기", text, url}).catch(()=>{});
+  else navigator.clipboard.writeText(text+" "+url)
+    .then(()=> toast("링크 복사 완료! 친구에게 붙여넣기 📋"))
+    .catch(()=> toast("복사 실패 😢"));
+}
+
+/* ---------- UI 갱신 ---------- */
+function refresh(){
+  const got = store.collected.length;
+  $("collCnt").textContent = got;
+  $("pbar").style.width = (got/25*100)+"%";
+  $("pct").textContent = Math.round(got/25*100)+"%";
+  const got2 = store.collected.length;
+  const btn = $("drawBtn");
+  btn.classList.remove("off");
+  if (got2 >= 25){
+    $("eggLbl").textContent = "전부 모으셨어요! 그래도 또 나와요 🥚";
+    btn.innerHTML = `🥚 공약 뽑기! <span class="s2">공약 마스터의 여유로운 재감상 타임</span>`;
+    $("drawInfo").innerHTML = `🏅 25개 완주! 컬렉션에서 <b>공약 마스터 훈장</b>을 확인하세요`;
+  } else {
+    $("eggLbl").textContent = "공약이 들어있어요!";
+    btn.innerHTML = `🥚 공약 뽑기! <span class="s2">계란을 깨고 약속을 확인하세요 — 무제한!</span>`;
+    $("drawInfo").innerHTML = `남은 공약 <b>${25-got2}개</b> — 다음 계란엔 어떤 약속이?`;
+  }
+}
+
+function closeOverlays(){
+  document.querySelectorAll(".overlay").forEach(o=>o.classList.remove("on"));
+  pc.style.transform = "";
+}
+function toast(msg){
+  const t = $("toast");
+  t.textContent = msg; t.classList.add("on");
+  clearTimeout(t._tm);
+  t._tm = setTimeout(()=> t.classList.remove("on"), 2400);
+}
+
+/* ---------- 별 배경 ---------- */
+(function(){
+  const box = $("stars");
+  for (let i=0;i<40;i++){
+    const s = document.createElement("i");
+    s.style.left = Math.random()*100+"%";
+    s.style.top = Math.random()*100+"%";
+    s.style.animationDelay = (Math.random()*3)+"s";
+    s.style.opacity = .15 + Math.random()*.5;
+    box.appendChild(s);
+  }
+})();
+
+refresh();
+</script>
+</body>
+</html>
