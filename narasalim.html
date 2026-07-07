@@ -2144,12 +2144,12 @@ h1{letter-spacing:-.035em;font-weight:900}
             '<div class="pfd-kpis">'
             +'<div class="pfd-kpi"><div class="l">연간 수입 추정</div><div class="v">'+won(t)+'</div><div class="s">보조금+당비+후원 (추정)</div></div>'
             +'<div class="pfd-kpi"><div class="l">세금(보조금) 의존도</div><div class="v" style="color:'+(dep>=60?'#e11d48':dep>=40?'#d97706':'#0b2545')+'">'+dep.toFixed(1)+'%</div><div class="s">경상+선거보조금 기준</div></div>'
-            +'<div class="pfd-kpi"><div class="l">인건비 비중</div><div class="v">'+inb+'%</div><div class="s">지출 중 최대 항목</div></div>'
+            +'<div class="pfd-kpi"><div class="l">인건비 비중</div><div class="v">'+inb+'%</div><div class="s">지출 중 최대 항목 · 연간 추정 기준</div></div>'
             +'<div class="pfd-kpi"><div class="l">정책개발비 비중</div><div class="v" style="color:'+(pol<7?'#e11d48':'#0b2545')+'">'+pol+'%</div><div class="s">낮을수록 정책 투자 부족</div></div>'
             +'</div>'
-            +'<div class="pfd-sum">💬 <b>'+n+'</b>의 연간 수입은 약 <b>'+won(t)+'</b> 규모로 추정되며, 이 중 <b>'+dep.toFixed(0)+'%가 국민 세금(국고보조금)</b>입니다. 지출은 <b>인건비('+inb+'%)</b>가 가장 크고, 정책개발비는 <b>'+pol+'%</b>'+(pol<7?'에 그칩니다':'입니다')+'.'
+            +'<div class="pfd-sum">💬 <b>'+n+'</b>의 연간 수입은 약 <b>'+won(t)+'</b> 규모로 추정되며, 이 중 <b>'+dep.toFixed(0)+'%가 국민 세금(국고보조금)</b>입니다. 평년 연간 기준 최대 지출은 <b>인건비('+inb+'%, 추정)</b>이고, 정책개발비는 <b>'+pol+'%</b>'+(pol<7?'에 그칩니다':'입니다')+'.'
             +(d.youth!=null?' 청년정치발전비를 인건비 등으로 돌려쓴 비율은 <b>약 '+d.youth+'%</b>'+(d.youth>=50?'로 매우 높습니다 ⚠️':'입니다')+'.':'')
-            +' 항목별 건별 원문은 선관위 회계보고(열람·정보공개청구)에서 확인할 수 있습니다.</div>'
+            +' 항목별 건별 원문은 선관위 회계보고(열람·정보공개청구)에서 확인할 수 있습니다.'+(n==='더불어민주당'?' <b>단, 선거가 낌 2026 상반기 공식 총괄표(중앙당 실측)에서는 실집행의 72%가 「조직활동비」 한 줄로 잡혔습니다. 선거철에 돈이 어디로 씏리는지조차 항목 하나에 뭉뛵그려져 있는 것입니다.</b>':'')+'</div>'
             +(d.youth!=null && d.youth>=50?'<div class="pfd-warn">⚠️ 청년정치발전비 전용률 '+d.youth+'% — 청년 정치 육성에 써야 할 돈 대부분이 직원 급여 등으로 사용됐습니다(언론 3사 전수분석).</div>':'');
         }else if(tab==='in'){
           var mx=Math.max(d.gy,d.ge,d.due,d.don);
