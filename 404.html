@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>페이지를 찾을 수 없어요 — 김보미.com</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  min-height:100dvh;display:flex;align-items:center;justify-content:center;color:#EAF0FF;text-align:center;
+  background:
+    radial-gradient(900px 600px at 85% -10%,#1b4ea8 0%,transparent 55%),
+    radial-gradient(700px 500px at -10% 105%,#41156a 0%,transparent 50%),
+    linear-gradient(165deg,#050f2e 0%,#081A44 45%,#0e2a6e 100%);
+  padding:28px 18px;
+}
+.box{max-width:440px;width:100%}
+.egg{width:min(180px,44vw);height:auto;animation:bob 3s ease-in-out infinite;filter:drop-shadow(0 20px 34px rgba(0,0,0,.5))}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+h1{font-size:clamp(58px,17vw,84px);font-weight:900;line-height:1;margin:10px 0 6px;
+  background:linear-gradient(90deg,#8fc2ff,#FFD447);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:clamp(19px,5.6vw,24px);font-weight:900;margin-bottom:10px}
+p{font-size:15px;line-height:1.7;color:#9fb0d8;font-weight:600;word-break:keep-all}
+p b{color:#FFD447}
+.btns{display:flex;flex-direction:column;gap:11px;margin-top:22px}
+.btn{display:block;text-decoration:none;font-size:16.5px;font-weight:900;color:#0E1B3D;
+  background:linear-gradient(180deg,#FFE27A,#FFD447);padding:16px;border-radius:15px;
+  box-shadow:0 7px 0 #b8890e,0 16px 28px rgba(0,0,0,.35);transition:.12s}
+.btn:active{transform:translateY(5px);box-shadow:0 2px 0 #b8890e}
+.btn.blue{color:#fff;background:linear-gradient(180deg,#2f77d8,#004EA2);box-shadow:0 7px 0 #032a63,0 16px 28px rgba(0,0,0,.35)}
+.btn.blue:active{box-shadow:0 2px 0 #032a63}
+.btn.ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.35);box-shadow:none;font-weight:700;font-size:14.5px;padding:13px}
+footer{margin-top:26px;font-size:12px;color:#9fb0d8;opacity:.7}
+footer a{color:inherit}
+</style>
+</head>
+<body>
+<div class="box">
+  <img class="egg" src="dubuli.svg" alt="에그 더불이">
+  <h1>404</h1>
+  <h2>앗, 길을 잃으셨군요! 🥚</h2>
+  <p>더불이가 아무리 굴러다녀도 이 페이지는 못 찾았어요.<br>주소가 바뀌었거나 없는 페이지예요.<br><b>대신 좋은 곳으로 안내해 드릴게요!</b></p>
+  <div class="btns">
+    <a class="btn" href="/">🏠 홈으로 가기</a>
+    <a class="btn blue" href="/games.html">🎮 미니게임 하러 가기</a>
+    <a class="btn ghost" href="/gongyak.html">📘 공약집 보러 가기</a>
+  </div>
+  <footer>© 2026 김보미 · 더불어민주당 당대표 후보 · <a href="/">김보미.com</a></footer>
+</div>
+</body>
+</html>

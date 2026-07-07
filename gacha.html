@@ -4,9 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>공약 뽑기 🥚 — 김보미의 25개 약속</title>
-<meta name="description" content="계란 하나에 공약 하나! 황금 계란을 깨고 김보미의 25개 약속을 모아보세요. 전부 모으면 공약 마스터 등극!">
+<meta name="description" content="더불어 함께하면 파워 계란! 계란이 금빛으로 변신하며 김보미의 25개 약속 카드가 나옵니다. 전부 모으면 공약 마스터 등극!">
 <meta property="og:title" content="🥚 공약 뽑기 — 계란 하나에 공약 하나">
-<meta property="og:description" content="황금 계란을 깨면 김보미의 공약 카드가! 25장을 모두 모아 공약 마스터가 되어보세요.">
+<meta property="og:description" content="더불어 함께하면 파워 계란! 변신하는 계란에서 공약 카드가 팡! 25장을 모아 공약 마스터가 되어보세요.">
+<meta property="og:image" content="https://www.xn--4k0b53xuva.com/og-games.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://www.xn--4k0b53xuva.com/gacha.html">
+<link rel="canonical" href="https://www.xn--4k0b53xuva.com/gacha.html">
+<link rel="icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:type" content="website">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
@@ -119,14 +126,24 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 }
 .draw-cta.off::after{display:none}
 .draw-cta.off .s2{opacity:.85;color:#8fc2ff}
-/* 흔들림 & 크랙 */
+/* 흔들림 & 파워 변신 */
 .egg-wrap.shake{animation:shakeHard .12s linear infinite}
 @keyframes shakeHard{0%{transform:translate(-3px,1px) rotate(-4deg)}25%{transform:translate(3px,-2px) rotate(3deg)}50%{transform:translate(-4px,2px) rotate(-3deg)}75%{transform:translate(4px,1px) rotate(4deg)}100%{transform:translate(-2px,-1px) rotate(-2deg)}}
-.crack{position:absolute;left:8%;right:8%;top:46%;height:4px;opacity:0;pointer-events:none;
-  background:repeating-linear-gradient(90deg,transparent 0 8px,#7a4a00 8px 20px);
-  clip-path:polygon(0 40%,10% 0,22% 80%,34% 10%,47% 90%,60% 0,72% 75%,85% 15%,100% 60%,100% 100%,0 100%);
-  transition:opacity .2s}
-.egg-wrap.cracked .crack{opacity:1}
+.crack{display:none}
+.egg-wrap.power .egg{
+  background:
+    radial-gradient(circle at 34% 26%,#fffce0 0%,#FFE9A0 18%,transparent 45%),
+    radial-gradient(circle at 62% 80%,#b87500 0%,transparent 55%),
+    linear-gradient(160deg,#FFE9A0 0%,#FFC93C 48%,#D98F00 100%);
+  box-shadow:
+    inset -14px -18px 34px rgba(150,90,0,.55),
+    inset 12px 14px 30px rgba(255,255,255,.7),
+    0 30px 60px rgba(0,0,0,.55),
+    0 0 120px rgba(255,201,60,.95),0 0 50px rgba(255,226,120,.9);
+  animation:powerPulse .5s ease-in-out infinite;
+}
+@keyframes powerPulse{50%{transform:rotate(0) scale(1.06)}}
+.egg-wrap.power::after{content:"⚡";position:absolute;top:-8px;right:-18px;font-size:34px;filter:drop-shadow(0 0 10px rgba(255,212,71,.9));animation:pulse .5s infinite}
 .flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:40;transition:opacity .18s}
 .flash.on{opacity:1}
 
@@ -270,12 +287,12 @@ footer a{color:inherit}
     <div class="podium"></div>
     <div class="ring"></div><div class="ring r2"></div>
     <button class="egg-wrap" id="eggBtn" onclick="draw()" aria-label="공약 뽑기">
-      <div class="egg" id="egg"><div class="crack"></div><div class="face" id="eggFace">🐣</div></div>
-      <span class="lbl" id="eggLbl">오늘의 공약이 들어있어요!</span>
+      <div class="egg" id="egg"><div class="face" id="eggFace">🐣</div></div>
+      <span class="lbl" id="eggLbl">공약이 들어있어요!</span>
     </button>
   </div>
 
-  <button class="draw-cta" id="drawBtn" onclick="draw()">🥚 공약 뽑기! <span class="s2" id="drawBtnSub">계란을 깨고 약속을 확인하세요 — 무제한!</span></button>
+  <button class="draw-cta" id="drawBtn" onclick="draw()">🥚 공약 뽑기! <span class="s2" id="drawBtnSub">더불어 함께! 파워 계란으로 변신 — 무제한!</span></button>
 
   <div class="draw-info" id="drawInfo"></div>
   <div class="bonus-tip">💡 마음에 드는 공약을 발견하면 <a href="https://www.xn--4k0b53xuva.com/gongyak.html" target="_blank" rel="noopener">공약집에서 전문</a>을 꼭 읽어보세요 — 카드보다 훨씬 진합니다.</div>
@@ -395,21 +412,20 @@ function draw(){
   if (isNew){ store.collected = [...got, card.n]; }
   lastCard = card;
 
-  // 연출: 흔들 → 크랙 → 플래시 → 카드
+  // 연출: 기 모으기(흔들) → 파워 계란 변신 → 섬광 → 카드 팡!
   const ew = $("eggBtn");
-  ew.classList.add("shake"); $("eggFace").textContent = "😣";
-  setTimeout(()=> ew.classList.add("cracked"), 700);
+  ew.classList.add("shake"); $("eggFace").textContent = "😤";
+  setTimeout(()=>{ ew.classList.remove("shake"); ew.classList.add("power"); $("eggFace").textContent = "😆"; }, 700);
   setTimeout(()=>{
     $("flash").classList.add("on");
     setTimeout(()=> $("flash").classList.remove("on"), 220);
-  }, 1150);
+  }, 1250);
   setTimeout(()=>{
-    ew.classList.remove("shake","cracked"); $("eggFace").textContent = "🐣";
     showCard(card, isNew);
     burst();
     busy = false;
     refresh();
-  }, 1350);
+  }, 1450);
 }
 
 function wobble(){
@@ -529,7 +545,7 @@ function refresh(){
     $("drawInfo").innerHTML = `🏅 25개 완주! 컬렉션에서 <b>공약 마스터 훈장</b>을 확인하세요`;
   } else {
     $("eggLbl").textContent = "공약이 들어있어요!";
-    btn.innerHTML = `🥚 공약 뽑기! <span class="s2">계란을 깨고 약속을 확인하세요 — 무제한!</span>`;
+    btn.innerHTML = `🥚 공약 뽑기! <span class="s2">더불어 함께! 파워 계란으로 변신 — 무제한!</span>`;
     $("drawInfo").innerHTML = `남은 공약 <b>${25-got2}개</b> — 다음 계란엔 어떤 약속이?`;
   }
 }
@@ -537,6 +553,8 @@ function refresh(){
 function closeOverlays(){
   document.querySelectorAll(".overlay").forEach(o=>o.classList.remove("on"));
   pc.style.transform = "";
+  const ew = $("eggBtn");
+  ew.classList.remove("power"); $("eggFace").textContent = "🐣";
 }
 function toast(msg){
   const t = $("toast");
