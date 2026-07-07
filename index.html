@@ -438,7 +438,7 @@ footer .flink:hover{color:#fff}
 @keyframes cueBounce{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(7px);opacity:1}}
 .game-cta .game-support{background:rgba(143,208,255,.12);border:1px solid rgba(143,208,255,.3);border-radius:12px;padding:10px 14px;font-size:.93rem;margin:10px 0 4px}
 /* 봄이 챗봇 위젯 */
-.bomi-fab{position:fixed;right:16px;bottom:14px;z-index:190;width:196px;height:126px;cursor:pointer;border:none;padding:0;
+.bomi-fab{position:fixed;right:16px;bottom:14px;z-index:190;width:240px;height:158px;cursor:pointer;border:none;padding:0;
   background:url('dubuli-fab.svg') center/contain no-repeat;filter:drop-shadow(0 14px 26px rgba(0,45,100,.45));
   animation:bomiFloat 2.2s ease-in-out infinite}
 .bomi-fab:hover{animation-play-state:paused;transform:translateY(-5px) scale(1.05)}
@@ -450,7 +450,7 @@ footer .flink:hover{color:#fff}
 .bomi-call:after{content:'';position:absolute;right:26px;bottom:-11px;border:11px solid transparent;border-top-color:#FFC53D;border-bottom:0}
 @keyframes bomiBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 @media(max-width:600px){.bomi-call{bottom:112px;right:12px;font-size:1rem;padding:13px 17px}
-.bomi-fab{width:168px;height:108px;right:10px;bottom:12px}}
+.bomi-fab{width:200px;height:132px;right:10px;bottom:12px}}
 .bomi-panel{position:fixed;right:18px;bottom:84px;z-index:191;width:min(370px,calc(100vw - 24px));height:min(520px,calc(100vh - 120px));
   background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 24px 70px rgba(10,25,60,.3);display:none;flex-direction:column;overflow:hidden}
 .bomi-panel.open{display:flex}
@@ -948,7 +948,7 @@ footer .flink:hover{color:#fff}
     <div class="bh-t"><b>더불이</b><span>더불어 함께 바꿔봐요 · AI 챗봇</span></div>
     <button class="bh-x" id="bomiClose" aria-label="닫기">✕</button>
   </div>
-  <div class="bomi-msgs" id="bomiMsgs"></div>
+  <div style="display:flex;gap:8px;align-items:center;padding:9px 14px;background:#FFF7DC;border-bottom:1px solid #F0E2B0;font-size:.78rem;line-height:1.5;color:#5a4a1e"><span style="font-size:18px">🥚</span><span><b style="color:#0E56AC">더불이는 작은 계란!</b> 혼자선 약하지만, 여러분이 더불어 함께하면 바위도 깨는 <b style="color:#c9930a">파워 계란</b>이 돼요!</span></div>  <div class="bomi-msgs" id="bomiMsgs"></div>
   <div class="bomi-chips" id="bomiChips">
     <button data-q="김보미는 어떤 사람이야?">김보미는 어떤 사람?</button>
     <button data-q="1호 공약이 뭐야?">1호 공약은?</button>
