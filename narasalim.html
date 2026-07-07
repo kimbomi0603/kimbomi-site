@@ -2067,7 +2067,32 @@ h1{letter-spacing:-.035em;font-weight:900}
       <div style="font-size:.78em;color:#5B6B7C;margin:10px 0 18px;line-height:1.7;">
         출처 · 더불어민주당 「2026년 2분기 재산 및 수입·지출 총괄표 등 공개」(2026. 7. 3., 당 홈페이지 공지) — 본문 수치는 해당 총괄표(중앙당 기준) 원문 판독값 · 교차 확인: 당 홈페이지 정치자금 자체 공개는 1분기(4. 29.)·2분기(7. 3.)·지방선거 총괄표 게시가 전부(2026. 7. 8. 게시판 확인), 총괄표 보조금 수입 378.5억 원은 중앙선관위 공고(경상보조금·지방선거 보조금 258.85억)와 일치 · 헌법재판소 2018헌마1168(열람기간 3개월 헌법불합치) 및 2024. 2. 정치자금법 개정(열람 6개월) · 오마이뉴스·경향신문·뉴스타파 정치자금 공동 전수분석(청년정치발전비 전용). 금액은 원 단위 원문을 억 원으로 반올림.
       </div>
-    <div class="pfd" id="pfdMod">
+    <style>
+/* ══ 정당별 진단 모듈(pfd) 스타일 — 2026.7.8 버그픽스: 클래스 CSS 미정의로 생 텍스트 렌더링되던 문제 ══ */
+#pfdMod{background:#fff;border:2px solid #E3E8EF;border-radius:16px;padding:20px 22px;margin:16px 0;word-break:keep-all;}
+#pfdMod .pfd-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:12px;}
+#pfdMod .pfd-top label{font-weight:800;color:#14243D;}
+#pfdMod select{padding:8px 14px;border:1.5px solid #C9D4E2;border-radius:10px;font-size:15px;font-weight:700;color:#14243D;background:#fff;cursor:pointer;}
+#pfdMod .pfd-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+#pfdMod .pfd-tab{border:1.5px solid #C9D4E2;background:#fff;color:#3D5166;border-radius:20px;padding:7px 16px;font-size:14px;font-weight:700;cursor:pointer;transition:.15s;}
+#pfdMod .pfd-tab:hover{border-color:#0B4DA2;color:#0B4DA2;}
+#pfdMod .pfd-tab.on{background:#0B4DA2;border-color:#0B4DA2;color:#fff;}
+#pfdMod .pfd-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:14px;}
+#pfdMod .pfd-kpi{background:#F4F7FB;border-radius:12px;padding:14px 16px;}
+#pfdMod .pfd-kpi .l{font-size:13px;color:#5B6B7C;}
+#pfdMod .pfd-kpi .v{font-size:21px;font-weight:800;color:#14243D;line-height:1.35;margin:2px 0;}
+#pfdMod .pfd-kpi .s{font-size:12.5px;color:#5B6B7C;}
+#pfdMod .pfd-sum{border-top:1.5px dashed #E3E8EF;padding-top:12px;margin-top:4px;font-size:14.5px;line-height:1.85;color:#1C2B3A;}
+#pfdMod .pfd-row{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:14px;}
+#pfdMod .pfd-row>*:first-child{width:120px;flex-shrink:0;font-weight:600;}
+#pfdMod .pfd-track{flex:1;height:16px;background:#EEF2F7;border-radius:8px;overflow:hidden;}
+#pfdMod .pfd-fill{height:100%;border-radius:8px;display:block;}
+#pfdMod .pfd-amt{white-space:nowrap;font-weight:700;font-size:13.5px;}
+#pfdMod .pfd-note{font-size:12.5px;color:#5B6B7C;margin-top:10px;line-height:1.7;}
+#pfdMod .pfd-warn{background:#FDECEA;border-left:5px solid #C0392B;border-radius:0 10px 10px 0;padding:12px 16px;margin:12px 0;font-size:14px;line-height:1.8;color:#7A2A1D;}
+@media(max-width:640px){#pfdMod .pfd-kpis{grid-template-columns:repeat(2,1fr);} #pfdMod .pfd-row>*:first-child{width:92px;font-size:13px;}}
+</style>
+      <div class="pfd" id="pfdMod">
       <div class="pfd-top">
         <label>정당 선택</label>
         <select id="pfdSel"></select>
