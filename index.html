@@ -1033,7 +1033,7 @@ footer .flink:hover{color:#fff}
   <div class="gm-backdrop" data-close></div>
   <div class="gm-dialog">
     <div class="gm-bar">
-      <a class="gm-full" href="game.html?full=1" target="_blank" rel="noopener">↗ 전체 화면으로 열기</a>
+      <a class="gm-full" href="game.html?full=1">↗ 전체 화면으로 열기</a>
       <button class="gm-close" type="button" data-close aria-label="게임 닫기">✕ 닫기</button>
     </div>
     <iframe class="gm-frame" id="gameFrame" title="계란으로 바위치기 게임" src="about:blank"></iframe>
@@ -1351,5 +1351,26 @@ footer .flink:hover{color:#fff}
 })();
 </script>
 <script src="/a.js" defer></script>
-<script>try{if(new URLSearchParams(location.search).has('bot')){window.addEventListener('load',function(){var f=document.getElementById('bomiFab');if(f)f.click();});}}catch(e){}</script></body>
+<script>try{if(new URLSearchParams(location.search).has('bot')){window.addEventListener('load',function(){var f=document.getElementById('bomiFab');if(f)f.click();});}}catch(e){}</script><div class="game-modal" id="gachaModal" aria-hidden="true">
+  <div class="gm-backdrop" data-close></div>
+  <div class="gm-dialog">
+    <div class="gm-bar">
+      <a class="gm-full" href="gacha.html?full=1">↗ 전체 화면으로 열기</a>
+      <button class="gm-close" type="button" data-close aria-label="공약뽑기 닫기">✕ 닫기</button>
+    </div>
+    <iframe class="gm-frame" id="gachaFrame" title="공약 뽑기 — 25개 약속" src="about:blank"></iframe>
+  </div>
+</div>
+<script>
+(function(){
+  var gm=document.getElementById('gachaModal'), gf=document.getElementById('gachaFrame');
+  if(!gm) return;
+  function openG(){ if(gf.getAttribute('src')!=='gacha.html') gf.setAttribute('src','gacha.html'); gm.classList.add('open'); gm.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+  function closeG(){ gm.classList.remove('open'); gm.setAttribute('aria-hidden','true'); document.body.style.overflow=''; gf.setAttribute('src','about:blank'); }
+  document.addEventListener('click', function(e){ var a=e.target.closest && e.target.closest('a[href^="gacha.html"]'); if(a && !a.classList.contains('gm-full')){ e.preventDefault(); openG(); } });
+  gm.addEventListener('click', function(e){ if(e.target.closest && e.target.closest('[data-close]')) closeG(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && gm.classList.contains('open')) closeG(); });
+})();
+</script>
+</body>
 </html>
