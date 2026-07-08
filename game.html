@@ -268,6 +268,18 @@ h1.title .accent{color:var(--blue-soft)}
 </style>
 </head>
 <body>
+<style>
+#siteTopBar{display:none;position:fixed;top:0;left:0;right:0;z-index:100;background:#fff;border-bottom:1px solid #e7ebf1;font-family:-apple-system,'Noto Sans KR',sans-serif}
+#siteTopBar .in{max-width:1180px;margin:0 auto;padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between}
+#siteTopBar a{text-decoration:none}
+#siteTopBar .lg{font-weight:800;font-size:1.05rem;color:#15223b}
+#siteTopBar .lg b{color:#004EA2}
+#siteTopBar .mn{display:flex;align-items:center;gap:15px}
+#siteTopBar .mn a{font-size:.9rem;font-weight:600;color:#33405a}
+#siteTopBar .home{font-size:.85rem;font-weight:700;color:#5a6474;border:1.5px solid #e7ebf1;border-radius:999px;padding:6px 13px}
+@media(max-width:640px){#siteTopBar .mn a:not(.home){display:none}}
+</style>
+<div id="siteTopBar"><div class="in"><a class="lg" href="index.html">김보미<b>.com</b></a><div class="mn"><a href="manifesto.html">출사표</a><a href="vision.html">비전·공약</a><a href="gongyak.html">공약집</a><a href="game.html">미니게임</a><a href="report.html">제보센터</a><a class="home" href="index.html">← 홈으로</a></div></div></div>
 <div class="wrap">
 
   <div class="hud">
@@ -1556,5 +1568,6 @@ ctx.clearRect(0,0,W,H);
 updateHUD();
 </script>
 <script src="/a.js" defer></script>
+<script>if(window.self===window.top){var _b=document.getElementById('siteTopBar');if(_b){_b.style.display='block';document.body.style.paddingTop='56px';}}</script>
 </body>
 </html>
