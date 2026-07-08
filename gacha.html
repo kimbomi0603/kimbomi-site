@@ -272,6 +272,18 @@ footer a{color:inherit}
 <div class="stars" id="stars"></div>
 <div class="flash" id="flash"></div>
 
+<style>
+#siteTopBar{display:none;background:#fff;border-bottom:1px solid #e7ebf1;position:relative;z-index:50;font-family:Pretendard,-apple-system,sans-serif}
+#siteTopBar .in{max-width:1180px;margin:0 auto;padding:0 18px;height:58px;display:flex;align-items:center;justify-content:space-between}
+#siteTopBar a{text-decoration:none}
+#siteTopBar .lg{font-weight:800;font-size:1.1rem;color:#15223b}
+#siteTopBar .lg b{color:#004EA2}
+#siteTopBar .mn{display:flex;align-items:center;gap:16px}
+#siteTopBar .mn a{font-size:.92rem;font-weight:600;color:#33405a}
+#siteTopBar .home{font-size:.86rem;font-weight:700;color:#5a6474;border:1.5px solid #e7ebf1;border-radius:999px;padding:7px 14px}
+@media(max-width:640px){#siteTopBar .mn a:not(.home){display:none}}
+</style>
+<div id="siteTopBar"><div class="in"><a class="lg" href="index.html">김보미<b>.com</b></a><div class="mn"><a href="manifesto.html">출사표</a><a href="vision.html">비전·공약</a><a href="gongyak.html">공약집</a><a href="game.html">미니게임</a><a href="report.html">제보센터</a><a class="home" href="index.html">← 홈으로</a></div></div></div>
 <div class="wrap">
   <header>
     <div class="brand"><span class="chip">🥚 김보미.com</span></div>
@@ -585,5 +597,6 @@ function toast(msg){
 
 refresh();
 </script>
+<script>if(window.self===window.top){var _b=document.getElementById('siteTopBar');if(_b){_b.style.display='block';var _w=document.querySelector('.wrap');if(_w)_w.style.minHeight='calc(100dvh - 59px)';}}</script>
 </body>
 </html>
