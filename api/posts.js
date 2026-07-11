@@ -11,6 +11,7 @@ const RURL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL |
 const RTOK = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || process.env.REDIS_REST_TOKEN;
 const ADMIN_KEY = process.env.ADMIN_KEY || '';
 const KEY = 'kb_posts';
+const IMGKEY = 'kb_img:';   // 글에 첨부한 사진 (kb_img:<id>)
 
 var T1 = Date.parse('2026-07-01T10:00:00+09:00');
 var T2 = Date.parse('2026-07-01T09:00:00+09:00');
@@ -134,6 +135,37 @@ module.exports = async (req, res) => {
       arr5 = arr5.filter(function(x){ return x.id!==id3; });
       await save(arr5);
       res.status(200).json({ ok:true, removed: before-arr5.length });
+      return;
+    }
+    // ===== 글 첨부 사진: 저장(uploadimg) / 서빙(img) =====
+    if (action === 'img') {
+      var iid = String(req.query.id||'').replace(/[^a-z0-9]/gi,'').slice(0,40);
+      if (!iid) { res.status(404).end(); return; }
+      var ir = await redis(['GET', IMGKEY + iid]);
+      var iv = ir && ir.result;
+      if (!iv) { res.status(404).end(); return; }
+      var irec = null; try { irec = JSON.parse(iv); } catch(e2){ irec = null; }
+      if (!irec || !irec.d) { res.status(404).end(); return; }
+      var ibuf = Buffer.from(irec.d, 'base64');
+      res.setHeader('Content-Type', irec.m || 'image/jpeg');
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      res.setHeader('Content-Length', ibuf.length);
+      res.status(200).end(ibuf);
+      return;
+    }
+    if (action === 'uploadimg' && req.method === 'POST') {
+      var iak = req.query.key || req.headers['x-admin-key'] || '';
+      if (!ADMIN_KEY || iak !== ADMIN_KEY) { res.status(401).json({ ok:false, error:'unauthorized' }); return; }
+      var iraw = await readBody(req); var ib = iraw;
+      if (typeof iraw === 'string') { try { ib = JSON.parse(iraw||'{}'); } catch(e3){ ib={}; } }
+      var imime = String(ib.mime||'').toLowerCase();
+      if (['image/jpeg','image/png','image/webp','image/gif'].indexOf(imime) < 0) { res.status(200).json({ ok:false, error:'이미지 파일만 올릴 수 있습니다.' }); return; }
+      var idata = String(ib.data||'').replace(/^data:[^,]*,/, '').replace(/\s/g,'');
+      if (!idata) { res.status(200).json({ ok:false, error:'empty' }); return; }
+      if (idata.length > 900000) { res.status(200).json({ ok:false, error:'사진 용량이 너무 큽니다. 더 작은 사진을 써주세요.' }); return; }
+      var newid = Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+      await redis(['SET', IMGKEY + newid, JSON.stringify({ m:imime, d:idata, ts:Date.now() })]);
+      res.status(200).json({ ok:true, id:newid, url:'/api/posts?action=img&id='+newid });
       return;
     }
     res.status(200).json({ ok:false, error:'bad action' });

@@ -34,6 +34,9 @@ function groupDims(result){
     var pre = f.slice(0,i), key = f.slice(i+1), val = parseInt(o[f],10) || 0;
     if (g[pre]) g[pre][key] = val;
   });
+  // 유입 경로에서 '사이트 내부'(사이트 안에서의 페이지 이동)는 유입이 아니므로 제외한다.
+  // (과거에 쌓인 데이터도 화면에서 함께 제외됨)
+  if (g.src) delete g.src['사이트 내부'];
   return g;
 }
 

@@ -84,16 +84,20 @@ module.exports = async (req, res) => {
     var ty = ev.ty || 'pv';
     var path = safe(ev.p || '/', 80) || '/';
     if (ty === 'pv') {
-      var src = classifySource(safe(ev.r, 200), safe(ev.u, 40), selfHost);
       var dev = (ev.d === 'm') ? '모바일' : 'PC';
       cmds.push(['INCR', 'a:pv:' + day]);
       cmds.push(['PFADD', 'a:uv:' + day, vid]);
-      cmds.push(['HINCRBY', HK, 'src:' + src, 1]);
       cmds.push(['HINCRBY', HK, 'rg:' + regionLabel, 1]);
       cmds.push(['HINCRBY', HK, 'path:' + path, 1]);
       cmds.push(['HINCRBY', HK, 'hr:' + hour, 1]);
       cmds.push(['HINCRBY', HK, 'dev:' + dev, 1]);
-      if (ev.en === '1') cmds.push(['HINCRBY', HK, 'enter:' + path, 1]);
+      // 유입 경로는 세션의 첫 페이지(진입)에서만 집계한다.
+      // 사이트 안에서의 페이지 이동은 '유입'이 아니므로 기록하지 않는다.
+      if (ev.en === '1') {
+        var src = classifySource(safe(ev.r, 200), safe(ev.u, 40), selfHost);
+        if (src !== '사이트 내부') cmds.push(['HINCRBY', HK, 'src:' + src, 1]);
+        cmds.push(['HINCRBY', HK, 'enter:' + path, 1]);
+      }
     } else if (ty === 'menu') {
       cmds.push(['HINCRBY', HK, 'menu:' + safe(ev.m, 40), 1]);
     } else if (ty === 'out') {
