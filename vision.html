@@ -71,6 +71,8 @@ main{padding:52px 0 80px;min-height:50vh}
 .article h1{font-family:var(--serif);font-weight:900;font-size:2.05rem;line-height:1.4;letter-spacing:-.01em;margin-bottom:26px;padding-bottom:24px;border-bottom:2px solid var(--tint)}
 .article p{font-size:1.09rem;line-height:1.95;color:#26324a;margin-bottom:22px}
 .article p.tagline{font-family:var(--serif);font-weight:700;color:var(--dpk);text-align:center;background:var(--tint);border-radius:14px;padding:18px 20px;margin-top:34px;font-size:1.05rem}
+.article .pfig{margin:28px 0}
+.article .pfig img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--line)}
 .article .share{margin-top:40px;padding-top:26px;border-top:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-weight:700;font-size:.92rem;padding:11px 20px;border-radius:999px;cursor:pointer;border:1.5px solid transparent;transition:.16s}
 .btn.p{background:var(--dpk);color:#fff}.btn.p:hover{background:var(--dpk-dark)}
@@ -153,6 +155,8 @@ var ARTICLE_LINKS=[{url:"https://www.hani.co.kr/arti/politics/politics_general/1
   var paras=String(p.body||'').split(/\n{2,}/).map(function(t){return t.trim();}).filter(Boolean);
   var html='<div class="meta">'+fmtDate(p.publishAt)+'</div><h1>'+esc(p.title)+'</h1>';
   paras.forEach(function(t){
+    var im=t.match(/^\[img:([^\]]+)\]$/);
+    if(im){ html+='<figure class="pfig"><img src="'+esc(im[1])+'" alt="" loading="lazy"></figure>'; return; }
     if(/^\[.*\]$/.test(t)){ html+='<p class="tagline">'+esc(t.replace(/^\[\s*|\s*\]$/g,''))+'</p>'; }
     else { html+='<p>'+linkifyArticles(esc(t))+'</p>'; }
   });
@@ -201,5 +205,3 @@ fetch(API+'?action=list').then(function(r){return r.json();}).then(function(d){
 <script src="/a.js" defer></script>
 <a href="index.html?bot=1" style="position:fixed;right:14px;bottom:14px;z-index:180" aria-label="AI 챗봇 더불이"><img src="dubuli-fab.svg" alt="더불이 챗봇" style="width:172px;height:auto;filter:drop-shadow(0 10px 22px rgba(0,45,100,.45))"></a></body>
 </html>
-x
-x
