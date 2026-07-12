@@ -1347,7 +1347,7 @@ footer .flink:hover{color:#fff}
   var el=document.getElementById('vpGrid'); if(!el) return;
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function fmtDate(ms){try{var d=new Date(ms);return d.getFullYear()+'.'+('0'+(d.getMonth()+1)).slice(-2)+'.'+('0'+d.getDate()).slice(-2);}catch(e){return '';}}
-  function excerpt(b){var t=String(b||'').replace(/\n+/g,' ').replace(/\[[^\]]*\]/g,'').trim();return t.slice(0,80);}
+  function excerpt(b){var t=String(b||'').replace(/\n+/g,' ').replace(/\[[^\]]*\]/g,'').replace(/https?:\/\/[^\s]+/g,'').replace(/\s+/g,' ').trim();return t.slice(0,80);}
   fetch('/api/posts?action=list').then(function(r){return r.json();}).then(function(d){
     var items=(d&&d.ok&&d.items)?d.items:[];
     if(!items.length){ el.innerHTML='<div class="vp-empty">아직 공개된 글이 없습니다.</div>'; return; }

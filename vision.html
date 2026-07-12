@@ -73,6 +73,9 @@ main{padding:52px 0 80px;min-height:50vh}
 .article p.tagline{font-family:var(--serif);font-weight:700;color:var(--dpk);text-align:center;background:var(--tint);border-radius:14px;padding:18px 20px;margin-top:34px;font-size:1.05rem}
 .article .pfig{margin:28px 0}
 .article .pfig img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--line)}
+.article .vfig{margin:28px 0}
+.article .vbox{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--line)}
+.article .vbox iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
 .article .share{margin-top:40px;padding-top:26px;border-top:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-weight:700;font-size:.92rem;padding:11px 20px;border-radius:999px;cursor:pointer;border:1.5px solid transparent;transition:.16s}
 .btn.p{background:var(--dpk);color:#fff}.btn.p:hover{background:var(--dpk-dark)}
@@ -137,7 +140,7 @@ var HASHTAGS="#민주당을살려야합니다 #이번생에살립시다 #김보�
 var posts=[];
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
 function fmtDate(ms){ if(!ms)return ''; try{var d=new Date(ms);return d.getFullYear()+'.'+('0'+(d.getMonth()+1)).slice(-2)+'.'+('0'+d.getDate()).slice(-2);}catch(e){return '';} }
-function excerpt(body){ var t=String(body||'').replace(/\n+/g,' ').replace(/\[[^\]]*\]/g,'').trim(); return t.slice(0,90); }
+function excerpt(body){ var t=String(body||'').replace(/\n+/g,' ').replace(/\[[^\]]*\]/g,'').replace(/https?:\/\/[^\s]+/g,'').replace(/\s+/g,' ').trim(); return t.slice(0,90); }
 function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1800);}
 
 function renderList(){
@@ -151,12 +154,29 @@ function renderList(){
       +'<div class="go">전문 읽기 →</div></a>';
   }).join('');
 }
-var ARTICLE_LINKS=[{url:"https://www.hani.co.kr/arti/politics/politics_general/1266723.html?utm_source=copy&utm_medium=copy&utm_campaign=btn_share&utm_content=20260706",refs:["['젊은 층은 민주당' 무너진 구도...2030 외면 시 재집권 없다] 기사","[ '젊은 층은 민주당' 무너진 구도...2030 외면 시 재집권 없다 ] 기사"]}];function linkifyArticles(h){ARTICLE_LINKS.forEach(function(it){var a='<a href="'+it.url+'" target="_blank" rel="noopener">';it.refs.forEach(function(ref){h=h.split(ref).join(a+ref+'</a>');});});return h;}function renderDetail(p){
+var ARTICLE_LINKS=[{url:"https://www.hani.co.kr/arti/politics/politics_general/1266723.html?utm_source=copy&utm_medium=copy&utm_campaign=btn_share&utm_content=20260706",refs:["['젊은 층은 민주당' 무너진 구도...2030 외면 시 재집권 없다] 기사","[ '젊은 층은 민주당' 무너진 구도...2030 외면 시 재집권 없다 ] 기사"]}];function linkifyArticles(h){ARTICLE_LINKS.forEach(function(it){var a='<a href="'+it.url+'" target="_blank" rel="noopener">';it.refs.forEach(function(ref){h=h.split(ref).join(a+ref+'</a>');});});return h;}function ytId(t){
+  var s=String(t||'').trim();
+  var mv=s.match(/^\[video:([A-Za-z0-9_-]{6,20})\]$/);
+  if(mv) return mv[1];
+  s=s.replace(/^\[\s*/,'').replace(/\s*\]$/,'').trim();
+  if(!/^https?:\/\/[^\s]+$/.test(s)) return '';
+  if(s.indexOf('youtu')<0) return '';
+  var m=s.match(/[?&]v=([A-Za-z0-9_-]{6,20})/);
+  if(m) return m[1];
+  m=s.match(/youtu\.be\/([A-Za-z0-9_-]{6,20})/);
+  if(m) return m[1];
+  m=s.match(/\/(embed|shorts|live)\/([A-Za-z0-9_-]{6,20})/);
+  if(m) return m[2];
+  return '';
+}
+function renderDetail(p){
   var paras=String(p.body||'').split(/\n{2,}/).map(function(t){return t.trim();}).filter(Boolean);
   var html='<div class="meta">'+fmtDate(p.publishAt)+'</div><h1>'+esc(p.title)+'</h1>';
   paras.forEach(function(t){
     var im=t.match(/^\[img:([^\]]+)\]$/);
     if(im){ html+='<figure class="pfig"><img src="'+esc(im[1])+'" alt="" loading="lazy"></figure>'; return; }
+    var vd=ytId(t);
+    if(vd){ html+='<figure class="vfig"><div class="vbox"><iframe src="https://www.youtube.com/embed/'+esc(vd)+'" title="영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></figure>'; return; }
     if(/^\[.*\]$/.test(t)){ html+='<p class="tagline">'+esc(t.replace(/^\[\s*|\s*\]$/g,''))+'</p>'; }
     else { html+='<p>'+linkifyArticles(esc(t))+'</p>'; }
   });
