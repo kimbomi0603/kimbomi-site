@@ -642,7 +642,7 @@ function loadDobuli(){
           +'<div class="meta">'+esc(dt)+'</div></div>';
       }).join('');
     });
-  var p2=fetch('/api/chat?action=suggestions&key='+encodeURIComponent(getKey()),{cache:'no-store'})
+  var p2=fetch('/api/admin?action=suggestions&key='+encodeURIComponent(getKey()),{cache:'no-store'})
     .then(function(r){return r.json();})
     .then(function(d){
       var el=$('sgList');
