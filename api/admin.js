@@ -186,8 +186,20 @@ module.exports = async (req, res) => {
 
     if (action === 'signlist') {
       var sgl = await redis(['LRANGE','kb_signs',0,9999]);
-      var sgitems = (sgl.result||[]).map(function(x){ try{ return JSON.parse(x); }catch(e){ return null; } }).filter(Boolean);
+      var sgitems = (sgl.result||[]).map(function(x){ try{ var so=JSON.parse(x); so._raw=x; return so; }catch(e){ return null; } }).filter(Boolean);
       res.status(200).json({ ok:true, count:sgitems.length, items:sgitems }); return;
+    }
+
+    if (action === 'signremove' && req.method === 'POST') {
+      if (!isAdmin) { res.status(401).json({ ok:false, error:'admin only' }); return; }
+      var sgraw = await readBody(req); var sgb = sgraw;
+      if (typeof sgraw === 'string') { try { sgb = JSON.parse(sgraw||'{}'); } catch(e){ sgb={}; } }
+      var sgt = sgb && sgb.raw;
+      if (!sgt) { res.status(200).json({ ok:false, error:'no target' }); return; }
+      var sgrem = await redis(['LREM','kb_signs',1,sgt]);
+      var sgn = parseInt((sgrem&&sgrem.result)||0,10)||0;
+      if (sgn > 0) { try { var sgo = JSON.parse(sgt); if (sgo && sgo.email) { await redis(['SREM','kb_signs_emails', sgo.email]); } } catch(e){} }
+      res.status(200).json({ ok:true, removed:sgn }); return;
     }
 
     if (action === 'reportlist') {
