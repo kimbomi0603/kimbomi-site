@@ -553,6 +553,131 @@ footer .flink:hover{color:#fff}
     </div>
   </section>
 
+  <style>
+.signcam{background:linear-gradient(160deg,#0f1a30,#173058);color:#fff;padding:66px 0 72px;border-top:3px solid #ffd873}
+.signcam .wrap{max-width:820px}
+.sc-badge{display:inline-block;background:#ffd873;color:#00376e;font-weight:800;font-size:.8rem;letter-spacing:.03em;padding:6px 14px;border-radius:999px;margin-bottom:18px}
+.sc-h{font-weight:800;font-size:2.05rem;line-height:1.35;margin:0 0 16px;letter-spacing:-.01em}
+.sc-lead{color:rgba(255,255,255,.82);font-size:1.02rem;line-height:1.85;margin:0 0 24px}
+.sc-lead b{color:#ffd873}
+.sc-demands{display:flex;flex-direction:column;gap:8px;margin:0 0 24px}
+.sc-d{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:11px;padding:12px 16px;font-size:.98rem}
+.sc-d i{font-style:normal;color:#ffd873;font-weight:800;margin-right:8px}
+.sc-count{background:rgba(255,216,115,.14);border:1px solid rgba(255,216,115,.42);border-radius:12px;padding:13px 16px;text-align:center;font-size:1rem;margin:0 0 20px}
+.sc-count b{color:#ffd873;font-size:1.55rem;font-weight:900;margin-right:5px;font-variant-numeric:tabular-nums}
+.sc-form,.sc-done{background:#fff;border-radius:16px;color:#15223b;box-shadow:0 20px 46px rgba(0,0,0,.32)}
+.sc-form{padding:22px 22px 20px}
+.sc-row{display:flex;gap:10px}
+.sc-in{width:100%;font-family:inherit;font-size:1rem;padding:13px 14px;border:1.5px solid #e0e6ee;border-radius:11px;margin-bottom:10px;background:#fff;color:#15223b}
+.sc-in:focus{outline:0;border-color:#004EA2}
+.sc-chk{display:flex;align-items:flex-start;gap:9px;font-size:.92rem;color:#33405a;margin:9px 0;line-height:1.55;cursor:pointer}
+.sc-chk input{margin-top:3px;width:17px;height:17px;flex:none;accent-color:#004EA2}
+.sc-chk i{font-style:normal;color:#8a93a5;font-size:.86em}
+.sc-btn{width:100%;margin-top:14px;background:#004EA2;color:#fff;border:0;border-radius:999px;padding:15px;font-family:inherit;font-size:1.05rem;font-weight:800;cursor:pointer;transition:.16s}
+.sc-btn:hover{background:#00376e}
+.sc-btn:disabled{opacity:.6;cursor:default}
+.sc-msg{margin:10px 0 0;font-size:.9rem;font-weight:700;text-align:center;min-height:1em}
+.sc-msg.err{color:#c0392b}.sc-msg.ok{color:#1c7a43}
+.sc-priv{margin:14px 0 0;font-size:.75rem;color:#9aa3b0;line-height:1.65}
+.sc-done{padding:38px 24px;text-align:center}
+.sc-done .ic{font-size:2.4rem;margin-bottom:6px}
+.sc-done h3{font-size:1.35rem;margin:0 0 8px}
+.sc-done p{color:#5a6474;font-size:.98rem;margin:0 0 18px;line-height:1.7}
+.sc-btn2{background:#004EA2;color:#fff;border:0;border-radius:999px;padding:12px 26px;font-family:inherit;font-weight:800;font-size:.95rem;cursor:pointer}
+@media(max-width:640px){.sc-h{font-size:1.58rem}.sc-row{flex-direction:column;gap:0}.signcam{padding:48px 0 56px}}
+</style>
+<section class="signcam" id="sign">
+  <div class="wrap">
+    <div class="sc-badge">🔥 긴급 서명운동</div>
+    <h2 class="sc-h">최고위원회 해체, 컷오프 폐기,<br>청년최고위원제 도입</h2>
+    <p class="sc-lead">전당대회 후보 등록이 코앞인데, 경선 규칙조차 정해지지 않았습니다. <b>규칙이 없는 것이야말로 최악의 불공정입니다.</b> 선수의 대리인이 룰을 정하는 최고위원회는 해체해야 합니다. 불공정에 분노하는 청년, 민주당을 사랑하는 당원, 정권 재창출을 원하는 국민이라면 누구나 함께해 주십시오.</p>
+    <div class="sc-demands">
+      <div class="sc-d"><i>①</i>최고위원회 <b>해체</b> — 룰 결정권을 전준위로</div>
+      <div class="sc-d"><i>②</i>밀실 <b>컷오프 폐기</b> — 다섯 후보 모두 본선으로</div>
+      <div class="sc-d"><i>③</i><b>청년최고위원제 도입</b> — 청년에게 결정권을</div>
+    </div>
+    <div class="sc-count" id="scCount" hidden><b id="scNum">0</b>명이 동참했습니다</div>
+    <form class="sc-form" id="scForm">
+      <div class="sc-row">
+        <input id="scName" class="sc-in" type="text" placeholder="이름 *" maxlength="30" autocomplete="name">
+        <select id="scRegion" class="sc-in">
+          <option value="">지역 선택 *</option>
+          <option value="서울">서울</option>
+          <option value="부산">부산</option>
+          <option value="대구">대구</option>
+          <option value="인천">인천</option>
+          <option value="광주">광주</option>
+          <option value="대전">대전</option>
+          <option value="울산">울산</option>
+          <option value="세종">세종</option>
+          <option value="경기">경기</option>
+          <option value="강원">강원</option>
+          <option value="충북">충북</option>
+          <option value="충남">충남</option>
+          <option value="전북">전북</option>
+          <option value="전남">전남</option>
+          <option value="경북">경북</option>
+          <option value="경남">경남</option>
+          <option value="제주">제주</option>
+          <option value="해외·기타">해외·기타</option>
+        </select>
+      </div>
+      <input id="scEmail" class="sc-in" type="email" placeholder="이메일 *" maxlength="100" autocomplete="email">
+      <label class="sc-chk"><input type="checkbox" id="scAgree"><span>위 요구에 <b>동참에 서명합니다.</b> <i>(필수)</i></span></label>
+      <label class="sc-chk"><input type="checkbox" id="scInj"><span>경선 중지 <b>가처분 신청에도 동참</b>할 의사가 있습니다. <i>(선택)</i></span></label>
+      <label class="sc-chk"><input type="checkbox" id="scNews"><span>입력하신 이메일로 <b>김보미 후보 소식</b>을 받기 원하십니까. <i>(선택)</i></span></label>
+      <button type="submit" class="sc-btn" id="scBtn">서명 동참하기</button>
+      <p class="sc-msg" id="scMsg"></p>
+      <p class="sc-priv">[개인정보 수집·이용 안내] 수집 항목: 이름, 지역, 이메일 · 이용 목적: 서명운동 참여자 확인 및 결과 안내(동의 시 후보 소식 발송) · 보유 기간: 전당대회 종료 후 3개월 이내 파기. 동의를 거부하실 수 있으나, 거부 시 서명 참여가 제한됩니다.</p>
+    </form>
+    <div class="sc-done" id="scDone" hidden>
+      <div class="ic">✍️</div>
+      <h3>서명해 주셔서 감사합니다.</h3>
+      <p>가족과 친구에게도 알려주세요.<br>함께할수록 우리의 요구는 강해집니다.</p>
+      <button class="sc-btn2" id="scShare">📢 공유해서 함께하기</button>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var f=document.getElementById("scForm"); if(!f) return;
+  var msg=document.getElementById("scMsg"), btn=document.getElementById("scBtn");
+  var cw=document.getElementById("scCount"), cn=document.getElementById("scNum");
+  var TXT="최고위원회 해체 · 컷오프 폐기 · 청년최고위원제 도입 — 김보미와 함께 서명해 주세요.";
+  var URL_="https://www.김보미.com/#sign";
+  function setCount(n){ if(!cw||!cn||!(n>0)) return; cn.textContent=Number(n).toLocaleString(); cw.removeAttribute("hidden"); }
+  fetch("/api/admin?action=signcount").then(function(r){return r.json();}).then(function(d){ if(d&&d.ok) setCount(d.count); }).catch(function(){});
+  f.addEventListener("submit",function(e){
+    e.preventDefault();
+    var name=document.getElementById("scName").value.trim();
+    var region=document.getElementById("scRegion").value;
+    var email=document.getElementById("scEmail").value.trim();
+    if(!name||!region||!email){ msg.textContent="이름·지역·이메일을 모두 입력해 주세요."; msg.className="sc-msg err"; return; }
+    if(!document.getElementById("scAgree").checked){ msg.textContent="서명 동의(필수)에 체크해 주세요."; msg.className="sc-msg err"; return; }
+    btn.disabled=true; btn.textContent="보내는 중…"; msg.textContent=""; msg.className="sc-msg";
+    fetch("/api/admin?action=signsubmit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+      name:name, region:region, email:email, agree:true,
+      news:document.getElementById("scNews").checked,
+      injunction:document.getElementById("scInj").checked
+    })}).then(function(r){return r.json();}).then(function(d){
+      btn.disabled=false; btn.textContent="서명 동참하기";
+      if(d&&d.ok){
+        setCount(d.count);
+        if(d.dup){ msg.textContent="이미 서명해 주셨습니다. 감사합니다!"; msg.className="sc-msg ok"; return; }
+        f.setAttribute("hidden","");
+        document.getElementById("scDone").removeAttribute("hidden");
+      } else { msg.textContent=(d&&d.error)||"전송에 실패했습니다. 잠시 후 다시 시도해 주세요."; msg.className="sc-msg err"; }
+    }).catch(function(){ btn.disabled=false; btn.textContent="서명 동참하기"; msg.textContent="전송에 실패했습니다."; msg.className="sc-msg err"; });
+  });
+  var sh=document.getElementById("scShare");
+  if(sh) sh.addEventListener("click",function(){
+    if(navigator.share){ navigator.share({title:"김보미 서명운동", text:TXT, url:URL_}).catch(function(){}); return; }
+    try{ navigator.clipboard.writeText(TXT+" "+URL_); sh.textContent="✅ 링크가 복사됐어요"; setTimeout(function(){ sh.textContent="📢 공유해서 함께하기"; },1800); }
+    catch(e){ prompt("복사해 공유하세요", TXT+" "+URL_); }
+  });
+})();
+</script>
+
   <section id="vision">
     <div class="wrap">
       <div class="sec-head wide">

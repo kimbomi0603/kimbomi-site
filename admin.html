@@ -104,6 +104,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     <div class="tab" data-tab="scores">명예의 전당</div>
     <div class="tab" data-tab="stories">이생망 공유방</div>
     <div class="tab" data-tab="posts">비전·공약 글</div>
+    <div class="tab" data-tab="signs">✍️ 서명운동</div>
     <div class="tab" data-tab="reportcenter">🛡️ 제보센터</div>
     <div class="tab" data-tab="reports">리포트 보관함</div>
 <div class="tab" data-tab="dobuli">💬 더불이 대화</div>
@@ -178,6 +179,22 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
           <div style="display:flex;gap:8px"><button class="btn p" id="poSave">저장</button><button class="btn g" id="poCancel">취소</button></div>
         </div>
         <div id="poList"></div>
+      </div>
+    </section>
+
+    <!-- SIGNS (서명운동) -->
+    <section id="tab-signs" class="hide">
+      <div class="panel">
+        <h3>✍️ 서명운동 <span id="sgnCount" style="color:var(--dpk)"></span>
+          <button class="btn g" id="sgnCsv" style="margin-left:auto;font-size:.8rem;padding:6px 12px">⬇ CSV 내려받기</button>
+        </h3>
+        <div style="display:flex;gap:18px;flex-wrap:wrap;margin:0 0 14px;font-size:.9rem;color:var(--muted)">
+          <span>총 서명 <b id="sgnTot" style="color:var(--dpk)">0</b>명</span>
+          <span>소식 수신 동의 <b id="sgnNews" style="color:var(--dpk)">0</b>명</span>
+          <span>가처분 동참 <b id="sgnInj" style="color:var(--dpk)">0</b>명</span>
+        </div>
+        <div id="sgnRegions" style="font-size:.84rem;color:var(--muted);margin:0 0 14px"></div>
+        <div id="sgnList"></div>
       </div>
     </section>
 
@@ -390,9 +407,52 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
       });
   }
 
+  /* ===== 서명운동 ===== */
+  var sgnItems=[];
+  function loadSigns(){
+    return fetch('/api/admin?action=signlist&key='+encodeURIComponent(getKey()),{cache:'no-store'})
+      .then(function(r){ if(r.status===401){var e=new Error('unauth');e.code=401;throw e;} return r.json(); })
+      .then(function(d){
+        if(!d.ok) return;
+        sgnItems=(d.items||[]).slice().sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
+        $('sgnCount').textContent='('+sgnItems.length+')';
+        $('sgnTot').textContent=sgnItems.length.toLocaleString();
+        $('sgnNews').textContent=sgnItems.filter(function(x){return x.news;}).length.toLocaleString();
+        $('sgnInj').textContent=sgnItems.filter(function(x){return x.injunction;}).length.toLocaleString();
+        var rg={}; sgnItems.forEach(function(x){ var k=x.region||'기타'; rg[k]=(rg[k]||0)+1; });
+        var rtop=Object.keys(rg).map(function(k){return [k,rg[k]];}).sort(function(a,b){return b[1]-a[1];});
+        $('sgnRegions').innerHTML = rtop.length ? ('지역별 — '+rtop.map(function(e){ return esc(e[0])+' '+e[1]; }).join(' · ')) : '';
+        var el=$('sgnList');
+        if(!sgnItems.length){ el.innerHTML='<div class="empty">아직 서명이 없습니다.</div>'; return; }
+        el.innerHTML=sgnItems.map(function(s){
+          var dt=''; try{ dt=new Date(s.ts).toLocaleString('ko-KR'); }catch(e){}
+          var tags='';
+          if(s.news) tags+=' <span class="po-badge public">소식수신</span>';
+          if(s.injunction) tags+=' <span class="po-badge scheduled">가처분동참</span>';
+          return '<div class="th"><div class="m"><b>'+esc(s.name)+'</b> · '+esc(s.region)+' · '+esc(s.email)+tags+'</div><div class="meta">'+esc(dt)+'</div></div>';
+        }).join('');
+      });
+  }
+  function sgnCsvDownload(){
+    if(!sgnItems.length){ alert('내려받을 서명이 없습니다.'); return; }
+    var q=function(v){ return '"'+String(v==null?'':v).split('"').join('""')+'"'; };
+    var lines=[['이름','지역','이메일','소식수신동의','가처분동참','서명일시'].map(q).join(',')];
+    sgnItems.forEach(function(s){
+      var dt=''; try{ dt=new Date(s.ts).toLocaleString('ko-KR'); }catch(e){}
+      lines.push([s.name,s.region,s.email,(s.news?'Y':'N'),(s.injunction?'Y':'N'),dt].map(q).join(','));
+    });
+    var blob=new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8;'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url; a.download='김보미_서명명단_'+new Date().toISOString().slice(0,10)+'.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); },1000);
+  }
+  document.addEventListener('click',function(e){ if(e.target && e.target.id==='sgnCsv'){ sgnCsvDownload(); } });
+
   var loaded={};
   function showTab(name){
-    ['dash','thoughts','scores','stories','posts','reportcenter','reports','dobuli','knowledge'].forEach(function(t){
+    ['dash','thoughts','scores','stories','posts','signs','reportcenter','reports','dobuli','knowledge'].forEach(function(t){
       $('tab-'+t).classList.toggle('hide', t!==name);
     });
     document.querySelectorAll('.tab').forEach(function(el){ el.classList.toggle('on', el.getAttribute('data-tab')===name); });
@@ -400,6 +460,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     if(name==='scores' && !loaded.scores){ loaded.scores=1; loadScores().catch(handleErr); }
     if(name==='stories' && !loaded.stories){ loaded.stories=1; loadStories().catch(handleErr); }
     if(name==='posts' && !loaded.posts){ loaded.posts=1; loadPosts().catch(handleErr); }
+    if(name==='signs' && !loaded.signs){ loaded.signs=1; loadSigns().catch(handleErr); }
     if(name==='reportcenter' && !loaded.reportcenter){ loaded.reportcenter=1; loadReportCenter().catch(handleErr); }
     if(name==='reports' && !loaded.reports){ loaded.reports=1; loadReports(); }
 if(name==='dobuli' && !loaded.dobuli){ loaded.dobuli=1; loadDobuli().catch(handleErr); }
