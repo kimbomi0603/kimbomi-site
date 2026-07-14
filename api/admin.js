@@ -172,6 +172,46 @@ module.exports = async (req, res) => {
     return;
   }
 
+  // ===== 후원 약정 (공개) — 실제 후원 아님, 결제·계좌 없음. 의사+연락처만 접수 =====
+  if (action === 'pledgecount') {
+    try {
+      var pcn = await redis(['LLEN','kb_pledges']);
+      res.status(200).json({ ok:true, count: parseInt((pcn&&pcn.result)||0,10)||0 });
+    } catch(e){ res.status(200).json({ ok:false, count:0 }); }
+    return;
+  }
+  if (action === 'pledgesubmit' && req.method === 'POST') {
+    try {
+      var pip = ((req.headers['x-forwarded-for']||'').split(',')[0]||'').trim();
+      var prk = 'rl:pledge:'+pip;
+      var prr = await redis(['INCR', prk]); var prn = parseInt((prr&&prr.result)||0,10)||0;
+      if (prn === 1) { await redis(['EXPIRE', prk, 600]); }
+      if (prn > 8) { res.status(200).json({ ok:false, error:'잠시 후 다시 시도해 주세요.' }); return; }
+      var praw = await readBody(req); var pb = praw;
+      if (typeof praw === 'string') { try { pb = JSON.parse(praw||'{}'); } catch(e){ pb={}; } }
+      var pclean = function(v,max){ var x=String(v==null?'':v); var o=''; for(var i=0;i<x.length;i++){ var cc=x.charCodeAt(i); if(cc===9||cc>=32) o+=x[i]; } o=o.replace(/\s+/g,' ').trim(); if(o.length>max) o=o.slice(0,max); return o; };
+      var pname = pclean(pb.name, 30);
+      var pemail = pclean(pb.email, 100).toLowerCase();
+      var pphone = pclean(pb.phone, 20);
+      var pamt = parseInt(pb.amount,10); if (isNaN(pamt) || pamt < 0) pamt = 0; if (pamt > 10000000) pamt = 10000000;
+      if (!pname || !pemail) { res.status(200).json({ ok:false, error:'이름과 이메일을 입력해 주세요.' }); return; }
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(pemail)) { res.status(200).json({ ok:false, error:'이메일 형식을 확인해 주세요.' }); return; }
+      if (pb.agree !== true || pb.understand !== true) { res.status(200).json({ ok:false, error:'약정 성격 확인과 안내 수신에 동의해 주세요.' }); return; }
+      var padd = await redis(['SADD','kb_pledge_emails', pemail]);
+      if ((parseInt((padd&&padd.result)||0,10)||0) === 0) {
+        var pc0 = await redis(['LLEN','kb_pledges']);
+        res.status(200).json({ ok:true, dup:true, count: parseInt((pc0&&pc0.result)||0,10)||0 });
+        return;
+      }
+      // 개인정보 최소 수집: IP 등은 저장하지 않는다. 금액은 저장하되 공개 카운트엔 미포함.
+      var prec = JSON.stringify({ name:pname, email:pemail, phone:pphone, amount:pamt, ts: Date.now() });
+      await redis(['LPUSH','kb_pledges', prec]);
+      var pc1 = await redis(['LLEN','kb_pledges']);
+      res.status(200).json({ ok:true, count: parseInt((pc1&&pc1.result)||0,10)||0 });
+    } catch(e){ res.status(200).json({ ok:false, error:String(e&&e.message||e) }); }
+    return;
+  }
+
   if (!ADMIN_KEY && !REPORT_TOKEN) { res.status(200).json({ ok:false, configured:false, needsKey:true }); return; }
   if (!isAdmin && !isReporter) { res.status(401).json({ ok:false, error:'unauthorized' }); return; }
 
@@ -200,6 +240,24 @@ module.exports = async (req, res) => {
       var sgn = parseInt((sgrem&&sgrem.result)||0,10)||0;
       if (sgn > 0) { try { var sgo = JSON.parse(sgt); if (sgo && sgo.email) { await redis(['SREM','kb_signs_emails', sgo.email]); } } catch(e){} }
       res.status(200).json({ ok:true, removed:sgn }); return;
+    }
+
+    if (action === 'pledgelist') {
+      var pgl = await redis(['LRANGE','kb_pledges',0,9999]);
+      var pgitems = (pgl.result||[]).map(function(x){ try{ var po=JSON.parse(x); po._raw=x; return po; }catch(e){ return null; } }).filter(Boolean);
+      res.status(200).json({ ok:true, count:pgitems.length, items:pgitems }); return;
+    }
+
+    if (action === 'pledgeremove' && req.method === 'POST') {
+      if (!isAdmin) { res.status(401).json({ ok:false, error:'admin only' }); return; }
+      var pgraw = await readBody(req); var pgb = pgraw;
+      if (typeof pgraw === 'string') { try { pgb = JSON.parse(pgraw||'{}'); } catch(e){ pgb={}; } }
+      var pgt = pgb && pgb.raw;
+      if (!pgt) { res.status(200).json({ ok:false, error:'no target' }); return; }
+      var pgrem = await redis(['LREM','kb_pledges',1,pgt]);
+      var pgn = parseInt((pgrem&&pgrem.result)||0,10)||0;
+      if (pgn > 0) { try { var pgo = JSON.parse(pgt); if (pgo && pgo.email) { await redis(['SREM','kb_pledge_emails', pgo.email]); } } catch(e){} }
+      res.status(200).json({ ok:true, removed:pgn }); return;
     }
 
     if (action === 'reportlist') {
