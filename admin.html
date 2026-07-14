@@ -207,8 +207,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
         </h3>
         <div style="display:flex;gap:18px;flex-wrap:wrap;margin:0 0 14px;font-size:.9rem;color:var(--muted)">
           <span>총 약정 <b id="pgnTot" style="color:var(--dpk)">0</b>명</span>
-          <span>약정 예정 총액 <b id="pgnAmt" style="color:var(--dpk)">0</b>원</span>
-          <span>휴대폰 제공 <b id="pgnPhone" style="color:var(--dpk)">0</b>명</span>
+          <span>인스타 아이디 제공 <b id="pgnInsta" style="color:var(--dpk)">0</b>명</span>
         </div>
         <div id="pgnList"></div>
       </div>
@@ -433,24 +432,21 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
         pgnItems=(d.items||[]).slice().sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
         $('pgnCount').textContent='('+pgnItems.length+')';
         $('pgnTot').textContent=pgnItems.length.toLocaleString();
-        var amt=pgnItems.reduce(function(s,x){ return s+(parseInt(x.amount,10)||0); },0);
-        $('pgnAmt').textContent=amt.toLocaleString();
-        $('pgnPhone').textContent=pgnItems.filter(function(x){return x.phone;}).length.toLocaleString();
+        $('pgnInsta').textContent=pgnItems.filter(function(x){return x.instagram;}).length.toLocaleString();
         var el=$('pgnList');
         if(!pgnItems.length){ el.innerHTML='<div class="empty">아직 약정이 없습니다.</div>'; return; }
         el.innerHTML=pgnItems.map(function(s,i){
           var dt=''; try{ dt=new Date(s.ts).toLocaleString('ko-KR'); }catch(e){}
-          var amtT = (parseInt(s.amount,10)||0)>0 ? (' · <b>'+(parseInt(s.amount,10)||0).toLocaleString()+'원</b>') : ' · <span style="color:#9aa3b0">금액 미정</span>';
-          var ph = s.phone ? (' · '+esc(s.phone)) : '';
-          return '<div class="th"><div class="m"><b>'+esc(s.name)+'</b> · '+esc(s.email)+ph+amtT+'</div><div class="meta">'+esc(dt)+' <button class="del" data-i="'+i+'">삭제</button></div></div>';
+          var ig = s.instagram ? (' · <span style="color:#C4553A">@'+esc(String(s.instagram).replace(/^@+/,''))+'</span>') : '';
+          return '<div class="th"><div class="m"><b>'+esc(s.name)+'</b> · '+esc(s.email)+ig+'</div><div class="meta">'+esc(dt)+' <button class="del" data-i="'+i+'">삭제</button></div></div>';
         }).join('');
       });
   }
   function pgnRows(){
-    var rows=[['이름','이메일','휴대폰','약정예정금액(원)','약정일시']];
+    var rows=[['이름','이메일','인스타그램','약정일시']];
     pgnItems.forEach(function(s){
       var dt=''; try{ dt=new Date(s.ts).toLocaleString('ko-KR'); }catch(e){}
-      rows.push([s.name||'', s.email||'', s.phone||'', (parseInt(s.amount,10)||0), dt]);
+      rows.push([s.name||'', s.email||'', (s.instagram? '@'+String(s.instagram).replace(/^@+/,'') : ''), dt]);
     });
     return rows;
   }
@@ -461,7 +457,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     try{
       if(!window.XLSX){ await new Promise(function(res,rej){ var sc=document.createElement('script'); sc.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'; sc.onload=res; sc.onerror=rej; document.head.appendChild(sc); }); }
       var ws=XLSX.utils.aoa_to_sheet(rows);
-      ws['!cols']=[{wch:12},{wch:28},{wch:16},{wch:16},{wch:22}];
+      ws['!cols']=[{wch:12},{wch:28},{wch:20},{wch:22}];
       var wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, '후원약정');
       XLSX.writeFile(wb, fname+'.xlsx');
     }catch(e){
