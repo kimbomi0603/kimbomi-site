@@ -133,6 +133,45 @@ module.exports = async (req, res) => {
     } catch(e){ res.status(200).json({ ok:false, error:String(e&&e.message||e) }); }
     return;
   }
+  // ===== 서명운동 (공개) =====
+  if (action === 'signcount') {
+    try {
+      var scn = await redis(['LLEN','kb_signs']);
+      res.status(200).json({ ok:true, count: parseInt((scn&&scn.result)||0,10)||0 });
+    } catch(e){ res.status(200).json({ ok:false, count:0 }); }
+    return;
+  }
+  if (action === 'signsubmit' && req.method === 'POST') {
+    try {
+      var sip = ((req.headers['x-forwarded-for']||'').split(',')[0]||'').trim();
+      var srk = 'rl:sign:'+sip;
+      var srr = await redis(['INCR', srk]); var srn = parseInt((srr&&srr.result)||0,10)||0;
+      if (srn === 1) { await redis(['EXPIRE', srk, 600]); }
+      if (srn > 8) { res.status(200).json({ ok:false, error:'잠시 후 다시 시도해 주세요.' }); return; }
+      var sraw = await readBody(req); var sb = sraw;
+      if (typeof sraw === 'string') { try { sb = JSON.parse(sraw||'{}'); } catch(e){ sb={}; } }
+      var sclean = function(v,max){ var x=String(v==null?'':v); var o=''; for(var i=0;i<x.length;i++){ var cc=x.charCodeAt(i); if(cc===9||cc>=32) o+=x[i]; } o=o.replace(/\s+/g,' ').trim(); if(o.length>max) o=o.slice(0,max); return o; };
+      var sname = sclean(sb.name, 30);
+      var sregion = sclean(sb.region, 30);
+      var semail = sclean(sb.email, 100).toLowerCase();
+      if (!sname || !sregion || !semail) { res.status(200).json({ ok:false, error:'이름·지역·이메일을 모두 입력해 주세요.' }); return; }
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(semail)) { res.status(200).json({ ok:false, error:'이메일 형식을 확인해 주세요.' }); return; }
+      if (sb.agree !== true) { res.status(200).json({ ok:false, error:'서명 동의에 체크해 주세요.' }); return; }
+      var sadd = await redis(['SADD','kb_signs_emails', semail]);
+      if ((parseInt((sadd&&sadd.result)||0,10)||0) === 0) {
+        var c0 = await redis(['LLEN','kb_signs']);
+        res.status(200).json({ ok:true, dup:true, count: parseInt((c0&&c0.result)||0,10)||0 });
+        return;
+      }
+      // 개인정보 최소 수집: IP 등은 저장하지 않는다.
+      var srec = JSON.stringify({ name:sname, region:sregion, email:semail, news: sb.news===true, injunction: sb.injunction===true, ts: Date.now() });
+      await redis(['LPUSH','kb_signs', srec]);
+      var c1 = await redis(['LLEN','kb_signs']);
+      res.status(200).json({ ok:true, count: parseInt((c1&&c1.result)||0,10)||0 });
+    } catch(e){ res.status(200).json({ ok:false, error:String(e&&e.message||e) }); }
+    return;
+  }
+
   if (!ADMIN_KEY && !REPORT_TOKEN) { res.status(200).json({ ok:false, configured:false, needsKey:true }); return; }
   if (!isAdmin && !isReporter) { res.status(401).json({ ok:false, error:'unauthorized' }); return; }
 
@@ -143,6 +182,12 @@ module.exports = async (req, res) => {
       var rec = JSON.stringify({ date: (b.date||kstDate(1)), title: String(b.title||'').slice(0,200), md: String(b.md||'').slice(0,20000), stats: b.stats||{}, ts: Date.now() });
       await pipeline([ ['LPUSH','a:reports', rec], ['LTRIM','a:reports',0,199] ]);
       res.status(200).json({ ok:true }); return;
+    }
+
+    if (action === 'signlist') {
+      var sgl = await redis(['LRANGE','kb_signs',0,9999]);
+      var sgitems = (sgl.result||[]).map(function(x){ try{ return JSON.parse(x); }catch(e){ return null; } }).filter(Boolean);
+      res.status(200).json({ ok:true, count:sgitems.length, items:sgitems }); return;
     }
 
     if (action === 'reportlist') {
