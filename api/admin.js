@@ -192,8 +192,7 @@ module.exports = async (req, res) => {
       var pclean = function(v,max){ var x=String(v==null?'':v); var o=''; for(var i=0;i<x.length;i++){ var cc=x.charCodeAt(i); if(cc===9||cc>=32) o+=x[i]; } o=o.replace(/\s+/g,' ').trim(); if(o.length>max) o=o.slice(0,max); return o; };
       var pname = pclean(pb.name, 30);
       var pemail = pclean(pb.email, 100).toLowerCase();
-      var pphone = pclean(pb.phone, 20);
-      var pamt = parseInt(pb.amount,10); if (isNaN(pamt) || pamt < 0) pamt = 0; if (pamt > 10000000) pamt = 10000000;
+      var pinsta = pclean(pb.instagram, 30).replace(/^@+/,'');
       if (!pname || !pemail) { res.status(200).json({ ok:false, error:'이름과 이메일을 입력해 주세요.' }); return; }
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(pemail)) { res.status(200).json({ ok:false, error:'이메일 형식을 확인해 주세요.' }); return; }
       if (pb.agree !== true || pb.understand !== true) { res.status(200).json({ ok:false, error:'약정 성격 확인과 안내 수신에 동의해 주세요.' }); return; }
@@ -204,7 +203,7 @@ module.exports = async (req, res) => {
         return;
       }
       // 개인정보 최소 수집: IP 등은 저장하지 않는다. 금액은 저장하되 공개 카운트엔 미포함.
-      var prec = JSON.stringify({ name:pname, email:pemail, phone:pphone, amount:pamt, ts: Date.now() });
+      var prec = JSON.stringify({ name:pname, email:pemail, instagram:pinsta, ts: Date.now() });
       await redis(['LPUSH','kb_pledges', prec]);
       var pc1 = await redis(['LLEN','kb_pledges']);
       res.status(200).json({ ok:true, count: parseInt((pc1&&pc1.result)||0,10)||0 });
