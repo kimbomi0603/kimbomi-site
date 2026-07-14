@@ -105,6 +105,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     <div class="tab" data-tab="stories">이생망 공유방</div>
     <div class="tab" data-tab="posts">비전·공약 글</div>
     <div class="tab" data-tab="signs">✍️ 서명운동</div>
+    <div class="tab" data-tab="pledges">💛 후원 약정</div>
     <div class="tab" data-tab="reportcenter">🛡️ 제보센터</div>
     <div class="tab" data-tab="reports">리포트 보관함</div>
 <div class="tab" data-tab="dobuli">💬 더불이 대화</div>
@@ -195,6 +196,21 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
         </div>
         <div id="sgnRegions" style="font-size:.84rem;color:var(--muted);margin:0 0 14px"></div>
         <div id="sgnList"></div>
+      </div>
+    </section>
+
+    <!-- PLEDGES (후원 약정) -->
+    <section id="tab-pledges" class="hide">
+      <div class="panel">
+        <h3>💛 후원 약정 <span id="pgnCount" style="color:var(--dpk)"></span>
+          <button class="btn g" id="pgnCsv" style="margin-left:auto;font-size:.8rem;padding:6px 12px">⬇ 엑셀 내려받기</button>
+        </h3>
+        <div style="display:flex;gap:18px;flex-wrap:wrap;margin:0 0 14px;font-size:.9rem;color:var(--muted)">
+          <span>총 약정 <b id="pgnTot" style="color:var(--dpk)">0</b>명</span>
+          <span>약정 예정 총액 <b id="pgnAmt" style="color:var(--dpk)">0</b>원</span>
+          <span>휴대폰 제공 <b id="pgnPhone" style="color:var(--dpk)">0</b>명</span>
+        </div>
+        <div id="pgnList"></div>
       </div>
     </section>
 
@@ -407,6 +423,66 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
       });
   }
 
+  /* ===== 후원 약정 ===== */
+  var pgnItems=[];
+  function loadPledges(){
+    return fetch('/api/admin?action=pledgelist&key='+encodeURIComponent(getKey()),{cache:'no-store'})
+      .then(function(r){ if(r.status===401){var e=new Error('unauth');e.code=401;throw e;} return r.json(); })
+      .then(function(d){
+        if(!d.ok) return;
+        pgnItems=(d.items||[]).slice().sort(function(a,b){ return (b.ts||0)-(a.ts||0); });
+        $('pgnCount').textContent='('+pgnItems.length+')';
+        $('pgnTot').textContent=pgnItems.length.toLocaleString();
+        var amt=pgnItems.reduce(function(s,x){ return s+(parseInt(x.amount,10)||0); },0);
+        $('pgnAmt').textContent=amt.toLocaleString();
+        $('pgnPhone').textContent=pgnItems.filter(function(x){return x.phone;}).length.toLocaleString();
+        var el=$('pgnList');
+        if(!pgnItems.length){ el.innerHTML='<div class="empty">아직 약정이 없습니다.</div>'; return; }
+        el.innerHTML=pgnItems.map(function(s,i){
+          var dt=''; try{ dt=new Date(s.ts).toLocaleString('ko-KR'); }catch(e){}
+          var amtT = (parseInt(s.amount,10)||0)>0 ? (' · <b>'+(parseInt(s.amount,10)||0).toLocaleString()+'원</b>') : ' · <span style="color:#9aa3b0">금액 미정</span>';
+          var ph = s.phone ? (' · '+esc(s.phone)) : '';
+          return '<div class="th"><div class="m"><b>'+esc(s.name)+'</b> · '+esc(s.email)+ph+amtT+'</div><div class="meta">'+esc(dt)+' <button class="del" data-i="'+i+'">삭제</button></div></div>';
+        }).join('');
+      });
+  }
+  function pgnRows(){
+    var rows=[['이름','이메일','휴대폰','약정예정금액(원)','약정일시']];
+    pgnItems.forEach(function(s){
+      var dt=''; try{ dt=new Date(s.ts).toLocaleString('ko-KR'); }catch(e){}
+      rows.push([s.name||'', s.email||'', s.phone||'', (parseInt(s.amount,10)||0), dt]);
+    });
+    return rows;
+  }
+  async function pgnDownload(){
+    if(!pgnItems.length){ alert('내려받을 약정이 없습니다.'); return; }
+    var rows=pgnRows();
+    var fname='김보미_후원약정_'+new Date().toISOString().slice(0,10);
+    try{
+      if(!window.XLSX){ await new Promise(function(res,rej){ var sc=document.createElement('script'); sc.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'; sc.onload=res; sc.onerror=rej; document.head.appendChild(sc); }); }
+      var ws=XLSX.utils.aoa_to_sheet(rows);
+      ws['!cols']=[{wch:12},{wch:28},{wch:16},{wch:16},{wch:22}];
+      var wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, '후원약정');
+      XLSX.writeFile(wb, fname+'.xlsx');
+    }catch(e){
+      var q=function(v){ return '"'+String(v==null?'':v).split('"').join('""')+'"'; };
+      var csv=rows.map(function(r){return r.map(q).join(',');}).join('\r\n');
+      var blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}); var url=URL.createObjectURL(blob);
+      var a=document.createElement('a'); a.href=url; a.download=fname+'.csv'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    }
+  }
+  document.addEventListener('click',function(e){ if(e.target && e.target.id==='pgnCsv'){ pgnDownload(); } });
+  document.addEventListener('click',function(e){
+    var b=e.target.closest && e.target.closest('#pgnList .del'); if(!b) return;
+    var i=parseInt(b.getAttribute('data-i'),10); var s=pgnItems[i]; if(!s) return;
+    if(!confirm('이 약정을 삭제할까요?\n\n'+String(s.name||'')+' · '+String(s.email||''))) return;
+    b.disabled=true; b.textContent='삭제중…';
+    fetch('/api/admin?action=pledgeremove&key='+encodeURIComponent(getKey()),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({raw:s._raw})})
+      .then(function(r){return r.json();})
+      .then(function(d){ if(d&&d.ok&&d.removed){ loaded.pledges=0; loadPledges().catch(handleErr); } else { alert('삭제에 실패했습니다.'); b.disabled=false; b.textContent='삭제'; } })
+      .catch(function(){ alert('삭제에 실패했습니다.'); b.disabled=false; b.textContent='삭제'; });
+  });
+
   /* ===== 서명운동 ===== */
   var sgnItems=[];
   function loadSigns(){
@@ -479,7 +555,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
 
   var loaded={};
   function showTab(name){
-    ['dash','thoughts','scores','stories','posts','signs','reportcenter','reports','dobuli','knowledge'].forEach(function(t){
+    ['dash','thoughts','scores','stories','posts','signs','pledges','reportcenter','reports','dobuli','knowledge'].forEach(function(t){
       $('tab-'+t).classList.toggle('hide', t!==name);
     });
     document.querySelectorAll('.tab').forEach(function(el){ el.classList.toggle('on', el.getAttribute('data-tab')===name); });
@@ -488,6 +564,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     if(name==='stories' && !loaded.stories){ loaded.stories=1; loadStories().catch(handleErr); }
     if(name==='posts' && !loaded.posts){ loaded.posts=1; loadPosts().catch(handleErr); }
     if(name==='signs' && !loaded.signs){ loaded.signs=1; loadSigns().catch(handleErr); }
+    if(name==='pledges' && !loaded.pledges){ loaded.pledges=1; loadPledges().catch(handleErr); }
     if(name==='reportcenter' && !loaded.reportcenter){ loaded.reportcenter=1; loadReportCenter().catch(handleErr); }
     if(name==='reports' && !loaded.reports){ loaded.reports=1; loadReports(); }
 if(name==='dobuli' && !loaded.dobuli){ loaded.dobuli=1; loadDobuli().catch(handleErr); }
