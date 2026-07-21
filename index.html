@@ -498,7 +498,7 @@ footer .flink:hover{color:#fff}
       <a href="games.html">미니게임</a>
       <a href="report.html">제보센터</a>
       <a href="index.html#sign" style="color:#c0392b;font-weight:800">서명운동</a>
-      <a href="pledge.html" style="color:#C4553A;font-weight:800">약정하기</a>
+      <a href="pledge.html" style="color:#C4553A;font-weight:800">후원하기</a>
       <a href="narasalim.html" class="nara">🔍 나라살림 돋보기<span class="nara-sub">우리동네 예산·정책 3초 확인</span></a>
       <a href="#join" class="btn btn-primary">함께하기</a>
     </nav>
@@ -709,24 +709,29 @@ footer .flink:hover{color:#fff}
 </style>
 <section class="pledgeteaser" id="pledge-teaser">
   <div class="wrap">
-    <div class="pt-eyebrow">🧱 모두의 집 · 후원 약정</div>
+    <div class="pt-eyebrow">🧱 모두의 집 · 후원하기</div>
     <div class="pt-h">기득권 바위를 깨고, <em>새로운 민주당 집</em>을 짓습니다.</div>
-    <p class="pt-p">벽돌 한 장은 후원 약정 한 명. 여러분의 약정이 모여 집이 한 장씩 올라갑니다. <b>지금은 결제·이체를 받지 않아요.</b> 계좌가 열리면 가장 먼저 알려드릴게요.</p>
+    <p class="pt-p">벽돌 한 장은 든든한 후원자 한 분. <b>후원계좌가 열렸습니다!</b> 여러분의 커피 한 잔이 김보미의 확성기가 됩니다. 후원이 모여 새로운 민주당 집이 한 장씩 올라갑니다.</p>
     <div class="pt-info">
-      <div class="pt-info-h">왜 지금은 후원할 수 없나요?</div>
-      <div class="pt-steps">
-        <div class="pt-step"><b>1</b>후보 등록 (7/16~17)</div>
-        <div class="pt-step"><b>2</b>선관위 신고·후원회 설립</div>
-        <div class="pt-step"><b>3</b>후원계좌 개설</div>
+      <div class="pt-info-h">🙏 김보미 후원회 계좌</div>
+      <div style="background:#0A2E5C;color:#fff;border-radius:12px;padding:14px 16px;text-align:center;margin-bottom:12px">
+        <div style="font-size:1.3rem;font-weight:900;letter-spacing:.01em">농협 301-0389-4337-61</div>
+        <div style="font-size:.82rem;color:#cfe0f5;margin-top:4px">예금주 · 더불어민주당대표경선후보자 김보미</div>
       </div>
-      <p class="pt-info-p"><span class="hl">이 절차를 마치기 전에는 법(정치자금법)상 어떤 후원금도 받을 수 없습니다.</span> 그래서 지금은 <b>돈을 받지 않고</b>, 계좌가 열리면 후원하시겠다는 <b>의사(약정)와 연락처만</b> 미리 받아둡니다. 계좌가 열리는 즉시 약정해 주신 분께 <b>가장 먼저</b> 문자·이메일로 알려드릴게요.</p>
+      <p class="pt-info-p">문자 한 통, 웹자보 한 장에도 비용이 듭니다. <b>커피 한 잔 값이면 당원들에게 문자 수백 통</b>이 닿습니다. 돈도 빽도 없는 김보미의 확성기는 오직 여러분입니다.</p>
+      <div class="pt-steps" style="margin-top:12px">
+        <div class="pt-step" style="min-width:120px"><b style="background:#1c7a43">✓</b>10만원까지 전액 세액공제</div>
+        <div class="pt-step" style="min-width:120px"><b style="background:#1c7a43">✓</b>1인 최대 200만원</div>
+        <div class="pt-step" style="min-width:120px"><b style="background:#1c7a43">✓</b>10만원 이하 익명 후원</div>
+      </div>
+      <p class="pt-info-p" style="font-size:.85rem;color:#8aa0bd;margin-top:10px">※ 외국인·법인·단체·교사·공무원은 후원하실 수 없습니다. 자세한 안내와 영수증 발급은 후원 페이지에서 확인하세요.</p>
     </div>
     <canvas id="ptHouse" width="600" height="420"></canvas>
     <div class="pt-bottom">
-      <div><span class="pt-num" id="ptNum">0</span><span class="pt-num-l">장의 벽돌이 쌓였어요</span></div>
-      <a href="pledge.html" class="pt-btn">🧱 나도 벽돌 쌓기 →</a>
+      <div><span class="pt-num" id="ptNum">0</span><span class="pt-num-l">분이 후원해 주셨어요</span></div>
+      <a href="pledge.html" class="pt-btn">🙏 후원하러 가기 →</a>
     </div>
-    <p class="pt-note">※ 벽돌 = 후원 ‘약정’ 인원. 실제 후원금은 아직 오가지 않았습니다.</p>
+    <p class="pt-note">※ 벽돌 = 함께해 주신 후원자 수입니다. 감사합니다! 🙏</p>
   </div>
 </section>
 <script>
@@ -754,7 +759,7 @@ footer .flink:hover{color:#fff}
   }
   function anim(t){var start=curDraw,t0=performance.now(),dur=1100;function s(now){var k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,3),v=Math.round(start+(t-start)*e);drawHouse(cv,v);if(k<1)requestAnimationFrame(s);else curDraw=t;}requestAnimationFrame(s);}
   drawHouse(cv,0);
-  fetch("/api/admin?action=pledgecount").then(function(r){return r.json();}).then(function(d){if(d&&d.ok){var e=document.getElementById("ptNum");if(e)e.textContent=Number(d.count||0).toLocaleString();anim(d.count||0);}}).catch(function(){});
+  fetch("/api/admin?action=donorcount").then(function(r){return r.json();}).then(function(d){if(d&&d.ok){var e=document.getElementById("ptNum");if(e)e.textContent=Number(d.count||0).toLocaleString();anim(d.count||0);}}).catch(function(){});
 })();
 </script>
 

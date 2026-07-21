@@ -105,7 +105,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     <div class="tab" data-tab="stories">이생망 공유방</div>
     <div class="tab" data-tab="posts">비전·공약 글</div>
     <div class="tab" data-tab="signs">✍️ 서명운동</div>
-    <div class="tab" data-tab="pledges">💛 후원 약정</div>
+    <div class="tab" data-tab="pledges">💛 후원 현황</div>
     <div class="tab" data-tab="reportcenter">🛡️ 제보센터</div>
     <div class="tab" data-tab="reports">리포트 보관함</div>
 <div class="tab" data-tab="dobuli">💬 더불이 대화</div>
@@ -202,7 +202,16 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     <!-- PLEDGES (후원 약정) -->
     <section id="tab-pledges" class="hide">
       <div class="panel">
-        <h3>💛 후원 약정 <span id="pgnCount" style="color:var(--dpk)"></span>
+        <h3>💛 후원자 수 (홈·후원페이지에 표시)</h3>
+        <p style="font-size:.88rem;color:var(--muted);margin:0 0 12px">입금 명세서를 보고 실제 후원자 수를 직접 입력하세요. 저장하면 홈페이지 벽돌집과 후원 페이지 숫자에 바로 반영됩니다.</p>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <input id="donorInput" type="number" min="0" class="pfield" style="width:180px;margin:0" placeholder="예: 211">
+          <button class="btn p" id="donorSave">저장</button>
+          <span id="donorMsg" style="font-size:.88rem;font-weight:700"></span>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>📇 약정자 명단 (계좌 안내 발송용) <span id="pgnCount" style="color:var(--dpk)"></span>
           <button class="btn g" id="pgnCsv" style="margin-left:auto;font-size:.8rem;padding:6px 12px">⬇ 엑셀 내려받기</button>
         </h3>
         <div style="display:flex;gap:18px;flex-wrap:wrap;margin:0 0 14px;font-size:.9rem;color:var(--muted)">
@@ -424,7 +433,19 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
 
   /* ===== 후원 약정 ===== */
   var pgnItems=[];
+  function loadDonorCount(){
+    return fetch('/api/admin?action=donorcount',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){ if(d&&d.ok){ var el=$('donorInput'); if(el && !el.value) el.value=d.count; } }).catch(function(){});
+  }
+  document.addEventListener('click',function(e){
+    if(!e.target || e.target.id!=='donorSave') return;
+    var v=parseInt($('donorInput').value,10); if(isNaN(v)||v<0){ $('donorMsg').style.color='#c0392b'; $('donorMsg').textContent='숫자를 입력하세요.'; return; }
+    e.target.disabled=true; $('donorMsg').style.color='#5a6474'; $('donorMsg').textContent='저장 중…';
+    fetch('/api/admin?action=donorset&key='+encodeURIComponent(getKey()),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({count:v})})
+      .then(function(r){return r.json();}).then(function(d){ e.target.disabled=false; if(d&&d.ok){ $('donorMsg').style.color='#1c7a43'; $('donorMsg').textContent='✅ '+Number(d.count).toLocaleString()+'명으로 저장됐습니다.'; } else { $('donorMsg').style.color='#c0392b'; $('donorMsg').textContent='저장 실패'; } })
+      .catch(function(){ e.target.disabled=false; $('donorMsg').style.color='#c0392b'; $('donorMsg').textContent='저장 실패'; });
+  });
   function loadPledges(){
+    loadDonorCount();
     return fetch('/api/admin?action=pledgelist&key='+encodeURIComponent(getKey()),{cache:'no-store'})
       .then(function(r){ if(r.status===401){var e=new Error('unauth');e.code=401;throw e;} return r.json(); })
       .then(function(d){
