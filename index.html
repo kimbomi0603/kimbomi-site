@@ -570,6 +570,13 @@ footer .flink:hover{color:#fff}
 .pt-btn{display:inline-block;background:#C4553A;color:#fff;font-weight:800;font-size:1rem;padding:13px 24px;border-radius:999px;box-shadow:0 8px 20px rgba(196,85,58,.28)}
 .pt-btn:hover{filter:brightness(1.05)}
 .pt-note{font-size:.8rem;color:#8aa0bd;margin-top:12px}
+.pt-amount{max-width:520px;margin:14px auto 4px}
+.pt-amt-line{font-size:.95rem;color:#5a6d84;font-weight:700}
+.pt-amt-line b{color:#C4553A;font-size:1.7rem;font-weight:900;font-variant-numeric:tabular-nums;margin-right:4px}
+.pt-progress{height:16px;background:#e6eef8;border-radius:999px;overflow:hidden;margin:10px 0 6px;border:1px solid #d7e7fb}
+.pt-progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#C4553A,#e0794b);border-radius:999px;transition:width 1.1s cubic-bezier(.25,1,.4,1)}
+.pt-amt-sub{font-size:.9rem;color:#5a6d84;font-weight:600}
+.pt-amt-sub b{color:#0A2E5C;font-weight:800}
 .pt-info{background:#fff;border:1px solid #d7e7fb;border-radius:16px;padding:20px 22px;max-width:640px;margin:20px auto 0;text-align:left;box-shadow:0 8px 22px rgba(10,46,92,.06)}
 .pt-info-h{font-weight:800;font-size:1.02rem;color:#0A2E5C;margin-bottom:12px}
 .pt-steps{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
@@ -600,16 +607,20 @@ footer .flink:hover{color:#fff}
       <p class="pt-info-p" style="font-size:.85rem;color:#8aa0bd;margin-top:10px">※ 외국인·법인·단체·교사·공무원은 후원하실 수 없습니다. 자세한 안내와 영수증 발급은 후원 페이지에서 확인하세요.</p>
     </div>
     <canvas id="ptHouse" width="600" height="420"></canvas>
-    <div class="pt-bottom">
-      <div><span class="pt-num" id="ptNum">0</span><span class="pt-num-l">분이 후원해 주셨어요</span></div>
+    <div class="pt-amount">
+      <div class="pt-amt-line"><b id="ptAmt">0원</b> <span>/ 목표 1억 5천만 원</span></div>
+      <div class="pt-progress"><i id="ptBar"></i></div>
+      <div class="pt-amt-sub">완공 <b id="ptPct">0%</b> · <b id="ptNum">0</b>명이 함께해 주셨어요 🙏</div>
+    </div>
+    <div class="pt-bottom" style="justify-content:center">
       <a href="pledge.html" class="pt-btn">🙏 후원하러 가기 →</a>
     </div>
-    <p class="pt-note">※ 벽돌 = 함께해 주신 후원자 수입니다. 감사합니다! 🙏</p>
+    <p class="pt-note">※ 벽돌집은 목표 1억 5천만 원 중 현재 모금액만큼 채워집니다. 커피 한 잔이 김보미의 확성기가 됩니다!</p>
   </div>
 </section>
 <script>
 (function(){
-  var cv=document.getElementById("ptHouse"); if(!cv) return; var GOAL=10000, curDraw=0;
+  var cv=document.getElementById("ptHouse"); if(!cv) return; var GOAL=150000000, curDraw=0;
   function drawHouse(cv,count){
     var ctx=cv.getContext("2d"),W=cv.width,H=cv.height,CELL=10,COLS=Math.floor(W/CELL),ROWS=Math.floor(H/CELL),pct=Math.min(1,count/GOAL);
     if(!cv._cells){var cells=[];function inH(c,r){if(r>=17&&r<=30&&c>=15&&c<=44){if(c>=26&&c<=32&&r>=24)return false;if(c>=18&&c<=22&&r>=20&&r<=24)return false;if(c>=37&&c<=41&&r>=20&&r<=24)return false;return true;}if(r>=6&&r<=16){var half=(r-6)*1.45+2;if(Math.abs(c-29.5)<=half&&c>=12&&c<=47)return true;}if(c>=38&&c<=40&&r>=3&&r<=9)return true;return false;}for(var r=ROWS-1;r>=0;r--)for(var c=0;c<COLS;c++)if(inH(c,r))cells.push({c:c,r:r});cells.sort(function(a,b){return b.r-a.r||a.c-b.c;});cv._cells=cells;}
@@ -632,7 +643,7 @@ footer .flink:hover{color:#fff}
   }
   function anim(t){var start=curDraw,t0=performance.now(),dur=1100;function s(now){var k=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-k,3),v=Math.round(start+(t-start)*e);drawHouse(cv,v);if(k<1)requestAnimationFrame(s);else curDraw=t;}requestAnimationFrame(s);}
   drawHouse(cv,0);
-  fetch("/api/admin?action=donorcount").then(function(r){return r.json();}).then(function(d){if(d&&d.ok){var e=document.getElementById("ptNum");if(e)e.textContent=Number(d.count||0).toLocaleString();anim(d.count||0);}}).catch(function(){});
+  fetch("/api/admin?action=donorcount").then(function(r){return r.json();}).then(function(d){if(d&&d.ok){var cnt=d.count||0,amt=d.amount||0,pct=Math.min(100,amt/GOAL*100);var e=document.getElementById("ptNum");if(e)e.textContent=Number(cnt).toLocaleString();var ea=document.getElementById("ptAmt");if(ea)ea.textContent=Number(amt).toLocaleString()+"원";var ep=document.getElementById("ptPct");if(ep)ep.textContent=pct.toFixed(1)+"%";var eb=document.getElementById("ptBar");if(eb)eb.style.width=pct+"%";anim(amt);}}).catch(function(){});
 })();
 </script>
 

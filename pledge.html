@@ -58,8 +58,12 @@ main{padding:34px 0 70px}
 .house-card{text-align:center;background:linear-gradient(180deg,#eaf4ff,#f6fbff)}
 .house-card h2{color:var(--dpk-dark)}
 #pHouse{width:100%;max-width:620px;display:block;margin:6px auto 12px;border-radius:16px;box-shadow:0 16px 40px rgba(10,46,92,.16)}
-.house-stat{font-size:1.05rem;color:#2b3646;font-weight:700}
-.house-stat b{color:var(--brick);font-size:1.7rem;font-weight:900;font-variant-numeric:tabular-nums;margin-right:4px}
+.amt-line{font-size:1rem;color:#5a6d84;font-weight:700;margin-top:4px}
+.amt-line b{color:var(--brick);font-size:1.9rem;font-weight:900;font-variant-numeric:tabular-nums;margin-right:5px}
+.progress{height:18px;background:#e6eef8;border-radius:999px;overflow:hidden;margin:12px auto 8px;max-width:560px;border:1px solid #d7e7fb}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brick),#e0794b);border-radius:999px;transition:width 1.1s cubic-bezier(.25,1,.4,1)}
+.amt-sub{font-size:.95rem;color:#5a6d84;font-weight:600}
+.amt-sub b{color:var(--dpk-dark);font-weight:800}
 .house-note{font-size:.82rem;color:#8aa0bd;margin-top:8px}
 
 .greet p{font-size:1rem;color:#2b3646;line-height:1.9;margin-bottom:14px}
@@ -127,8 +131,10 @@ main{padding:34px 0 70px}
   <div class="card house-card">
     <h2>🏗 지금까지 함께한 후원자</h2>
     <canvas id="pHouse" width="620" height="440"></canvas>
-    <div class="house-stat"><b id="pNum">0</b>분이 후원해 주셨어요 <span style="color:#8aa0bd;font-weight:600">/ 목표 10,000명</span></div>
-    <div class="house-note">※ 벽돌 한 장은 든든한 후원자 한 분입니다. 감사합니다! 🙏</div>
+    <div class="amt-line"><b id="pAmt">0원</b> <span>/ 목표 1억 5천만 원</span></div>
+    <div class="progress"><i id="pBar"></i></div>
+    <div class="amt-sub">완공 <b id="pPct">0%</b> · <b id="pNum">0</b>명이 함께해 주셨어요 🙏</div>
+    <div class="house-note">※ 벽돌집은 목표 1억 5천만 원 중 현재 모금액만큼 채워집니다.</div>
   </div>
 
   <div class="card greet">
@@ -171,7 +177,7 @@ main{padding:34px 0 70px}
 <script>
 "use strict";
 var $=function(id){return document.getElementById(id);};
-var GOAL=10000, curDraw=0;
+var GOAL=150000000, curDraw=0;
 function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2200);}
 
 function drawHouse(cv, count){
@@ -238,7 +244,7 @@ function animateHouse(cv, target){
   requestAnimationFrame(step);
 }
 drawHouse($('pHouse'), 0);
-fetch('/api/admin?action=donorcount').then(function(r){return r.json();}).then(function(d){ if(d&&d.ok){ $('pNum').textContent=Number(d.count||0).toLocaleString(); animateHouse($('pHouse'), d.count||0); } }).catch(function(){});
+fetch('/api/admin?action=donorcount').then(function(r){return r.json();}).then(function(d){ if(d&&d.ok){ var cnt=d.count||0, amt=d.amount||0, pct=Math.min(100, amt/GOAL*100); $('pNum').textContent=Number(cnt).toLocaleString(); $('pAmt').textContent=Number(amt).toLocaleString()+'원'; $('pPct').textContent=pct.toFixed(1)+'%'; $('pBar').style.width=pct+'%'; animateHouse($('pHouse'), amt); } }).catch(function(){});
 
 $('copyBtn').addEventListener('click',function(){
   var acc='301-0389-4337-61';

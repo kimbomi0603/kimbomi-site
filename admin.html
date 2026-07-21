@@ -204,11 +204,13 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
       <div class="panel">
         <h3>💛 후원자 수 (홈·후원페이지에 표시)</h3>
         <p style="font-size:.88rem;color:var(--muted);margin:0 0 12px">입금 명세서를 보고 실제 후원자 수를 직접 입력하세요. 저장하면 홈페이지 벽돌집과 후원 페이지 숫자에 바로 반영됩니다.</p>
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <input id="donorInput" type="number" min="0" class="pfield" style="width:180px;margin:0" placeholder="예: 211">
-          <button class="btn p" id="donorSave">저장</button>
-          <span id="donorMsg" style="font-size:.88rem;font-weight:700"></span>
+        <div style="display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap">
+          <label style="font-size:.85rem;color:var(--muted)">참여 인원(명)<br><input id="donorInput" type="number" min="0" class="pfield" style="width:160px;margin:6px 0 0" placeholder="예: 211"></label>
+          <label style="font-size:.85rem;color:var(--muted)">현재 후원금(원)<br><input id="donorAmt" type="number" min="0" class="pfield" style="width:200px;margin:6px 0 0" placeholder="예: 3500000"></label>
+          <button class="btn p" id="donorSave" style="margin-bottom:1px">저장</button>
+          <span id="donorMsg" style="font-size:.88rem;font-weight:700;margin-bottom:8px"></span>
         </div>
+        <p style="font-size:.82rem;color:#9aa3b0;margin:10px 0 0">목표 금액은 1억 5천만 원으로 고정입니다. 현재 후원금을 입력하면 벽돌집이 (현재금액 ÷ 1.5억) 비율로 채워집니다.</p>
       </div>
       <div class="panel">
         <h3>📇 약정자 명단 (계좌 안내 발송용) <span id="pgnCount" style="color:var(--dpk)"></span>
@@ -434,14 +436,15 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
   /* ===== 후원 약정 ===== */
   var pgnItems=[];
   function loadDonorCount(){
-    return fetch('/api/admin?action=donorcount',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){ if(d&&d.ok){ var el=$('donorInput'); if(el && !el.value) el.value=d.count; } }).catch(function(){});
+    return fetch('/api/admin?action=donorcount',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){ if(d&&d.ok){ var el=$('donorInput'); if(el && !el.value) el.value=d.count; var ea=$('donorAmt'); if(ea && !ea.value) ea.value=d.amount||0; } }).catch(function(){});
   }
   document.addEventListener('click',function(e){
     if(!e.target || e.target.id!=='donorSave') return;
-    var v=parseInt($('donorInput').value,10); if(isNaN(v)||v<0){ $('donorMsg').style.color='#c0392b'; $('donorMsg').textContent='숫자를 입력하세요.'; return; }
+    var v=parseInt($('donorInput').value,10); if(isNaN(v)||v<0){ $('donorMsg').style.color='#c0392b'; $('donorMsg').textContent='참여 인원을 숫자로 입력하세요.'; return; }
+    var amt=parseInt($('donorAmt').value,10); if(isNaN(amt)||amt<0) amt=0;
     e.target.disabled=true; $('donorMsg').style.color='#5a6474'; $('donorMsg').textContent='저장 중…';
-    fetch('/api/admin?action=donorset&key='+encodeURIComponent(getKey()),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({count:v})})
-      .then(function(r){return r.json();}).then(function(d){ e.target.disabled=false; if(d&&d.ok){ $('donorMsg').style.color='#1c7a43'; $('donorMsg').textContent='✅ '+Number(d.count).toLocaleString()+'명으로 저장됐습니다.'; } else { $('donorMsg').style.color='#c0392b'; $('donorMsg').textContent='저장 실패'; } })
+    fetch('/api/admin?action=donorset&key='+encodeURIComponent(getKey()),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({count:v, amount:amt})})
+      .then(function(r){return r.json();}).then(function(d){ e.target.disabled=false; if(d&&d.ok){ $('donorMsg').style.color='#1c7a43'; $('donorMsg').textContent='✅ 인원 '+Number(d.count).toLocaleString()+'명 · 후원금 '+Number(d.amount||0).toLocaleString()+'원 저장됐습니다.'; } else { $('donorMsg').style.color='#c0392b'; $('donorMsg').textContent='저장 실패'; } })
       .catch(function(){ e.target.disabled=false; $('donorMsg').style.color='#c0392b'; $('donorMsg').textContent='저장 실패'; });
   });
   function loadPledges(){
