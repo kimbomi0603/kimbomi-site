@@ -175,9 +175,11 @@ module.exports = async (req, res) => {
   // ===== 후원 약정 (공개) — 실제 후원 아님, 결제·계좌 없음. 의사+연락처만 접수 =====
   if (action === 'donorcount') {
     try {
-      var dcn = await redis(['GET','kb_donor_count']);
-      res.status(200).json({ ok:true, count: parseInt((dcn&&dcn.result)||0,10)||0 });
-    } catch(e){ res.status(200).json({ ok:false, count:0 }); }
+      var dcp = await pipeline([['GET','kb_donor_count'],['GET','kb_donor_amount']]);
+      var dcCount = parseInt((dcp[0]&&dcp[0].result)||0,10)||0;
+      var dcAmount = parseInt((dcp[1]&&dcp[1].result)||0,10)||0;
+      res.status(200).json({ ok:true, count: dcCount, amount: dcAmount });
+    } catch(e){ res.status(200).json({ ok:false, count:0, amount:0 }); }
     return;
   }
   if (action === 'pledgecount') {
@@ -253,8 +255,9 @@ module.exports = async (req, res) => {
       var dsraw = await readBody(req); var dsb = dsraw;
       if (typeof dsraw === 'string') { try { dsb = JSON.parse(dsraw||'{}'); } catch(e){ dsb={}; } }
       var dcount = parseInt(dsb.count,10); if (isNaN(dcount) || dcount < 0) dcount = 0; if (dcount > 100000000) dcount = 100000000;
-      await redis(['SET','kb_donor_count', String(dcount)]);
-      res.status(200).json({ ok:true, count: dcount }); return;
+      var damount = parseInt(dsb.amount,10); if (isNaN(damount) || damount < 0) damount = 0; if (damount > 100000000000) damount = 100000000000;
+      await pipeline([['SET','kb_donor_count', String(dcount)],['SET','kb_donor_amount', String(damount)]]);
+      res.status(200).json({ ok:true, count: dcount, amount: damount }); return;
     }
 
     if (action === 'pledgelist') {
