@@ -173,6 +173,13 @@ module.exports = async (req, res) => {
   }
 
   // ===== 후원 약정 (공개) — 실제 후원 아님, 결제·계좌 없음. 의사+연락처만 접수 =====
+  if (action === 'donorcount') {
+    try {
+      var dcn = await redis(['GET','kb_donor_count']);
+      res.status(200).json({ ok:true, count: parseInt((dcn&&dcn.result)||0,10)||0 });
+    } catch(e){ res.status(200).json({ ok:false, count:0 }); }
+    return;
+  }
   if (action === 'pledgecount') {
     try {
       var pcn = await redis(['LLEN','kb_pledges']);
@@ -239,6 +246,15 @@ module.exports = async (req, res) => {
       var sgn = parseInt((sgrem&&sgrem.result)||0,10)||0;
       if (sgn > 0) { try { var sgo = JSON.parse(sgt); if (sgo && sgo.email) { await redis(['SREM','kb_signs_emails', sgo.email]); } } catch(e){} }
       res.status(200).json({ ok:true, removed:sgn }); return;
+    }
+
+    if (action === 'donorset' && req.method === 'POST') {
+      if (!isAdmin) { res.status(401).json({ ok:false, error:'admin only' }); return; }
+      var dsraw = await readBody(req); var dsb = dsraw;
+      if (typeof dsraw === 'string') { try { dsb = JSON.parse(dsraw||'{}'); } catch(e){ dsb={}; } }
+      var dcount = parseInt(dsb.count,10); if (isNaN(dcount) || dcount < 0) dcount = 0; if (dcount > 100000000) dcount = 100000000;
+      await redis(['SET','kb_donor_count', String(dcount)]);
+      res.status(200).json({ ok:true, count: dcount }); return;
     }
 
     if (action === 'pledgelist') {
