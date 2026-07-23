@@ -91,7 +91,7 @@ main{padding:52px 0 80px;min-height:50vh}
 <body>
 <header>
   <div class="nav">
-    <a href="index.html" class="brand">김보미<span class="dot">.com</span><span class="tag">더불어민주당 당대표 후보</span></a>
+    <a href="index.html" class="brand">김보미<span class="dot">.com</span><span class="tag">전 당대표 예비후보</span></a>
     <nav class="menu" id="menu">
       <a href="manifesto.html">출마선언문</a>
       <a href="vision.html" class="cur">비전·공약</a>
@@ -101,7 +101,7 @@ main{padding:52px 0 80px;min-height:50vh}
       <a href="games.html">미니게임</a>
       <a href="report.html">제보센터</a>
       <a href="index.html#sign" style="color:#c0392b;font-weight:800">서명운동</a>
-      <a href="pledge.html" style="color:#C4553A;font-weight:800">후원하기</a>
+      <a href="pledge.html" style="color:#C4553A;font-weight:800">후원 감사·안내</a>
       <a href="narasalim.html" class="nara">🔍 나라살림 돋보기<span class="nara-sub">우리동네 예산·정책 3초 확인</span></a>
     </nav>
     <div class="nav-right">
@@ -130,10 +130,11 @@ main{padding:52px 0 80px;min-height:50vh}
 </main>
 
 <div class="foot">
-  <div class="wrap">김보미 · 더불어민주당 당대표 후보 — <a href="index.html">김보미.com</a> · <a href="manifesto.html">출마선언문 읽기</a></div>
+  <div class="wrap">김보미 · 전 더불어민주당 당대표 예비후보 — <a href="index.html">김보미.com</a> · <a href="manifesto.html">출마선언문 읽기</a></div>
 </div>
 <div class="toast" id="toast"></div>
 
+<script src="static-posts.js"></script>
 <script>
 "use strict";
 var $=function(id){return document.getElementById(id);};
@@ -219,10 +220,21 @@ function route(){
 }
 var _bg=document.getElementById('burger'),_mn=document.getElementById('menu');
 if(_bg&&_mn){ _bg.addEventListener('click',function(){_mn.classList.toggle('open');}); _mn.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){_mn.classList.remove('open');});}); }
+function mergeStatic(items){
+  var st=(window.KB_STATIC_POSTS||[]).slice();
+  var ids={}; items.forEach(function(p){ids[p.id]=1;});
+  st.forEach(function(p){ if(!ids[p.id]) items.push(p); });
+  items.sort(function(a,b){ return (b.publishAt||0)-(a.publishAt||0); });
+  return items;
+}
 fetch(API+'?action=list').then(function(r){return r.json();}).then(function(d){
-  posts=(d&&d.ok&&d.items)?d.items:[];
+  posts=mergeStatic((d&&d.ok&&d.items)?d.items:[]);
   renderList(); route();
-}).catch(function(){ $('plist').innerHTML='<div class="empty">불러올 수 없어요. 잠시 후 다시 시도해주세요.</div>'; });
+}).catch(function(){
+  posts=mergeStatic([]);
+  if(posts.length){ renderList(); route(); }
+  else { $('plist').innerHTML='<div class="empty">불러올 수 없어요. 잠시 후 다시 시도해주세요.</div>'; }
+});
 </script>
 <script src="/a.js" defer></script>
 <a href="index.html?bot=1" style="position:fixed;right:14px;bottom:14px;z-index:180" aria-label="AI 챗봇 더불이"><img src="dubuli-fab.svg" alt="더불이 챗봇" style="width:172px;height:auto;filter:drop-shadow(0 10px 22px rgba(0,45,100,.45))"></a></body>
