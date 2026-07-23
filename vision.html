@@ -71,6 +71,13 @@ main{padding:52px 0 80px;min-height:50vh}
 .article h1{font-family:var(--serif);font-weight:900;font-size:2.05rem;line-height:1.4;letter-spacing:-.01em;margin-bottom:26px;padding-bottom:24px;border-bottom:2px solid var(--tint)}
 .article p{font-size:1.09rem;line-height:1.95;color:#26324a;margin-bottom:22px}
 .article p.tagline{font-family:var(--serif);font-weight:700;color:var(--dpk);text-align:center;background:var(--tint);border-radius:14px;padding:18px 20px;margin-top:34px;font-size:1.05rem}
+.article p.p-sub{font-family:var(--serif);font-weight:800;color:var(--dpk-dark);text-align:center;background:var(--tint);border-radius:12px;padding:16px 18px;font-size:1.08rem;line-height:1.7}
+.article p.p-head{font-family:var(--serif);font-weight:900;color:var(--dpk-dark);font-size:1.22rem;line-height:1.6;margin:38px 0 16px;padding-left:14px;border-left:4px solid var(--dpk)}
+.article p.p-num{background:#f7f9fc;border-left:3px solid var(--dpk-2);border-radius:0 12px 12px 0;padding:16px 18px;margin-bottom:14px}
+.article p.p-num b{color:var(--dpk-dark);display:block;margin-bottom:4px}
+.article p.p-li{background:#f7f9fc;border-left:3px solid var(--dpk-2);border-radius:0 10px 10px 0;padding:12px 16px;margin-bottom:10px;font-weight:600;color:#1e2c48}
+.article p.p-callout{font-family:var(--serif);font-weight:800;color:var(--dpk-dark);font-size:1.16rem;margin:32px 0 18px}
+.article p.p-date{color:#8a93a5;font-size:.96rem;text-align:right;margin-top:34px;line-height:1.7}
 .article .pfig{margin:28px 0}
 .article .pfig img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--line)}
 .article .vfig{margin:28px 0}
@@ -172,6 +179,31 @@ var ARTICLE_LINKS=[{url:"https://www.hani.co.kr/arti/politics/politics_general/1
   if(m) return m[2];
   return '';
 }
+/* 본문 자동 서식 — 소제목·부제·번호 약속·다짐 목록·날짜 서명을 보기 좋게 꾸밈 */
+function dec(t){ return linkifyArticles(esc(t)).replace(/\n/g,'<br>'); }
+function richPara(t){
+  // 부제목: "— ... —" 형태
+  if(/^[—–-]\s?.+[—–-]$/.test(t) && t.length<90) return '<p class="p-sub">'+esc(t.replace(/^[—–-]\s?|\s?[—–-]$/g,''))+'</p>';
+  // 소제목: 첫째, 둘째, … / "…합니다." 로 끝나는 한 문장 선언형 헤딩
+  if(/^(첫째|둘째|셋째|넷째|다섯째|여섯째|일곱째|여덟째|아홉째|열째)[,.]/.test(t)) return '<p class="p-head">'+dec(t)+'</p>';
+  // 번호 약속: "1) 제목 문장. 내용…" → 첫 문장 진하게
+  var mn=t.match(/^(\d{1,2}\))\s?([\s\S]*)$/);
+  if(mn){
+    var body=mn[2], cut=body.search(/다\.(\s|$)/);
+    if(cut>-1 && cut<130){
+      var head=mn[1]+' '+body.slice(0,cut+2), rest=body.slice(cut+2).trim();
+      return '<p class="p-num"><b>'+esc(head)+'</b>'+(rest?dec(rest):'')+'</p>';
+    }
+    return '<p class="p-num"><b>'+esc(t)+'</b></p>';
+  }
+  // 다짐 목록: "— …하겠습니다." / "- …"
+  if(/^[—–-]\s/.test(t)) return '<p class="p-li">'+dec(t.replace(/^[—–-]\s/,'✔ '))+'</p>';
+  // 날짜·서명
+  if(/^\d{4}년\s?\d{1,2}월/.test(t)) return '<p class="p-date">'+dec(t)+'</p>';
+  // 짧은 호소·외침: "존경하는 당원 여러분, 국민 여러분!" 등
+  if(t.length<=46 && /[!！]$/.test(t) && t.indexOf('\n')<0) return '<p class="p-callout">'+esc(t)+'</p>';
+  return '<p>'+dec(t)+'</p>';
+}
 function renderDetail(p){
   var paras=String(p.body||'').split(/\n{2,}/).map(function(t){return t.trim();}).filter(Boolean);
   var html='<div class="meta">'+fmtDate(p.publishAt)+'</div><h1>'+esc(p.title)+'</h1>';
@@ -181,7 +213,7 @@ function renderDetail(p){
     var vd=ytId(t);
     if(vd){ html+='<figure class="vfig"><div class="vbox"><iframe src="https://www.youtube.com/embed/'+esc(vd)+'" title="영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></figure>'; return; }
     if(/^\[.*\]$/.test(t)){ html+='<p class="tagline">'+esc(t.replace(/^\[\s*|\s*\]$/g,''))+'</p>'; }
-    else { html+='<p>'+linkifyArticles(esc(t))+'</p>'; }
+    else { html+=richPara(t); }
   });
   html+='<div class="share"><button class="btn p" id="shareBtn">📢 공유하기</button><a class="btn g" href="vision.html">← 다른 글 보기</a></div>';
   $('article').innerHTML=html;
