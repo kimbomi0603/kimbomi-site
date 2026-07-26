@@ -60,7 +60,12 @@ h2.sec:first-of-type{margin-top:0}
 .list a.row{display:flex;gap:14px;align-items:baseline;padding:13px 6px;transition:.13s}
 .list a.row:hover{background:#f5f9ff}
 .d{flex:none;width:86px;font-size:.82rem;color:#8792a4;font-weight:700;font-variant-numeric:tabular-nums}
-.src{flex:none;width:92px;font-size:.8rem;color:var(--dpk);font-weight:800}
+.src{flex:none;width:110px;font-size:.8rem;color:var(--dpk);font-weight:800}
+.src .rp{display:block;font-style:normal;font-size:.72rem;color:#9aa3b0;font-weight:600;margin-top:1px}
+.thanks{background:linear-gradient(135deg,#f7faff,#eef4fc);border:1px solid var(--tint-2);border-left:4px solid var(--dpk);border-radius:14px;padding:22px 24px;margin-bottom:24px}
+.thanks h3{font-family:var(--serif);font-weight:800;font-size:1.08rem;color:var(--dpk-dark);margin-bottom:10px}
+.thanks p{font-size:.93rem;color:#33405a;line-height:1.85;margin-bottom:8px}
+.thanks .sign{text-align:right;font-family:var(--serif);font-weight:700;color:var(--dpk-dark);margin:6px 0 0}
 .t{font-size:.95rem;color:#22304a;font-weight:600;line-height:1.55}
 .t:hover{color:var(--dpk)}
 .chiplist{display:flex;flex-wrap:wrap;gap:7px;padding:10px 6px 14px}
@@ -110,9 +115,33 @@ h2.sec:first-of-type{margin-top:0}
 
 <main class="wrap">
 
+  <div class="thanks">
+    <h3>📮 기자님들께 올리는 감사 인사</h3>
+    <p>이름 석 자 알리기도 벅찼던 나흘의 선거운동이었습니다. 아무것도 없는 시골쥐의 목소리가 세상에 닿을 수 있었던 것은, 뙤약볕 현장에서 마이크를 내밀어 주시고, 밤늦게까지 자판을 두드려 한 줄이라도 더 기록해 주신 기자님들이 계셨기 때문입니다.</p>
+    <p>인터뷰로, 기사로, 사진 한 장으로, 영상 한 편으로 무명 청년의 도전을 세상과 이어주신 기자님 한 분 한 분의 성함을 이 페이지에 새깁니다. 그 고마움, 평생 잊지 않겠습니다. 언론이 비춰주신 빛에 부끄럽지 않은 정치로 보답하겠습니다.</p>
+    <p class="sign">— 김보미 올림</p>
+  </div>
+
   <div class="tabs">
     <button class="tab on" data-t="news">📰 언론 보도</button>
+    <button class="tab" data-t="intv">🎤 인터뷰</button>
     <button class="tab" data-t="video">▶ 영상</button>
+  </div>
+
+  <div id="pane-intv" hidden>
+    <h2 class="sec">단독·심층 인터뷰</h2>
+    <p class="sec-sub">김보미의 목소리를 직접 담아주신 기사들입니다 (최신순)</p>
+    <ul class="list">
+      <li><a class="row" href="https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003254152" target="_blank" rel="noopener"><span class="d">2026. 7. 25.</span><span class="src">오마이뉴스<i class="rp">정규리 기자</i></span><span class="t">"제가 몇 표 받았는지..." 선관위와 민주당을 향한 본질적 질문 — 투표권만 참정권이라는 착각</span></a></li>
+      <li><a class="row" href="https://v.daum.net/v/20260724144250195" target="_blank" rel="noopener"><span class="d">2026. 7. 24.</span><span class="src">뉴스1<i class="rp">서충섭 기자</i></span><span class="t">당대표 경선 탈락 김보미 "이장선거도 득표율 공개"…지도부 직격</span></a></li>
+      <li><a class="row" href="https://www.ytn.co.kr/_ln/0101_202607230749056860" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">YTN<i class="rp">박지혜 기자</i></span><span class="t">김보미 "'짱돌세대' 선배들 폭탄발언에 전화, 공감한다 격려…감격스러워"</span></a></li>
+      <li><a class="row" href="https://www.newspim.com/news/view/20260722001302" target="_blank" rel="noopener"><span class="d">2026. 7. 22.</span><span class="src">뉴스핌<i class="rp">배정원 기자</i></span><span class="t">[인터뷰] '36살 평당원' 김보미 "세대교체와 청년정치 외치려 민주당 당권 도전"</span></a></li>
+      <li><a class="row" href="https://www.chosun.com/politics/assembly/2026/07/20/J3WMORJHMVB73J2VJZOAR5PZ34/" target="_blank" rel="noopener"><span class="d">2026. 7. 20.</span><span class="src">조선일보<i class="rp">이민석 기자</i></span><span class="t">30대 민주당 대표 후보 김보미 "입틀막·꼰대 기득권… 이게 2030이 보는 與"</span></a></li>
+      <li><a class="row" href="https://v.daum.net/v/20260718090201168" target="_blank" rel="noopener"><span class="d">2026. 7. 18.</span><span class="src">중앙일보<i class="rp">권유진 기자</i></span><span class="t">"민주당은 이미 죽었다" 36세 평당원, 당 대표 선거 뛰어든 이유</span></a></li>
+      <li><a class="row" href="http://www.newstomato.com/ReadNews.aspx?no=1307547" target="_blank" rel="noopener"><span class="d">2026. 7. 17.</span><span class="src">뉴스토마토<i class="rp">동지훈 기자</i></span><span class="t">김보미 "민주당, 청년 강퇴 정당 됐다…기득권 이미 결승선 근처에"</span></a></li>
+      <li><a class="row" href="https://www.kmib.co.kr/article/view_amp.asp?arcid=0030115498" target="_blank" rel="noopener"><span class="d">2026. 7. 15.</span><span class="src">국민일보<i class="rp">한웅희 기자</i></span><span class="t">[인터뷰] "내로남불·불공정·위선 끝판왕을 민주당에서 본다" 37세 당대표 후보 김보미</span></a></li>
+    </ul>
+    <p class="note">※ 방송·라디오 인터뷰(김어준의 뉴스공장, MBC 뉴스투데이, YTN 뉴스명당, SBS 뉴스브리핑, KBC광주방송 등)는 '▶ 영상' 탭에서 보실 수 있습니다.</p>
   </div>
 
   <div id="pane-news">
@@ -122,63 +151,73 @@ h2.sec:first-of-type{margin-top:0}
       <li><a class="row" href="https://v.daum.net/v/20260724002209893" target="_blank" rel="noopener"><span class="d">2026. 7. 24.</span><span class="src">중앙일보</span><span class="t">[사설] 청년 후보 모두 탈락…민주당 기득권 계파 정치의 민낯</span></a></li>
       <li><a class="row" href="https://www.newsis.com/view/NISX20260724_0003722815" target="_blank" rel="noopener"><span class="d">2026. 7. 24.</span><span class="src">뉴시스</span><span class="t">박지원 "청년 후보 탈락 안타까워…청년 최고위원 보장해야"</span></a></li>
       <li><a class="row" href="https://www.munhwa.com/article/11604802" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">문화일보</span><span class="t">청년 전멸·지도부 후보 60년대생뿐… 86운동권 장악 '노화 민주'</span></a></li>
-      <li><a class="row" href="https://view.asiae.co.kr/article/2026072318320162512" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">아시아경제</span><span class="t">[속보] 고민정·김보미 예비경선 탈락…민주당 전당대회 당대표 경선</span></a></li>
-      <li><a class="row" href="https://www.pressian.com/pages/articles/2026072318540810947" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">프레시안</span><span class="t">김민석·정청래·송영길 컷오프 통과…고민정·김보미 탈락</span></a></li>
+      <li><a class="row" href="https://view.asiae.co.kr/article/2026072318320162512" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">아시아경제<i class="rp">나주석·전영주 기자</i></span><span class="t">[속보] 고민정·김보미 예비경선 탈락…민주당 전당대회 당대표 경선</span></a></li>
+      <li><a class="row" href="https://www.pressian.com/pages/articles/2026072318540810947" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">프레시안<i class="rp">곽재훈 기자</i></span><span class="t">김민석·정청래·송영길 컷오프 통과…고민정·김보미 탈락</span></a></li>
+      <li><a class="row" href="https://www.newsis.com/view/NISX20260723_0003721226" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">뉴시스<i class="rp">김난영 기자 외</i></span><span class="t">金·鄭·宋 당대표 본선行…최고위원 친명 5 vs 친청 3 (종합)</span></a></li>
+      <li><a class="row" href="https://www.khan.co.kr/article/202607232201005/" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">경향신문<i class="rp">김한솔·강한들 기자</i></span><span class="t">김민석·정청래·송영길 압축…여 '당권 레이스' 이변은 없었다</span></a></li>
       <li><a class="row" href="https://v.daum.net/v/20260723190537521" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">다음뉴스</span><span class="t">김민석·정청래·송영길 컷오프 통과…고민정·김보미 탈락</span></a></li>
       <li><a class="row" href="https://www.khan.co.kr/article/202607232200005" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">경향신문</span><span class="t">청년 후보 '전멸'…친청 3명 vs 친명 5명</span></a></li>
       <li><a class="row" href="https://www.khan.co.kr/article/202607231901001" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">경향신문</span><span class="t">민주당 당대표 후보 3인 '김민석·정청래·송영길' 확정…본선 레이스 돌입</span></a></li>
-      <li><a class="row" href="https://www.hankookilbo.com/news/article/A2026072109010005467" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">한국일보</span><span class="t">김민석·정청래·송영길, 與 당대표 선거 본선행…'친청' 최고위원 전원 생존</span></a></li>
-      <li><a class="row" href="https://www.sisajournal.com/news/articleView.html?idxno=380952" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">시사저널</span><span class="t">'빅3' 김민석·정청래·송영길, 與 전대 본경선 진출…청년 후보 전멸</span></a></li>
+      <li><a class="row" href="https://www.hankookilbo.com/news/article/A2026072109010005467" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">한국일보<i class="rp">박준석 기자</i></span><span class="t">김민석·정청래·송영길, 與 당대표 선거 본선행…'친청' 최고위원 전원 생존</span></a></li>
+      <li><a class="row" href="https://www.sisajournal.com/news/articleView.html?idxno=380952" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">시사저널<i class="rp">강윤서 기자</i></span><span class="t">'빅3' 김민석·정청래·송영길, 與 전대 본경선 진출…청년 후보 전멸</span></a></li>
       <li><a class="row" href="https://imnews.imbc.com/replay/2026/nwdesk/article/6839666_37004.html" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">MBC</span><span class="t">[뉴스데스크] 민주당 당대표 후보에 김민석·정청래·송영길…3파전 압축</span></a></li>
-      <li><a class="row" href="https://www.ytn.co.kr/_ln/0101_202607230749056860" target="_blank" rel="noopener"><span class="d">2026. 7. 23.</span><span class="src">YTN</span><span class="t">김보미 "'짱돌세대' 선배들 폭탄발언에 전화, 공감한다 격려…감격스러워"</span></a></li>
-      <li><a class="row" href="https://www.newspim.com/news/view/20260722001302" target="_blank" rel="noopener"><span class="d">2026. 7. 22.</span><span class="src">뉴스핌</span><span class="t">[인터뷰] '36살 평당원' 김보미 "세대교체와 청년정치 외치려 민주당 당권 도전"</span></a></li>
       <li><a class="row" href="https://news.nate.com/view/20260722n01548" target="_blank" rel="noopener"><span class="d">2026. 7. 22.</span><span class="src">네이트뉴스</span><span class="t">김보미 "민주당, 족보 논쟁 멈추고 '권한의 세대교체' 해야"</span></a></li>
       <li><a class="row" href="https://news.tf.co.kr/read/ptoday/2345562.htm" target="_blank" rel="noopener"><span class="d">2026. 7. 22.</span><span class="src">더팩트</span><span class="t">지지율 하락에도 '찐명'만…'그들만의 리그' 된 민주 전대</span></a></li>
-      <li><a class="row" href="https://www.seoul.co.kr/news/politics/congress/2026/07/21/20260721500299" target="_blank" rel="noopener"><span class="d">2026. 7. 21.</span><span class="src">서울신문</span><span class="t">김보미 "송영길 후보가 고함·윽박…이러니 686 꼰대"</span></a></li>
-      <li><a class="row" href="https://www.mt.co.kr/politics/2026/07/21/2026072114342931608" target="_blank" rel="noopener"><span class="d">2026. 7. 21.</span><span class="src">머니투데이</span><span class="t">김보미 "송영길, 사람들 앞에서 고함쳐 망신줘…'686 꼰대'의 현실"</span></a></li>
-      <li><a class="row" href="https://www.news1.kr/politics/assembly/6234030" target="_blank" rel="noopener"><span class="d">2026. 7. 21.</span><span class="src">뉴스1</span><span class="t">김보미 "686 퇴장 요청에 宋 '도와준 것 있냐'…이러니 꼰대 소리 들어"</span></a></li>
-      <li><a class="row" href="https://www.edaily.co.kr/News/Read?newsId=01289046645517144&amp;mediaCodeNo=257" target="_blank" rel="noopener"><span class="d">2026. 7. 21.</span><span class="src">이데일리</span><span class="t">김보미 "송영길, '출마 자격 예외' 지적에 호통…'686 꼰대'의 현실"</span></a></li>
+      <li><a class="row" href="https://www.seoul.co.kr/news/politics/congress/2026/07/21/20260721500299" target="_blank" rel="noopener"><span class="d">2026. 7. 21.</span><span class="src">서울신문<i class="rp">문경근 기자</i></span><span class="t">김보미 "송영길 후보가 고함·윽박…이러니 686 꼰대"</span></a></li>
+      <li><a class="row" href="https://www.mt.co.kr/politics/2026/07/21/2026072114342931608" target="_blank" rel="noopener"><span class="d">2026. 7. 21.</span><span class="src">머니투데이<i class="rp">김효정 기자</i></span><span class="t">김보미 "송영길, 사람들 앞에서 고함쳐 망신줘…'686 꼰대'의 현실"</span></a></li>
+      <li><a class="row" href="https://www.news1.kr/politics/assembly/6234030" target="_blank" rel="noopener"><span class="d">2026. 7. 21.</span><span class="src">뉴스1<i class="rp">박태훈 선임기자</i></span><span class="t">김보미 "686 퇴장 요청에 宋 '도와준 것 있냐'…이러니 꼰대 소리 들어"</span></a></li>
+      <li><a class="row" href="https://www.edaily.co.kr/News/Read?newsId=01289046645517144&amp;mediaCodeNo=257" target="_blank" rel="noopener"><span class="d">2026. 7. 21.</span><span class="src">이데일리<i class="rp">이재은 기자</i></span><span class="t">김보미 "송영길, '출마 자격 예외' 지적에 호통…'686 꼰대'의 현실"</span></a></li>
       <li><a class="row" href="https://www.newspim.com/news/view/20260720001028" target="_blank" rel="noopener"><span class="d">2026. 7. 20.</span><span class="src">뉴스핌</span><span class="t">[사진] 예비경선 합동연설회 참석한 김민석-고민정-정청래-김보미-송영길</span></a></li>
-      <li><a class="row" href="https://www.kmib.co.kr/article/view_amp.asp?arcid=0030115498" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">국민일보</span><span class="t">[인터뷰] "내로남불·불공정·위선 끝판왕을 민주당에서 본다" 37세 당대표 후보 김보미</span></a></li>
-      <li><a class="row" href="https://www.mediatoday.co.kr/news/articleView.html?idxno=335855" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">미디어오늘</span><span class="t">송영길 김용 포함 민주당 후보등록… 김보미 "기득권만 예외, 청년 멀어져"</span></a></li>
-      <li><a class="row" href="https://www.mediatoday.co.kr/news/articleView.html?idxno=335871" target="_blank" rel="noopener"><span class="d">2026. 7. 19.</span><span class="src">미디어오늘</span><span class="t">이 대통령이 팔로우한 민주당 대표 후보 김보미, 왜 주목받나</span></a></li>
+      <li><a class="row" href="https://www.polinews.co.kr/news/articleView.html?idxno=736425" target="_blank" rel="noopener"><span class="d">2026. 7. 20.</span><span class="src">폴리뉴스<i class="rp">이창희 기자</i></span><span class="t">[8·17 전대] [예비경선 D-1] 김민석-정청래 난타전…최고위원 경쟁도 치열 (종합)</span></a></li>
+      <li><a class="row" href="https://www.mediatoday.co.kr/news/articleView.html?idxno=335855" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">미디어오늘<i class="rp">조현호 기자</i></span><span class="t">송영길 김용 포함 민주당 후보등록… 김보미 "기득권만 예외, 청년 멀어져"</span></a></li>
+      <li><a class="row" href="https://www.mediatoday.co.kr/news/articleView.html?idxno=335871" target="_blank" rel="noopener"><span class="d">2026. 7. 19.</span><span class="src">미디어오늘<i class="rp">장슬기 기자</i></span><span class="t">이 대통령이 팔로우한 민주당 대표 후보 김보미, 왜 주목받나</span></a></li>
       <li><a class="row" href="https://www.hankookilbo.com/news/article/A2026071912570000854" target="_blank" rel="noopener"><span class="d">2026. 7. 19.</span><span class="src">한국일보</span><span class="t">박지현은 탈락, 송영길은 예외…대통령까지 움직인 민주당 '불공정' 논란</span></a></li>
       <li><a class="row" href="https://www.hankookilbo.com/news/article/A2026071915250005629" target="_blank" rel="noopener"><span class="d">2026. 7. 19.</span><span class="src">한국일보</span><span class="t">[오피니언] '말 따로 행동 따로' 민주당의 청년 사랑</span></a></li>
-      <li><a class="row" href="https://m.news.nate.com/view/20260718n02684" target="_blank" rel="noopener"><span class="d">2026. 7. 18.</span><span class="src">네이트뉴스</span><span class="t">"민주당은 이미 죽었다" 36세 평당원, 당 대표 선거 뛰어든 이유</span></a></li>
-      <li><a class="row" href="https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003252338" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">오마이뉴스</span><span class="t">"손흥민도 반칙하면 '레드카드' 받아… 이 대통령 팔로우에 위안"</span></a></li>
-      <li><a class="row" href="https://www.news1.kr/politics/president/6231062" target="_blank" rel="noopener"><span class="d">2026. 7. 17.</span><span class="src">뉴스1</span><span class="t">李 대통령, '정청래 직격' 36세 김보미 당 대표 후보 'X' 팔로우</span></a></li>
+      <li><a class="row" href="https://edaily.co.kr/News/Read?mediaCodeNo=257&newsId=01416966645516160" target="_blank" rel="noopener"><span class="d">2026. 7. 19.</span><span class="src">이데일리<i class="rp">조용석 기자</i></span><span class="t">與당대표 후보 '37세' 김보미는 왜 4년 전 박지현을 소환했나</span></a></li>
+      <li><a class="row" href="https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003252338" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">오마이뉴스<i class="rp">최연수 기자</i></span><span class="t">"손흥민도 반칙하면 '레드카드' 받아… 이 대통령 팔로우에 위안"</span></a></li>
+      <li><a class="row" href="https://www.news1.kr/politics/president/6231062" target="_blank" rel="noopener"><span class="d">2026. 7. 17.</span><span class="src">뉴스1<i class="rp">김근욱 기자</i></span><span class="t">李 대통령, '정청래 직격' 36세 김보미 당 대표 후보 'X' 팔로우</span></a></li>
       <li><a class="row" href="https://v.daum.net/v/20260717142842742" target="_blank" rel="noopener"><span class="d">2026. 7. 17.</span><span class="src">다음뉴스</span><span class="t">이 대통령, '정청래·86 직격' 김보미 당대표 후보 엑스 팔로우</span></a></li>
-      <li><a class="row" href="https://www.khan.co.kr/article/202607171825001/" target="_blank" rel="noopener"><span class="d">2026. 7. 17.</span><span class="src">경향신문</span><span class="t">김민석·정청래·송영길에 고민정·김보미까지…민주당 당대표 '5파전' 공식화</span></a></li>
-      <li><a class="row" href="http://www.newstomato.com/ReadNews.aspx?no=1307547" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">뉴스토마토</span><span class="t">김보미 "민주당, 청년 강퇴 정당 됐다…기득권 이미 결승선 근처에"</span></a></li>
+      <li><a class="row" href="https://www.khan.co.kr/article/202607171825001/" target="_blank" rel="noopener"><span class="d">2026. 7. 17.</span><span class="src">경향신문<i class="rp">박하얀 기자</i></span><span class="t">김민석·정청래·송영길에 고민정·김보미까지…민주당 당대표 '5파전' 공식화</span></a></li>
+      <li><a class="row" href="https://www.munhwa.com/article/11603240" target="_blank" rel="noopener"><span class="d">2026. 7. 17.</span><span class="src">문화일보<i class="rp">이예린 기자</i></span><span class="t">37세 김보미 "청년 박지현은 안되고, 송영길은 되나…비정상의 극치"</span></a></li>
+      <li><a class="row" href="https://www.fnnews.com/news/202607172243052541" target="_blank" rel="noopener"><span class="d">2026. 7. 17.</span><span class="src">파이낸셜뉴스<i class="rp">서윤경 기자</i></span><span class="t">SNS 개설 하루만에 李 대통령이 팔로우한 사람…"86세대는 가라" 김보미</span></a></li>
       <li><a class="row" href="https://v.daum.net/v/20260716161909833" target="_blank" rel="noopener"><span class="d">2026. 7. 16.</span><span class="src">다음뉴스</span><span class="t">36세 김보미 "86세대는 가라"… 당대표 출마하자 李대통령이 팔로우</span></a></li>
-      <li><a class="row" href="https://www.pressian.com/pages/articles/2026071617485205196" target="_blank" rel="noopener"><span class="d">2026. 7. 16.</span><span class="src">프레시안</span><span class="t">"다 죽은 국민의힘을 펄펄 살게 만들었다"…36세 청년 김보미, 정청래에 거침없는 비판</span></a></li>
-      <li><a class="row" href="https://weekly.khan.co.kr/article/202607162241001" target="_blank" rel="noopener"><span class="d">2026. 7. 16.</span><span class="src">주간경향</span><span class="t">이 대통령, "죽은 국민의힘 살려냈다"며 정청래 비판한 김보미 당대표 후보 X 팔로우</span></a></li>
-      <li><a class="row" href="https://www.hankyung.com/article/202607160010H" target="_blank" rel="noopener"><span class="d">2026. 7. 16.</span><span class="src">한국경제</span><span class="t">李 대통령, 86세대 직격한 김보미 계정 팔로우…X 개설 하루만에</span></a></li>
-      <li><a class="row" href="https://www.sedaily.com/article/20068793" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">서울경제</span><span class="t">정청래 직격한 김보미 X 개설…李, 하루 만에 팔로우</span></a></li>
+      <li><a class="row" href="https://www.pressian.com/pages/articles/2026071617485205196" target="_blank" rel="noopener"><span class="d">2026. 7. 16.</span><span class="src">프레시안<i class="rp">강병석·위정성 기자</i></span><span class="t">"다 죽은 국민의힘을 펄펄 살게 만들었다"…36세 청년 김보미, 정청래에 거침없는 비판</span></a></li>
+      <li><a class="row" href="https://weekly.khan.co.kr/article/202607162241001" target="_blank" rel="noopener"><span class="d">2026. 7. 16.</span><span class="src">주간경향<i class="rp">이용욱 기자</i></span><span class="t">이 대통령, "죽은 국민의힘 살려냈다"며 정청래 비판한 김보미 당대표 후보 X 팔로우</span></a></li>
+      <li><a class="row" href="https://www.hankyung.com/article/202607160010H" target="_blank" rel="noopener"><span class="d">2026. 7. 16.</span><span class="src">한국경제<i class="rp">김희선 기자</i></span><span class="t">李 대통령, 86세대 직격한 김보미 계정 팔로우…X 개설 하루만에</span></a></li>
+      <li><a class="row" href="https://www.sedaily.com/article/20068793" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">서울경제<i class="rp">진동영 기자</i></span><span class="t">정청래 직격한 김보미 X 개설…李, 하루 만에 팔로우</span></a></li>
       <li><a class="row" href="https://www.wikitree.co.kr/articles/1146959" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">위키트리</span><span class="t">이 대통령이 팔로우한 36세 여성 정치인… 정치권에 즉각 파장</span></a></li>
-      <li><a class="row" href="https://www.ilyoseoul.co.kr/news/articleView.html?idxno=519967" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">일요서울</span><span class="t">36세 김보미, 민주당 전대 '돌풍'…'86세대 직격' 신선한 도전</span></a></li>
+      <li><a class="row" href="https://www.ilyoseoul.co.kr/news/articleView.html?idxno=519967" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">일요서울<i class="rp">장덕수 기자</i></span><span class="t">36세 김보미, 민주당 전대 '돌풍'…'86세대 직격' 신선한 도전</span></a></li>
       <li><a class="row" href="https://www.news1.kr/photos/8008062" target="_blank" rel="noopener"><span class="d">2026. 7. 14.</span><span class="src">뉴스1</span><span class="t">[포토] '민주당 당대표 출마' 김보미 전 의원, 선호투표제 관련 기자회견</span></a></li>
       <li><a class="row" href="https://news.nate.com/view/20260714n24175" target="_blank" rel="noopener"><span class="d">2026. 7. 14.</span><span class="src">네이트뉴스</span><span class="t">[포토] 입장 밝히는 김보미 전 강진군 의원</span></a></li>
       <li><a class="row" href="https://www.ohmynews.com/NWS_Web/OhmyPhoto/annual/2026_at_pg.aspx?CNTN_CD=A0003251388&PAGE_CD=N0002&CMPT_CD=M0112" target="_blank" rel="noopener"><span class="d">2026. 7. 14.</span><span class="src">오마이뉴스</span><span class="t">[오마이포토] 김보미 "청년 들러리, 입틀막 자행, 686 짱돌 전대 중단해야"</span></a></li>
-      <li><a class="row" href="https://www.ohmynews.com/NWS_Web/View/mov_pg.aspx?CNTN_CD=ME000115641" target="_blank" rel="noopener"><span class="d">2026. 7. 14.</span><span class="src">오마이TV</span><span class="t">김보미 "청년 들러리 세우고 입틀막 자행하는 '686 짱돌 전대' 중단해야" (기자회견 영상)</span></a></li>
+      <li><a class="row" href="https://www.ohmynews.com/NWS_Web/View/mov_pg.aspx?CNTN_CD=ME000115641" target="_blank" rel="noopener"><span class="d">2026. 7. 14.</span><span class="src">오마이TV<i class="rp">유성호 기자</i></span><span class="t">김보미 "청년 들러리 세우고 입틀막 자행하는 '686 짱돌 전대' 중단해야" (기자회견 영상)</span></a></li>
       <li><a class="row" href="https://www.ilyoseoul.co.kr/news/articleView.html?idxno=519853" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">일요서울TV</span><span class="t">[영상리포트] 김보미 "정청래·김민석·송영길 686 기득권이 만든 불공정한 전당대회"</span></a></li>
       <li><a class="row" href="https://www.logosian.com/news/articleView.html?idxno=12758" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">평화나무</span><span class="t">김보미 "전과 5범은 무감점, 난 15% 감산" 민주당 공천 폭로</span></a></li>
-      <li><a class="row" href="https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003250922" target="_blank" rel="noopener"><span class="d">2026. 7. 13.</span><span class="src">오마이뉴스</span><span class="t">"민주당에 공정이 없다" 86세대 직격, 당대표 후보 김보미 누구?</span></a></li>
+      <li><a class="row" href="https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003250922" target="_blank" rel="noopener"><span class="d">2026. 7. 13.</span><span class="src">오마이뉴스<i class="rp">최연수 기자</i></span><span class="t">"민주당에 공정이 없다" 86세대 직격, 당대표 후보 김보미 누구?</span></a></li>
       <li><a class="row" href="https://imnews.imbc.com/replay/2026/nwtoday/article/6837813_37012.html" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">MBC</span><span class="t">[뉴스투데이 모닝콜] 36살 김보미 당대표 출마 이유?…"정청래가 재도전? 민주당 죽었다"</span></a></li>
       <li><a class="row" href="http://www.kmsnews.co.kr/news/curationView.html?idxno=29280" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">KMS뉴스</span><span class="t">김보미 "민주당은 공정·민주·세대교체·청년·미래 없는 '5무 정당'"</span></a></li>
-      <li><a class="row" href="https://www.newspim.com/news/view/20260704000036" target="_blank" rel="noopener"><span class="d">2026. 7. 4.</span><span class="src">뉴스핌</span><span class="t">'36살 민주당 평당원' 김보미, 당대표 도전 선언…청년 돌풍 변수 부상</span></a></li>
-      <li><a class="row" href="https://v.daum.net/v/20260704131551986" target="_blank" rel="noopener"><span class="d">2026. 7. 4.</span><span class="src">다음뉴스</span><span class="t">김보미, 민주당 대표 출마 선언…"민주·공정·청년 되살려 미래정당 만들겠다"</span></a></li>
+      <li><a class="row" href="https://www.polinews.co.kr/news/articleView.html?idxno=735973" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">폴리뉴스</span><span class="t">'억울한 감점' 주장했던 김보미…왜 민주당 당대표에 도전했나?</span></a></li>
+      <li><a class="row" href="https://www.pressian.com/pages/articles/2026070616471774591" target="_blank" rel="noopener"><span class="d">2026. 7. 6.</span><span class="src">프레시안<i class="rp">위정성 기자</i></span><span class="t">"계란으로 기득권 바위 깬다"…김보미 전 강진군의장, 민주당 당대표 출마 선언</span></a></li>
+      <li><a class="row" href="https://www.newspim.com/news/view/20260704000036" target="_blank" rel="noopener"><span class="d">2026. 7. 4.</span><span class="src">뉴스핌<i class="rp">조은정 기자</i></span><span class="t">'36살 민주당 평당원' 김보미, 당대표 도전 선언…청년 돌풍 변수 부상</span></a></li>
+      <li><a class="row" href="https://www.kukinews.com/article/view/kuk202607040015" target="_blank" rel="noopener"><span class="d">2026. 7. 4.</span><span class="src">쿠키뉴스<i class="rp">신영삼 기자</i></span><span class="t">김보미, 민주당 대표 출마 선언…"민주·공정·청년 되살려 미래정당 만들겠다"</span></a></li>
       <li><a class="row" href="https://www.m-economynews.com/news/article.html?no=68605" target="_blank" rel="noopener"><span class="d">2026. 7. 4.</span><span class="src">M이코노미</span><span class="t">평당원 김보미, 민주당 당대표 출마 "'가짜 1인 1표' 청산"</span></a></li>
-      <li><a class="row" href="http://www.srtimes.kr/news/articleView.html?idxno=207078" target="_blank" rel="noopener"><span class="d">2026. 7. 4.</span><span class="src">SR타임스</span><span class="t">김보미, 민주당 중앙당사서 당대표 출마 선언… 공정경선·세대교체 전면에</span></a></li>
+      <li><a class="row" href="http://www.srtimes.kr/news/articleView.html?idxno=207078" target="_blank" rel="noopener"><span class="d">2026. 7. 4.</span><span class="src">SR타임스<i class="rp">서민수 기자</i></span><span class="t">김보미, 민주당 중앙당사서 당대표 출마 선언… 공정경선·세대교체 전면에</span></a></li>
+      <li><a class="row" href="http://www.srtimes.kr/news/articleView.html?idxno=206748" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">SR타임스<i class="rp">서민수 기자</i></span><span class="t">김보미, 민주당 당대표 출마 선언…"공정 잃은 민주당, 청년도 미래도 없다"</span></a></li>
+      <li><a class="row" href="https://www.thepowernews.co.kr/view.php?ud=202607061026036557caa2b7671d_7" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">더파워뉴스</span><span class="t">36세 청년 김보미, 민주당 60대 현역 기득권 '족보 전쟁'에 도전장</span></a></li>
+      <li><a class="row" href="https://www.thereport.co.kr/news/articleView.html?idxno=89330" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">더리포트</span><span class="t">김보미, 민주당 대표 출마 선언…공정 경선·청년 정치 제시</span></a></li>
+      <li><a class="row" href="https://newtamsa.org/news/AKbToj" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">뉴탐사</span><span class="t">36세 평당원 김보미, 민주당 당대표 첫 출마 선언 "가짜 1인1표 심판하겠다"</span></a></li>
+      <li><a class="row" href="https://www.enewstoday.co.kr/news/articleView.html?idxno=2445503" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">이뉴스투데이</span><span class="t">김보미, 민주당 당대표 출마 선언…"계파정치 끝내고 미래 경쟁"</span></a></li>
+      <li><a class="row" href="https://www.jjilbo.co.kr/news/articleView.html?idxno=334906" target="_blank" rel="noopener"><span class="d">2026. 7.</span><span class="src">전주일보</span><span class="t">'36살 민주당 평당원' 김보미, 민주당 대표 출마 선언</span></a></li>
       <li><a class="row" href="https://www.tvseoul.kr/news/article.html?no=77732" target="_blank" rel="noopener"><span class="d">2026. 7. 4.</span><span class="src">TV서울</span><span class="t">김보미 전 강진군의회 의장, 민주당 당 대표 도전</span></a></li>
     </ul>
 
     <h2 class="sec">그 이전 — 강진군수 도전 · 의정활동</h2>
     <ul class="list">
-      <li><a class="row" href="https://www.lawissue.co.kr/view.php?ud=20260324030853721192eef753eb_12" target="_blank" rel="noopener"><span class="d">2026. 3. 24.</span><span class="src">로이슈</span><span class="t">김보미, 강진군수 예비후보…"강진 제1호 영업사원이 되겠다"</span></a></li>
+      <li><a class="row" href="https://www.lawissue.co.kr/view.php?ud=20260324030853721192eef753eb_12" target="_blank" rel="noopener"><span class="d">2026. 3. 24.</span><span class="src">로이슈<i class="rp">이상욱 기자</i></span><span class="t">김보미, 강진군수 예비후보…"강진 제1호 영업사원이 되겠다"</span></a></li>
       <li><a class="row" href="https://www.fieldnews.co.kr/news/articleView.html?idxno=212285" target="_blank" rel="noopener"><span class="d">2026. 3.</span><span class="src">현장뉴스</span><span class="t">'최연소 의장' 김보미, 강진군수 출사표…"군민이 주인인 강진 만들겠다"</span></a></li>
-      <li><a class="row" href="https://weekly.khan.co.kr/khnm.html?mode=view&dept=115&art_id=202405270600071" target="_blank" rel="noopener"><span class="d">2024. 5. 27.</span><span class="src">주간경향</span><span class="t">34세 최연소 의장은 왜 표적이 됐나</span></a></li>
-      <li><a class="row" href="https://www.khan.co.kr/article/202405250900051" target="_blank" rel="noopener"><span class="d">2024. 5. 25.</span><span class="src">경향신문</span><span class="t">'최연소 의장'의 수난…강진군의회에 무슨 일이</span></a></li>
+      <li><a class="row" href="https://www.hani.co.kr/arti/area/area_general/1141526.html" target="_blank" rel="noopener"><span class="d">2024.</span><span class="src">한겨레</span><span class="t">당적 박탈·불신임·수사… 34살 최연소 여성의장 '청년정치 수난기'</span></a></li>
+      <li><a class="row" href="https://weekly.khan.co.kr/khnm.html?mode=view&dept=115&art_id=202405270600071" target="_blank" rel="noopener"><span class="d">2024. 5. 27.</span><span class="src">주간경향<i class="rp">이효상 기자</i></span><span class="t">34세 최연소 의장은 왜 표적이 됐나</span></a></li>
+      <li><a class="row" href="https://www.khan.co.kr/article/202405250900051" target="_blank" rel="noopener"><span class="d">2024. 5. 25.</span><span class="src">경향신문<i class="rp">이효상 기자</i></span><span class="t">'최연소 의장'의 수난…강진군의회에 무슨 일이</span></a></li>
     </ul>
   </div>
 
@@ -269,8 +308,7 @@ h2.sec:first-of-type{margin-top:0}
     b.addEventListener('click',function(){
       tabs.forEach(function(x){x.classList.remove('on');});
       b.classList.add('on');
-      document.getElementById('pane-news').hidden = b.dataset.t!=='news';
-      document.getElementById('pane-video').hidden = b.dataset.t!=='video';
+      ['news','intv','video'].forEach(function(k){document.getElementById('pane-'+k).hidden = b.dataset.t!==k;});
     });
   });
   var _bg=document.getElementById('burger'),_mn=document.getElementById('menu');
