@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>당내 부당지시·입틀막 제보센터 — 김보미.com</title>
-<meta name="description" content="철저한 비밀이 보장되는 당내 부당지시·입틀막 제보센터. 익명 제보, 개인정보 미수집.">
+<title>소통·제보 — 생각 나누기 · 제보센터 | 김보미.com</title>
+<meta name="description" content="여러분의 생각을 나누는 게시판과, 철저한 비밀이 보장되는 당내 부당지시·입틀막 제보센터를 한곳에 모았습니다.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="당내 부당지시·입틀막 제보센터 — 김보미">
+<meta property="og:title" content="소통·제보 — 생각 나누기 · 제보센터 | 김보미">
 <meta property="og:description" content="철저한 비밀 보장. 줄세우기·투표 강요·부당한 압박, 주저 없이 알려주세요.">
 <meta property="og:url" content="https://www.xn--4k0b53xuva.com/report.html">
 <link rel="canonical" href="https://www.xn--4k0b53xuva.com/report.html">
@@ -83,6 +83,27 @@ textarea.field{min-height:180px;resize:vertical;line-height:1.7}
 .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:.86rem;font-weight:700;padding:11px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:60}
 .toast.show{opacity:1}
 @media(max-width:560px){.hero h1{font-size:1.65rem}.cats{grid-template-columns:1fr}.card{padding:22px 18px}}
+.bigtabs{display:flex;gap:8px;margin:0 0 26px;flex-wrap:wrap}
+.bigtab{font-family:inherit;font-size:1rem;font-weight:800;padding:13px 24px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:#33405a;cursor:pointer}
+.bigtab.on{background:var(--dpk);border-color:var(--dpk);color:#fff}
+.side-link{margin-left:auto;font-size:.88rem;font-weight:700;color:var(--dpk);align-self:center}
+.tw-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:22px;align-items:start}
+@media(max-width:760px){.tw-grid{grid-template-columns:1fr}}
+.tw-form{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px}
+.tw-form .row{display:flex;gap:10px}
+.tw-form .row .field{flex:1}
+.tw-form textarea.field{min-height:132px;margin-top:10px}
+.tw-btn{width:100%;margin-top:12px;justify-content:center;display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-weight:800;font-size:1rem;color:#fff;background:var(--dpk);border:0;border-radius:999px;padding:14px;cursor:pointer}
+.tw-btn:hover{background:var(--dpk-dark)}
+.tw-note{font-size:.8rem;color:#9aa3b0;margin:10px 0 0;text-align:center}
+.tw-wall{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 22px;max-height:520px;overflow:auto}
+.tw-wall-head{display:flex;justify-content:space-between;align-items:center;font-size:.95rem;font-weight:700;color:#33405a;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.tw-wall-head .c{color:var(--dpk)}
+.tw-item{padding:14px 2px;border-bottom:1px solid var(--line)}
+.tw-item:last-child{border-bottom:0}
+.tw-item .m{color:#2b3646;font-size:.97rem;line-height:1.62;white-space:pre-wrap;word-break:break-word}
+.tw-item .meta{font-size:.78rem;color:#9aa3b0;margin-top:7px}
+.tw-empty{text-align:center;color:#9aa3b0;padding:40px 0;font-size:.95rem;line-height:1.8}
 </style>
 </head>
 <body>
@@ -94,11 +115,9 @@ textarea.field{min-height:180px;resize:vertical;line-height:1.7}
       <a href="vision.html">비전·공약</a>
       <a href="gongyak.html">공약집</a>
       <a href="index.html#journey">김보미는</a>
-      <a href="index.html#thoughts">생각 나누기</a>
-      <a href="games.html">미니게임</a>
-      <a href="report.html" class="cur">제보센터</a>
       <a href="press.html">언론보도</a>
-      <a href="index.html#story">이생망 공유방</a>
+      <a href="report.html" class="cur">소통·제보</a>
+      <a href="games.html">미니게임</a>
       <a href="pledge.html" style="color:#C4553A;font-weight:800">후원 감사·안내</a>
       <a href="narasalim.html" class="nara">🔍 나라살림 돋보기<span class="nara-sub">우리동네 예산·정책 3초 확인</span></a>
     </nav>
@@ -111,13 +130,42 @@ textarea.field{min-height:180px;resize:vertical;line-height:1.7}
 
 <section class="hero">
   <div class="wrap">
-    <div class="ic">🛡️</div>
-    <h1>당내 부당지시·입틀막 제보센터</h1>
-    <p>줄세우기, 투표 강요, 부당한 압박을 당하셨다면 주저 없이 알려주세요.<br>철저한 비밀 보장. 여러분의 방패가 되어 제가 가장 선두에서 대신 싸우겠습니다.</p>
+    <div class="ic">💬</div>
+    <h1>소통·제보 — 생각 나누기 · 제보센터</h1>
+    <p>여러분의 생각을 나누는 게시판과, 철저한 비밀이 보장되는 부당지시 제보센터입니다.<br>남겨주신 생각은 매일 모두 읽고, 제보에는 여러분의 방패가 되어 대신 싸우겠습니다.</p>
   </div>
 </section>
 
 <main class="wrap">
+
+  <div class="bigtabs">
+    <button class="bigtab on" id="tabTh" type="button">💬 생각 나누기</button>
+    <button class="bigtab" id="tabRp" type="button">🛡️ 부당지시 제보센터</button>
+    <a class="side-link" href="story.html">🥚 이생망 공유방 →</a>
+  </div>
+
+  <div id="pane-th">
+    <div class="privacy" style="border-left-color:var(--dpk)">
+      여러분이 생각하는 민주당의 핵심 가치는 무엇입니까? 여러분이 그리는 민주당, 만들고 싶은 대한민국을 자유롭게 남겨주세요. <b>남겨주신 생각은 매일 모두 읽고, 활동으로 답하겠습니다.</b>
+    </div>
+    <div class="tw-grid">
+      <form class="tw-form" id="twForm">
+        <div class="row">
+          <input class="field" id="twName" type="text" placeholder="이름 (선택)" maxlength="20">
+          <input class="field" id="twRegion" type="text" placeholder="지역 (선택)" maxlength="20">
+        </div>
+        <textarea class="field" id="twMsg" placeholder="여러분이 그리는 민주당, 만들고 싶은 대한민국을 자유롭게 남겨주세요." maxlength="1000" required></textarea>
+        <button type="submit" class="tw-btn">💬 생각 남기기</button>
+        <p class="tw-note">남겨주신 생각은 매일 모두 읽고, 모아서 활동으로 답하겠습니다.</p>
+      </form>
+      <div class="tw-wall">
+        <div class="tw-wall-head"><span>함께 나눈 생각</span> <span class="c" id="twCount">0</span></div>
+        <div id="twList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="pane-rp" class="hide">
   <div id="formView">
     <div class="privacy">
       <span class="lock">🔒 비밀 보장 안내</span> — 이름·전화·이메일을 <b>받지 않습니다.</b> 접속 IP도 제보 내용과 함께 저장하지 않습니다. 입력하신 내용은 <b>캠프 관리자만 열람</b>합니다. (공개 게시되지 않습니다.)
@@ -155,6 +203,7 @@ textarea.field{min-height:180px;resize:vertical;line-height:1.7}
       <a class="back" href="index.html">← 홈으로 돌아가기</a>
     </div>
   </div>
+  </div><!-- /pane-rp -->
 </main>
 
 <div class="foot">
@@ -190,7 +239,60 @@ $('rSubmit').addEventListener('click',function(){
     .catch(function(){ toast('접수에 실패했어요'); $('rSubmit').disabled=false; $('rSubmit').textContent='🔒 안전하게 제보하기'; });
 });
 </script>
+<script>
+/* 탭 전환 (#report 해시 → 제보 탭) */
+(function(){
+  var tTh=document.getElementById('tabTh'), tRp=document.getElementById('tabRp');
+  var pTh=document.getElementById('pane-th'), pRp=document.getElementById('pane-rp');
+  function show(which){
+    var th=which==='th';
+    tTh.classList.toggle('on',th); tRp.classList.toggle('on',!th);
+    pTh.classList.toggle('hide',!th); pRp.classList.toggle('hide',th);
+    window.scrollTo(0,0);
+  }
+  tTh.addEventListener('click',function(){show('th');});
+  tRp.addEventListener('click',function(){show('rp');});
+  if(location.hash==='#report'||location.hash==='#jebo'){show('rp');}
+  window.addEventListener('hashchange',function(){ if(location.hash==='#report'||location.hash==='#jebo')show('rp'); });
+})();
+/* 생각 나누기 게시판 (/api/thoughts) */
+(function(){
+  var API='/api/thoughts', LS='kb_thoughts_v1';
+  var listEl=document.getElementById('twList'),cntEl=document.getElementById('twCount'),form=document.getElementById('twForm');
+  if(!form)return;
+  function lsLoad(){try{return JSON.parse(localStorage.getItem(LS)||'[]')}catch(e){return[]}}
+  function lsSave(a){try{localStorage.setItem(LS,JSON.stringify(a))}catch(e){}}
+  function esc(s){return (s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function fmt(d){try{return new Date(d).toLocaleDateString('ko-KR')}catch(e){return ''}}
+  function paint(items){
+    cntEl.textContent=items.length;
+    cntEl.style.display=items.length>=10?'':'none';
+    if(!items.length){listEl.innerHTML='<div class="tw-empty">아직 남겨진 생각이 없어요.<br>첫 생각을 나눠주세요.</div>';return;}
+    listEl.innerHTML=items.map(function(t){
+      var who=[t.name,t.region].filter(Boolean).join(' · ')||'익명';
+      return '<div class="tw-item"><div class="m">'+esc(t.msg)+'</div><div class="meta">'+esc(who)+' · '+esc(fmt(t.date))+'</div></div>';
+    }).join('');
+  }
+  function fromLS(){paint(lsLoad().slice().reverse());}
+  function refresh(){
+    fetch(API,{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){
+      if(d&&d.ok&&d.configured){paint(d.items||[]);}else{fromLS();}
+    }).catch(function(){fromLS();});
+  }
+  function saveLocal(p){var a=lsLoad();a.push({name:p.name,region:p.region,msg:p.msg,date:new Date().toISOString()});lsSave(a);form.reset();fromLS();}
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var msg=document.getElementById('twMsg').value.trim();if(!msg)return;
+    var p={name:document.getElementById('twName').value.trim(),region:document.getElementById('twRegion').value.trim(),msg:msg};
+    var btn=form.querySelector('button');btn.disabled=true;
+    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)})
+      .then(function(r){return r.json();}).then(function(d){
+        if(d&&d.ok){form.reset();refresh();}else{saveLocal(p);}
+      }).catch(function(){saveLocal(p);}).then(function(){btn.disabled=false;});
+  });
+  refresh();
+})();
+</script>
 <script src="/a.js" defer></script>
 <a href="index.html?bot=1" style="position:fixed;right:14px;bottom:14px;z-index:180" aria-label="AI 챗봇 더불이"><img src="dubuli-fab.svg" alt="더불이 챗봇" style="width:172px;height:auto;filter:drop-shadow(0 10px 22px rgba(0,45,100,.45))"></a></body>
 </html>
-x
