@@ -1409,7 +1409,8 @@ footer .flink:hover{color:#fff}
 (function(){
   var el=document.getElementById('vpGrid'); if(!el) return;
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-  function fmtDate(ms){try{var d=new Date(ms);return d.getFullYear()+'.'+('0'+(d.getMonth()+1)).slice(-2)+'.'+('0'+d.getDate()).slice(-2);}catch(e){return '';}}
+  /* 게시일은 항상 한국시간(KST, UTC+9) 기준으로 표기 */
+  function fmtDate(ms){try{var d=new Date(ms+32400000);return d.getUTCFullYear()+'.'+('0'+(d.getUTCMonth()+1)).slice(-2)+'.'+('0'+d.getUTCDate()).slice(-2);}catch(e){return '';}}
   function excerpt(b){var t=String(b||'').replace(/\n+/g,' ').replace(/\[[^\]]*\]/g,'').replace(/https?:\/\/[^\s]+/g,'').replace(/\s+/g,' ').trim();return t.slice(0,80);}
   function mergeStatic(items){
     var st=(window.KB_STATIC_POSTS||[]).slice();

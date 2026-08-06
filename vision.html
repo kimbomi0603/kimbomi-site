@@ -148,7 +148,8 @@ var API="/api/posts";
 var HASHTAGS="#민주당을살려야합니다 #이번생에살립시다 #김보미";
 var posts=[];
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
-function fmtDate(ms){ if(!ms)return ''; try{var d=new Date(ms);return d.getFullYear()+'.'+('0'+(d.getMonth()+1)).slice(-2)+'.'+('0'+d.getDate()).slice(-2);}catch(e){return '';} }
+/* 게시일은 항상 한국시간(KST, UTC+9) 기준으로 표기 — 해외 접속 시에도 페이스북 원문과 날짜가 일치하도록 */
+function fmtDate(ms){ if(!ms)return ''; try{var d=new Date(ms+32400000);return d.getUTCFullYear()+'.'+('0'+(d.getUTCMonth()+1)).slice(-2)+'.'+('0'+d.getUTCDate()).slice(-2);}catch(e){return '';} }
 function excerpt(body){ var t=String(body||'').replace(/\n+/g,' ').replace(/\[[^\]]*\]/g,'').replace(/https?:\/\/[^\s]+/g,'').replace(/\s+/g,' ').trim(); return t.slice(0,90); }
 function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1800);}
 
