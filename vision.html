@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>비전·공약 — 김보미 · 뽑고 싶은 민주당</title>
-<meta name="description" content="공정하게 경쟁하고 진짜 실력으로 이기는 민주당. 김보미의 비전과 공약 글 모음.">
+<title>김보미 생각 — 뽑고 싶은 민주당</title>
+<meta name="description" content="공정하게 경쟁하고 진짜 실력으로 이기는 민주당. 김보미가 그날그날의 정치 현안에 대해 남긴 생각과 약속을 모았습니다.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="비전·공약 — 김보미 · 뽑고 싶은 민주당">
-<meta property="og:description" content="공정하게 경쟁하고 진짜 실력으로 이기는 민주당. 김보미의 비전과 공약.">
+<meta property="og:title" content="김보미 생각 — 뽑고 싶은 민주당">
+<meta property="og:description" content="김보미가 정치 현안에 대해 남긴 생각과 약속 모음.">
 <meta property="og:url" content="https://www.xn--4k0b53xuva.com/vision.html">
 <link rel="canonical" href="https://www.xn--4k0b53xuva.com/vision.html">
 <meta property="og:image" content="https://www.xn--4k0b53xuva.com/og-campaign.jpg">
@@ -101,7 +101,7 @@ main{padding:52px 0 80px;min-height:50vh}
     <a href="index.html" class="brand">김보미<span class="dot">.com</span><span class="tag">전 당대표 예비후보</span></a>
     <nav class="menu" id="menu">
       <a href="manifesto.html">출마선언문</a>
-      <a href="vision.html" class="cur">비전·공약</a>
+      <a href="vision.html" class="cur">김보미 생각</a>
       <a href="gongyak.html">공약집</a>
       <a href="index.html#journey">김보미는</a>
       <a href="press.html">언론보도</a>
@@ -119,9 +119,9 @@ main{padding:52px 0 80px;min-height:50vh}
 
 <section class="hero">
   <div class="wrap">
-    <div class="eyebrow">제가 만들 민주당</div>
+    <div class="eyebrow">김보미 생각</div>
     <h1>공정하게 경쟁하고,<br>진짜 실력으로 이기는 민주당.</h1>
-    <p>비전과 공약을 글로 소상히 밝히겠습니다.</p>
+    <p>그날그날의 생각과 약속을, 제 글로 소상히 밝히겠습니다.</p>
   </div>
 </section>
 
@@ -157,7 +157,7 @@ function renderList(){
   if(!posts.length){ el.innerHTML='<div class="empty">아직 발행된 글이 없습니다.</div>'; return; }
   el.innerHTML=posts.map(function(p){
     return '<a class="pcard" href="?post='+encodeURIComponent(p.id)+'" data-id="'+esc(p.id)+'">'
-      +'<div class="meta"><span class="chip">비전·공약</span><span>'+fmtDate(p.publishAt)+'</span></div>'
+      +'<div class="meta"><span class="chip">김보미 생각</span><span>'+fmtDate(p.publishAt)+'</span></div>'
       +'<h2>'+esc(p.title)+'</h2>'
       +'<div class="ex">'+esc(excerpt(p.body))+'…</div>'
       +'<div class="go">전문 읽기 →</div></a>';
@@ -221,7 +221,7 @@ function renderDetail(p){
   $('shareBtn').addEventListener('click',function(){ doShare(p); });
 }
 function doShare(p){
-  var text='「'+p.title+'」 — 김보미의 비전·공약 · '+HASHTAGS;
+  var text='「'+p.title+'」 — 김보미 생각 · '+HASHTAGS;
   var url='https://www.xn--4k0b53xuva.com/vision.html?post='+encodeURIComponent(p.id);
   if(navigator.share){ navigator.share({title:p.title,text:text,url:url}).catch(function(){}); return; }
   try{ navigator.clipboard.writeText(text+' '+url); toast('링크가 복사됐어요'); }catch(e){ prompt('복사해 공유하세요', text+' '+url); }
