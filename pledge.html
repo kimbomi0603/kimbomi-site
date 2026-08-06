@@ -75,31 +75,43 @@ main{padding:34px 0 70px}
 .toast.show{opacity:1}
 
 /* 재정주권 시민행동 안내 */
-.card.civic{border:1px solid #dbe8f8;background:linear-gradient(160deg,#fbfdff,#f4f8fe)}
-.card.civic h2{color:var(--dpk-dark);font-size:1.2rem}
-.card.civic .lead{font-size:.97rem;color:#2b3646;line-height:1.9}
+.card.civic{border:1px solid #cfe0f5;background:linear-gradient(160deg,#fbfdff,#eef5fd)}
+.civic-eyebrow{display:inline-block;font-size:.74rem;font-weight:900;letter-spacing:.12em;color:#fff;background:var(--dpk);border-radius:999px;padding:5px 13px;margin-bottom:11px}
+.card.civic h2{color:var(--dpk-dark);font-size:1.32rem;margin-bottom:12px;line-height:1.45}
+.card.civic .lead{font-size:.98rem;color:#2b3646;line-height:1.9}
 .card.civic .lead b{color:var(--dpk-dark)}
-.civic-intro{background:#fff;border:1px solid var(--line);border-left:3px solid var(--dpk-2);border-radius:0 12px 12px 0;padding:14px 16px;margin-top:16px}
-.civic-intro .ci-head{font-weight:800;color:var(--dpk-dark);font-size:.94rem;margin-bottom:6px}
-.civic-intro p{font-size:.9rem;color:#42506a;line-height:1.8}
+.civic-intro{background:#fff;border:1px solid var(--line);border-left:4px solid var(--dpk-2);border-radius:0 14px 14px 0;padding:16px 18px;margin-top:18px}
+.civic-intro .ci-head{font-weight:800;color:var(--dpk-dark);font-size:.98rem;margin-bottom:8px}
+.civic-intro p{font-size:.93rem;color:#3b4a63;line-height:1.85}
 .civic-intro p b{color:var(--dpk-dark)}
-.civic-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
-.cbtn{display:inline-flex;flex-direction:column;align-items:flex-start;gap:3px;font-weight:800;font-size:1rem;padding:14px 20px;border-radius:14px;transition:.16s;line-height:1.35}
-.cbtn span{font-size:.76rem;font-weight:600;opacity:.85}
-.cbtn.primary{flex:1;min-width:280px;background:var(--dpk);color:#fff;box-shadow:0 8px 20px rgba(0,78,162,.22)}
-.cbtn.primary:hover{background:var(--dpk-dark);transform:translateY(-1px)}
-.cbtn.ghost{align-items:center;justify-content:center;background:#fff;color:var(--dpk);border:1.5px solid var(--dpk);font-size:.92rem}
-.cbtn.ghost:hover{background:var(--tint)}
-.civic-acct{margin-top:16px;background:#fff;border:1px dashed #c3d6ef;border-radius:14px;padding:16px;text-align:center}
-.civic-acct .ca-label{font-size:.82rem;color:#8792a4;font-weight:700;margin-bottom:8px}
-.ca-num{font-family:inherit;display:inline-flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:7px;background:none;border:0;cursor:pointer;font-size:1.12rem;font-weight:700;color:#2b3646;padding:0}
-.ca-num b{color:var(--dpk-dark);font-size:1.24rem;letter-spacing:.01em;font-variant-numeric:tabular-nums}
-.ca-num .ca-owner{color:var(--muted);font-size:.95rem;font-weight:600}
-.ca-num .ca-copy{font-size:.72rem;font-weight:800;color:var(--dpk);background:var(--tint);border-radius:999px;padding:4px 10px}
-.ca-num:hover .ca-copy{background:var(--tint-2)}
-.ca-memo{font-size:.88rem;color:#42506a;margin-top:10px}
-.ca-memo b{color:var(--brick)}
-@media(max-width:600px){.hero h1{font-size:1.62rem}.cbtn.primary{min-width:100%}.cbtn.ghost{width:100%}}
+.ci-list{list-style:none;margin:12px 0 0;padding:0}
+.ci-list li{position:relative;padding:7px 0 7px 24px;font-size:.9rem;color:#42506a;line-height:1.7}
+.ci-list li::before{content:'▸';position:absolute;left:4px;top:7px;color:var(--dpk-2);font-weight:900}
+.ci-list li b{color:var(--dpk-dark)}
+.civic-ask{margin-top:16px;background:#fffdf2;border:1px solid #f2e3ab;border-radius:14px;padding:15px 17px}
+.civic-ask p{font-size:.95rem;color:#4a4326;line-height:1.85;margin:0}
+.civic-ask p b{color:#8a6d0c}
+.civic-btn{display:flex;align-items:center;gap:15px;margin-top:20px;padding:22px 24px;border-radius:18px;
+  background:linear-gradient(135deg,var(--dpk),#0a63c4);color:#fff;
+  box-shadow:0 14px 32px rgba(0,78,162,.30);transition:.18s;border:2px solid transparent}
+.civic-btn:hover{transform:translateY(-2px);box-shadow:0 20px 42px rgba(0,78,162,.38);background:linear-gradient(135deg,#0a63c4,var(--dpk))}
+.civic-btn .cb-ico{font-size:2rem;flex:none;line-height:1}
+.civic-btn .cb-txt{flex:1;display:flex;flex-direction:column;gap:4px;min-width:0}
+.civic-btn .cb-txt b{font-size:1.18rem;font-weight:900;letter-spacing:-.01em;line-height:1.35}
+.civic-btn .cb-txt em{font-style:normal;font-size:.85rem;font-weight:600;color:rgba(255,255,255,.9);line-height:1.5}
+.civic-btn .cb-arrow{flex:none;font-size:1.5rem;font-weight:900;opacity:.9}
+.civic-sub{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
+.civic-sub a{flex:1;min-width:200px;text-align:center;font-size:.88rem;font-weight:700;color:var(--dpk);
+  background:#fff;border:1.5px solid #cfe0f5;border-radius:12px;padding:12px 14px;transition:.15s}
+.civic-sub a:hover{background:var(--tint);border-color:var(--dpk)}
+@media(max-width:600px){
+  .civic-btn{padding:18px 18px;gap:12px}
+  .civic-btn .cb-ico{font-size:1.65rem}
+  .civic-btn .cb-txt b{font-size:1.04rem}
+  .civic-btn .cb-arrow{font-size:1.2rem}
+  .civic-sub a{min-width:100%}
+}
+@media(max-width:600px){.hero h1{font-size:1.62rem}}
 </style>
 </head>
 <body>
@@ -159,26 +171,39 @@ main{padding:34px 0 70px}
   </div>
 
   <div class="card civic">
-    <h2>🤝 그래도 마음을 전하고 싶다고 말씀해 주시는 분들께</h2>
-    <p class="lead">후원회가 마감된 뒤에도 &ldquo;그럼 어디로 힘을 보태면 되느냐&rdquo;고 물어봐 주시는 분들이 계십니다. 김보미 개인에게 보내주시는 후원은 법에 따라 받을 수 없습니다. 다만 그 마음을 꼭 전하고 싶으시다면, 제가 <b>공동대표로 함께하고 있는 시민단체 「재정주권 시민행동」</b>을 통해 전해 주시면 감사하겠습니다. 저의 정치가 아니라, 저와 여러분이 함께 지키려는 <b>가치</b>에 보태주시는 힘이 됩니다.</p>
+    <div class="civic-eyebrow">지금 김보미는</div>
+    <h2>🏛️ 「재정주권 시민행동」 공동대표로 뛰고 있습니다</h2>
+    <p class="lead">후원회는 마감되었지만 김보미의 일은 멈추지 않았습니다. 지금은 <b>예산 감시 시민운동의 현장</b>에 있습니다. 세금이 어디에 어떻게 쓰이는지 시민이 직접 들여다볼 수 있어야 한다는 것, 그것이 제가 13년 의정활동 내내 붙들어 온 신념이었습니다.</p>
 
     <div class="civic-intro">
-      <div class="ci-head">📌 재정주권 시민행동이란</div>
-      <p>예산 감시와 올바른 세금 쓰임새를 도모하며, 시민의 재정주권을 지키기 위해 활동하는 시민단체입니다. 전국 243개 지자체의 예산·집행·계약·금고이자율·청렴도를 시민이 직접 확인할 수 있도록 만든 <b>『대한민국 재정 365』</b> 플랫폼을 운영하고 있습니다.</p>
+      <div class="ci-head">📌 재정주권 시민행동은 이런 곳입니다</div>
+      <p><b>예산 감시와 올바른 세금 쓰임새를 도모하며, 시민의 재정주권을 지키기 위해 활동하는 시민운동 단체</b>입니다. 세금은 시민이 의회에 위임한 권력이지 단체장의 사유물이 아니라는 원칙 아래, 감시의 눈을 시민에게 되돌려 드리는 일을 합니다.</p>
+      <ul class="ci-list">
+        <li><b>전국 243개 지자체</b>의 예산·집행률·계약·금고이자율·청렴도를 한자리에서 비교</li>
+        <li>중앙정부·정부 부처 예산까지 시민이 직접 추적하는 <b>『대한민국 재정 365』</b> 플랫폼 운영</li>
+        <li>낭비예산·수의계약·일감 몰아주기 등 <b>재정 카르텔 감시</b> 활동</li>
+      </ul>
     </div>
 
-    <div class="civic-cta">
-      <a class="cbtn primary" href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">🏛️ 재정주권 시민행동 바로가기 <span>사이트에서 활동 내용과 후원 안내를 확인하실 수 있습니다 ↗</span></a>
-      <a class="cbtn ghost" href="https://naver.me/5AgXgN1k" target="_blank" rel="noopener">📄 참고 링크 보기 ↗</a>
+    <div class="civic-ask">
+      <p>거창한 것을 부탁드리는 게 아닙니다. <b>한 번 들어와 보시고, 주변에 널리 알려 주십시오.</b> 우리 동네 살림살이가 어떻게 굴러가는지 확인하는 시민이 한 사람씩 늘어나는 것 — 그것이 이 운동의 전부이자 가장 큰 힘입니다.</p>
     </div>
 
-    <div class="civic-acct">
-      <div class="ca-label">계좌로 마음을 전해주실 경우</div>
-      <button type="button" class="ca-num" id="acctBtn" data-acct="100084065866">토스뱅크 <b>1000-8406-5866</b> <span class="ca-owner">(김재원)</span><span class="ca-copy">복사</span></button>
-      <div class="ca-memo">※ 입금 시 <b>메모란에 &lsquo;김보미&rsquo;</b>를 기재해 주시면 큰 힘이 됩니다.</div>
+    <a class="civic-btn" href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">
+      <span class="cb-ico">🔍</span>
+      <span class="cb-txt">
+        <b>재정주권 시민행동 사이트 바로가기</b>
+        <em>우리 동네 예산·정책 확인하고, 시민운동에 함께하기 ↗</em>
+      </span>
+      <span class="cb-arrow">→</span>
+    </a>
+
+    <div class="civic-sub">
+      <a href="https://naver.me/5AgXgN1k" target="_blank" rel="noopener">📄 활동 소개 자료 보기 ↗</a>
+      <a href="narasalim.html">🔎 나라살림 돋보기 — 우리동네 예산 3초 확인</a>
     </div>
 
-    <p class="subnote">※ 「재정주권 시민행동」에 보내주시는 후원금은 <b>정치자금이 아니라 시민단체 후원금</b>이므로, 정치자금 영수증(세액공제) 발급 대상이 아닙니다. 김보미 개인에게 귀속되지 않으며, 단체의 예산 감시 활동에 사용됩니다.</p>
+    <p class="subnote">※ 이 안내는 김보미가 공동대표로 참여 중인 <b>시민단체 활동을 알리기 위한 것</b>이며, 정치자금 후원 요청이 아닙니다. 김보미 후원회는 예비경선 컷오프와 동시에 마감되어 어떠한 정치자금도 받지 않습니다.</p>
   </div>
 
   <div style="text-align:center;font-family:var(--serif);font-weight:800;color:var(--dpk-dark);font-size:1.15rem;margin:6px 0 4px">비록 본경선에는 오르지 못했지만, 김보미의 약속은 계속됩니다.</div>
@@ -194,17 +219,6 @@ main{padding:34px 0 70px}
 <script>
 "use strict";
 (function(){var _bg=document.getElementById('burger'),_mn=document.getElementById('menu');if(_bg&&_mn){_bg.addEventListener('click',function(){_mn.classList.toggle('open');});_mn.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){_mn.classList.remove('open');});});}})();
-(function(){
-  var b=document.getElementById('acctBtn'), t=document.getElementById('toast');
-  function toast(m){ if(!t) return; t.textContent=m; t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},2000); }
-  if(!b) return;
-  b.addEventListener('click',function(){
-    var v='토스뱅크 '+b.getAttribute('data-acct')+' 김재원';
-    if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(v).then(function(){toast('계좌번호가 복사됐어요 · 메모란에 「김보미」를 남겨주세요');}).catch(function(){prompt('복사해 주세요',v);});
-    } else { prompt('복사해 주세요',v); }
-  });
-})();
 </script>
 <script src="/a.js" defer></script>
 </body>
