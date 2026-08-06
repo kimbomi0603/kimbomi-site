@@ -253,6 +253,8 @@ function route(){
 var _bg=document.getElementById('burger'),_mn=document.getElementById('menu');
 if(_bg&&_mn){ _bg.addEventListener('click',function(){_mn.classList.toggle('open');}); _mn.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){_mn.classList.remove('open');});}); }
 function mergeStatic(items){
+  var fix=window.KB_DATE_FIX||{};
+  items.forEach(function(p){ if(fix[p.id]) p.publishAt=fix[p.id]; });  /* 실제 게시일로 보정 */
   var st=(window.KB_STATIC_POSTS||[]).slice();
   var ids={}; items.forEach(function(p){ids[p.id]=1;});
   st.forEach(function(p){ if(!ids[p.id]) items.push(p); });
