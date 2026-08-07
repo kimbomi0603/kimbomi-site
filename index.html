@@ -1413,8 +1413,6 @@ footer .flink:hover{color:#fff}
   function fmtDate(ms){try{var d=new Date(ms+32400000);return d.getUTCFullYear()+'.'+('0'+(d.getUTCMonth()+1)).slice(-2)+'.'+('0'+d.getUTCDate()).slice(-2);}catch(e){return '';}}
   function excerpt(b){var t=String(b||'').replace(/\n+/g,' ').replace(/\[[^\]]*\]/g,'').replace(/https?:\/\/[^\s]+/g,'').replace(/\s+/g,' ').trim();return t.slice(0,80);}
   function mergeStatic(items){
-    var fix=window.KB_DATE_FIX||{};
-    items.forEach(function(p){ if(fix[p.id]) p.publishAt=fix[p.id]; });  /* 실제 게시일로 보정 */
     var st=(window.KB_STATIC_POSTS||[]).slice();
     var ids={}; items.forEach(function(p){ids[p.id]=1;});
     st.forEach(function(p){ if(!ids[p.id]) items.push(p); });
