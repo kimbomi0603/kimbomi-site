@@ -88,9 +88,27 @@ main{padding:34px 0 70px}
 .ci-list li{position:relative;padding:7px 0 7px 24px;font-size:.9rem;color:#42506a;line-height:1.7}
 .ci-list li::before{content:'▸';position:absolute;left:4px;top:7px;color:var(--dpk-2);font-weight:900}
 .ci-list li b{color:var(--dpk-dark)}
+.ci-slogan{margin:11px 0 0;font-family:var(--serif);font-weight:800;font-size:1.02rem;color:var(--dpk);text-align:center;letter-spacing:-.01em}
+.civic-vows{margin-top:16px;background:#fff;border:1px solid #cfe0f5;border-radius:16px;padding:18px 19px}
+.cv-head{font-weight:900;color:var(--dpk-dark);font-size:1rem;margin-bottom:12px}
+.cv-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.cv-list li{display:flex;gap:12px;align-items:flex-start}
+.cv-no{flex:none;width:26px;height:26px;border-radius:50%;background:var(--dpk);color:#fff;font-size:.82rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;margin-top:2px}
+.cv-body{display:flex;flex-direction:column;gap:3px;min-width:0}
+.cv-body b{font-size:.97rem;font-weight:800;color:var(--dpk-dark);letter-spacing:-.01em}
+.cv-body em{font-style:normal;font-size:.9rem;color:#4a5870;line-height:1.8}
+.cv-politics{margin:15px 0 0;padding-top:14px;border-top:1px dashed #cfe0f5;font-size:.9rem;color:#4a5870;line-height:1.85}
+.cv-politics b{color:var(--dpk-dark);font-weight:800}
+.cv-quote{margin:13px 0 0;background:var(--tint);border-radius:12px;padding:13px 15px;font-size:.93rem;color:#2b3646;line-height:1.85;text-align:center}
+.cv-quote b{color:var(--dpk-dark);font-weight:800}
 .civic-ask{margin-top:16px;background:#fffdf2;border:1px solid #f2e3ab;border-radius:14px;padding:15px 17px}
+.civic-ask .ca-head{font-weight:900;color:#8a6d0c;font-size:1rem;margin-bottom:9px}
 .civic-ask p{font-size:.95rem;color:#4a4326;line-height:1.85;margin:0}
 .civic-ask p b{color:#8a6d0c}
+.ca-ways{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
+.ca-ways li{font-size:.91rem;color:#54492a;line-height:1.75;padding-left:2px}
+.ca-ways li b{display:inline-block;min-width:38px;margin-right:8px;text-align:center;font-size:.8rem;font-weight:900;color:#fff;background:#c79a13;border-radius:999px;padding:2px 9px}
 .civic-cta-wrap{margin-top:20px;text-align:center}
 .cta-nudge{display:inline-block;font-size:.86rem;font-weight:800;color:#8a6d0c;background:#fff6d6;border:1px solid #f2e3ab;border-radius:999px;padding:6px 15px;margin-bottom:10px;animation:nudgeBob 1.8s ease-in-out infinite}
 @keyframes nudgeBob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
@@ -106,6 +124,16 @@ main{padding:34px 0 70px}
 .civic-btn .cb-txt b{font-size:1.18rem;font-weight:900;letter-spacing:-.01em;line-height:1.35}
 .civic-btn .cb-txt em{font-style:normal;font-size:.85rem;font-weight:600;color:rgba(255,255,255,.9);line-height:1.5}
 .civic-btn .cb-arrow{flex:none;font-size:1.5rem;font-weight:900;opacity:.9}
+.ci-slogans{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-top:13px}
+.ci-slogans span{font-family:var(--serif);font-weight:800;font-size:.9rem;color:var(--dpk);background:var(--tint);border:1px solid #cfe0f5;border-radius:999px;padding:6px 13px}
+.civic-btn2{display:flex;align-items:center;gap:13px;margin-top:11px;padding:16px 20px;border-radius:15px;text-align:left;
+  background:#fff;border:2px solid var(--dpk);color:var(--dpk-dark);transition:.16s}
+.civic-btn2:hover{background:var(--tint);transform:translateY(-2px);box-shadow:0 12px 26px rgba(0,78,162,.16)}
+.civic-btn2 .cb2-ico{font-size:1.5rem;flex:none;line-height:1}
+.civic-btn2 .cb2-txt{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0}
+.civic-btn2 .cb2-txt b{font-size:1.02rem;font-weight:900;letter-spacing:-.01em;color:var(--dpk-dark)}
+.civic-btn2 .cb2-txt em{font-style:normal;font-size:.83rem;font-weight:600;color:#5a6a84;line-height:1.55}
+.civic-btn2 .cb2-arrow{flex:none;font-size:1.25rem;font-weight:900;color:var(--dpk);opacity:.85}
 .civic-sub{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
 .civic-sub a,.civic-sub button{flex:1;min-width:190px;text-align:center;font-family:inherit;font-size:.88rem;font-weight:700;color:var(--dpk);
   background:#fff;border:1.5px solid #cfe0f5;border-radius:12px;padding:12px 14px;transition:.15s;cursor:pointer}
@@ -116,6 +144,8 @@ main{padding:34px 0 70px}
   .civic-btn .cb-ico{font-size:1.65rem}
   .civic-btn .cb-txt b{font-size:1.04rem}
   .civic-btn .cb-arrow{font-size:1.2rem}
+  .civic-btn2{padding:14px 15px;gap:10px}
+  .civic-btn2 .cb2-txt b{font-size:.95rem}
   .civic-sub a,.civic-sub button{min-width:100%}
 }
 @media(max-width:600px){.hero h1{font-size:1.62rem}}
@@ -179,34 +209,77 @@ main{padding:34px 0 70px}
 
   <div class="card civic">
     <div class="civic-eyebrow">지금 김보미는</div>
-    <h2>🏛️ 「재정주권 시민행동」 공동대표로 뛰고 있습니다</h2>
+    <h2>🏛️ 「&lsquo;내돈내놔&rsquo; 재정주권시민행동」 공동대표로 뛰고 있습니다</h2>
     <p class="lead">후원회는 마감되었지만 김보미의 일은 멈추지 않았습니다. 지금은 <b>예산 감시 시민운동의 현장</b>에 있습니다. 세금이 어디에 어떻게 쓰이는지 시민이 직접 들여다볼 수 있어야 한다는 것, 그것이 제가 13년 의정활동 내내 붙들어 온 신념이었습니다.</p>
 
     <div class="civic-intro">
       <div class="ci-head">📌 재정주권 시민행동은 이런 곳입니다</div>
       <p><b>예산 감시와 올바른 세금 쓰임새를 도모하며, 시민의 재정주권을 지키기 위해 활동하는 시민운동 단체</b>입니다. 세금은 시민이 의회에 위임한 권력이지 단체장의 사유물이 아니라는 원칙 아래, 감시의 눈을 시민에게 되돌려 드리는 일을 합니다.</p>
-      <ul class="ci-list">
-        <li><b>전국 243개 지자체</b>의 예산·집행률·계약·금고이자율·청렴도를 한자리에서 비교</li>
-        <li>중앙정부·정부 부처 예산까지 시민이 직접 추적하는 <b>『대한민국 재정 365』</b> 플랫폼 운영</li>
-        <li>낭비예산·수의계약·일감 몰아주기 등 <b>재정 카르텔 감시</b> 활동</li>
-      </ul>
+            <div class="ci-slogans">
+        <span>&ldquo;내 돈, 내 삶, 내 권리!&rdquo;</span>
+        <span>&ldquo;재정의 주인은 국민이다&rdquo;</span>
+        <span>&ldquo;세금의 주인은 국민이다&rdquo;</span>
+      </div>
+    </div>
+
+    <div class="civic-vows">
+      <div class="cv-head">🤝 재정주권 시민행동이 하는 일</div>
+      <ol class="cv-list">
+        <li>
+          <span class="cv-no">1</span>
+          <span class="cv-body"><b>재정 투명성 강화</b>
+            <em>모든 예산의 편성·집행 과정을 국민에게 공개하고, 시민이 쉽게 알 수 있도록 구조를 개혁합니다.</em></span>
+        </li>
+        <li>
+          <span class="cv-no">2</span>
+          <span class="cv-body"><b>재정 민주주의 실현</b>
+            <em>예산의 우선순위는 정치인이나 공무원이 아니라 시민의 삶에서 나와야 합니다. 숙의와 참여를 통한 시민 중심의 재정 거버넌스를 세웁니다.</em></span>
+        </li>
+        <li>
+          <span class="cv-no">3</span>
+          <span class="cv-body"><b>재정 정의 수호</b>
+            <em>비효율적이거나 특정 집단·일부 계층에게 불필요하게 쓰이는 세금이 있다면 중단시키고, 사회적 약자와 미래세대를 위한 정의로운 분배가 이루어지도록 국민이 바로잡습니다.</em></span>
+        </li>
+        <li>
+          <span class="cv-no">4</span>
+          <span class="cv-body"><b>시민행동의 확산</b>
+            <em>전국 곳곳에서 타운홀미팅·토론과 스터디·플랫폼 구축·강연·모니터링·캠페인을 펼쳐 재정주권의 가치를 사회 전반으로 넓힙니다.</em></span>
+        </li>
+      </ol>
+      <p class="cv-politics">정치 영역에서도 <b>▲부정부패·비리 세력과 결탁하지 않는 정치 ▲모든 예결산을 시민이 쉽게 접할 수 있는 플랫폼 ▲시민이 결정권을 가지는 국민주권형 의사결정</b>을 위해 끝까지 활동합니다.</p>
+      <p class="cv-quote">재정주권 시대, 국민이 진정한 주인으로 서는 사회를 향한 길을 힘차게 열어가겠습니다.<br><b>국민 모두의 연대와 참여가 곧 새로운 민주주의의 시작입니다.</b></p>
     </div>
 
     <div class="civic-ask">
-      <p>거창한 것을 부탁드리는 게 아닙니다. <b>아래 버튼을 눌러 한 번 들어와 보시고, 주변에 널리 알려 주십시오.</b> 우리 동네 살림살이가 어떻게 굴러가는지 확인하는 시민이 한 사람씩 늘어나는 것 — 그것이 이 운동의 전부이자 가장 큰 힘입니다.</p>
+      <div class="ca-head">🙏 함께해 주세요</div>
+      <p>거창한 것을 부탁드리는 게 아닙니다. <b>아래 버튼을 눌러 한 번 들어와 보시고, 뜻이 맞으신다면 회원으로 함께해 주십시오.</b> 우리 동네 살림살이가 어떻게 굴러가는지 확인하는 시민이 한 사람씩 늘어나는 것 — 그것이 이 운동의 전부이자 가장 큰 힘입니다.</p>
+      <ul class="ca-ways">
+        <li><b>개인</b> 개인 활동가로 참여 — 타운홀미팅·스터디·모니터링에 함께하기</li>
+        <li><b>단체</b> 소속 단체 이름으로 함께 연대하기</li>
+        <li><b>후원</b> 특별회원(후원 중심)으로 참여 — 신청서 안에 후원 안내가 있습니다</li>
+        <li><b>확산</b> 이 페이지를 가족·이웃·동료에게 널리 알려 주기</li>
+      </ul>
     </div>
 
     <div class="civic-cta-wrap">
-      <div class="cta-nudge">👇 여기를 눌러 주세요</div>
+      <div class="cta-nudge">👇 여기를 눌러 함께해 주세요</div>
       <a class="civic-btn" href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">
         <span class="cb-ico">🔍</span>
         <span class="cb-txt">
-          <b>재정주권 시민행동 바로가기</b>
-          <em>우리 동네 예산·정책 확인하고 시민운동에 함께하기</em>
+          <b>재정주권 시민행동과 함께하기</b>
+          <em>회원 참여 · 후원 · 우리 동네 예산 확인까지 한 곳에서</em>
         </span>
         <span class="cb-arrow">→</span>
       </a>
       <div class="cta-url">재정주권.kr</div>
+      <a class="civic-btn2" href="https://docs.google.com/forms/d/e/1FAIpQLSf_nKz1q5lqVJqUzHpXTBIhG5hCSVX1pmaPIvS1S6R2CBl-QQ/viewform" target="_blank" rel="noopener">
+        <span class="cb2-ico">✍️</span>
+        <span class="cb2-txt">
+          <b>바로 참여 신청서 쓰기</b>
+          <em>개인 활동가 · 단체 · 특별회원(후원) 중에서 선택하시면 됩니다</em>
+        </span>
+        <span class="cb2-arrow">→</span>
+      </a>
     </div>
 
     <div class="civic-sub">
