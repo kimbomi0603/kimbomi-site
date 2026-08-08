@@ -71,7 +71,7 @@ function pubList(arr){
 
 // ===== 링크 미리보기(OG) 조회 =====  GET ?action=og&url=<기사 URL>
 //   · 허용된 언론사 도메인만 (SSRF 방지) · https 만 · 6초 타임아웃 · 300KB 까지만 읽음 · 7일 캐시
-const OGKEY = 'kb_og2:';
+const OGKEY = 'kb_og3:';
 const OG_TTL = 60 * 60 * 24 * 7;
 const OG_MAXB = 300 * 1024;
 const OG_ALLOW = [
@@ -137,12 +137,19 @@ async function ogFetch(u){
     if (img && img.indexOf('https://') !== 0) img = '';   // http 이미지는 혼합콘텐츠라 제외
     var ttl = ogDecode(ogPick(html, ['og:title', 'twitter:title']));
     if (!ttl) { var m = html.match(/<title[^>]*>([\s\S]{0,300}?)<\/title>/i); if (m) ttl = ogDecode(m[1]); }
+    // 출처 표기: 네이버 뉴스는 원 언론사명(og:article:author)을 우선 사용
+    var host = u.hostname.replace(/^www\./, '');
+    var author = ogDecode(ogPick(html, ['og:article:author'])).split('|')[0].trim();
+    var site = ogDecode(ogPick(html, ['og:site_name']));
+    if (/(^|\.)naver\.com$/.test(host)) site = author || '네이버 뉴스';
+    else if (/(^|\.)daum\.net$/.test(host)) site = author || site || '다음 뉴스';
+    if (!site || /^[a-z0-9.\-]+$/i.test(site) === true && site.indexOf('.') >= 0) site = author || site || host;
     return {
       ok: true,
       image: img,
       title: ttl,
       desc: ogDecode(ogPick(html, ['og:description', 'twitter:description', 'description'])).slice(0, 200),
-      site: ogDecode(ogPick(html, ['og:site_name'])) || u.hostname.replace(/^www\./, '')
+      site: site || host
     };
   } catch(e) {
     clearTimeout(timer);
