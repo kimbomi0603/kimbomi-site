@@ -83,6 +83,21 @@ main{padding:52px 0 80px;min-height:50vh}
 .article .vfig{margin:28px 0}
 .article .vbox{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--line)}
 .article .vbox iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+/* 기사 링크 미리보기 카드 */
+.article .lcard{display:flex;align-items:stretch;gap:0;margin:30px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;transition:.16s;box-shadow:0 4px 16px rgba(10,46,92,.05)}
+.article .lcard:hover{border-color:var(--dpk-2);box-shadow:0 12px 30px rgba(0,78,162,.13);transform:translateY(-2px)}
+.article .lcard .lc-thumb{flex:none;width:88px;display:flex;align-items:center;justify-content:center;font-size:2rem;background:linear-gradient(150deg,#eef4fc,#dbe8f8);border-right:1px solid var(--line)}
+.article .lcard .lc-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;padding:16px 18px}
+.article .lcard .lc-src{font-size:.72rem;font-weight:800;letter-spacing:.06em;color:#8a93a5}
+.article .lcard .lc-title{font-family:var(--serif);font-weight:800;font-size:1.02rem;line-height:1.5;color:var(--ink);
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.article .lcard:hover .lc-title{color:var(--dpk-dark)}
+.article .lcard .lc-go{font-size:.84rem;font-weight:700;color:var(--dpk);margin-top:2px}
+@media(max-width:600px){
+  .article .lcard .lc-thumb{width:64px;font-size:1.5rem}
+  .article .lcard .lc-body{padding:13px 14px}
+  .article .lcard .lc-title{font-size:.95rem}
+}
 .article .share{margin-top:40px;padding-top:26px;border-top:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-weight:700;font-size:.92rem;padding:11px 20px;border-radius:999px;cursor:pointer;border:1.5px solid transparent;transition:.16s}
 .btn.p{background:var(--dpk);color:#fff}.btn.p:hover{background:var(--dpk-dark)}
@@ -204,6 +219,32 @@ function richPara(t){
   if(t.length<=46 && /[!！]$/.test(t) && t.indexOf('\n')<0) return '<p class="p-callout">'+esc(t)+'</p>';
   return '<p>'+dec(t)+'</p>';
 }
+/* 기사 링크 → 미리보기 카드 (페이스북 링크 프리뷰 형태) */
+function linkCard(t, fallbackTitle){
+  if(t.indexOf('원문 보기')<0) return '';
+  var m=t.match(/https?:\/\/[^\s<>"']+/);
+  if(!m) return '';
+  var url=m[0].replace(/[.,)\]]+$/,'');
+  var host=''; try{ host=new URL(url).hostname.replace(/^www\./,'').toUpperCase(); }catch(e){ host='LINK'; }
+  /* URL과 '… 원문 보기 →' 안내문을 걷어낸 나머지를 헤드라인으로 사용 */
+  var head=t.replace(url,'')
+             .replace(/(기사\s*)?원문\s*보기\s*(→|->|:)?/g,'')
+             .split('\n').map(function(x){return x.trim();})
+             .filter(function(x){return x.length>0;})
+             .join(' ')
+             .replace(/\s{2,}/g,' ')
+             .trim();
+  /* '…에 실린 글입니다' 같은 안내 문구뿐이면 글 제목을 헤드라인으로 */
+  if(head.length<18 || /(글|기사|링크)입니다\.?$/.test(head)) head=fallbackTitle||head;
+  return '<a class="lcard" href="'+esc(url)+'" target="_blank" rel="noopener">'
+       +   '<span class="lc-thumb">📰</span>'
+       +   '<span class="lc-body">'
+       +     '<span class="lc-src">'+esc(host)+'</span>'
+       +     '<span class="lc-title">'+esc(head)+'</span>'
+       +     '<span class="lc-go">기사 원문 보기 <b>↗</b></span>'
+       +   '</span>'
+       + '</a>';
+}
 function renderDetail(p){
   var paras=String(p.body||'').split(/\n{2,}/).map(function(t){return t.trim();}).filter(Boolean);
   var html='<div class="meta">'+fmtDate(p.publishAt)+'</div><h1>'+esc(p.title)+'</h1>';
@@ -212,6 +253,8 @@ function renderDetail(p){
     if(im){ html+='<figure class="pfig"><img src="'+esc(im[1])+'" alt="" loading="lazy"></figure>'; return; }
     var vd=ytId(t);
     if(vd){ html+='<figure class="vfig"><div class="vbox"><iframe src="https://www.youtube.com/embed/'+esc(vd)+'" title="영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></figure>'; return; }
+    var lc=linkCard(t, p.title);
+    if(lc){ html+=lc; return; }
     if(/^\[.*\]$/.test(t)){ html+='<p class="tagline">'+esc(t.replace(/^\[\s*|\s*\]$/g,''))+'</p>'; }
     else { html+=richPara(t); }
   });
