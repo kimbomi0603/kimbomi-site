@@ -71,7 +71,7 @@ function pubList(arr){
 
 // ===== 링크 미리보기(OG) 조회 =====  GET ?action=og&url=<기사 URL>
 //   · 허용된 언론사 도메인만 (SSRF 방지) · https 만 · 6초 타임아웃 · 300KB 까지만 읽음 · 7일 캐시
-const OGKEY = 'kb_og:';
+const OGKEY = 'kb_og2:';
 const OG_TTL = 60 * 60 * 24 * 7;
 const OG_MAXB = 300 * 1024;
 const OG_ALLOW = [
@@ -100,7 +100,9 @@ function ogPick(html, props){
 }
 function ogDecode(s){
   return String(s || '')
-    .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&apos;/g, "'")
+    .replace(/&#x([0-9a-fA-F]+);/g, function(m, h){ try { return String.fromCodePoint(parseInt(h, 16)); } catch(e){ return m; } })
+    .replace(/&#(\d+);/g, function(m, d){ try { return String.fromCodePoint(parseInt(d, 10)); } catch(e){ return m; } })
+    .replace(/&quot;/g, '"').replace(/&apos;/g, "'")
     .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
     .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&')
     .replace(/\s+/g, ' ').trim();
@@ -129,7 +131,7 @@ async function ogFetch(u){
       if (html.indexOf('</head>') >= 0) break;
     }
     try { reader.cancel(); } catch(e){}
-    var img = ogPick(html, ['og:image', 'twitter:image', 'twitter:image:src']);
+    var img = ogDecode(ogPick(html, ['og:image', 'twitter:image', 'twitter:image:src']));
     if (img && img.indexOf('//') === 0) img = 'https:' + img;
     if (img && img.indexOf('http') !== 0) { try { img = new URL(img, u.href).href; } catch(e){ img = ''; } }
     if (img && img.indexOf('https://') !== 0) img = '';   // http 이미지는 혼합콘텐츠라 제외
@@ -137,7 +139,7 @@ async function ogFetch(u){
     if (!ttl) { var m = html.match(/<title[^>]*>([\s\S]{0,300}?)<\/title>/i); if (m) ttl = ogDecode(m[1]); }
     return {
       ok: true,
-      image: ogDecode(img),
+      image: img,
       title: ttl,
       desc: ogDecode(ogPick(html, ['og:description', 'twitter:description', 'description'])).slice(0, 200),
       site: ogDecode(ogPick(html, ['og:site_name'])) || u.hostname.replace(/^www\./, '')
