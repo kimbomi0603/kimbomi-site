@@ -266,7 +266,7 @@ function hydrateCards(root){
   Array.prototype.forEach.call(cards, function(card){
     var url=card.getAttribute('data-og');
     card.removeAttribute('data-og');
-    fetch('/api/og?url='+encodeURIComponent(url)).then(function(r){return r.json();}).then(function(d){
+    fetch('/api/posts?action=og&url='+encodeURIComponent(url)).then(function(r){return r.json();}).then(function(d){
       if(!d||!d.ok) return;
       if(d.site){ card.querySelector('.lc-src').textContent=d.site.toUpperCase(); }
       if(d.title && d.title.length>8){ card.querySelector('.lc-title').textContent=d.title; }
