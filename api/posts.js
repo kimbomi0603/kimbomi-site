@@ -69,11 +69,103 @@ function pubList(arr){
             .sort(function(a,b){ return (b.publishAt||0)-(a.publishAt||0); });
 }
 
+// ===== 링크 미리보기(OG) 조회 =====  GET ?action=og&url=<기사 URL>
+//   · 허용된 언론사 도메인만 (SSRF 방지) · https 만 · 6초 타임아웃 · 300KB 까지만 읽음 · 7일 캐시
+const OGKEY = 'kb_og:';
+const OG_TTL = 60 * 60 * 24 * 7;
+const OG_MAXB = 300 * 1024;
+const OG_ALLOW = [
+  'naver.com', 'daum.net', 'ohmynews.com', 'pressian.com', 'khan.co.kr', 'hani.co.kr',
+  'chosun.com', 'joongang.co.kr', 'donga.com', 'munhwa.com', 'seoul.co.kr', 'segye.com',
+  'kmib.co.kr', 'hankookilbo.com', 'hankyung.com', 'mk.co.kr', 'edaily.co.kr', 'mt.co.kr',
+  'newsis.com', 'news1.kr', 'yna.co.kr', 'ytn.co.kr', 'imbc.com', 'kbs.co.kr', 'sbs.co.kr',
+  'jtbc.co.kr', 'newspim.com', 'fnnews.com', 'sedaily.com', 'asiae.co.kr', 'newstomato.com',
+  'mediatoday.co.kr', 'polinews.co.kr', 'sisajournal.com', 'kukinews.com', 'tf.co.kr',
+  'wikitree.co.kr', 'ilyoseoul.co.kr', 'shinmoongo.net', 'jgynews.com', 'theleader.co.kr',
+  'christiandaily.co.kr', 'jeollailbo.com', 'joseilbo.com', 'lawissue.co.kr', 'imaeil.com'
+];
+function ogAllowed(host){
+  host = String(host || '').toLowerCase().replace(/^www\./, '');
+  return OG_ALLOW.some(function(d){ return host === d || host.endsWith('.' + d); });
+}
+function ogPick(html, props){
+  for (var i = 0; i < props.length; i++){
+    var re = new RegExp('<meta[^>]+(?:property|name)=["\']' + props[i] + '["\'][^>]*>', 'i');
+    var tag = (html.match(re) || [])[0];
+    if (!tag) continue;
+    var c = tag.match(/content=["']([^"']*)["']/i);
+    if (c && c[1]) return c[1].trim();
+  }
+  return '';
+}
+function ogDecode(s){
+  return String(s || '')
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&apos;/g, "'")
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&')
+    .replace(/\s+/g, ' ').trim();
+}
+async function ogFetch(u){
+  var ctl = new AbortController();
+  var timer = setTimeout(function(){ ctl.abort(); }, 6000);
+  try {
+    var r = await fetch(u.href, {
+      redirect: 'follow', signal: ctl.signal,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml',
+        'Accept-Language': 'ko-KR,ko;q=0.9'
+      }
+    });
+    clearTimeout(timer);
+    var ct = (r.headers.get('content-type') || '');
+    if (!r.ok || ct.indexOf('text/html') < 0) throw new Error('http ' + r.status);
+    var reader = r.body.getReader(), dec = new TextDecoder('utf-8'), html = '', got = 0;
+    while (got < OG_MAXB) {
+      var chunk = await reader.read();
+      if (chunk.done) break;
+      got += chunk.value.length;
+      html += dec.decode(chunk.value, { stream: true });
+      if (html.indexOf('</head>') >= 0) break;
+    }
+    try { reader.cancel(); } catch(e){}
+    var img = ogPick(html, ['og:image', 'twitter:image', 'twitter:image:src']);
+    if (img && img.indexOf('//') === 0) img = 'https:' + img;
+    if (img && img.indexOf('http') !== 0) { try { img = new URL(img, u.href).href; } catch(e){ img = ''; } }
+    if (img && img.indexOf('https://') !== 0) img = '';   // http 이미지는 혼합콘텐츠라 제외
+    var ttl = ogDecode(ogPick(html, ['og:title', 'twitter:title']));
+    if (!ttl) { var m = html.match(/<title[^>]*>([\s\S]{0,300}?)<\/title>/i); if (m) ttl = ogDecode(m[1]); }
+    return {
+      ok: true,
+      image: ogDecode(img),
+      title: ttl,
+      desc: ogDecode(ogPick(html, ['og:description', 'twitter:description', 'description'])).slice(0, 200),
+      site: ogDecode(ogPick(html, ['og:site_name'])) || u.hostname.replace(/^www\./, '')
+    };
+  } catch(e) {
+    clearTimeout(timer);
+    return { ok: false, error: 'fetch failed', site: u.hostname.replace(/^www\./, '') };
+  }
+}
+
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control','no-store');
   if (!RURL || !RTOK) { res.status(200).json({ ok:false, configured:false }); return; }
   var action = req.query.action || 'list';
   try {
+    if (action === 'og') {
+      res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=604800');
+      var ou; try { ou = new URL(String(req.query.url || '')); } catch(e){ res.status(200).json({ ok:false, error:'bad url' }); return; }
+      if (ou.protocol !== 'https:') { res.status(200).json({ ok:false, error:'https only' }); return; }
+      if (!ogAllowed(ou.hostname)) { res.status(200).json({ ok:false, error:'domain not allowed' }); return; }
+      var ock = OGKEY + ou.href;
+      var ohit = await redis(['GET', ock]);
+      if (ohit && ohit.result) { try { res.status(200).json(JSON.parse(ohit.result)); return; } catch(e){} }
+      var oout = await ogFetch(ou);
+      await redis(['SET', ock, JSON.stringify(oout), 'EX', String(oout.ok ? OG_TTL : 3600)]);
+      res.status(200).json(oout);
+      return;
+    }
     if (action === 'list') {
       var arr = await loadRaw(); if (!arr) arr = DEFAULT_POSTS;
       var items = pubList(arr).map(function(p){ return { id:p.id, title:p.title, body:p.body, publishAt:p.publishAt }; });
