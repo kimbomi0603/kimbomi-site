@@ -282,7 +282,7 @@ function hydrateCards(root){
           card.classList.add('wide');
         };
         im.onerror=function(){};
-        im.alt=''; im.loading='lazy'; im.src=d.image;
+        im.alt=''; im.src=d.image;   /* loading='lazy' 는 DOM 밖 이미지 로딩을 막으므로 쓰지 않음 */
       }
     }).catch(function(){});
   });
