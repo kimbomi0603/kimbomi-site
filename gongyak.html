@@ -203,6 +203,12 @@ main{padding:20px 0 40px}
 .hd-film{display:grid;grid-template-columns:300px 1fr;gap:26px;align-items:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:22px;margin-bottom:22px}
 .hd-film .fr{position:relative;width:100%;aspect-ratio:9/16;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 12px 34px rgba(0,0,0,.45)}
 .hd-film .fr iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.hd-film .fr .poster{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:#000;cursor:pointer;display:block}
+.hd-film .fr .poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.hd-film .fr .poster .pbtn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:66px;height:46px;border-radius:12px;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;transition:.18s}
+.hd-film .fr .poster .pbtn::after{content:"";border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fff;margin-left:3px}
+.hd-film .fr .poster:hover .pbtn{background:#ff0000;transform:translate(-50%,-50%) scale(1.06)}
+.hd-film .fr .poster .cap{position:absolute;left:0;right:0;bottom:0;padding:26px 12px 10px;background:linear-gradient(transparent,rgba(0,0,0,.72));color:#fff;font-size:.78rem;font-weight:700;letter-spacing:-.2px;text-align:left;line-height:1.45}
 .hd-film .tx h3{font-family:var(--serif);color:#ffd873;font-size:1.24rem;font-weight:900;margin:0 0 10px;line-height:1.4}
 .hd-film .tx p{color:#dfe8f6;font-size:.96rem;line-height:1.85;margin:0 0 12px}
 .hd-film .tx .thx{background:rgba(255,216,115,.1);border-left:3px solid #ffd873;border-radius:0 10px 10px 0;padding:12px 16px;color:#fff5dc;font-family:var(--serif);font-size:.97rem;line-height:1.8}
@@ -216,8 +222,12 @@ main{padding:20px 0 40px}
     <h2>민주당 갈아엎기 <em>대전환 선언</em> — 홍대선언</h2>
     <p class="hd-sub">예비경선 결과 발표를 앞두고, 결과와 상관없이 김보미가 청년들과 함께 국민께 드린 약속 — 길을 잃은 민주당이 가야 할 길을 제시합니다.</p>
     <div class="hd-film">
-      <div class="fr">
-        <iframe src="https://www.youtube.com/embed/FWWK6ZtRSCA?rel=0" title="김보미 홍대선언 — 지지자 자판기 님 제작 영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <div class="fr" id="hdFilmFrame">
+        <button class="poster" type="button" id="hdFilmPlay" aria-label="홍대선언 AI영상 재생">
+          <img src="hongdae_thumb.jpg" alt="김보미 홍대선언 — 청년의 거리 홍대에서" width="720" height="1280" loading="lazy" decoding="async">
+          <span class="pbtn" aria-hidden="true"></span>
+          <span class="cap">컷오프 전날, 청년의 거리 홍대에서</span>
+        </button>
       </div>
       <div class="tx">
         <h3>🎬 「민주당 갈아엎기 홍대선언」 지지자 제작 AI영상</h3>
@@ -293,6 +303,23 @@ main{padding:20px 0 40px}
     </div>
   </div>
 </section>
+<script>
+(function(){
+  var b=document.getElementById('hdFilmPlay');
+  if(!b) return;
+  b.addEventListener('click',function(){
+    var f=document.getElementById('hdFilmFrame');
+    var i=document.createElement('iframe');
+    i.src='https://www.youtube.com/embed/FWWK6ZtRSCA?rel=0&autoplay=1';
+    i.title='김보미 홍대선언 — 지지자 자판기 님 제작 영상';
+    i.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+    i.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
+    i.setAttribute('allowfullscreen','');
+    f.innerHTML='';
+    f.appendChild(i);
+  });
+})();
+</script>
 
 <div class="filter" id="filterBar">
   <div class="wrap" id="chips"></div>
