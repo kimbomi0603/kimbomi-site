@@ -3721,7 +3721,7 @@ async function aiPolishMail(R,text,council){
     const ctrl=new AbortController(), t=setTimeout(()=>ctrl.abort(),25000);
     const ask=`아래 시민의 짧은 의견을 ${council} 앞으로 보내는 정중한 민원·질의 메일 '본문'으로 다듬어 주세요. 조건: 한국어 존댓말, 4~7문장, 사실을 단정하지 말고 '확인·자료 공개를 정중히 요청'하는 어조, 간단한 인사말과 맺음말 포함, 제목/받는사람/머리말 줄은 빼고 본문만 출력. 대상 지역=${R.display}. 시민 의견: "${text}"`;
     const res=await fetch(BOT_API,{method:'POST',headers:{'Content-Type':'application/json'},signal:ctrl.signal,
-      body:JSON.stringify({messages:[{role:'user',content:ask}],context:`너는 시민의 의견을 지방의회 민원 메일 본문으로 다듬는 작성 도우미다. 객관적이고 공손하게, 특정인 비방 없이.`})});
+      body:JSON.stringify({message:ask,context:`너는 시민의 의견을 지방의회 민원 메일 본문으로 다듬는 작성 도우미다. 객관적이고 공손하게, 특정인 비방 없이.`})});
     clearTimeout(t);
     if(!res.ok) return null;
     const j=await res.json(); const r=(j.reply||j.text||j.content||'').toString().trim();
@@ -4286,7 +4286,7 @@ function botContext(){
 async function botAskLLM(text){
   const ctrl=new AbortController(), t=setTimeout(()=>ctrl.abort(),20000);
   const res=await fetch(BOT_API,{method:'POST',headers:{'Content-Type':'application/json'},signal:ctrl.signal,
-    body:JSON.stringify({messages:BOT_HISTORY.slice(-8),context:botContext()})});
+    body:JSON.stringify({message:text,context:botContext()})});
   clearTimeout(t);
   if(!res.ok) throw new Error('HTTP '+res.status);
   const j=await res.json();
@@ -5602,9 +5602,18 @@ function patchBudget(){
 setTimeout(patchBudget,1300);
 
 /* ── ③ 계약: G2B 카드에 '분야별(공사/용역/물품)' 탭 추가 + 클릭 상세 ── */
+/* [성능개선] 같은 지역 /api/contract 중복 호출 방지 — 응답 프라미스를 지역별로 1회만 생성해 공유 */
+var kbContractCache={};
+function kbFetchContract(region){
+  if(!kbContractCache[region]){
+    kbContractCache[region]=fetch('/api/contract?vv=2&region='+encodeURIComponent(region)).then(function(r){return r.json();});
+    kbContractCache[region].catch(function(){ delete kbContractCache[region]; });
+  }
+  return kbContractCache[region];
+}
 function injectKindTab(card,region){
   if(card._kbKind) return; card._kbKind=1;
-  fetch('/api/contract?vv=2&region='+encodeURIComponent(region)).then(function(r){return r.json();}).then(function(j){
+  kbFetchContract(region).then(function(j){
     if(!j||j.error||!j.by_kind||!j.by_kind.length) return;
     var tabs=card.querySelector('.g2b-tabs'); if(!tabs) return;
     var btn=document.createElement('button'); btn.className='g2b-tab'; btn.dataset.gt='kind'; btn.textContent='📁 분야별 (클릭→상세)';
@@ -5640,14 +5649,32 @@ function injectKindTab(card,region){
     });
   }).catch(function(){});
 }
-setInterval(function(){
+/* [성능개선] 1.5초 폴링 → DOM 변경 시에만 실행 (MutationObserver 공용 스케줄러) */
+if(!window.kbOnDom){
+  window.kbOnDom=function(fn){
+    var fns=(window.__kbDomFns=window.__kbDomFns||[]); fns.push(fn);
+    try{fn();}catch(e){}
+    if(!window.__kbDomMo){
+      var tmr=null;
+      var runAll=function(){ tmr=null; (window.__kbDomFns||[]).forEach(function(f){ try{f();}catch(e){} }); };
+      var sched=function(){ if(!tmr) tmr=setTimeout(runAll,450); };
+      var start=function(){
+        try{ (window.__kbDomMo=new MutationObserver(sched)).observe(document.body,{childList:true,subtree:true}); }
+        catch(e){ window.__kbDomMo=setInterval(runAll,4000); }
+        sched();
+      };
+      if(document.body) start(); else document.addEventListener('DOMContentLoaded',start);
+    }
+  };
+}
+window.kbOnDom(function(){
   document.querySelectorAll('.g2b-card').forEach(function(card){
     if(card._kbKind) return;
     var head=card.querySelector('.g2b-head b');
     var m=head&&head.textContent.match(/—\s*(\S+)\s*·/);
     if(m) injectKindTab(card,m[1]);
   });
-},1500);
+});
 
 /* ── ④ 데이터 상태 배지 자동 부착 ── */
 function addBadges(){
@@ -5663,7 +5690,7 @@ function addBadges(){
     sec._kbB=1; h.insertAdjacentHTML('beforeend',' <span class="kb-badge '+cfg[1]+'">'+cfg[2]+'</span>');
   });
 }
-setInterval(addBadges,1800); addBadges();
+window.kbOnDom(addBadges); /* [성능개선] 1.8초 폴링 제거 */
 
 /* ── ⑤ IA 개편: 상단 메뉴 5그룹 재구성 (기존 핸들러 보존 — DOM 이동만) ── */
 function rebuildNav(){
@@ -5708,14 +5735,14 @@ else setTimeout(rebuildNav,800);
 
 /* 나라장터 CDN 캐시 예열 — 지역 선택 즉시 백그라운드 호출 */
 var kbWarmed={};
-setInterval(function(){
+window.kbOnDom(function(){ /* [성능개선] 2초 폴링 → DOM 변경 시에만 확인 */
   try{
     var R=window.STATE&&window.STATE.region;
     var nm=R&&R.name; if(!nm||kbWarmed[nm]) return;
     kbWarmed[nm]=1;
-    fetch('/api/contract?vv=2&region='+encodeURIComponent(nm)).catch(function(){});
+    kbFetchContract(nm).catch(function(){});
   }catch(e){}
-},2000);
+});
 console.log('✅ v43.1 패치 활성 — 모달픽스·분야드릴다운·배지·IA 5메뉴·G2B 예열');
 })();
 </script>
@@ -5842,7 +5869,7 @@ function enhance(){
     f.insertAdjacentHTML('beforeend',' · ⚠️ '+MSG.caution);
   });
 }
-setInterval(enhance,1500); enhance();
+if(window.kbOnDom){ window.kbOnDom(enhance); } else { enhance(); document.addEventListener('DOMContentLoaded',enhance); } /* [성능개선] 1.5초 폴링 제거 */
 /* 사진 라이트박스 — 소개 사진 클릭 시 크게 보기 */
 window.kbPhotoZoom=function(host){
   try{
@@ -6284,7 +6311,7 @@ function stripEmoji(root){
 function sweep(){ stripEmoji(document.body); }
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(sweep,400);});
 else setTimeout(sweep,400);
-setInterval(sweep,1500);
+if(window.kbOnDom){ window.kbOnDom(sweep); } /* [성능개선] 1.5초 전체 DOM 순회 폴링 제거 */
 
 console.log('v47 Public Service 리스킨 활성');
 })();

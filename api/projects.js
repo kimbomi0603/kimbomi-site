@@ -15,14 +15,18 @@ module.exports = async (req, res) => {
   try {
     const yNow = new Date().getFullYear();
     const fyrs = q.fyr ? [String(q.fyr)] : [yNow, yNow - 1].map(String);
-    const dates = lastNDates(10);
+    const dates = lastNDates(6);
 
+    /* 무한 대기 방지: 요청별 6초 타임아웃 + 전체 20초 데드라인 */
+    const deadline = Date.now() + 20000;
     let rows = null, usedDate = null, usedFyr = null;
     outer:
     for (const fyr of fyrs) {
       for (const date of dates) {
+        if (Date.now() > deadline) break outer;
         const url = buildUrl(KEY, fyr, date, lafCd);
-        const r = await fetch(url);
+        let r;
+        try { r = await fetch(url, { signal: AbortSignal.timeout(6000) }); } catch (e) { continue; }
         if (!r.ok) continue;
         let raw; try { raw = await r.json(); } catch (e) { continue; }
         const ex = extractRows(raw);
@@ -30,7 +34,7 @@ module.exports = async (req, res) => {
       }
     }
 
-    if (!rows || !rows.length) return res.status(200).json({ error: "데이터 없음 — 일자/코드/연도 확인 필요", projects: [] });
+    if (!rows || !rows.length) { res.setHeader("Cache-Control", "no-store"); return res.status(200).json({ error: "데이터 없음 — 일자/코드/연도 확인 필요", projects: [] }); }
     if (zone) rows = rows.filter(r => String(r.laf_hg_nm || "").includes(zone));
 
     const groups = {};
@@ -49,6 +53,7 @@ module.exports = async (req, res) => {
 
     return res.status(200).json({ region: rows[0] ? (rows[0].laf_hg_nm || rows[0].wa_laf_hg_nm || "") : "", projects, date: usedDate, fyr: usedFyr, laf_cd: lafCd, count: projects.length, src: "lofin365 QWGJK(세부사업별 세출)" });
   } catch (e) {
+    res.setHeader("Cache-Control", "no-store");
     return res.status(500).json({ error: String((e && e.message) || e) });
   }
 };

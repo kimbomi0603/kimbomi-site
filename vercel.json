@@ -2,17 +2,46 @@
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "xn--4k0b53xuva.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "xn--4k0b53xuva.com"
+        }
+      ],
       "destination": "https://www.xn--4k0b53xuva.com/:path*",
       "permanent": true
     }
   ],
   "rewrites": [
-    { "source": "/admin", "destination": "/admin.html" },
-    { "source": "/story", "destination": "/story.html" },
-    { "source": "/vision", "destination": "/vision.html" },
-    { "source": "/report", "destination": "/report.html" },
-    { "source": "/game", "destination": "/game.html" },
-    { "source": "/privacy", "destination": "/privacy.html" }
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/story",
+      "destination": "/story.html"
+    },
+    {
+      "source": "/vision",
+      "destination": "/vision.html"
+    },
+    {
+      "source": "/report",
+      "destination": "/report.html"
+    },
+    {
+      "source": "/game",
+      "destination": "/game.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy.html"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/admin?action=cronreport",
+      "schedule": "10 15 * * *"
+    }
   ]
 }

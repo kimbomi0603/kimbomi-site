@@ -24,6 +24,25 @@ const AD_BASE = "https://apis.data.go.kr/1230000/ad/BidPublicInfoService";
 const AO_BASE = "https://apis.data.go.kr/1230000/ao/PubDataOpnStdService";
 const KEY = process.env.G2B_API_KEY || "";
 
+/* ── Redis(Upstash) 결과 캐시 — 첫 호출 7~8초 문제 해결: 30분간 결과 재사용 ── */
+const RURL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.REDIS_REST_URL || "";
+const RTOK = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || process.env.REDIS_REST_TOKEN || "";
+const CACHE_TTL = 1800; // 30분
+async function kvGet(key) {
+  if (!RURL) return null;
+  try {
+    const r = await fetch(RURL, { method: "POST", headers: { Authorization: "Bearer " + RTOK, "Content-Type": "application/json" }, body: JSON.stringify(["GET", key]), signal: AbortSignal.timeout(3000) });
+    const d = await r.json();
+    return d && d.result ? JSON.parse(d.result) : null;
+  } catch (e) { return null; }
+}
+async function kvSet(key, obj, ttl) {
+  if (!RURL) return;
+  try {
+    await fetch(RURL, { method: "POST", headers: { Authorization: "Bearer " + RTOK, "Content-Type": "application/json" }, body: JSON.stringify(["SET", key, JSON.stringify(obj), "EX", String(ttl)]), signal: AbortSignal.timeout(3000) });
+  } catch (e) {}
+}
+
 const AD_OPS = [
   ["getBidPblancListInfoCnstwkPPSSrch", "공사"],
   ["getBidPblancListInfoServcPPSSrch", "용역"],
@@ -162,7 +181,7 @@ function normalize(items) {
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Content-Type", "application/json; charset=utf-8");
-  res.setHeader("Cache-Control", "public, s-maxage=600, stale-while-revalidate=1800");
+  res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");
 
   const q = (req.query && typeof req.query === "object") ? req.query : {};
   const region = (q.region || "").toString().trim();
@@ -185,6 +204,14 @@ module.exports = async (req, res) => {
     return res.status(200).json(out);
   }
   if (!KEY) { res.setHeader("Cache-Control", "no-store"); return res.status(200).json({ configured: false, error: "G2B_API_KEY 미설정" }); }
+
+  /* Redis 캐시 히트 시 즉시 응답 (콜드스타트에도 0.5초 내) */
+  const cacheKey = "g2b:v3:" + region + ":" + days + ":" + vendor;
+  const cachedPayload = await kvGet(cacheKey);
+  if (cachedPayload) {
+    cachedPayload.cached = true;
+    return res.status(200).json(cachedPayload);
+  }
 
   try {
     let r = await fetchAD(region, days);
@@ -238,7 +265,7 @@ module.exports = async (req, res) => {
     const total = filtered.reduce(function (a, b) { return a + (b.amount || 0); }, 0);
     const sutil = filtered.filter(function (b) { return /수의|단독/.test(b.method); }).length;
 
-    return res.status(200).json({
+    const payload = {
       configured: true,
       region: region || "전국",
       vendor: vendor || null,
@@ -260,7 +287,9 @@ module.exports = async (req, res) => {
       partial: !!r.partial,
       fetched_at: new Date().toISOString(),
       src: "조달청 나라장터 · " + r.src
-    });
+    };
+    await kvSet(cacheKey, payload, CACHE_TTL);
+    return res.status(200).json(payload);
   } catch (e) {
     res.setHeader("Cache-Control", "no-store");
     return res.status(200).json({ configured: true, error: String((e && e.message) || e), region: region });
