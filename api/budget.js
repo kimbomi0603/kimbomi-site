@@ -25,6 +25,31 @@
    ============================================================ */
 
 const DEFAULT_UPSTREAM = "https://www.lofin365.go.kr/lf/hub/FNCST";
+
+/* 🚨 인증키/데이터 장애 관리자 경보 — Redis로 6시간 디바운스, Resend 메일 발송 */
+async function kbAlertAdmin(subject, detail) {
+  try {
+    const RESEND = process.env.RESEND_API_KEY || "";
+    const AURL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.REDIS_REST_URL || "";
+    const ATOK = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || process.env.REDIS_REST_TOKEN || "";
+    if (!RESEND || !AURL) return;
+    const g = await fetch(AURL, { method: "POST", headers: { Authorization: "Bearer " + ATOK, "Content-Type": "application/json" }, body: JSON.stringify(["SET", "rl:lofinalert", "1", "NX", "EX", "21600"]), signal: AbortSignal.timeout(3000) });
+    const gd = await g.json();
+    if (!gd || gd.result !== "OK") return;
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: "Bearer " + RESEND, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: process.env.MAIL_FROM || "onboarding@resend.dev",
+        to: [process.env.MAIL_TO || "kimbomi891204@gmail.com"],
+        subject: "\ud83d\udea8 " + subject,
+        html: "<b>\uc0ac\uc774\ud2b8 \uc2e4\ub370\uc774\ud130 \uc5f0\ub3d9 \uc7a5\uc560 \uac10\uc9c0</b><p>" + String(detail).replace(/</g, "&lt;") + "</p><p>\uc870\uce58: lofin365.go.kr\uc5d0\uc11c \uc778\uc99d\ud0a4 \ud655\uc778 \u2192 Vercel \ud658\uacbd\ubcc0\uc218 DATA_GO_KR_KEY \uad50\uccb4 \u2192 Redeploy</p><p style=\"color:#888\">\uae40\ubcf4\ubbf8.com \uc790\ub3d9 \uac10\uc2dc (6\uc2dc\uac04 \ub2f9 1\ud68c \ubc1c\uc1a1)</p>"
+      }),
+      signal: AbortSignal.timeout(6000)
+    });
+  } catch (e) {}
+}
+
 const EST_EXEC = 68.4;
 const EST_FIELDS = [34, 16, 15, 12, 12, 11];
 
@@ -68,7 +93,13 @@ module.exports = async (req, res) => {
     // 디버그: 데이터가 있는 연도의 원본을 보여줌(없으면 첫 응답)
     if (q.debug) return res.status(200).json({ upstream: UPSTREAM, fyr: dbgYear, hasRows: !!(rows && rows.length), rowCount: rows ? rows.length : 0, sample: dbgRaw });
 
-    if (!rows || !rows.length) return res.status(200).json({ error: "데이터 없음 — " + (lastMsg || "연도/인증키 확인") });
+    if (!rows || !rows.length) {
+      res.setHeader("Cache-Control", "no-store");
+      if (/인증키|SERVICE ?KEY|UNREGISTERED|등록되지 않|미등록/i.test(lastMsg || "")) {
+        await kbAlertAdmin("지방재정365 인증키 오류 — 나라살림 실데이터 중단", "/api/budget 업스트림 응답: " + lastMsg);
+      }
+      return res.status(200).json({ error: "데이터 없음 — " + (lastMsg || "연도/인증키 확인"), needsKey: /인증키/.test(lastMsg || "") });
+    }
 
     const out = MAP_FNCST(rows, zone);
     out.updated = new Date().toISOString();
