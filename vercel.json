@@ -2,46 +2,44 @@
   "redirects": [
     {
       "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "xn--4k0b53xuva.com"
-        }
-      ],
+      "has": [{ "type": "host", "value": "xn--4k0b53xuva.com" }],
       "destination": "https://www.xn--4k0b53xuva.com/:path*",
       "permanent": true
     }
   ],
   "rewrites": [
-    {
-      "source": "/admin",
-      "destination": "/admin.html"
-    },
-    {
-      "source": "/story",
-      "destination": "/story.html"
-    },
-    {
-      "source": "/vision",
-      "destination": "/vision.html"
-    },
-    {
-      "source": "/report",
-      "destination": "/report.html"
-    },
-    {
-      "source": "/game",
-      "destination": "/game.html"
-    },
-    {
-      "source": "/privacy",
-      "destination": "/privacy.html"
-    }
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/story", "destination": "/story.html" },
+    { "source": "/vision", "destination": "/vision.html" },
+    { "source": "/report", "destination": "/report.html" },
+    { "source": "/game", "destination": "/game.html" },
+    { "source": "/privacy", "destination": "/privacy.html" }
   ],
   "crons": [
+    { "path": "/api/admin?action=cronreport", "schedule": "10 15 * * *" }
+  ],
+  "headers": [
     {
-      "path": "/api/admin?action=cronreport",
-      "schedule": "10 15 * * *"
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+      ]
+    },
+    {
+      "source": "/admin.html",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    },
+    {
+      "source": "/admin",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
     }
   ]
 }

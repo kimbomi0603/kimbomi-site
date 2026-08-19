@@ -233,6 +233,7 @@ module.exports = async (req, res) => {
     }
 
     if (action === 'signlist') {
+      if (!isAdmin) { res.status(401).json({ ok:false, error:'admin only' }); return; }
       var sgl = await redis(['LRANGE','kb_signs',0,9999]);
       var sgitems = (sgl.result||[]).map(function(x){ try{ var so=JSON.parse(x); so._raw=x; return so; }catch(e){ return null; } }).filter(Boolean);
       res.status(200).json({ ok:true, count:sgitems.length, items:sgitems }); return;
@@ -261,6 +262,7 @@ module.exports = async (req, res) => {
     }
 
     if (action === 'pledgelist') {
+      if (!isAdmin) { res.status(401).json({ ok:false, error:'admin only' }); return; }
       var pgl = await redis(['LRANGE','kb_pledges',0,9999]);
       var pgitems = (pgl.result||[]).map(function(x){ try{ var po=JSON.parse(x); po._raw=x; return po; }catch(e){ return null; } }).filter(Boolean);
       res.status(200).json({ ok:true, count:pgitems.length, items:pgitems }); return;
@@ -279,6 +281,7 @@ module.exports = async (req, res) => {
     }
 
     if (action === 'reportlist') {
+      if (!isAdmin) { res.status(401).json({ ok:false, error:'admin only' }); return; }
       var rl = await redis(['LRANGE','kb_reports',0,499]);
       var ritems = (rl.result||[]).map(function(x){ try{ var o=JSON.parse(x); return o; }catch(e){ return null; } }).filter(Boolean);
       res.status(200).json({ ok:true, count:ritems.length, items:ritems }); return;
@@ -299,6 +302,7 @@ module.exports = async (req, res) => {
     }
 
     if (action === 'thoughts') {
+      if (!isAdmin) { res.status(401).json({ ok:false, error:'admin only' }); return; }
       var t = await redis(['LRANGE','kb_thoughts',0,499]);
       var items = (t.result||[]).map(function(s){ try { var o=JSON.parse(s); o._raw=s; return o; } catch(e){ return null; } }).filter(Boolean);
       res.status(200).json({ ok:true, count: items.length, items: items }); return;

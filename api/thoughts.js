@@ -24,6 +24,19 @@ async function redis(cmd) {
 function clean(s, n) {
   return String(s == null ? "" : s).slice(0, n).trim();
 }
+/* 공개용 이름 마스킹: '홍길동' → '홍*동', '홍길' → '홍*', 영문/긴 이름도 가운데 마스킹 */
+function maskName(s) {
+  s = String(s == null ? "" : s).trim();
+  if (s.length <= 1) return s;
+  if (s.length === 2) return s[0] + "*";
+  return s[0] + "*".repeat(s.length - 2) + s[s.length - 1];
+}
+/* 본문 내 휴대폰/전화번호 패턴 비공개 처리 */
+function maskPhone(s) {
+  return String(s == null ? "" : s)
+    .replace(/01[016789][-.\s]?\d{3,4}[-.\s]?\d{4}/g, "(연락처 비공개)")
+    .replace(/0\d{1,2}[-.\s]?\d{3,4}[-.\s]?\d{4}/g, "(연락처 비공개)");
+}
 
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -38,7 +51,12 @@ module.exports = async (req, res) => {
     if (!configured) return res.status(200).json({ ok: true, configured: false, items: [] });
     try {
       const raw = await redis(["LRANGE", LKEY, "0", String(MAX - 1)]);
-      const items = (raw || []).map(function (s) { try { return JSON.parse(s); } catch (e) { return null; } }).filter(Boolean);
+      const items = (raw || []).map(function (s) { try { return JSON.parse(s); } catch (e) { return null; } }).filter(Boolean)
+        /* 공개 목록 개인정보 보호: 실명 일부 마스킹 + 본문 내 전화번호 비공개 처리 (원본은 그대로 저장되며 관리자 화면에서는 전체 열람) */
+        .map(function (it) {
+          const o = { name: maskName(it.name), region: it.region, msg: maskPhone(it.msg), date: it.date };
+          return o;
+        });
       return res.status(200).json({ ok: true, configured: true, count: items.length, items: items });
     } catch (e) {
       return res.status(200).json({ ok: false, configured: true, error: "read", items: [] });

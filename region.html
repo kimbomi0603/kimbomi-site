@@ -53,7 +53,7 @@ tailwind.config = { theme: { extend: {
   <div class="max-w-screen-xl2 mx-auto px-5">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">총예산</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiB">—</span><span class="text-[14px] text-ink-faint">조원</span></div><div class="text-[11px] text-ink-faint mt-1">세입결산 규모</div></div>
-      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">재정자립도</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiS">—</span><span class="text-[14px] text-ink-faint">%</span></div><div class="text-[11px] text-mint-dark mt-1 font-bold">실데이터</div></div>
+      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">재정자립도</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiS">—</span><span class="text-[14px] text-ink-faint">%</span></div><div class="text-[11px] text-mint-dark mt-1 font-bold" id="kpiSrcBadge">—</div></div>
       <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">예산 집행률</div><div class="text-[28px] font-black text-minju num mt-1"><span id="kpiE">—</span><span class="text-[14px] text-ink-faint">%</span></div><div class="text-[11px] text-amber-700 mt-1 font-bold">추정치</div></div>
       <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">금고 이자율</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiR">—</span><span class="text-[14px] text-ink-faint">%</span></div><div class="text-[11px] text-red-600 mt-1 font-bold" id="kpiRNote">—</div></div>
     </div>
@@ -239,6 +239,7 @@ function render(d,isReal){
   document.getElementById('kpiS').textContent=(+d.s).toFixed(1);
   document.getElementById('dataYear').textContent=d.fyr||'—';
   document.getElementById('lastUpdated').textContent=isReal?('갱신 '+new Date().toLocaleString('ko-KR',{hour:'2-digit',minute:'2-digit'})+' · 실데이터'):'데모 데이터 (실데이터 호출 실패)';
+  var srcBadge=document.getElementById('kpiSrcBadge'); if(srcBadge){ srcBadge.textContent=isReal?'실데이터':'추정치(데모)'; srcBadge.style.color=isReal?'':'#b45309'; }
   const tot=d.b*10000;
   document.getElementById('acG').textContent=won(tot*0.78);
   document.getElementById('acS').textContent=won(tot*0.22);

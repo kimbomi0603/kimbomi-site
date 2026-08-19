@@ -111,6 +111,31 @@ module.exports = async function (req, res) {
   var RTOK2 = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || process.env.REDIS_REST_TOKEN || "";
   if (!KEY) return res.status(500).json({ ok: false, error: "GEMINI_API_KEY 미설정(Vercel 환경변수)" });
 
+  /* ── 남용 방지: 출처(Origin) 확인 + IP 레이트리밋 ── */
+  var origin = String(req.headers.origin || "");
+  if (origin && !/^https:\/\/(www\.)?xn--4k0b53xuva\.com$|\.vercel\.app$|^https?:\/\/localhost(:\d+)?$/.test(origin.replace(/\/$/, ""))) {
+    return res.status(403).json({ ok: false, error: "forbidden origin" });
+  }
+  var clientIp = ((req.headers["x-forwarded-for"] || "").split(",")[0] || "").trim() || req.headers["x-real-ip"] || "anon";
+  async function redisCmd(cmd) {
+    if (!RURL2) return null;
+    try {
+      var rr = await fetch(RURL2, { method: "POST", headers: { Authorization: "Bearer " + RTOK2, "Content-Type": "application/json" }, body: JSON.stringify(cmd), signal: AbortSignal.timeout(4000) });
+      return await rr.json();
+    } catch (e) { return null; }
+  }
+  if (RURL2) {
+    var rlm = await redisCmd(["INCR", "rl:chat:" + clientIp]);
+    var nMin = rlm && parseInt(rlm.result, 10) || 0;
+    if (nMin === 1) await redisCmd(["EXPIRE", "rl:chat:" + clientIp, "60"]);
+    var rld = await redisCmd(["INCR", "rl:chatd:" + clientIp]);
+    var nDay = rld && parseInt(rld.result, 10) || 0;
+    if (nDay === 1) await redisCmd(["EXPIRE", "rl:chatd:" + clientIp, "86400"]);
+    if (nMin > 8 || nDay > 120) {
+      return res.status(429).json({ ok: false, error: "요청이 너무 많습니다. 잠시 후 다시 시도해 주세요." });
+    }
+  }
+
   var body = await readBody(req);
   var message = String((body && body.message) || "").slice(0, 2000);
   var context = String((body && body.context) || "").slice(0, 4000);
@@ -157,6 +182,11 @@ module.exports = async function (req, res) {
         } catch(e) {}
         try {
           var RESEND = process.env.RESEND_API_KEY || "";
+          /* 메일 알림 디바운스 — 같은 IP는 10분에 1통만 (대화 전체 기록은 kb_chatlog에 항상 저장됨) */
+          if (RESEND && RURL2) {
+            var mailGate = await redisCmd(["SET", "rl:chatmail:" + clientIp, "1", "NX", "EX", "600"]);
+            if (!mailGate || mailGate.result !== "OK") RESEND = "";
+          }
           if (RESEND) {
             await fetch("https://api.resend.com/emails", {
               method:"POST",
