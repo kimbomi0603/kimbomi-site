@@ -173,7 +173,8 @@ function normalize(items) {
       kind: it.bsnsDivNm || "",
       date: normDate(rawDt),
       year: String(rawDt).replace(/[^0-9]/g, "").slice(0, 4),
-      url: it.bidNtceDtlUrl || it.bidNtceUrl || ""
+      url: it.bidNtceDtlUrl || it.bidNtceUrl || "",
+      sutil: /수의|단독|1인|협상/.test(it.sucsfbidMthdNm || it.cntrctCnclsMthdNm || it.bidMethdNm || it.bidwinrDcsnMthdNm || "")
     };
   }).sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
 }
@@ -206,7 +207,7 @@ module.exports = async (req, res) => {
   if (!KEY) { res.setHeader("Cache-Control", "no-store"); return res.status(200).json({ configured: false, error: "G2B_API_KEY 미설정" }); }
 
   /* Redis 캐시 히트 시 즉시 응답 (콜드스타트에도 0.5초 내) */
-  const cacheKey = "g2b:v3:" + region + ":" + days + ":" + vendor;
+  const cacheKey = "g2b:v3:" + region + ":" + days + ":" + vendor + ":" + (q.full ? "F" : "S");
   const cachedPayload = await kvGet(cacheKey);
   if (cachedPayload) {
     cachedPayload.cached = true;
@@ -273,7 +274,7 @@ module.exports = async (req, res) => {
       total_count: r.total || bids.length,
       fetched_count: bids.length,
       filtered_count: filtered.length,
-      bids: filtered.slice(0, 50),
+      bids: filtered.slice(0, (q.full ? 700 : 50)),
       stats: {
         total_amount: total,
         avg_amount: filtered.length ? Math.round(total / filtered.length) : 0,
@@ -283,7 +284,7 @@ module.exports = async (req, res) => {
       },
       by_year: yearStats,
       by_kind: Object.values(byKind).sort(function (a, b) { return b.amount - a.amount; }),
-      by_vendor: vendorStats.slice(0, 30),
+      by_vendor: vendorStats.slice(0, (q.full ? 300 : 30)),
       partial: !!r.partial,
       fetched_at: new Date().toISOString(),
       src: "조달청 나라장터 · " + r.src

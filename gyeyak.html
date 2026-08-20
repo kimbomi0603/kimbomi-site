@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전국 243개 지자체 계약현황 상세 대시보드 — 대한민국 재정 365</title>
+<meta name="description" content="전국 243개 지방자치단체의 나라장터 계약·입찰을 실시간으로 불러와 요약·진단지표·분야별·업체순위·연도별·쪼개기(분할발주) 탐지·전체목록까지 상세 분석하는 시민 감시 대시보드. 운영 김보미(前 강진군의회 의장).">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://www.xn--4k0b53xuva.com/gyeyak.html">
+<meta property="og:title" content="전국 243개 지자체 계약현황 상세 대시보드">
+<meta property="og:description" content="우리동네 계약·입찰을 실시간으로 요약·진단·업체순위·쪼개기 탐지까지 한 화면에.">
+<meta property="og:url" content="https://www.xn--4k0b53xuva.com/gyeyak.html">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.ico">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --surface:#fcfcfb;--page:#f9f9f7;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;
+  --grid:#e1e0d9;--axis:#c3c2b7;--border:rgba(11,11,11,.10);
+  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#008300;--s7:#4a3aa7;--s8:#e34948;
+  --navy:#0b2545;--navy2:#163665;--link:#15448f;
+  --sans:'Pretendard Variable',system-ui,-apple-system,'Segoe UI','Noto Sans KR',sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);line-height:1.5;word-break:keep-all;-webkit-font-smoothing:antialiased}
+a{color:var(--link)}
+.wrap{max-width:1180px;margin:0 auto;padding:16px 15px 90px}
+header.hd{background:var(--navy);color:#fff;border-radius:14px;padding:22px 22px 18px;margin-bottom:14px}
+header.hd .home{color:#c9d6ea;font-size:.82rem;text-decoration:none}
+header.hd h1{margin:8px 0 6px;font-size:1.42rem;line-height:1.32}
+header.hd .sub{color:#c9d6ea;font-size:.9rem}
+header.hd .badges{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
+.badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#e8eef7;font-size:.72rem;padding:3px 10px;border-radius:999px}
+.note{background:#fff8e6;border:1px solid #f0dfa8;border-radius:10px;padding:10px 13px;font-size:.8rem;color:#5c4a12;margin-bottom:14px;line-height:1.7}
+
+/* region picker */
+.picker{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.picker .fld{display:flex;flex-direction:column;gap:4px}
+.picker label{font-size:.74rem;color:var(--ink2);font-weight:700}
+.picker select,.picker input{border:1px solid var(--axis);border-radius:8px;padding:8px 10px;font-size:.92rem;font-family:inherit;background:#fff;min-width:130px}
+.picker .go{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:9px 18px;font-weight:800;font-size:.92rem;cursor:pointer}
+.picker .go:hover{background:var(--navy2)}
+.picker .days{display:flex;gap:4px}
+.picker .days .chip{border:1px solid var(--axis);background:#fff;border-radius:999px;padding:6px 11px;font-size:.78rem;cursor:pointer;color:var(--ink2)}
+.picker .days .chip.on{background:var(--navy2);color:#fff;border-color:var(--navy2);font-weight:700}
+
+/* topnav anchors */
+.topnav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;position:sticky;top:0;z-index:8;background:var(--page);padding:8px 0}
+.topnav a{font-size:.8rem;color:var(--ink2);text-decoration:none;border:1px solid var(--border);background:#fff;border-radius:999px;padding:5px 11px}
+.topnav a:hover{border-color:var(--navy2);color:var(--navy2)}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin-bottom:16px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 15px}
+.kpi .lb{font-size:.76rem;color:var(--ink2)}
+.kpi .v{font-size:1.5rem;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:.73rem;color:var(--muted);margin-top:2px}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:17px;margin-bottom:16px;scroll-margin-top:56px}
+.card h2{margin:0 0 4px;font-size:1.06rem}
+.card .cap{font-size:.78rem;color:var(--ink2);margin-bottom:12px;line-height:1.7}
+
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+th{text-align:left;font-size:.74rem;color:var(--ink2);border-bottom:2px solid var(--axis);padding:7px 8px;white-space:nowrap}
+td{border-bottom:1px solid var(--grid);padding:7px 8px;vertical-align:top}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+tr.vrow{cursor:pointer}
+tr.vrow:hover{background:#f2f5fa}
+.tblwrap{overflow:auto;max-height:560px;border:1px solid var(--grid);border-radius:8px}
+.tblwrap table th{position:sticky;top:0;background:var(--surface);z-index:1}
+
+.tagm{display:inline-block;font-size:.69rem;padding:1px 7px;border-radius:999px;border:1px solid var(--axis);color:var(--ink2);white-space:nowrap}
+.tagm.sui{background:#fdeee6;border-color:#f2c4ab;color:#8a3a12;font-weight:700}
+.tagm.cmp{background:#e8f1fb;border-color:#b9d4ef;color:#1a4f8a;font-weight:700}
+
+.bars .brow{display:flex;align-items:center;gap:8px;margin:5px 0}
+.bars .blb{width:150px;font-size:.79rem;color:var(--ink);text-align:right;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bars .btrack{flex:1;display:flex;align-items:center;gap:6px;min-width:0}
+.bars .bfill{height:15px;border-radius:0 4px 4px 0;background:var(--s1);min-width:2px}
+.bars .bval{font-size:.74rem;color:var(--ink2);white-space:nowrap}
+.bars .bsub{opacity:.55;height:11px!important}
+
+.stack{display:flex;height:26px;border-radius:6px;overflow:hidden;background:var(--grid);margin:6px 0}
+.stack>div{height:100%}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:.76rem;color:var(--ink2);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+.cols{display:flex;align-items:flex-end;gap:8px;height:210px;padding:6px 4px 0;border-bottom:1px solid var(--axis)}
+.colw{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.colbar{width:70%;max-width:54px;background:var(--s1);border-radius:5px 5px 0 0;min-height:2px}
+.collb{font-size:.72rem;color:var(--ink2);text-align:center}
+.colv{font-size:.68rem;color:var(--muted)}
+
+.probox{border:1px solid var(--border);border-radius:10px;padding:13px 14px;background:#fff}
+.probox h3{margin:0 0 8px;font-size:.9rem}
+.probox .big{font-size:1.5rem;font-weight:800;font-variant-numeric:tabular-nums}
+.probox .hint{font-size:.72rem;color:var(--muted);margin-top:4px;line-height:1.6}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:860px){.grid3,.grid2{grid-template-columns:1fr}}
+
+.diag .dgi{border-left:3px solid #c9dbf5;background:#fff;padding:9px 12px;margin:8px 0;border-radius:0 8px 8px 0;font-size:.86rem;line-height:1.7}
+.diag .dgi.warn{border-left-color:var(--s2)}
+.diag .dgi b{color:var(--navy)}
+
+.splitgrp{border:1px solid #f2c4ab;background:#fffaf7;border-radius:10px;padding:12px 14px;margin:10px 0}
+.splitgrp .sh{font-weight:800;color:#8a3a12;font-size:.9rem;margin-bottom:4px}
+.splitgrp .sm{font-size:.76rem;color:var(--ink2);margin-bottom:8px}
+
+.detail{background:#f4f7fb;border:1px solid #d7e2f2;border-radius:8px;padding:12px;margin:2px 0 8px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.controls select,.controls input{border:1px solid var(--axis);border-radius:8px;padding:6px 9px;font-size:.82rem;font-family:inherit;background:#fff}
+.state{padding:40px 16px;text-align:center;color:var(--muted);font-size:.92rem}
+.spin{display:inline-block;width:22px;height:22px;border:3px solid var(--grid);border-top-color:var(--navy);border-radius:50%;animation:sp .8s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.err{background:#fdecea;border:1px solid #f5c2bd;color:#8a2a1e;border-radius:10px;padding:14px 16px;font-size:.86rem;line-height:1.7}
+.method-txt{font-size:.82rem;color:var(--ink2);line-height:1.85}
+.method-txt b{color:var(--ink)}
+.foot{text-align:center;color:var(--muted);font-size:.78rem;margin-top:20px;line-height:1.8}
+.modenote{background:#eef4ff;border:1px solid #c7d9f7;color:#1f3d6b;border-radius:10px;padding:12px 15px;font-size:.82rem;line-height:1.75;margin-bottom:16px}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hd">
+    <a class="home" href="narasalim.html">← 나라살림 돋보기로</a>
+    <h1>🏛️ 전국 243개 지자체 계약현황 상세 대시보드</h1>
+    <div class="sub">우리동네 계약·입찰을 <b style="color:#fff">나라장터 실시간 데이터</b>로 요약·진단·업체순위·쪼개기 탐지까지 한 화면에. 지자체를 선택하세요.</div>
+    <div class="badges">
+      <span class="badge">📡 조달청 나라장터 OpenAPI</span>
+      <span class="badge">🔎 감사 실무 지표(HHI·CR·쪼개기)</span>
+      <span class="badge">운영 김보미 · 대한민국 재정 365</span>
+    </div>
+  </header>
+
+  <div class="note">
+    ℹ️ 나라장터 계약정보 API는 <b>최근 기간(기본 90일, 최대 180일)</b>의 계약·입찰을 제공합니다. 2018년부터의 전체 이력이 필요하면 각 지자체가 지방재정365에 공시한 계약대장을 함께 확인하세요.
+    표시 수치는 원천 데이터의 자동 집계이며, 분야 분류·쪼개기 탐지는 <b>기계적 참고용</b>입니다. 정확한 판단은 나라장터·정보공개청구 원문 대조가 필요합니다.
+  </div>
+
+  <div class="picker">
+    <div class="fld"><label>시·도</label><select id="selSido"></select></div>
+    <div class="fld"><label>시·군·구</label><select id="selSgg"></select></div>
+    <div class="fld"><label>조회기간</label><div class="days" id="daysBox">
+      <span class="chip" data-d="90">90일</span><span class="chip on" data-d="180">180일</span></div></div>
+    <button class="go" id="goBtn">📊 상세 조회</button>
+  </div>
+
+  <div class="topnav hide" id="topnav">
+    <a href="#kpis">📊 요약</a><a href="#diagCard">🩺 종합진단</a><a href="#proCard" id="navPro">🔎 진단지표</a>
+    <a href="#methodCard">📐 계약방법</a><a href="#kindCard">📂 공사·용역·물품</a><a href="#catCard">🗂️ 분야별</a>
+    <a href="#vendorCard" id="navVendor">🏆 업체순위</a><a href="#trendCard">📈 월별추이</a><a href="#splitCard">⚠️ 쪼개기</a>
+    <a href="#tableCard">📋 전체목록</a><a href="#method">📖 방법론</a>
+  </div>
+
+  <div id="stateBox" class="state">위에서 시·도와 시·군·구를 선택하고 <b>상세 조회</b>를 눌러주세요.</div>
+
+  <div id="dash" class="hide">
+    <div id="modeNote" class="modenote hide"></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="card diag" id="diagCard"><h2>🩺 종합 진단</h2><div class="cap" id="diagCap"></div><div id="diagBody"></div></div>
+    <div class="card" id="proCard"><h2>🔎 전문 진단 지표</h2><div class="cap">감사·조사 실무에서 쓰는 계약 집중도·수의계약 구조 지표입니다.</div><div class="grid3" id="proBody"></div></div>
+    <div class="card" id="methodCard"><h2>📐 계약방법별 비중</h2><div class="cap">경쟁입찰 대비 수의계약·협상 비중. 수의 비중이 높을수록 경쟁이 제한적입니다.</div><div id="methodBody"></div></div>
+    <div class="card" id="kindCard"><h2>📂 공사 / 용역 / 물품</h2><div class="cap">유형별 계약 규모와 그 중 수의계약 비중(연한 막대).</div><div class="bars" id="kindBody"></div></div>
+    <div class="card" id="catCard"><h2>🗂️ 분야별 집계</h2><div class="cap">계약명 키워드로 자동 분류한 세부분야별 금액·건수(자동 분류, 오분류 가능).</div><div class="bars" id="catBody"></div></div>
+    <div class="card" id="vendorCard"><h2>🏆 업체별 계약 순위</h2><div class="cap">행을 클릭하면 해당 업체의 계약 내역이 펼쳐집니다.</div>
+      <div class="controls">
+        <select id="vSort"><option value="amount">금액순</option><option value="count">건수순</option><option value="sutil">수의건수순</option></select>
+        <select id="vTop"><option value="30">상위 30</option><option value="50">상위 50</option><option value="100">상위 100</option><option value="9999">전체</option></select>
+        <input id="vSearch" type="search" placeholder="업체명 검색" style="flex:1;min-width:120px">
+      </div>
+      <div class="tblwrap"><table id="vTable"></table></div>
+    </div>
+    <div class="card" id="trendCard"><h2>📈 월별 계약 추이</h2><div class="cap">최근 기간 월별 계약 건수/금액. 특정 월 집중 여부를 봅니다.</div>
+      <div class="controls"><select id="trMode"><option value="count">건수</option><option value="amount">금액</option></select></div>
+      <div class="cols" id="trendBody"></div>
+    </div>
+    <div class="card" id="splitCard"><h2>⚠️ 분할발주(쪼개기) 검토 대상</h2><div class="cap" id="splitCap">동일 업체·31일 이내·수의계약 3건 이상·합계 6천만원 이상을 기계적으로 묶어 표시(관급자재·레미콘 등 제외). <b>혐의가 아니라 확인 대상</b>입니다.</div><div id="splitBody"></div></div>
+    <div class="card" id="tableCard"><h2>📋 전체 계약 목록</h2><div class="cap">머리글을 클릭하면 정렬됩니다. 계약명을 누르면 나라장터 원문으로 이동합니다.</div>
+      <div class="controls"><input id="tSearch" type="search" placeholder="계약명·업체 검색" style="flex:1;min-width:140px"><span id="tCount" style="font-size:.8rem;color:var(--muted)"></span></div>
+      <div class="tblwrap"><table id="dTable"></table></div>
+    </div>
+    <div class="card" id="method"><h2>📖 수집·집계 방법 (방법론)</h2><div class="method-txt" id="methodTxt"></div></div>
+  </div>
+
+  <div class="foot">
+    데이터: 조달청 나라장터 계약정보 OpenAPI(공공데이터포털 15129394) · 집계·시각화: 대한민국 재정 365(김보미.com)<br>
+    분야 분류·쪼개기 탐지는 자동 참고 지표이며, 최종 판단은 나라장터·정보공개 원문 확인이 필요합니다.
+  </div>
+</div>
+
+<script>
+"use strict";
+var SGG={"서울특별시":["종로구","중구","용산구","성동구","광진구","동대문구","중랑구","성북구","강북구","도봉구","노원구","은평구","서대문구","마포구","양천구","강서구","구로구","금천구","영등포구","동작구","관악구","서초구","강남구","송파구","강동구"],"부산광역시":["중구","서구","동구","영도구","부산진구","동래구","남구","북구","해운대구","사하구","금정구","강서구","연제구","수영구","사상구","기장군"],"대구광역시":["중구","동구","서구","남구","북구","수성구","달서구","달성군","군위군"],"인천광역시":["중구","동구","미추홀구","연수구","남동구","부평구","계양구","서구","강화군","옹진군"],"광주광역시":["동구","서구","남구","북구","광산구"],"대전광역시":["동구","중구","서구","유성구","대덕구"],"울산광역시":["중구","남구","동구","북구","울주군"],"세종특별자치시":[],"경기도":["수원시","성남시","의정부시","안양시","부천시","광명시","평택시","동두천시","안산시","고양시","과천시","구리시","남양주시","오산시","시흥시","군포시","의왕시","하남시","용인시","파주시","이천시","안성시","김포시","화성시","광주시","양주시","포천시","여주시","연천군","가평군","양평군"],"강원특별자치도":["춘천시","원주시","강릉시","동해시","태백시","속초시","삼척시","홍천군","횡성군","영월군","평창군","정선군","철원군","화천군","양구군","인제군","고성군","양양군"],"충청북도":["청주시","충주시","제천시","보은군","옥천군","영동군","증평군","진천군","괴산군","음성군","단양군"],"충청남도":["천안시","공주시","보령시","아산시","서산시","논산시","계룡시","당진시","금산군","부여군","서천군","청양군","홍성군","예산군","태안군"],"전북특별자치도":["전주시","군산시","익산시","정읍시","남원시","김제시","완주군","진안군","무주군","장수군","임실군","순창군","고창군","부안군"],"전라남도":["목포시","여수시","순천시","나주시","광양시","담양군","곡성군","구례군","고흥군","보성군","화순군","장흥군","강진군","해남군","영암군","무안군","함평군","영광군","장성군","완도군","진도군","신안군"],"경상북도":["포항시","경주시","김천시","안동시","구미시","영주시","영천시","상주시","문경시","경산시","의성군","청송군","영양군","영덕군","청도군","고령군","성주군","칠곡군","예천군","봉화군","울진군","울릉군"],"경상남도":["창원시","진주시","통영시","사천시","김해시","밀양시","거제시","양산시","의령군","함안군","창녕군","고성군","남해군","하동군","산청군","함양군","거창군","합천군"],"제주특별자치도":["제주시","서귀포시"]};
+var CATS=[
+ ["축제·행사·이벤트",/축제|행사|이벤트|박람회|페스티벌|공연|음악회|불꽃|퍼레이드/],
+ ["홍보·광고·영상",/홍보|광고|영상|디자인|인쇄|제작물|굿즈|현수막|리플릿|브랜드|캠페인/],
+ ["관광·레저시설",/관광|레저|둘레길|전망대|출렁다리|캠핑|모노레일|짚라인|테마파크|해수욕장/],
+ ["도로·교통",/도로|포장|교량|보도|횡단보도|신호|가로등|주차장|버스|교통|아스콘|아스팔트/],
+ ["하천·재해·안전",/하천|재해|재난|안전|방재|저수지|배수|우수|사방|호안|둑|제방|CCTV|방범/],
+ ["상하수도",/상수도|하수도|정수|취수|관로|급수|배수관|수도/],
+ ["농림·축산·수산",/농로|농업|농촌|임도|산림|숲|조림|축산|가축|수산|어항|양식|방역|병해충/],
+ ["건축·시설공사",/신축|증축|개축|리모델링|건축|청사|센터|회관|경로당|마을회관|체육관|도서관|보수공사/],
+ ["조경·공원",/조경|공원|녹지|화단|가로수|경관|정원|수목/],
+ ["정보화·통신",/정보화|전산|시스템|소프트웨어|홈페이지|통신|네트워크|서버|정보시스템|SW/],
+ ["설계·감리·용역",/설계|감리|용역|연구|계획수립|타당성|측량|진단|평가|자문|컨설팅/],
+ ["청소·폐기물·위탁",/청소|폐기물|재활용|위탁|대행|운영관리|시설관리|경비|소독/],
+ ["급식·식자재",/급식|식자재|식재료|부식|김치|쌀|우유/]
+];
+function catOf(n){n=n||"";for(var i=0;i<CATS.length;i++){if(CATS[i][1].test(n))return CATS[i][0];}return /물품|구매|구입/.test(n)?"구매·물품(기타)":"기타";}
+var MCOLOR={"수의계약":"var(--s2)","협상":"var(--s7)","일반경쟁":"var(--s1)","제한경쟁":"var(--s3)","지명경쟁":"var(--s5)","기타":"var(--muted)"};
+function mDisp(m){m=m||"";if(/협상/.test(m))return"협상";if(/수의|단독|1인/.test(m))return"수의계약";if(/제한/.test(m))return"제한경쟁";if(/지명/.test(m))return"지명경쟁";if(/일반|경쟁/.test(m))return"일반경쟁";return m||"기타";}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function normV(v){return String(v||"").replace(/\(주\)|주식회사|㈜|\s/g,"").trim();}
+function won(w){w=+w||0;if(w>=1e12)return(w/1e12).toFixed(2)+"조원";if(w>=1e8)return Math.round(w/1e8).toLocaleString()+"억원";if(w>=1e4)return Math.round(w/1e4).toLocaleString()+"만원";return Math.round(w).toLocaleString()+"원";}
+function pct(a,b){return b?(a/b*100):0;}
+var $=function(id){return document.getElementById(id);};
+
+/* ---- region picker ---- */
+var selSido=$("selSido"),selSgg=$("selSgg");
+Object.keys(SGG).forEach(function(sd){var o=document.createElement("option");o.value=sd;o.textContent=sd;selSido.appendChild(o);});
+function fillSgg(){selSgg.innerHTML="";(SGG[selSido.value]||[]).forEach(function(g){var o=document.createElement("option");o.value=g;o.textContent=g;selSgg.appendChild(o);});}
+selSido.addEventListener("change",fillSgg);
+var DAYS=180;
+$("daysBox").addEventListener("click",function(e){var c=e.target.closest(".chip");if(!c)return;[].forEach.call(this.querySelectorAll(".chip"),function(x){x.classList.remove("on");});c.classList.add("on");DAYS=+c.dataset.d;});
+
+/* default from URL or 전남 강진군 */
+(function(){var p=new URLSearchParams(location.search);var sido=p.get("sido"),sgg=p.get("sgg");
+ selSido.value=(sido&&SGG[sido])?sido:"전라남도";fillSgg();
+ if(sgg&&(SGG[selSido.value]||[]).indexOf(sgg)>=0)selSgg.value=sgg;else if(selSido.value==="전라남도")selSgg.value="강진군";
+ if(p.get("auto")==="1")setTimeout(load,60);
+})();
+
+$("goBtn").addEventListener("click",load);
+
+var DATA=null,REGION="";
+function load(){
+  REGION=selSgg.value;if(!REGION){return;}
+  $("dash").classList.add("hide");$("topnav").classList.add("hide");
+  var sb=$("stateBox");sb.classList.remove("hide");sb.innerHTML='<span class="spin"></span>'+esc(selSido.value+" "+REGION)+' 계약을 나라장터에서 불러오는 중…';
+  var url="/api/contract?full=1&days="+DAYS+"&region="+encodeURIComponent(REGION);
+  var ctrl=new AbortController(),t=setTimeout(function(){ctrl.abort();},28000);
+  fetch(url,{signal:ctrl.signal}).then(function(r){return r.json();}).then(function(j){
+    clearTimeout(t);
+    if(!j||j.error||!j.bids){sb.innerHTML='<div class="err">데이터를 불러오지 못했습니다. '+esc((j&&j.error)||"")+'<br>잠시 후 다시 시도하거나 다른 기간/지자체를 선택해 주세요.</div>';return;}
+    if(!j.bids.length){sb.innerHTML='<div class="err">최근 '+DAYS+'일간 '+esc(REGION)+'의 나라장터 계약·입찰 공고가 없습니다. 기간을 넓히거나 다른 지자체를 선택해 보세요.</div>';return;}
+    DATA=prep(j);sb.classList.add("hide");$("dash").classList.remove("hide");$("topnav").classList.remove("hide");renderAll();
+    try{history.replaceState(null,"","?sido="+encodeURIComponent(selSido.value)+"&sgg="+encodeURIComponent(REGION)+"&auto=1");}catch(e){}
+  }).catch(function(e){clearTimeout(t);sb.innerHTML='<div class="err">불러오기 실패: '+esc(String(e&&e.message||e))+'<br>네트워크를 확인하고 다시 시도해 주세요.</div>';});
+}
+
+function prep(j){
+  var bids=j.bids.map(function(b){
+    return {n:b.title||"",m:b.method||"",mD:mDisp(b.method),a:+b.amount||0,k:b.kind||"기타",
+      v:b.vendor||"",d:b.date||"",y:(b.date||"").slice(0,4),u:b.url||"",
+      sui:!!b.sutil||/수의|단독|1인|협상/.test(b.method||""),cat:catOf(b.title)};
+  });
+  var hasV=bids.some(function(x){return x.v;});
+  return {bids:bids,stats:j.stats||{},by_kind:j.by_kind||[],by_vendor:j.by_vendor||[],by_year:j.by_year||[],
+    hasVendor:hasV,
+    region:j.region||REGION,days:j.days_window||DAYS,src:j.src||"",fetched:j.fetched_at||"",partial:!!j.partial,total_count:j.total_count||bids.length};
+}
+
+function setCard(id,show){var el=$(id);if(el)el.classList[show?"remove":"add"]("hide");}
+function renderAll(){
+  var hasV=!!DATA.hasVendor;
+  // 낙찰업체 정보가 없는 '입찰공고' 자료에서는 업체 기반 분석을 숨겨 허위 표기를 방지
+  setCard("vendorCard",hasV);
+  setCard("proCard",hasV);
+  setCard("navVendor",hasV);
+  setCard("navPro",hasV);
+  var mn=$("modeNote");
+  if(mn){
+    if(hasV){mn.classList.add("hide");}
+    else{mn.classList.remove("hide");
+      mn.innerHTML='ℹ️ 현재 <b>입찰공고(예정) 기준</b> 자료입니다. 나라장터 공개 API가 제공하는 범위로, <b>낙찰·계약체결 업체와 실제 낙찰금액은 아직 포함되지 않습니다</b>. 따라서 업체순위·업체집중도(HHI) 등 업체 기반 분석은 표시하지 않았습니다(허위 표기 방지). 금액은 모두 <b>추정가격·배정예산</b>입니다.';}
+  }
+  renderKPI();renderDiag();renderMethod();renderKind();renderCat();renderTrend();renderSplit();renderTable();renderMethodTxt();
+  if(hasV){renderPro();renderVendors();}
+}
+
+/* ---- KPIs ---- */
+function renderKPI(){
+  var b=DATA.bids,n=b.length,amt=b.reduce(function(s,x){return s+x.a;},0);
+  var sui=b.filter(function(x){return x.sui;}),suiAmt=sui.reduce(function(s,x){return s+x.a;},0);
+  var vset={};b.forEach(function(x){if(x.v)normV(x.v).split(/[;,]/).forEach(function(v){if(v)vset[v]=1;});});
+  var vc=Object.keys(vset).length;
+  var hasV=!!DATA.hasVendor;
+  var unit=hasV?"계약":"공고";
+  var tiles=[
+    ["표시 "+unit+" 건수",n.toLocaleString()+"건",(DATA.total_count>n?("전체 "+DATA.total_count.toLocaleString()+"건 중 상위"):"최근 "+DATA.days+"일")],
+    [(hasV?"총 계약 금액":"공고 추정가격 합계"),won(amt),(hasV?"낙찰금액 합산":"추정가격·배정예산 합산")],
+    ["평균 "+(hasV?"계약금액":"추정가격"),won(n?amt/n:0),"건당 평균"],
+    ["수의계약 건수",sui.length.toLocaleString()+"건",pct(sui.length,n).toFixed(1)+"% (건수 기준)"],
+    ["수의계약 금액",won(suiAmt),pct(suiAmt,amt).toFixed(1)+"% (금액 기준)"],
+    (hasV?["참여 업체 수",vc.toLocaleString()+"곳","정규화 상호 기준"]
+         :["경쟁입찰 건수",(n-sui.length).toLocaleString()+"건",pct(n-sui.length,n).toFixed(1)+"% (건수 기준)"])
+  ];
+  $("kpis").innerHTML=tiles.map(function(t){return '<div class="kpi"><div class="lb">'+t[0]+'</div><div class="v">'+t[1]+'</div><div class="s">'+t[2]+'</div></div>';}).join("");
+}
+
+/* ---- 종합진단 (데이터 기반 자동 서술) ---- */
+function renderDiag(){
+  var b=DATA.bids,n=b.length,amt=b.reduce(function(s,x){return s+x.a;},0);
+  var sui=b.filter(function(x){return x.sui;});
+  var suiR=pct(sui.length,n),suiAmtR=pct(sui.reduce(function(s,x){return s+x.a;},0),amt);
+  // vendor concentration
+  var vm={};b.forEach(function(x){var v=normV(x.v);if(!v)return;vm[v]=(vm[v]||0)+x.a;});
+  var vArr=Object.keys(vm).map(function(k){return[k,vm[k]];}).sort(function(a,b){return b[1]-a[1];});
+  var top1=vArr[0],cr5=vArr.slice(0,5).reduce(function(s,x){return s+x[1];},0);
+  var hasV=!!DATA.hasVendor,unit=hasV?"계약":"입찰공고";
+  $("diagCap").textContent=esc(DATA.region)+" · 최근 "+DATA.days+"일 나라장터 "+unit+" "+n.toLocaleString()+"건 기준 자동 진단";
+  var items=[];
+  items.push([suiR>=50,'수의계약(비경쟁) 비중이 <b>건수 '+suiR.toFixed(1)+"% · 금액 "+suiAmtR.toFixed(1)+'%</b>입니다. '+(suiR>=50?"경쟁이 상당히 제한적입니다 — 소액수의 남용·분할발주 여부를 살펴볼 구간입니다.":"경쟁입찰 비중이 더 높습니다.")]);
+  if(hasV&&top1)items.push([pct(top1[1],amt)>=30,'금액 1위 업체 <b>'+esc(top1[0])+'</b>가 전체의 <b>'+pct(top1[1],amt).toFixed(1)+'%</b>('+won(top1[1])+')를 차지합니다. '+(pct(top1[1],amt)>=30?"특정 업체 쏠림이 큽니다.":"쏠림은 크지 않습니다.")]);
+  if(hasV)items.push([cr5/amt>=0.6,'상위 5개 업체가 전체 금액의 <b>'+pct(cr5,amt).toFixed(1)+'%</b>를 가져갑니다(CR5). '+(cr5/amt>=0.6?"소수 업체 집중이 뚜렷합니다.":"비교적 분산되어 있습니다.")]);
+  var big=b.slice().sort(function(a,c){return c.a-a.a;})[0];
+  if(big)items.push([false,'최대 단일 '+(hasV?'계약':'공고')+': <b>'+esc(big.n.slice(0,40))+'</b> · '+won(big.a)+(hasV?(' ('+esc(big.v||"업체미상")+")"):" (추정가격)")]);
+  var html=items.map(function(it){return '<div class="dgi'+(it[0]?" warn":"")+'">'+(it[0]?"⚠️ ":"• ")+it[1]+'</div>';}).join("");
+  html+='<div class="dgi" style="border-left-color:#1baf7a">✅ <b>다음 단계</b> — 의심 계약은 '+
+    '<a href="https://www.open.go.kr" target="_blank" rel="noopener">정보공개청구</a>로 계약서·산출내역을, '+
+    '<a href="https://www.g2b.go.kr" target="_blank" rel="noopener">나라장터</a>에서 원문을, '+
+    '<a href="https://www.acrc.go.kr" target="_blank" rel="noopener">국민권익위</a>·<a href="https://www.bai.go.kr" target="_blank" rel="noopener">감사원</a>에 확인 요청할 수 있습니다. 아래 지표를 함께 확인하세요.</div>';
+  $("diagBody").innerHTML=html;
+}
+
+/* ---- 전문 진단 지표: HHI/CR, 수의 금액구간, 유형별 수의 ---- */
+function renderPro(){
+  var b=DATA.bids,amt=b.reduce(function(s,x){return s+x.a;},0);
+  var vm={};b.forEach(function(x){var v=normV(x.v);if(!v)return;vm[v]=(vm[v]||0)+x.a;});
+  var vArr=Object.values(vm).sort(function(a,b){return b-a;});
+  function cr(k){return pct(vArr.slice(0,k).reduce(function(s,x){return s+x;},0),amt);}
+  var hhi=vArr.reduce(function(s,x){var sh=amt?x/amt:0;return s+sh*sh*10000;},0);
+  var hlab=hhi<1500?"경쟁적":hhi<2500?"다소 집중":"고집중";
+  var sui=b.filter(function(x){return x.sui;});
+  var bands=[["≤2천만",0,2e7],["2천만~5천만",2e7,5e7],["5천만~1억",5e7,1e8],["1억~2억",1e8,2e8],[">2억",2e8,Infinity]];
+  var bc=bands.map(function(bd){return sui.filter(function(x){return x.a>bd[1]&&x.a<=bd[2];}).length;});
+  var bmax=Math.max.apply(null,bc.concat([1]));
+  var bandBars=bands.map(function(bd,i){var w=bc[i]/bmax*100;return '<div class="brow"><div class="blb" style="width:96px">'+bd[0]+'</div><div class="btrack"><div class="bfill" style="width:'+w+'%;background:var(--s2)"></div><div class="bval">'+bc[i]+'건</div></div></div>';}).join("");
+  var byk={};b.forEach(function(x){var k=x.k||"기타";byk[k]=byk[k]||{n:0,s:0};byk[k].n++;if(x.sui)byk[k].s++;});
+  var krows=Object.keys(byk).map(function(k){return '<tr><td>'+esc(k)+'</td><td class="r">'+byk[k].n+'</td><td class="r">'+byk[k].s+'</td><td class="r">'+pct(byk[k].s,byk[k].n).toFixed(0)+'%</td></tr>';}).join("");
+  $("proBody").innerHTML=
+   '<div class="probox"><h3>업체 집중도 (HHI·CR)</h3><div class="big">'+Math.round(hhi).toLocaleString()+'</div><div class="hint">HHI '+hlab+' (미 DOJ 기준 1500·2500)<br>CR5 '+cr(5).toFixed(1)+'% · CR10 '+cr(10).toFixed(1)+'% · CR20 '+cr(20).toFixed(1)+'%</div></div>'+
+   '<div class="probox"><h3>수의계약 금액구간</h3><div class="bars" style="margin-top:4px">'+bandBars+'</div><div class="hint">2천만원 이하 소액수의(1인견적 가능) 집중 여부를 봅니다.</div></div>'+
+   '<div class="probox"><h3>유형별 수의 비중</h3><table style="margin-top:2px"><tr><th>유형</th><th class="r">건수</th><th class="r">수의</th><th class="r">비중</th></tr>'+krows+'</table></div>';
+}
+
+/* ---- 계약방법별 비중 ---- */
+function renderMethod(){
+  var b=DATA.bids,n=b.length,amt=b.reduce(function(s,x){return s+x.a;},0);
+  var mm={};b.forEach(function(x){var m=x.mD;mm[m]=mm[m]||{n:0,a:0};mm[m].n++;mm[m].a+=x.a;});
+  var order=["수의계약","협상","지명경쟁","제한경쟁","일반경쟁","기타"];
+  var keys=Object.keys(mm).sort(function(a,b){return order.indexOf(a)-order.indexOf(b);});
+  function seg(field,tot){return keys.map(function(k){var val=mm[k][field],w=pct(val,tot);if(w<=0)return"";return '<div title="'+esc(k)+'" style="width:'+w+'%;background:'+(MCOLOR[k]||"var(--muted)")+'"></div>';}).join("");}
+  var rows=keys.map(function(k){return '<tr><td><span class="tagm '+(/수의|협상/.test(k)?"sui":"cmp")+'">'+esc(k)+'</span></td><td class="r">'+mm[k].n+'</td><td class="r">'+pct(mm[k].n,n).toFixed(1)+'%</td><td class="r">'+won(mm[k].a)+'</td><td class="r">'+pct(mm[k].a,amt).toFixed(1)+'%</td></tr>';}).join("");
+  var leg=keys.map(function(k){return '<span><i style="background:'+(MCOLOR[k]||"var(--muted)")+'"></i>'+esc(k)+'</span>';}).join("");
+  $("methodBody").innerHTML=
+   '<div style="font-size:.76rem;color:var(--ink2);margin-bottom:2px">건수 기준</div><div class="stack">'+seg("n",n)+'</div>'+
+   '<div style="font-size:.76rem;color:var(--ink2);margin:8px 0 2px">금액 기준</div><div class="stack">'+seg("a",amt)+'</div>'+
+   '<div class="legend">'+leg+'</div>'+
+   '<table style="margin-top:12px"><tr><th>계약방법</th><th class="r">건수</th><th class="r">비중</th><th class="r">금액</th><th class="r">비중</th></tr>'+rows+'</table>';
+}
+
+/* ---- 공사/용역/물품 ---- */
+function renderKind(){
+  var b=DATA.bids,byk={};b.forEach(function(x){var k=x.k||"기타";byk[k]=byk[k]||{a:0,sa:0};byk[k].a+=x.a;if(x.sui)byk[k].sa+=x.a;});
+  var keys=Object.keys(byk).sort(function(a,b){return byk[b].a-byk[a].a;});
+  var mx=Math.max.apply(null,keys.map(function(k){return byk[k].a;}).concat([1]));
+  $("kindBody").innerHTML=keys.map(function(k){
+    var w=byk[k].a/mx*100,sw=byk[k].sa/mx*100;
+    return '<div class="brow"><div class="blb">'+esc(k)+'</div><div class="btrack"><div class="bfill" style="width:'+w+'%"></div><div class="bval">'+won(byk[k].a)+'</div></div></div>'+
+      '<div class="brow"><div class="blb" style="font-size:.72rem;color:var(--muted)">└ 이 중 수의</div><div class="btrack"><div class="bfill bsub" style="width:'+sw+'%;background:var(--s2)"></div><div class="bval" style="color:var(--muted)">'+won(byk[k].sa)+' ('+pct(byk[k].sa,byk[k].a).toFixed(0)+'%)</div></div></div>';
+  }).join("");
+}
+
+/* ---- 분야별 ---- */
+function renderCat(){
+  var b=DATA.bids,cm={};b.forEach(function(x){var c=x.cat;cm[c]=cm[c]||{a:0,n:0,s:0};cm[c].a+=x.a;cm[c].n++;if(x.sui)cm[c].s++;});
+  var keys=Object.keys(cm).sort(function(a,b){return cm[b].a-cm[a].a;});
+  var mx=Math.max.apply(null,keys.map(function(k){return cm[k].a;}).concat([1]));
+  $("catBody").innerHTML=keys.map(function(k){var w=cm[k].a/mx*100;
+    return '<div class="brow"><div class="blb">'+esc(k)+'</div><div class="btrack"><div class="bfill" style="width:'+w+'%;background:var(--s4)"></div><div class="bval">'+won(cm[k].a)+' · '+cm[k].n+'건'+(cm[k].s?' · 수의'+pct(cm[k].s,cm[k].n).toFixed(0)+'%':'')+'</div></div></div>';
+  }).join("");
+}
+
+/* ---- 업체순위 ---- */
+function vendorAgg(){
+  var b=DATA.bids,vm={};
+  b.forEach(function(x){var names=(x.v||"").split(/[;,]/).map(function(s){return s.trim();}).filter(Boolean);if(!names.length)names=["(업체미상)"];var share=x.a/names.length;
+    names.forEach(function(nm){var key=normV(nm)||nm;if(!vm[key]){vm[key]={name:nm,a:0,n:0,sa:0,sn:0,cats:{},rows:[]};}var o=vm[key];o.a+=share;o.n++;if(x.sui){o.sa+=share;o.sn++;}o.cats[x.cat]=(o.cats[x.cat]||0)+share;o.rows.push(x);});
+  });
+  return Object.keys(vm).map(function(k){return vm[k];});
+}
+var VAGG=null;
+function renderVendors(){
+  VAGG=VAGG||vendorAgg();
+  var sort=$("vSort").value,top=+$("vTop").value,q=($("vSearch").value||"").trim().toLowerCase();
+  var arr=VAGG.slice();
+  if(q)arr=arr.filter(function(o){return o.name.toLowerCase().indexOf(q)>=0;});
+  arr.sort(function(a,b){return sort==="count"?b.n-a.n:sort==="sutil"?b.sn-a.sn:b.a-a.a;});
+  arr=arr.slice(0,top);
+  var mx=Math.max.apply(null,arr.map(function(o){return o.a;}).concat([1]));
+  var head='<tr><th>#</th><th>업체명</th><th></th><th class="r">건수</th><th class="r">금액</th><th class="r">수의건</th><th class="r">수의비중</th><th>주요분야</th></tr>';
+  var body=arr.map(function(o,i){
+    var topCat=Object.keys(o.cats).sort(function(a,b){return o.cats[b]-o.cats[a];})[0]||"-";
+    return '<tr class="vrow" data-v="'+esc(o.name)+'"><td>'+(i+1)+'</td><td>'+esc(o.name)+'</td>'+
+      '<td style="width:90px"><div class="rankbar" style="width:'+(o.a/mx*100)+'%;height:12px;background:var(--s1);border-radius:0 4px 4px 0"></div></td>'+
+      '<td class="r">'+o.n+'</td><td class="r">'+won(o.a)+'</td><td class="r">'+o.sn+'</td><td class="r">'+pct(o.sn,o.n).toFixed(0)+'%</td><td>'+esc(topCat)+'</td></tr>';
+  }).join("");
+  $("vTable").innerHTML=head+body;
+  [].forEach.call($("vTable").querySelectorAll(".vrow"),function(tr){tr.addEventListener("click",function(){toggleVendor(tr,tr.dataset.v);});});
+}
+function toggleVendor(tr,name){
+  var nx=tr.nextElementSibling;
+  if(nx&&nx.classList.contains("drow")){nx.remove();return;}
+  var o=VAGG.filter(function(x){return x.name===name;})[0];if(!o)return;
+  var rows=o.rows.slice().sort(function(a,b){return b.a-a.a;}).slice(0,60);
+  var html='<div class="detail"><b>'+esc(name)+'</b> · '+o.n+'건 · '+won(o.a)+' · 수의 '+o.sn+'건('+pct(o.sn,o.n).toFixed(0)+'%)'+
+    '<div class="tblwrap" style="max-height:280px;margin-top:8px"><table><tr><th>계약일</th><th>계약명</th><th>방법</th><th class="r">금액</th></tr>'+
+    rows.map(function(r){return '<tr><td>'+esc(r.d)+'</td><td>'+(r.u?'<a href="'+esc(r.u)+'" target="_blank" rel="noopener">'+esc(r.n.slice(0,44))+'</a>':esc(r.n.slice(0,44)))+'</td><td><span class="tagm '+(r.sui?"sui":"cmp")+'">'+esc(r.mD)+'</span></td><td class="r">'+won(r.a)+'</td></tr>';}).join("")+
+    '</table></div></div>';
+  var trd=document.createElement("tr");trd.className="drow";trd.innerHTML='<td colspan="8">'+html+'</td>';tr.after(trd);
+}
+$("vSort").addEventListener("change",renderVendors);$("vTop").addEventListener("change",renderVendors);
+$("vSearch").addEventListener("input",function(){clearTimeout(this._t);this._t=setTimeout(renderVendors,220);});
+
+/* ---- 월별 추이 ---- */
+function renderTrend(){
+  var mode=$("trMode").value,mm={};
+  DATA.bids.forEach(function(x){var k=(x.d||"").slice(0,7);if(!k)return;mm[k]=mm[k]||{n:0,a:0};mm[k].n++;mm[k].a+=x.a;});
+  var keys=Object.keys(mm).sort();
+  if(!keys.length){$("trendBody").innerHTML='<div class="hint">월별 데이터 없음</div>';return;}
+  var vals=keys.map(function(k){return mode==="amount"?mm[k].a:mm[k].n;});
+  var mx=Math.max.apply(null,vals.concat([1]));
+  $("trendBody").innerHTML=keys.map(function(k,i){var h=vals[i]/mx*180;
+    return '<div class="colw"><div class="colv">'+(mode==="amount"?won(vals[i]):vals[i]+"건")+'</div><div class="colbar" style="height:'+h+'px"></div><div class="collb">'+k.slice(2)+'</div></div>';
+  }).join("");
+}
+$("trMode").addEventListener("change",renderTrend);
+
+/* ---- 쪼개기 탐지 ---- */
+function renderSplit(){
+  var hasV=!!DATA.hasVendor;
+  var NOISE=/관급자재|레미콘|아스콘|철근|자재\(|자재 구입|자재구입|유류|주유|급식|부식/;
+  // 업체 정보가 있으면 '동일 업체', 없으면(입찰공고) '동일 분야' 기준으로 묶어 확인 대상을 제시
+  var by={};DATA.bids.forEach(function(x){if(!x.sui)return;if(x.a<5e6)return;if(NOISE.test(x.n))return;if(hasV&&/조달청|협동조합/.test(x.v))return;var k=hasV?(normV(x.v)||"(미상)"):(x.cat||"기타");if(hasV&&k==="(미상)")return;by[k]=by[k]||[];by[k].push(x);});
+  var groups=[];
+  Object.keys(by).forEach(function(v){var rows=by[v].slice().sort(function(a,b){return (a.d||"").localeCompare(b.d||"");});
+    var i=0;while(i<rows.length){var start=new Date(rows[i].d),grp=[rows[i]],j=i+1;
+      while(j<rows.length){var dd=(new Date(rows[j].d)-start)/86400000;if(dd<=31){grp.push(rows[j]);j++;}else break;}
+      var sum=grp.reduce(function(s,x){return s+x.a;},0),mxs=Math.max.apply(null,grp.map(function(x){return x.a;}));
+      if(grp.length>=3&&sum>=6e7&&mxs<=1e8){groups.push({v:(hasV?(by[v][0].v||v):(v+" 분야")),rows:grp,sum:sum});}
+      i=grp.length>1?j:i+1;}
+  });
+  groups.sort(function(a,b){return b.sum-a.sum;});
+  var crit=hasV?"동일업체·31일내·수의 3건↑·합계 6천만원↑":"동일분야·31일내·수의 3건↑·합계 6천만원↑";
+  if($("splitCap"))$("splitCap").textContent=hasV?"동일 업체·31일 이내·수의 3건 이상·합계 6천만원 이상을 묶어 표시합니다. 혐의가 아니라 확인 대상입니다.":"낙찰업체 자료가 없어 '동일 분야' 기준으로 묶었습니다(입찰공고). 동일 분야·31일 이내·수의 3건 이상·합계 6천만원 이상 — 혐의가 아니라 확인 대상입니다.";
+  if(!groups.length){$("splitBody").innerHTML='<div class="hint" style="color:var(--muted)">기계적 기준('+crit+')에 걸리는 묶음이 없습니다.</div>';return;}
+  $("splitBody").innerHTML=groups.slice(0,25).map(function(g){
+    var ds=g.rows.map(function(x){return x.d;}).sort();
+    return '<div class="splitgrp"><div class="sh">'+esc(g.v)+' · '+g.rows.length+'건 · 합계 '+won(g.sum)+'</div>'+
+      '<div class="sm">'+ds[0]+' ~ '+ds[ds.length-1]+' (31일 이내)</div>'+
+      '<table><tr><th>계약일</th><th>계약명</th><th class="r">금액</th></tr>'+
+      g.rows.map(function(r){return '<tr><td>'+esc(r.d)+'</td><td>'+(r.u?'<a href="'+esc(r.u)+'" target="_blank" rel="noopener">'+esc(r.n.slice(0,46))+'</a>':esc(r.n.slice(0,46)))+'</td><td class="r">'+won(r.a)+'</td></tr>';}).join("")+
+      '</table></div>';
+  }).join("");
+}
+
+/* ---- 전체 목록 ---- */
+var tSort={key:"d",dir:-1};
+function renderTable(){
+  var q=($("tSearch").value||"").trim().toLowerCase();
+  var rows=DATA.bids.filter(function(x){return !q||(x.n+x.v).toLowerCase().indexOf(q)>=0;});
+  rows.sort(function(a,b){var k=tSort.key,va=a[k],vb=b[k];if(k==="a"){return (vb-va)*tSort.dir*-1;}return String(va).localeCompare(String(vb))*tSort.dir;});
+  $("tCount").textContent=rows.length.toLocaleString()+"건";
+  var head='<tr>'+[["d","계약일"],["n","계약명"],["k","종류"],["mD","방법"],["a","금액"],["v","업체"]].map(function(c){return '<th class="'+(c[0]==="a"?"r":"")+'" data-k="'+c[0]+'">'+c[1]+(tSort.key===c[0]?(tSort.dir<0?" ▾":" ▴"):"")+'</th>';}).join("")+'</tr>';
+  var body=rows.slice(0,600).map(function(r){return '<tr><td style="white-space:nowrap">'+esc(r.d)+'</td><td>'+(r.u?'<a href="'+esc(r.u)+'" target="_blank" rel="noopener">'+esc(r.n.slice(0,52))+'</a>':esc(r.n.slice(0,52)))+'</td><td>'+esc(r.k)+'</td><td><span class="tagm '+(r.sui?"sui":"cmp")+'">'+esc(r.mD)+'</span></td><td class="r">'+won(r.a)+'</td><td>'+esc((r.v||"").slice(0,20))+'</td></tr>';}).join("");
+  var t=$("dTable");t.innerHTML=head+body;
+  [].forEach.call(t.querySelectorAll("th"),function(th){th.style.cursor="pointer";th.addEventListener("click",function(){var k=th.dataset.k;if(tSort.key===k)tSort.dir*=-1;else{tSort.key=k;tSort.dir=(k==="a"||k==="d")?-1:1;}renderTable();});});
+}
+$("tSearch").addEventListener("input",function(){clearTimeout(this._t);this._t=setTimeout(renderTable,220);});
+
+/* ---- 방법론 ---- */
+function renderMethodTxt(){
+  $("methodTxt").innerHTML=
+   '<b>데이터 출처</b><br>조달청 나라장터 「입찰공고정보서비스」(공공데이터포털 15129394) — 공사·용역·물품 오퍼레이션을 수요기관명='+esc(DATA.region)+' 기준으로 조회, 계약번호 기준 중복 제거. 조회 실패 시 「공공데이터개방표준서비스」로 전국 조회 후 지역명 필터(부분자료).<br><br>'+
+   '<b>집계 기준</b><br>· 계약방법에 "수의/단독/1인/협상" 문구가 있으면 수의계약(비경쟁)으로 분류했습니다.<br>· 금액은 추정가격·배정예산 기준이며, 실제 낙찰가와 다를 수 있습니다.<br>· 업체명은 (주)·주식회사 등 표기 차이를 정규화해 합산했습니다(사업자번호가 아닌 상호 기준 — 동명이인·상호변경 혼입 가능).<br>· 분야 분류는 계약명 키워드 자동 분류로 오분류가 있을 수 있습니다.<br>· 쪼개기(분할발주)는 동일 업체·31일 이내·수의 3건 이상·합계 6천만원 이상을 기계적으로 묶은 것으로, 혐의가 아니라 <b>확인 대상</b>입니다(관급자재·레미콘·유류 등 제외).<br><br>'+
+   '<b>한계</b><br>· 나라장터 API는 최근 기간(기본 90일, 최대 180일)만 제공하므로 장기 이력 분석에는 지방재정365 계약대장을 함께 봐야 합니다.<br>· 비공개 대상 계약은 포함되지 않습니다.<br><br>'+
+   '<b>원문</b>: <a href="https://www.g2b.go.kr" target="_blank" rel="noopener">나라장터</a> · <a href="https://www.data.go.kr/data/15129394/openapi.do" target="_blank" rel="noopener">공공데이터포털 API</a> · <a href="https://www.open.go.kr" target="_blank" rel="noopener">정보공개포털</a><br>'+
+   '<span style="color:var(--muted)">수집·집계: 대한민국 재정 365(김보미.com)'+(DATA.fetched?' · 조회 '+esc(new Date(DATA.fetched).toLocaleString("ko-KR")):"")+(DATA.partial?' · ⚠️ 부분자료(표준서비스 폴백)':"")+'</span>';
+}
+</script>
+</body>
+</html>
