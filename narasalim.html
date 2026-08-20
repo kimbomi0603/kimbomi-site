@@ -2112,19 +2112,19 @@ h1{letter-spacing:-.035em;font-weight:900}
       "use strict";
       /* 데이터 — 보조금: 선관위 공고(2026-111호·2026-05-18) 실수치. 당비·후원·지출분포: 회계보고 전수분석(언론3사) 경향 기반 추정 */
       var P={
-        '더불어민주당':{c:'#0e3a86',gy:238.6,gq:59.64,ge:258.85,due:220,don:90,youth:30,
+        '더불어민주당':{c:'#0e3a86',gy:234.34,gq:58.59,ge:258.85,due:220,don:90,youth:30,
           out:{'인건비':42,'사무소 운영':14,'조직·정치활동':12,'홍보·선전':11,'선거 관련':8,'정책개발':6,'여성·청년발전':4,'기타':3}},
-        '국민의힘':{c:'#c0392b',gy:223.4,gq:55.85,ge:237.63,due:180,don:85,youth:95,
+        '국민의힘':{c:'#c0392b',gy:218.47,gq:54.62,ge:237.63,due:180,don:85,youth:95,
           out:{'인건비':48,'사무소 운영':13,'조직·정치활동':10,'홍보·선전':10,'선거 관련':8,'정책개발':5,'여성·청년발전':3,'기타':3}},
-        '조국혁신당':{c:'#2563eb',gy:46.2,gq:11.54,ge:46.15,due:55,don:24,youth:null,
+        '조국혁신당':{c:'#2563eb',gy:45.02,gq:11.26,ge:46.15,due:55,don:24,youth:null,
           out:{'인건비':38,'사무소 운영':15,'조직·정치활동':13,'홍보·선전':12,'선거 관련':9,'정책개발':7,'여성·청년발전':3,'기타':3}},
-        '개혁신당':{c:'#f59e0b',gy:14.5,gq:3.62,ge:12.0,due:18,don:8,youth:null,
+        '개혁신당':{c:'#f59e0b',gy:14.24,gq:3.56,ge:14.46,due:18,don:8,youth:null,
           out:{'인건비':36,'사무소 운영':16,'조직·정치활동':13,'홍보·선전':13,'선거 관련':9,'정책개발':7,'여성·청년발전':3,'기타':3}},
-        '진보당':{c:'#e11d48',gy:12.9,gq:3.22,ge:10.0,due:22,don:6,youth:null,
+        '진보당':{c:'#e11d48',gy:12.72,gq:3.18,ge:12.89,due:22,don:6,youth:null,
           out:{'인건비':35,'사무소 운영':15,'조직·정치활동':16,'홍보·선전':12,'선거 관련':8,'정책개발':8,'여성·청년발전':3,'기타':3}},
-        '기본소득당':{c:'#10b981',gy:0.4,gq:0.10,ge:2.7,due:3,don:1.5,youth:null,
+        '기본소득당':{c:'#10b981',gy:11.08,gq:2.77,ge:0.39,due:3,don:1.5,youth:null,
           out:{'인건비':34,'사무소 운영':17,'조직·정치활동':14,'홍보·선전':12,'선거 관련':8,'정책개발':9,'여성·청년발전':3,'기타':3}},
-        '사회민주당':{c:'#8b5cf6',gy:0.4,gq:0.10,ge:2.7,due:3,don:1.5,youth:null,
+        '사회민주당':{c:'#8b5cf6',gy:0.36,gq:0.09,ge:0.39,due:3,don:1.5,youth:null,
           out:{'인건비':34,'사무소 운영':16,'조직·정치활동':14,'홍보·선전':12,'선거 관련':9,'정책개발':9,'여성·청년발전':3,'기타':3}}
       };
       var sel=document.getElementById('pfdSel'), body=document.getElementById('pfdBody');
@@ -2150,7 +2150,7 @@ h1{letter-spacing:-.035em;font-weight:900}
             +'</div>'
             +'<div class="pfd-sum">💬 <b>'+n+'</b>의 연간 수입은 약 <b>'+won(t)+'</b> 규모로 추정되며, 이 중 <b>'+dep.toFixed(0)+'%가 국민 세금(국고보조금)</b>입니다. 평년 연간 기준 최대 지출은 <b>인건비('+inb+'%, 추정)</b>이고, 정책개발비는 <b>'+pol+'%</b>'+(pol<7?'에 그칩니다':'입니다')+'.'
             +(d.youth!=null?' 청년정치발전비를 인건비 등으로 돌려쓴 비율은 <b>약 '+d.youth+'%</b>'+(d.youth>=50?'로 매우 높습니다 ⚠️':'입니다')+'.':'')
-            +' 항목별 건별 원문은 선관위 회계보고(열람·정보공개청구)에서 확인할 수 있습니다.'+(n==='더불어민주당'?' <b>단, 선거가 낌 2026 상반기 공식 총괄표(중앙당 실측)에서는 실집행의 72%가 「조직활동비」 한 줄로 잡혔습니다. 선거철에 돈이 어디로 씏리는지조차 항목 하나에 뭉뛵그려져 있는 것입니다.</b>':'')+'</div>'
+            +' 항목별 건별 원문은 선관위 회계보고(열람·정보공개청구)에서 확인할 수 있습니다.'+(n==='더불어민주당'?' <b>단, 선거가 낀 2026 상반기 공식 총괄표(중앙당 실측)에서는 실집행의 72%가 「조직활동비」 한 줄로 잡혔습니다. 선거철에 돈이 어디로 쏠리는지조차 항목 하나에 뭉뚱그려져 있는 것입니다.</b>':'')+'</div>'
             +(d.youth!=null && d.youth>=50?'<div class="pfd-warn">⚠️ 청년정치발전비 전용률 '+d.youth+'% — 청년 정치 육성에 써야 할 돈 대부분이 직원 급여 등으로 사용됐습니다(언론 3사 전수분석).</div>':'');
         }else if(tab==='in'){
           var mx=Math.max(d.gy,d.ge,d.due,d.don);
@@ -2159,7 +2159,7 @@ h1{letter-spacing:-.035em;font-weight:900}
             +bar('선거보조금(2026)',d.ge,mx,'#0d9488',won(d.ge))
             +bar('당비(추정)',d.due,mx,'#f59e0b',won(d.due))
             +bar('후원금(추정)',d.don,mx,'#8b5cf6',won(d.don))
-            +'<div class="pfd-note">경상보조금: 선관위 공고 제2026-111호 2분기 '+won(d.gq)+' × 4분기 환산 · 선거보조금: 선관위 공고(2026-05-18)'+(n==='개혁신당'||n==='진보당'||n==='기본소득당'||n==='사회민주당'?' 기타 4개 정당 합계에서 배분 추정':'')+' · 당비·후원금은 최근 회계보고 경향 기반 추정치입니다.</div>';
+            +'<div class="pfd-note">경상보조금: 선관위 3분기 지급(2026-08-14) 정당별 '+won(d.gq)+' × 4분기 환산 · 선거보조금: 선관위 6·3 지방선거 보조금 지급(2026-05-18) 정당별 실지급액 · 당비·후원금은 최근 회계보고 경향 기반 추정치입니다.</div>';
         }else if(tab==='out'){
           var keys=Object.keys(d.out), spend=t*0.92;
           var rows=keys.map(function(k){ var pct=d.out[k]; return bar(k,pct,50,(k==='인건비'?'#e11d48':k==='정책개발'?'#16a34a':'#1d6fe0'),pct+'% · '+won(spend*pct/100)); }).join('');
@@ -2191,25 +2191,31 @@ h1{letter-spacing:-.035em;font-weight:900}
     </script>
 
     <div class="pf-box">
-      <h3>🏦 정당이 받은 국민 세금 ① 경상보조금 — 2026년 2분기 (총 134.06억원)</h3>
-      <p class="pf-cap">정당이 평소 운영에 쓰는 국고보조금입니다. <b>2·5·8·11월 분기마다</b> 지급돼 1년이면 약 4배 규모가 됩니다.</p>
-      <div class="pf-bar"><span class="nm">더불어민주당</span><div class="track"><div class="fill" style="width:95%;background:#0e3a86">59.64억 · 44.49%</div></div></div>
-      <div class="pf-bar"><span class="nm">국민의힘</span><div class="track"><div class="fill" style="width:89%;background:#c0392b">55.85억 · 41.66%</div></div></div>
-      <div class="pf-bar"><span class="nm">조국혁신당</span><div class="track"><div class="fill" style="width:20%;background:#2563eb">11.54억 · 8.61%</div></div></div>
-      <div class="pf-bar"><span class="nm">개혁신당</span><div class="track"><div class="fill" style="width:9%;background:#f59e0b">3.62억 · 2.70%</div></div></div>
-      <div class="pf-bar"><span class="nm">진보당</span><div class="track"><div class="fill" style="width:8%;background:#e11d48">3.22억 · 2.40%</div></div></div>
-      <div class="pf-bar"><span class="nm">기본소득당</span><div class="track"><div class="fill" style="width:4%;background:#10b981">0.10억 · 0.07%</div></div></div>
-      <div class="pf-bar"><span class="nm">사회민주당</span><div class="track"><div class="fill" style="width:4%;background:#8b5cf6">0.10억 · 0.07%</div></div></div>
-      <p class="pf-mini">출처: 중앙선거관리위원회 공고 제2026-111호(2026-05-15). 7개 정당 합계 134억 577만 원.</p>
+      <h3>🏦 정당이 받은 국민 세금 ① 경상보조금 — 2026년 <b>3분기</b> (총 134.06억원)</h3>
+      <p class="pf-cap">정당이 평소 운영에 쓰는 국고보조금입니다. <b>2·5·8·11월 분기마다</b> 지급돼 1년이면 약 4배 규모가 됩니다. (최신: 2026.8.14 지급분)</p>
+      <div class="pf-bar"><span class="nm">더불어민주당</span><div class="track"><div class="fill" style="width:100%;background:#0e3a86">58.59억 · 43.70%</div></div></div>
+      <div class="pf-bar"><span class="nm">국민의힘</span><div class="track"><div class="fill" style="width:93%;background:#c0392b">54.62억 · 40.74%</div></div></div>
+      <div class="pf-bar"><span class="nm">조국혁신당</span><div class="track"><div class="fill" style="width:19%;background:#2563eb">11.26억 · 8.40%</div></div></div>
+      <div class="pf-bar"><span class="nm">개혁신당</span><div class="track"><div class="fill" style="width:6%;background:#f59e0b">3.56억 · 2.65%</div></div></div>
+      <div class="pf-bar"><span class="nm">진보당</span><div class="track"><div class="fill" style="width:5%;background:#e11d48">3.18억 · 2.37%</div></div></div>
+      <div class="pf-bar"><span class="nm">기본소득당</span><div class="track"><div class="fill" style="width:5%;background:#10b981">2.77억 · 2.07%</div></div></div>
+      <div class="pf-bar"><span class="nm">사회민주당</span><div class="track"><div class="fill" style="width:2%;background:#8b5cf6">0.09억 · 0.07%</div></div></div>
+      <p class="pf-mini">출처: 중앙선거관리위원회 3분기 경상보조금 지급(2026-08-14). 7개 정당 합계 134억 577만 원 · 거대 양당이 84.4%(113.2억) 차지.</p>
     </div>
     <div class="pf-box">
       <h3>🗳️ 정당이 받은 국민 세금 ② 선거보조금 — 2026년 6·3 지방선거 (총 약 570억원)</h3>
       <p class="pf-cap">선거가 있는 해에 <b>별도로 한 번 더</b> 지급되는 보조금입니다. 경상보조금과 합치면 규모가 크게 늘어납니다.</p>
-      <div class="pf-bar"><span class="nm">더불어민주당</span><div class="track"><div class="fill" style="width:95%;background:#0e3a86">258.85억 · 45.4%</div></div></div>
-      <div class="pf-bar"><span class="nm">국민의힘</span><div class="track"><div class="fill" style="width:87%;background:#c0392b">237.63억 · 41.6%</div></div></div>
-      <div class="pf-bar"><span class="nm">조국혁신당</span><div class="track"><div class="fill" style="width:17%;background:#2563eb">46.15억 · 8.1%</div></div></div>
-      <div class="pf-bar"><span class="nm">기타 4개 정당</span><div class="track"><div class="fill" style="width:10%;background:#94a3b8">27.37억 · 4.9%</div></div></div>
-      <p class="pf-mini">출처: 중앙선거관리위원회 공고(2026-05-18). 합계·비율은 보도(약 570억·7개 정당) 기준, 기타 4개 정당 금액은 역산 추정치.</p>
+      <div class="pf-bar"><span class="nm">더불어민주당</span><div class="track"><div class="fill" style="width:100%;background:#0e3a86">258.85억 · 45.4%</div></div></div>
+      <div class="pf-bar"><span class="nm">국민의힘</span><div class="track"><div class="fill" style="width:92%;background:#c0392b">237.63억 · 41.6%</div></div></div>
+      <div class="pf-bar"><span class="nm">조국혁신당</span><div class="track"><div class="fill" style="width:18%;background:#2563eb">46.15억 · 8.1%</div></div></div>
+      <div class="pf-bar"><span class="nm">개혁신당</span><div class="track"><div class="fill" style="width:6%;background:#f59e0b">14.46억 · 2.5%</div></div></div>
+      <div class="pf-bar"><span class="nm">진보당</span><div class="track"><div class="fill" style="width:5%;background:#e11d48">12.89억 · 2.3%</div></div></div>
+      <div class="pf-bar"><span class="nm">기본소득당</span><div class="track"><div class="fill" style="width:2%;background:#10b981">0.39억 · 0.07%</div></div></div>
+      <div class="pf-bar"><span class="nm">사회민주당</span><div class="track"><div class="fill" style="width:2%;background:#8b5cf6">0.39억 · 0.07%</div></div></div>
+      <div style="background:#F4F7FB;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:.82rem;color:#1C2B3A;line-height:1.7">
+        <b>이 570억의 구성</b> — 선거보조금 <b>536.2억</b> + 여성추천보조금 22.1억 + 청년추천보조금 6.6억 + 장애인추천보조금 5.8억. <span style="color:#5B6B7C">즉 '국고보조금'은 경상+선거+추천보조금을 아우르는 개념입니다.</span>
+      </div>
+      <p class="pf-mini">출처: 중앙선거관리위원회 6·3 지방선거 보조금 지급(2026-05-18). 7개 정당 정당별 실지급액 기준.</p>
     </div>
     <div class="pf-box">
       <h3>🆚 국민의힘 vs 더불어민주당 — 항목별 비교 분석표</h3>
@@ -2218,7 +2224,7 @@ h1{letter-spacing:-.035em;font-weight:900}
       <table class="pf-tbl">
         <thead><tr><th>비교 항목</th><th class="dem">더불어민주당</th><th class="ppp">국민의힘</th></tr></thead>
         <tbody>
-          <tr><td><span class="it">경상보조금</span> (2026 2분기)<span class="src">선관위 공고 제2026-111호</span></td><td class="dem">59.64억<span class="pf-win d">▲ 많음</span></td><td class="ppp">55.85억</td></tr>
+          <tr><td><span class="it">경상보조금</span> (2026 3분기)<span class="src">선관위 지급 2026-08-14</span></td><td class="dem">58.59억<span class="pf-win d">▲ 많음</span></td><td class="ppp">54.62억</td></tr>
           <tr><td><span class="it">지방선거 선거보조금</span> (2026 6·3)<span class="src">선관위 공고(2026-05-18)</span></td><td class="dem">258.85억<span class="pf-win d">▲ 많음</span></td><td class="ppp">237.63억</td></tr>
           <tr><td><span class="it">청년정치발전비를 ‘인건비’로 전용한 비율</span><span class="src">오마이뉴스·경향·뉴스타파 전수분석</span></td><td class="dem">약 30%</td><td class="ppp">약 95%<span class="pf-win p">▲ 높음</span></td></tr>
           <tr><td><span class="it">대선 ‘순이익’</span> (선거보조금−실지출 차익)<span class="src">오마이뉴스 분석</span></td><td class="dem">약 177억</td><td class="ppp">약 232억<span class="pf-win p">▲ 많음</span></td></tr>
