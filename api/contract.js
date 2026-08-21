@@ -269,6 +269,48 @@ module.exports = async (req, res) => {
     } catch (e) { return res.status(200).json({ ok: false, error: String(e.message || e) }); }
   }
 
+  /* data.go.kr 범용 프록시 — /api/contract?dg=<기관코드>/<서비스>/<오퍼>&...
+     권익위 반부패(1140100/NcpBaService_v3) 등 apis.data.go.kr 계열 (Hobby 함수 제한으로 통합) */
+  if (q.dg) {
+    if (!KEY2) return res.status(200).json({ ok: false, error: "G2B_API_KEY2 미설정" });
+    const mg = String(q.dg).match(/^(\d{5,10}|B\d{6})\/([A-Za-z0-9_.\-]{2,80})\/([A-Za-z0-9_]{2,90})$/);
+    if (!mg) return res.status(200).json({ ok: false, error: "dg=기관코드/서비스/오퍼 형식 필요" });
+    const qs4 = new URLSearchParams();
+    for (const k of Object.keys(q)) {
+      if (k === "dg" || k === "fresh" || k === "serviceKey") continue;
+      qs4.set(k.slice(0, 60), String(q[k]).slice(0, 200));
+    }
+    if (!qs4.get("pageNo")) qs4.set("pageNo", "1");
+    if (!qs4.get("numOfRows")) qs4.set("numOfRows", "20");
+    if (!qs4.get("resultType") && !qs4.get("_type")) qs4.set("resultType", "json");
+    const ck4 = "dg:v1:" + q.dg + ":" + qs4.toString();
+    const cached4 = q.fresh ? null : await kvGet(ck4);
+    if (cached4) { res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=21600"); return res.status(200).json(cached4); }
+    try {
+      qs4.set("serviceKey", KEY2);
+      const call4 = function () {
+        return fetch("https://apis.data.go.kr/" + mg[1] + "/" + mg[2] + "/" + mg[3] + "?" + qs4.toString(), { signal: AbortSignal.timeout(12000) });
+      };
+      let rg = await call4();
+      if (!rg.ok && rg.status >= 500) rg = await call4();
+      const txt4 = await rg.text();
+      let d4; try { d4 = JSON.parse(txt4); } catch (e) { d4 = null; }
+      let out4;
+      if (d4) {
+        const body4 = (d4.response && d4.response.body) || d4.body || d4;
+        const head4 = (d4.response && d4.response.header) || d4.header || {};
+        let items4 = (body4.items && (body4.items.item || body4.items)) || body4.item || body4.data || [];
+        if (items4 && !Array.isArray(items4)) items4 = [items4];
+        out4 = { ok: rg.ok, code: head4.resultCode || "", msg: head4.resultMsg || "", total: body4.totalCount || 0, items: items4 || [], src: "공공데이터포털 " + mg[2] + "(실데이터)" };
+      } else {
+        out4 = { ok: rg.ok, xml: txt4.slice(0, 60000), src: "공공데이터포털 " + mg[2] + "(실데이터·XML)" };
+      }
+      if (out4.ok) await kvSet(ck4, out4, 21600);
+      res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=21600");
+      return res.status(200).json(out4);
+    } catch (e) { return res.status(200).json({ ok: false, error: String(e.message || e) }); }
+  }
+
   /* odcloud(공공데이터 표준 API) 프록시 — /api/contract?od=gov24/v3/serviceList&perPage=10&...
      행안부 공공서비스(혜택)·권익위 청렴도 등 api.odcloud.kr 계열 (Hobby 함수 제한으로 통합) */
   if (q.od) {
