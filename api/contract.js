@@ -151,11 +151,11 @@ async function fetchAO(region, days) {
 }
 
 /* ── 실낙찰 연계 (KEY2 필요): 낙찰정보서비스에서 공고번호→낙찰업체·낙찰금액 맵 생성 ── */
-async function fetchAwardMap(days) {
+async function fetchAwardMap(days, force) {
   const capped = Math.min(days, 30);          // 낙찰 연계는 최근 30일(속도·타임아웃 안전)
   /* 전역(지역 무관) 낙찰맵 — 1시간 캐시로 두 번째 요청부터 즉시 */
   const ck = "g2b:awmap:v2:" + capped;
-  const cached = await kvGet(ck);
+  const cached = force ? null : await kvGet(ck);
   if (cached && cached.map) return cached;
   const wins = windows(capped);               // 30일 단위 창(=1개)
   const jobs = [];
@@ -241,7 +241,7 @@ module.exports = async (req, res) => {
   if (q.warmawards) {
     if (!KEY2) return res.status(200).json({ ok: false, error: "G2B_API_KEY2 미설정" });
     try {
-      const w = await fetchAwardMap(30);
+      const w = await fetchAwardMap(30, true);
       return res.status(200).json({ ok: true, awards: w.count });
     } catch (e) { return res.status(200).json({ ok: false, error: String(e.message || e) }); }
   }
