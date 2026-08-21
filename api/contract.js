@@ -159,8 +159,8 @@ async function fetchAwardMap(days) {
   if (cached && cached.map) return cached;
   const wins = windows(capped);               // 30일 단위 창(=1개)
   const jobs = [];
-  const raced = function (p) {                // 느린 요청은 9초에 포기(부분 수집 허용)
-    return Promise.race([p, new Promise(function (res) { setTimeout(function () { res({ ok: false }); }, 9000); })]);
+  const raced = function (p) {                // 느린 요청은 20초에 포기(부분 수집 허용)
+    return Promise.race([p, new Promise(function (res) { setTimeout(function () { res({ ok: false }); }, 20000); })]);
   };
   for (const win of wins) {
     for (const op of AS_OPS) {
@@ -248,6 +248,14 @@ module.exports = async (req, res) => {
         const t2 = await fetchAO("", 3);
         out.ao_live = t2.ok ? "✅ 정상 (" + t2.items.length + "건)" : "❌ " + t2.code + " " + (t2.msg || "");
       } catch (e) { out.ao_live = "❌ " + String(e.message || e); }
+    }
+    out.hasKey2 = !!KEY2;
+    if (KEY2) {
+      try {
+        const qs = new URLSearchParams({ serviceKey: KEY2, pageNo: "1", numOfRows: "2", type: "json", inqryDiv: "1", inqryBgnDt: windows(7)[0][0], inqryEndDt: windows(7)[0][1] });
+        const t3 = await callApi(AS_BASE + "/getScsbidListSttusServcPPSSrch?" + qs.toString());
+        out.as_live = t3.ok ? "✅ 정상 (낙찰 " + (t3.total || t3.items.length) + "건/7일)" : "❌ " + t3.code + " " + (t3.msg || "");
+      } catch (e) { out.as_live = "❌ " + String(e.message || e); }
     }
     out.hint = KEY ? "ad_live/ao_live 가 ❌면 data.go.kr에서 해당 서비스 활용신청 또는 키 확인 필요" : "⚠️ G2B_API_KEY 미설정 — Vercel 환경변수 추가 필요";
     return res.status(200).json(out);
