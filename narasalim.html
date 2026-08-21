@@ -6636,5 +6636,57 @@ function g365Go(kind){
 @media(max-width:640px){#diagnose .dt-btn{min-width:calc(33.3% - 8px);font-size:.92rem;padding:12px 6px}}
 @media(max-width:640px){#diagnose.show{padding:16px 12px 56px!important}}
 </style>
+<style id="inlineViewCSS">
+/* ── 메뉴 콘텐츠 인라인 표시 전환 ──
+   기존: 클릭 시 전체화면 고정 오버레이(position:fixed) + 배경 스크롤 잠금.
+   변경: 페이지 흐름 안에서 인라인으로 펼쳐 보여주고 배경 스크롤을 유지 → 더 안정적·직관적. */
+body.section-modal-open{ overflow:auto!important; }
+body.section-modal-open::before{ content:none!important; display:none!important; background:none!important; }
+#diagnose.show, #party-funds.show{
+  position:static!important; inset:auto!important; z-index:auto!important;
+  overflow:visible!important; -webkit-overflow-scrolling:auto!important;
+  background:transparent!important; padding:14px 0 30px!important; animation:none!important;
+}
+#policy-search.show, #budget-only.show, #contract-only.show{
+  position:static!important; top:auto!important; left:auto!important; transform:none!important;
+  width:auto!important; max-width:none!important; max-height:none!important;
+  overflow:visible!important; z-index:auto!important; box-shadow:none!important;
+  margin:14px 0 24px!important; animation:none!important;
+}
+#edu.show, #ontology.show{
+  position:static!important; inset:auto!important; z-index:auto!important;
+  background:transparent!important; padding:0!important; overflow:visible!important; animation:none!important;
+}
+/* 닫기(접기) 버튼 — 화면 고정 대신 섹션 상단에 붙는 sticky 로 */
+#diagClose, #pfClose{
+  position:sticky!important; top:66px!important; right:auto!important; left:auto!important; bottom:auto!important;
+  z-index:30!important; margin:0 0 10px 4px!important;
+}
+.section-close, .edu-close, .ontology-close{
+  position:sticky!important; top:66px!important; right:8px!important; bottom:auto!important;
+  float:right; z-index:30!important;
+}
+</style>
+<script>
+/* 메뉴 섹션이 열리면(.show) 스크롤잠금 없이 해당 위치로 부드럽게 이동 — 모든 열림 경로를 한 곳에서 커버 */
+(function(){
+  var ids=['diagnose','party-funds','policy-search','budget-only','contract-only','edu','ontology'];
+  function goTo(el){
+    try{ var y=el.getBoundingClientRect().top+window.pageYOffset-58; window.scrollTo({top:Math.max(0,y),behavior:'smooth'}); }
+    catch(e){ try{el.scrollIntoView({behavior:'smooth',block:'start'});}catch(_){} }
+  }
+  ids.forEach(function(id){
+    var el=document.getElementById(id); if(!el) return;
+    var was=el.classList.contains('show');
+    try{
+      new MutationObserver(function(){
+        var now=el.classList.contains('show');
+        if(now&&!was){ setTimeout(function(){ goTo(el); },120); }
+        was=now;
+      }).observe(el,{attributes:true,attributeFilter:['class']});
+    }catch(e){}
+  });
+})();
+</script>
 <a href="index.html?bot=1" style="position:fixed;right:14px;bottom:14px;z-index:180" aria-label="AI 챗봇 더불이"><img src="dubuli-fab.svg" alt="더불이 챗봇" style="width:172px;height:auto;filter:drop-shadow(0 10px 22px rgba(0,45,100,.45))"></a></body>
 </html>
