@@ -237,6 +237,38 @@ module.exports = async (req, res) => {
   const vendor = (q.vendor || "").toString().trim();
   const days = Math.max(1, Math.min(180, parseInt(q.days || 90, 10)));
 
+  /* 중앙선관위(9760000) 공공데이터 프록시 — /api/contract?nec=<서비스>/<오퍼>&sgId=... (Hobby 함수 제한으로 통합)
+     예: ?nec=ElecPrmsInfoInqireService/getCnddtElecPrmsInfoInqire&sgId=20220601&sgTypecode=4&cnddtId=100135777 */
+  if (q.nec) {
+    if (!KEY2) return res.status(200).json({ ok: false, error: "G2B_API_KEY2 미설정" });
+    const m = String(q.nec).match(/^([A-Za-z0-9]{3,60})\/([A-Za-z0-9]{3,80})$/);
+    if (!m) return res.status(200).json({ ok: false, error: "nec=서비스명/오퍼레이션명 형식 필요" });
+    const svc = m[1], op = m[2];
+    const PASS = ["sgId", "sgTypecode", "sdName", "wiwName", "sggName", "cnddtId", "huboId", "partyName", "krName", "sggName2", "prmsCnt"];
+    const qs2 = new URLSearchParams({ serviceKey: KEY2, resultType: "json", pageNo: String(parseInt(q.pageNo || 1, 10) || 1), numOfRows: String(Math.min(100, parseInt(q.numOfRows || 50, 10) || 50)) });
+    const ckParts = [];
+    for (const k of PASS) { if (q[k]) { const v = String(q[k]).slice(0, 80); qs2.set(k, v); ckParts.push(k + "=" + v); } }
+    const ck2 = "nec:v1:" + svc + ":" + op + ":" + qs2.get("pageNo") + ":" + qs2.get("numOfRows") + ":" + ckParts.join("|");
+    const cached2 = q.fresh ? null : await kvGet(ck2);
+    if (cached2) { res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=21600"); return res.status(200).json(cached2); }
+    try {
+      const call2 = function () {
+        return fetch("https://apis.data.go.kr/9760000/" + svc + "/" + op + "?" + qs2.toString(), { signal: AbortSignal.timeout(12000) });
+      };
+      let rn = await call2();
+      if (!rn.ok) rn = await call2();
+      const txt = await rn.text();
+      let dn; try { dn = JSON.parse(txt); } catch (e) { dn = null; }
+      if (!dn) return res.status(200).json({ ok: false, error: "선관위 응답 파싱 실패", raw: txt.slice(0, 300) });
+      const body = (dn.response && dn.response.body) || {};
+      const head = (dn.response && dn.response.header) || {};
+      const out2 = { ok: head.resultCode === "INFO-00" || head.resultCode === "00", code: head.resultCode || "", msg: head.resultMsg || "", total: body.totalCount || 0, items: (body.items && body.items.item) || [], src: "중앙선거관리위원회 " + svc + "(실데이터)" };
+      if (out2.ok) await kvSet(ck2, out2, 21600);
+      res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=21600");
+      return res.status(200).json(out2);
+    } catch (e) { return res.status(200).json({ ok: false, error: String(e.message || e) }); }
+  }
+
   /* 국세청 사업자상태 조회 — /api/contract?biz=1028142945,8191202555 (Hobby 함수수 제한으로 통합) */
   if (q.biz) {
     if (!KEY2) return res.status(200).json({ ok: false, error: "G2B_API_KEY2 미설정" });
