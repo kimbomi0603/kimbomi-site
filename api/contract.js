@@ -159,14 +159,14 @@ async function fetchAwardMap(days) {
   if (cached && cached.map) return cached;
   const wins = windows(capped);               // 30일 단위 창(=1개)
   const jobs = [];
-  const raced = function (p) {                // 느린 요청은 20초에 포기(부분 수집 허용)
-    return Promise.race([p, new Promise(function (res) { setTimeout(function () { res({ ok: false }); }, 20000); })]);
+  const raced = function (p) {                // 느린 요청은 45초에 포기(워밍 경로 전용)
+    return Promise.race([p, new Promise(function (res) { setTimeout(function () { res({ ok: false }); }, 45000); })]);
   };
   for (const win of wins) {
     for (const op of AS_OPS) {
-      for (let p = 1; p <= 3; p++) {
+      for (let p = 1; p <= 8; p++) {
         const q = new URLSearchParams({
-          serviceKey: KEY2, pageNo: String(p), numOfRows: "999", type: "json",
+          serviceKey: KEY2, pageNo: String(p), numOfRows: "500", type: "json",
           inqryDiv: "1", inqryBgnDt: win[0], inqryEndDt: win[1]
         });
         jobs.push(raced(callApi(AS_BASE + "/" + op + "?" + q.toString()).catch(function () { return { ok: false }; })));
@@ -187,7 +187,7 @@ async function fetchAwardMap(days) {
     });
   });
   const out = { map: map, count: cnt };
-  await kvSet(ck, out, 3600);
+  await kvSet(ck, out, 93600);   // 26시간 — 일일 크론 워밍으로 갱신
   return out;
 }
 
@@ -236,6 +236,15 @@ module.exports = async (req, res) => {
   const region = (q.region || "").toString().trim();
   const vendor = (q.vendor || "").toString().trim();
   const days = Math.max(1, Math.min(180, parseInt(q.days || 90, 10)));
+
+  /* 낙찰맵 사전 워밍(크론·수동) — 최근 30일 낙찰 수집해 26시간 캐시 */
+  if (q.warmawards) {
+    if (!KEY2) return res.status(200).json({ ok: false, error: "G2B_API_KEY2 미설정" });
+    try {
+      const w = await fetchAwardMap(30);
+      return res.status(200).json({ ok: true, awards: w.count });
+    } catch (e) { return res.status(200).json({ ok: false, error: String(e.message || e) }); }
+  }
 
   if (q.selfcheck) {
     const out = { ok: true, hasKey: !!KEY, ad: AD_BASE, ao: AO_BASE };
@@ -291,7 +300,8 @@ module.exports = async (req, res) => {
     let awardHits = 0;
     if (KEY2 && bids.length) {
       try {
-        const aw = await fetchAwardMap(days);
+        /* 사용자 요청 경로는 캐시만 읽음(항상 빠름) — 수집은 크론 warmawards가 담당 */
+        const aw = (await kvGet("g2b:awmap:v2:30")) || { map: {} };
         bids.forEach(function (b) {
           const hit = b.ntceNo && aw.map[b.ntceNo];
           if (hit) {

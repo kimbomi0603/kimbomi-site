@@ -19,7 +19,8 @@
     { "source": "/privacy", "destination": "/privacy.html" }
   ],
   "crons": [
-    { "path": "/api/admin?action=cronreport", "schedule": "10 15 * * *" }
+    { "path": "/api/admin?action=cronreport", "schedule": "10 15 * * *" },
+    { "path": "/api/contract?warmawards=1", "schedule": "40 15 * * *" }
   ],
   "headers": [
     {
