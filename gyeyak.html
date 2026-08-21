@@ -426,7 +426,7 @@ function toggleVendor(tr,name){
   var trd=document.createElement("tr");trd.className="drow";trd.innerHTML='<td colspan="8">'+html+'</td>';tr.after(trd);
   /* 국세청 사업자상태 실검증 배지 (낙찰업체 사업자번호가 있을 때만 · 실데이터) */
   if(bzNo){
-    fetch('/api/bizstatus?b='+encodeURIComponent(bzNo)).then(function(r){return r.json();}).then(function(d){
+    fetch('/api/contract?biz='+encodeURIComponent(bzNo)).then(function(r){return r.json();}).then(function(d){
       var el=document.getElementById(bzId); if(!el) return;
       var it=d&&d.ok&&d.items&&d.items[bzNo];
       if(!it){ el.textContent='사업자상태 확인불가'; return; }

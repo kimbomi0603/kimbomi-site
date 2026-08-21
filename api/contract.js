@@ -237,6 +237,41 @@ module.exports = async (req, res) => {
   const vendor = (q.vendor || "").toString().trim();
   const days = Math.max(1, Math.min(180, parseInt(q.days || 90, 10)));
 
+  /* 국세청 사업자상태 조회 — /api/contract?biz=1028142945,8191202555 (Hobby 함수수 제한으로 통합) */
+  if (q.biz) {
+    if (!KEY2) return res.status(200).json({ ok: false, error: "G2B_API_KEY2 미설정" });
+    const nos = Array.from(new Set(String(q.biz).replace(/[^0-9,]/g, "").split(",").filter(function (x) { return /^\d{10}$/.test(x); }))).slice(0, 50);
+    if (!nos.length) return res.status(200).json({ ok: false, error: "사업자번호 필요(10자리, 콤마구분)" });
+    const items = {}, misses = [];
+    for (const no of nos) {
+      const c = await kvGet("biz:v1:" + no);
+      if (c) items[no] = c; else misses.push(no);
+    }
+    if (misses.length) {
+      try {
+        const call = function () {
+          return fetch("https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=" + encodeURIComponent(KEY2), {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ b_no: misses }), signal: AbortSignal.timeout(12000)
+          });
+        };
+        let r2 = await call();
+        if (!r2.ok) r2 = await call();
+        const d2 = await r2.json();
+        if (d2 && Array.isArray(d2.data)) {
+          for (const row of d2.data) {
+            const no = String(row.b_no || ""); if (!no) continue;
+            const it = { stt: row.b_stt || "확인불가", cd: row.b_stt_cd || "", endDt: row.end_dt || "", taxType: row.tax_type || "" };
+            items[no] = it;
+            await kvSet("biz:v1:" + no, it, 86400);
+          }
+        }
+      } catch (e) { /* 미확인 번호는 미표기(가짜정보 방지) */ }
+    }
+    res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=600");
+    return res.status(200).json({ ok: true, items: items, src: "국세청 사업자등록 상태조회(실데이터)" });
+  }
+
   /* 낙찰맵 사전 워밍(크론·수동) — 최근 30일 낙찰 수집해 26시간 캐시 */
   if (q.warmawards) {
     if (!KEY2) return res.status(200).json({ ok: false, error: "G2B_API_KEY2 미설정" });
