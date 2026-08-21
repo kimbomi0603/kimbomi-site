@@ -3707,7 +3707,7 @@ function printReport(R){
         + '</summary>'
         + '<div style="padding:12px 16px;background:#fff;border-top:1px solid #e2e8f0;font-size:.86rem;color:#475569;line-height:1.7">'
         + '📋 <b>주요 부문</b>: ' + s.nm + ' 관련 단위사업·세부사업 내역은 <a href="https://lofin365.go.kr" target="_blank" rel="noopener" style="color:#1e40af;font-weight:800">지방재정365 본 사이트</a>에서 확인할 수 있습니다.<br>'
-        + '🔗 <a href="https://lofin365.go.kr/portal/LF000000000.do" target="_blank" rel="noopener" style="color:#1e40af;font-weight:800">' + name + ' 세입·세출예산서 보기 →</a>'
+        + '🔗 <a href="https://www.lofin365.go.kr/" target="_blank" rel="noopener" style="color:#1e40af;font-weight:800">' + name + ' 세입·세출예산서 보기 →</a>'
         + '</div></details>';
     });
     html += '<div style="margin-top:14px;padding:12px 14px;background:#f0f5fd;border-left:4px solid #2263c5;border-radius:8px;font-size:.82rem;color:#163665">💡 <b>팩트 only</b>: 분야별 % 는 전국 평균 근사값입니다. 실제 ' + name + ' 분야별 세부 예산은 <a href="https://lofin365.go.kr" target="_blank" rel="noopener" style="color:#154080;font-weight:900">지방재정365 공식 데이터</a>에서 확인하세요.</div>';
@@ -3981,7 +3981,7 @@ function renderDetail(R){
    <div class="dblock"><h3>📑 공식 결산서·예산서 PDF 다운로드</h3>
      <div class="desc">아래 공식 공시 시스템에서 ${R.display}의 결산서·예산서 원문(PDF)을 검색·내려받을 수 있습니다.</div>
      <div class="dl-grid">
-       <a class="dl" href="https://www.lofin365.go.kr/portal/main.do" target="_blank" rel="noopener"><b>📘 지방재정통합공시 (lofin365)</b><span>결산공시·예산서 원문 검색</span></a>
+       <a class="dl" href="https://www.lofin365.go.kr/" target="_blank" rel="noopener"><b>📘 지방재정통합공시 (lofin365)</b><span>결산공시·예산서 원문 검색</span></a>
        <a class="dl" href="https://lofin.mois.go.kr" target="_blank" rel="noopener"><b>📗 지방재정365</b><span>세입·세출·재정지표 상세</span></a>
        <a class="dl" href="https://www.data.go.kr/tcs/dss/selectDataSetList.do?keyword=${encodeURIComponent(R.name)}" target="_blank" rel="noopener"><b>📙 공공데이터포털</b><span>${R.name} 데이터셋·OpenAPI 검색</span></a>
        <a class="dl" href="javascript:void(0)" id="dGenPdf"><b>📄 이 지역 리포트 PDF 생성</b><span>대한민국 재정 365 자동 생성 결산 리포트</span></a>
