@@ -1118,8 +1118,8 @@ h1{letter-spacing:-.035em;font-weight:900}
 @media(max-width:1200px){.g365-logo .tag{display:none}}
 .g365-nav{display:none;align-items:center;gap:14px}
 @media(min-width:1024px){.g365-nav{display:flex}}
-.g365-nav>a,.g365-drop>button{color:#374151;font-size:.9rem;font-weight:500;text-decoration:none;white-space:nowrap}
-.g365-nav>a:hover,.g365-drop>button:hover{color:#111827}
+.g365-nav>a,.g365-drop>button{color:#1f2d3d;font-size:.92rem;font-weight:700;text-decoration:none;white-space:nowrap;padding:7px 11px;border-radius:9px;transition:background .12s,color .12s}
+.g365-nav>a:hover,.g365-drop>button:hover{color:#004EA2;background:#eef4ff}
 .g365-drop{position:relative}
 .g365-drop>button{display:inline-flex;align-items:center;gap:4px;background:none;border:none;cursor:pointer;font-family:inherit;padding:0}
 .g365-drop-menu{position:absolute;left:0;top:100%;padding-top:10px;display:none;min-width:184px}
@@ -1276,6 +1276,39 @@ h1{letter-spacing:-.035em;font-weight:900}
   <!-- J. 외부 협력 플랫폼 CTA — 간결화 후 '여러분과 함께한 순간들' 위로 이동(아래 #moments 직전) -->
 
   <!-- ============== K. 3대 가치 (퍼퍼 위) ============== -->
+
+  <!-- 메뉴 간략 안내 (파스텔) — 상단 메뉴가 잘 안 보인다는 의견 반영, 무엇을 할 수 있는지 한눈에 -->
+  <style>
+  #menuGuide{margin:22px 0 6px}
+  #menuGuide .mg-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 12px}
+  #menuGuide .mg-h b{font-size:1.06rem;font-weight:800;color:#0b2545;letter-spacing:-.01em}
+  #menuGuide .mg-h span{font-size:.84rem;color:#5b6b7c}
+  #menuGuide .mg-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+  #menuGuide .mg-btn{display:flex;flex-direction:column;gap:3px;text-align:left;border:1.5px solid;border-radius:14px;padding:13px 14px;cursor:pointer;transition:transform .12s,box-shadow .12s,filter .12s;text-decoration:none;min-height:88px}
+  #menuGuide .mg-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(11,37,69,.10);filter:saturate(1.05)}
+  #menuGuide .mg-ic{font-size:1.15rem;line-height:1}
+  #menuGuide .mg-t{font-size:.95rem;font-weight:800;letter-spacing:-.01em;line-height:1.25}
+  #menuGuide .mg-d{font-size:.79rem;line-height:1.4;color:#4b5a6b;font-weight:500}
+  #menuGuide .c-teal{background:#e6f7f4;border-color:#b3e3da}#menuGuide .c-teal .mg-t{color:#0e6b5e}
+  #menuGuide .c-blue{background:#e9f1fd;border-color:#c0d8f5}#menuGuide .c-blue .mg-t{color:#1b4b8f}
+  #menuGuide .c-green{background:#eaf6ec;border-color:#bfe4c6}#menuGuide .c-green .mg-t{color:#1c6b43}
+  #menuGuide .c-amber{background:#fdf3e0;border-color:#f2d7a5}#menuGuide .c-amber .mg-t{color:#8a5a12}
+  #menuGuide .c-rose{background:#fdecec;border-color:#f4c5c5}#menuGuide .c-rose .mg-t{color:#a12b2b}
+  #menuGuide .c-violet{background:#f1ecfb;border-color:#d9c9f2}#menuGuide .c-violet .mg-t{color:#5a3aa0}
+  @media(max-width:900px){#menuGuide .mg-grid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:560px){#menuGuide .mg-grid{grid-template-columns:repeat(2,1fr)}#menuGuide .mg-btn{min-height:80px;padding:11px 12px}}
+  </style>
+  <section id="menuGuide" aria-label="메뉴 간략 안내">
+    <div class="mg-h"><b>🧭 이 페이지에서 할 수 있는 것</b><span>아래 버튼을 눌러 바로 이동하세요 — 상단 메뉴와 같은 기능입니다</span></div>
+    <div class="mg-grid">
+      <a href="javascript:void(0)" class="mg-btn c-teal" onclick="g365Go('diag3')"><span class="mg-ic">🩺</span><span class="mg-t">우리동네 3초진단</span><span class="mg-d">우리 지역 재정을 한눈에</span></a>
+      <a href="javascript:void(0)" class="mg-btn c-blue" onclick="g365Go('budget')"><span class="mg-ic">💰</span><span class="mg-t">예산현황</span><span class="mg-d">세금이 어디에 배정됐나</span></a>
+      <a href="javascript:void(0)" class="mg-btn c-green" onclick="g365Go('exec')"><span class="mg-ic">✅</span><span class="mg-t">집행내역</span><span class="mg-d">실제로 얼마나 썼나</span></a>
+      <a href="javascript:void(0)" class="mg-btn c-amber" onclick="g365Go('contract')"><span class="mg-ic">📜</span><span class="mg-t">계약·입찰</span><span class="mg-d">누구와 어떤 계약을 했나</span></a>
+      <a href="javascript:void(0)" class="mg-btn c-violet" onclick="g365Go('policy')"><span class="mg-ic">📋</span><span class="mg-t">민원·정책 찾기</span><span class="mg-d">정책·담당부서·연락처</span></a>
+      <a href="javascript:void(0)" class="mg-btn c-rose" onclick="g365Go('partyfunds')"><span class="mg-ic">💸</span><span class="mg-t">정당 돈, 어디 썼나?</span><span class="mg-d">정당이 받은 국민 세금</span></a>
+    </div>
+  </section>
 
   <!-- v45: 재정주권운동 소개 -->
   <section id="sovereign">
@@ -3885,7 +3918,7 @@ function renderDetail(R){
    <div class="dblock"><h3>🌬️ 환경·생활·안전 (환경부·복지부·경찰청·소방청)</h3>
      <div style="background:#fef9f3;border:1px solid #fde9c8;border-radius:10px;padding:11px 13px;font-size:.78rem;color:#92651a;line-height:1.55;margin-bottom:12px">📌 환경부 에어코리아·복지부 응급의료포털·경찰청 범죄통계·소방청 화재통계 기반. 실데이터 연동 시 자동 갱신.</div>
      <div class="dgrid">
-       <div class="dstat"><div class="l">🌫️ 미세먼지 PM2.5 연평균</div><div class="v mono" style="color:${gov.pm25Grade[1]}">${gov.pm25}<span class="s muted"> ㎍/㎥</span></div><div class="s muted">${gov.pm25Grade[0]} (WHO 권고 15)</div></div>
+       <div class="dstat"><div class="l">🌫️ 미세먼지 PM2.5 연평균</div><div class="v mono" style="color:${gov.pm25Grade[1]}">${gov.pm25}<span class="s muted"> ㎍/㎥</span></div><div class="s muted">${gov.pm25Grade[0]} (WHO 권고 5)</div></div>
        <div class="dstat"><div class="l">🚑 응급의료기관</div><div class="v mono">${gov.erCount}<span class="s muted"> 곳</span></div><div class="s muted">권역·지역응급의료센터</div></div>
        <div class="dstat"><div class="l">⏱️ 응급실 도착시간</div><div class="v mono" style="color:${gov.erTime<10?'#164ea3':gov.erTime<15?'#b45309':'#e11d48'}">${gov.erTime}<span class="s muted"> 분</span></div><div class="s muted">평균 (전국 8.7분)</div></div>
        <div class="dstat"><div class="l">👮 5대 범죄 발생률</div><div class="v mono" style="color:${gov.crimeRate<50?'#164ea3':gov.crimeRate<80?'#b45309':'#e11d48'}">${gov.crimeRate}</div><div class="s muted">인구 1만명당/년</div></div>
@@ -4409,9 +4442,10 @@ function init(){
   document.getElementById('cmpA').value='전라남도 강진군';
   autoFillNeighbor();   // 비교대상 미설정 → 인근 시군(예: 장흥군/해남군) 자동배치
   renderCompare();
-  // 상시 실시간 서버 연동 (자동) — 즉시 연결 + 5분마다 자동 갱신
+  // 상시 실시간 서버 연동 (자동) — 즉시 연결 + 5분마다 자동 갱신 (숨긴 탭에서는 건너뜀 → 배터리·네트워크 절약)
   connectRealtime();
-  RT_TIMER=setInterval(connectRealtime, RT_REFRESH_MS);
+  RT_TIMER=setInterval(function(){ if(document.visibilityState==='hidden') return; connectRealtime(); }, RT_REFRESH_MS);
+  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible') connectRealtime(); });
 }
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 /* 🔥 봄님 버튼 강제 직접 연결 v2 — 모달이 비어있다는 사실 반영 (탭으로 라우팅) */
@@ -5662,11 +5696,17 @@ if(!window.kbOnDom){
     var fns=(window.__kbDomFns=window.__kbDomFns||[]); fns.push(fn);
     try{fn();}catch(e){}
     if(!window.__kbDomMo){
-      var tmr=null;
-      var runAll=function(){ tmr=null; (window.__kbDomFns||[]).forEach(function(f){ try{f();}catch(e){} }); };
-      var sched=function(){ if(!tmr) tmr=setTimeout(runAll,450); };
+      var tmr=null, mo=null;
+      var runAll=function(){
+        tmr=null;
+        /* 콜백들이 스스로 DOM을 변경하므로, 실행 동안 관찰을 끊어 자기촉발 무한루프(버벅임 주원인)를 차단 */
+        try{ if(mo&&mo.disconnect) mo.disconnect(); }catch(e){}
+        (window.__kbDomFns||[]).forEach(function(f){ try{f();}catch(e){} });
+        try{ if(mo&&mo.observe&&document.body) mo.observe(document.body,{childList:true,subtree:true}); }catch(e){}
+      };
+      var sched=function(){ if(!tmr) tmr=setTimeout(runAll,600); };
       var start=function(){
-        try{ (window.__kbDomMo=new MutationObserver(sched)).observe(document.body,{childList:true,subtree:true}); }
+        try{ mo=window.__kbDomMo=new MutationObserver(sched); mo.observe(document.body,{childList:true,subtree:true}); }
         catch(e){ window.__kbDomMo=setInterval(runAll,4000); }
         sched();
       };
