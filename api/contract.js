@@ -152,21 +152,24 @@ async function fetchAO(region, days) {
 
 /* ── 실낙찰 연계 (KEY2 필요): 낙찰정보서비스에서 공고번호→낙찰업체·낙찰금액 맵 생성 ── */
 async function fetchAwardMap(days) {
-  const capped = Math.min(days, 60);          // 낙찰 연계는 최근 60일까지
+  const capped = Math.min(days, 30);          // 낙찰 연계는 최근 30일(속도·타임아웃 안전)
   /* 전역(지역 무관) 낙찰맵 — 1시간 캐시로 두 번째 요청부터 즉시 */
-  const ck = "g2b:awmap:v1:" + capped;
+  const ck = "g2b:awmap:v2:" + capped;
   const cached = await kvGet(ck);
   if (cached && cached.map) return cached;
-  const wins = windows(capped);               // 30일 단위 창
+  const wins = windows(capped);               // 30일 단위 창(=1개)
   const jobs = [];
+  const raced = function (p) {                // 느린 요청은 9초에 포기(부분 수집 허용)
+    return Promise.race([p, new Promise(function (res) { setTimeout(function () { res({ ok: false }); }, 9000); })]);
+  };
   for (const win of wins) {
     for (const op of AS_OPS) {
-      for (let p = 1; p <= 4; p++) {
+      for (let p = 1; p <= 3; p++) {
         const q = new URLSearchParams({
           serviceKey: KEY2, pageNo: String(p), numOfRows: "999", type: "json",
           inqryDiv: "1", inqryBgnDt: win[0], inqryEndDt: win[1]
         });
-        jobs.push(callApi(AS_BASE + "/" + op + "?" + q.toString()).catch(function () { return { ok: false }; }));
+        jobs.push(raced(callApi(AS_BASE + "/" + op + "?" + q.toString()).catch(function () { return { ok: false }; })));
       }
     }
   }
