@@ -1,4 +1,7 @@
 {
+  "functions": {
+    "api/contract.js": { "maxDuration": 60 }
+  },
   "redirects": [
     {
       "source": "/:path*",
