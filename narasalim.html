@@ -6334,13 +6334,16 @@ console.log('✅ v46.1 홈 개편 활성 — 2카드 히어로·담당부서 탭
 /* ── 🇰🇷 전국 정부 공공서비스·혜택 검색 연동 (행안부 공공서비스 API 실데이터) ── */
 (function(){
   function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-  var lastKw='';
+  var lastKw='', tries=0;
   function wrap(){
-    if(!window.PS||!window.PS.render){ setTimeout(wrap,500); return; }
-    if(window.PS._gov24) return; window.PS._gov24=1;
+    /* installPS 등 다른 스크립트가 PS.render를 나중에 교체할 수 있으므로,
+       render 소스에 우리 후크가 없으면 재래핑하며 30초간 감시 */
+    if(++tries>20) return;
+    if(!window.PS||!window.PS.render){ setTimeout(wrap,600); return; }
+    if(String(window.PS.render).indexOf('gov24Blk')>=0){ setTimeout(wrap,1500); return; }
     var orig=window.PS.render;
     window.PS.render=function(){
-      orig.apply(this,arguments);
+      orig.apply(this,arguments); /*gov24Blk*/
       var q=(this.query||'').trim();
       var el=document.getElementById('psResults'); if(!el) return;
       var old=document.getElementById('gov24Blk'); if(old) old.remove();
@@ -6372,6 +6375,7 @@ console.log('✅ v46.1 홈 개편 활성 — 2카드 히어로·담당부서 탭
         .catch(function(){ var body=document.getElementById('gov24Body'); if(body) body.innerHTML='<div style="color:#94a3b8">일시적으로 불러오지 못했습니다.</div>'; });
     };
     console.log('✅ gov24 전국 공공서비스 검색 연동 활성');
+    setTimeout(wrap,1500);
   }
   wrap();
 })();
