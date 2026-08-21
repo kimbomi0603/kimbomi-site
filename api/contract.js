@@ -23,6 +23,9 @@
 const AD_BASE = "https://apis.data.go.kr/1230000/ad/BidPublicInfoService";
 const AO_BASE = "https://apis.data.go.kr/1230000/ao/PubDataOpnStdService";
 const KEY = process.env.G2B_API_KEY || "";
+/* 실계약 모드용 보조키(선택) — 개방표준 '계약현황'이 승인된 data.go.kr 계정의 일반 인증키.
+   설정되면 지역별 실계약(계약업체·실계약금액)을 우선 조회하고, 실패 시 기존 입찰공고 모드로 폴백. */
+const KEY2 = process.env.G2B_API_KEY2 || "";
 
 /* ── Redis(Upstash) 결과 캐시 — 첫 호출 7~8초 문제 해결: 30분간 결과 재사용 ── */
 const RURL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.REDIS_REST_URL || "";
@@ -144,6 +147,61 @@ async function fetchAO(region, days) {
   return { ok: true, items: items, total: items.length, src: "나라장터 공공데이터개방표준서비스(ao) · 지역필터", partial: true };
 }
 
+/* ── 실계약 모드: 개방표준 '계약현황' — 계약업체·실계약금액 포함 (KEY2 필요) ── */
+function ymd(d) { return "" + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()); }
+async function fetchSTD(region, days) {
+  const end = new Date(), bgn = new Date(end.getTime() - days * 86400000);
+  let items = [], total = 0;
+  for (let p = 1; p <= 3; p++) {
+    const q = new URLSearchParams({
+      serviceKey: KEY2, pageNo: String(p), numOfRows: "999", type: "json",
+      cntrctCnclsBgnDate: ymd(bgn), cntrctCnclsEndDate: ymd(end)
+    });
+    if (region) q.set("dminsttNm", region);
+    const r = await callApi(AO_BASE + "/getDataSetOpnStdCntrctInfo?" + q.toString());
+    if (!r.ok) { if (p === 1) return { ok: false, code: r.code, msg: r.msg }; break; }
+    items = items.concat(r.items); total = r.total || total;
+    if (r.items.length < 999) break;
+  }
+  /* 서버 필터가 무시될 가능성 대비: 지역명 포함 여부 방어 필터 */
+  if (region) {
+    items = items.filter(function (it) {
+      const hay = String(it.dminsttNm || "") + "|" + String(it.cntrctInsttNm || "") + "|" + String(it.dminsttList || "");
+      return hay.indexOf(region) >= 0;
+    });
+  }
+  return { ok: true, items: items, total: items.length, src: "나라장터 계약현황 개방표준(실계약)" };
+}
+function normalizeSTD(items) {
+  const map = {};
+  for (const it of items) {
+    const no = String(it.untyCntrctNo || it.cntrctNo || it.cntrctNm || Math.random());
+    if (!map[no]) map[no] = it;
+  }
+  return Object.values(map).map(function (it) {
+    /* 계약업체: corpList "[1^주계약업체^단독^상호^대표^국가^지분^...]" 또는 개별 필드 */
+    let vendor = String(it.corpNm || it.cntrctCorpNm || it.rprsntCorpNm || "").trim();
+    if (!vendor && it.corpList) {
+      const seg = String(it.corpList).split("^");
+      if (seg.length > 3) vendor = seg[3].trim();
+    }
+    const rawDt = it.cntrctCnclsDate || it.cntrctDate || "";
+    const method = it.cntrctCnclsMthdNm || it.cntrctMthdNm || "";
+    return {
+      title: it.cntrctNm || "(계약명 미상)",
+      method: method,
+      amount: num(it.thtmCntrctAmt || it.cntrctAmt || it.totCntrctAmt),
+      org: it.dminsttNm || it.cntrctInsttNm || "",
+      vendor: vendor,
+      kind: it.bsnsDivNm || "",
+      date: normDate(rawDt),
+      year: String(rawDt).replace(/[^0-9]/g, "").slice(0, 4),
+      url: it.cntrctDtlInfoUrl || it.cntrctInfoUrl || "",
+      sutil: /수의|단독|1인|협상/.test(method)
+    };
+  }).sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
+}
+
 function normDate(s) {
   s = String(s || "");
   if (/^\d{8}/.test(s)) return s.slice(0, 4) + "-" + s.slice(4, 6) + "-" + s.slice(6, 8);
@@ -207,7 +265,7 @@ module.exports = async (req, res) => {
   if (!KEY) { res.setHeader("Cache-Control", "no-store"); return res.status(200).json({ configured: false, error: "G2B_API_KEY 미설정" }); }
 
   /* Redis 캐시 히트 시 즉시 응답 (콜드스타트에도 0.5초 내) */
-  const cacheKey = "g2b:v3:" + region + ":" + days + ":" + vendor + ":" + (q.full ? "F" : "S");
+  const cacheKey = "g2b:v4:" + region + ":" + days + ":" + vendor + ":" + (q.full ? "F" : "S") + ":" + (KEY2 ? "R" : "B");
   const cachedPayload = await kvGet(cacheKey);
   if (cachedPayload) {
     cachedPayload.cached = true;
@@ -215,7 +273,15 @@ module.exports = async (req, res) => {
   }
 
   try {
-    let r = await fetchAD(region, days);
+    let r = null, isReal = false;
+    /* 실계약 모드 우선(KEY2 설정 시): 계약업체·실계약금액 포함 개방표준 계약현황 */
+    if (KEY2 && !q.bidonly) {
+      try {
+        const rc = await fetchSTD(region, days);
+        if (rc.ok && rc.items.length) { r = rc; isReal = true; }
+      } catch (e) { /* 실계약 실패 → 입찰공고 폴백 */ }
+    }
+    if (!r) r = await fetchAD(region, days);
     if (!r.ok) {
       const fb = await fetchAO(region, days);
       if (fb.ok) { r = fb; }
@@ -229,7 +295,7 @@ module.exports = async (req, res) => {
       }
     }
 
-    const bids = normalize(r.items);
+    const bids = isReal ? normalizeSTD(r.items) : normalize(r.items);
     const filtered = vendor ? bids.filter(function (b) { return (b.vendor + b.org + b.title).indexOf(vendor) >= 0; }) : bids;
 
     // 연도별 집계
