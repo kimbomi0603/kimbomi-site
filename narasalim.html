@@ -6640,8 +6640,9 @@ function g365Go(kind){
 /* ── 메뉴 콘텐츠 인라인 표시 전환 ──
    기존: 클릭 시 전체화면 고정 오버레이(position:fixed) + 배경 스크롤 잠금.
    변경: 페이지 흐름 안에서 인라인으로 펼쳐 보여주고 배경 스크롤을 유지 → 더 안정적·직관적. */
-body.section-modal-open{ overflow:auto!important; }
+body.section-modal-open{ overflow:visible!important; }
 body.section-modal-open::before{ content:none!important; display:none!important; background:none!important; }
+#diagnose, #party-funds, #policy-search, #budget-only, #contract-only, #edu, #ontology{ scroll-margin-top:64px; }
 #diagnose.show, #party-funds.show{
   position:static!important; inset:auto!important; z-index:auto!important;
   overflow:visible!important; -webkit-overflow-scrolling:auto!important;
@@ -6672,8 +6673,9 @@ body.section-modal-open::before{ content:none!important; display:none!important;
 (function(){
   var ids=['diagnose','party-funds','policy-search','budget-only','contract-only','edu','ontology'];
   function goTo(el){
-    try{ var y=el.getBoundingClientRect().top+window.pageYOffset-58; window.scrollTo({top:Math.max(0,y),behavior:'smooth'}); }
-    catch(e){ try{el.scrollIntoView({behavior:'smooth',block:'start'});}catch(_){} }
+    /* 이 페이지에선 window.scrollTo 가 무효라 scrollIntoView 를 우선 사용 */
+    try{ el.scrollIntoView({behavior:'smooth',block:'start'}); }
+    catch(e){ try{ el.scrollIntoView(true); }catch(_){ try{ var y=el.getBoundingClientRect().top+window.pageYOffset-60; window.scrollTo(0,Math.max(0,y)); }catch(__){} } }
   }
   ids.forEach(function(id){
     var el=document.getElementById(id); if(!el) return;
@@ -6681,7 +6683,7 @@ body.section-modal-open::before{ content:none!important; display:none!important;
     try{
       new MutationObserver(function(){
         var now=el.classList.contains('show');
-        if(now&&!was){ setTimeout(function(){ goTo(el); },120); }
+        if(now&&!was){ setTimeout(function(){ goTo(el); },220); }
         was=now;
       }).observe(el,{attributes:true,attributeFilter:['class']});
     }catch(e){}
