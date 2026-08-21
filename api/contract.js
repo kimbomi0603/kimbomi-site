@@ -294,6 +294,7 @@ module.exports = async (req, res) => {
       let rg = await call4();
       if (!rg.ok && rg.status >= 500) rg = await call4();
       const txt4 = await rg.text();
+      if (q.raw) { res.setHeader("Cache-Control", "no-store"); return res.status(200).json({ ok: rg.ok, status: rg.status, raw: txt4.slice(0, 4000) }); }
       let d4; try { d4 = JSON.parse(txt4); } catch (e) { d4 = null; }
       let out4;
       if (d4) {
