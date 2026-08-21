@@ -82,7 +82,8 @@ const OG_ALLOW = [
   'jtbc.co.kr', 'newspim.com', 'fnnews.com', 'sedaily.com', 'asiae.co.kr', 'newstomato.com',
   'mediatoday.co.kr', 'polinews.co.kr', 'sisajournal.com', 'kukinews.com', 'tf.co.kr',
   'wikitree.co.kr', 'ilyoseoul.co.kr', 'shinmoongo.net', 'jgynews.com', 'theleader.co.kr',
-  'christiandaily.co.kr', 'jeollailbo.com', 'joseilbo.com', 'lawissue.co.kr', 'imaeil.com'
+  'christiandaily.co.kr', 'jeollailbo.com', 'joseilbo.com', 'lawissue.co.kr', 'imaeil.com',
+  'joongang.com', 'm-joongang.com', 'sisain.co.kr', 'srtimes.kr', 'breaknews.com'
 ];
 function ogAllowed(host){
   host = String(host || '').toLowerCase().replace(/^www\./, '');

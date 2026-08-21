@@ -123,6 +123,42 @@ h2.sec:first-of-type{margin-top:0}
     <p class="sign">— 김보미 올림</p>
   </div>
 
+  <style>
+  .press-feat{display:flex;gap:0;margin:20px 0 8px;border:1px solid #e6ebf2;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 8px 26px rgba(11,37,69,.08);text-decoration:none;color:inherit;transition:transform .14s,box-shadow .14s}
+  .press-feat:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(11,37,69,.14)}
+  .press-feat .pf-thumb{flex:0 0 300px;background:#eef2f7;min-height:186px;overflow:hidden}
+  .press-feat .pf-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .press-feat .pf-body{flex:1;padding:20px 22px;display:flex;flex-direction:column;gap:8px;min-width:0}
+  .press-feat .pf-badge{font-size:.72rem;font-weight:800;color:#0b4da2;background:#eef4ff;border:1px solid #cfe0f7;border-radius:999px;padding:3px 11px;align-self:flex-start}
+  .press-feat .pf-src{font-size:.82rem;color:#5b6b7c;font-weight:700}
+  .press-feat .pf-title{font-size:1.12rem;font-weight:800;line-height:1.42;color:#12233b;letter-spacing:-.01em}
+  .press-feat .pf-desc{font-size:.9rem;color:#4b5a6b;line-height:1.6}
+  .press-feat .pf-cta{margin-top:auto;font-size:.9rem;font-weight:800;color:#0b4da2;padding-top:4px}
+  @media(max-width:640px){.press-feat{flex-direction:column}.press-feat .pf-thumb{flex-basis:auto;width:100%;min-height:200px}}
+  </style>
+  <a class="press-feat" href="https://www.m-joongang.com/news/articleView.html?idxno=402915" target="_blank" rel="noopener" id="featMjoongang" aria-label="월간중앙 김보미 인터뷰 원문 보기">
+    <div class="pf-thumb" id="pfThumb"></div>
+    <div class="pf-body">
+      <span class="pf-badge">이달의 인터뷰</span>
+      <div class="pf-src">월간중앙 · 최현목 기자 · 2026. 8. 20.</div>
+      <div class="pf-title">청년 정치인 김보미의 8·17 전당대회 관전기 — “비전 없이 족보만 따져… 686 세대교체는 시대정신”</div>
+      <div class="pf-desc">37세 평당원 김보미가 8·17 전당대회를 지켜본 소회와 686 세대교체·청년정치에 대한 생각을 밝힌 인터뷰입니다. 사진을 누르면 월간중앙에서 원문 전체를 보실 수 있습니다.</div>
+      <span class="pf-cta">월간중앙에서 원문 전체 보기 →</span>
+    </div>
+  </a>
+  <script>
+  (function(){
+    var url='https://www.m-joongang.com/news/articleView.html?idxno=402915';
+    var t=document.getElementById('pfThumb');
+    try{
+      fetch('/api/posts?action=og&v=1&url='+encodeURIComponent(url)).then(function(r){return r.json();}).then(function(d){
+        if(d&&d.ok&&d.image&&t){ var im=new Image(); im.alt='월간중앙 인터뷰 대표 이미지'; im.loading='lazy'; im.onerror=function(){t.style.display='none';}; im.src=d.image; t.appendChild(im); }
+        else if(t){ t.style.display='none'; }
+      }).catch(function(){ if(t) t.style.display='none'; });
+    }catch(e){ if(t) t.style.display='none'; }
+  })();
+  </script>
+
   <div class="tabs">
     <button class="tab on" data-t="news">📰 언론 보도</button>
     <button class="tab" data-t="intv">🎤 인터뷰</button>
