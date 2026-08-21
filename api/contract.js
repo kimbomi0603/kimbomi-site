@@ -269,6 +269,41 @@ module.exports = async (req, res) => {
     } catch (e) { return res.status(200).json({ ok: false, error: String(e.message || e) }); }
   }
 
+  /* odcloud(공공데이터 표준 API) 프록시 — /api/contract?od=gov24/v3/serviceList&perPage=10&...
+     행안부 공공서비스(혜택)·권익위 청렴도 등 api.odcloud.kr 계열 (Hobby 함수 제한으로 통합) */
+  if (q.od) {
+    if (!KEY2) return res.status(200).json({ ok: false, error: "G2B_API_KEY2 미설정" });
+    const path2 = String(q.od).replace(/[^A-Za-z0-9/_:.\-]/g, "").replace(/^\/+/, "").slice(0, 160);
+    if (!path2 || path2.indexOf("..") !== -1) return res.status(200).json({ ok: false, error: "od=경로 필요" });
+    const qs3 = new URLSearchParams();
+    for (const k of Object.keys(q)) {
+      if (k === "od" || k === "fresh" || k === "serviceKey") continue;
+      qs3.set(k.slice(0, 60), String(q[k]).slice(0, 200));
+    }
+    if (!qs3.get("page")) qs3.set("page", "1");
+    if (!qs3.get("perPage")) qs3.set("perPage", "20");
+    qs3.set("returnType", "JSON");
+    const ck3 = "od:v1:" + path2 + ":" + qs3.toString();
+    const cached3 = q.fresh ? null : await kvGet(ck3);
+    if (cached3) { res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=21600"); return res.status(200).json(cached3); }
+    try {
+      qs3.set("serviceKey", KEY2);
+      const call3 = function () {
+        return fetch("https://api.odcloud.kr/api/" + path2 + "?" + qs3.toString(), { signal: AbortSignal.timeout(12000) });
+      };
+      let ro = await call3();
+      if (!ro.ok && ro.status >= 500) ro = await call3();
+      const txt3 = await ro.text();
+      let d3; try { d3 = JSON.parse(txt3); } catch (e) { d3 = null; }
+      if (!d3) return res.status(200).json({ ok: false, error: "odcloud 응답 파싱 실패(" + ro.status + ")", raw: txt3.slice(0, 300) });
+      const out3 = { ok: !d3.code || d3.code >= 0 ? ro.ok : false, status: ro.status, total: d3.totalCount || 0, count: d3.currentCount || 0, items: d3.data || [], src: "공공데이터포털 odcloud " + path2 + "(실데이터)" };
+      if (!ro.ok) { out3.ok = false; out3.error = d3.msg || d3.message || "HTTP " + ro.status; }
+      if (out3.ok) await kvSet(ck3, out3, 21600);
+      res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=21600");
+      return res.status(200).json(out3);
+    } catch (e) { return res.status(200).json({ ok: false, error: String(e.message || e) }); }
+  }
+
   /* 국세청 사업자상태 조회 — /api/contract?biz=1028142945,8191202555 (Hobby 함수수 제한으로 통합) */
   if (q.biz) {
     if (!KEY2) return res.status(200).json({ ok: false, error: "G2B_API_KEY2 미설정" });
