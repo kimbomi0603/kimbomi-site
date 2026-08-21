@@ -277,12 +277,15 @@ module.exports = async (req, res) => {
     if (!mg) return res.status(200).json({ ok: false, error: "dg=기관코드/서비스/오퍼 형식 필요" });
     const qs4 = new URLSearchParams();
     for (const k of Object.keys(q)) {
-      if (k === "dg" || k === "fresh" || k === "serviceKey") continue;
-      qs4.set(k.slice(0, 60), String(q[k]).slice(0, 200));
+      if (k === "dg" || k === "fresh" || k === "raw" || k === "nodef" || k === "serviceKey") continue;
+      const v4 = String(q[k]).slice(0, 200);
+      if (v4 !== "") qs4.set(k.slice(0, 60), v4);
     }
-    if (!qs4.get("pageNo")) qs4.set("pageNo", "1");
-    if (!qs4.get("numOfRows")) qs4.set("numOfRows", "20");
-    if (!qs4.get("resultType") && !qs4.get("_type")) qs4.set("resultType", "json");
+    if (!q.nodef) {
+      if (!qs4.get("pageNo")) qs4.set("pageNo", "1");
+      if (!qs4.get("numOfRows")) qs4.set("numOfRows", "20");
+      if (!qs4.get("resultType") && !qs4.get("_type")) qs4.set("resultType", "json");
+    }
     const ck4 = "dg:v1:" + q.dg + ":" + qs4.toString();
     const cached4 = q.fresh ? null : await kvGet(ck4);
     if (cached4) { res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=21600"); return res.status(200).json(cached4); }
