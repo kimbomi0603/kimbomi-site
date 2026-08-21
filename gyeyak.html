@@ -254,7 +254,7 @@ function prep(j){
   var bids=j.bids.map(function(b){
     return {n:b.title||"",m:b.method||"",mD:mDisp(b.method),a:+b.amount||0,k:b.kind||"기타",
       v:b.vendor||"",d:b.date||"",y:(b.date||"").slice(0,4),u:b.url||"",
-      sui:!!b.sutil||/수의|단독|1인|협상/.test(b.method||""),cat:catOf(b.title)};
+      sui:!!b.sutil||/수의|단독|1인|협상/.test(b.method||""),cat:catOf(b.title),bz:b.bizNo||""};
   });
   var hasV=bids.some(function(x){return x.v;});
   return {bids:bids,stats:j.stats||{},by_kind:j.by_kind||[],by_vendor:j.by_vendor||[],by_year:j.by_year||[],
@@ -416,11 +416,26 @@ function toggleVendor(tr,name){
   if(nx&&nx.classList.contains("drow")){nx.remove();return;}
   var o=VAGG.filter(function(x){return x.name===name;})[0];if(!o)return;
   var rows=o.rows.slice().sort(function(a,b){return b.a-a.a;}).slice(0,60);
+  var bzNo=(o.rows.filter(function(r){return r.bz;})[0]||{}).bz||"";
+  var bzId='bizst'+Math.random().toString(36).slice(2,8);
   var html='<div class="detail"><b>'+esc(name)+'</b> · '+o.n+'건 · '+won(o.a)+' · 수의 '+o.sn+'건('+pct(o.sn,o.n).toFixed(0)+'%)'+
+    (bzNo?' · <span id="'+bzId+'" style="font-size:.78rem;color:var(--muted)">국세청 사업자상태 확인 중…</span>':'')+
     '<div class="tblwrap" style="max-height:280px;margin-top:8px"><table><tr><th>계약일</th><th>계약명</th><th>방법</th><th class="r">금액</th></tr>'+
     rows.map(function(r){return '<tr><td>'+esc(r.d)+'</td><td>'+(r.u?'<a href="'+esc(r.u)+'" target="_blank" rel="noopener">'+esc(r.n.slice(0,44))+'</a>':esc(r.n.slice(0,44)))+'</td><td><span class="tagm '+(r.sui?"sui":"cmp")+'">'+esc(r.mD)+'</span></td><td class="r">'+won(r.a)+'</td></tr>';}).join("")+
     '</table></div></div>';
   var trd=document.createElement("tr");trd.className="drow";trd.innerHTML='<td colspan="8">'+html+'</td>';tr.after(trd);
+  /* 국세청 사업자상태 실검증 배지 (낙찰업체 사업자번호가 있을 때만 · 실데이터) */
+  if(bzNo){
+    fetch('/api/bizstatus?b='+encodeURIComponent(bzNo)).then(function(r){return r.json();}).then(function(d){
+      var el=document.getElementById(bzId); if(!el) return;
+      var it=d&&d.ok&&d.items&&d.items[bzNo];
+      if(!it){ el.textContent='사업자상태 확인불가'; return; }
+      var ok=it.cd==='01';
+      el.innerHTML='국세청: <b style="color:'+(ok?'#1e8a5c':'#c0392b')+'">'+
+        (ok?'✅ ':'⚠️ ')+String(it.stt||'').replace(/</g,'&lt;')+'</b>'+
+        (it.endDt?' (폐업일 '+String(it.endDt).replace(/</g,'&lt;')+')':'');
+    }).catch(function(){ var el=document.getElementById(bzId); if(el) el.textContent='사업자상태 확인불가'; });
+  }
 }
 $("vSort").addEventListener("change",renderVendors);$("vTop").addEventListener("change",renderVendors);
 $("vSearch").addEventListener("input",function(){clearTimeout(this._t);this._t=setTimeout(renderVendors,220);});

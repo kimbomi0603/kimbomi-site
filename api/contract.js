@@ -307,6 +307,7 @@ module.exports = async (req, res) => {
           if (hit) {
             if (!b.vendor) b.vendor = hit.v;
             if (hit.a > 0) { b.presmAmt = b.amount; b.amount = hit.a; b.awardAmt = hit.a; }  // 낙찰금액으로 교체(추정가는 presmAmt 보존)
+            if (hit.biz) b.bizNo = hit.biz;   // 낙찰업체 사업자번호 — 국세청 상태검증(/api/bizstatus)용
             awardHits++;
           }
         });
