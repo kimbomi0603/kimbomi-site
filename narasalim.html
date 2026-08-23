@@ -1156,7 +1156,7 @@ h1{letter-spacing:-.035em;font-weight:900}
 </style>
 <div id="kbNotice" style="background:#7c2d12;color:#fff;text-align:center;font-size:.82rem;font-weight:700;padding:8px 14px;line-height:1.5">
   ⚠️ 데이터 검증·개선 작업이 진행 중입니다. 모든 수치는 공공데이터 API 연동 공시값이며, <b>API 오류·지연·점검 시 값이 표시되지 않거나 실제와 다를 수 있습니다.</b> 출처 미확보 항목은 '—'로 비워 두며, 법적·행정적 활용 전 반드시 지방재정365·나라장터 등 <b>공식 원부를 확인</b>하세요. 이상한 수치는 하단 문의로 제보해 주세요.
-  <span style="opacity:.75;font-weight:500">· 빌드 v2026.08.23-7</span>
+  <span style="opacity:.75;font-weight:500">· 빌드 v2026.08.23-8</span>
 </div>
 <header class="g365bar">
   <div class="g365bar-in">
@@ -4219,15 +4219,17 @@ async function kbSggCodes(R){
   }
   var list=_kbSggCache[p2];
   var gus=list.filter(function(x){return x.nm.indexOf(R.name+' ')===0;});   /* 일반구 보유 시(수원시 장안구 등) */
-  if(gus.length) return gus.map(function(x){return x.cd;});
   var ex=list.filter(function(x){return x.nm===R.name;});
-  return ex.length?[ex[0].cd]:null;
+  var base=ex.length?[ex[0].cd]:null;
+  /* RTMS(실거래가)는 일반구 단위 코드, 충전소는 시 단위 코드 사용 — 2026.8 실측(수원 41110=12,710기·41111=0) */
+  return { rtms: gus.length?gus.map(function(x){return x.cd;}):base, ev: base||( gus.length?[gus[0].cd]:null ) };
 }
 async function kbLiveLocal(R){
   var el=document.getElementById('kbLocalLiveBody'); if(!el) return;
   try{
-    var codes=await kbSggCodes(R);
-    if(!codes){ el.innerHTML='<span style="color:#94a3b8">행정코드 미해석 — 데이터 없음</span>'; return; }
+    var cds=await kbSggCodes(R);
+    if(!cds||!cds.rtms){ el.innerHTML='<span style="color:#94a3b8">행정코드 미해석 — 데이터 없음</span>'; return; }
+    var codes=cds.rtms, evCodes=cds.ev||[];
     var d=new Date(); d.setMonth(d.getMonth()-2); /* 신고기한 30일 → 전전월 확정치 */
     var ym=d.getFullYear()+String(d.getMonth()+1).padStart(2,'0');
     var ymL=d.getFullYear()+'.'+(d.getMonth()+1);
@@ -4248,10 +4250,10 @@ async function kbLiveLocal(R){
       var n=0,amts=[]; rs.forEach(function(x){ if(x){n+=x.n; amts=amts.concat(x.amts);} });
       return {label:op[1],n:n,amts:amts,op:op[0]};
     })); });
-    jobs.push(Promise.all(codes.map(function(cd){
+    jobs.push(Promise.all(evCodes.map(function(cd){
       return fetch('/api/contract?dg='+encodeURIComponent('B552584/EvCharger/getChargerInfo')+'&raw=1&nodef=1&zscode='+cd+'&numOfRows=1&pageNo=1')
         .then(function(r){return r.json();}).then(function(j){var m=String(j.raw||'').match(/<totalCount>(\d+)<\//);return m?+m[1]:null;}).catch(function(){return null;});
-    })).then(function(rs){ if(rs.every(function(x){return x==null;})) return {ev:null}; return {ev:rs.reduce(function(a,x){return a+(x||0);},0)}; }));
+    })).then(function(rs){ if(!rs.length||rs.every(function(x){return x==null;})) return {ev:null}; return {ev:rs.reduce(function(a,x){return a+(x||0);},0)}; }));
     var res=await Promise.all(jobs);
     var evR=res.pop();
     var rows=res.map(function(r){
