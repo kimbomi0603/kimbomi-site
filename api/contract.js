@@ -222,7 +222,7 @@ function normalize(items) {
       year: String(rawDt).replace(/[^0-9]/g, "").slice(0, 4),
       url: it.bidNtceDtlUrl || it.bidNtceUrl || "",
       ntceNo: String(it.bidNtceNo || "").trim(),
-      sutil: /수의|단독|1인|협상/.test(it.sucsfbidMthdNm || it.cntrctCnclsMthdNm || it.bidMethdNm || it.bidwinrDcsnMthdNm || "")
+      sutil: /수의|단독|1인/.test(it.sucsfbidMthdNm || it.cntrctCnclsMthdNm || it.bidMethdNm || it.bidwinrDcsnMthdNm || "")   /* 협상에의한계약은 경쟁방식 — 수의 분류에서 제외(2026.08.23 정정) */
     };
   }).sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
 }
@@ -430,7 +430,7 @@ module.exports = async (req, res) => {
   if (!KEY) { res.setHeader("Cache-Control", "no-store"); return res.status(200).json({ configured: false, error: "G2B_API_KEY 미설정" }); }
 
   /* Redis 캐시 히트 시 즉시 응답 (콜드스타트에도 0.5초 내) */
-  const cacheKey = "g2b:v4:" + region + ":" + days + ":" + vendor + ":" + (q.full ? "F" : "S") + ":" + (KEY2 ? "R" : "B");
+  const cacheKey = "g2b:v5:" + region + ":" + days + ":" + vendor + ":" + (q.full ? "F" : "S") + ":" + (KEY2 ? "R" : "B");
   const cachedPayload = await kvGet(cacheKey);
   if (cachedPayload) {
     cachedPayload.cached = true;

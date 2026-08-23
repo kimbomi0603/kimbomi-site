@@ -254,7 +254,7 @@ function prep(j){
   var bids=j.bids.map(function(b){
     return {n:b.title||"",m:b.method||"",mD:mDisp(b.method),a:+b.amount||0,k:b.kind||"기타",
       v:b.vendor||"",d:b.date||"",y:(b.date||"").slice(0,4),u:b.url||"",
-      sui:!!b.sutil||/수의|단독|1인|협상/.test(b.method||""),cat:catOf(b.title),bz:b.bizNo||""};
+      sui:/수의|단독|1인/.test(b.method||"")||(!!b.sutil&&!/협상/.test(b.method||"")),cat:catOf(b.title),bz:b.bizNo||""};
   });
   var hasV=bids.some(function(x){return x.v;});
   return {bids:bids,stats:j.stats||{},by_kind:j.by_kind||[],by_vendor:j.by_vendor||[],by_year:j.by_year||[],
@@ -292,7 +292,7 @@ function renderKPI(){
     ["표시 "+unit+" 건수",n.toLocaleString()+"건",(DATA.total_count>n?("전체 "+DATA.total_count.toLocaleString()+"건 중 상위"):"최근 "+DATA.days+"일")],
     [(hasV?"총 계약 금액":"공고 추정가격 합계"),won(amt),(hasV?"낙찰금액 합산":"추정가격·배정예산 합산")],
     ["평균 "+(hasV?"계약금액":"추정가격"),won(n?amt/n:0),"건당 평균"],
-    ["수의계약 건수",sui.length.toLocaleString()+"건",pct(sui.length,n).toFixed(1)+"% (건수 기준)"],
+    ["수의계약 건수",sui.length.toLocaleString()+"건",pct(sui.length,n).toFixed(1)+"% (건수 기준 · 소액수의견적·수의시담 포함, 협상계약 제외)"],
     ["수의계약 금액",won(suiAmt),pct(suiAmt,amt).toFixed(1)+"% (금액 기준)"],
     (hasV?["참여 업체 수",vc.toLocaleString()+"곳","정규화 상호 기준"]
          :["경쟁입찰 건수",(n-sui.length).toLocaleString()+"건",pct(n-sui.length,n).toFixed(1)+"% (건수 기준)"])
@@ -353,7 +353,7 @@ function renderMethod(){
   var order=["수의계약","협상","지명경쟁","제한경쟁","일반경쟁","기타"];
   var keys=Object.keys(mm).sort(function(a,b){return order.indexOf(a)-order.indexOf(b);});
   function seg(field,tot){return keys.map(function(k){var val=mm[k][field],w=pct(val,tot);if(w<=0)return"";return '<div title="'+esc(k)+'" style="width:'+w+'%;background:'+(MCOLOR[k]||"var(--muted)")+'"></div>';}).join("");}
-  var rows=keys.map(function(k){return '<tr><td><span class="tagm '+(/수의|협상/.test(k)?"sui":"cmp")+'">'+esc(k)+'</span></td><td class="r">'+mm[k].n+'</td><td class="r">'+pct(mm[k].n,n).toFixed(1)+'%</td><td class="r">'+won(mm[k].a)+'</td><td class="r">'+pct(mm[k].a,amt).toFixed(1)+'%</td></tr>';}).join("");
+  var rows=keys.map(function(k){return '<tr><td><span class="tagm '+(/수의|단독|1인/.test(k)?"sui":"cmp")+'">'+esc(k)+'</span></td><td class="r">'+mm[k].n+'</td><td class="r">'+pct(mm[k].n,n).toFixed(1)+'%</td><td class="r">'+won(mm[k].a)+'</td><td class="r">'+pct(mm[k].a,amt).toFixed(1)+'%</td></tr>';}).join("");
   var leg=keys.map(function(k){return '<span><i style="background:'+(MCOLOR[k]||"var(--muted)")+'"></i>'+esc(k)+'</span>';}).join("");
   $("methodBody").innerHTML=
    '<div style="font-size:.76rem;color:var(--ink2);margin-bottom:2px">건수 기준</div><div class="stack">'+seg("n",n)+'</div>'+
