@@ -234,9 +234,9 @@ function MAP_FNCST(rows, zone) {
 
   return {
     b: +(+b).toFixed(1),     // 총예산(세입결산규모, 조원)
-    e: EST_EXEC,             // 집행률(추정 — 데이터셋에 없음)
+    e: null,                 // 집행률 — 이 데이터셋에 없음(추정치 제공 중단, 가짜정보 방지)
     s: +(+s).toFixed(1),     // 재정자립도(%) — 실데이터
-    f: EST_FIELDS.slice(),   // 분야별(추정 — 데이터셋에 없음)
+    f: null,                 // 분야별 비중 — 이 데이터셋에 없음(추정치 제공 중단)
     basis: basis,            // 계산 방식(검증용)
     src: "lofin365 FNCST(재정자립도)",
   };

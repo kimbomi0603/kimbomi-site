@@ -234,30 +234,28 @@ function won(eok){ return eok>=10000?(eok/10000).toLocaleString('ko-KR',{maximum
 const pieChart=new Chart(document.getElementById('pieChart').getContext('2d'),{type:'doughnut',data:{labels:FIELDS,datasets:[{data:[34,16,15,12,12,11],backgroundColor:COLORS,borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'bottom',labels:{font:{size:11}}}}}});
 
 function render(d,isReal){
-  document.getElementById('kpiB').textContent=(+d.b).toFixed(1);
-  document.getElementById('kpiE').textContent=(+d.e).toFixed(1);
-  document.getElementById('kpiS').textContent=(+d.s).toFixed(1);
-  document.getElementById('dataYear').textContent=d.fyr||'—';
-  document.getElementById('lastUpdated').textContent=isReal?('갱신 '+new Date().toLocaleString('ko-KR',{hour:'2-digit',minute:'2-digit'})+' · 실데이터'):'데모 데이터 (실데이터 호출 실패)';
-  var srcBadge=document.getElementById('kpiSrcBadge'); if(srcBadge){ srcBadge.textContent=isReal?'실데이터':'추정치(데모)'; srcBadge.style.color=isReal?'':'#b45309'; }
-  const tot=d.b*10000;
-  document.getElementById('acG').textContent=won(tot*0.78);
-  document.getElementById('acS').textContent=won(tot*0.22);
-  document.getElementById('acR').textContent=won(tot*1.02);
-  document.getElementById('acE').textContent=won(tot);
-  const f=Array.isArray(d.f)&&d.f.length===6?d.f:[34,16,15,12,12,11];
-  pieChart.data.datasets[0].data=f; pieChart.update();
-  document.getElementById('execTable').innerHTML=FIELDS.map((nm,i)=>{
-    const fb=tot*f[i]/100, fe=fb*(d.e/100)*(0.94+0.12*((i*7%5)/5)), r=fb>0?Math.min(100,fe/fb*100):0;
-    return `<tr class="border-t border-paper-line"><td class="px-2.5 py-1.5 text-ink-soft whitespace-nowrap"><span class="inline-block w-2 h-2 rounded-sm mr-1.5 align-middle" style="background:${COLORS[i]}"></span>${nm}</td><td class="px-2.5 py-1.5 text-right text-navy font-semibold">${won(fb)}</td><td class="px-2.5 py-1.5 text-right text-ink-soft">${won(fe)}</td><td class="px-2.5 py-1.5 text-right font-bold ${r>=70?'text-mint-dark':'text-amber-600'}">${r.toFixed(0)}%</td></tr>`;
-  }).join('');
+  /* 실데이터 원칙: 공시값(b=세입결산, s=재정자립도)만 표시. 추정 생성값(집행률·회계배분·분야비중)은 전량 폐기 → '—' */
+  document.getElementById('kpiB').textContent=(isReal&&typeof d.b==='number')?(+d.b).toFixed(1):'—';
+  document.getElementById('kpiE').textContent=(typeof d.e==='number')?(+d.e).toFixed(1):'—';
+  document.getElementById('kpiS').textContent=(isReal&&typeof d.s==='number')?(+d.s).toFixed(1):'—';
+  document.getElementById('dataYear').textContent=d&&d.fyr?d.fyr:'—';
+  document.getElementById('lastUpdated').textContent=isReal?('갱신 '+new Date().toLocaleString('ko-KR',{hour:'2-digit',minute:'2-digit'})+' · 지방재정365 실데이터'):'실데이터 호출 실패 — 수치를 표시하지 않습니다';
+  var srcBadge=document.getElementById('kpiSrcBadge'); if(srcBadge){ srcBadge.textContent=isReal?'실데이터(지방재정365)':'미연동'; srcBadge.style.color=isReal?'':'#b45309'; }
+  document.getElementById('acG').textContent='—';
+  document.getElementById('acS').textContent='—';
+  document.getElementById('acR').textContent='—';
+  document.getElementById('acE').textContent=(isReal&&typeof d.b==='number')?won(d.b*10000):'—';
+  const pieWrap=document.getElementById('pieChart')&&document.getElementById('pieChart').closest('div');
+  if(Array.isArray(d.f)&&d.f.length===6){ pieChart.data.datasets[0].data=d.f; pieChart.update(); }
+  else if(pieWrap){ pieWrap.innerHTML='<div style="padding:28px 12px;text-align:center;color:#94a3b8;font-size:13px">분야별 비중 — 공식 공시 미연동으로 표시하지 않습니다.<br>정확한 분야별 예산은 아래 결산서 원본에서 확인하세요.</div>'; }
+  document.getElementById('execTable').innerHTML='<tr><td colspan="4" style="padding:14px;text-align:center;color:#94a3b8;font-size:12px">분야별 집행 현황 — 공식 공시 미연동으로 표시하지 않습니다 (집행률·분야비중 추정치 제공 중단)</td></tr>';
 }
 
 fetch('/api/budget?zone='+encodeURIComponent(ZONE),{cache:'no-store'}).then(r=>r.json()).then(d=>{
   if(d&&d.error) throw new Error(d.error);
   if(typeof d.b!=='number'||d.b<=0) throw new Error('데이터 형식 오류');
   render(d,true);
-}).catch(()=>{ render({b:0.5,e:68.4,s:25.0,f:[34,16,15,12,12,11],fyr:'-'},false); });
+}).catch(()=>{ render({},false); });
 </script>
 </body>
 </html>
