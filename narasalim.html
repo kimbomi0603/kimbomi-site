@@ -1154,6 +1154,10 @@ h1{letter-spacing:-.035em;font-weight:900}
 .g365foot .legal a:hover{color:#fff;text-decoration:underline}
 @media(max-width:600px){.kb-tag{display:none}}
 </style>
+<div id="kbNotice" style="background:#7c2d12;color:#fff;text-align:center;font-size:.82rem;font-weight:700;padding:8px 14px;line-height:1.5">
+  ⚠️ 데이터 검증·개선 작업이 진행 중입니다. 모든 수치는 공식 공시 실데이터만 표시하며, 출처를 확보하지 못한 항목은 '—'로 비워 둡니다. 이상한 수치를 발견하시면 하단 문의로 제보해 주세요.
+  <span style="opacity:.75;font-weight:500">· 빌드 v2026.08.23-4</span>
+</div>
 <header class="g365bar">
   <div class="g365bar-in">
     <a href="index.html" class="g365-logo" aria-label="김보미.com 홈">
@@ -3177,7 +3181,9 @@ function renderHero(R){
     if(R.elder70Ratio!=null) cells.push(cell('70세 이상 비율', R.elder70Ratio+'%', R.elder70Ratio>=25?'#e11d48':null));
     if(R.youthRatio!=null) cells.push(cell('청년비율(20-39)', R.youthRatio+'%'));
     if(R.youthElderIdx!=null){ const c3=R.youthElderIdx<0.3?'#e11d48':R.youthElderIdx<0.7?'#f59e0b':'#164ea3'; cells.push(cell('청년여성/고령 참고비', R.youthElderIdx+' <small style="color:'+c3+'">'+(R.youthElderIdx<0.3?'고령 편중 심함':R.youthElderIdx<0.7?'고령 편중':'균형')+'</small>', c3)); }
-    sd.innerHTML=`<div class="sd-h">👥 인구통계 <span style="font-size:.72rem;font-weight:600;color:#8294ad">(인구=지방재정365 2024 공시 · 세대·연령=주민등록 2026.7월말 공표)</span></div><div class="sd-grid">${cells.join('')}</div><div style="font-size:.68rem;color:#94a3b8;margin-top:6px">※ 주민등록 연령 공표가 10세 단위라 통상적 고령화율(65세+) 대신 <b>70세 이상 비율</b>로 표기합니다. '청년여성/고령 참고비'는 20~39세 여성÷70세 이상(자체 참고지표)으로, 한국고용정보원 소멸위험지수(65세+ 기준)와는 산식이 다릅니다.</div>`;
+    const IC_REORG=['인천광역시 중구','인천광역시 동구','인천광역시 서구'];
+    const reorgNote=IC_REORG.includes(R.key)?`<div style="background:#fdf3e0;border:1px solid #f2d7a5;border-radius:8px;padding:8px 12px;margin-top:8px;font-size:.76rem;color:#8a5a12"><b>ℹ️ 행정구역 개편 안내</b> — 2026년 7월 인천 행정구역 개편(제물포구·영종구·검단구 신설)으로 주민등록 통계가 새 구역 기준으로 공표되어, 옛 구역과 1:1 대응이 불가한 세대수·연령 지표는 추정 없이 비워 둡니다. 재정 지표는 2024 결산 공시(옛 구역) 기준입니다.</div>`:'';
+    sd.innerHTML=`<div class="sd-h">👥 인구통계 <span style="font-size:.72rem;font-weight:600;color:#8294ad">(인구=지방재정365 2024 공시 · 세대·연령=주민등록 2026.7월말 공표)</span></div><div class="sd-grid">${cells.join('')}</div>${reorgNote}<div style="font-size:.68rem;color:#94a3b8;margin-top:6px">※ 주민등록 연령 공표가 10세 단위라 통상적 고령화율(65세+) 대신 <b>70세 이상 비율</b>로 표기합니다. '청년여성/고령 참고비'는 20~39세 여성÷70세 이상(자체 참고지표)으로, 한국고용정보원 소멸위험지수(65세+ 기준)와는 산식이 다릅니다.</div>`;
   }
 }
 
@@ -4056,7 +4062,7 @@ function renderDetail(R){
   const yr=R.trend[R.trend.length-1].year;
   document.getElementById('dTitle').textContent=R.display+' 상세 페이지';
   document.getElementById('dMeta').innerHTML=`${R.grade?('재정 건강등급 '+R.grade+' · 종합 '+R.score+'점 · '):''}${R.fiscalYear||yr} 회계연도 · ${R.realSrc?('🟢 '+R.realSrc):'⚪ 공식 공시 미연동'}`;
-  const eg=extGrade(R.extIndex), q=R.execQuarters;
+  const q=R.execQuarters;
   const qa=[q[0],q[1]-q[0],q[2]-q[1],q[3]-q[2]].map(p=>Math.round(R.budget*p/100));
   const dflags=genRiskFlags(R), dff=fundFlow(R), dpsum=R.projects.reduce((a,p)=>a+p.budget,0);
   // 행안부·복지부·환경부·경찰청 공시 기반 확장 지표 (참고 추정치 · 실데이터 연동 시 자동 갱신)
