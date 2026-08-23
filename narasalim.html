@@ -1156,7 +1156,7 @@ h1{letter-spacing:-.035em;font-weight:900}
 </style>
 <div id="kbNotice" style="background:#7c2d12;color:#fff;text-align:center;font-size:.82rem;font-weight:700;padding:8px 14px;line-height:1.5">
   ⚠️ 데이터 검증·개선 작업이 진행 중입니다. 모든 수치는 공공데이터 API 연동 공시값이며, <b>API 오류·지연·점검 시 값이 표시되지 않거나 실제와 다를 수 있습니다.</b> 출처 미확보 항목은 '—'로 비워 두며, 법적·행정적 활용 전 반드시 지방재정365·나라장터 등 <b>공식 원부를 확인</b>하세요. 이상한 수치는 하단 문의로 제보해 주세요.
-  <span style="opacity:.75;font-weight:500">· 빌드 v2026.08.23-6</span>
+  <span style="opacity:.75;font-weight:500">· 빌드 v2026.08.23-7</span>
 </div>
 <header class="g365bar">
   <div class="g365bar-in">
@@ -4193,6 +4193,77 @@ function renderDetail(R){
     y1:{position:'right',min:0,max:100,grid:{drawOnChartArea:false},ticks:{callback:v=>v+'%'}}},
     responsive:true,maintainAspectRatio:false}});
   const gp=document.getElementById('dGenPdf'); if(gp) gp.addEventListener('click',()=>printReport(R));
+  /* 지역 실측 지표(국토부 실거래·환경공단 충전소) — 시군구만, 실패 시 '데이터 없음' */
+  try{
+    if(!R.isSido && R.key!=='전국'){
+      var lv=document.createElement('div'); lv.id='kbLocalLive';
+      lv.innerHTML='<div class="card" style="margin-top:14px"><h3 style="margin:0 0 6px">🏘️ 지역 실측 지표 <span style="font-size:.72rem;color:#94a3b8;font-weight:600">실시간 공공 API</span></h3><div id="kbLocalLiveBody" style="font-size:.9rem;color:#64748b">불러오는 중…</div></div>';
+      document.getElementById('detailBody').appendChild(lv);
+      kbLiveLocal(R);
+    }
+  }catch(e){}
+}
+/* ═══ 지역 실측 지표 — 국토부 실거래가(RTMS)·환경공단 전기차충전소 ═══
+   행정코드는 행안부 주민등록 API에서 런타임 해석(하드코딩 없음·2026.7 통합 신코드 자동 반영).
+   시도 상위코드 출처: 행정표준코드(행안부) — 전남광주통합특별시=12는 2026.8 API 실측 확인. */
+const KB_ADMM_SIDO={'서울특별시':'11','부산광역시':'26','대구광역시':'27','인천광역시':'28','대전광역시':'30','울산광역시':'31','세종특별자치시':'36','경기도':'41','충청북도':'43','충청남도':'44','경상북도':'47','경상남도':'48','제주특별자치도':'50','강원특별자치도':'51','전북특별자치도':'52','광주광역시':'12','전라남도':'12','전남광주통합특별시':'12'};
+var _kbSggCache={};
+async function kbSggCodes(R){
+  var p2=KB_ADMM_SIDO[R.sido]; if(!p2) return null;
+  if(!_kbSggCache[p2]){
+    var ym=(function(){var d=new Date();d.setMonth(d.getMonth()-1);return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0');})();
+    var u='/api/contract?dg='+encodeURIComponent('1741000/admmPpltnHhStus/selectAdmmPpltnHhStus')+'&raw=1&nodef=1&admmCd='+p2+'00000000&lv=2&regSeCd=1&srchFrYm='+ym+'&srchToYm='+ym+'&type=JSON&numOfRows=100&pageNo=1';
+    var j=await fetch(u).then(function(r){return r.json();});
+    var d=JSON.parse(j.raw); var items=d.Response.items.item; if(!Array.isArray(items)) items=[items];
+    _kbSggCache[p2]=items.map(function(it){return {cd:String(it.admmCd||'').slice(0,5), nm:it.sggNm||''};});
+  }
+  var list=_kbSggCache[p2];
+  var gus=list.filter(function(x){return x.nm.indexOf(R.name+' ')===0;});   /* 일반구 보유 시(수원시 장안구 등) */
+  if(gus.length) return gus.map(function(x){return x.cd;});
+  var ex=list.filter(function(x){return x.nm===R.name;});
+  return ex.length?[ex[0].cd]:null;
+}
+async function kbLiveLocal(R){
+  var el=document.getElementById('kbLocalLiveBody'); if(!el) return;
+  try{
+    var codes=await kbSggCodes(R);
+    if(!codes){ el.innerHTML='<span style="color:#94a3b8">행정코드 미해석 — 데이터 없음</span>'; return; }
+    var d=new Date(); d.setMonth(d.getMonth()-2); /* 신고기한 30일 → 전전월 확정치 */
+    var ym=d.getFullYear()+String(d.getMonth()+1).padStart(2,'0');
+    var ymL=d.getFullYear()+'.'+(d.getMonth()+1);
+    function rtms(op,cd){
+      return fetch('/api/contract?dg='+encodeURIComponent('1613000/'+op+'/get'+op)+'&raw=1&nodef=1&LAWD_CD='+cd+'&DEAL_YMD='+ym+'&numOfRows=200&pageNo=1')
+        .then(function(r){return r.json();}).then(function(j){
+          var raw=String(j.raw||''); var m=raw.match(/<totalCount>(\d+)<\//);
+          if(!m) return null;   /* 오류 → 데이터 없음 */
+          var amts=[]; var re=/<dealAmount>([\d,\s]+)<\//g, mm;
+          while((mm=re.exec(raw))) amts.push(parseInt(mm[1].replace(/[^\d]/g,''),10));
+          return {n:+m[1], amts:amts};
+        }).catch(function(){return null;});
+    }
+    var OPS=[['RTMSDataSvcAptTrade','아파트 매매'],['RTMSDataSvcAptRent','아파트 전월세'],['RTMSDataSvcSHTrade','단독·다가구 매매'],['RTMSDataSvcRHTrade','연립·다세대 매매'],['RTMSDataSvcLandTrade','토지 매매']];
+    var jobs=[];
+    OPS.forEach(function(op){ jobs.push(Promise.all(codes.map(function(cd){return rtms(op[0],cd);})).then(function(rs){
+      if(rs.every(function(x){return x==null;})) return {label:op[1],n:null};
+      var n=0,amts=[]; rs.forEach(function(x){ if(x){n+=x.n; amts=amts.concat(x.amts);} });
+      return {label:op[1],n:n,amts:amts,op:op[0]};
+    })); });
+    jobs.push(Promise.all(codes.map(function(cd){
+      return fetch('/api/contract?dg='+encodeURIComponent('B552584/EvCharger/getChargerInfo')+'&raw=1&nodef=1&zscode='+cd+'&numOfRows=1&pageNo=1')
+        .then(function(r){return r.json();}).then(function(j){var m=String(j.raw||'').match(/<totalCount>(\d+)<\//);return m?+m[1]:null;}).catch(function(){return null;});
+    })).then(function(rs){ if(rs.every(function(x){return x==null;})) return {ev:null}; return {ev:rs.reduce(function(a,x){return a+(x||0);},0)}; }));
+    var res=await Promise.all(jobs);
+    var evR=res.pop();
+    var rows=res.map(function(r){
+      if(r.n==null) return '<tr><td>'+r.label+'</td><td style="text-align:right;color:#94a3b8">데이터 없음</td></tr>';
+      var extra='';
+      if(r.op==='RTMSDataSvcAptTrade'&&r.amts.length){ var avg=Math.round(r.amts.reduce(function(a,b){return a+b;},0)/r.amts.length); extra=' <span style="color:#94a3b8">(평균 '+(avg>=10000?(avg/10000).toFixed(1)+'억':avg.toLocaleString()+'만')+'원)</span>'; }
+      return '<tr><td>'+r.label+'</td><td style="text-align:right;font-weight:800">'+r.n.toLocaleString()+'건'+extra+'</td></tr>';
+    }).join('');
+    el.innerHTML='<table style="width:100%;border-collapse:collapse;font-size:.9rem"><tr><th style="text-align:left;color:#64748b;font-size:.78rem">부동산 실거래 신고 ('+ymL+'월 확정분)</th><th></th></tr>'+rows+
+      '<tr><td style="padding-top:8px">⚡ 전기차 충전기</td><td style="text-align:right;font-weight:800;padding-top:8px">'+(evR.ev==null?'<span style="color:#94a3b8;font-weight:600">데이터 없음</span>':evR.ev.toLocaleString()+'기')+'</td></tr></table>'+
+      '<div style="font-size:.72rem;color:#94a3b8;margin-top:8px;line-height:1.6">출처: 국토교통부 실거래가 공개시스템 OpenAPI(법정동코드 '+codes.join('·')+', '+ymL+'월 신고분·소유권 이전 전 신고 기준) · 한국환경공단 전기차 충전소 정보(실시간). 행정코드는 행안부 주민등록 API로 자동 해석. 0건은 해당 월 신고 없음을 의미하며, API 오류·지연 시 \'데이터 없음\'으로 표시됩니다.</div>';
+  }catch(e){ el.innerHTML='<span style="color:#94a3b8">일시적 오류 — 데이터 없음</span>'; }
 }
 function openDetail(key){
   const R=STATE.byKey[key]; if(!R) return;
