@@ -3062,7 +3062,8 @@ function buildNational(){
     sectors:[],execQuarters:[null,null,null,null],trend,score,grade,
     perCapitaBudget:+(budget*10000/NATIONAL.population).toFixed(0),
     bankName:"전국 평균",bankRate:2.52,avgDeposit:Math.round(budget*0.11),interestIncome:Math.round(budget*0.11*2.52/100),
-    accounts:{일반회계:Math.round(budget*0.70),특별회계:Math.round(budget*0.24),기금:Math.round(budget*0.06)},
+    accounts:{일반회계:3761495,특별회계:577518,기금:527620},  /* ACEXBG 243개 전수 합산 실측(총계 4866633억) */
+    budgetTotal:4866633,
     integrity:null,festivalRatio:null,festivalCost:null,
     households:null,elderlyRatio:null,youthRatio:null,popChange:null,extIndex:null,
     projects:[],
@@ -3628,29 +3629,31 @@ function printReport(R){
         var info = this._info(key);
         var el = document.getElementById(panelId||'budgetPanel'); if(!el) return;
         if(!R){ el.innerHTML='<div class="fs-empty">지역을 선택하면 결과가 표시됩니다</div>'; return; }
-        var won=function(n){ n=Math.round(n||0); return n>=10000?(n/10000).toFixed(1)+'조원':n.toLocaleString('ko-KR')+'억원'; };
-        var b=R.budget||0, exec=R.execRate||0;
-        var acc=R.accounts||{}; var a1=acc['일반회계']||Math.round(b*0.75), a2=acc['특별회계']||Math.round(b*0.18), a3=acc['기금']||Math.round(b*0.07);
-        var SEC=[['사회복지',30.5],['일반공공행정',11.5],['국토및지역개발',8.5],['환경',8.8],['교통및물류',7.0],['농림해양수산',6.2],['문화및관광',5.2],['교육',4.0],['공공질서및안전',3.4],['보건',3.0],['산업·중소기업·에너지',3.0],['예비비',2.0],['기타',6.9]];
-        var sectors=(R.sectors&&R.sectors.length)?R.sectors.map(function(s){return {nm:s.name,pct:+s.pct||0,amt:s.amt||0};}):SEC.map(function(s){return {nm:s[0],pct:s[1],amt:Math.round(b*s[1]/100)};});
+        var won=function(n){ if(n==null||!isFinite(n)) return '—'; n=Math.round(n); return n>=10000?(n/10000).toFixed(1)+'조원':n.toLocaleString('ko-KR')+'억원'; };
+        var b=(R.budgetTotal!=null?R.budgetTotal:R.budget), exec=R.execRate;
+        var acc=R.accounts||{}; var a1=acc['일반회계'], a2=acc['특별회계'], a3=acc['기금'];
+        /* 추정 배분 폴백 폐기 — 분야별은 지방재정365 세출결산 실측만 표시 */
+        var sectors=(R.sectors&&R.sectors.length)?R.sectors.map(function(s){return {nm:s.name,pct:+s.pct||0,amt:s.amt||0};}):[];
         var kpi=function(lb,v,c){return '<div class="fs-stat"><div class="label">'+lb+'</div><div class="value"'+(c?' style="color:'+c+'"':'')+'>'+v+'</div></div>';};
         var html='';
-        html+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px"><div style="font-size:1.1rem;font-weight:900;color:#0b2545">💰 '+info.name+' 예산·집행 현황</div><span id="fsBudgetSrc" style="font-size:.72rem;font-weight:800;background:#fef3c7;color:#92400e;padding:3px 9px;border-radius:99px">📊 참고치 (공시 기반 · 실데이터 연동 대기)</span></div>';
+        html+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px"><div style="font-size:1.1rem;font-weight:900;color:#0b2545">💰 '+info.name+' 예산·집행 현황</div><span id="fsBudgetSrc" style="font-size:.72rem;font-weight:800;background:#e8f4ee;color:#166534;padding:3px 9px;border-radius:99px">✅ 지방재정365 2024 공시(실데이터)</span></div>';
         html+='<div class="fs-stat-grid">'
           +kpi('💰 총예산','<span id="fsBudgetTot">'+won(b)+'</span>')
           +kpi('🧍 주민 1인당',(R.perCapitaBudget?R.perCapitaBudget.toLocaleString('ko-KR')+'만원':'-'))
-          +kpi('📈 재정자립도','<span id="fsBudgetSr">'+(R.selfReliance||'-')+'</span><span style="font-size:.8rem">%</span>')
-          +kpi('🔑 재정자주도',(R.autonomy||'-')+'<span style="font-size:.8rem">%</span>')
-          +kpi('✅ 세출 집행률',exec+'<span style="font-size:.8rem">%</span>',exec<70?'#e11d48':'#164ea3')
-          +kpi('💳 채무비율',(R.debtRatio||'-')+'<span style="font-size:.8rem">%</span>',(R.debtRatio>15?'#e11d48':'#164ea3'))
+          +kpi('📈 재정자립도(개편전)','<span id="fsBudgetSr">'+(R.selfReliance!=null?R.selfReliance:'—')+'</span><span style="font-size:.8rem">%</span>')
+          +kpi('🔑 재정자주도(개편전)',(R.autonomy!=null?R.autonomy:'—')+'<span style="font-size:.8rem">%</span>')
+          +kpi('✅ 세출 집행률(연간)',(exec!=null?exec+'<span style="font-size:.8rem">%</span>':'—'),(exec!=null&&exec<70)?'#e11d48':'#164ea3')
+          +kpi('💳 채무비율',(R.debtRatio!=null?R.debtRatio+'<span style="font-size:.8rem">%</span>':'—'),(R.debtRatio!=null&&R.debtRatio>15)?'#e11d48':'#164ea3')
           +'</div>';
         html+='<div style="margin-top:16px"><div style="font-size:.86rem;font-weight:800;color:#475569;margin-bottom:6px">🏦 회계별 예산 구성</div><table style="width:100%;border-collapse:collapse;font-size:.85rem"><tr style="background:#f1f5f9"><th style="text-align:left;padding:6px 8px;border:1px solid #e2e8f0">구분</th><th style="text-align:right;padding:6px 8px;border:1px solid #e2e8f0">금액</th><th style="text-align:right;padding:6px 8px;border:1px solid #e2e8f0">비중</th></tr>'
           +['일반회계','특별회계','기금'].map(function(nm,i){var amt=[a1,a2,a3][i];return '<tr><td style="padding:6px 8px;border:1px solid #e2e8f0">'+nm+'</td><td style="text-align:right;padding:6px 8px;border:1px solid #e2e8f0">'+won(amt)+'</td><td style="text-align:right;padding:6px 8px;border:1px solid #e2e8f0">'+(b?(amt/b*100).toFixed(1):0)+'%</td></tr>';}).join('')
           +'</table></div>';
-        html+='<div style="margin-top:16px"><div style="font-size:.86rem;font-weight:800;color:#475569;margin-bottom:6px">📊 분야별 세출예산 · 추정 집행액 (집행률 '+exec+'% 적용)</div><table style="width:100%;border-collapse:collapse;font-size:.83rem"><tr style="background:#f1f5f9"><th style="text-align:left;padding:5px 8px;border:1px solid #e2e8f0">분야</th><th style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0">예산액</th><th style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0">비중</th><th style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0">추정 집행</th></tr>'
-          +sectors.map(function(s){return '<tr><td style="padding:5px 8px;border:1px solid #e2e8f0">'+s.nm+'</td><td style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0">'+won(s.amt)+'</td><td style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0">'+s.pct+'%</td><td style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0;color:#0b6fe0">'+won(s.amt*exec/100)+'</td></tr>';}).join('')
-          +'</table></div>';
-        html+='<div style="margin-top:12px;font-size:.74rem;color:#94a3b8;line-height:1.6">※ 표시 결과는 통계적 참고치이며 공식 원부 확인이 필요합니다. 지방재정365 연동 시 실데이터로 자동 대체. 원본 확인: <a href="https://www.lofin365.go.kr/" target="_blank" rel="noopener" style="color:#1e40af;font-weight:700">지방재정365 ↗</a> · <a href="https://www.localinfo.go.kr/" target="_blank" rel="noopener" style="color:#1e40af;font-weight:700">내고장알리미 ↗</a></div>';
+        html+= sectors.length
+          ? '<div style="margin-top:16px"><div style="font-size:.86rem;font-weight:800;color:#475569;margin-bottom:6px">📊 분야별 세출결산 실지출 (지방재정365 2024)</div><table style="width:100%;border-collapse:collapse;font-size:.83rem"><tr style="background:#f1f5f9"><th style="text-align:left;padding:5px 8px;border:1px solid #e2e8f0">분야</th><th style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0">실지출액</th><th style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0">비중</th></tr>'
+            + sectors.map(function(s){return '<tr><td style="padding:5px 8px;border:1px solid #e2e8f0">'+s.nm+'</td><td style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0">'+won(s.amt)+'</td><td style="text-align:right;padding:5px 8px;border:1px solid #e2e8f0">'+s.pct+'%</td></tr>';}).join('')
+            + '</table></div>'
+          : '<div style="margin-top:16px;color:#94a3b8;font-size:.85rem">분야별 세출 — 공식 공시 미확보로 표시하지 않습니다.</div>';
+        html+='<div style="margin-top:12px;font-size:.74rem;color:#94a3b8;line-height:1.6">※ 전 수치는 지방재정365 2024 회계연도 공시 실측이며 \'—\'는 출처 미확보(비표시)입니다. 원본 확인: <a href="https://www.lofin365.go.kr/" target="_blank" rel="noopener" style="color:#1e40af;font-weight:700">지방재정365 ↗</a> · <a href="https://www.localinfo.go.kr/" target="_blank" rel="noopener" style="color:#1e40af;font-weight:700">내고장알리미 ↗</a></div>';
         el.innerHTML=html;
         try{ this._liveBudget(key); }catch(e){}
       },
@@ -3699,47 +3702,46 @@ function printReport(R){
         });
       },
       renderContract: function(key, panelId){
+        /* 실데이터 원칙 재작성: 공시 실측(수의계약률·이월불용)만 표시, 추정 배분·가공 지수 전량 폐기 */
         var R=(window.STATE&&window.STATE.byKey&&(window.STATE.byKey[key]||window.STATE.byKey[(key||'').split(' ')[0]]))||null;
         var info=this._info(key);
         var el=document.getElementById(panelId||'contractPanel'); if(!el)return;
         if(!R){ el.innerHTML='<div class="fs-empty">지역을 선택하면 결과가 표시됩니다</div>'; return; }
-        var won=function(n){n=Math.round(n||0);return n>=10000?(n/10000).toFixed(1)+'조원':n.toLocaleString('ko-KR')+'억원';};
-        var b=R.budget||0, exec=R.execRate||0;
-        var suui=R.suuiRatio||0, comp=+(100-suui).toFixed(1);
-        var total=Math.round(b*0.32);
-        var gongsa=Math.round(total*0.52), yongyeok=Math.round(total*0.30), mulpum=total-gongsa-yongyeok;
+        var won=function(n){if(n==null||!isFinite(n))return '—';n=Math.round(n);return n>=10000?(n/10000).toFixed(1)+'조원':n.toLocaleString('ko-KR')+'억원';};
+        var suui=(R.suuiRatio!=null)?R.suuiRatio:null;
+        var comp=(suui!=null)?+(100-suui).toFixed(2):null;
+        /* 집행 지연 실지표: (다음연도이월+불용) ÷ 예산현액 — 2024 세출결산 실측 */
+        var delay=(R.carryover!=null&&R.unusedAmt!=null&&R.execBase)?+(((R.carryover+R.unusedAmt)/R.execBase)*100).toFixed(1):null;
         var lvl=function(ok,warn,val){return val>=warn?{t:'경고',c:'#e11d48',bg:'#fee2e2'}:(val>=ok?{t:'주의',c:'#d97706',bg:'#fef3c7'}:{t:'정상',c:'#164ea3',bg:'#dce9fc'});};
-        var monopoly=(R.integrity?(6-R.integrity)*12:30);
-        var unitprice=85+suui/5;
-        var delay=+(100-exec).toFixed(1);
+        var NAv={t:'—',c:'#94a3b8',bg:'#eef2f7'};
         var pats=[
-          {nm:'수의계약 과다',desc:'경쟁 없이 특정업체와 직접 계약하는 비중',val:suui+'%',v:lvl(30,40,suui)},
-          {nm:'일감 몰아주기',desc:'소수 업체 낙찰 집중도 지수',val:monopoly+'점',v:lvl(40,55,monopoly)},
-          {nm:'단가 부풀리기',desc:'예정가 대비 낙찰가율 이상 신호',val:unitprice.toFixed(0)+'%',v:lvl(95,99,unitprice)},
-          {nm:'자전거래',desc:'특수관계 업체 간 반복 거래 신호',val:(suui>35?'감지':'미감지'),v:(suui>45?{t:'경고',c:'#e11d48',bg:'#fee2e2'}:(suui>35?{t:'주의',c:'#d97706',bg:'#fef3c7'}:{t:'정상',c:'#164ea3',bg:'#dce9fc'}))},
-          {nm:'집행 지연',desc:'연내 미집행·이월 위험',val:delay+'%',v:lvl(25,35,delay)}
+          {nm:'수의계약 과다',desc:'수의계약 체결총액 ÷ 전체 계약총액 (금액 기준·지방재정365 2024 공시)',val:(suui!=null?suui+'%':'—'),v:(suui!=null?lvl(30,40,suui):NAv)},
+          {nm:'집행 지연(이월·불용)',desc:'(다음연도 이월 + 불용액) ÷ 예산현액 (2024 세출결산 실측)',val:(delay!=null?delay+'%':'—'),v:(delay!=null?lvl(18,28,delay):NAv)},
+          {nm:'경쟁계약 비중',desc:'100% − 수의계약 비중 (금액 기준)',val:(comp!=null?comp+'%':'—'),v:(comp!=null?(comp>=70?{t:'정상',c:'#164ea3',bg:'#dce9fc'}:comp>=60?{t:'주의',c:'#d97706',bg:'#fef3c7'}:{t:'경고',c:'#e11d48',bg:'#fee2e2'}):NAv)}
         ];
         var warnCnt=pats.filter(function(p){return p.v.t==='경고';}).length, cauCnt=pats.filter(function(p){return p.v.t==='주의';}).length;
+        var hasData=(suui!=null||delay!=null);
         var grade,gc,gmsg;
-        if(warnCnt>=2){grade='D';gc='#e11d48';gmsg='다수 위험신호 — 정밀 감시·자료요구 권고';}
-        else if(warnCnt===1||cauCnt>=3){grade='C';gc='#d97706';gmsg='일부 위험신호 — 주의 관찰 필요';}
+        if(!hasData){grade='—';gc='#94a3b8';gmsg='공식 공시 미확보 — 평가하지 않습니다';}
+        else if(warnCnt>=2){grade='D';gc='#e11d48';gmsg='다수 위험신호 — 정밀 감시·자료요구 권고';}
+        else if(warnCnt===1||cauCnt>=2){grade='C';gc='#d97706';gmsg='일부 위험신호 — 주의 관찰 필요';}
         else if(cauCnt>=1){grade='B';gc='#0b6fe0';gmsg='대체로 양호 — 경미한 주의항목';}
         else {grade='A';gc='#164ea3';gmsg='건전 — 특이 위험신호 없음';}
         var html='';
-        html+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px"><div style="font-size:1.1rem;font-weight:900;color:#0b2545">📜 '+info.name+' 계약·발주 분석</div><span style="font-size:.72rem;font-weight:800;background:#fef3c7;color:#92400e;padding:3px 9px;border-radius:99px">📊 참고치 (공시 기반)</span></div>';
+        html+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px"><div style="font-size:1.1rem;font-weight:900;color:#0b2545">📜 '+info.name+' 계약·발주 분석</div><span style="font-size:.72rem;font-weight:800;background:#e8f4ee;color:#166534;padding:3px 9px;border-radius:99px">✅ 지방재정365 2024 결산 공시(실데이터)</span></div>';
         html+='<div class="fs-stat-grid">'
-          +'<div class="fs-stat"><div class="label">📦 총 계약규모</div><div class="value" style="font-size:1.05rem">'+won(total)+'</div></div>'
-          +'<div class="fs-stat"><div class="label">🤝 수의계약</div><div class="value" style="color:'+(suui>35?'#e11d48':'#164ea3')+'">'+suui+'<span style="font-size:.8rem">%</span></div></div>'
-          +'<div class="fs-stat"><div class="label">⚖️ 경쟁입찰</div><div class="value" style="color:#164ea3">'+comp+'<span style="font-size:.8rem">%</span></div></div>'
-          +'<div class="fs-stat"><div class="label">🏗️ 공사</div><div class="value" style="font-size:1rem">'+won(gongsa)+'</div></div>'
-          +'<div class="fs-stat"><div class="label">🧰 용역</div><div class="value" style="font-size:1rem">'+won(yongyeok)+'</div></div>'
-          +'<div class="fs-stat"><div class="label">📋 물품</div><div class="value" style="font-size:1rem">'+won(mulpum)+'</div></div>'
+          +'<div class="fs-stat"><div class="label">🤝 수의계약 비중(금액)</div><div class="value" style="color:'+(suui!=null&&suui>35?'#e11d48':'#164ea3')+'">'+(suui!=null?suui+'<span style="font-size:.8rem">%</span>':'—')+'</div></div>'
+          +'<div class="fs-stat"><div class="label">⚖️ 경쟁계약 비중</div><div class="value" style="color:#164ea3">'+(comp!=null?comp+'<span style="font-size:.8rem">%</span>':'—')+'</div></div>'
+          +'<div class="fs-stat"><div class="label">⏳ 이월·불용 비중</div><div class="value" style="color:'+(delay!=null&&delay>=28?'#e11d48':'#0b2545')+'">'+(delay!=null?delay+'<span style="font-size:.8rem">%</span>':'—')+'</div></div>'
+          +'<div class="fs-stat"><div class="label">📦 다음연도 이월</div><div class="value" style="font-size:1rem">'+won(R.carryover)+'</div></div>'
+          +'<div class="fs-stat"><div class="label">🗑️ 불용액</div><div class="value" style="font-size:1rem">'+won(R.unusedAmt)+'</div></div>'
+          +'<div class="fs-stat"><div class="label">💰 예산현액</div><div class="value" style="font-size:1rem">'+won(R.execBase)+'</div></div>'
           +'</div>';
-        html+='<div style="margin-top:16px;display:flex;align-items:center;gap:14px;background:'+gc+'12;border:1px solid '+gc+'55;border-left:5px solid '+gc+';border-radius:12px;padding:14px 16px"><div style="font-size:2.2rem;font-weight:900;color:'+gc+';line-height:1">'+grade+'</div><div><div style="font-weight:900;color:#0b2545">계약 건전성 종합 평가</div><div style="font-size:.85rem;color:#475569;margin-top:2px">'+gmsg+' · 경고 '+warnCnt+'건 / 주의 '+cauCnt+'건</div></div></div>';
-        html+='<div style="margin-top:16px"><div style="font-size:.86rem;font-weight:800;color:#475569;margin-bottom:8px">🚨 5대 위험패턴 자동 평가</div><div style="display:flex;flex-direction:column;gap:6px">';
+        html+='<div style="margin-top:16px;display:flex;align-items:center;gap:14px;background:'+gc+'12;border:1px solid '+gc+'55;border-left:5px solid '+gc+';border-radius:12px;padding:14px 16px"><div style="font-size:2.2rem;font-weight:900;color:'+gc+';line-height:1">'+grade+'</div><div><div style="font-weight:900;color:#0b2545">계약 건전성 평가 <span style="font-size:.6rem;font-weight:900;background:#eef;color:#5a3aa0;border:1px solid #d9c9f2;border-radius:5px;padding:1px 5px;vertical-align:middle">자체 가공 지표</span></div><div style="font-size:.85rem;color:#475569;margin-top:2px">'+gmsg+(hasData?' · 경고 '+warnCnt+'건 / 주의 '+cauCnt+'건':'')+'</div></div></div>';
+        html+='<div style="margin-top:16px"><div style="font-size:.86rem;font-weight:800;color:#475569;margin-bottom:8px">🚨 위험패턴 평가 <span style="font-weight:600;color:#94a3b8">(전 성분 공식 공시 실측 기반)</span></div><div style="display:flex;flex-direction:column;gap:6px">';
         html+=pats.map(function(p){return '<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:#f8fafc;border:1px solid #eef2f7;border-radius:10px"><span style="flex:1"><b style="color:#1e3a5f">'+p.nm+'</b><span style="font-size:.76rem;color:#64748b;display:block">'+p.desc+'</span></span><span style="font-size:.82rem;font-weight:800;color:#334155">'+p.val+'</span><span style="font-size:.72rem;font-weight:900;color:'+p.v.c+';background:'+p.v.bg+';padding:3px 9px;border-radius:99px;min-width:38px;text-align:center">'+p.v.t+'</span></div>';}).join('');
         html+='</div></div>';
-        html+='<div style="margin-top:12px;font-size:.74rem;color:#94a3b8;line-height:1.6">※ 표시 결과는 통계적 참고치이며 공식 원부 확인이 필요합니다.</div>';
+        html+='<div style="margin-top:12px;font-size:.78rem;color:#64748b;line-height:1.6">🔎 업체별 실계약 내역·일감 몰아주기(CR5/HHI)·낙찰업체·국세청 사업자상태는 <a href="gyeyak.html" style="color:#1d6fe0;font-weight:800">나라장터 실계약 대시보드 →</a>에서 건별 실데이터로 확인하세요. 이전에 이 화면에 있던 총계약규모·공사/용역/물품 배분·단가지수는 추정 산식이어서 제거했습니다.</div>';
         html+='<div id="fsContractLive" style="margin-top:18px;padding-top:16px;border-top:2px dashed #e2e8f0"><div style="color:#94a3b8;font-size:.85rem;padding:6px">📑 실시간 사업·계약 집행 내역 불러오는 중…</div></div>';
         el.innerHTML=html;
         try{ this._liveContract(key); }catch(e){}
@@ -4963,8 +4965,9 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
     };
     console.log('✅ 봄님 보강 13지표 활성');
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', patch);
-  else patch();
+  /* [비활성] ext1/ext2 기반 '보강 13지표'는 해시 생성값이어서 전량 폐기 —
+     본 렌더가 지방재정365 실측(회계별·재원별·분야별·이월불용)으로 대체함. patch() 호출 중단. */
+  void patch;
 })();
 
 /* 🏛️ 나라장터 G2B 라이브 — 시군 계약의 "모든 것" (탭 + 업체 드릴다운) */
