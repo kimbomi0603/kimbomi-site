@@ -1,6 +1,7 @@
 {
   "functions": {
-    "api/contract.js": { "maxDuration": 60 }
+    "api/contract.js": { "maxDuration": 60 },
+    "api/lofin.js": { "maxDuration": 60 }
   },
   "redirects": [
     {

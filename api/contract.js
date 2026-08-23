@@ -393,7 +393,14 @@ module.exports = async (req, res) => {
     if (!KEY2) return res.status(200).json({ ok: false, error: "G2B_API_KEY2 미설정" });
     try {
       const w = await fetchAwardMap(30, true);
-      return res.status(200).json({ ok: true, awards: w.count });
+      /* 격일 스냅샷 갱신(지방재정365 전수 재수집·검증) — lofin 쪽에서 40시간 이내면 스킵 */
+      let snap = null;
+      try {
+        const host = (req.headers && (req.headers["x-forwarded-host"] || req.headers.host)) || "www.xn--4k0b53xuva.com";
+        const sr = await fetch("https://" + host + "/api/lofin?snaprefresh=1", { signal: AbortSignal.timeout(50000) });
+        snap = await sr.json();
+      } catch (e) { snap = { ok: false, error: String(e && e.message || e) }; }
+      return res.status(200).json({ ok: true, awards: w.count, snapshot: snap });
     } catch (e) { return res.status(200).json({ ok: false, error: String(e.message || e) }); }
   }
 

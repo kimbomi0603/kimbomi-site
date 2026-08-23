@@ -50,6 +50,60 @@ module.exports = async (req, res) => {
   if (q.selfcheck) { noStore(); return res.status(200).json({ ok: true, hasKey: !!KEY }); }
   if (!KEY) { noStore(); return res.status(500).json({ ok: false, error: "DATA_GO_KR_KEY 미설정(Vercel 환경변수)" }); }
 
+  /* ── Redis(KV) — 스냅샷 저장용 ── */
+  const RURL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.REDIS_REST_URL || "";
+  const RTOK = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || process.env.REDIS_REST_TOKEN || "";
+  async function kvGet(k){ if(!RURL) return null; try{ const r=await fetch(RURL,{method:"POST",headers:{Authorization:"Bearer "+RTOK,"Content-Type":"application/json"},body:JSON.stringify(["GET",k]),signal:AbortSignal.timeout(4000)}); const d=await r.json(); return d&&d.result?JSON.parse(d.result):null; }catch(e){ return null; } }
+  async function kvSet(k,o,ttl){ if(!RURL) return; try{ const args=["SET",k,JSON.stringify(o)]; if(ttl) args.push("EX",String(ttl)); await fetch(RURL,{method:"POST",headers:{Authorization:"Bearer "+RTOK,"Content-Type":"application/json"},body:JSON.stringify(args),signal:AbortSignal.timeout(4000)}); }catch(e){} }
+  async function hubRows(hub,fyr){
+    const pp=new URLSearchParams({Key:KEY,Type:"json",pIndex:"1",pSize:"400",fyr:String(fyr)});
+    const r=await fetch(HUB_BASE+"/"+hub+"?"+pp.toString(),{signal:AbortSignal.timeout(20000)});
+    const j=JSON.parse(await r.text());
+    const top=j[hub]; return (top&&top[1]&&top[1].row)||[];
+  }
+
+  /* ── 스냅샷 제공: /api/lofin?snap=1 — 프론트가 임베드 상수보다 최신·완전한 갱신본을 읽음 ── */
+  if (q.snap) {
+    const s = await kvGet("snap:fiscal:v1");
+    res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");
+    return res.status(200).json(s || { ok: false, reason: "스냅샷 미생성 — 임베드 실데이터가 기본으로 사용됩니다" });
+  }
+
+  /* ── 스냅샷 갱신: /api/lofin?snaprefresh=1 — 라이브 전수 수집 → 완전성 검증 통과 시에만 교체.
+        실패·불완전 시 기존 스냅샷 유지(임의 숫자 대체 절대 금지) ── */
+  if (q.snaprefresh) {
+    noStore();
+    const last = await kvGet("snap:fiscal:last");
+    const now = Date.now();
+    if (!q.force && last && (now - last.ts) < 40*3600*1000) {
+      return res.status(200).json({ ok: true, skipped: true, reason: "최근 갱신됨(이틀 주기)", lastAt: new Date(last.ts).toISOString() });
+    }
+    const FYR = 2024;
+    const HUBS = { M_FDOST:"FDOST", M_HEDFC:"HEDFC", M_UNIST:"UNIST", M_GAEJG:"GAEJG", M_DDJAB:"DDJAB", M_DADBC:"DADBC", M_BJHJB:"BJHJB", M_EAGGD:"EAGGD", M_GAECF:"GAECF", M_FBHIF:"FBHIF", M_ELYET:"ELYET", M_GJFHC:"GJFHC", M_HCDIB:"HCDIB", SR:"JFIED", AU:"EJAEE", EXEC:"AJGCF", ACC:"ACEXBG", FISCAL:"FNCST" };
+    try {
+      const names = Object.keys(HUBS);
+      const results = await Promise.all(names.map(n => hubRows(HUBS[n], FYR).catch(()=>null)));
+      const data = {}; let incomplete = [];
+      names.forEach((n,i)=>{ data[n]=results[i]; if(!results[i] || results[i].length !== 243) incomplete.push(n+"("+(results[i]?results[i].length:"ERR")+")"); });
+      if (incomplete.length) {
+        return res.status(200).json({ ok:false, kept:true, reason:"수집 불완전 — 기존 스냅샷/임베드 유지", incomplete });
+      }
+      /* 필드 완전성: 각 세트 대표 필드 null 비율 검사 */
+      const nullRate = (rows, f) => rows.filter(r => r[f]==null || r[f]==="").length / rows.length;
+      const checks = [ ["M_FDOST","rate2"], ["M_HEDFC","rate"], ["M_GAEJG","rate"], ["M_BJHJB","pptn_num"], ["SR","rate1"], ["AU","rate1"], ["EXEC","pfa_amt1"], ["ACC","ane_tott_amt"], ["FISCAL","rate2"] ];
+      const badFields = checks.filter(([n,f]) => nullRate(data[n], f) > 0.02).map(([n,f]) => n+"."+f);
+      if (badFields.length) {
+        return res.status(200).json({ ok:false, kept:true, reason:"필드 결측 과다 — 기존 스냅샷/임베드 유지", badFields });
+      }
+      const snap = { ok:true, v:new Date().toISOString().slice(0,10), fyr:FYR, data };
+      await kvSet("snap:fiscal:v1", snap);           /* TTL 없음 — 성공본은 영구 보존 */
+      await kvSet("snap:fiscal:last", { ts: now });
+      return res.status(200).json({ ok:true, refreshed:true, v:snap.v, sets:names.length, rowsEach:243 });
+    } catch (e) {
+      return res.status(200).json({ ok:false, kept:true, reason:"수집 실패 — 기존 스냅샷/임베드 유지", error:String(e&&e.message||e) });
+    }
+  }
+
   const hub = String(q.hub || "JFIED").toUpperCase();
   if (!HUB_RE.test(hub)) { noStore(); return res.status(400).json({ ok: false, error: "허용되지 않은 hub 코드" }); }
 
