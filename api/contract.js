@@ -297,13 +297,16 @@ module.exports = async (req, res) => {
       let rg = await call4();
       if (!rg.ok && rg.status >= 500) rg = await call4();
       const txt4 = await rg.text();
-      if (q.raw) { res.setHeader("Cache-Control", "no-store"); return res.status(200).json({ ok: rg.ok, status: rg.status, raw: txt4.slice(0, 4000) }); }
+      if (q.raw) { res.setHeader("Cache-Control", "no-store"); return res.status(200).json({ ok: rg.ok, status: rg.status, raw: txt4.slice(0, 200000) }); }
       let d4; try { d4 = JSON.parse(txt4); } catch (e) { d4 = null; }
       let out4;
       if (d4) {
-        const body4 = (d4.response && d4.response.body) || d4.body || d4;
-        const head4 = (d4.response && d4.response.header) || d4.header || {};
+        const RESP = d4.Response || d4.response || d4;
+        const body4 = (RESP && RESP.body) || (RESP && RESP.items !== undefined ? RESP : null) || d4.body || d4;
+        const head4 = (RESP && (RESP.header || RESP.head)) || d4.header || {};
         let items4 = (body4.items && (body4.items.item || body4.items)) || body4.item || body4.data || [];
+        if (typeof items4 === "string") items4 = [];
+        if (!head4.resultCode && head4.resultMsg === undefined && d4.Response && d4.Response.head) { head4.resultCode = d4.Response.head.resultCode; head4.resultMsg = d4.Response.head.resultMsg; }
         if (items4 && !Array.isArray(items4)) items4 = [items4];
         out4 = { ok: rg.ok, code: head4.resultCode || "", msg: head4.resultMsg || "", total: body4.totalCount || 0, items: items4 || [], src: "공공데이터포털 " + mg[2] + "(실데이터)" };
       } else {
