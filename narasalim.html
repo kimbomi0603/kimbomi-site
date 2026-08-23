@@ -2920,123 +2920,21 @@ function kbScrubDash(root){
 window.kbScrubDash=kbScrubDash;
 
 function genRegion(sidoObj, name, isSido){
+  /* v2026.08.23-5: 난수 생성 로직 전면 삭제 — 이 함수는 지역 식별 스켈레톤만 만들고,
+     모든 수치는 applyRealData()의 공식 공시 상수에서만 채워집니다(없으면 null='—'). */
   const sido = sidoObj.nm;
   const key = isSido ? sido : sido+" "+name;
-  const r = rng(key);
   const type = isSido ? "광역" : regionType(name);
-  // 인구
-  let pop;
-  if(isSido){ pop = sidoObj.pop; }
-  else if(type==="구") pop = Math.round(120000 + r()*480000);
-  else if(type==="시") pop = Math.round(70000 + r()*1030000);
-  else if(type==="군") pop = Math.round(18000 + r()*112000);
-  else pop = sidoObj.pop; // 세종 단층
-  const _ov=OVERRIDES[key]; if(_ov&&_ov.pop) pop=_ov.pop;
-  // 재정자립도
-  let sr;
-  if(isSido) sr = sidoObj.sr;
-  else {
-    let f = type==="구" ? 0.55+r()*0.7 : type==="시" ? 0.55+r()*0.55 : type==="군" ? 0.28+r()*0.4 : 1;
-    sr = sidoObj.sr * f;
-  }
-  sr = clamp(sr, 7, 88);
-  // 재정자주도 (항상 자립도 이상)
-  let auto = clamp(sr + 22 + r()*32, sr+8, 94);
-  // 1인당 예산 베이스(만원)
-  let perCap;
-  if(isSido) perCap = 300 + (1 - pop/13_630_000)*230 + r()*60;
-  else perCap = type==="구" ? 240+r()*180 : type==="시" ? 300+r()*260 : type==="군" ? 520+r()*620 : 380;
-  let budget = Math.round(pop*perCap/10000); // 억원
-  // 채무비율
-  let debtRatio = clamp(r()*30 * (1.25 - sr/120), 0, 46);
-  if(r()<0.18) debtRatio = Math.round(r()*4); // 일부 저채무
-  debtRatio = +debtRatio.toFixed(1);
-  let debt = Math.round(budget*debtRatio/100);
-  // 통합재정수지 (예산 대비 ±)
-  let balance = Math.round(budget * ((r()-0.55)*0.09));
-  // 집행률
-  let execRate = clamp(88 + (r()-0.5)*17, 76, 98); execRate=+execRate.toFixed(1);
-  // 수의계약 비중
-  let suui = type==="군" ? 42+r()*33 : (type==="구"||type==="시") ? 22+r()*38 : 28+r()*22;
-  suui = clamp(suui, 12, 78); suui=+suui.toFixed(1);
-  let contractTotal = Math.round(budget*(0.28+r()*0.16));
-  // 세입 재원
-  const self = budget*sr/100;
-  const jibangse = Math.round(self*0.76), sewoe=Math.round(self*0.24);
-  const gyobu = Math.round(budget*(auto-sr)/100);
-  let remaining = budget - jibangse - sewoe - gyobu;
-  let jibangchae = Math.round(Math.min(budget*0.03, debt*0.12) + budget*0.004);
-  let bojeon = Math.round(Math.max(0,remaining)*0.16);
-  let gukgo = Math.max(0, remaining - jibangchae - bojeon);
-  const revenue = {지방세:jibangse, 세외수입:sewoe, 지방교부세:Math.max(0,gyobu), 국고보조금:gukgo, 지방채:jibangchae, 보전수입:bojeon};
-  // 분야별 세출
-  let weights = SECTORS.map(([nm,w],i)=>{
-    let adj=w;
-    if(type==="군"){ if(nm==="농림해양수산")adj*=2.4; if(nm==="사회복지")adj*=0.78; if(nm==="국토및지역개발")adj*=1.3; }
-    if(type==="구"){ if(nm==="사회복지")adj*=1.22; if(nm==="농림해양수산")adj*=0.15; }
-    if(type==="시"){ if(nm==="국토및지역개발")adj*=1.15; }
-    adj *= (0.82 + hash01(key,i*131)*0.4);
-    return [nm,adj];
-  });
-  const wsum = weights.reduce((s,[,w])=>s+w,0);
-  const sectors = weights.map(([nm,w])=>({name:nm, pct:+(w/wsum*100).toFixed(1), amt:Math.round(budget*w/wsum)}))
-                         .sort((a,b)=>b.amt-a.amt);
-  // 분기 누적 집행률
-  const q4 = execRate;
-  let q1 = +(q4*(0.16+r()*0.06)).toFixed(1);
-  let q2 = +(q4*(0.40+r()*0.07)).toFixed(1);
-  let q3 = +(q4*(0.66+r()*0.07)).toFixed(1);
-  const execQuarters=[q1,q2,q3,q4];
-  // 5년 추이
-  const trend=[]; let b=budget, d=debt;
-  for(let y=STATE.year; y>STATE.year-5; y--){
-    trend.unshift({year:y, budget:Math.round(b), debt:Math.round(d)});
-    b = b/(1+(0.025+hash01(key,y)*0.05)); d = d*(0.86+hash01(key,y*3)*0.3);
-  }
-  // 점수
-  const sSelf=clamp(sr/70*100,0,100);
-  const sAuto=clamp((auto-30)/55*100,0,100);
-  const sDebt=clamp((42-debtRatio)/42*100,0,100);
-  const sExec=clamp(100-Math.abs(execRate-93)*3.5,0,100);
-  const sBal = balance>=0?100:clamp(100-(-balance/budget*100)*14,0,100);
-  const sSuui=clamp((72-suui)/57*100,0,100);
-  const score = +(0.24*sSelf+0.13*sAuto+0.22*sDebt+0.13*sExec+0.09*sBal+0.19*sSuui).toFixed(1);
-  const grade = score>=78?"A":score>=66?"B":score>=54?"C":score>=42?"D":"E";
-  // 금고(은행) 이자율 — 시민이 맡긴 세금의 예치 이자
-  const bankPool = BANK_BY_SIDO[sido]||["농협은행"];
-  const bankName = bankPool[Math.floor(hash01(key,53)*bankPool.length)];
-  let bankRate = 2.45 + (r()-0.5)*1.9 + (type==="구"?0.25:type==="군"?-0.3:0);
-  bankRate = clamp(bankRate,1.78,4.82);
-  const ov=OVERRIDES[key]; if(ov&&ov.bankRate!=null) bankRate=ov.bankRate;
-  bankRate=+bankRate.toFixed(2);
-  const avgDeposit=Math.round(budget*(0.07+r()*0.10));
-  const interestIncome=+(avgDeposit*bankRate/100).toFixed(0);
-  // 회계 구분
-  const accGen=Math.round(budget*(0.62+r()*0.10));
-  const accSpec=Math.round(budget*(0.16+r()*0.09));
-  const accFund=Math.max(0,budget-accGen-accSpec);
-  const accounts={일반회계:accGen,특별회계:accSpec,기금:accFund};
-  // 인구통계
-  const households=Math.round(pop/(2.0+r()*0.6));
-  let elderly = type==="군"?28+r()*14 : type==="시"?15+r()*11 : type==="구"?13+r()*11 : 17+r()*6;
-  elderly=+clamp(elderly,10,46).toFixed(1);
-  let youth=+clamp(34-elderly*0.45+(r()-0.5)*6,14,34).toFixed(1);
-  let popChange=+( (type==="군"?-2.4+r()*2.6 : type==="시"?-1.1+r()*2.4 : type==="구"?-1.3+r()*2.2 : -0.8+r()*1.8) ).toFixed(2);
-  // 인구소멸위험지수 (20-39세 여성 ÷ 65세+); 낮을수록 위험
-  let extIndex=+clamp(type==="군"?0.10+r()*0.42 : type==="시"?0.34+r()*0.6 : type==="구"?0.5+r()*0.8 : 0.7+r()*0.7, 0.08,1.6).toFixed(2);
-  // 종합청렴도(국민권익위 평가 등급 1~5, 1=최우수) · 축제·행사성 경비 비중(%)
-  const integrity = (function(){ const k=isSido?sido:sido+" "+name; return (INTEGRITY_2025[k]!=null)?INTEGRITY_2025[k]:null; })();
-  let festivalRatio=+clamp(type==="군"?1.6+r()*2.7 : type==="시"?1.0+r()*2.0 : type==="구"?0.8+r()*1.7 : 0.9+r()*1.4, 0.4,4.8).toFixed(1);
-  const festivalCost=Math.round(budget*festivalRatio/100);
-  // 주요 사업 top10
-  const projects=genProjects(key,budget,suui);
-  const perCapBudget=+(budget*10000/pop).toFixed(0);
-  return applyRealData({key,sido,name:isSido?sido:name,display:isSido?sido:sido+" "+name,isSido,type,pop,budget,
-    selfReliance:+sr.toFixed(1),autonomy:+auto.toFixed(1),balance,debt,debtRatio,execRate,suuiRatio:suui,
-    contractTotal,revenue,sectors,execQuarters,trend,score,grade,perCapitaBudget:perCapBudget,
-    bankName,bankRate,avgDeposit,interestIncome,accounts,integrity,festivalRatio,festivalCost,
-    households,elderlyRatio:elderly,youthRatio:youth,popChange,extIndex,projects,
-    subScores:{sSelf,sAuto,sDebt,sExec,sBal,sSuui}});
+  const integrity = (INTEGRITY_2025[key]!=null)?INTEGRITY_2025[key]:null;   /* 권익위 2025 실데이터 */
+  const _ov=OVERRIDES[key];
+  const bankRate = (_ov&&_ov.bankRate!=null)?_ov.bankRate:null;             /* 행안부 2026.1.27 공시 — 미공시(제주 행정시 등)는 null */
+  return applyRealData({key,sido,name:isSido?sido:name,display:isSido?sido:sido+" "+name,isSido,type,
+    pop:isSido?sidoObj.pop:null,budget:null,selfReliance:null,autonomy:null,balance:null,debt:null,debtRatio:null,
+    execRate:null,suuiRatio:null,contractTotal:null,revenue:null,sectors:[],execQuarters:[null,null,null,null],
+    trend:[2020,2021,2022,2023,2024].map(y=>({year:y,budget:null,debt:null})),score:null,grade:null,perCapitaBudget:null,
+    bankName:null,bankRate,avgDeposit:null,interestIncome:null,accounts:null,integrity,festivalRatio:null,festivalCost:null,
+    households:null,elderlyRatio:null,youthRatio:null,popChange:null,extIndex:null,projects:[],
+    subScores:{sSelf:null,sAuto:null,sDebt:null,sExec:null,sBal:null,sSuui:null}});
 }
 
 function buildModel(){
@@ -3067,11 +2965,12 @@ function buildNational(){
     contractTotal:null,revenue:{지방세:R.지방세,세외수입:R.세외수입,지방교부세:R.지방교부세,국고보조금:R.국고보조금,지방채:R.지방채,보전수입:R.보전수입},
     sectors:[],execQuarters:[null,null,null,null],trend,score,grade,
     perCapitaBudget:+(budget*10000/NATIONAL.population).toFixed(0),
-    bankName:"전국 평균",bankRate:2.52,avgDeposit:Math.round(budget*0.11),interestIncome:Math.round(budget*0.11*2.52/100),
+    bankName:"전국 평균",bankRate:2.53,avgDeposit:null,interestIncome:null,   /* 예치금·이자수입 추정 폐기 · 평균이자율 행안부 공시 2.53% */
     accounts:{일반회계:3761495,특별회계:577518,기금:527620},  /* ACEXBG 243개 전수 합산 실측(총계 4866633억) */
     budgetTotal:4866633,
     integrity:null,festivalRatio:null,festivalCost:null,
-    households:null,elderlyRatio:null,youthRatio:null,popChange:null,extIndex:null,
+    households:24487153,   /* 전국 세대수 — 주민등록 2026.7월말 시도 합산 실측 */
+    elderlyRatio:null,youthRatio:null,popChange:null,extIndex:null,
     projects:[],
     subScores:{sSelf,sAuto,sDebt,sExec,sBal,sSuui}};
 }
