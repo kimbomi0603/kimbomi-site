@@ -1318,6 +1318,7 @@ h1{letter-spacing:-.035em;font-weight:900}
       <a href="javascript:void(0)" class="mg-btn c-violet" onclick="g365Go('policy')"><span class="mg-ic">📋</span><span class="mg-t">민원·정책 찾기</span><span class="mg-d">정책·담당부서·연락처</span></a>
       <a href="javascript:void(0)" class="mg-btn c-rose" onclick="g365Go('partyfunds')"><span class="mg-ic">💸</span><span class="mg-t">정당 돈, 어디 썼나?</span><span class="mg-d">정당이 받은 국민 세금</span></a>
     </div>
+    <button type="button" id="kbHomeChip" onclick="try{g365_closeAll();}catch(e){} window.scrollTo({top:0,behavior:'smooth'});">← 처음 화면으로</button>
   </section>
 
   <!-- v45: 재정주권운동 소개 -->
@@ -6762,6 +6763,14 @@ function openPartyModal(){
 }
 function g365Go(kind){
   try{ var dw=document.getElementById('g365Drawer'); if(dw) dw.classList.remove('open'); }catch(e){}
+  /* 포커스 모드: 열린 섹션 상단이 보이도록 스크롤 */
+  setTimeout(function(){
+    try{
+      var id={diag3:'diagnose',budget:'diagnose',exec:'diagnose',contract:'diagnose',policy:'policy-search',partyfunds:'party-funds'}[kind];
+      var el=id&&document.getElementById(id);
+      if(el&&el.classList.contains('show')){ var mg=document.getElementById('menuGuide'); (mg||el).scrollIntoView({behavior:'smooth',block:'start'}); }
+    }catch(e){}
+  },140);
   switch(kind){
     case 'diag3': openDiagModal('overview'); break;
     case 'budget': openDiagModal('budget'); break;
@@ -6907,6 +6916,23 @@ function g365Go(kind){
 @media(max-width:640px){#diagnose.show{padding:16px 12px 56px!important}}
 </style>
 <style id="inlineViewCSS">
+/* ── 포커스 모드: 메뉴로 섹션을 열면 그 섹션+메뉴 안내만 남기고 첫화면 콘텐츠는 숨김 ── */
+body.section-modal-open header.topbar,
+body.section-modal-open #sovereign,
+body.section-modal-open #moments,
+body.section-modal-open .gx-section,
+body.section-modal-open #pledge-watch,
+body.section-modal-open #kbAnalysisSec,
+body.section-modal-open #kbTrustZone,
+body.section-modal-open #action,
+body.section-modal-open .gov-cta,
+body.section-modal-open .values-row{ display:none !important; }
+body.section-modal-open #menuGuide{ margin-top:14px; }
+/* 메뉴 안내에 '처음 화면으로' 복귀 칩 표시 */
+#kbHomeChip{ display:none; margin:10px 0 0; }
+body.section-modal-open #kbHomeChip{ display:inline-flex; align-items:center; gap:6px; background:#fff; border:1.5px solid #cbd5e1; border-radius:999px; padding:8px 16px; font-weight:800; font-size:.85rem; color:#0b2545; cursor:pointer; }
+#kbHomeChip:hover{ border-color:#1d6fe0; color:#1d6fe0; }
+
 /* ── 메뉴 콘텐츠 인라인 표시 전환 ──
    기존: 클릭 시 전체화면 고정 오버레이(position:fixed) + 배경 스크롤 잠금.
    변경: 페이지 흐름 안에서 인라인으로 펼쳐 보여주고 배경 스크롤을 유지 → 더 안정적·직관적. */
