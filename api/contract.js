@@ -439,6 +439,23 @@ module.exports = async (req, res) => {
 
   try {
     let r = await fetchAD(region, days);
+    /* ── 2026.7.1 전남광주통합특별시 출범: 나라장터 기관명 신·구 체계 혼재 대응 ──
+       신형 검색 0건 → 구형(광주광역시/전라남도)으로, 구형 0건 → 신형으로 1회 재시도.
+       (실측: 광주 구는 '전남광주통합특별시 X'로만 검색됨 — 전남 시군은 전환 시점에 따라 상이 가능) */
+    if (r.ok && (!r.items || !r.items.length) && region) {
+      let alt = null;
+      const GJ = { "동구": 1, "서구": 1, "남구": 1, "북구": 1, "광산구": 1 };
+      let m = region.match(/^전남광주통합특별시\s+(.+)$/);
+      if (m) alt = (GJ[m[1]] ? "광주광역시 " : "전라남도 ") + m[1];
+      else {
+        m = region.match(/^(광주광역시|전라남도)\s+(.+)$/);
+        if (m) alt = "전남광주통합특별시 " + m[2];
+      }
+      if (alt) {
+        const r2 = await fetchAD(alt, days);
+        if (r2.ok && r2.items && r2.items.length) { r = r2; }
+      }
+    }
     if (!r.ok) {
       const fb = await fetchAO(region, days);
       if (fb.ok) { r = fb; }
