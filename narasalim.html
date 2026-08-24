@@ -1156,7 +1156,7 @@ h1{letter-spacing:-.035em;font-weight:900}
 </style>
 <div id="kbNotice" style="background:#7c2d12;color:#fff;text-align:center;font-size:.82rem;font-weight:700;padding:8px 14px;line-height:1.5">
   ⚠️ 데이터 검증·개선 작업이 진행 중입니다. 모든 수치는 공공데이터 API 연동 공시값이며, <b>API 오류·지연·점검 시 값이 표시되지 않거나 실제와 다를 수 있습니다.</b> 출처 미확보 항목은 '—'로 비워 두며, 법적·행정적 활용 전 반드시 지방재정365·나라장터 등 <b>공식 원부를 확인</b>하세요. 이상한 수치는 하단 문의로 제보해 주세요.
-  <span style="opacity:.75;font-weight:500">· 빌드 v2026.08.24-2</span>
+  <span style="opacity:.75;font-weight:500">· 빌드 v2026.08.24-3</span>
 </div>
 <header class="g365bar">
   <div class="g365bar-in">
@@ -2335,7 +2335,7 @@ h1{letter-spacing:-.035em;font-weight:900}
       <div class="pfd-top">
         <label>정당 선택</label>
         <select id="pfdSel"></select>
-        <span class="kb-badge official">선관위 공고 기반</span><span class="kb-badge est">📊 일부 추정</span>
+        <span class="kb-badge official">선관위 공고 기반</span><span class="kb-badge official">선관위 공고 실수치</span>
       </div>
       <div class="pfd-tabs">
         <button type="button" class="pfd-tab on" data-p="sum">종합 요약</button>
@@ -2348,7 +2348,10 @@ h1{letter-spacing:-.035em;font-weight:900}
     <script>
     (function(){
       "use strict";
-      /* 데이터 — 보조금: 선관위 공고(2026-111호·2026-05-18) 실수치. 당비·후원·지출분포: 회계보고 전수분석(언론3사) 경향 기반 추정 */
+      /* 데이터 — 선관위 공고(2026-111호·2026-05-18) 국고보조금(gy/gq/ge) 실수치만 화면 사용.
+         due/don/out 필드는 화면 미사용(추정값이라 렌더 경로 제거함).
+         당비·후원금·지출분포는 공식 확보 불가로 표시하지 않음(2026-08-24 추정값 전량 제거).
+         청년정치발전비 전용률은 언론 전수분석 보도값으로 출처 명시 후 표시. */
       var P={
         '더불어민주당':{c:'#0e3a86',gy:234.34,gq:58.59,ge:258.85,due:220,don:90,youth:30,
           out:{'인건비':42,'사무소 운영':14,'조직·정치활동':12,'홍보·선전':11,'선거 관련':8,'정책개발':6,'여성·청년발전':4,'기타':3}},
@@ -2381,29 +2384,25 @@ h1{letter-spacing:-.035em;font-weight:900}
         if(tab==='sum'){
           body.innerHTML=
             '<div class="pfd-kpis">'
-            +'<div class="pfd-kpi"><div class="l">연간 수입 추정</div><div class="v">'+won(t)+'</div><div class="s">보조금+당비+후원 (추정)</div></div>'
+            +'<div class="pfd-kpi"><div class="l">국고보조금(연간)</div><div class="v">'+won(d.gy+d.ge)+'</div><div class="s">경상 연환산+선거 · 선관위 공고 실수치</div></div>'
             +'<div class="pfd-kpi"><div class="l">세금(보조금) 의존도</div><div class="v" style="color:'+(dep>=60?'#e11d48':dep>=40?'#d97706':'#0b2545')+'">'+dep.toFixed(1)+'%</div><div class="s">경상+선거보조금 기준</div></div>'
-            +'<div class="pfd-kpi"><div class="l">인건비 비중</div><div class="v">'+inb+'%</div><div class="s">지출 중 최대 항목 · 연간 추정 기준</div></div>'
-            +'<div class="pfd-kpi"><div class="l">정책개발비 비중</div><div class="v" style="color:'+(pol<7?'#e11d48':'#0b2545')+'">'+pol+'%</div><div class="s">낮을수록 정책 투자 부족</div></div>'
+            +'<div class="pfd-kpi"><div class="l">경상보조금(분기)</div><div class="v">'+won(d.gq)+'</div><div class="s">선관위 2026 3분기 지급액 실수치</div></div>'
+            +'<div class="pfd-kpi"><div class="l">선거보조금(2026)</div><div class="v">'+won(d.ge)+'</div><div class="s">6·3 지방선거 · 선관위 공고 실수치</div></div>'
             +'</div>'
-            +'<div class="pfd-sum">💬 <b>'+n+'</b>의 연간 수입은 약 <b>'+won(t)+'</b> 규모로 추정되며, 이 중 <b>'+dep.toFixed(0)+'%가 국민 세금(국고보조금)</b>입니다. 평년 연간 기준 최대 지출은 <b>인건비('+inb+'%, 추정)</b>이고, 정책개발비는 <b>'+pol+'%</b>'+(pol<7?'에 그칩니다':'입니다')+'.'
+            +'<div class="pfd-sum">💬 <b>'+n+'</b>이 2026년 받은 <b>국고보조금은 '+won(d.gy+d.ge)+'</b>입니다(경상 연환산 '+won(d.gy)+' + 선거보조금 '+won(d.ge)+'). 전액 국민 세금입니다. 당비·후원금·지출 내역은 선관위 회계보고 원문(열람·정보공개청구)에서만 확인할 수 있어 이 화면에는 표시하지 않습니다.'
             +(d.youth!=null?' 청년정치발전비를 인건비 등으로 돌려쓴 비율은 <b>약 '+d.youth+'%</b>'+(d.youth>=50?'로 매우 높습니다 ⚠️':'입니다')+'.':'')
             +' 항목별 건별 원문은 선관위 회계보고(열람·정보공개청구)에서 확인할 수 있습니다.'+(n==='더불어민주당'?' <b>단, 선거가 낀 2026 상반기 공식 총괄표(중앙당 실측)에서는 실집행의 72%가 「조직활동비」 한 줄로 잡혔습니다. 선거철에 돈이 어디로 쏠리는지조차 항목 하나에 뭉뚱그려져 있는 것입니다.</b>':'')+'</div>'
             +(d.youth!=null && d.youth>=50?'<div class="pfd-warn">⚠️ 청년정치발전비 전용률 '+d.youth+'% — 청년 정치 육성에 써야 할 돈 대부분이 직원 급여 등으로 사용됐습니다(언론 3사 전수분석).</div>':'');
         }else if(tab==='in'){
-          var mx=Math.max(d.gy,d.ge,d.due,d.don);
+          var mx=Math.max(d.gy,d.ge);
           body.innerHTML=
             bar('경상보조금(연 환산)',d.gy,mx,'#1d6fe0',won(d.gy))
             +bar('선거보조금(2026)',d.ge,mx,'#0d9488',won(d.ge))
-            +bar('당비(추정)',d.due,mx,'#f59e0b',won(d.due))
-            +bar('후원금(추정)',d.don,mx,'#8b5cf6',won(d.don))
+
             +'<div class="pfd-note">경상보조금: 선관위 3분기 지급(2026-08-14) 정당별 '+won(d.gq)+' × 4분기 환산 · 선거보조금: 선관위 6·3 지방선거 보조금 지급(2026-05-18) 정당별 실지급액 · 당비·후원금은 최근 회계보고 경향 기반 추정치입니다.</div>';
         }else if(tab==='out'){
-          var keys=Object.keys(d.out), spend=t*0.92;
-          var rows=keys.map(function(k){ var pct=d.out[k]; return bar(k,pct,50,(k==='인건비'?'#e11d48':k==='정책개발'?'#16a34a':'#1d6fe0'),pct+'% · '+won(spend*pct/100)); }).join('');
-          body.innerHTML=rows
-            +'<div class="pfd-note">지출 총액은 수입의 약 92%로 가정한 추정치이며, 분포는 오마이뉴스·경향신문·뉴스타파의 회계보고 전수분석(2012~2024) 경향을 반영한 참고치입니다. 정당별 공식 항목·건별 지출은 선관위 회계보고서 열람으로 확인하세요.</div>'
-            +(d.youth!=null?'<div class="pfd-warn">🧒 청년정치발전비 → 인건비 전용률: <b>'+d.youth+'%</b>'+(d.youth>=50?' ⚠️':'')+'</div>':'');
+          body.innerHTML='<div class="pfd-note" style="padding:16px;line-height:1.8">정당별 <b>지출 내역</b>은 중앙선관위 「정치자금 회계보고」 원문에만 있고 기계 판독 가능한 공개 API가 없습니다.<br>이전 화면은 언론 전수분석 경향을 바탕으로 한 <b>추정 분포</b>를 표시했으나, 추정값은 표시하지 않는다는 원칙에 따라 <b>2026-08-24 제거</b>했습니다.<br><br>원문 확인: <a href="https://open.nec.go.kr" target="_blank" rel="noopener">선관위 정치자금 회계보고 공개시스템</a>(본인 실명인증 후 열람) 또는 정보공개청구.</div>'
+              +(d.youth!=null?'<div class="pfd-warn">🧒 청년정치발전비 → 인건비 전용률 <b>'+d.youth+'%</b> — 출처: 오마이뉴스·경향신문·뉴스타파 공동 전수분석(2012~2024) 보도값</div>':'');
         }else{
           var names=Object.keys(P), mg=Math.max.apply(null,names.map(function(x){return P[x].gy+P[x].ge;}));
           var h1='<div style="font-weight:900;color:#0b2545;margin:2px 0 8px">💰 국고보조금 총액(경상 연환산+선거) — 7개 정당</div>';
@@ -2649,7 +2648,7 @@ h1{letter-spacing:-.035em;font-weight:900}
    재정주권 365 · 데이터 레이어
    - 전국 17개 광역 + 226개 기초자치단체 (제주 행정시·세종 단층 포함)
    - 인구/재정자립도는 행정안전부·지방재정365 실제 통계에 기반한 시드값
-   - 시군구 세부수치는 시드 해시로 결정론적 생성(시연용 추정치)
+   - (2026-08-24 삭제) 이전 버전은 시군구 세부수치를 시드 해시로 생성했음 — 전량 폐기, 공시 실데이터만 사용
    ============================================================ */
 
 const NATIONAL = {
@@ -2718,16 +2717,9 @@ const SIGUNGU = {
 };
 
 // 결정론적 해시 (지역명 → 0~1)
-function hash01(str, salt=0){
-  let h = 2166136261 ^ salt;
-  for(let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h = Math.imul(h,16777619); }
-  h = (h>>>0);
-  return (h % 100000) / 100000;
-}
-function rng(seedStr){ // 여러 독립 난수
-  let n = 0;
-  return ()=> hash01(seedStr, ++n*7919);
-}
+/* hash01·rng — 통계값 생성에 쓰이던 해시 난수기. 2026-08-24 전량 삭제(호출부 0건 확인).
+   어떤 수치도 생성하지 않습니다. 값이 없으면 null로 두어 화면에 '—'로 표시됩니다. */
+
 
 // 재정 교과서 콘텐츠
 const GLOSSARY = [
@@ -2831,32 +2823,12 @@ function regionType(name){
   if(name.endsWith("시")) return "시";
   return "특별";
 }
-function genProjects(key,budget,suui){
-  const idx=PROJECT_POOL.map((n,i)=>[n,hash01(key,i*97)]).sort((a,b)=>b[1]-a[1]).slice(0,10).map(x=>x[0]);
-  const weights=idx.map((n,i)=>(10-i)+hash01(key,i*31)*4);
-  const ws=weights.reduce((a,b)=>a+b,0), pot=budget*0.20;
-  return idx.map((n,i)=>{
-    const b=Math.round(pot*weights[i]/ws);
-    const rate=+clamp(72+hash01(key,i*13)*26,62,99).toFixed(1);
-    const settle=Math.round(b*(0.92+hash01(key,i*17)*0.10));   // 결산액
-    const spent=Math.round(settle*rate/100);                   // 집행액
-    const carry=Math.max(0,Math.round((settle-spent)*0.6));    // 이월
-    const unused=Math.max(0,settle-spent-carry);               // 불용
-    const mr=hash01(key,i*7);
-    const method=mr<(suui/100)?'수의계약':mr<0.9?'경쟁입찰':'공모';
-    const programType=PROGRAM_TYPES[Math.floor(hash01(key,i*23)*PROGRAM_TYPES.length)];
-    const beneficiary=BENEFICIARIES[Math.floor(hash01(key,i*29)*BENEFICIARIES.length)];
-    const deliverer=DELIVERERS[Math.floor(hash01(key,i*37)*DELIVERERS.length)];
-    const matchRatio=(programType==='보조'||programType==='공모')?Math.round(30+hash01(key,i*41)*40):0;
-    return {name:n,budget:b,settle,spent,rate,carry,unused,method,programType,beneficiary,deliverer,matchRatio};
-  });
-}
 // 온톨로지 5종 위험플래그(RiskFlag) 엔진 — §8 transaction_flow
 function genRiskFlags(R){
   /* ⚠️ 위험신호는 실제 공시·계약 데이터가 있을 때만 산출합니다.
      (이전 버전은 해시 생성 수치로 '담합 위험' 등을 표시했습니다 — 폐기) */
   if(R.suuiRatio==null || R.execRate==null || !R.projects || !R.projects.length) return [];
-  const f=[], h=s=>hash01(R.key,s);
+  const f=[];
   if(R.suuiRatio>=50) f.push({type:'low_competition',sev:'high',conf:0.9,desc:`수의계약 비중 ${R.suuiRatio}% — 경쟁입찰이 절반 이하. 특정업체 반복수주·담합 위험.`});
   else if(R.suuiRatio>=40) f.push({type:'low_competition',sev:'mid',conf:0.7,desc:`수의계약 비중 ${R.suuiRatio}% — 경쟁성 확보 점검 필요.`});
   const q4jump=R.execQuarters[3]-R.execQuarters[2];
@@ -2864,9 +2836,6 @@ function genRiskFlags(R){
   else if(q4jump>28) f.push({type:'execution_delay',sev:'mid',conf:0.65,desc:`4분기 집행 ${q4jump.toFixed(1)}%p 급증 — 예산 소진식 부실집행 위험.`});
   const ps=R.projects.reduce((a,p)=>a+p.budget,0), top=R.projects[0], share=top.budget/ps*100;
   if(share>=22) f.push({type:'concentration_high',sev:share>=28?'high':'mid',conf:0.7,desc:`최상위 사업 '${top.name}'가 상위10 예산의 ${share.toFixed(1)}% 차지 — 특정사업 편중.`});
-  const ol=R.projects.findIndex((p,i)=>p.method==='수의계약'&&h(i*53)>0.78);
-  if(ol>=0) f.push({type:'unit_price_outlier',sev:'mid',conf:0.6,desc:`'${R.projects[ol].name}' 수의계약 단가가 유사사업 대비 이상치 가능 — 산출근거 확인 권고.`});
-  if(R.suuiRatio>=45 && h(999)>0.7) f.push({type:'self_dealing',sev:'high',conf:0.55,desc:`수의계약 다수 + 보조금 수령자와 계약 업체가 사실상 같은 주인으로 의심되는 패턴 — 보조사업자↔계약자 관계 확인 필요.`});
   return f;
 }
 // 4단 자금흐름 추적 (국고→광역→기초→최종수혜자→계약자)
@@ -3911,7 +3880,6 @@ function printReport(R){
 })();
 /* ── STATE.byKey 폴백 빌드 + 차트 폴백 그리기 ── */
 (function(){
-  function hash01(key, salt){var h=0;var s=key+'|'+salt;for(var i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0;}return Math.abs(h%1000)/1000;}
   function buildRegion(name, sido, pop, sr){
     /* 난수 생성 폐기 — 실데이터가 없으면 빈 값(—) 유지 */
     return { display:name, full:name, key:name, sido:sido||name, name:name, pop:null, budget:null, selfReliance:null, autonomy:null, debtRatio:null, execRate:null, suuiRatio:null, integrity:null, grade:null, score:null, accounts:{일반회계:null,특별회계:null,기금:null}, perCapitaBudget:null, sectors:[], projects:[] };
@@ -4131,44 +4099,12 @@ function renderDetail(R){
   const q=R.execQuarters;
   const qa=[q[0],q[1]-q[0],q[2]-q[1],q[3]-q[2]].map(p=>Math.round(R.budget*p/100));
   const dflags=genRiskFlags(R), dff=fundFlow(R), dpsum=R.projects.reduce((a,p)=>a+p.budget,0);
-  // 행안부·복지부·환경부·경찰청 공시 기반 확장 지표 (참고 추정치 · 실데이터 연동 시 자동 갱신)
+  /* 확장 지표(업무추진비 분기·미세먼지·범죄율·응급실 등) — 2026.08 해시 생성 로직 전량 삭제.
+     공식 출처를 확보한 항목만 별도 API로 연동하며, 미확보 항목은 null로 두어 화면에 '—'로 표시됩니다. */
   const gov = (function(){
-    const h=(s)=>hash01(R.key, s||1);
     const fiscalGrade=(R.score==null)?'—':['A','B','C','D','E'][Math.min(4, Math.floor((100-R.score)/22))];
-    const fiscalGradeColor={A:'#164ea3',B:'#2263c5',C:'#f59e0b',D:'#fb923c',E:'#e11d48'}[fiscalGrade];
-    const isSido=R.isSido, type=R.type;
-    // 업무추진비 (백만원)
-    const headRate=isSido?0.0006:type==='시'?0.0008:type==='군'?0.0010:type==='구'?0.0007:0.0006;
-    const headBudget=Math.round(R.budget*headRate);
-    const chairBudget=Math.round(headBudget*0.35);
-    // 분기별
-    const q1=Math.round(headBudget*(0.22+h(7)*0.06));
-    const q2=Math.round(headBudget*(0.26+h(11)*0.06));
-    const q3=Math.round(headBudget*(0.24+h(17)*0.06));
-    const q4=Math.max(0,headBudget-q1-q2-q3);
-    // 행사·축제경비 비율
-    const festivalPct=R.festivalRatio || +(1.0+h(23)*2.5).toFixed(1);
-    const natFestival=1.8;
-    // 출자·출연기관 수
-    const subOrgs=isSido? 15+Math.round(h(29)*15) : type==='시'? 3+Math.round(h(31)*4) : type==='구'? 2+Math.round(h(35)*3) : 1+Math.round(h(33)*2);
-    // 민간이전경비 (억원)
-    const grantBillions=Math.round(R.budget*(0.08+h(37)*0.12));
-    // 정보공개
-    const foiRequests=Math.round((R.pop/10000)*(10+h(41)*20));
-    const foiOpenRate=Math.round(70+h(43)*25);
-    // 미세먼지 PM2.5 (㎍/㎥)
-    const pm25=+(type==='군'?14+h(47)*6 : type==='구'?20+h(49)*8 : type==='시'?17+h(51)*8 : 18+h(53)*6).toFixed(1);
-    const pm25Grade=pm25<=15?['좋음','#164ea3']:pm25<=25?['보통','#f59e0b']:pm25<=35?['나쁨','#fb923c']:['매우나쁨','#e11d48'];
-    // 응급의료기관 수
-    const erCount=isSido? 30+Math.round(h(57)*40) : type==='시'? 2+Math.round(h(59)*4) : 1+Math.round(h(61)*1);
-    // 응급 도착시간 (분)
-    const erTime=+(type==='군'?14+h(63)*6 : type==='시'?9+h(65)*4 : type==='구'?7+h(67)*3 : 8+h(67)*3).toFixed(1);
-    // 5대 범죄 발생률 (인구 1만명당)
-    const crimeRate=+(type==='구'?80+h(71)*40 : type==='시'?60+h(73)*30 : type==='군'?35+h(75)*20 : 65+h(77)*30).toFixed(1);
-    // 화재 건수·피해(백만원)
-    const fireCount=Math.round((R.pop/10000)*(2.5+h(79)*1.5));
-    const fireDamage=Math.round(fireCount*(15+h(81)*20));
-    /* 공식 출처 미확보 확장지표 — 수치를 생성하지 않고 비웁니다 */
+    const fiscalGradeColor={A:'#164ea3',B:'#2263c5',C:'#f59e0b',D:'#fb923c',E:'#e11d48'}[fiscalGrade]||'#94a3b8';
+    const natFestival = (typeof NATIONAL!=='undefined' && NATIONAL.festivalAvg!=null)?NATIONAL.festivalAvg:null;
     return {fiscalGrade:'—',fiscalGradeColor:'#94a3b8',headBudget:null,chairBudget:null,q1:null,q2:null,q3:null,q4:null,
       festivalPct:null,natFestival:natFestival,subOrgs:null,grantBillions:null,foiRequests:null,foiOpenRate:null,
       pm25:null,pm25Grade:['—','#94a3b8'],erCount:null,erTime:null,crimeRate:null,fireCount:null,fireDamage:null};
@@ -4959,10 +4895,8 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
   else { hook(); attachClose(); }
 })();
 
-/* 📊 봄님 요청: 재정·예산 7개 + 사업·계약 6개 = 총 13개 지표 보강 (데모 시드) */
+/* 재정·예산 7개 + 사업·계약 6개 지표 — 해시 시드 생성 전량 폐기(2026-08-24). 공식 출처 확보분만 표시. */
 (function(){
-  function h32(str){ let h=2166136261>>>0; for(let i=0;i<str.length;i++){h^=str.charCodeAt(i); h=Math.imul(h,16777619)>>>0;} return h>>>0; }
-  function rng(seed){ let a=(seed>>>0)||1; return function(){ a=(a+0x6D2B79F5)>>>0; let t=Math.imul(a^(a>>>15),1|a); t=((t+Math.imul(t^(t>>>7),61|t))^t)>>>0; return ((t^(t>>>14))>>>0)/4294967296; }; }
   function won(억){ return 억>=10000?(억/10000).toLocaleString('ko-KR',{maximumFractionDigits:1})+'조':Math.round(억).toLocaleString('ko-KR')+'억'; }
 
   // ── 재정·예산 보강 데이터
