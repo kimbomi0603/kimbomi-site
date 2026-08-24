@@ -1264,6 +1264,7 @@ h1{letter-spacing:-.035em;font-weight:900}
         <a href="#charts" role="menuitem">📊 시각화</a>
         <a href="#ranking" role="menuitem">🏅 전국 순위</a>
         <a href="#compare" role="menuitem">⚖️ 비교하기</a>
+<a href="#natl-fiscal" role="menuitem" onclick="event.preventDefault();g365Go('natl');">🇰🇷 중앙정부 재정</a>
       </div>
     </div>
     <a href="javascript:void(0)" id="navPolicy">📋 정책</a>
@@ -2150,6 +2151,103 @@ h1{letter-spacing:-.035em;font-weight:900}
 .pf-win.d{background:#e7effb;color:#0e3a86}.pf-win.p{background:#fbe9e7;color:#c0392b}
 @media(max-width:560px){.pf-tbl th,.pf-tbl td{padding:8px 7px;font-size:.78rem}.pf-tbl thead th{font-size:.75rem}.pf-tbl .src{font-size:.66rem}}
 </style>
+<style>
+.nf-sec{max-width:1080px;margin:0 auto;padding:18px 16px 34px}
+.nf-head h2{font-size:1.34rem;margin:0 0 6px;color:#0b2545}
+.nf-head p{margin:0 0 14px;font-size:.9rem;color:#475569;line-height:1.7}
+.nf-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.nf-tab{border:1.5px solid #cbd5e1;background:#fff;border-radius:999px;padding:7px 14px;font-size:.83rem;font-weight:800;color:#334155;cursor:pointer}
+.nf-tab.on{background:#0e397a;border-color:#0e397a;color:#fff}
+.nf-year{border:1.5px solid #cbd5e1;border-radius:8px;padding:6px 10px;font-size:.83rem;font-weight:700;margin-left:auto}
+.nf-body{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:14px;min-height:120px}
+.nf-tblw{overflow-x:auto}
+.nf-tbl{border-collapse:collapse;width:100%;min-width:520px;font-size:.85rem}
+.nf-tbl th,.nf-tbl td{padding:8px 10px;border-bottom:1px solid #eef2f7;text-align:left;white-space:nowrap}
+.nf-tbl th{background:#f1f5f9;font-size:.76rem;color:#475569;font-weight:800}
+.nf-tbl td.r{text-align:right;font-variant-numeric:tabular-nums}
+.nf-src{font-size:.72rem;color:#94a3b8;margin-top:10px;line-height:1.6}
+.nf-none{color:#94a3b8;font-size:.88rem;padding:20px;text-align:center}
+</style>
+<button id="nfClose" type="button" onclick="g365_closeAll()" aria-label="닫기">✕ 닫기</button>
+<section id="natl-fiscal" aria-label="중앙정부 재정">
+  <div class="nf-sec">
+    <div class="nf-head">
+      <h2>🇰🇷 중앙정부 재정은 어디서 걷고 어디에 쓰나?</h2>
+      <p>기획예산처·한국재정정보원 <b>열린재정</b> 공식 OPEN API를 실시간 연동해 표시합니다. 지방재정365(지방 243곳)와 함께 보면 국가 재정 전체를 위아래로 확인할 수 있습니다.</p>
+    </div>
+    <div class="nf-tabs" id="nfTabs">
+      <button class="nf-tab on" data-ep="IncomeTax">국세수입</button>
+      <button class="nf-tab" data-ep="NontaxIncome">세외수입</button>
+      <button class="nf-tab" data-ep="OPFI166">중앙관서별 총지출</button>
+      <button class="nf-tab" data-ep="OPFI165">16대 분야별 재원배분</button>
+      <button class="nf-tab" data-ep="OPFI123">성질별 지출</button>
+      <button class="nf-tab" data-ep="GovernmentInvestment">정부출자현황</button>
+      <select class="nf-year" id="nfYear"></select>
+    </div>
+    <div class="nf-body" id="nfBody"><div class="nf-none">불러오는 중…</div></div>
+    <div class="nf-src" id="nfSrc"></div>
+  </div>
+</section>
+<script>
+(function(){
+  var EP='IncomeTax', YR='';
+  var COLS={
+    IncomeTax:[['ISMOK_NM','세목'],['BDG_AMT','예산(조원)','r'],['RV_AGGR_AMT','누계징수(조원)','r'],['OUT_RT','진도율(%)','r'],['LY_CPRN_VARIRT','전년대비(%)','r']],
+    NontaxIncome:[['ISMOK_NM','항목'],['BDG_AMT','예산(조원)','r'],['RV_AGGR_AMT','누계징수(조원)','r'],['OUT_RT','진도율(%)','r']],
+    OPFI166:[['OFFC_NM','중앙관서'],['STL_BDG_DIV_NM','구분'],['SUM_EP_AMT','총지출(억원)','r']],
+    OPFI165:[['FLD_NM','분야'],['DIV_NM','구분'],['SUM_AMT','금액(조원)','r']],
+    OPFI123:[['EPMOK_QLT_CD_NM','성질'],['EPMOK_NM','비목'],['STL_BDG_DIV_NM','구분'],['SUM_EP_AMT','금액(조원)','r']],
+    GovernmentInvestment:[['INST_NM','출자기관'],['CGP_MAO_NM','소관부처'],['GVRN_IV_AMT','정부출자액(억원)','r'],['GVRN_IV_ORT','지분율(%)','r']]
+  };
+  function fmt(v){ if(v==null||v==='') return '—'; var n=Number(v); return isFinite(n)? n.toLocaleString('ko-KR') : String(v); }
+  var YP={IncomeTax:'OJ_YY',NontaxIncome:'OJ_YY',GovernmentInvestment:'OJ_YY'};
+  function yrParam(ep){ return YP[ep]||'ACNT_YR'; }
+  function fillYears(){
+    var s=document.getElementById('nfYear'); if(!s) return;
+    var now=new Date().getFullYear(), out='';
+    for(var y=now;y>=now-9;y--) out+='<option value="'+y+'">'+y+'년</option>';
+    s.innerHTML=out; YR=String(now);
+  }
+  function render(j){
+    var b=document.getElementById('nfBody'), sr=document.getElementById('nfSrc');
+    if(!j||!j.ok){ b.innerHTML='<div class="nf-none">데이터를 불러오지 못했습니다'+(j&&j.error?' — '+j.error:'')+'</div>'; sr.textContent=''; return; }
+    var rows=j.rows||[];
+    if(!rows.length){ b.innerHTML='<div class="nf-none">'+(j.year||'')+'년 '+(j.nm||'')+' 자료가 아직 공개되지 않았습니다.</div>';
+      sr.textContent='출처: 기획예산처·한국재정정보원 열린재정 OPEN API'; return; }
+    var cols=COLS[j.ep]||Object.keys(rows[0]).slice(0,5).map(function(k){return [k,k];});
+    var th=cols.map(function(c){return '<th'+(c[2]?' class="r"':'')+'>'+c[1]+'</th>';}).join('');
+    var tb=rows.slice(0,120).map(function(r){
+      return '<tr>'+cols.map(function(c){
+        var v=r[c[0]];
+        return '<td'+(c[2]?' class="r"':'')+'>'+(c[2]?fmt(v):(v==null||v===''?'—':String(v)))+'</td>';
+      }).join('')+'</tr>';
+    }).join('');
+    b.innerHTML='<div class="nf-tblw"><table class="nf-tbl"><thead><tr>'+th+'</tr></thead><tbody>'+tb+'</tbody></table></div>'+
+      (rows.length>120?'<div class="nf-none">상위 120행 표시 · 전체 '+rows.length.toLocaleString()+'행</div>':'');
+    sr.innerHTML='출처: <b>기획예산처·한국재정정보원 열린재정 OPEN API</b> · 데이터셋 <code>'+j.ep+'</code>('+(j.nm||'')+') · 기준 '+(j.year||'-')+'년 · 수신 '+rows.length.toLocaleString()+'행'+
+      '<br>API 오류·지연·점검 시 값이 표시되지 않거나 실제와 다를 수 있습니다. 법적·행정적 활용 전 <a href="https://www.openfiscaldata.go.kr" target="_blank" rel="noopener">열린재정</a> 공식 원부를 확인하세요.';
+  }
+  function load(){
+    var b=document.getElementById('nfBody'); if(!b) return;
+    b.innerHTML='<div class="nf-none">불러오는 중…</div>';
+    fetch('/api/ofd?ep='+encodeURIComponent(EP)+'&'+yrParam(EP)+'='+encodeURIComponent(YR))
+      .then(function(r){return r.json();}).then(render)
+      .catch(function(e){ render({ok:false,error:String(e&&e.message||e)}); });
+  }
+  function init(){
+    if(!document.getElementById('nfTabs')) return;
+    fillYears();
+    document.getElementById('nfTabs').addEventListener('click',function(e){
+      var t=e.target.closest('.nf-tab'); if(!t) return;
+      [].forEach.call(this.querySelectorAll('.nf-tab'),function(x){x.classList.remove('on');});
+      t.classList.add('on'); EP=t.dataset.ep; load();
+    });
+    document.getElementById('nfYear').addEventListener('change',function(){ YR=this.value; load(); });
+    load();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
 <button id="pfClose" type="button" onclick="g365_closeAll()" aria-label="닫기">✕ 닫기</button>
 <section id="party-funds" aria-label="정당 정치자금 사용내역">
   <div class="pf-sec">
@@ -6734,10 +6832,11 @@ console.log('v47 Public Service 리스킨 활성');
 <script>
 /* 헤더 메뉴 라우터 (전역) — 클릭 시 해당 내용만 전체화면으로 */
 function g365_closeAll(){
-  document.querySelectorAll('#policy-search.show,#budget-only.show,#contract-only.show,#diagnose.show,#party-funds.show,#edu.show,#ontology.show').forEach(function(el){el.classList.remove('show');});
+  document.querySelectorAll('#policy-search.show,#budget-only.show,#contract-only.show,#diagnose.show,#party-funds.show,#edu.show,#ontology.show,#natl-fiscal.show').forEach(function(el){el.classList.remove('show');});
   document.body.classList.remove('section-modal-open'); document.body.style.overflow='';
   var dc=document.getElementById('diagClose'); if(dc) dc.style.display='none';
   var pfc=document.getElementById('pfClose'); if(pfc) pfc.style.display='none';
+  var nfc=document.getElementById('nfClose'); if(nfc) nfc.style.display='none';
   var sc=document.getElementById('sectionClose'); if(sc) sc.classList.remove('show');
   window.currentSection=null;
 }
@@ -6770,12 +6869,19 @@ function openPartyModal(){
   var c=document.getElementById('pfClose'); if(c) c.style.display='inline-flex';
   window.currentSection='party-funds'; sec.scrollTop=0;
 }
+function openNatlModal(){
+  var sec=document.getElementById('natl-fiscal'); if(!sec) return;
+  g365_closeAll();
+  sec.classList.add('show'); document.body.classList.add('section-modal-open'); document.body.style.overflow='hidden';
+  var c=document.getElementById('nfClose'); if(c) c.style.display='inline-flex';
+  window.currentSection='natl-fiscal'; sec.scrollTop=0;
+}
 function g365Go(kind){
   try{ var dw=document.getElementById('g365Drawer'); if(dw) dw.classList.remove('open'); }catch(e){}
   /* 포커스 모드: 열린 섹션 상단이 보이도록 스크롤 */
   setTimeout(function(){
     try{
-      var id={diag3:'diagnose',budget:'diagnose',exec:'diagnose',contract:'diagnose',policy:'policy-search',partyfunds:'party-funds'}[kind];
+      var id={diag3:'diagnose',budget:'diagnose',exec:'diagnose',contract:'diagnose',policy:'policy-search',partyfunds:'party-funds',natl:'natl-fiscal'}[kind];
       var el=id&&document.getElementById(id);
       if(el&&el.classList.contains('show')){ var mg=document.getElementById('menuGuide'); (mg||el).scrollIntoView({behavior:'smooth',block:'start'}); }
     }catch(e){}
@@ -6787,6 +6893,7 @@ function g365Go(kind){
     case 'contract': openDiagModal('contract'); break;
     case 'policy': openPolicyModal(); break;
     case 'partyfunds': openPartyModal(); break;
+    case 'natl': openNatlModal(); break;
     case 'about': var n=document.getElementById('navAbout'); if(n) n.click(); break;
   }
 }
@@ -6947,7 +7054,10 @@ body.section-modal-open #kbHomeChip{ display:inline-flex; align-items:center; ga
    변경: 페이지 흐름 안에서 인라인으로 펼쳐 보여주고 배경 스크롤을 유지 → 더 안정적·직관적. */
 body.section-modal-open{ overflow:visible!important; }
 body.section-modal-open::before{ content:none!important; display:none!important; background:none!important; }
-#diagnose, #party-funds, #policy-search, #budget-only, #contract-only, #edu, #ontology{ scroll-margin-top:64px; }
+#diagnose, #party-funds, #policy-search, #budget-only, #contract-only, #edu, #ontology, #natl-fiscal{ scroll-margin-top:64px; }
+#natl-fiscal{ display:none; }
+#natl-fiscal.show{ display:block; position:static!important; padding:14px 0 30px!important; }
+#nfClose{ display:none; position:sticky!important; top:66px!important; z-index:30!important; margin:0 0 10px 4px!important; }
 #diagnose.show, #party-funds.show{
   position:static!important; inset:auto!important; z-index:auto!important;
   overflow:visible!important; -webkit-overflow-scrolling:auto!important;
