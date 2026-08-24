@@ -109,7 +109,10 @@ async function fetchAD(region, days) {
       });
       if (region) p.set("dminsttNm", region);
       jobs.push(callApi(AD_BASE + "/" + op + "?" + p.toString()).then(function (r) {
-        if (r.ok) r.items.forEach(function (it) { if (!it.bsnsDivNm) it.bsnsDivNm = kindNm; });
+        if (r.ok) {
+          r.items.forEach(function (it) { if (!it.bsnsDivNm) it.bsnsDivNm = kindNm; });
+          if ((r.total || 0) > r.items.length) r.truncated = true;   /* numOfRows(100) 초과분 미수신 */
+        }
         return r;
       }));
     }
@@ -121,7 +124,8 @@ async function fetchAD(region, days) {
     return { ok: false, code: e.code, msg: e.msg };
   }
   const items = [].concat.apply([], okOnes.map(function (x) { return x.items; }));
-  return { ok: true, items: items, total: okOnes.reduce(function (a, x) { return a + (x.total || 0); }, 0), src: "나라장터 입찰공고정보서비스(ad)" };
+  const truncated = okOnes.some(function (x) { return x.truncated; });
+  return { ok: true, items: items, total: okOnes.reduce(function (a, x) { return a + (x.total || 0); }, 0), partial: truncated, src: "나라장터 입찰공고정보서비스(ad)" };
 }
 
 /* 2차 폴백: 개방표준서비스 — 전국 조회 후 지역명 필터 */
@@ -208,8 +212,24 @@ function dedup(items) {
   return Object.values(map);
 }
 
+/* 재공고는 매번 새 공고번호를 받아 번호기준 dedup을 통과함(2026.08 강진군 실측: 동일 제목·금액 4중 계상)
+   → 제목+수요기관+금액이 같으면 동일 사업의 재공고로 보고 최신 1건만 남기고 횟수를 기록 */
+function dedupRenotice(rows) {
+  const map = {};
+  rows.forEach(function (b) {
+    const key = b.title + "|" + b.org + "|" + (b.amount || 0);
+    if (!map[key] || String(b.date) > String(map[key].date)) {
+      const prev = map[key];
+      map[key] = b;
+      b.reCnt = (prev ? prev.reCnt : 0) + (prev ? 1 : 0);
+    } else {
+      map[key].reCnt = (map[key].reCnt || 0) + 1;
+    }
+  });
+  return Object.values(map);
+}
 function normalize(items) {
-  return dedup(items).map(function (it) {
+  const rows = dedup(items).map(function (it) {
     const rawDt = it.bidNtceDt || it.bidNtceDate || it.opengDt || it.opengDate || "";
     return {
       title: it.bidNtceNm || it.prdctClsfcNoNm || "(제목 미상)",
@@ -222,9 +242,11 @@ function normalize(items) {
       year: String(rawDt).replace(/[^0-9]/g, "").slice(0, 4),
       url: it.bidNtceDtlUrl || it.bidNtceUrl || "",
       ntceNo: String(it.bidNtceNo || "").trim(),
-      sutil: /수의|단독|1인/.test(it.sucsfbidMthdNm || it.cntrctCnclsMthdNm || it.bidMethdNm || it.bidwinrDcsnMthdNm || "")   /* 협상에의한계약은 경쟁방식 — 수의 분류에서 제외(2026.08.23 정정) */
+      sutil: /수의|단독|1인/.test(it.sucsfbidMthdNm || it.cntrctCnclsMthdNm || it.bidMethdNm || it.bidwinrDcsnMthdNm || ""),   /* 협상에의한계약은 경쟁방식 — 수의 분류에서 제외(2026.08.23 정정) */
+      unit: /단가/.test(String(it.bidNtceNm || "") + String(it.cntrctCnclsMthdNm || ""))   /* 단가계약(원/kg 등) — 총액 합산에서 제외 */
     };
-  }).sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
+  });
+  return dedupRenotice(rows).sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); });
 }
 
 module.exports = async (req, res) => {
@@ -430,7 +452,7 @@ module.exports = async (req, res) => {
   if (!KEY) { res.setHeader("Cache-Control", "no-store"); return res.status(200).json({ configured: false, error: "G2B_API_KEY 미설정" }); }
 
   /* Redis 캐시 히트 시 즉시 응답 (콜드스타트에도 0.5초 내) */
-  const cacheKey = "g2b:v5:" + region + ":" + days + ":" + vendor + ":" + (q.full ? "F" : "S") + ":" + (KEY2 ? "R" : "B");
+  const cacheKey = "g2b:v6:" + region + ":" + days + ":" + vendor + ":" + (q.full ? "F" : "S") + ":" + (KEY2 ? "R" : "B");
   const cachedPayload = await kvGet(cacheKey);
   if (cachedPayload) {
     cachedPayload.cached = true;
@@ -522,7 +544,11 @@ module.exports = async (req, res) => {
     });
     const vendorStats = Object.values(byVendor).sort(function (a, b) { return b.amount - a.amount; });
 
-    const total = filtered.reduce(function (a, b) { return a + (b.amount || 0); }, 0);
+    const nonUnit = filtered.filter(function (b) { return !b.unit; });
+    const total = nonUnit.reduce(function (a, b) { return a + (b.amount || 0); }, 0);
+    const amts = nonUnit.map(function (b) { return b.amount || 0; }).filter(function (v) { return v > 0; }).sort(function (a, b) { return a - b; });
+    const med = amts.length ? amts[Math.floor(amts.length / 2)] : 0;
+    const renoticeRemoved = filtered.reduce(function (a, b) { return a + (b.reCnt || 0); }, 0);
     const sutil = filtered.filter(function (b) { return /수의|단독/.test(b.method); }).length;
 
     const payload = {
@@ -535,8 +561,11 @@ module.exports = async (req, res) => {
       filtered_count: filtered.length,
       bids: filtered.slice(0, (q.full ? 700 : 50)),
       stats: {
-        total_amount: total,
-        avg_amount: filtered.length ? Math.round(total / filtered.length) : 0,
+        total_amount: total,               /* 단가계약 제외·재공고 최신 1건 기준 */
+        med_amount: med,                   /* 중위 금액(0원·단가 제외) */
+        unit_count: filtered.length - nonUnit.length,   /* 단가계약 건수(별도) */
+        renotice_removed: renoticeRemoved, /* 재공고·정정으로 접힌 중복 건수 */
+        avg_amount: nonUnit.length ? Math.round(total / nonUnit.length) : 0,
         sutil_count: sutil,
         sutil_ratio: filtered.length ? +(sutil / filtered.length * 100).toFixed(1) : 0,
         vendor_count: Object.keys(byVendor).length
@@ -544,7 +573,7 @@ module.exports = async (req, res) => {
       by_year: yearStats,
       by_kind: Object.values(byKind).sort(function (a, b) { return b.amount - a.amount; }),
       by_vendor: vendorStats.slice(0, (q.full ? 300 : 30)),
-      partial: !!r.partial,
+      partial: !!r.partial,              /* true = 원천 API가 창당 100건 초과로 일부만 수신 */
       fetched_at: new Date().toISOString(),
       src: "조달청 나라장터 · " + r.src + (awardHits ? " + 낙찰정보 연계(낙찰업체 " + awardHits + "건)" : ""),
       award_linked: awardHits
