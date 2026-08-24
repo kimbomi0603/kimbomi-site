@@ -259,6 +259,67 @@ module.exports = async (req, res) => {
   const vendor = (q.vendor || "").toString().trim();
   const days = Math.max(1, Math.min(180, parseInt(q.days || 90, 10)));
 
+  /* ═══ 열린재정(openfiscaldata.go.kr) OPEN API 프록시 — Hobby 함수 12개 제한으로 contract.js에 통합 ═══
+     호출: /api/contract?ofd=IncomeTax&OJ_YY=2025  /  목록: /api/contract?ofd=list
+     기관: 기획예산처·한국재정정보원 · 인증키: 환경변수 OFD_API_KEY(하드코딩 금지)
+     주의: 원 API가 브라우저 UA·Referer 헤더를 요구함(없으면 오류 페이지 반환) */
+  if (q.ofd) {
+    const OFD_ALLOW = {
+      IncomeTax:{nm:"국세수입",yr:"OJ_YY"}, NontaxIncome:{nm:"세외수입",yr:"OJ_YY"},
+      FundIncome:{nm:"기금수입",yr:"OJ_YY"}, GovernmentInvestment:{nm:"정부출자현황",yr:"OJ_YY"},
+      GovernmentDividend:{nm:"정부출자기관 정부배당",yr:"OJ_YY"},
+      OPFI166:{nm:"중앙관서별 총지출추이",yr:"ACNT_YR"}, OPFI163:{nm:"사업성기금 운용규모",yr:"ACNT_YR"},
+      OPFI161:{nm:"특별회계별 재정지출추이",yr:"ACNT_YR"}, OPFI123:{nm:"성질별 지출추이",yr:"ACNT_YR"},
+      OPFI121:{nm:"이월의 성질별 추이",yr:"ACNT_YR"}, OPFB129:{nm:"분야별 재원배분 계획",yr:"ACNT_YR"},
+      OPFI172:{nm:"분야별 프로그램 예산",yr:"ACNT_YR"}, OPFI134:{nm:"분야별 출연금 지출추이",yr:"ACNT_YR"},
+      OPFI165:{nm:"16대 분야별 재원배분",yr:"ACNT_YR"}, OPFI150:{nm:"작성기준별 주요재정통계",yr:"ACNT_YR"},
+      OPFI140:{nm:"연도별 총세입·총세출",yr:"ACNT_YR"}
+    };
+    const ep = String(q.ofd).trim();
+    if (ep === "list") {
+      res.setHeader("Cache-Control","public, s-maxage=86400");
+      return res.status(200).json({ ok:true, endpoints:Object.entries(OFD_ALLOW).map(([k,v])=>({ep:k,nm:v.nm,yearParam:v.yr})) });
+    }
+    if (!OFD_ALLOW[ep]) return res.status(200).json({ ok:false, error:"허용되지 않은 엔드포인트", hint:"/api/contract?ofd=list" });
+    const OKEY = process.env.OFD_API_KEY || "";
+    if (!OKEY) { res.setHeader("Cache-Control","no-store"); return res.status(200).json({ ok:false, error:"OFD_API_KEY 미설정", hint:"Vercel 환경변수에 열린재정 인증키를 등록하세요." }); }
+    const d = OFD_ALLOW[ep];
+    const oyr = String(q[d.yr] || q.year || "").replace(/[^0-9]/g,"").slice(0,4);
+    const osz = Math.min(parseInt(q.pSize||"1000",10)||1000, 1000);
+    const oix = Math.max(parseInt(q.pIndex||"1",10)||1, 1);
+    const ock = `ofd:v1:${ep}:${oyr}:${oix}:${osz}`;
+    if (!q.fresh) { const c = await kvGet(ock); if (c) { c.cached = true; return res.status(200).json(c); } }
+    const op = new URLSearchParams({ Key:OKEY, Type:"json", pIndex:String(oix), pSize:String(osz) });
+    if (oyr) op.set(d.yr, oyr);
+    try {
+      const rr = await fetch(`https://openapi.openfiscaldata.go.kr/${ep}?${op}`, {
+        headers:{ "User-Agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
+                  "Referer":"https://www.openfiscaldata.go.kr/", "Accept":"application/json,*/*" },
+        signal: AbortSignal.timeout(15000) });
+      const txt = await rr.text();
+      let j; try { j = JSON.parse(txt); if (typeof j === "string") j = JSON.parse(j); } catch(e){ j = null; }
+      if (!j) { res.setHeader("Cache-Control","no-store"); return res.status(200).json({ ok:false, ep, error:"응답 파싱 실패(원 API 오류 페이지)" }); }
+      if (j.RESULT) {
+        const o0 = { ok:true, ep, nm:d.nm, year:oyr||null, total:0, count:0, rows:[], note:j.RESULT.MESSAGE||"" };
+        await kvSet(ock,o0,21600);
+        res.setHeader("Cache-Control","public, s-maxage=21600, stale-while-revalidate=86400");
+        return res.status(200).json(o0);
+      }
+      const body = j[ep] || [];
+      const hd = (body.find(b=>b.head)||{}).head || [];
+      const tc = ((hd.find(x=>x.list_total_count!=null)||{}).list_total_count);
+      const rws = (body.find(b=>b.row)||{}).row || [];
+      const o1 = { ok:true, ep, nm:d.nm, year:oyr||null, total:(tc==null?null:tc), count:rws.length, rows:rws,
+                   src:"기획예산처·한국재정정보원 열린재정 OPEN API", fetched_at:new Date().toISOString() };
+      await kvSet(ock,o1,21600);
+      res.setHeader("Cache-Control","public, s-maxage=21600, stale-while-revalidate=86400");
+      return res.status(200).json(o1);
+    } catch(e) {
+      res.setHeader("Cache-Control","no-store");
+      return res.status(200).json({ ok:false, ep, error:String((e&&e.message)||e) });
+    }
+  }
+
   /* 중앙선관위(9760000) 공공데이터 프록시 — /api/contract?nec=<서비스>/<오퍼>&sgId=... (Hobby 함수 제한으로 통합)
      예: ?nec=ElecPrmsInfoInqireService/getCnddtElecPrmsInfoInqire&sgId=20220601&sgTypecode=4&cnddtId=100135777 */
   if (q.nec) {

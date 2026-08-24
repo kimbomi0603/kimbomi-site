@@ -2230,7 +2230,7 @@ h1{letter-spacing:-.035em;font-weight:900}
   function load(){
     var b=document.getElementById('nfBody'); if(!b) return;
     b.innerHTML='<div class="nf-none">불러오는 중…</div>';
-    fetch('/api/ofd?ep='+encodeURIComponent(EP)+'&'+yrParam(EP)+'='+encodeURIComponent(YR))
+    fetch('/api/contract?ofd='+encodeURIComponent(EP)+'&'+yrParam(EP)+'='+encodeURIComponent(YR))
       .then(function(r){return r.json();}).then(render)
       .catch(function(e){ render({ok:false,error:String(e&&e.message||e)}); });
   }
