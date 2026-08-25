@@ -1156,7 +1156,7 @@ h1{letter-spacing:-.035em;font-weight:900}
 </style>
 <div id="kbNotice" style="background:#7c2d12;color:#fff;text-align:center;font-size:.82rem;font-weight:700;padding:8px 14px;line-height:1.5">
   ⚠️ 데이터 검증·개선 작업이 진행 중입니다. 모든 수치는 공공데이터 API 연동 공시값이며, <b>API 오류·지연·점검 시 값이 표시되지 않거나 실제와 다를 수 있습니다.</b> 출처 미확보 항목은 '—'로 비워 두며, 법적·행정적 활용 전 반드시 지방재정365·나라장터 등 <b>공식 원부를 확인</b>하세요. 이상한 수치는 하단 문의로 제보해 주세요.
-  <span style="opacity:.75;font-weight:500">· 빌드 v2026.08.25-1</span>
+  <span style="opacity:.75;font-weight:500">· 빌드 v2026.08.25-2</span>
 </div>
 <header class="g365bar">
   <div class="g365bar-in">
@@ -4108,9 +4108,11 @@ function renderDetail(R){
     const natFestival = (typeof NATIONAL!=='undefined' && NATIONAL.festivalAvg!=null)?NATIONAL.festivalAvg:null;
     /* 업무추진비 실데이터 — 지방재정365 NBRILV(기관운영)·YQMZYF(시책추진). kbLoadBoe()가 비동기로 채움 */
     const _boe = (window.__BOE && window.__BOE[R.key]) || null;
+    const _cnl = _boe;
     return {fiscalGrade:fiscalGrade,fiscalGradeColor:fiscalGradeColor,
       boeOrgBdg:_boe?_boe.orgBdg:null, boeOrgExe:_boe?_boe.orgExe:null, boeOrgRt:_boe?_boe.orgRt:null,
       boePolBdg:_boe?_boe.polBdg:null, boePolExe:_boe?_boe.polExe:null, boePolRt:_boe?_boe.polRt:null,
+      cnlBdg:_boe?_boe.cnlBdg:null, cnlExe:_boe?_boe.cnlExe:null, cnlRt:_boe?_boe.cnlRt:null, cnlCnt:_boe?_boe.cnlCnt:null,
       headBudget:null,chairBudget:null,q1:null,q2:null,q3:null,q4:null,
       festivalPct:null,natFestival:natFestival,subOrgs:null,grantBillions:null,foiRequests:null,foiOpenRate:null,
       pm25:null,pm25Grade:['—','#94a3b8'],erCount:null,erTime:null,crimeRate:null,fireCount:null,fireDamage:null};
@@ -4158,6 +4160,7 @@ function renderDetail(R){
      <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:11px 13px;font-size:.78rem;color:#075985;line-height:1.55;margin-bottom:12px">📌 행정안전부 지방재정 분석평가 + 지방재정365 의무공시 항목입니다. <b>현재 이 블록의 개별 수치는 공식 출처를 확보하지 못해 표시하지 않습니다(—).</b> 정확한 값은 행안부 공시 결과를 확인하세요.</div>
      <div class="dgrid">
        <div class="dstat"><div class="l">행안부 재정분석 등급</div><div class="v mono" style="color:${gov.fiscalGradeColor};font-size:1.6rem">${gov.fiscalGrade}</div><div class="s muted">매년 행안부 종합평가</div></div>       <div class="dstat"><div class="l">기관운영 업무추진비 집행</div><div class="v mono" style="font-size:1.05rem">${gov.boeOrgExe==null?'—':fmt(Math.round(gov.boeOrgExe/10000))+'<span class="s muted"> 만원</span>'}</div><div class="s muted">${gov.boeOrgBdg==null?'지방재정365 NBRILV':'예산 '+fmt(Math.round(gov.boeOrgBdg/10000))+'만원 · 집행률 '+gov.boeOrgRt+'%'}</div></div>
+       <div class="dstat"><div class="l">의회 운영비 (입법·선거관리)</div><div class="v mono" style="font-size:1.05rem">${gov.cnlExe==null?'—':fmt(Math.round(gov.cnlExe/10000))+'<span class="s muted"> 만원</span>'}</div><div class="s muted">${gov.cnlBdg==null?'지방재정365 세부사업별 세출':'예산 '+fmt(Math.round(gov.cnlBdg/10000))+'만원 · 집행률 '+gov.cnlRt+'% · 사업 '+gov.cnlCnt+'건'}</div></div>
        <div class="dstat"><div class="l">시책추진 업무추진비 집행</div><div class="v mono" style="font-size:1.05rem">${gov.boePolExe==null?'—':fmt(Math.round(gov.boePolExe/10000))+'<span class="s muted"> 만원</span>'}</div><div class="s muted">${gov.boePolBdg==null?'지방재정365 YQMZYF':'예산 '+fmt(Math.round(gov.boePolBdg/10000))+'만원 · 집행률 '+gov.boePolRt+'%'}</div></div>       <div class="dstat"><div class="l">행사·축제 경비 비율</div><div class="v mono" style="color:${gov.festivalPct<1.5?'#164ea3':gov.festivalPct<3?'#b45309':'#e11d48'}">${gov.festivalPct}<span class="s muted">%</span></div><div class="s muted">전국 평균 ${gov.natFestival}% · ${gov.festivalPct>gov.natFestival?'⬆ 평균↑':'⬇ 평균↓'}</div></div>
        <div class="dstat"><div class="l">출자·출연기관</div><div class="v mono">${gov.subOrgs}<span class="s muted"> 곳</span></div><div class="s muted">산하 공공기관</div></div>
        <div class="dstat"><div class="l">민간이전경비 (보조금)</div><div class="v mono" style="font-size:1.05rem">${won억(gov.grantBillions)}</div><div class="s muted">예산의 ${(gov.grantBillions/R.budget*100).toFixed(1)}%</div></div>
@@ -4293,12 +4296,15 @@ async function kbLoadBoe(R){
       .catch(function(){ return null; });
   }
   try{
-    var res = await Promise.all([one('NBRILV'), one('YQMZYF')]);
-    var org=res[0], pol=res[1];
+    var council = fetch('/api/projects?laf_cd='+cd+'&part='+encodeURIComponent('입법및선거관리')+'&limit=20')
+      .then(function(r){return r.json();}).then(function(j){ return (j&&j.sum)?j.sum:null; }).catch(function(){return null;});
+    var res = await Promise.all([one('NBRILV'), one('YQMZYF'), council]);
+    var org=res[0], pol=res[1], cnl=res[2];
     var num=function(v){ var n=Number(v); return isFinite(n)&&v!==''&&v!=null?n:null; };
     window.__BOE[R.key] = {
       orgExe: org?num(org.smy_cntt_amt):null,   orgBdg: org?num(org.smy_cntt_amt4):null, orgRt: org?num(org.smy_cntt_amt_rt):null,
-      polBdg: pol?num(pol.smy_cntt_amt):null,   polExe: pol?num(pol.smy_cntt_amt2):null, polRt: pol?num(pol.smy_cntt_amt_rt):null
+      polBdg: pol?num(pol.smy_cntt_amt):null,   polExe: pol?num(pol.smy_cntt_amt2):null, polRt: pol?num(pol.smy_cntt_amt_rt):null,
+      cnlBdg: cnl?cnl.budget:null, cnlExe: cnl?cnl.exec:null, cnlRt: cnl?cnl.rate:null, cnlCnt: cnl?cnl.count:null
     };
     var ov=document.getElementById('detailOverlay');
     if(ov && ov.classList.contains('open')){ try{ renderDetail(R); }catch(e){} }
