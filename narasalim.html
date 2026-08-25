@@ -1156,7 +1156,7 @@ h1{letter-spacing:-.035em;font-weight:900}
 </style>
 <div id="kbNotice" style="background:#7c2d12;color:#fff;text-align:center;font-size:.82rem;font-weight:700;padding:8px 14px;line-height:1.5">
   ⚠️ 데이터 검증·개선 작업이 진행 중입니다. 모든 수치는 공공데이터 API 연동 공시값이며, <b>API 오류·지연·점검 시 값이 표시되지 않거나 실제와 다를 수 있습니다.</b> 출처 미확보 항목은 '—'로 비워 두며, 법적·행정적 활용 전 반드시 지방재정365·나라장터 등 <b>공식 원부를 확인</b>하세요. 이상한 수치는 하단 문의로 제보해 주세요.
-  <span style="opacity:.75;font-weight:500">· 빌드 v2026.08.24-3</span>
+  <span style="opacity:.75;font-weight:500">· 빌드 v2026.08.25-1</span>
 </div>
 <header class="g365bar">
   <div class="g365bar-in">
@@ -4093,6 +4093,7 @@ function extGrade(x){if(x==null||!isFinite(x))return ['—','#94a3b8'];return x<
 function blockStatus(){return '<span class="bstat-wait">값이 있는 항목=공식 공시 · — 표시=출처 미확보(비표시)</span>';}
 function renderDetail(R){
   if(!R) return;
+  try{ if(R.key!=='전국' && !(window.__BOE&&window.__BOE[R.key])) kbLoadBoe(R); }catch(e){}
   const yr=R.trend[R.trend.length-1].year;
   document.getElementById('dTitle').textContent=R.display+' 상세 페이지';
   document.getElementById('dMeta').innerHTML=`${R.grade?('재정 건강등급 '+R.grade+' · 종합 '+R.score+'점 · '):''}${R.fiscalYear||yr} 회계연도 · ${R.realSrc?('🟢 '+R.realSrc):'⚪ 공식 공시 미연동'}`;
@@ -4105,7 +4106,12 @@ function renderDetail(R){
     const fiscalGrade=(R.score==null)?'—':['A','B','C','D','E'][Math.min(4, Math.floor((100-R.score)/22))];
     const fiscalGradeColor={A:'#164ea3',B:'#2263c5',C:'#f59e0b',D:'#fb923c',E:'#e11d48'}[fiscalGrade]||'#94a3b8';
     const natFestival = (typeof NATIONAL!=='undefined' && NATIONAL.festivalAvg!=null)?NATIONAL.festivalAvg:null;
-    return {fiscalGrade:'—',fiscalGradeColor:'#94a3b8',headBudget:null,chairBudget:null,q1:null,q2:null,q3:null,q4:null,
+    /* 업무추진비 실데이터 — 지방재정365 NBRILV(기관운영)·YQMZYF(시책추진). kbLoadBoe()가 비동기로 채움 */
+    const _boe = (window.__BOE && window.__BOE[R.key]) || null;
+    return {fiscalGrade:fiscalGrade,fiscalGradeColor:fiscalGradeColor,
+      boeOrgBdg:_boe?_boe.orgBdg:null, boeOrgExe:_boe?_boe.orgExe:null, boeOrgRt:_boe?_boe.orgRt:null,
+      boePolBdg:_boe?_boe.polBdg:null, boePolExe:_boe?_boe.polExe:null, boePolRt:_boe?_boe.polRt:null,
+      headBudget:null,chairBudget:null,q1:null,q2:null,q3:null,q4:null,
       festivalPct:null,natFestival:natFestival,subOrgs:null,grantBillions:null,foiRequests:null,foiOpenRate:null,
       pm25:null,pm25Grade:['—','#94a3b8'],erCount:null,erTime:null,crimeRate:null,fireCount:null,fireDamage:null};
   })();
@@ -4151,18 +4157,10 @@ function renderDetail(R){
    <div class="dblock"><h3>🏛️ 행안부 재정분석평가·공시 (확장 지표)</h3>
      <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:11px 13px;font-size:.78rem;color:#075985;line-height:1.55;margin-bottom:12px">📌 행정안전부 지방재정 분석평가 + 지방재정365 의무공시 항목입니다. <b>현재 이 블록의 개별 수치는 공식 출처를 확보하지 못해 표시하지 않습니다(—).</b> 정확한 값은 행안부 공시 결과를 확인하세요.</div>
      <div class="dgrid">
-       <div class="dstat"><div class="l">행안부 재정분석 등급</div><div class="v mono" style="color:${gov.fiscalGradeColor};font-size:1.6rem">${gov.fiscalGrade}</div><div class="s muted">매년 행안부 종합평가</div></div>
-       <div class="dstat"><div class="l">단체장 업무추진비/년</div><div class="v mono" style="font-size:1.05rem">${fmt(gov.headBudget)}<span class="s muted"> 백만원</span></div><div class="s muted">${R.isSido?'시·도지사':'단체장'}</div></div>
-       <div class="dstat"><div class="l">의장 업무추진비/년</div><div class="v mono" style="font-size:1.05rem">${fmt(gov.chairBudget)}<span class="s muted"> 백만원</span></div></div>
-       <div class="dstat"><div class="l">행사·축제 경비 비율</div><div class="v mono" style="color:${gov.festivalPct<1.5?'#164ea3':gov.festivalPct<3?'#b45309':'#e11d48'}">${gov.festivalPct}<span class="s muted">%</span></div><div class="s muted">전국 평균 ${gov.natFestival}% · ${gov.festivalPct>gov.natFestival?'⬆ 평균↑':'⬇ 평균↓'}</div></div>
+       <div class="dstat"><div class="l">행안부 재정분석 등급</div><div class="v mono" style="color:${gov.fiscalGradeColor};font-size:1.6rem">${gov.fiscalGrade}</div><div class="s muted">매년 행안부 종합평가</div></div>       <div class="dstat"><div class="l">기관운영 업무추진비 집행</div><div class="v mono" style="font-size:1.05rem">${gov.boeOrgExe==null?'—':fmt(Math.round(gov.boeOrgExe/10000))+'<span class="s muted"> 만원</span>'}</div><div class="s muted">${gov.boeOrgBdg==null?'지방재정365 NBRILV':'예산 '+fmt(Math.round(gov.boeOrgBdg/10000))+'만원 · 집행률 '+gov.boeOrgRt+'%'}</div></div>
+       <div class="dstat"><div class="l">시책추진 업무추진비 집행</div><div class="v mono" style="font-size:1.05rem">${gov.boePolExe==null?'—':fmt(Math.round(gov.boePolExe/10000))+'<span class="s muted"> 만원</span>'}</div><div class="s muted">${gov.boePolBdg==null?'지방재정365 YQMZYF':'예산 '+fmt(Math.round(gov.boePolBdg/10000))+'만원 · 집행률 '+gov.boePolRt+'%'}</div></div>       <div class="dstat"><div class="l">행사·축제 경비 비율</div><div class="v mono" style="color:${gov.festivalPct<1.5?'#164ea3':gov.festivalPct<3?'#b45309':'#e11d48'}">${gov.festivalPct}<span class="s muted">%</span></div><div class="s muted">전국 평균 ${gov.natFestival}% · ${gov.festivalPct>gov.natFestival?'⬆ 평균↑':'⬇ 평균↓'}</div></div>
        <div class="dstat"><div class="l">출자·출연기관</div><div class="v mono">${gov.subOrgs}<span class="s muted"> 곳</span></div><div class="s muted">산하 공공기관</div></div>
        <div class="dstat"><div class="l">민간이전경비 (보조금)</div><div class="v mono" style="font-size:1.05rem">${won억(gov.grantBillions)}</div><div class="s muted">예산의 ${(gov.grantBillions/R.budget*100).toFixed(1)}%</div></div>
-     </div>
-     <div style="margin-top:14px">
-       <div style="font-size:.84rem;font-weight:800;color:#475569;margin-bottom:8px">📊 단체장 업무추진비 분기별 (백만원)</div>
-       <div style="display:flex;gap:8px;align-items:flex-end;height:90px;padding:8px 0;background:#f8fafc;border-radius:10px">
-         ${[gov.q1,gov.q2,gov.q3,gov.q4].map((q,i)=>{const max=Math.max(gov.q1,gov.q2,gov.q3,gov.q4); const h=Math.max(8,Math.round(q/max*70)); return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end"><div style="font-size:.7rem;color:#1e3a5f;font-weight:800;margin-bottom:3px">${fmt(q)}</div><div style="width:80%;height:${h}px;background:linear-gradient(180deg,#1d6fe0,#0e66e9);border-radius:6px 6px 0 0"></div><div style="font-size:.72rem;color:#64748b;margin-top:4px;font-weight:700">${i+1}분기</div></div>`}).join('')}
-       </div>
      </div>
    </div>
 
@@ -4186,24 +4184,17 @@ function renderDetail(R){
      </div>
    </div>
 
-   <div class="dblock"><h3>👥 공무원 급여 — 조직도 직급별 (참고 추정치)</h3>
-     <div style="background:#fef9f3;border:1px solid #fde9c8;border-radius:10px;padding:11px 13px;font-size:.78rem;color:#92651a;line-height:1.55;margin-bottom:12px">📌 행정안전부 공무원 보수규정·지방의회 의원 의정활동비 조례 기준 평균값입니다. 지자체별 상세는 결산서·조례에 따라 차이가 있을 수 있어, 실데이터 연동 시 자동 갱신됩니다.</div>
-     <div class="dgrid">
-       <div class="dstat"><div class="l">군수·지자체장 (정무직)</div><div class="v mono" style="font-size:1.05rem">약 1억 1,200만원/년</div><div class="s muted">기본급+직책수당+직무수당</div></div>
-       <div class="dstat"><div class="l">의장 (지방의회)</div><div class="v mono" style="font-size:1.05rem">약 6,800만원/년</div><div class="s muted">의정활동비+월정수당+의장수당</div></div>
-       <div class="dstat"><div class="l">지방의원</div><div class="v mono" style="font-size:1.05rem">약 4,500만원/년</div><div class="s muted">의정활동비 1,100만+월정 3,400만</div></div>
-       <div class="dstat"><div class="l">부단체장 (3급)</div><div class="v mono" style="font-size:1.05rem">약 9,400만원/년</div><div class="s muted">호봉별 평균</div></div>
-       <div class="dstat"><div class="l">국·실장 (4급 서기관)</div><div class="v mono" style="font-size:1.05rem">약 8,500만원/년</div><div class="s muted">호봉별 평균</div></div>
-       <div class="dstat"><div class="l">과장 (5급 사무관)</div><div class="v mono" style="font-size:1.05rem">약 7,500만원/년</div><div class="s muted">호봉별 평균</div></div>
-       <div class="dstat"><div class="l">팀장 (6급 주사)</div><div class="v mono" style="font-size:1.05rem">약 6,100만원/년</div><div class="s muted">호봉별 평균</div></div>
-       <div class="dstat"><div class="l">주무관 (7급)</div><div class="v mono" style="font-size:1.05rem">약 4,800만원/년</div><div class="s muted">호봉별 평균</div></div>
-       <div class="dstat"><div class="l">9급 신규 공무원</div><div class="v mono" style="font-size:1.05rem">약 3,200만원/년</div><div class="s muted">1호봉 기준</div></div>
+   <div class="dblock"><h3>👥 단체장·의원 보수 — 공식 원문 확인</h3>
+     <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:12px 14px;font-size:.8rem;color:#991b1b;line-height:1.7;margin-bottom:12px">
+       이 자리에는 전국 공통 <b>추정 연봉표</b>가 표시되고 있었습니다(군수 약 1억 1,200만원 등). 지자체마다 다른 값을 하나의 추정치로 보여주는 것은 사실과 다르므로 <b>2026-08-25 삭제</b>했습니다.
      </div>
-     <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;justify-content:flex-end">
-       <button class="ca-btn ca-btn-suggest" type="button" onclick="CA&&CA.openModal('suggest','salary-${R.key}','${R.display} 공무원 급여 체계')">💡 제안하기</button>
-       <button class="ca-btn ca-btn-report" type="button" onclick="CA&&CA.openModal('report','salary-${R.key}','${R.display} 공무원 급여 체계')">🚨 시정요구</button>
+     <div style="font-size:.84rem;color:#334155;line-height:1.9">
+       <b>단체장·부단체장 보수</b>는 「지방공무원 보수규정」(대통령령)과 각 지자체 <b>조례</b>로 정해지며, 지방재정365 공시 항목이 아닙니다.<br>
+       <b>지방의원 의정활동비·월정수당</b>은 각 의회 <b>조례</b>로 정하며 의회 누리집에 공개됩니다.<br>
+       <span style="color:#64748b">확인처 — <a href="https://www.law.go.kr/법령/지방공무원보수규정" target="_blank" rel="noopener">국가법령정보센터(보수규정)</a> · <a href="https://www.elis.go.kr" target="_blank" rel="noopener">자치법규정보시스템(조례)</a> · 해당 지자체·의회 누리집 정보공개란</span>
      </div>
    </div>
+
    <div class="dblock"><h3>📋 계약 현황 (수의계약 비율 등) ${blockStatus()}</h3>
      <div class="dgrid">
        <div class="dstat"><div class="l">총 계약규모</div><div class="v mono" style="font-size:1.1rem">${won억(R.contractTotal)}</div></div>
@@ -4260,6 +4251,7 @@ function renderDetail(R){
       lv.innerHTML='<div class="card" style="margin-top:14px"><h3 style="margin:0 0 6px">🏘️ 지역 실측 지표 <span style="font-size:.72rem;color:#94a3b8;font-weight:600">실시간 공공 API</span></h3><div id="kbLocalLiveBody" style="font-size:.9rem;color:#64748b">불러오는 중…</div></div>';
       document.getElementById('detailBody').appendChild(lv);
       kbLiveLocal(R);
+      kbLoadBoe(R);
     }
   }catch(e){}
 }
@@ -4283,6 +4275,34 @@ async function kbSggCodes(R){
   var base=ex.length?[ex[0].cd]:null;
   /* RTMS(실거래가)는 일반구 단위 코드, 충전소는 시 단위 코드 사용 — 2026.8 실측(수원 41110=12,710기·41111=0) */
   return { rtms: gus.length?gus.map(function(x){return x.cd;}):base, ev: base||( gus.length?[gus[0].cd]:null ) };
+}
+/* ═══ 업무추진비 실데이터 — 지방재정365 NBRILV(기관운영)·YQMZYF(시책추진) 2024 결산 ═══
+   필드 의미는 산술 검증으로 확정: rt = 집행액/예산액×100 (전국 표본 대조 일치).
+   세부 구성(단체장·부단체장 등)은 공시 필드 라벨이 확인되지 않아 표시하지 않습니다. */
+/* 지자체 재정코드(laf_cd) — 지방재정365 수집 실측 243곳 */
+window.KB_LAFCD={"서울특별시 동대문구":"1116000","서울특별시 동작구":"1130000","서울특별시 노원구":"1121000","서울특별시 성동구":"1114000","서울특별시 강서구":"1126000","서울특별시 광진구":"1115000","서울특별시 금천구":"1128000","서울특별시 영등포구":"1129000","서울특별시":"1100000","서울특별시 양천구":"1125000","서울특별시 중랑구":"1117000","서울특별시 강북구":"1119000","서울특별시 강남구":"1133000","서울특별시 종로구":"1111000","서울특별시 성북구":"1118000","서울특별시 관악구":"1131000","서울특별시 서대문구":"1123000","서울특별시 도봉구":"1120000","서울특별시 서초구":"1132000","서울특별시 용산구":"1113000","서울특별시 은평구":"1122000","서울특별시 중구":"1112000","서울특별시 송파구":"1134000","서울특별시 강동구":"1135000","서울특별시 마포구":"1124000","서울특별시 구로구":"1127000","제주특별자치도":"4900000","경상북도 울진군":"4782000","경상북도 경주시":"4712000","경상북도 영덕군":"4775000","경상북도 청도군":"4776000","경상북도 상주시":"4718000","경상북도 성주군":"4778000","경상북도 영천시":"4717000","경상북도 김천시":"4713000","경상북도 고령군":"4777000","경상북도":"4700000","경상북도 영주시":"4716000","경상북도 안동시":"4714000","경상북도 칠곡군":"4779000","경상북도 영양군":"4774000","경상북도 청송군":"4773000","경상북도 문경시":"4719000","경상북도 예천군":"4780000","경상북도 봉화군":"4781000","경상북도 경산시":"4720000","경상북도 울릉군":"4783000","경상북도 구미시":"4715000","경상북도 의성군":"4772000","경상북도 포항시":"4711000","부산광역시 금정구":"2621000","부산광역시 동구":"2613000","부산광역시 수영구":"2624000","부산광역시 북구":"2618000","부산광역시":"2600000","부산광역시 영도구":"2614000","부산광역시 동래구":"2616000","부산광역시 중구":"2611000","부산광역시 사상구":"2625000","부산광역시 강서구":"2622000","부산광역시 부산진구":"2615000","부산광역시 사하구":"2620000","부산광역시 해운대구":"2619000","부산광역시 서구":"2612000","부산광역시 남구":"2617000","부산광역시 연제구":"2623000","부산광역시 기장군":"2671000","충청북도 충주시":"4312000","충청북도 증평군":"4379000","충청북도 보은군":"4372000","충청북도 청주시":"4314000","충청북도 제천시":"4313000","충청북도 진천군":"4375000","충청북도":"4300000","충청북도 음성군":"4377000","충청북도 옥천군":"4373000","충청북도 괴산군":"4376000","충청북도 단양군":"4378000","충청북도 영동군":"4374000","세종특별자치시":"3200000","경상남도 통영시":"4815000","경상남도 양산시":"4820000","경상남도 진주시":"4813000","경상남도 거창군":"4879000","경상남도 남해군":"4875000","경상남도 하동군":"4876000","경상남도 창녕군":"4873000","경상남도 거제시":"4819000","경상남도 산청군":"4877000","경상남도":"4800000","경상남도 밀양시":"4818000","경상남도 김해시":"4817000","경상남도 합천군":"4880000","경상남도 창원시":"4811000","경상남도 고성군":"4874000","경상남도 사천시":"4816000","경상남도 의령군":"4871000","경상남도 함안군":"4872000","경상남도 함양군":"4878000","강원특별자치도 강릉시":"4213000","강원특별자치도 양양군":"4281000","강원특별자치도 평창군":"4274000","강원특별자치도 정선군":"4275000","강원특별자치도 홍천군":"4271000","강원특별자치도 원주시":"4212000","강원특별자치도 태백시":"4215000","강원특별자치도":"4200000","강원특별자치도 양구군":"4278000","강원특별자치도 영월군":"4273000","강원특별자치도 횡성군":"4272000","강원특별자치도 춘천시":"4211000","강원특별자치도 동해시":"4214000","강원특별자치도 삼척시":"4217000","강원특별자치도 철원군":"4276000","강원특별자치도 인제군":"4279000","강원특별자치도 화천군":"4277000","강원특별자치도 속초시":"4216000","강원특별자치도 고성군":"4280000","대구광역시 수성구":"2716000","대구광역시":"2700000","대구광역시 동구":"2712000","대구광역시 서구":"2713000","대구광역시 달서구":"2717000","대구광역시 달성군":"2771000","대구광역시 북구":"2715000","대구광역시 남구":"2714000","대구광역시 군위군":"2772000","대구광역시 중구":"2711000","전라남도 광양시":"4615000","전라남도 영암군":"4680000","전라남도 완도군":"4685000","전라남도 강진군":"4678000","전라남도 화순군":"4676000","전라남도 진도군":"4686000","전라남도 신안군":"4687000","전라남도 여수시":"4612000","광주광역시 광산구":"2915000","전라남도 장흥군":"4677000","전라남도 고흥군":"4674000","전라남도 나주시":"4614000","전라남도 곡성군":"4672000","전라남도 담양군":"4671000","전라남도 함평군":"4682000","전라남도 무안군":"4681000","전라남도 순천시":"4613000","전라남도 장성군":"4684000","전라남도 목포시":"4611000","전라남도 해남군":"4679000","전라남도":"4600000","광주광역시":"2900000","전라남도 구례군":"4673000","전라남도 보성군":"4675000","광주광역시 북구":"2914000","광주광역시 남구":"2913000","광주광역시 동구":"2911000","광주광역시 서구":"2912000","전라남도 영광군":"4683000","인천광역시 강화군":"2871000","인천광역시 옹진군":"2872000","인천광역시 미추홀구":"2813000","인천광역시 남동구":"2815000","인천광역시":"2800000","인천광역시 연수구":"2814000","인천광역시 서구":"2818000","인천광역시 중구":"2811000","인천광역시 계양구":"2817000","인천광역시 부평구":"2816000","인천광역시 동구":"2812000","대전광역시 서구":"3013000","대전광역시":"3000000","대전광역시 중구":"3012000","대전광역시 유성구":"3014000","대전광역시 대덕구":"3015000","대전광역시 동구":"3011000","전북특별자치도 전주시":"4511000","전북특별자치도 고창군":"4577000","전북특별자치도 완주군":"4571000","전북특별자치도 익산시":"4513000","전북특별자치도 정읍시":"4514000","전북특별자치도":"4500000","전북특별자치도 군산시":"4512000","전북특별자치도 남원시":"4515000","전북특별자치도 임실군":"4575000","전북특별자치도 김제시":"4516000","전북특별자치도 부안군":"4578000","전북특별자치도 순창군":"4576000","전북특별자치도 장수군":"4574000","전북특별자치도 진안군":"4572000","전북특별자치도 무주군":"4573000","충청남도 천안시":"4411000","충청남도 청양군":"4475000","충청남도":"4400000","충청남도 아산시":"4414000","충청남도 서산시":"4415000","충청남도 부여군":"4473000","충청남도 보령시":"4413000","충청남도 예산군":"4477000","충청남도 금산군":"4471000","충청남도 당진시":"4418000","충청남도 공주시":"4412000","충청남도 태안군":"4478000","충청남도 홍성군":"4476000","충청남도 계룡시":"4417000","충청남도 서천군":"4474000","충청남도 논산시":"4416000","울산광역시 중구":"3111000","울산광역시 울주군":"3171000","울산광역시 북구":"3114000","울산광역시":"3100000","울산광역시 동구":"3113000","울산광역시 남구":"3112000","경기도 오산시":"4124000","경기도 여주시":"4138000","경기도 성남시":"4112000","경기도 부천시":"4115000","경기도 수원시":"4111000","경기도 이천시":"4131000","경기도 안성시":"4132000","경기도 파주시":"4130000","경기도 구리시":"4122000","경기도 하남시":"4128000","경기도 안양시":"4114000","경기도 양평군":"4178000","경기도 포천시":"4137000","경기도 의정부시":"4113000","경기도 용인시":"4129000","경기도 양주시":"4136000","경기도 광주시":"4135000","경기도":"4100000","경기도 연천군":"4175000","경기도 고양시":"4120000","경기도 평택시":"4117000","경기도 동두천시":"4118000","경기도 광명시":"4116000","경기도 안산시":"4119000","경기도 화성시":"4134000","경기도 군포시":"4126000","경기도 남양주시":"4123000","경기도 과천시":"4121000","경기도 의왕시":"4127000","경기도 가평군":"4177000","경기도 김포시":"4133000","경기도 시흥시":"4125000"};
+window.__BOE = window.__BOE || {};
+async function kbLoadBoe(R){
+  if(!R || R.key==='전국' || window.__BOE[R.key]) return;
+  var cd = (window.KB_LAFCD && window.KB_LAFCD[R.key]) || null;
+  if(!cd) return;
+  function one(hub){
+    return fetch('/api/lofin?hub='+hub+'&fyr=2024&laf_cd='+cd+'&pSize=1&pIndex=1')
+      .then(function(r){return r.json();})
+      .then(function(j){ var rows=(j&&j.rows)||[]; return rows[0]||null; })
+      .catch(function(){ return null; });
+  }
+  try{
+    var res = await Promise.all([one('NBRILV'), one('YQMZYF')]);
+    var org=res[0], pol=res[1];
+    var num=function(v){ var n=Number(v); return isFinite(n)&&v!==''&&v!=null?n:null; };
+    window.__BOE[R.key] = {
+      orgExe: org?num(org.smy_cntt_amt):null,   orgBdg: org?num(org.smy_cntt_amt4):null, orgRt: org?num(org.smy_cntt_amt_rt):null,
+      polBdg: pol?num(pol.smy_cntt_amt):null,   polExe: pol?num(pol.smy_cntt_amt2):null, polRt: pol?num(pol.smy_cntt_amt_rt):null
+    };
+    var ov=document.getElementById('detailOverlay');
+    if(ov && ov.classList.contains('open')){ try{ renderDetail(R); }catch(e){} }
+  }catch(e){}
 }
 async function kbLiveLocal(R){
   var el=document.getElementById('kbLocalLiveBody'); if(!el) return;
@@ -5293,39 +5313,10 @@ const CA = {
   region: '전라남도 강진군',
   tab: 'policy',
   plazaSort: 'popular',
-  mockData: {
-    policy: [
-      {id:'p1',cat:'복지',title:'어르신 무료 건강검진 확대',meta:'대상 65세 이상 · 예산 12억원 · 시행률 87%'},
-      {id:'p2',cat:'교통',title:'시내버스 무료 시범운영',meta:'주말 한정 · 예산 5억원 · 만족도 92%'},
-      {id:'p3',cat:'교육',title:'AI 평생교육 프로그램',meta:'전 군민 대상 · 예산 3억원 · 참여 1,200명'},
-      {id:'p4',cat:'농업',title:'청년농 스마트팜 지원',meta:'30대 이하 · 1억원/명 · 신청 마감'},
-      {id:'p5',cat:'환경',title:'태양광 주택 보급 사업',meta:'1,500가구 · 자부담 30% · 진행 중'}
-    ],
-    budget: [
-      {id:'b1',cat:'사회복지',title:'사회복지 1,420억원',meta:'전체 예산의 30.6% · 전년 대비 +12%'},
-      {id:'b2',cat:'농림수산',title:'농림수산 980억원',meta:'전체 예산의 21.1% · 전년 대비 +8%'},
-      {id:'b3',cat:'문화관광',title:'문화관광·축제 220억원',meta:'전체 예산의 4.7% · 전년 대비 +35% ⚠️'},
-      {id:'b4',cat:'환경',title:'환경·에너지 180억원',meta:'전체 예산의 3.9% · 전년 대비 -2%'},
-      {id:'b5',cat:'교통',title:'교통·도로 350억원',meta:'전체 예산의 7.5% · 전년 대비 +5%'}
-    ],
-    contract: [
-      {id:'c1',cat:'수의계약',title:'OO토목 도로포장 공사 18억원',meta:'5년 연속 동일업체 · 단가 비교 필요'},
-      {id:'c2',cat:'경쟁입찰',title:'OO IT 시스템 구축 6.2억원',meta:'3개 업체 입찰 · 적정 가격'},
-      {id:'c3',cat:'수의계약',title:'OO 행사 운영 용역 4.5억원',meta:'단년도 계약 · 사업 규모 작음에도 수의'},
-      {id:'c4',cat:'경쟁입찰',title:'학교 급식 식자재 납품 9.8억원',meta:'7개 업체 입찰 · 지역 우선 적용'},
-      {id:'c5',cat:'수의계약',title:'OO 청소·시설 위탁 7.1억원',meta:'4년 연속 갱신 · 가격경쟁 점검 권고'}
-    ],
-    salary: [
-      {id:'s1',cat:'정무직',title:'군수 (지자체장)',meta:'연봉 약 1억 1,200만원 · 정무직 · 기본급+직책수당+직무수당'},
-      {id:'s2',cat:'의장단',title:'의장 (지방의회)',meta:'연봉 약 6,800만원 · 의정활동비+월정수당+의장수당'},
-      {id:'s3',cat:'의원',title:'지방의원',meta:'연봉 약 4,500만원 · 의정활동비 1,100만+월정수당 3,400만'},
-      {id:'s4',cat:'부단체장',title:'부군수 (3급)',meta:'연봉 약 9,400만원 · 호봉별 · 기본급+직급보조비'},
-      {id:'s5',cat:'국장(4급)',title:'국·실장 (4급 서기관)',meta:'연봉 약 8,500만원 · 호봉별 평균'},
-      {id:'s6',cat:'과장(5급)',title:'과장 (5급 사무관)',meta:'연봉 약 7,500만원 · 호봉별 평균'},
-      {id:'s7',cat:'팀장(6급)',title:'팀장 (6급 주사)',meta:'연봉 약 6,100만원 · 호봉별 평균'},
-      {id:'s8',cat:'주무관(7급)',title:'주무관 (7급)',meta:'연봉 약 4,800만원 · 호봉별 평균'},
-      {id:'s9',cat:'신규직(9급)',title:'9급 신규 공무원',meta:'연봉 약 3,200만원 · 1호봉 기준'}
-    ]
+  /* 시연용 가짜 데이터(mockData) 전량 삭제 — 2026-08-25.
+     정책·예산·계약 예시와 직급별 추정 연봉표가 모든 지자체에 동일하게 표시되고 있었음.
+     실데이터 연동 전까지 빈 배열을 유지하며 화면에는 안내문만 표시합니다. */
+  mockData: { policy: [], budget: [], contract: [], salary: [] 
   },
   seedPosts: [
     {id:'sp1',region:'전라남도 강진군',type:'suggest',author:'동네지킴이',title:'[예시] 축제 예산 35% 증가, 정말 필요한가요?',content:'올해 축제·관광 예산이 작년보다 35%나 늘었는데, 정작 어르신 돌봄이나 청년 일자리 예산은 거의 안 늘었어요. 우선순위 조정 부탁드립니다.',likes:0,comments:0,time:Date.now()-3600000*5},
@@ -5360,7 +5351,16 @@ const CA = {
     const names={policy:'정책',budget:'예산',contract:'계약',salary:'공무원 급여'};
     const panel=document.getElementById('caTabPanel');
     if(!panel) return;
-    const note=this.tab==='salary'?' (행정안전부 공무원 보수규정·지방재정365 기준 추정치)':' (시연 데이터 · 실데이터 연동 시 자동 갱신)';
+    const note='';
+    if(!data.length){
+      panel.innerHTML='<div class="ca-tab-meta"><b>'+this.esc(this.region)+'</b>의 '+names[this.tab]+' 현황</div>'
+        +'<div style="padding:18px;color:#64748b;font-size:.88rem;line-height:1.8;background:#f8fafc;border-radius:10px">'
+        +'이 탭에는 모든 지자체에 동일하게 표시되던 <b>시연용 예시 데이터</b>가 있었습니다. 실제 값이 아니므로 <b>2026-08-25 삭제</b>했습니다.<br>'
+        +'실데이터는 <b>📑 우리동네 상세페이지</b>(예산·집행·계약)와 <b>계약현황 대시보드</b>에서 확인하세요.'
+        +(this.tab==='salary'?'<br>단체장·의원 보수는 지방재정365 공시 항목이 아니며 조례·보수규정으로 정해집니다.':'')
+        +'</div>';
+      return;
+    }
     panel.innerHTML = `<div class="ca-tab-meta"><b>${this.esc(this.region)}</b>의 ${names[this.tab]} 현황${note}</div>` + data.map(item=>`
       <div class="ca-card">
         <div class="ca-card-body">
