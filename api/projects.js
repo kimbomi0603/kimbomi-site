@@ -36,6 +36,9 @@ module.exports = async (req, res) => {
 
     if (!rows || !rows.length) { res.setHeader("Cache-Control", "no-store"); return res.status(200).json({ error: "데이터 없음 — 일자/코드/연도 확인 필요", projects: [] }); }
     if (zone) rows = rows.filter(r => String(r.laf_hg_nm || "").includes(zone));
+    /* 부문 필터 — ?part=입법및선거관리 처럼 특정 부문만 집계(의회 운영비 등) */
+    const part = String(q.part || "").trim();
+    if (part) rows = rows.filter(r => String(r.part_nm || "") === part);
 
     const groups = {};
     rows.forEach(r => {
@@ -51,7 +54,10 @@ module.exports = async (req, res) => {
       .sort((a, b) => parseSize(b.budget) - parseSize(a.budget))
       .slice(0, limit);
 
-    return res.status(200).json({ region: rows[0] ? String(rows[0].laf_hg_nm || rows[0].wa_laf_hg_nm || "").replace(/^전남광주(?!통합)/, "전남광주통합특별시 ") : "", projects, date: usedDate, fyr: usedFyr, laf_cd: lafCd, count: projects.length, src: "lofin365 QWGJK(세부사업별 세출)" });
+    const sumB = Object.values(groups).reduce((a,p)=>a+p.budget,0);
+    const sumE = Object.values(groups).reduce((a,p)=>a+p.exec,0);
+    return res.status(200).json({ part: part||null, sum:{budget:sumB, exec:sumE, count:Object.keys(groups).length, rate: sumB? Math.round(sumE/sumB*1000)/10 : null},
+      region: rows[0] ? String(rows[0].laf_hg_nm || rows[0].wa_laf_hg_nm || "").replace(/^전남광주(?!통합)/, "전남광주통합특별시 ") : "", projects, date: usedDate, fyr: usedFyr, laf_cd: lafCd, count: projects.length, src: "lofin365 QWGJK(세부사업별 세출)" });
   } catch (e) {
     res.setHeader("Cache-Control", "no-store");
     return res.status(500).json({ error: String((e && e.message) || e) });
