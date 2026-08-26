@@ -1156,7 +1156,7 @@ h1{letter-spacing:-.035em;font-weight:900}
 </style>
 <div id="kbNotice" style="background:#7c2d12;color:#fff;text-align:center;font-size:.82rem;font-weight:700;padding:8px 14px;line-height:1.5">
   ⚠️ 데이터 검증·개선 작업이 진행 중입니다. 모든 수치는 공공데이터 API 연동 공시값이며, <b>API 오류·지연·점검 시 값이 표시되지 않거나 실제와 다를 수 있습니다.</b> 출처 미확보 항목은 '—'로 비워 두며, 법적·행정적 활용 전 반드시 지방재정365·나라장터 등 <b>공식 원부를 확인</b>하세요. 이상한 수치는 하단 문의로 제보해 주세요.
-  <span style="opacity:.75;font-weight:500">· 빌드 v2026.08.25-4</span>
+  <span style="opacity:.75;font-weight:500">· 빌드 v2026.08.25-5</span>
 </div>
 <header class="g365bar">
   <div class="g365bar-in">
@@ -2741,7 +2741,7 @@ const GLOSSARY = [
 
 const ACTIONS = [
   {n:"1", t:"이상 신호 캡처", d:"상세페이지의 🔬위험플래그나 차트에서 튀는 수치를 발견하면 화면을 저장하고 수치·연도를 메모하세요."},
-  {n:"2", t:"원자료 교차확인", d:"지방재정365·지방재정통합공시(lofin365)에서 같은 항목을 검색해 추정 시연치가 아닌 실제 공시값을 확인하세요."},
+  {n:"2", t:"원자료 교차확인", d:"지방재정365(lofin365.go.kr)에서 같은 항목을 검색해 화면 수치와 원 공시값이 일치하는지 확인하세요."},
   {n:"3", t:"정보공개 청구", d:"근거가 더 필요하면 정부24·정보공개포털(open.go.kr)에서 해당 사업의 계약서·집행내역·산출근거를 청구할 수 있습니다."},
   {n:"4", t:"질의·제보", d:"지역 시·도의원, 주민감사청구, 시민단체, 언론 제보로 '견제' 질문을 공식화하세요. 이 플랫폼의 🔍견제 문항을 그대로 활용하세요."},
   {n:"5", t:"예산 참여", d:"주민참여예산제·공청회에 참여해 💡제안 항목을 정책으로 제안하세요. 감시를 넘어 대안을 제시하는 것이 재정주권입니다."},
@@ -3624,7 +3624,7 @@ function printReport(R){
   (proj?'<h2>4. 주요 사업별 집행 현황 (상위 10)</h2><table><tr><th>사업명</th><th class=r>예산</th><th class=r>집행</th><th class=r>집행률</th><th>계약방식</th></tr>'+proj+'</table>':'')+
   '<h2>5. 재정 진단 — 감시 포인트</h2><ul>'+watch+'</ul>'+
   '<h2>6. 재정 진단 — 개선 제안</h2><ul>'+prop+'</ul>'+
-  '<div class=foot>※ 인증키 미연동 시 수치는 공공데이터·지방재정365 통계 기반 추정 시연치입니다. 공식 결산값은 지방재정365(lofin.mois.go.kr)·지방재정통합공시(lofin365.go.kr) 원자료를 확인하세요. 본 리포트는 시민주도 국민주권실행 플랫폼 「대한민국 재정 365」(운영 김보미)가 자동 생성했습니다.</div>'+
+  '<div class=foot>※ 표시 수치는 지방재정365 공시 실데이터이며, 확보하지 못한 항목은 —(데이터 없음)로 비워 둡니다. 공식 결산 원부는 지방재정365(lofin365.go.kr)에서 확인하세요. 본 리포트는 시민주도 국민주권실행 플랫폼 「대한민국 재정 365」(운영 김보미)가 자동 생성했습니다.</div>'+
   '<scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},400);}<\/scr'+'ipt>');
   w.document.close();
 }
@@ -5037,7 +5037,7 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
             <div class="fs-stat"><div class="label">지방소득세</div><div class="value" style="font-size:1rem">${won(e.지방세_지방소득)}</div></div>
           </div>
         </div>
-        <p style="font-size:.74rem;color:#94a3b8;margin-top:12px;line-height:1.6">※ 데모 시드값. 인증키 연동 시 지방재정통합공시(lofin365) 원자료로 자동 대체.</p>
+        <p style="font-size:.74rem;color:#94a3b8;margin-top:12px;line-height:1.6">※ 이 항목들은 지방재정365 공시에서 아직 확보하지 못해 <b>'—'(데이터 없음)</b>으로 둡니다. 추정치를 만들어 넣지 않습니다. 확보되는 대로 실데이터로 채웁니다.</p>
       </div>`;
   }
 
@@ -5059,7 +5059,7 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
           <div style="font-size:.84rem;font-weight:800;color:#475569;margin-bottom:8px">🏆 주요 사업비 상위 10건 · 총 ${e.top10_total}억</div>
           <div style="display:flex;flex-direction:column;gap:4px">${top10HTML}</div>
         </div>
-        <p style="font-size:.74rem;color:#94a3b8;margin-top:12px;line-height:1.6">※ 데모 시드값. 인증키 연동 시 나라장터 G2B·지자체 공고 실데이터로 자동 대체.</p>
+        <p style="font-size:.74rem;color:#94a3b8;margin-top:12px;line-height:1.6">※ 이 항목들은 아직 확보하지 못해 <b>'—'(데이터 없음)</b>으로 둡니다. 추정치를 만들어 넣지 않습니다. 실제 계약 내역은 위 <b>나라장터 실시간 연동</b> 표에서 확인하세요.</p>
       </div>`;
   }
 
