@@ -5,6 +5,11 @@
    ② 페이지 간 공유 수치 일치
    ③ 집계·홍보 문구 ↔ 실목록 개수 대조
    ④ 성능예산 (이미지·번들·페이지 총 전송량)
+   ⑤ 독립 경로 값 대조 — 같은 데이터를 다른 구현으로 부른 값과 필드별로 맞춘다
+      (2026-08-29 추가. rows>0 만 보면 "전국 첫 행을 우리 지자체 값으로 표시"하는 결함을 놓친다.
+       실제로 9건이 서울·전국 값을 강진군 값처럼 보여주고 있었다.)
+   ⑥ 링크 생존 — 화면이 거는 외부 링크가 실제로 열리는가
+      (403·429는 봇 차단·레이트리밋이므로 '죽음'으로 단정하지 않는다. YouTube은 oEmbed로 실존 확인.)
    원칙: 코드 grep이 아니라 "사용자가 보는 픽셀"을 판정 근거로 삼는다.
    ============================================================ */
 const pw = require('/tmp/node_modules/playwright-core');
@@ -191,6 +196,80 @@ async function installRoute(ctx, onApi, onBad, onAsset) {
 
       await ctx.close();
     }
+  }
+
+  /* ── ⑤ 독립 경로 값 대조 ─────────────────────────────
+     같은 데이터를 서로 다른 구현으로 부른 값을 필드별로 맞춘다.
+     값이 "있다"는 것과 "맞다"는 것은 다르다. */
+  for (const cc of (CFG.crossChecks || [])) {
+    let keys = cc.keys || [];
+    if (cc.keysFrom) {
+      try {
+        const r = await fetch(cc.keysFrom, { headers: { 'User-Agent': UA } });
+        const j = await r.json();
+        keys = (cc.keysPath ? cc.keysPath.split('.').reduce((o, k) => o?.[k], j) : j) || [];
+      } catch (e) { add('MED', cc.name, '(교차대조)', '⑤키목록_실패', String(e).slice(0, 90)); }
+    }
+    let mismatch = 0, checked = 0, empty = 0;
+    for (const key of keys.slice(0, cc.limit || 200)) {
+      try {
+        const a = await (await fetch(cc.a.replace('{key}', key), { headers: { 'User-Agent': UA } })).json();
+        const ar = (a.rows || a.data || [])[0];
+        if (!ar) { empty++; continue; }
+        const bUrl = cc.b.replace('{key}', key).replace('{fyr}', a.usedFyr || cc.fyr || '');
+        const b = await (await fetch(bUrl, { headers: { 'User-Agent': UA } })).json();
+        const br = (b.rows || b.data || []).find((x) => !cc.matchField || String(x[cc.matchField]) === String(cc.matchValue)) || (b.rows || [])[0];
+        if (!br) { empty++; continue; }
+        checked++;
+        const diffs = [];
+        for (const [k, v] of Object.entries(ar)) {
+          if (!(k in br)) continue;
+          const x = Number(v), y = Number(br[k]);
+          if (!Number.isFinite(x) || !Number.isFinite(y)) continue;
+          if (Math.abs(x - y) > Math.max(0.01, Math.abs(y) * 1e-9)) diffs.push(`${k}: ${v} vs ${br[k]}`);
+        }
+        if (diffs.length) {
+          mismatch++;
+          add('HIGH', cc.name, key, '⑤값_불일치',
+            '독립 경로와 값이 다름 — 다른 지역/집계의 값을 보여주고 있을 수 있음', diffs.slice(0, 3).join(' | '));
+        }
+      } catch (e) { /* 개별 실패는 무시하고 계속 */ }
+    }
+    if (checked) console.error(`  [⑤ ${cc.name}] 대조 ${checked}건 · 불일치 ${mismatch} · 빈값 ${empty}`);
+  }
+
+  /* ── ⑥ 링크 생존 ─────────────────────────────────────
+     403(봇 차단)·429(레이트리밋)는 '죽은 링크'가 아니다 — 판정 보류로 남긴다. */
+  for (const lc of (CFG.linkChecks || [])) {
+    let urls = [];
+    try {
+      const html = await (await fetch(lc.page, { headers: { 'User-Agent': UA } })).text();
+      urls = [...new Set([...html.matchAll(new RegExp(lc.pattern, 'g'))].map((m) => m[1].replace(/&amp;/g, '&')))];
+    } catch (e) { add('MED', lc.name, lc.page, '⑥링크목록_실패', String(e).slice(0, 90)); continue; }
+    let dead = 0, blocked = 0, alive = 0;
+    for (const u of urls.slice(0, lc.limit || 250)) {
+      /* YouTube은 oEmbed가 실존 여부의 정답 — 시청 페이지는 레이트리밋에 걸린다 */
+      if (/youtube\.com\/watch|youtu\.be\//.test(u)) {
+        try {
+          const r = await fetch('https://www.youtube.com/oembed?url=' + encodeURIComponent(u) + '&format=json', { headers: { 'User-Agent': UA } });
+          if (r.status === 200) alive++;
+          else { dead++; add('MED', lc.name, u.slice(0, 70), '⑥영상_없음', 'oEmbed ' + r.status); }
+        } catch (e) { blocked++; }
+        continue;
+      }
+      let st = 0;
+      for (let k = 0; k < 3; k++) {
+        try {
+          const r = await fetch(u, { headers: { 'User-Agent': UA, Referer: 'https://www.google.com/', 'Accept-Language': 'ko-KR,ko;q=0.9' }, redirect: 'follow', signal: AbortSignal.timeout(20000) });
+          st = r.status; if (st < 400) break;
+        } catch (e) { st = 0; }
+        await new Promise((r) => setTimeout(r, 1500));
+      }
+      if (st >= 200 && st < 400) alive++;
+      else if (st === 403 || st === 429) blocked++;
+      else { dead++; add('MED', lc.name, u.slice(0, 70), '⑥죽은링크', 'HTTP ' + st); }
+    }
+    console.error(`  [⑥ ${lc.name}] 링크 ${urls.length} · 정상 ${alive} · 죽음 ${dead} · 차단(판정보류) ${blocked}`);
   }
 
   /* ② 판정 */
