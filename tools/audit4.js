@@ -79,7 +79,9 @@ async function installRoute(ctx, onApi, onBad, onAsset) {
           loading: (t.match(/로딩\s*중|불러오는 중|Loading\.\.\./g) || []).length,
           nan: (t.match(/\bNaN\b|\bundefined\b|\[object Object\]|\bnull\b원/g) || []).length,
           imgs: im.length,
-          brokenImgs: im.filter(x => x.complete && x.naturalWidth === 0)
+          /* src 속성이 아예 없는 img(라이트박스 자리표시자 등)는 요청을 만들지 않으므로 정상.
+             빈 문자열 src="" 만 결함으로 본다 — 브라우저가 현재 페이지를 이미지로 재요청한다. */
+          brokenImgs: im.filter(x => x.complete && x.naturalWidth === 0 && x.getAttribute('src') !== null)
                         .map(x => ({ src: x.getAttribute('src'), id: x.id, alt: x.alt })),
           emptySrc: im.filter(x => !x.getAttribute('src')).length,
           lists: [...document.querySelectorAll('ul,ol')].map(u => u.querySelectorAll(':scope > li').length),
