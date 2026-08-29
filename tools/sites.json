@@ -1,0 +1,111 @@
+{
+ "chromium": "/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell",
+ "sites": [
+  {
+   "name": "강진365",
+   "base": "https://www.xn--365-pi9ly26cgmb.com",
+   "pages": [
+    "/",
+    "/budget",
+    "/contracts",
+    "/datasets",
+    "/diagnosis",
+    "/execution",
+    "/living",
+    "/book",
+    "/navi"
+   ],
+   "waitMs": 9000,
+   "clickProbes": [
+    {
+     "page": "/datasets",
+     "selector": "button",
+     "labels": [
+      "지방세 징수실적",
+      "지방의회 관련경비",
+      "계약현황",
+      "기관운영업무추진비",
+      "행사·축제경비편성내역",
+      "재정자립도[결산]"
+     ],
+     "modalClass": "fixed inset-0",
+     "emptyPattern": "데이터가 없습니다|자료가 없습니다|불러오기에 실패",
+     "claimPattern": "보유 [0-9~ ()가-힣]+",
+     "waitMs": 4500
+    }
+   ],
+   "claims": [
+    {
+     "page": "/datasets",
+     "pattern": "([0-9,]+)\\s*개\\s*재정 데이터셋",
+     "countSelector": "button.text-left:has(h3):has(span)",
+     "unit": "개",
+     "note": "민원제안·AI질문 버튼 제외 — 2026-08-28 오탐 교정"
+    }
+   ],
+   "sharedMetrics": [
+    {
+     "key": "강진군 인구",
+     "pattern": "인구\\s*([0-9,]+)명"
+    },
+    {
+     "key": "강진군 2024 잉여금",
+     "pattern": "잉여금[^0-9]{0,20}([0-9,]+)억"
+    }
+   ]
+  },
+  {
+   "name": "김보미365",
+   "base": "https://www.xn--4k0b53xuva.com",
+   "pages": [
+    "/index.html",
+    "/narasalim.html",
+    "/gyeyak.html",
+    "/press.html",
+    "/gongyak.html",
+    "/report.html",
+    "/region.html",
+    "/vision.html",
+    "/manifesto.html",
+    "/pledge.html",
+    "/story.html"
+   ],
+   "waitMs": 9000,
+   "claims": [],
+   "sharedMetrics": [
+    {
+     "key": "강진군 인구",
+     "pattern": "인구\\s*([0-9,]+)명"
+    }
+   ],
+   "note": "집계 문구 없음 확인(2026-08-28). 문구 신설 시 여기에 등록"
+  },
+  {
+   "name": "gangjin-7014",
+   "base": "https://gangjin-7014-master.vercel.app",
+   "pages": [
+    "/"
+   ],
+   "waitMs": 12000
+  },
+  {
+   "name": "성완위정리",
+   "base": "https://seongwanwi-jeongri.vercel.app",
+   "pages": [
+    "/"
+   ],
+   "waitMs": 15000
+  }
+ ],
+ "excludeAssetHosts": [
+  "youtube.com",
+  "ytimg.com",
+  "facebook.net",
+  "fbcdn.net",
+  "google.com",
+  "gstatic.com",
+  "googleapis.com",
+  "cdnjs.cloudflare.com",
+  "jsdelivr.net"
+ ]
+}
