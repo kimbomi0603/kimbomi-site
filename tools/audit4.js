@@ -9,6 +9,7 @@
       (2026-08-29 추가. rows>0 만 보면 "전국 첫 행을 우리 지자체 값으로 표시"하는 결함을 놓친다.
        실제로 9건이 서울·전국 값을 강진군 값처럼 보여주고 있었다.)
    ⑥ 링크 생존 — 화면이 거는 외부 링크가 실제로 열리는가
+   ⑦ API 건강 — 화면에서 조용히 사라지는 기능(날씨 위젯 등)이 죽어 있지 않은가
       (403·429는 봇 차단·레이트리밋이므로 '죽음'으로 단정하지 않는다. YouTube은 oEmbed로 실존 확인.)
    원칙: 코드 grep이 아니라 "사용자가 보는 픽셀"을 판정 근거로 삼는다.
    ============================================================ */
@@ -244,6 +245,30 @@ async function installRoute(ctx, onApi, onBad, onAsset) {
       } catch (e) { /* 개별 실패는 무시하고 계속 */ }
     }
     if (checked) console.error(`  [⑤ ${cc.name}] 대조 ${checked}건 · 불일치 ${mismatch} · 빈값 ${empty}`);
+  }
+
+  /* ── ⑦ API 건강 — 화면에서 조용히 사라지는 기능을 잡는다 ────────
+     (2026-08-29 추가. 날씨 위젯이 통째로 사라져 있었는데 화면만 봐서는 몰랐다.
+      값을 지어내지 않아 '가짜'는 아니지만 기능이 멈춘 것이므로 결함으로 본다.) */
+  for (const h of (CFG.apiHealth || [])) {
+    try {
+      const r = await fetch(h.url, { headers: { 'User-Agent': UA } });
+      const j = await r.json();
+      const bad = Object.entries(h.expect || {}).filter(([k, v]) => j[k] !== v);
+      if (r.status >= 400 || bad.length) {
+        let detail = bad.map(([k, v]) => `${k}: 기대 ${v} · 실제 ${j[k]}`).join(' | ') || ('HTTP ' + r.status);
+        if (j.error) detail += ` · error=${j.error}`;
+        if (h.diagUrl) {
+          try {
+            const d2 = await (await fetch(h.diagUrl, { headers: { 'User-Agent': UA } })).json();
+            if (d2 && d2.diag) detail += ' · diag=' + JSON.stringify(d2.diag).slice(0, 220);
+          } catch (e) {}
+        }
+        add('HIGH', h.name, '(API)', '⑦기능정지', '화면에서 조용히 빠지는 기능이 죽어 있음', detail);
+      }
+    } catch (e) {
+      add('HIGH', h.name, '(API)', '⑦호출실패', String(e).slice(0, 100));
+    }
   }
 
   /* ── ⑥ 링크 생존 ─────────────────────────────────────

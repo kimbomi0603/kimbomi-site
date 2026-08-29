@@ -162,5 +162,30 @@
    "pattern": "<a class=\"row\" href=\"([^\"]+)\"",
    "limit": 40
   }
+ ],
+ "apiHealth": [
+  {
+   "name": "강진365 날씨",
+   "_설명": "2026-08-29 실측: ok=false(03:NO_DATA). 서울 격자·2시간전 실황도 동일하고 중기예보만 정상 → 단기예보 서비스(VilageFcstInfoService_2.0) 쪽 문제. 복구되면 ok=true가 된다.",
+   "url": "https://www.xn--365-pi9ly26cgmb.com/api/weather",
+   "expect": {
+    "ok": true
+   },
+   "diagUrl": "https://www.xn--365-pi9ly26cgmb.com/api/weather?diag=1"
+  },
+  {
+   "name": "강진365 대기환경",
+   "url": "https://www.xn--365-pi9ly26cgmb.com/api/air",
+   "expect": {
+    "ok": true
+   }
+  },
+  {
+   "name": "성완위정리 실시간기사",
+   "url": "https://seongwanwi-jeongri.vercel.app/api/news",
+   "expect": {
+    "ok": true
+   }
+  }
  ]
 }
