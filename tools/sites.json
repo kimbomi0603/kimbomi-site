@@ -112,7 +112,6 @@
   {
    "name": "강진365 데이터셋",
    "_설명": "강진365가 돌려준 값을 김보미365(다른 구현·같은 상위 API) 값과 필드별로 대조. rows>0만 보면 전국 첫 행을 지자체 값으로 표시하는 결함을 놓친다.",
-   "keysFrom": "https://raw.githubusercontent.com/kimbomi0603/kimbomi-site/main/tools/hubs.json",
    "keys": [
     "DFGDGG",
     "NBRILV",
@@ -158,10 +157,10 @@
  "linkChecks": [
   {
    "name": "김보미365 언론보도",
-   "_설명": "화면이 거는 기사·영상 링크가 실제로 열리는가. 403·429는 봇 차단/레이트리밋이므로 판정 보류.",
+   "_설명": "화면이 거는 기사·영상 링크가 실제로 열리는가. 403·429는 봇 차단/레이트리밋이므로 판정 보류. 매 회차 40건씩 일자 회전 표본(전량은 4~5일에 걸쳐 순회) — 전량 검사는 10분을 넘긴다.",
    "page": "https://www.xn--4k0b53xuva.com/press.html",
    "pattern": "<a class=\"row\" href=\"([^\"]+)\"",
-   "limit": 250
+   "limit": 40
   }
  ]
 }

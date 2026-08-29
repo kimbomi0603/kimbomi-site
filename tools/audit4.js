@@ -188,9 +188,17 @@ async function installRoute(ctx, onApi, onBad, onAsset) {
           `${(a.bytes / 1048576).toFixed(2)} MB 단일 자산`, a.u.slice(0, 110)));
 
       /* 기타 위생 */
-      dom.brokenImgs.forEach(b => add('MED', site.name, path, '깨진이미지',
-        b.src === '' || b.src === null ? 'src가 비어 있는 <img> (불필요한 요청·콘솔 오류 유발)' : '이미지 로드 실패',
-        JSON.stringify(b)));
+      /* 외부 호스트 이미지는 간헐 장애가 잦고 onerror 폴백으로 감추는 경우가 많다.
+         (2026-08-29 실측: 월간중앙 CDN이 3회 중 1회 503 — 화면엔 폴백으로 숨겨짐)
+         자사 호스트 이미지만 MED로 올리고, 외부는 LOW로 남긴다. */
+      dom.brokenImgs.forEach(b => {
+        const src = b.src || '';
+        const external = /^https?:\/\//.test(src) && !src.includes(new URL(site.base).host);
+        add(external ? 'LOW' : 'MED', site.name, path, '깨진이미지',
+          src === '' || src === null ? 'src가 비어 있는 <img> (불필요한 요청·콘솔 오류 유발)'
+            : (external ? '외부 호스트 이미지 로드 실패(간헐 장애 가능)' : '이미지 로드 실패'),
+          JSON.stringify(b));
+      });
       bad.slice(0, 5).forEach(b => add('MED', site.name, path, '자원실패', b.slice(0, 130)));
       errs.slice(0, 5).forEach(e => add('LOW', site.name, path, '콘솔오류', e));
 
@@ -246,8 +254,16 @@ async function installRoute(ctx, onApi, onBad, onAsset) {
       const html = await (await fetch(lc.page, { headers: { 'User-Agent': UA } })).text();
       urls = [...new Set([...html.matchAll(new RegExp(lc.pattern, 'g'))].map((m) => m[1].replace(/&amp;/g, '&')))];
     } catch (e) { add('MED', lc.name, lc.page, '⑥링크목록_실패', String(e).slice(0, 90)); continue; }
+    /* 매 회차 전량을 돌면 실행이 10분을 넘긴다(2026-08-29 실측).
+       날짜를 씨앗으로 구간을 회전시켜 며칠에 걸쳐 전량을 훑는다. */
+    const N = lc.limit || 40;
+    const day = Math.floor(Date.now() / 86400000);
+    const start = urls.length ? (day * N) % urls.length : 0;
+    const slice = urls.length > N
+      ? urls.slice(start, start + N).concat(urls.slice(0, Math.max(0, start + N - urls.length)))
+      : urls;
     let dead = 0, blocked = 0, alive = 0;
-    for (const u of urls.slice(0, lc.limit || 250)) {
+    for (const u of slice) {
       /* YouTube은 oEmbed가 실존 여부의 정답 — 시청 페이지는 레이트리밋에 걸린다 */
       if (/youtube\.com\/watch|youtu\.be\//.test(u)) {
         try {
@@ -258,18 +274,18 @@ async function installRoute(ctx, onApi, onBad, onAsset) {
         continue;
       }
       let st = 0;
-      for (let k = 0; k < 3; k++) {
+      for (let k = 0; k < 2; k++) {
         try {
-          const r = await fetch(u, { headers: { 'User-Agent': UA, Referer: 'https://www.google.com/', 'Accept-Language': 'ko-KR,ko;q=0.9' }, redirect: 'follow', signal: AbortSignal.timeout(20000) });
+          const r = await fetch(u, { headers: { 'User-Agent': UA, Referer: 'https://www.google.com/', 'Accept-Language': 'ko-KR,ko;q=0.9' }, redirect: 'follow', signal: AbortSignal.timeout(12000) });
           st = r.status; if (st < 400) break;
         } catch (e) { st = 0; }
-        await new Promise((r) => setTimeout(r, 1500));
+        await new Promise((r) => setTimeout(r, 800));
       }
       if (st >= 200 && st < 400) alive++;
       else if (st === 403 || st === 429) blocked++;
       else { dead++; add('MED', lc.name, u.slice(0, 70), '⑥죽은링크', 'HTTP ' + st); }
     }
-    console.error(`  [⑥ ${lc.name}] 링크 ${urls.length} · 정상 ${alive} · 죽음 ${dead} · 차단(판정보류) ${blocked}`);
+    console.error(`  [⑥ ${lc.name}] 전체 ${urls.length} 중 ${slice.length}건 표본(일자 회전) · 정상 ${alive} · 죽음 ${dead} · 차단(판정보류) ${blocked}`);
   }
 
   /* ② 판정 */
