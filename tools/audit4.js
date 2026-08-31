@@ -69,12 +69,17 @@ async function installRoute(ctx, onApi, onBad, onAsset) {
       const pg = await ctx.newPage();
       pg.on('pageerror', e => errs.push('JS: ' + String(e).slice(0, 140)));
       /* 2026-08-31 — 광고·분석 호스트는 우리가 route에서 abort 하므로 페이지가 ERR_FAILED 콘솔
-         오류를 낸다. 그건 사이트 결함이 아니라 감사 도구가 만든 잡음이라 세지 않는다. */
+         오류를 낸다. 그건 사이트 결함이 아니라 감사 도구가 만든 잡음이라 세지 않는다.
+         ※ 콘솔 메시지 본문에는 URL이 없다. m.location().url 을 봐야 어느 요청인지 알 수 있다
+            (2026-08-31: 메시지만 보고 걸렀더니 걸러지지 않았다). */
+      const NOISE = /doubleclick|googleads|googlesyndication|googletagmanager|google-analytics|gtag|facebook\.(net|com)|connect\.facebook|translate\.googleapis/;
       pg.on('console', m => {
         if (m.type() !== 'error') return;
         const t = m.text();
-        if (/ERR_FAILED|ERR_BLOCKED|net::ERR_/.test(t) && /doubleclick|googleads|googletagmanager|google-analytics|gtag|facebook\.net/.test(t)) return;
-        errs.push('CONSOLE: ' + t.slice(0, 140));
+        const loc = (typeof m.location === 'function' ? m.location() : null) || {};
+        const from = String(loc.url || '');
+        if (/net::ERR_|Failed to load resource/.test(t) && (NOISE.test(from) || NOISE.test(t))) return;
+        errs.push('CONSOLE: ' + t.slice(0, 140) + (from ? ' ← ' + from.slice(0, 70) : ''));
       });
 
       let navOk = true;
@@ -219,7 +224,11 @@ async function installRoute(ctx, onApi, onBad, onAsset) {
             : (external ? '외부 호스트 이미지 로드 실패(간헐 장애 가능)' : '이미지 로드 실패'),
           JSON.stringify(b));
       });
-      bad.slice(0, 5).forEach(b => add('MED', site.name, path, '자원실패', b.slice(0, 130)));
+      /* 외부 위젯(구글 번역·페이스북 등)이 스스로 내는 실패는 우리가 통제할 수 없다 → LOW */
+      bad.slice(0, 6).forEach(b => {
+        const external = /doubleclick|googleads|googlesyndication|googletagmanager|google-analytics|facebook\.(net|com)|translate\.googleapis|youtube\.com|ytimg/.test(b);
+        add(external ? 'LOW' : 'MED', site.name, path, external ? '외부위젯_자원실패' : '자원실패', b.slice(0, 130));
+      });
       errs.slice(0, 5).forEach(e => add('LOW', site.name, path, '콘솔오류', e));
 
       await ctx.close();
