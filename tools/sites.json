@@ -166,7 +166,7 @@
  "apiHealth": [
   {
    "name": "강진365 날씨",
-   "_설명": "2026-08-29 실측: ok=false(03:NO_DATA). 서울 격자·2시간전 실황도 동일하고 중기예보만 정상 → 단기예보 서비스(VilageFcstInfoService_2.0) 쪽 문제. 복구되면 ok=true가 된다.",
+   "_설명": "2026-08-29 ok=false(03:NO_DATA)였으나 8-31 확인 결과 정상 복구. 판별 프로브로 확인: 틀린 키는 SERVICE_KEY_IS_NOT_REGISTERED, 우리 키는 00:NORMAL_SERVICE → 키는 처음부터 등록돼 있었고 8/29는 기상청 일시 자료공백이었다. 격자 좌표는 61,66→57,63 으로 교정(강진에서 26km 벗어나 있었음). 실패 시 ?diag=1 로 상위 결과코드를 확인할 것.",
    "url": "https://www.xn--365-pi9ly26cgmb.com/api/weather",
    "expect": {
     "ok": true

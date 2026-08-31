@@ -68,7 +68,14 @@ async function installRoute(ctx, onApi, onBad, onAsset) {
       await installRoute(ctx, a => api.push(a), b => bad.push(b), a => assets.push(a));
       const pg = await ctx.newPage();
       pg.on('pageerror', e => errs.push('JS: ' + String(e).slice(0, 140)));
-      pg.on('console', m => { if (m.type() === 'error') errs.push('CONSOLE: ' + m.text().slice(0, 140)); });
+      /* 2026-08-31 — 광고·분석 호스트는 우리가 route에서 abort 하므로 페이지가 ERR_FAILED 콘솔
+         오류를 낸다. 그건 사이트 결함이 아니라 감사 도구가 만든 잡음이라 세지 않는다. */
+      pg.on('console', m => {
+        if (m.type() !== 'error') return;
+        const t = m.text();
+        if (/ERR_FAILED|ERR_BLOCKED|net::ERR_/.test(t) && /doubleclick|googleads|googletagmanager|google-analytics|gtag|facebook\.net/.test(t)) return;
+        errs.push('CONSOLE: ' + t.slice(0, 140));
+      });
 
       let navOk = true;
       try { await pg.goto(site.base + path, { waitUntil: 'domcontentloaded', timeout: 60000 }); }
@@ -106,7 +113,19 @@ async function installRoute(ctx, onApi, onBad, onAsset) {
         add('HIGH', site.name, path, '①빈응답_무고지',
           `API ${emptyApis.length}건이 빈 응답인데 화면에 '데이터 없음' 표기가 없음`,
           emptyApis.slice(0, 3).map(a => a.u).join(' | '));
-      slowApis.forEach(a => add('MED', site.name, path, '①API지연', `${a.ms}ms`, a.u));
+      /* 2026-08-31 — 첫 호출은 서버리스 콜드스타트로 느릴 수 있다(실측: /api/living 8.3초 →
+         재측정 0.2~0.5초). 한 번 다시 재서 여전히 느릴 때만 결함으로 본다. */
+      for (const a of slowApis) {
+        let again = null;
+        try {
+          const t0 = Date.now();
+          await fetch(a.u, { headers: { 'User-Agent': UA } });
+          again = Date.now() - t0;
+        } catch (e) {}
+        if (again === null || again > BUDGET.apiMs) {
+          add('MED', site.name, path, '①API지연', `${a.ms}ms (재측정 ${again === null ? '실패' : again + 'ms'})`, a.u);
+        }
+      }
       if (dom.loading > 0) {
         /* 로딩 표시가 남아 있으면 추가로 최대 25초까지 지켜본다.
            끝내 안 풀리면 ①영구로딩(HIGH), 늦게라도 풀리면 ④성능_지연로딩(MED). */
