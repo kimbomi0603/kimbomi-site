@@ -136,6 +136,12 @@ main{padding:20px 0 40px}
 .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:.86rem;font-weight:700;padding:11px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:60}
 .toast.show{opacity:1}
 </style>
+<style>
+/* nav fit fix (2026-08-31) */
+@media(min-width:641px){.nav{max-width:1340px}.menu{gap:14px}.menu a{font-size:.86rem}}
+@media(min-width:641px) and (max-width:1260px){.menu{gap:11px}.menu a{font-size:.82rem}.brand .tag{display:none}}
+@media(min-width:641px) and (max-width:1140px){.menu{gap:8px}.menu a{font-size:.75rem}.menu a.nara{padding:5px 8px}.home-link{display:none}}
+</style>
 </head>
 <body>
 <header>
@@ -149,7 +155,7 @@ main{padding:20px 0 40px}
       <a href="press.html">언론보도</a>
       <a href="report.html">소통·제보</a>
       <a href="games.html">미니게임</a>
-      <a href="pledge.html" style="color:#C4553A;font-weight:800">후원 감사·안내</a>
+      <a href="pledge.html" style="color:#C4553A;font-weight:800">재정주권시민행동 함께하기</a>
       <a href="narasalim.html" class="nara">🔍 우리동네 예산·정책·계약 3초 확인</a>
     </nav>
     <div class="nav-right">
