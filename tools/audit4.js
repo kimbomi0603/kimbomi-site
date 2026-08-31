@@ -350,16 +350,35 @@ async function installRoute(ctx, onApi, onBad, onAsset) {
         } catch (e) { blocked++; }
         continue;
       }
-      let st = 0;
-      for (let k = 0; k < 2; k++) {
+      /* 2026-08-31 — 브라우저에 가까운 헤더 한 벌을 쓰고, 4회까지 되짚는다.
+         shinmoongo.net/181494 가 HTTP 0(연결 자체 실패)으로 '죽음' 판정됐으나
+         브라우저 헤더로 부르면 200에 제목까지 정상이었다. 우리 쪽 연결 실패를
+         상대 링크가 죽은 것으로 뒤집어씌우면 안 된다. */
+      const H = {
+        'User-Agent': UA,
+        Referer: 'https://www.google.com/',
+        'Accept-Language': 'ko-KR,ko;q=0.9',
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Upgrade-Insecure-Requests': '1',
+      };
+      let st = 0, netfail = 0;
+      for (let k = 0; k < 4; k++) {
         try {
-          const r = await fetch(u, { headers: { 'User-Agent': UA, Referer: 'https://www.google.com/', 'Accept-Language': 'ko-KR,ko;q=0.9' }, redirect: 'follow', signal: AbortSignal.timeout(12000) });
+          const r = await fetch(u, { headers: H, redirect: 'follow', signal: AbortSignal.timeout(20000) });
           st = r.status; if (st < 400) break;
-        } catch (e) { st = 0; }
-        await new Promise((r) => setTimeout(r, 800));
+        } catch (e) { st = 0; netfail++; }
+        await new Promise((r) => setTimeout(r, 1200 * (k + 1)));
       }
       if (st >= 200 && st < 400) alive++;
       else if (st === 403 || st === 429) blocked++;
+      else if (st === 0) {
+        /* 네 번 다 연결조차 못 했다 — 상대가 죽었는지 우리가 막혔는지 가릴 수 없다.
+           '죽음'이 아니라 판정 보류로 남긴다(오탐으로 시정 작업을 유발하지 않기 위해). */
+        blocked++;
+        add('LOW', lc.name, u.slice(0, 70), '⑥링크_판정보류',
+          `연결 자체가 ${netfail}회 실패 — 상대 서버 문제인지 우리 쪽 차단인지 구분 불가`, u);
+      }
       else { dead++; add('MED', lc.name, u.slice(0, 70), '⑥죽은링크', 'HTTP ' + st); }
     }
     console.error(`  [⑥ ${lc.name}] 전체 ${urls.length} 중 ${slice.length}건 표본(일자 회전) · 정상 ${alive} · 죽음 ${dead} · 차단(판정보류) ${blocked}`);
