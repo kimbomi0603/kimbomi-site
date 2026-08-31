@@ -299,6 +299,30 @@ async function installRoute(ctx, onApi, onBad, onAsset) {
     }
   }
 
+  /* ── ⑧ 조용히 0이 되는 집계 ────────────────────────────────────
+     2026-08-31 추가. /api/living 이 ok:true 를 주면서 약국을 4회 연속 0곳으로 내보냈다.
+     호출 자체는 성공이라 ⑦(API 건강)에 걸리지 않았고, 화면에는 '약국 0곳'이라는
+     사실이 아닌 값이 조용히 적혀 있었다. 원인은 한 번의 일시적 실패가 6시간 캐시에 굳은 것.
+     성공/실패가 아니라 '있어야 할 집계가 비어 있지는 않은지'를 직접 본다.
+     실패를 '없음'으로 위장하는 결함은 이 검사로만 잡힌다. */
+  for (const z of (CFG.zeroCountChecks || [])) {
+    try {
+      const j = await (await fetch(z.url, { headers: { 'User-Agent': UA } })).json();
+      let v = j;
+      for (const k of z.path.split('.')) v = (v == null ? v : v[k]);
+      if (v === null || v === undefined) {
+        add('MED', z.site || '(API)', z.url, '⑧집계_데이터없음',
+          `${z.label} 집계가 '데이터 없음'으로 내려온다 — 조회가 실패하고 있을 수 있다`, `${z.path}=${v}`);
+      } else if (typeof v === 'number' && v < z.min) {
+        add('HIGH', z.site || '(API)', z.url, '⑧집계_0으로_빔',
+          `${z.label}이 ${v}건 — 실제로 있을 수 없는 수. 조회 실패를 '없음'으로 보여주고 있을 수 있다`,
+          `${z.path}=${v} (최소 기대 ${z.min})`);
+      }
+    } catch (e) {
+      add('MED', z.site || '(API)', z.url, '⑧집계_확인실패', String(e).slice(0, 100));
+    }
+  }
+
   /* ── ⑥ 링크 생존 ─────────────────────────────────────
      403(봇 차단)·429(레이트리밋)는 '죽은 링크'가 아니다 — 판정 보류로 남긴다. */
   for (const lc of (CFG.linkChecks || [])) {
@@ -368,3 +392,4 @@ async function installRoute(ctx, onApi, onBad, onAsset) {
   });
   process.exit(out.high > 0 ? 1 : 0);
 })().catch(e => { console.error('FATAL', String(e).slice(0, 300)); process.exit(2); });
+

@@ -52,6 +52,16 @@
      "key": "강진군 2024 잉여금",
      "pattern": "잉여금[^0-9]{0,20}([0-9,]+)억"
     }
+   ],
+   "apiHealth": [
+    {
+     "url": "/api/living",
+     "mustHave": [
+      "hospitals",
+      "pharmacies"
+     ],
+     "name": "생활안심지도(병원·약국)"
+    }
    ]
   },
   {
@@ -186,6 +196,22 @@
    "expect": {
     "ok": true
    }
+  }
+ ],
+ "zeroCountChecks": [
+  {
+   "site": "강진365",
+   "url": "https://www.xn--365-pi9ly26cgmb.com/api/living",
+   "path": "counts.pharmacies",
+   "min": 1,
+   "label": "약국"
+  },
+  {
+   "site": "강진365",
+   "url": "https://www.xn--365-pi9ly26cgmb.com/api/living",
+   "path": "counts.hospitals",
+   "min": 5,
+   "label": "병의원"
   }
  ]
 }
