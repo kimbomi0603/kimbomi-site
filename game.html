@@ -362,7 +362,7 @@ h1.title .accent{color:var(--blue-soft)}
         <canvas id="badgeCanvas" width="720" height="720" style="width:118px;height:118px;border-radius:50%;box-shadow:0 10px 26px rgba(0,0,0,.45)"></canvas>
         <div style="text-align:left">
           <div style="font-weight:900;color:#FFD667;font-size:15px">🎖️ 민주당 혁신 배지 획득!</div>
-          <div style="font-size:12px;color:var(--dim);margin:3px 0 7px">히든까지 깨면 '대한민국 수호 훈장'으로 승급!</div>
+          <div style="font-size:12px;color:var(--dim);margin:3px 0 7px">히든까지 깨면 '대한민국 지킴이 배지'로 승급!</div>
           <div style="display:flex;gap:6px">
             <button class="btn ghost small" id="btnBadgeSave" style="padding:7px 12px;font-size:12px">🖼️ 저장</button>
             <button class="btn ghost small" id="btnBadgeShare" style="padding:7px 12px;font-size:12px">📢 공유</button>
@@ -383,7 +383,7 @@ h1.title .accent{color:var(--blue-soft)}
       </div>
     </div>
 
-    <!-- 히든 클리어: 민주당 혁신 완수 → 대한민국 수호 훈장 -->
+    <!-- 히든 클리어: 민주당 혁신 완수 → 대한민국 지킴이 배지 -->
     <div class="overlay hidden" id="scrMedal">
       <div class="eyebrow">히든 스테이지 클리어</div>
       <h2 class="title" style="font-size:28px">대한민국을<br>지켜냈다</h2>
@@ -462,7 +462,7 @@ const HIDDEN_STAGES = [
 ];
 
 const HASHTAGS = "#민주당을살려야합니다 #이번생에살립시다 #김보미";
-const MEDAL_TITLE = "대한민국 수호 훈장";   /* 민주당을 혁신하여 대한민국을 지켰다는 서사 */
+const MEDAL_TITLE = "대한민국 지킴이 배지";   /* 민주당을 혁신하여 대한민국을 지켰다는 서사 */
 const SUPPORT_LINE = "김보미 지지";
 const HOME_URL = "https://www.xn--4k0b53xuva.com/";
 const STAGE_COUNT = 3;   // 이탈 방지 — 3판이면 1차 클리어
@@ -481,7 +481,7 @@ const ROCK_WORDS = [
   {w:"민생외면",       d:"당리당략에 빠져 민생 버린 무능",             y:"정쟁 대신 민생 — 국민 삶부터 챙깁니다"},
   {w:"꼰대정치",       d:"내가 아니면 안 된다는 낡은 독선",            y:"독선을 끝내고 토론하는 정당으로"},
   {w:"줄세우기",       d:"권력 줄세우기 구태 정치",                   y:"자발적 열정이 살아나는 당으로"},
-  {w:"밀실예산",       d:"군민 몰래 새 나가는 어두운 예산",            y:"예산 흐름, 시민 눈앞에 전면 공개"},
+  {w:"깜깜이예산",     d:"어디에 쓰이는지 시민이 알 수 없는 예산",      y:"예산 흐름, 시민 눈앞에 전면 공개"},
   {w:"늙고낡은정당",   d:"시대 뒤처진 꼰대 의원만 가득",              y:"청년이 주도하는 새로운 민주당으로"},
   {w:"갈라치기분열",   d:"친문·친명 편 가르기 망조 정치",             y:"편 가르기 대신 정책으로 하나되게"},
   {w:"발목잡기정치",   d:"미래 대신 정쟁으로 정부 발목잡기",           y:"정부의 미래 행보, 당이 견인하겠습니다"},

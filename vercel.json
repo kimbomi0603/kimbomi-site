@@ -1,49 +1,115 @@
 {
   "functions": {
-    "api/contract.js": { "maxDuration": 60 },
-    "api/lofin.js": { "maxDuration": 60 }
+    "api/contract.js": {
+      "maxDuration": 60
+    },
+    "api/lofin.js": {
+      "maxDuration": 60
+    }
   },
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "xn--4k0b53xuva.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "xn--4k0b53xuva.com"
+        }
+      ],
       "destination": "https://www.xn--4k0b53xuva.com/:path*",
       "permanent": true
     }
   ],
   "rewrites": [
-    { "source": "/admin", "destination": "/admin.html" },
-    { "source": "/story", "destination": "/story.html" },
-    { "source": "/vision", "destination": "/vision.html" },
-    { "source": "/report", "destination": "/report.html" },
-    { "source": "/game", "destination": "/game.html" },
-    { "source": "/privacy", "destination": "/privacy.html" }
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/story",
+      "destination": "/story.html"
+    },
+    {
+      "source": "/vision",
+      "destination": "/vision.html"
+    },
+    {
+      "source": "/report",
+      "destination": "/report.html"
+    },
+    {
+      "source": "/game",
+      "destination": "/game.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy.html"
+    }
   ],
   "crons": [
-    { "path": "/api/admin?action=cronreport", "schedule": "10 15 * * *" },
-    { "path": "/api/contract?warmawards=1", "schedule": "40 15 * * *" }
+    {
+      "path": "/api/admin?action=cronreport",
+      "schedule": "10 15 * * *"
+    },
+    {
+      "path": "/api/contract?warmawards=1",
+      "schedule": "40 15 * * *"
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors 'self'"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        }
       ]
     },
     {
       "source": "/admin.html",
       "headers": [
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
       ]
     },
     {
       "source": "/admin",
       "headers": [
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
       ]
     }
   ]
