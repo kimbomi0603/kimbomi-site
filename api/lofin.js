@@ -62,11 +62,25 @@ module.exports = async (req, res) => {
     const top=j[hub]; return (top&&top[1]&&top[1].row)||[];
   }
 
-  /* ── 스냅샷 제공: /api/lofin?snap=1 — 프론트가 임베드 상수보다 최신·완전한 갱신본을 읽음 ── */
+  /* ── 스냅샷 제공: /api/lofin?snap=1 — 프론트가 임베드 상수보다 최신·완전한 갱신본을 읽음 ──
+     2026-09-03 추가: laf_cd(자치단체 코드)를 주면 해당 지자체 행만 걸러 돌려준다.
+     전수 스냅샷은 800KB가 넘어 단일 지역 페이지(region.html)가 통째로 받기엔 과하다.
+     값은 전수본에서 그대로 뽑기만 하므로 화면 간 수치가 어긋나지 않는다. */
   if (q.snap) {
     const s = await kvGet("snap:fiscal:v1");
     res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");
-    return res.status(200).json(s || { ok: false, reason: "스냅샷 미생성 — 임베드 실데이터가 기본으로 사용됩니다" });
+    if (!s) return res.status(200).json({ ok: false, reason: "스냅샷 미생성 — 임베드 실데이터가 기본으로 사용됩니다" });
+    const lafCd = String(q.laf_cd || "").trim();
+    if (!lafCd) return res.status(200).json(s);
+    if (!/^\d{3,10}$/.test(lafCd)) return res.status(400).json({ ok: false, error: "laf_cd 형식 오류" });
+    const picked = {};
+    for (const k of Object.keys(s.data || {})) {
+      const arr = s.data[k];
+      if (!Array.isArray(arr)) continue;
+      const hit = arr.find((r) => r && String(r.laf_cd) === lafCd);
+      if (hit) picked[k] = hit;
+    }
+    return res.status(200).json({ ok: true, v: s.v, fyr: s.fyr, laf_cd: lafCd, scope: "single", data: picked });
   }
 
   /* ── 스냅샷 갱신: /api/lofin?snaprefresh=1 — 라이브 전수 수집 → 완전성 검증 통과 시에만 교체.
