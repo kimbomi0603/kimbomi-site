@@ -261,8 +261,17 @@ function prep(j){
       sui:/수의|단독|1인/.test(b.method||"")||(!!b.sutil&&!/협상/.test(b.method||"")),cat:catOf(b.title),bz:b.bizNo||""};
   });
   var hasV=bids.some(function(x){return x.v;});
+  /* 2026-09-03 추가 — 나라장터 공개 API는 '입찰공고'와 '개찰(낙찰업체) 정보'가 섞여 온다.
+     한 건이라도 업체가 있으면 전체를 '계약'으로 간주하던 기존 로직은, 금액의 대부분이 업체 미상인데도
+     업체집중도(HHI·CR)를 '전체 금액' 대비로 계산해 "분산되어 있다"는 잘못된 결론을 냈다.
+     → 업체 확정 건수·금액을 따로 집계해 분모·판정·안내에 사용한다. */
+  var vBids=bids.filter(function(x){return !!x.v;});
+  var vCnt=vBids.length, vAmt=vBids.reduce(function(s2,x){return s2+x.a;},0);
+  var totAmt=bids.reduce(function(s2,x){return s2+x.a;},0);
   return {bids:bids,stats:j.stats||{},by_kind:j.by_kind||[],by_vendor:j.by_vendor||[],by_year:j.by_year||[],
-    hasVendor:hasV,
+    hasVendor:hasV, vCnt:vCnt, vAmt:vAmt, totAmt:totAmt,
+    vRateCnt:bids.length?vCnt/bids.length:0, vRateAmt:totAmt?vAmt/totAmt:0,
+    vendorReliable:(bids.length? vCnt/bids.length:0)>=0.5,
     region:j.region||REGION,days:j.days_window||DAYS,src:j.src||"",fetched:j.fetched_at||"",partial:!!j.partial,total_count:j.total_count||bids.length,
     renotice:(j.stats&&j.stats.renotice_removed)||0,unitCnt:(j.stats&&j.stats.unit_count)||0};
 }
@@ -277,7 +286,12 @@ function renderAll(){
   setCard("navPro",hasV);
   var mn=$("modeNote");
   if(mn){
-    if(hasV){mn.classList.add("hide");}
+    if(hasV && DATA.vRateAmt>=0.9){mn.classList.add("hide");}
+    else if(hasV){mn.classList.remove("hide");
+      mn.innerHTML='ℹ️ 이 기간 자료는 <b>낙찰업체가 확정된 계약</b>과 <b>아직 개찰 전인 입찰공고</b>가 섞여 있습니다. '+
+        '업체가 확인된 것은 <b>'+DATA.vCnt.toLocaleString()+'건 · '+won(DATA.vAmt)+'</b>(표시 금액의 '+(DATA.vRateAmt*100).toFixed(1)+'%)뿐이며, '+
+        '나머지는 <b>업체미상(추정가격·배정예산)</b>입니다. 업체순위·집중도(HHI·CR)는 <b>업체가 확정된 건만</b>을 분모로 계산했습니다 — '+
+        '전체 계약의 집중도로 해석하지 마십시오.';}
     else{mn.classList.remove("hide");
       mn.innerHTML='ℹ️ 현재 <b>입찰공고(예정) 기준</b> 자료입니다. 나라장터 공개 API가 제공하는 범위로, <b>낙찰·계약체결 업체와 실제 낙찰금액은 아직 포함되지 않습니다</b>. 따라서 업체순위·업체집중도(HHI) 등 업체 기반 분석은 표시하지 않았습니다(허위 표기 방지). 금액은 모두 <b>추정가격·배정예산</b>입니다.';}
   }
@@ -295,11 +309,11 @@ function renderKPI(){
   var unit=hasV?"계약":"공고";
   var tiles=[
     ["표시 "+unit+" 건수",n.toLocaleString()+"건",(DATA.total_count>n?("전체 "+DATA.total_count.toLocaleString()+"건 중 상위"):"최근 "+DATA.days+"일")],
-    [(hasV?"총 계약 금액":"공고 추정가격 합계"),won(amt),(hasV?"낙찰금액 합산":"추정가격·배정예산 합산")],
+    [(hasV?"총 계약·공고 금액":"공고 추정가격 합계"),won(amt),(DATA.total_count>n?("표시분 "+n.toLocaleString()+"건 합산 (전체 "+DATA.total_count.toLocaleString()+"건 중 상위)"):(hasV?"낙찰금액·추정가격 합산":"추정가격·배정예산 합산"))],
     ["평균 "+(hasV?"계약금액":"추정가격"),won(n?amt/n:0),"건당 평균"],
     ["수의계약 건수",sui.length.toLocaleString()+"건",pct(sui.length,n).toFixed(1)+"% (건수 기준 · 소액수의견적·수의시담 포함, 협상계약 제외)"],
     ["수의계약 금액",won(suiAmt),pct(suiAmt,amt).toFixed(1)+"% (금액 기준)"],
-    (hasV?["참여 업체 수",vc.toLocaleString()+"곳","정규화 상호 기준"]
+    (hasV?["확인된 업체 수",vc.toLocaleString()+"곳","업체 확정 "+DATA.vCnt.toLocaleString()+"건 기준 · 정규화 상호"]
          :["경쟁입찰 건수",(n-sui.length).toLocaleString()+"건",pct(n-sui.length,n).toFixed(1)+"% (건수 기준)"])
   ];
   $("kpis").innerHTML=tiles.map(function(t){return '<div class="kpi"><div class="lb">'+t[0]+'</div><div class="v">'+t[1]+'</div><div class="s">'+t[2]+'</div></div>';}).join("");
@@ -314,14 +328,16 @@ function renderDiag(){
   var vm={};b.forEach(function(x){var v=normV(x.v);if(!v)return;vm[v]=(vm[v]||0)+x.a;});
   var vArr=Object.keys(vm).map(function(k){return[k,vm[k]];}).sort(function(a,b){return b[1]-a[1];});
   var top1=vArr[0],cr5=vArr.slice(0,5).reduce(function(s,x){return s+x[1];},0);
-  var hasV=!!DATA.hasVendor,unit=hasV?"계약":"입찰공고";
+  var vAmt=DATA.vAmt||0;                       /* 업체가 확정된 금액 — 집중도 분모 */
+  var hasV=!!DATA.hasVendor,unit=hasV?"계약·입찰공고":"입찰공고";
   $("diagCap").textContent=esc(DATA.region)+" · 최근 "+DATA.days+"일 나라장터 "+unit+" "+n.toLocaleString()+"건 기준 자동 진단";
   var items=[];
   items.push([suiR>=50,'수의계약(비경쟁) 비중이 <b>건수 '+suiR.toFixed(1)+"% · 금액 "+suiAmtR.toFixed(1)+'%</b>입니다. '+(suiR>=50?"경쟁이 상당히 제한적입니다 — 소액수의 남용·분할발주 여부를 살펴볼 구간입니다.":"경쟁입찰 비중이 더 높습니다.")]);
-  if(hasV&&top1)items.push([pct(top1[1],amt)>=30,'금액 1위 업체 <b>'+esc(top1[0])+'</b>가 전체의 <b>'+pct(top1[1],amt).toFixed(1)+'%</b>('+won(top1[1])+')를 차지합니다. '+(pct(top1[1],amt)>=30?"특정 업체 쏠림이 큽니다.":"쏠림은 크지 않습니다.")]);
-  if(hasV)items.push([cr5/amt>=0.6,'상위 5개 업체가 전체 금액의 <b>'+pct(cr5,amt).toFixed(1)+'%</b>를 가져갑니다(CR5). '+(cr5/amt>=0.6?"소수 업체 집중이 뚜렷합니다.":"비교적 분산되어 있습니다.")]);
+  if(hasV&&DATA.vRateAmt<0.9)items.push([true,'표시 금액의 <b>'+((1-DATA.vRateAmt)*100).toFixed(1)+'%</b>는 아직 <b>낙찰업체가 확정되지 않은 입찰공고</b>입니다. 아래 업체 집중도는 업체가 확정된 <b>'+won(vAmt)+'</b>만을 분모로 한 값이며, 전체 계약의 집중도가 아닙니다.']);
+  if(hasV&&top1&&vAmt>0)items.push([pct(top1[1],vAmt)>=30,'업체 확정분 기준 금액 1위 업체 <b>'+esc(top1[0])+'</b>가 <b>'+pct(top1[1],vAmt).toFixed(1)+'%</b>('+won(top1[1])+')를 차지합니다. '+(pct(top1[1],vAmt)>=30?"특정 업체 쏠림이 큽니다.":"쏠림은 크지 않습니다.")]);
+  if(hasV&&vAmt>0)items.push([cr5/vAmt>=0.6,'상위 5개 업체가 업체 확정 금액의 <b>'+pct(cr5,vAmt).toFixed(1)+'%</b>를 가져갑니다(CR5). '+(cr5/vAmt>=0.6?"소수 업체 집중이 뚜렷합니다.":"비교적 분산되어 있습니다.")]);
   var big=b.slice().sort(function(a,c){return c.a-a.a;})[0];
-  if(big)items.push([false,'최대 단일 '+(hasV?'계약':'공고')+': <b>'+esc(big.n.slice(0,40))+'</b> · '+won(big.a)+(hasV?(' ('+esc(big.v||"업체미상")+")"):" (추정가격)")]);
+  if(big)items.push([false,'최대 단일 '+(hasV?'계약·공고':'공고')+': <b>'+esc(big.n.length>40?big.n.slice(0,40)+'…':big.n)+'</b> · '+won(big.a)+(big.v?(' ('+esc(big.v)+")"):" (낙찰업체 미확정 · 추정가격)")]);
   var html=items.map(function(it){return '<div class="dgi'+(it[0]?" warn":"")+'">'+(it[0]?"⚠️ ":"• ")+it[1]+'</div>';}).join("");
   html+='<div class="dgi" style="border-left-color:#1baf7a">✅ <b>다음 단계</b> — 의심 계약은 '+
     '<a href="https://www.open.go.kr" target="_blank" rel="noopener">정보공개청구</a>로 계약서·산출내역을, '+
@@ -332,7 +348,8 @@ function renderDiag(){
 
 /* ---- 전문 진단 지표: HHI/CR, 수의 금액구간, 유형별 수의 ---- */
 function renderPro(){
-  var b=DATA.bids,amt=b.reduce(function(s,x){return s+x.a;},0);
+  /* 분모는 '업체가 확정된 금액'만 사용한다 — 미상 금액을 분모에 넣으면 집중도가 실제보다 낮게 나온다. */
+  var b=DATA.bids,amt=DATA.vAmt||0;
   var vm={};b.forEach(function(x){var v=normV(x.v);if(!v)return;vm[v]=(vm[v]||0)+x.a;});
   var vArr=Object.values(vm).sort(function(a,b){return b-a;});
   function cr(k){return pct(vArr.slice(0,k).reduce(function(s,x){return s+x;},0),amt);}
@@ -346,7 +363,7 @@ function renderPro(){
   var byk={};b.forEach(function(x){var k=x.k||"기타";byk[k]=byk[k]||{n:0,s:0};byk[k].n++;if(x.sui)byk[k].s++;});
   var krows=Object.keys(byk).map(function(k){return '<tr><td>'+esc(k)+'</td><td class="r">'+byk[k].n+'</td><td class="r">'+byk[k].s+'</td><td class="r">'+pct(byk[k].s,byk[k].n).toFixed(0)+'%</td></tr>';}).join("");
   $("proBody").innerHTML=
-   '<div class="probox"><h3>업체 집중도 (HHI·CR)</h3><div class="big">'+Math.round(hhi).toLocaleString()+'</div><div class="hint">HHI '+hlab+' (미 DOJ 기준 1500·2500)<br>CR5 '+cr(5).toFixed(1)+'% · CR10 '+cr(10).toFixed(1)+'% · CR20 '+cr(20).toFixed(1)+'%</div></div>'+
+   '<div class="probox"><h3>업체 집중도 (HHI·CR)</h3><div class="big">'+Math.round(hhi).toLocaleString()+'</div><div class="hint">HHI '+hlab+' (미 DOJ 기준 1500·2500)<br>CR5 '+cr(5).toFixed(1)+'% · CR10 '+cr(10).toFixed(1)+'% · CR20 '+cr(20).toFixed(1)+'%<br><b>업체가 확정된 '+DATA.vCnt.toLocaleString()+'건 · '+won(DATA.vAmt)+'</b>(표시 금액의 '+(DATA.vRateAmt*100).toFixed(1)+'%)만을 분모로 계산 — 낙찰업체 미확정 공고는 제외</div></div>'+
    '<div class="probox"><h3>수의계약 금액구간</h3><div class="bars" style="margin-top:4px">'+bandBars+'</div><div class="hint">2천만원 이하 소액수의(1인견적 가능) 집중 여부를 봅니다.</div></div>'+
    '<div class="probox"><h3>유형별 수의 비중</h3><table style="margin-top:2px"><tr><th>유형</th><th class="r">건수</th><th class="r">수의</th><th class="r">비중</th></tr>'+krows+'</table></div>';
 }
@@ -401,7 +418,10 @@ var VAGG=null;
 function renderVendors(){
   VAGG=VAGG||vendorAgg();
   var sort=$("vSort").value,top=+$("vTop").value,q=($("vSearch").value||"").trim().toLowerCase();
-  var arr=VAGG.slice();
+  /* 2026-09-03 수정: 낙찰업체가 아직 없는 공고를 묶은 '(업체미상)'이 1위 업체처럼 표시되던 문제 →
+     순위에서 제외하고 표 아래에 별도 안내로 분리한다. */
+  var unknown=VAGG.filter(function(o){return o.name==="(업체미상)";})[0]||null;
+  var arr=VAGG.filter(function(o){return o.name!=="(업체미상)";});
   if(q)arr=arr.filter(function(o){return o.name.toLowerCase().indexOf(q)>=0;});
   arr.sort(function(a,b){return sort==="count"?b.n-a.n:sort==="sutil"?b.sn-a.sn:b.a-a.a;});
   arr=arr.slice(0,top);
@@ -413,7 +433,10 @@ function renderVendors(){
       '<td style="width:90px"><div class="rankbar" style="width:'+(o.a/mx*100)+'%;height:12px;background:var(--s1);border-radius:0 4px 4px 0"></div></td>'+
       '<td class="r">'+o.n+'</td><td class="r">'+won(o.a)+'</td><td class="r">'+o.sn+'</td><td class="r">'+pct(o.sn,o.n).toFixed(0)+'%</td><td>'+esc(topCat)+'</td></tr>';
   }).join("");
-  $("vTable").innerHTML=head+body;
+  var note=unknown?('<tr><td colspan="8" style="color:var(--muted);font-size:.82rem;padding-top:10px;line-height:1.5">'+
+    '※ 위 순위는 <b>낙찰업체가 확정된 계약</b>만 집계한 것입니다. 이 밖에 <b>'+unknown.n.toLocaleString()+'건 · '+won(unknown.a)+'</b>은 '+
+    '아직 개찰 전이거나 나라장터 공개 API에 낙찰업체가 실리지 않은 <b>업체미상 공고</b>로, 순위에서 제외했습니다.</td></tr>'):'';
+  $("vTable").innerHTML=head+body+note;
   [].forEach.call($("vTable").querySelectorAll(".vrow"),function(tr){tr.addEventListener("click",function(){toggleVendor(tr,tr.dataset.v);});});
 }
 function toggleVendor(tr,name){
@@ -461,7 +484,9 @@ $("trMode").addEventListener("change",renderTrend);
 
 /* ---- 쪼개기 탐지 ---- */
 function renderSplit(){
-  var hasV=!!DATA.hasVendor;
+  /* 2026-09-03 수정: 업체 미상이 대부분인데 '동일 업체' 기준으로만 묶으면 전체의 일부만 검토돼 탐지가 사실상 무력화된다.
+     업체 정보가 과반일 때만 업체 기준을 쓰고, 아니면 분야 기준으로 전건을 검토한다. */
+  var hasV=!!DATA.vendorReliable;
   var NOISE=/관급자재|레미콘|아스콘|철근|자재\(|자재 구입|자재구입|유류|주유|급식|부식/;
   // 업체 정보가 있으면 '동일 업체', 없으면(입찰공고) '동일 분야' 기준으로 묶어 확인 대상을 제시
   var by={};DATA.bids.forEach(function(x){if(!x.sui)return;if(x.a<5e6)return;if(NOISE.test(x.n))return;if(hasV&&/조달청|협동조합/.test(x.v))return;var k=hasV?(normV(x.v)||"(미상)"):(x.cat||"기타");if(hasV&&k==="(미상)")return;by[k]=by[k]||[];by[k].push(x);});

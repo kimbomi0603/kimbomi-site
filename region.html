@@ -52,10 +52,10 @@ tailwind.config = { theme: { extend: {
 <section class="py-8">
   <div class="max-w-screen-xl2 mx-auto px-5">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">총예산</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiB">—</span><span class="text-[14px] text-ink-faint">조원</span></div><div class="text-[11px] text-ink-faint mt-1">세입결산 규모</div></div>
+      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">총예산</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiB">—</span></div><div class="text-[11px] text-ink-faint mt-1">세입결산 규모 · 지방재정365 재정자립도 공시</div></div>
       <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">재정자립도</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiS">—</span><span class="text-[14px] text-ink-faint">%</span></div><div class="text-[11px] text-mint-dark mt-1 font-bold" id="kpiSrcBadge">—</div></div>
-      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">예산 집행률</div><div class="text-[28px] font-black text-minju num mt-1"><span id="kpiE">—</span><span class="text-[14px] text-ink-faint">%</span></div><div class="text-[11px] text-amber-700 mt-1 font-bold">추정치</div></div>
-      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">금고 이자율</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiR">—</span><span class="text-[14px] text-ink-faint">%</span></div><div class="text-[11px] text-red-600 mt-1 font-bold" id="kpiRNote">—</div></div>
+      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">예산 집행률</div><div class="text-[28px] font-black text-minju num mt-1"><span id="kpiE">—</span><span class="text-[14px] text-ink-faint">%</span></div><div class="text-[11px] text-amber-700 mt-1 font-bold">공식 공시 미연동</div></div>
+      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">금고 이자율</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiR">—</span><span class="text-[14px] text-ink-faint">%</span></div><div class="text-[11px] text-ink-faint mt-1 font-bold" id="kpiRNote">—</div></div>
     </div>
   </div>
 </section>
@@ -86,7 +86,7 @@ tailwind.config = { theme: { extend: {
       <div class="bg-white rounded-2xl p-6 ring-1 ring-paper-line shadow-sm">
         <h3 class="text-[15px] font-extrabold text-navy mb-3">분야별 예산 비중</h3>
         <div class="relative h-[240px]"><canvas id="pieChart"></canvas></div>
-        <p class="mt-3 text-[11px] text-ink-faint">※ 분야별 비중은 데이터셋 미공개로 추정치이며, 정확한 항목별 금액은 위 결산서 원본을 참고하세요.</p>
+        <p class="mt-3 text-[11px] text-ink-faint">※ 분야별 비중은 공식 공시 데이터셋이 없어 <b>표시하지 않습니다</b>(추정치 생성 중단). 정확한 항목별 금액은 위 결산서 원본을 참고하세요.</p>
       </div>
       <div class="bg-white rounded-2xl p-6 ring-1 ring-paper-line shadow-sm">
         <h3 class="text-[15px] font-extrabold text-navy mb-3">예산현황 (회계별 · 억원)</h3>
@@ -141,7 +141,7 @@ tailwind.config = { theme: { extend: {
 
 <footer class="bg-[#EEF4FB] border-t border-paper-line py-10">
   <div class="max-w-screen-xl2 mx-auto px-5 text-[12px] text-ink-faint leading-relaxed">
-    <p class="mb-2"><b class="text-navy">[면책]</b> 본 페이지의 모든 수치는 공공데이터를 기반으로 한 통계 추론 참고치이며, 자치단체 확정 결산과 다를 수 있습니다. 공적·법적 대응 전 반드시 해당 지자체·의회 공식 원부로 재확인하세요.</p>
+    <p class="mb-2"><b class="text-navy">[면책]</b> 본 페이지의 수치는 지방재정365 등 공공데이터 공시값을 그대로 표시한 참고 정보이며, 공시 시점·집계 범위에 따라 자치단체 확정 결산과 다를 수 있습니다. 확보하지 못한 값은 추정하지 않고 &lsquo;—&rsquo;로 비웁니다. 공적·법적 대응 전 반드시 해당 지자체·의회 공식 원부로 재확인하세요.</p>
     <p>© 2026 대한민국 재정 365 · 운영: 김보미 · <a href="/" class="text-minju hover:underline">메인으로</a></p>
   </div>
 </footer>
@@ -153,8 +153,8 @@ tailwind.config = { theme: { extend: {
 const REGION    = '강진군';
 const ZONE      = '전남강진군';        // /api/budget 호출용
 const LAF_CD    = '4678000';           // /api/projects 호출용 (lofin365 자치단체 코드)
-const RATE      = 0.91;
-const RATE_NOTE = '⚠ 2026 출마선언문 기준';
+const RATE      = 2.04;                 /* 행정안전부 2026.1.27 「전국 243개 지방정부 금고 약정이자율 통합공개」 — 전남 강진군(전남 최저) */
+const RATE_NOTE = '행정안전부 2026.1.27 공시';
 const CITY_HOME = 'https://www.gangjin.go.kr';
 
 const DOCS = [
@@ -207,7 +207,7 @@ if(c.total||c.soleRate!=null||(c.top&&c.top.length)){
   }
   h+='</div>';
   cBlock.innerHTML=h;
-} else cBlock.innerHTML=ph('계약 현황 데이터 준비 중');
+} else cBlock.innerHTML=ph('이 페이지에는 계약 요약을 싣지 않습니다 — 나라장터 실시간 계약·입찰 현황은 <a href="/gyeyak.html" class="text-minju font-bold underline">계약현황 대시보드</a>에서 확인하세요.');
 
 // Projects — 초기는 placeholder, API 응답 오면 자동 교체
 const pBlock=document.getElementById('projectBlock');
@@ -231,20 +231,23 @@ const FIELDS=['복지','산업·경제','SOC·교통','교육·문화','안전·
 const COLORS=['#0050A0','#0073CF','#10C9B0','#46E3CC','#1E9BE0','#9FB3C8'];
 function won(eok){ return eok>=10000?(eok/10000).toLocaleString('ko-KR',{maximumFractionDigits:1})+'조':Math.round(eok).toLocaleString('ko-KR')+'억'; }
 
-const pieChart=new Chart(document.getElementById('pieChart').getContext('2d'),{type:'doughnut',data:{labels:FIELDS,datasets:[{data:[34,16,15,12,12,11],backgroundColor:COLORS,borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'bottom',labels:{font:{size:11}}}}}});
+const pieChart=new Chart(document.getElementById('pieChart').getContext('2d'),{type:'doughnut',data:{labels:FIELDS,datasets:[{data:[],backgroundColor:COLORS,borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'bottom',labels:{font:{size:11}}}}}});
 
 function render(d,isReal){
   /* 실데이터 원칙: 공시값(b=세입결산, s=재정자립도)만 표시. 추정 생성값(집행률·회계배분·분야비중)은 전량 폐기 → '—' */
-  document.getElementById('kpiB').textContent=(isReal&&typeof d.b==='number')?(+d.b).toFixed(1):'—';
+  const _eok=(typeof d.bEok==='number')?d.bEok:((typeof d.b==='number')?d.b*10000:null);
+  document.getElementById('kpiB').textContent=(isReal&&_eok!=null)?won(_eok)+'원':'—';
   document.getElementById('kpiE').textContent=(typeof d.e==='number')?(+d.e).toFixed(1):'—';
   document.getElementById('kpiS').textContent=(isReal&&typeof d.s==='number')?(+d.s).toFixed(1):'—';
   document.getElementById('dataYear').textContent=d&&d.fyr?d.fyr:'—';
   document.getElementById('lastUpdated').textContent=isReal?('갱신 '+new Date().toLocaleString('ko-KR',{hour:'2-digit',minute:'2-digit'})+' · 지방재정365 실데이터'):'실데이터 호출 실패 — 수치를 표시하지 않습니다';
-  var srcBadge=document.getElementById('kpiSrcBadge'); if(srcBadge){ srcBadge.textContent=isReal?'실데이터(지방재정365)':'미연동'; srcBadge.style.color=isReal?'':'#b45309'; }
+  var srcBadge=document.getElementById('kpiSrcBadge'); if(srcBadge){ srcBadge.textContent=isReal?'실데이터(지방재정365) · 개편후 기준':'미연동'; srcBadge.style.color=isReal?'':'#b45309'; }
+  /* 2026-09-03 정정: d.b는 '세입결산 규모'인데 세출 총계 칸에 넣고 있었다 → 세입 총계로 옮김 */
+  const eok=(typeof d.bEok==='number')?d.bEok:((typeof d.b==='number')?d.b*10000:null);
   document.getElementById('acG').textContent='—';
   document.getElementById('acS').textContent='—';
-  document.getElementById('acR').textContent='—';
-  document.getElementById('acE').textContent=(isReal&&typeof d.b==='number')?won(d.b*10000):'—';
+  document.getElementById('acR').textContent=(isReal&&eok!=null)?won(eok):'—';
+  document.getElementById('acE').textContent='—';
   const pieWrap=document.getElementById('pieChart')&&document.getElementById('pieChart').closest('div');
   if(Array.isArray(d.f)&&d.f.length===6){ pieChart.data.datasets[0].data=d.f; pieChart.update(); }
   else if(pieWrap){ pieWrap.innerHTML='<div style="padding:28px 12px;text-align:center;color:#94a3b8;font-size:13px">분야별 비중 — 공식 공시 미연동으로 표시하지 않습니다.<br>정확한 분야별 예산은 아래 결산서 원본에서 확인하세요.</div>'; }
