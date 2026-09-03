@@ -52,7 +52,7 @@ tailwind.config = { theme: { extend: {
 <section class="py-8">
   <div class="max-w-screen-xl2 mx-auto px-5">
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">총예산</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiB">—</span></div><div class="text-[11px] text-ink-faint mt-1">세입결산 규모 · 지방재정365 재정자립도 공시</div></div>
+      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">총예산(세출)</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiB">—</span></div><div class="text-[11px] text-ink-faint mt-1" id="kpiBSub">일반+특별회계+기금 세출예산 · 지방재정365 2024</div></div>
       <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">재정자립도</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiS">—</span><span class="text-[14px] text-ink-faint">%</span></div><div class="text-[11px] text-mint-dark mt-1 font-bold" id="kpiSrcBadge">—</div></div>
       <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">예산 집행률</div><div class="text-[28px] font-black text-minju num mt-1"><span id="kpiE">—</span><span class="text-[14px] text-ink-faint">%</span></div><div class="text-[11px] text-amber-700 mt-1 font-bold">공식 공시 미연동</div></div>
       <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">금고 이자율</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiR">—</span><span class="text-[14px] text-ink-faint">%</span></div><div class="text-[11px] text-ink-faint mt-1 font-bold" id="kpiRNote">—</div></div>
@@ -93,9 +93,10 @@ tailwind.config = { theme: { extend: {
         <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center mb-4">
           <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">일반회계</div><div class="text-[15px] font-extrabold text-navy" id="acG">—</div></div>
           <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">특별회계</div><div class="text-[15px] font-extrabold text-navy" id="acS">—</div></div>
-          <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">세입 총계</div><div class="text-[15px] font-extrabold text-navy" id="acR">—</div></div>
+          <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">기금</div><div class="text-[15px] font-extrabold text-navy" id="acF">—</div></div>
           <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">세출 총계</div><div class="text-[15px] font-extrabold text-navy" id="acE">—</div></div>
         </div>
+        <p class="text-[11px] text-ink-faint mb-3" id="acNote">일반회계 + 특별회계 + 기금 = 세출 총계 (지방재정365 2024 회계별 공시) · 나라살림 돋보기와 같은 원자료·같은 정의</p>
         <div class="overflow-hidden rounded-xl ring-1 ring-paper-line">
           <table class="w-full text-[12.5px]">
             <thead class="bg-paper text-ink-faint"><tr><th class="text-left font-semibold px-2.5 py-1.5">분야</th><th class="text-right font-semibold px-2.5 py-1.5">예산</th><th class="text-right font-semibold px-2.5 py-1.5">집행</th><th class="text-right font-semibold px-2.5 py-1.5">집행률</th></tr></thead>
@@ -236,18 +237,21 @@ const pieChart=new Chart(document.getElementById('pieChart').getContext('2d'),{t
 function render(d,isReal){
   /* 실데이터 원칙: 공시값(b=세입결산, s=재정자립도)만 표시. 추정 생성값(집행률·회계배분·분야비중)은 전량 폐기 → '—' */
   const _eok=(typeof d.bEok==='number')?d.bEok:((typeof d.b==='number')?d.b*10000:null);
-  document.getElementById('kpiB').textContent=(isReal&&_eok!=null)?won(_eok)+'원':'—';
-  document.getElementById('kpiE').textContent=(typeof d.e==='number')?(+d.e).toFixed(1):'—';
-  document.getElementById('kpiS').textContent=(isReal&&typeof d.s==='number')?(+d.s).toFixed(1):'—';
+  window.__REV_EOK=(isReal&&_eok!=null)?_eok:null;               /* 세입결산 규모(재정자립도 공시) */
+  const _kb=document.getElementById('kpiB');
+  if(_kb&&!_kb.dataset.filled) _kb.textContent=(isReal&&_eok!=null)?won(_eok)+'원':'—';
+  /* lofin 스냅샷(ACC·SR·EXEC)이 먼저 채운 칸은 덮어쓰지 않는다 — 두 응답의 도착 순서에 따라
+     화면 값이 달라지던 경쟁 조건을 막는다(2026-09-03). */
+  const _kpiE=document.getElementById('kpiE');
+  if(_kpiE&&!_kpiE.dataset.filled) _kpiE.textContent=(typeof d.e==='number')?(+d.e).toFixed(1):'—';
+  const _kpiS=document.getElementById('kpiS');
+  if(_kpiS&&!_kpiS.dataset.filled) _kpiS.textContent=(isReal&&typeof d.s==='number')?(+d.s).toFixed(1):'—';
   document.getElementById('dataYear').textContent=d&&d.fyr?d.fyr:'—';
   document.getElementById('lastUpdated').textContent=isReal?('갱신 '+new Date().toLocaleString('ko-KR',{hour:'2-digit',minute:'2-digit'})+' · 지방재정365 실데이터'):'실데이터 호출 실패 — 수치를 표시하지 않습니다';
-  var srcBadge=document.getElementById('kpiSrcBadge'); if(srcBadge){ srcBadge.textContent=isReal?'실데이터(지방재정365) · 개편후 기준':'미연동'; srcBadge.style.color=isReal?'':'#b45309'; }
-  /* 2026-09-03 정정: d.b는 '세입결산 규모'인데 세출 총계 칸에 넣고 있었다 → 세입 총계로 옮김 */
-  const eok=(typeof d.bEok==='number')?d.bEok:((typeof d.b==='number')?d.b*10000:null);
-  document.getElementById('acG').textContent='—';
-  document.getElementById('acS').textContent='—';
-  document.getElementById('acR').textContent=(isReal&&eok!=null)?won(eok):'—';
-  document.getElementById('acE').textContent='—';
+  var srcBadge=document.getElementById('kpiSrcBadge');
+  if(srcBadge&&!srcBadge.dataset.filled){ srcBadge.textContent=isReal?'실데이터(지방재정365) · 개편후 기준':'미연동'; srcBadge.style.color=isReal?'':'#b45309'; }
+  /* 회계별 세출예산은 lofin 스냅샷(ACC)에서 별도로 채운다 — applyLofin() 참조 */
+  ['acG','acS','acF','acE'].forEach(id=>{ const el=document.getElementById(id); if(el&&!el.dataset.filled) el.textContent='—'; });
   const pieWrap=document.getElementById('pieChart')&&document.getElementById('pieChart').closest('div');
   if(Array.isArray(d.f)&&d.f.length===6){ pieChart.data.datasets[0].data=d.f; pieChart.update(); }
   else if(pieWrap){ pieWrap.innerHTML='<div style="padding:28px 12px;text-align:center;color:#94a3b8;font-size:13px">분야별 비중 — 공식 공시 미연동으로 표시하지 않습니다.<br>정확한 분야별 예산은 아래 결산서 원본에서 확인하세요.</div>'; }
@@ -259,6 +263,66 @@ fetch('/api/budget?zone='+encodeURIComponent(ZONE),{cache:'no-store'}).then(r=>r
   if(typeof d.b!=='number'||d.b<=0) throw new Error('데이터 형식 오류');
   render(d,true);
 }).catch(()=>{ render({},false); });
+
+/* ============================================================
+   2026-09-03 추가 — 나라살림 돋보기(narasalim.html)와 같은 원자료·같은 정의로 통일.
+   같은 '총예산'이라는 말이 이 페이지에서는 세입결산 규모(6,041억), 저쪽에서는
+   회계별 세출예산 총계(5,281억)를 가리켜 두 화면의 숫자가 달라 보였다.
+   → 지방재정365 스냅샷(ACC·SR·EXEC)에서 같은 값을 받아 라벨과 함께 표시한다.
+   ============================================================ */
+if (LAF_CD) {
+  fetch('/api/lofin?snap=1&laf_cd='+encodeURIComponent(LAF_CD),{cache:'no-store'})
+    .then(r=>r.json()).then(j=>{
+      if(!j||j.ok===false||!j.data) return;
+      /* 서버가 단일 지역 필터를 지원하지 않는 구버전이면 전수 스냅샷(배열)이 온다 → 여기서 해당 행을 찾는다 */
+      const pick=k=>{const v=j.data[k]; if(!v) return null;
+        if(Array.isArray(v)) return v.find(r=>r&&String(r.laf_cd)===String(LAF_CD))||null;
+        return (String(v.laf_cd)===String(LAF_CD))?v:null;};
+      const num=v=>{ if(v==null) return null; const t=String(v).replace(/[, ]/g,'').trim(); if(!t) return null; const n=Number(t); return isFinite(n)?n:null; };
+      const eok=v=>{const n=num(v); return (n==null||n<=0)?null:Math.round(n/1e8);};   /* 원 → 억원 */
+      const put=(id,txt)=>{const el=document.getElementById(id); if(el&&txt){ el.textContent=txt; el.dataset.filled='1'; }};
+
+      /* 회계별 세출예산 (ACC) */
+      const A=pick('ACC');
+      if(A&&eok(A.ane_tott_amt)!=null){
+        const tot=eok(A.ane_tott_amt), gen=eok(A.gen_acnt_amt);
+        const spc=Math.round(((num(A.pbco_spc_acnt_amt)||0)+(num(A.etc_spc_acnt_amt)||0))/1e8);
+        const fnd=eok(A.fnd_amt);
+        put('acG', gen!=null?won(gen):'—');
+        put('acS', won(spc));
+        put('acF', fnd!=null?won(fnd):'—');
+        put('acE', tot!=null?won(tot):null);
+        if(tot!=null){
+          put('kpiB', won(tot)+'원');
+          const sub=document.getElementById('kpiBSub');
+          if(sub) sub.innerHTML='일반+특별회계+기금 세출예산 · 지방재정365 2024'
+            + (window.__REV_EOK!=null ? '<br>세입결산 규모 '+won(window.__REV_EOK)+'원 (재정자립도 공시 기준)' : '');
+        }
+      }
+      /* 재정자립도 (SR) — 개편전 대표 · 개편후 병기: 나라살림 돋보기와 동일 */
+      const S=pick('SR');
+      if(S){
+        const r1=num(S.rate1), r2=num(S.rate2);
+        if(r1!=null){
+          const el=document.getElementById('kpiS'); if(el){ el.textContent=r1.toFixed(2); el.dataset.filled='1'; }
+          const bd=document.getElementById('kpiSrcBadge');
+          if(bd){ bd.textContent='최종예산·개편전 기준'+(r2!=null?' · 개편후 '+r2.toFixed(2)+'%':''); bd.style.color=''; bd.dataset.filled='1'; }
+        }
+      }
+      /* 연간 세출 집행률 (EXEC) = 지출액 ÷ 예산현액 */
+      const E=pick('EXEC');
+      if(E){
+        const base=num(E.tot_pfa_amt), spent=num(E.pfa_amt1);
+        if(base!=null&&base>0&&spent!=null){
+          const rate=spent/base*100;
+          const el=document.getElementById('kpiE'); if(el){ el.textContent=rate.toFixed(1); el.dataset.filled='1'; }
+          const card=el?el.closest('.bg-white'):null;
+          const note=card?card.querySelector('.text-amber-700, .text-mint-dark'):null;
+          if(note){ note.textContent='지출액÷예산현액 · 2024 결산 공시'; note.className='text-[11px] text-mint-dark mt-1 font-bold'; }
+        }
+      }
+    }).catch(()=>{});
+}
 </script>
 </body>
 </html>
