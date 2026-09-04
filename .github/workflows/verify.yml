@@ -1,0 +1,39 @@
+# ============================================================================
+# 배포 전 자동 검증
+# 2026-09-04 신설.
+#
+# 이 파일이 있는 이유:
+#   8월·9월 점검마다 같은 종류의 결함(임의 계수로 만든 가짜 수치, 단위 오류,
+#   특정 지자체에서만 터지는 렌더 예외)이 반복해서 나왔다. 사람이 매번 기억에
+#   의존해 훑었기 때문이다. 이제 push할 때마다 기계가 같은 검사를 똑같이 한다.
+#   검사가 실패하면 커밋 옆에 ✗ 가 뜬다.
+# ============================================================================
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  static:
+    name: 정적 검사 (가짜 수치·단위·XSS·관리자 인증)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: node tools/verify.js
+
+  render:
+    name: 전수 렌더 (243곳 · 차트 정상/CDN 장애)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm i --no-save playwright@1.49.0
+      - run: npx playwright install --with-deps webkit
+      - run: node tools/verify-render.js
