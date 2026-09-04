@@ -61,6 +61,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+
+<!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다.
+     (2026-09-04: 이 파일 안에만 won() 9곳·esc() 8곳이 제각각 있었다) -->
+<script src="assets/kb-format.js"></script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 
@@ -1527,7 +1531,7 @@ h1{letter-spacing:-.035em;font-weight:900}
   <script>
   (function(){
     var SG_ID='20260603';
-    function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+    function esc(s){ return KB_esc(s); }   /* 공통 유틸 위임 — 작은따옴표까지 이스케이프된다 */
     function nl2br(s){return esc(s).replace(/\n/g,'<br>');}
     function initSel(){
       if(!window.SIDO||!window.SIGUNGU){setTimeout(initSel,250);return;}
@@ -2545,7 +2549,7 @@ h1{letter-spacing:-.035em;font-weight:900}
       if(!sel||!body) return;
       Object.keys(P).forEach(function(n){ var o=document.createElement('option'); o.value=n; o.textContent=n; sel.appendChild(o); });
       var tab='sum';
-      function won(a){ return a>=1? a.toLocaleString('ko-KR',{maximumFractionDigits:1})+'억원' : Math.round(a*100)/100+'억원'; }
+      function won(a){ return KB_won억(a); }   /* 억원 입력. 이전엔 null이 '0억원'으로 찍혔다 */
       function tot(d){ return d.gy+d.ge+d.due+d.don; }
       function bar(nm,val,max,color,amtTxt){
         var w=Math.max(3,val/max*100);
@@ -2979,7 +2983,7 @@ const PAL = {blue:"#1d6fe0",teal:"#0d9488",green:"#16a34a",amber:"#f59e0b",red:"
 const fmt = n => (n==null||!isFinite(n)) ? '—' : Math.round(n).toLocaleString('ko-KR');
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 // 억원 → 표시 문자열. 조 단위는 항상 소수 1자리로 일관 처리하되 불필요한 '.0'은 제거.
-const won억 = a => (a==null||!isFinite(a)) ? '—' : (Math.abs(a)>=10000 ? ((a/10000).toFixed(1).replace(/\.0$/,''))+"조원" : fmt(a)+"억원");
+const won억 = a => KB_won억(a);   /* 억원 입력 */
 
 const STATE = { live:false, key:"", proxy:"", year:2025, region:null, charts:{}, model:[], byKey:{} };
 /* ── 전역 노출 (다른 script 블록에서 접근 가능하도록) ── */
@@ -3864,7 +3868,7 @@ function printReport(R){
         var info = this._info(key);
         var el = document.getElementById(panelId||'budgetPanel'); if(!el) return;
         if(!R){ el.innerHTML='<div class="fs-empty">지역을 선택하면 결과가 표시됩니다</div>'; return; }
-        var won=function(n){ if(n==null||!isFinite(n)) return '—'; n=Math.round(n); return n>=10000?(n/10000).toFixed(1)+'조원':n.toLocaleString('ko-KR')+'억원'; };
+        var won=function(n){ return KB_won억(n); };   /* 억원 입력 */
         var b=(R.budgetTotal!=null?R.budgetTotal:R.budget), exec=R.execRate;
         var acc=R.accounts||{}; var a1=acc['일반회계'], a2=acc['특별회계'], a3=acc['기금'];
         /* 추정 배분 폴백 폐기 — 분야별은 지방재정365 세출결산 실측만 표시 */
@@ -3942,7 +3946,7 @@ function printReport(R){
         var info=this._info(key);
         var el=document.getElementById(panelId||'contractPanel'); if(!el)return;
         if(!R){ el.innerHTML='<div class="fs-empty">지역을 선택하면 결과가 표시됩니다</div>'; return; }
-        var won=function(n){if(n==null||!isFinite(n))return '—';n=Math.round(n);return n>=10000?(n/10000).toFixed(1)+'조원':n.toLocaleString('ko-KR')+'억원';};
+        var won=function(n){ return KB_won억(n); };   /* 억원 입력 */
         var suui=(R.suuiRatio!=null)?R.suuiRatio:null;
         var comp=(suui!=null)?+(100-suui).toFixed(2):null;
         /* 집행 지연 실지표: (다음연도이월+불용) ÷ 예산현액 — 2024 세출결산 실측 */
@@ -4115,7 +4119,22 @@ function printReport(R){
   function tryRebuild(){ if(!rebuild()) setTimeout(tryRebuild, 200); }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tryRebuild);
   else tryRebuild();
+  /* ── 2026-09-04: 폴백은 '본 렌더러가 죽었을 때'만 동작해야 한다 ──────────
+     이전에는 본 렌더러가 정상인데도 클릭할 때마다 이 폴백이 300ms 뒤에 다시
+     그려서, 본 차트를 폴백 차트로 갈아치우고 있었다. 임의 계수로 만든 5년
+     추이 곡선이 화면에 나오던 경로가 바로 이것이다(2026-09-04 삭제).
+     패치가 본 코드를 덮어쓰지 않도록 조건을 명시한다. */
+  function mainRendererAlive(){
+    try{
+      return typeof window.renderCharts === 'function'
+          && typeof window.selectByKey  === 'function'
+          && window.STATE && Array.isArray(window.STATE.model) && window.STATE.model.length > 0;
+    }catch(e){ return false; }
+  }
+  window.__KB_mainRendererAlive = mainRendererAlive;   /* 진단용 */
+
   window.__renderChartsFallback = function(key){
+    if(mainRendererAlive()) return;          /* 본 렌더러가 살아 있으면 손대지 않는다 */
     if(!window.Chart || !window.STATE) return;
     var R = window.STATE.byKey[key] || window.STATE.byKey[Object.keys(window.STATE.byKey||{})[0]];
     if(!R) return;
@@ -4136,8 +4155,14 @@ function printReport(R){
     window.selectByKey = function(key){ window.__renderChartsFallback(key); };
   }
   document.addEventListener('click', function(e){
+    if(mainRendererAlive()) return;          /* 본 렌더러가 살아 있으면 다시 그리지 않는다 */
     var t = e.target && e.target.closest ? e.target.closest('[href="#diagnose"],[data-tab],a[data-modal]') : null;
-    if(t){ setTimeout(function(){ var R = window.STATE && window.STATE.region; var key = R ? R.key : (window.SIDO && window.SIDO[0] && window.SIDO[0].nm); if(key) window.__renderChartsFallback(key); }, 300); }
+    if(t){ setTimeout(function(){
+      if(mainRendererAlive()) return;
+      var R = window.STATE && window.STATE.region;
+      var key = R ? R.key : (window.SIDO && window.SIDO[0] && window.SIDO[0].nm);
+      if(key) window.__renderChartsFallback(key);
+    }, 300); }
   });
 })();
 </script>
@@ -5251,7 +5276,7 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
 
 /* 재정·예산 7개 + 사업·계약 6개 지표 — 해시 시드 생성 전량 폐기(2026-08-24). 공식 출처 확보분만 표시. */
 (function(){
-  function won(억){ return 억>=10000?(억/10000).toLocaleString('ko-KR',{maximumFractionDigits:1})+'조':Math.round(억).toLocaleString('ko-KR')+'억'; }
+  function won(n){ return KB_won억(n,{short:true}); }   /* 억원 입력. 이전엔 null이 '0억'으로 찍혔다 */
 
   // ── 재정·예산 보강 데이터
   function ext1(R){
@@ -5270,7 +5295,7 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
 
   function blockBudget(R){
     const e = ext1(R);
-    const won = (n)=> n>=10000?(n/10000).toFixed(1)+'조':Math.round(n).toLocaleString('ko-KR')+'억';
+    const won = (n)=> KB_won억(n,{short:true});   /* 억원 입력. 이전엔 null이 '0억'으로 찍혔다 */
     return `
       <div style="margin-top:20px;padding-top:18px;border-top:2px dashed #e2e8f0">
         <div style="font-size:.95rem;font-weight:900;color:#1e3a5f;margin-bottom:12px">🔎 추가 재정 지표 7종 (지방재정통합공시 기반 확장)</div>
@@ -5376,11 +5401,8 @@ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded'
     }catch(e){ console.warn('G2B fetch 실패', e); return null; }
   }
 
-  function won억(n){
-    const 억 = n/1e8;
-    return 억>=10000 ? (억/10000).toFixed(1)+'조' : (억>=1 ? 억.toFixed(1)+'억' : Math.round(n/1e4).toLocaleString('ko-KR')+'만');
-  }
-  function esc(s){ return String(s||'').replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+  function won억(n){ return KB_won원(n,{short:true}); }   /* 여기만 '원' 입력이다(이름과 달리) */
+  function esc(s){ return KB_esc(s); }   /* 공통 유틸 위임 — 작은따옴표까지 이스케이프된다 */
 
   function renderLive(live, region){
     const top = live.bids.slice(0,10).map((b,i)=>`
@@ -5888,6 +5910,11 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
   bindNav('navPolicy','policy-search');
   if(sectionClose) sectionClose.addEventListener('click',closeMod);
   // ⭐ data-modal 클릭 — 캡처 단계로 다른 핸들러보다 먼저 작동
+  /* 2026-09-04: 이 핸들러는 캡처·버블 두 단계에 부착돼 있고 각 링크에 onclick으로도
+     붙는다(아래 '추가 안전망'). 그래서 한 번의 클릭에 최대 세 번 실행돼,
+     PS.render·FS.renderBudget 같은 무거운 렌더가 겹쳐 돌고 값이 순간 흔들렸다.
+     부착은 그대로 두되(각각 다른 상황을 위한 것) 실행은 한 번만 하도록 막는다. */
+  var _lastModalClick = 0;
   function modalClickHandler(e){
     var t = e.target.closest('[data-modal]');
     if(!t) return;
@@ -5895,6 +5922,9 @@ window.addEventListener('load',()=>{ try{ CA.init(); }catch(e){ console.warn('CA
     if(!target) return;
     e.preventDefault();
     e.stopPropagation();
+    var now = (e.timeStamp != null ? e.timeStamp : Date.now());
+    if(_lastModalClick && Math.abs(now - _lastModalClick) < 1) return;   /* 같은 클릭의 재실행 */
+    _lastModalClick = now;
     show(target);
     // PS/FS 자동 트리거
     setTimeout(function(){
@@ -6138,8 +6168,8 @@ tr.kb-drill:hover td{background:#eef6ff!important}
 (function(){
 "use strict";
 function $(id){return document.getElementById(id);}
-function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
-function won(n){if(n==null||!isFinite(n))return '—';n=Math.round(n||0);var 억=n/1e8;return 억>=10000?(억/10000).toFixed(1)+'조':(억>=1?억.toFixed(1)+'억':Math.round(n/1e4).toLocaleString('ko-KR')+'만');}
+function esc(s){ return KB_esc(s); }   /* 공통 유틸 위임 — 작은따옴표까지 이스케이프된다 */
+function won(n){ return KB_won원(n,{short:true}); }   /* 원 입력 */
 var DEPT={'사회복지':'주민복지과','농림해양수산':'농업정책과·농업기술센터','문화및관광':'문화관광과','환경':'환경과','국토및지역개발':'도시건설과','교통및물류':'교통행정과','교통':'교통행정과','일반공공행정':'기획예산과','보건':'보건소','산업·중소기업·에너지':'경제진흥과','산업·중소기업':'경제진흥과','과학기술':'미래전략과','교육':'교육지원과','공공질서및안전':'안전총괄과','예비비':'기획예산과','기타':'담당부서'};
 
 /* ── ① 모달 강제닫기 보강: 교과서/분석방법도 ESC·바깥클릭으로 닫힘 + dim 잔류 제거 ── */
@@ -6411,7 +6441,7 @@ th.kb-sort.desc::after{content:' ↓';opacity:1}
 <script id="kbV45js">
 (function(){
 "use strict";
-function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function esc(s){ return KB_esc(s); }   /* 공통 유틸 위임 — 작은따옴표까지 이스케이프된다 */
 
 /* ───── 공통 컴포넌트 API (window.KB) ───── */
 var MSG={
@@ -6562,7 +6592,7 @@ console.log('✅ v45.1 공통 컴포넌트+라이트박스 활성');
 (function(){
 "use strict";
 function $(id){return document.getElementById(id);}
-function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function esc(s){ return KB_esc(s); }   /* 공통 유틸 위임 — 작은따옴표까지 이스케이프된다 */
 
 /* ── ① 진단 시작 버튼: 히어로 선택 → 진단 셀렉터 동기화 + 자동 실행 ── */
 (function(){
@@ -6669,7 +6699,7 @@ document.addEventListener('click',function(e){
 /* ── ⑤ 정책·민원 찾기: 담당부서 우선 탭 결과 ── */
 var DEPT={'사회복지':'주민복지과','농림해양수산':'농업정책과·농업기술센터','문화및관광':'문화관광과','환경':'환경과','국토및지역개발':'도시건설과','교통및물류':'교통행정과','교통':'교통행정과','일반공공행정':'기획예산과','보건':'보건소','산업·중소기업·에너지':'경제진흥과','산업·중소기업':'경제진흥과','과학기술':'미래전략과','교육':'교육지원과','공공질서및안전':'안전총괄과','예비비':'기획예산과','기타':'민원실(종합민원과)'};
 function parse억(t){t=String(t||'');var m=t.match(/([\d,.]+)\s*조/);var v=0;if(m)v+=parseFloat(m[1].replace(/,/g,''))*10000;m=t.match(/([\d,.]+)\s*억/);if(m)v+=parseFloat(m[1].replace(/,/g,''));m=t.match(/([\d,.]+)\s*만/);if(m)v+=parseFloat(m[1].replace(/,/g,''))/10000;return v;}
-function fmt억(v){if(v==null||!isFinite(v))return '—';return v>=10000?(v/10000).toFixed(1)+'조원':(v>=1?v.toFixed(1)+'억원':Math.round(v*10000).toLocaleString('ko-KR')+'만원');}
+function fmt억(v){ return KB_won억(v); }   /* assets/kb-format.js 위임 */
 function chanLinks(q){
   var e=encodeURIComponent(q||'정책');
   var qd=esc(q||'키워드');
@@ -6836,7 +6866,7 @@ console.log('✅ v46.1 홈 개편 활성 — 2카드 히어로·담당부서 탭
 <script>
 /* ── 🇰🇷 전국 정부 공공서비스·혜택 검색 연동 (행안부 공공서비스 API 실데이터) ── */
 (function(){
-  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function esc(s){ return KB_esc(s); }   /* 공통 유틸 위임 — 작은따옴표까지 이스케이프된다 */
   var lastKw='', tries=0;
   function wrap(){
     /* installPS 등 다른 스크립트가 PS.render를 나중에 교체할 수 있으므로,
@@ -7034,8 +7064,8 @@ console.log('v47 Public Service 리스킨 활성');
 </style>
 <script>
 (function(){
-  function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-  function won(n){ try{ if(typeof window['won억']==='function') return window['won억'](n); }catch(e){} return (Math.round(n||0)).toLocaleString()+'억'; }
+  function esc(s){ return KB_esc(s); }   /* 공통 유틸 위임 — 작은따옴표까지 이스케이프된다 */
+  function won(n){ return KB_won억(n,{short:true}); }   /* 억원 입력 */
   function closeOv(){ var o=document.getElementById('kbgovOv'); if(o) o.remove(); }
   function openOv(html){
     closeOv();
@@ -7230,7 +7260,7 @@ function g365Go(kind){
 <script>
 /* 정책·민원 찾기 — /api/policy 실데이터 우선 + 분야 라우팅 폴백 */
 (function(){
-  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function esc(s){ return KB_esc(s); }   /* 공통 유틸 위임 — 작은따옴표까지 이스케이프된다 */
   var CATS=[
     {re:/(청년|취업준비|스타트업|청년창업|대학생)/, name:'청년정책', portal:'온통청년', url:'https://www.youthcenter.go.kr/', s:'청년정책'},
     {re:/(노인|어르신|경로|치매|돌봄|복지|기초생활|수급|장애|아동|보육|육아|출산|한부모|다문화)/, name:'복지정책', portal:'복지로', url:'https://www.bokjiro.go.kr/', s:'복지 지원'},
