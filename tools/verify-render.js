@@ -105,6 +105,53 @@ const CHART_LOCAL = path.join(__dirname, 'chart.umd.min.js');   // 있으면 로
     await ctx.close();
   }
 
+  /* ── 공개 페이지 전체 로드 ────────────────────────────────────────────
+     2026-09-04: esc·금액 포매터를 assets/kb-format.js 한 곳으로 모았다.
+     그 파일이 로드되지 않으면 해당 페이지의 렌더가 통째로 죽는다.
+     그래서 모든 공개 페이지를 실제로 열어 유틸 존재와 예외 0건을 확인한다. */
+  console.log('\n▷ 공개 페이지 로드 · 공통 유틸 확인');
+  {
+    /* 404·소유권 확인용 페이지는 본문이 원래 짧다 */
+    /* 404·소유권 확인 페이지, 그리고 admin은 로그인 게이트라 본문이 원래 짧다 */
+    const SHORT_OK = /^(404\.html|admin\.html|google[0-9a-f]+\.html|.*verification.*\.html)$/i;
+    const PAGES = fs.readdirSync(ROOT).filter(f => f.endsWith('.html'));
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    await ctx.route('**/*', (route, req) =>
+      req.url().startsWith(`http://127.0.0.1:${PORT}`) ? route.continue() : route.abort());
+    for (const f of PAGES) {
+      const pg = await ctx.newPage();
+      const errs = [];
+      pg.on('pageerror', e => errs.push(String(e).slice(0, 120)));
+      /* 외부 자원을 전부 차단한 상태이므로, 그 때문에 나는 오류는 세지 않는다
+         (tailwind·폰트 CDN 등). 코드 자체의 예외만 본다. */
+      pg.on('console', m => {
+        const t = m.text();
+        if (m.type() !== 'error') return;
+        if (/Failed to load resource|tailwind|fonts\.|cdn\.|Chart is not defined|Can't find variable: Chart/i.test(t)) return;
+        errs.push(t.slice(0, 120));
+      });
+      try {
+        await pg.goto(`http://127.0.0.1:${PORT}/${encodeURIComponent(f)}`, { waitUntil: 'domcontentloaded' });
+        await pg.waitForTimeout(1800);
+        const r = await pg.evaluate(() => ({
+          needsUtil: /KB_(esc|won억|won원|fmt)\s*\(/.test(document.documentElement.innerHTML),
+          hasUtil: typeof window.KB_esc === 'function' && typeof window.KB_won억 === 'function',
+          len: (document.body.innerText || '').length,
+          hs: document.documentElement.scrollWidth > window.innerWidth + 2,
+        }));
+        const problems = [];
+        if (r.needsUtil && !r.hasUtil) problems.push('assets/kb-format.js 미로드');
+        if (!SHORT_OK.test(f) && r.len < 200) problems.push(`본문 ${r.len}자`);
+        if (r.hs) problems.push('가로스크롤');
+        if (errs.length) problems.push(errs[0]);
+        if (problems.length) { fail++; console.log(`  ✗ ${f} — ${problems.join(' · ')}`); }
+      } catch (e) { fail++; console.log(`  ✗ ${f} — ${String(e).slice(0, 90)}`); }
+      await pg.close();
+    }
+    if (!fail) console.log(`  ✓ 공개 페이지 ${PAGES.length}개 — 공통 유틸 로드·예외 0건`);
+    await ctx.close();
+  }
+
   await browser.close(); srv.close();
   console.log('\n' + '─'.repeat(70));
   console.log(fail ? `실패 ${fail}건 — 배포하지 마십시오` : '전수 렌더 통과');

@@ -156,6 +156,31 @@ for (const f of APIS) {
 }
 if (!FAIL) ok('관리자성 액션 전부 키 검증 존재');
 
+/* ── 6-2. 외부 CDN 전역을 방어 없이 참조 ─────────────────────────────────
+   Chart.js CDN이 죽으면 상세페이지 전체가, Tailwind CDN이 죽으면 region.html의
+   인라인 스크립트 전체가 중단됐다(둘 다 2026-09-04 발견). 외부에서 오는 전역은
+   typeof 검사를 거쳐야 한다. */
+console.log('\n[6-2] 외부 CDN 전역 방어');
+const CDN_GLOBALS = ['Chart', 'tailwind', 'XLSX', 'html2canvas', 'jspdf'];
+let unguarded = 0;
+for (const f of HTML) {
+  const src = readSrc(f).split('\n');
+  src.forEach((ln, i) => {
+    if (/<script[^>]*\ssrc=/.test(ln)) return;                 // 라이브러리를 불러오는 태그 자체
+    for (const g of CDN_GLOBALS) {
+      const used = new RegExp(`(^|[^\\w.$'"\`])${g}\\s*[.(]`).test(ln);
+      if (!used) continue;
+      if (new RegExp(`typeof\\s+(window\\.)?${g}|window\\.${g}\\s*&&|if\\s*\\(\\s*!?\\s*window\\.${g}\\s*\\)|!window\\.${g}|window\\[['"]${g}['"]\\]`).test(ln)) return;
+      /* 같은 함수 안 앞줄에 가드가 있으면 통과 — 앞 12줄까지 살핀다 */
+      const near = src.slice(Math.max(0, i - 12), i).join('\n');
+      if (new RegExp(`typeof\\s+(window\\.)?${g}\\s*===?\\s*['"]undefined['"]|typeof\\s+(window\\.)?${g}\\s*!==?\\s*['"]undefined['"]|if\\s*\\(\\s*!?\\s*window\\.${g}`).test(near)) return;
+      unguarded++;
+      bad(`${f}:${i+1} 외부 CDN 전역 ${g} 를 방어 없이 사용 — CDN 장애 시 페이지가 죽습니다   « ${ln.trim().slice(0,80)} »`);
+    }
+  });
+}
+if (!unguarded) ok('외부 CDN 전역(Chart·tailwind 등) 전부 방어됨');
+
 /* ── 7. 문법 ─────────────────────────────────────────────────────────── */
 console.log('\n[7] JS 문법');
 let syn = 0;
@@ -185,14 +210,46 @@ for (const f of HTML) {
 if (!ldbad) ok(`JSON-LD ${ld}블록 파싱 정상`);
 
 /* ── 9. 중복 정의 (구조 경고) ────────────────────────────────────────── */
-console.log('\n[9] 구조 — 같은 이름 함수의 중복 정의');
+console.log('\n[9] 표시 유틸 재구현 금지');
+/* 2026-09-04: esc()·금액 포매터가 12개 파일에 23곳·11곳 따로 있었고,
+   그중 5곳은 null을 '0억원'·'0원'으로 찍고 3곳은 예외를 냈다.
+   이제 assets/kb-format.js 한 곳에서만 정의하고, 나머지는 위임만 한다. */
+const FORMATTER = /function\s+(esc|escHtml|won|won억|fmt억)\s*\(|(?:const|var|let)\s+(esc|won|won억)\s*=/;
+let reimpl = 0;
 for (const f of HTML) {
-  const h = fs.readFileSync(path.join(ROOT, f), 'utf8');
-  for (const fn of ['won', 'esc', 'fmt', 'escHtml']) {
-    const n = (h.match(new RegExp(`function\\s+${fn}\\b|(?:const|var|let)\\s+${fn}\\s*=`, 'g')) || []).length;
-    if (n >= 4) warn(`${f} ${fn}() 정의가 ${n}곳 — 한 곳만 고치면 다른 곳이 어긋난다`);
-  }
+  const src = readSrc(f).split('\n');
+  src.forEach((ln, i) => {
+    if (!FORMATTER.test(ln)) return;
+    if (/KB_esc\(|KB_won억\(|KB_won원\(|KB_fmt\(/.test(ln)) return;      // 위임은 정상
+    reimpl++;
+    bad(`${f}:${i+1} 표시 유틸을 자체 구현함 — assets/kb-format.js 로 위임하십시오   « ${ln.trim().slice(0,80)} »`);
+  });
 }
+if (!reimpl) ok('esc·금액 포매터 전부 assets/kb-format.js 위임');
+
+/* KB_ 를 쓰면서 공통 파일을 로드하지 않으면 화면이 통째로 죽는다 */
+for (const f of HTML) {
+  const raw = fs.readFileSync(path.join(ROOT, f), 'utf8');
+  if (!/\bKB_(esc|won억|won원|fmt)\s*\(/.test(raw)) continue;
+  /* 2026-09-04: 처음엔 파일명 문자열만 찾아, 위임 주석에 적힌 이름까지 '로드됨'으로
+     세는 바람에 실제로 로더가 빠진 페이지 7개를 놓쳤다. script 태그로 확인한다. */
+  if (!/<script[^>]+src=["'][^"']*assets\/kb-format\.js["'][^>]*>/.test(raw))
+    bad(`${f} KB_ 유틸을 쓰면서 assets/kb-format.js 스크립트 태그가 없음`);
+}
+
+/* ── 9-2. 값이 없을 때 0으로 채우는 포매터 ─────────────────────────────── */
+console.log('\n[9-2] 값 없음을 0으로 채우는 포매터');
+let zeroFill = 0;
+for (const f of HTML.concat(APIS.map(a => 'api/' + a))) {
+  const src = readSrc(f).split('\n');
+  src.forEach((ln, i) => {
+    if (!/(억원|조원|만원|'억'|"억"|'원'|"원")/.test(ln)) return;
+    if (!/Math\.round\s*\(\s*[A-Za-z_$][\w.$]*\s*\|\|\s*0|\+\s*[A-Za-z_$][\w.$]*\s*\|\|\s*0/.test(ln)) return;
+    zeroFill++;
+    bad(`${f}:${i+1} 값이 없을 때 0으로 채워 금액을 표시함 — '—'로 비워야 합니다   « ${ln.trim().slice(0,80)} »`);
+  });
+}
+if (!zeroFill) ok("값 없음을 0억원·0원으로 채우는 포매터 없음");
 
 /* ── 10. 전수 렌더 (--render) ───────────────────────────────────────── */
 if (process.argv.includes('--render')) {
