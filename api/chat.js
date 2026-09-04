@@ -97,7 +97,10 @@ module.exports = async function (req, res) {
   if (req.method === "GET" && req.query && req.query.action === "chatlog") {
     var RURLq = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.REDIS_REST_URL || "";
     var RTOKq = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || process.env.REDIS_REST_TOKEN || "";
-    if (!process.env.ADMIN_KEY || req.query.key !== process.env.ADMIN_KEY) return res.status(403).json({ ok:false, error:"forbidden" });
+    /* 2026-09-04: 관리자 키를 쿼리스트링으로만 받던 것을 헤더(x-admin-key)도 받도록 확장.
+       쿼리스트링에 실린 키는 서버·프록시 접근 로그와 Referer에 그대로 남는다. 다른 API(admin·posts·scores·stories)는 이미 헤더를 받고 있었다. */
+    const _akey = req.headers['x-admin-key'] || req.query.key || '';
+    if (!process.env.ADMIN_KEY || _akey !== process.env.ADMIN_KEY) return res.status(403).json({ ok:false, error:"forbidden" });
     if (!RURLq) return res.status(200).json({ ok:true, items:[], note:"Redis 미설정" });
     try {
       var rr = await fetch(RURLq, { method:"POST", headers:{ Authorization:"Bearer "+RTOKq, "Content-Type":"application/json" }, body: JSON.stringify(["LRANGE","kb_chatlog","0","199"]) });

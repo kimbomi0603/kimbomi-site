@@ -121,6 +121,7 @@ async function ogFetch(u){
       }
     });
     clearTimeout(timer);
+    try { if (r.url && !ogAllowed(new URL(r.url).hostname)) throw new Error('redirected off allowlist'); } catch(e){ throw e; }
     var ct = (r.headers.get('content-type') || '');
     if (!r.ok || ct.indexOf('text/html') < 0) throw new Error('http ' + r.status);
     var reader = r.body.getReader(), dec = new TextDecoder('utf-8'), html = '', got = 0;
