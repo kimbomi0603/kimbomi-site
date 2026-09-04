@@ -24,6 +24,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: '20' }
+      - run: node tools/verify-format.js     # 공통 표시 유틸 단위 시험
       - run: node tools/verify.js
 
   render:
