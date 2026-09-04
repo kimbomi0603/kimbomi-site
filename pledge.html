@@ -51,6 +51,14 @@ header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);backdro
 .hero .sub{font-size:1.06rem;color:#d6e5f8;max-width:660px}
 .hero .who{margin-top:20px;display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:11px 16px;font-size:.95rem;color:#eaf3ff}
 .hero .who b{color:#fff}
+.axes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.axis{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:15px 16px}
+.ax-tag{display:inline-block;font-size:.72rem;font-weight:800;color:#0A2E5C;background:#cfe0f7;border-radius:999px;padding:2px 9px;margin-bottom:7px}
+.ax-tag.y{background:var(--yellow)}
+.axis>b{display:block;color:#fff;font-size:1.02rem;margin-bottom:5px}
+.axis em{font-style:normal;display:block;font-size:.93rem;color:#d6e5f8;line-height:1.65}
+.axis em b{color:var(--yellow);font-weight:800}
+.axis>a{display:inline-block;margin-top:9px;font-size:.86rem;font-weight:800;color:var(--yellow)}
 .hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
 .hero-cta a{display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:1rem;padding:14px 24px;border-radius:999px}
 .hero-cta .b1{background:var(--yellow);color:#0A2E5C}
@@ -196,6 +204,7 @@ details p{margin-top:9px;font-size:.94rem;color:#46536b}
   .hero{padding:40px 0 46px}
   .hero h1{font-size:1.72rem}
   .hero .sub{font-size:.99rem}
+  .axes{grid-template-columns:1fr}
   .stats{grid-template-columns:1fr;gap:8px}
   .stat{display:flex;align-items:baseline;justify-content:center;gap:10px;padding:13px}
   .stat b{font-size:1.35rem}
@@ -236,7 +245,21 @@ details p{margin-top:9px;font-size:.94rem;color:#46536b}
   <div class="wrap">
     <div class="badge">🏛️ 지금 김보미는</div>
     <h1>내 세금이 어디로 갔는지,<br><em>알고 계십니까?</em></h1>
-    <p class="sub">나라 예산은 법에 따라 공개됩니다. 그런데 기획재정부가 국회로 넘기는 자료만 수십만 쪽입니다. 국회의원도, 보좌진도 다 보지 못합니다. 그래서 시민이 직접 봅니다. <b style="color:#fff">「재정주권시민행동」</b>은 2026년 정부예산안 58개 부처, 세출 8,108개 항목을 하나하나 뜯어 누구나 볼 수 있게 공개했습니다.</p>
+    <p class="sub">나라 예산은 법에 따라 공개됩니다. 그런데 기획재정부가 국회로 넘기는 자료만 수십만 쪽입니다. 국회의원도, 보좌진도 다 보지 못합니다. 그래서 시민이 직접 봅니다.</p>
+    <div class="axes">
+      <div class="axis">
+        <span class="ax-tag">중앙정부</span>
+        <b>「재정주권시민행동」</b>
+        <em>2026년 정부예산안 <b>58개 부처, 세출 8,108개 항목</b>을 하나하나 뜯어 누구나 볼 수 있게 공개했습니다.</em>
+        <a href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">재정주권.kr 열기 →</a>
+      </div>
+      <div class="axis">
+        <span class="ax-tag y">전국 지자체</span>
+        <b>김보미.com 「대한민국 재정 365」</b>
+        <em>김보미는 <b>전국 243개 지자체</b>의 예산·집행·계약·청렴도와 위험 신호를 시민이 <b>3초</b>에 확인하도록 만들어 두었습니다.</em>
+        <a href="narasalim.html">우리 동네 3초 확인 →</a>
+      </div>
+    </div>
     <div class="who">🙋‍♀️ <span>김보미는 현재 <b>재정주권시민행동 공동대표</b>로 뛰고 있습니다.</span></div>
     <div class="hero-cta">
       <a class="b1" href="#join">✍️ 회원으로 함께하기</a>
@@ -263,7 +286,7 @@ details p{margin-top:9px;font-size:.94rem;color:#46536b}
     <span class="eyebrow">재정주권시민행동은</span>
     <h2>📌 “내 돈은 내 권리다” — 이 한 문장으로 모였습니다</h2>
     <p>세금은 정부의 돈이 아닙니다. 국민의 돈입니다. 그렇다면 어디에 어떻게 쓸지 요구할 권리도 당연히 국민에게 있습니다.</p>
-    <p>재정주권시민행동은 국가와 지방자치단체의 예산·결산을 국민에게 투명하게 공개하고, 국민이 직접 감시하고 참여하게 만드는 비영리 시민단체입니다. 규약 제2조에 그렇게 적어 두었습니다.</p>
+    <p>재정주권시민행동은 국가와 지방자치단체의 예산·결산을 국민에게 투명하게 공개하고, 국민이 직접 감시하고 참여하게 만드는 비영리 시민단체입니다.</p>
     <div class="slogans">
       <span>“내 돈, 내 삶, 내 권리!”</span>
       <span>“재정의 주인은 국민이다”</span>
