@@ -268,6 +268,32 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
   var KEYLS='kb_admin_key';
   var $=function(id){return document.getElementById(id);};
   function getKey(){try{return localStorage.getItem(KEYLS)||'';}catch(e){return '';}}
+
+  /* ══ 2026-09-04 보안 수정 ══
+     관리자 키를 '?key=...' 쿼리스트링으로 보내고 있었다. 쿼리스트링은 서버·CDN·프록시의
+     접근 로그와 Referer 헤더에 원문 그대로 남아, 로그를 볼 수 있는 사람에게 키가 노출된다.
+     서버(api/admin·posts·scores·stories·chat)는 모두 x-admin-key 헤더를 받으므로,
+     이 래퍼가 /api 요청의 key 쿼리를 걷어내고 헤더로 옮긴다. 호출부 23곳은 그대로 둔다. */
+  (function(){
+    var _fetch = window.fetch.bind(window);
+    window.fetch = function(input, init){
+      try{
+        var url = (typeof input === 'string') ? input : (input && input.url);
+        if(url && url.indexOf('/api/') === 0 && /[?&]key=/.test(url)){
+          var k = getKey();
+          url = url.replace(/([?&])key=[^&]*/g, '$1').replace(/[?&]+$/, '').replace(/\?&+/, '?').replace(/&&+/g, '&');
+          init = init || {};
+          var h = {}; var src = init.headers || {};
+          if(src && typeof src.forEach === 'function'){ src.forEach(function(v,kk){ h[kk]=v; }); }
+          else { for(var kk in src) h[kk] = src[kk]; }
+          if(k) h['x-admin-key'] = k;
+          init.headers = h;
+          input = url;
+        }
+      }catch(e){}
+      return _fetch(input, init);
+    };
+  })();
   function setKey(k){try{localStorage.setItem(KEYLS,k);}catch(e){}}
   function clearKey(){try{localStorage.removeItem(KEYLS);}catch(e){}}
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
