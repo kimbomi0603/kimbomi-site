@@ -146,6 +146,8 @@ a{color:#15448f}
   .pager{font-size:.78rem}
 }
 </style>
+<!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
+<script src="assets/kb-format.js"></script>
 </head>
 <body>
 <div class="tt" id="tt"></div>
@@ -544,7 +546,7 @@ function fmtWon(a){
   if(a>=1e4) return Math.round(a/1e4).toLocaleString()+"만원";
   return a.toLocaleString()+"원";
 }
-function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function esc(s){ return KB_esc(s); }   /* 이전엔 (s||"")라 숫자를 넘기면 예외가 났다 */
 const $=id=>document.getElementById(id);
 
 /* ---------- tooltip ---------- */

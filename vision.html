@@ -124,6 +124,8 @@ main{padding:52px 0 80px;min-height:50vh}
 @media(min-width:641px) and (max-width:1260px){.menu{gap:11px}.menu a{font-size:.82rem}.brand .tag{display:none}}
 @media(min-width:641px) and (max-width:1140px){.menu{gap:8px}.menu a{font-size:.75rem}.menu a.nara{padding:5px 8px}.home-link{display:none}}
 </style>
+<!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
+<script src="assets/kb-format.js"></script>
 </head>
 <body>
 <header>
@@ -177,7 +179,7 @@ var $=function(id){return document.getElementById(id);};
 var API="/api/posts";
 var HASHTAGS="#민주당을살려야합니다 #이번생에살립시다 #김보미";
 var posts=[];
-function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+function esc(s){ return KB_esc(s); }   /* assets/kb-format.js — 작은따옴표까지 이스케이프 */
 /* 게시일은 항상 한국시간(KST, UTC+9) 기준으로 표기 — 해외 접속 시에도 페이스북 원문과 날짜가 일치하도록 */
 function fmtDate(ms){ if(!ms)return ''; try{var d=new Date(ms+32400000);return d.getUTCFullYear()+'.'+('0'+(d.getUTCMonth()+1)).slice(-2)+'.'+('0'+d.getUTCDate()).slice(-2);}catch(e){return '';} }
 function excerpt(body){ var t=String(body||'').replace(/\n+/g,' ').replace(/\[[^\]]*\]/g,'').replace(/https?:\/\/[^\s]+/g,'').replace(/\s+/g,' ').trim(); return t.slice(0,90); }

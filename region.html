@@ -15,6 +15,10 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
+/* 2026-09-04: Tailwind CDN이 응답하지 않으면 이 줄에서 ReferenceError가 나고
+   그 뒤 인라인 스크립트가 통째로 중단됐다(Chart.js CDN 장애 때와 같은 구조).
+   설정은 있으면 적용하고, 없으면 조용히 넘어간다. */
+if (typeof tailwind !== 'undefined') {
 tailwind.config = { theme: { extend: {
   colors: { navy:{ DEFAULT:'#0A1F44' }, minju:{ DEFAULT:'#0050A0', blue:'#0073CF' },
     mint:{ DEFAULT:'#10C9B0', dark:'#0A8C7C' }, ink:{ DEFAULT:'#152033', soft:'#3A465C', faint:'#6B7686' },
@@ -22,12 +26,15 @@ tailwind.config = { theme: { extend: {
   fontFamily:{ sans:['"Pretendard Variable"','Pretendard','-apple-system','system-ui','sans-serif'] },
   maxWidth:{ 'screen-xl2':'1240px' }
 }}};
+}
 </script>
 <style>
   body{ background:#F6F8FB; color:#152033; word-break:keep-all; line-height:1.6; }
   h1,h2,h3{ word-break:keep-all; letter-spacing:-0.025em; }
   .num{ font-variant-numeric:tabular-nums; }
 </style>
+<!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
+<script src="assets/kb-format.js"></script>
 </head>
 <body class="font-sans antialiased">
 
@@ -188,7 +195,7 @@ dl.innerHTML = DOCS.length
 
 // Quarter
 const qBlock=document.getElementById('quarterBlock');
-if(QUARTERS.length){
+if(QUARTERS.length && typeof Chart!=='undefined'){   /* Chart CDN 장애 시 아래 안내로 대체된다 */
   qBlock.innerHTML='<div class="bg-white rounded-2xl p-6 ring-1 ring-paper-line shadow-sm"><div class="relative h-[260px]"><canvas id="qChart"></canvas></div></div>';
   new Chart(document.getElementById('qChart').getContext('2d'),{type:'bar',data:{labels:QUARTERS.map(q=>q.q),datasets:[{label:'누적 집행률(%)',data:QUARTERS.map(q=>q.rate),backgroundColor:'#0073CF',borderRadius:6,maxBarThickness:46}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%'}}}}});
 } else qBlock.innerHTML=ph('분기별 집행 데이터 준비 중');
@@ -230,9 +237,11 @@ if(LAF_CD){
 // KPI / 분야별 (FNCST 데이터 호출)
 const FIELDS=['복지','산업·경제','SOC·교통','교육·문화','안전·환경','일반행정'];
 const COLORS=['#0050A0','#0073CF','#10C9B0','#46E3CC','#1E9BE0','#9FB3C8'];
-function won(eok){ return eok>=10000?(eok/10000).toLocaleString('ko-KR',{maximumFractionDigits:1})+'조':Math.round(eok).toLocaleString('ko-KR')+'억'; }
+function won(eok){ return KB_won억(eok,{short:true}); }   /* 억원 입력. 이전엔 null이 "0억"으로 찍혔다 */
 
-const pieChart=new Chart(document.getElementById('pieChart').getContext('2d'),{type:'doughnut',data:{labels:FIELDS,datasets:[{data:[],backgroundColor:COLORS,borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'bottom',labels:{font:{size:11}}}}}});
+/* 2026-09-04: Chart CDN이 죽으면 여기서 예외가 나 이 스크립트 전체가 중단됐다.
+   차트만 비고 나머지 수치는 정상 표시되도록 방어한다. */
+const pieChart = (typeof Chart==='undefined') ? null : new Chart(document.getElementById('pieChart').getContext('2d'),{type:'doughnut',data:{labels:FIELDS,datasets:[{data:[],backgroundColor:COLORS,borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'bottom',labels:{font:{size:11}}}}}});
 
 function render(d,isReal){
   /* 실데이터 원칙: 공시값(b=세입결산, s=재정자립도)만 표시. 추정 생성값(집행률·회계배분·분야비중)은 전량 폐기 → '—' */
@@ -253,7 +262,7 @@ function render(d,isReal){
   /* 회계별 세출예산은 lofin 스냅샷(ACC)에서 별도로 채운다 — applyLofin() 참조 */
   ['acG','acS','acF','acE'].forEach(id=>{ const el=document.getElementById(id); if(el&&!el.dataset.filled) el.textContent='—'; });
   const pieWrap=document.getElementById('pieChart')&&document.getElementById('pieChart').closest('div');
-  if(Array.isArray(d.f)&&d.f.length===6){ pieChart.data.datasets[0].data=d.f; pieChart.update(); }
+  if(pieChart && Array.isArray(d.f)&&d.f.length===6){ pieChart.data.datasets[0].data=d.f; pieChart.update(); }
   else if(pieWrap){ pieWrap.innerHTML='<div style="padding:28px 12px;text-align:center;color:#94a3b8;font-size:13px">분야별 비중 — 공식 공시 미연동으로 표시하지 않습니다.<br>정확한 분야별 예산은 아래 결산서 원본에서 확인하세요.</div>'; }
   document.getElementById('execTable').innerHTML='<tr><td colspan="4" style="padding:14px;text-align:center;color:#94a3b8;font-size:12px">분야별 집행 현황 — 공식 공시 미연동으로 표시하지 않습니다 (집행률·분야비중 추정치 제공 중단)</td></tr>';
 }

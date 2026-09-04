@@ -110,6 +110,8 @@ h1.big{font-family:'Do Hyeon',sans-serif;font-size:1.9rem;text-align:center;colo
 .sclose{margin-top:12px;background:none;border:0;color:var(--dim);font-size:.85rem;cursor:pointer}
 @media(max-width:430px){h1.big{font-size:1.6rem}.wrap{padding:14px 12px 54px}}
 </style>
+<!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
+<script src="assets/kb-format.js"></script>
 </head>
 <body>
 <div class="wrap room-a" id="root">
@@ -190,7 +192,7 @@ var ROOM={
 };
 var BADWORDS=["시발","씨발","ㅅㅂ","병신","ㅂㅅ","개새끼","개새","새끼","좆","존나","꺼져","닥쳐","엿먹","죽어","지랄","미친놈","미친년","fuck","shit"];
 function badWord(s){ var t=(s||"").replace(/\s/g,"").toLowerCase(); return BADWORDS.some(function(w){return t.indexOf(w)>=0;}); }
-function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];}); }
+function esc(s){ return KB_esc(s); }   /* assets/kb-format.js */
 function fmt(n){ try{return (n||0).toLocaleString('ko-KR');}catch(e){return ''+(n||0);} }
 function rel(ts){ if(!ts)return ''; var s=Math.floor((Date.now()-ts)/1000); if(s<60)return '방금'; if(s<3600)return Math.floor(s/60)+'분 전'; if(s<86400)return Math.floor(s/3600)+'시간 전'; return Math.floor(s/86400)+'일 전'; }
 

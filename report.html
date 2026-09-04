@@ -111,6 +111,8 @@ textarea.field{min-height:180px;resize:vertical;line-height:1.7}
 @media(min-width:641px) and (max-width:1260px){.menu{gap:11px}.menu a{font-size:.82rem}.brand .tag{display:none}}
 @media(min-width:641px) and (max-width:1140px){.menu{gap:8px}.menu a{font-size:.75rem}.menu a.nara{padding:5px 8px}.home-link{display:none}}
 </style>
+<!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
+<script src="assets/kb-format.js"></script>
 </head>
 <body>
 <header>
@@ -270,7 +272,7 @@ $('rSubmit').addEventListener('click',function(){
   if(!form)return;
   function lsLoad(){try{return JSON.parse(localStorage.getItem(LS)||'[]')}catch(e){return[]}}
   function lsSave(a){try{localStorage.setItem(LS,JSON.stringify(a))}catch(e){}}
-  function esc(s){return (s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function esc(s){ return KB_esc(s); }   /* 이전엔 (s||'')라 숫자를 넘기면 예외가 났다 */
   function fmt(d){try{return new Date(d).toLocaleDateString('ko-KR')}catch(e){return ''}}
   function paint(items){
     cntEl.textContent=items.length;
