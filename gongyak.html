@@ -142,6 +142,8 @@ main{padding:20px 0 40px}
 @media(min-width:641px) and (max-width:1260px){.menu{gap:11px}.menu a{font-size:.82rem}.brand .tag{display:none}}
 @media(min-width:641px) and (max-width:1140px){.menu{gap:8px}.menu a{font-size:.75rem}.menu a.nara{padding:5px 8px}.home-link{display:none}}
 </style>
+<!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
+<script src="assets/kb-format.js"></script>
 </head>
 <body>
 <header>
@@ -507,7 +509,7 @@ var ROAD=[
 ];
 
 var $=function(s,el){return (el||document).querySelector(s);};
-function esc(x){return String(x==null?"":x).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+function esc(x){ return KB_esc(x); }   /* assets/kb-format.js — 작은따옴표까지 이스케이프 */
 function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("show");setTimeout(function(){t.classList.remove("show");},1600);}
 function paraHtml(p){
   if(p.indexOf("PART||")===0){

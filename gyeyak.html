@@ -120,6 +120,8 @@ tr.vrow:hover{background:#f2f5fa}
 .modenote{background:#eef4ff;border:1px solid #c7d9f7;color:#1f3d6b;border-radius:10px;padding:12px 15px;font-size:.82rem;line-height:1.75;margin-bottom:16px}
 .hide{display:none!important}
 </style>
+<!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
+<script src="assets/kb-format.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -212,9 +214,9 @@ var CATS=[
 function catOf(n){n=n||"";for(var i=0;i<CATS.length;i++){if(CATS[i][1].test(n))return CATS[i][0];}return /물품|구매|구입/.test(n)?"구매·물품(기타)":"기타";}
 var MCOLOR={"수의계약":"var(--s2)","협상":"var(--s7)","일반경쟁":"var(--s1)","제한경쟁":"var(--s3)","지명경쟁":"var(--s5)","기타":"var(--muted)"};
 function mDisp(m){m=m||"";if(/협상/.test(m))return"협상";if(/수의|단독|1인/.test(m))return"수의계약";if(/제한/.test(m))return"제한경쟁";if(/지명/.test(m))return"지명경쟁";if(/일반|경쟁/.test(m))return"일반경쟁";return m||"기타";}
-function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function esc(s){ return KB_esc(s); }   /* assets/kb-format.js — 작은따옴표까지 이스케이프 */
 function normV(v){return String(v||"").replace(/\(주\)|주식회사|㈜|\s/g,"").trim();}
-function won(w){w=+w||0;if(w>=1e12)return(w/1e12).toFixed(2)+"조원";if(w>=1e8)return Math.round(w/1e8).toLocaleString()+"억원";if(w>=1e4)return Math.round(w/1e4).toLocaleString()+"만원";return Math.round(w).toLocaleString()+"원";}
+function won(w){ return KB_won원(w); }   /* 원 입력. 이전엔 +w||0 이라 null이 "0원"으로 찍혔다 */
 function pct(a,b){return b?(a/b*100):0;}
 var $=function(id){return document.getElementById(id);};
 

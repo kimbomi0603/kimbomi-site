@@ -266,6 +266,8 @@ h1.title .accent{color:var(--blue-soft)}
 @keyframes cfPulse{from{filter:brightness(.92)}to{filter:brightness(1.15)}}
 @keyframes cfZoom{0%{transform:scale(.6);opacity:0}18%{transform:scale(1.12);opacity:1}30%{transform:scale(1)}85%{transform:scale(1.02);opacity:1}100%{opacity:.95}}
 </style>
+<!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
+<script src="assets/kb-format.js"></script>
 </head>
 <body>
 <style>
@@ -1403,7 +1405,7 @@ $("btnHidden").addEventListener("click", startHidden);
 const RANK_API = "/api/scores";
 const BADWORDS = ["시발","씨발","ㅅㅂ","병신","ㅂㅅ","개새끼","개새","새끼","좆","존나","꺼져","닥쳐","엿먹","죽어","지랄","미친놈","미친년","fuck","shit"];
 function badWord(x){ var t=(x||"").replace(/\s/g,"").toLowerCase(); return BADWORDS.some(function(w){return t.indexOf(w)>=0;}); }
-function escHtml(x){ return String(x==null?"":x).replace(/[&<>"']/g,function(ch){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch];}); }
+function escHtml(x){ return KB_esc(x); }   /* assets/kb-format.js */
 function fmtNum(n){ try{ return (n||0).toLocaleString("ko-KR"); }catch(e){ return ""+(n||0); } }
 function relTime(ts){ if(!ts) return ""; var s=Math.floor((Date.now()-ts)/1000); if(s<60)return "방금 전"; if(s<3600)return Math.floor(s/60)+"분 전"; if(s<86400)return Math.floor(s/3600)+"시간 전"; return Math.floor(s/86400)+"일 전"; }
 function kwSummary(k){ k=k||[]; if(k.length<=2) return k.join(" · "); return k.slice(0,2).join(" · ")+" 외 "+(k.length-2)+"개"; }

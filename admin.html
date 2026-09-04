@@ -75,6 +75,8 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
 .po-item .a button{border:1px solid var(--line);background:#fff;color:var(--dpk);font-size:.76rem;font-weight:700;padding:4px 12px;border-radius:7px;cursor:pointer;margin-right:6px}
 .po-item .a button.del{color:#c0392b;border-color:#e5b4b4}
 </style>
+<!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
+<script src="assets/kb-format.js"></script>
 </head>
 <body>
 
@@ -296,7 +298,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
   })();
   function setKey(k){try{localStorage.setItem(KEYLS,k);}catch(e){}}
   function clearKey(){try{localStorage.removeItem(KEYLS);}catch(e){}}
-  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function esc(s){ return KB_esc(s); }   /* assets/kb-format.js — 작은따옴표까지 이스케이프 */
 
   function api(action, params){
     var q='/api/admin?action='+encodeURIComponent(action)+'&key='+encodeURIComponent(getKey());

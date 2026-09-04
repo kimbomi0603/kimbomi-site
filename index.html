@@ -489,6 +489,8 @@ footer .flink:hover{color:#fff}
 @media(min-width:641px) and (max-width:1260px){.menu{gap:11px}.menu a{font-size:.82rem}.brand .tag{display:none}}
 @media(min-width:641px) and (max-width:1140px){.menu{gap:8px}.menu a{font-size:.75rem}.menu a.nara{padding:5px 8px}.home-link{display:none}}
 </style>
+<!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
+<script src="assets/kb-format.js"></script>
 </head>
 <body>
 
@@ -1076,7 +1078,7 @@ footer .flink:hover{color:#fff}
 (function(){
   var $=function(id){return document.getElementById(id);};
   var panel=$('bomiPanel'),msgs=$('bomiMsgs'),hist=[],busy=false,greeted=false;
-  function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function esc(x){ return KB_esc(x); }   /* assets/kb-format.js — 작은따옴표까지 이스케이프 */
   function add(role,text,wait){
     var d=document.createElement('div');
     d.className='bomi-m '+(role==='user'?'user':'bot')+(wait?' wait':'');
@@ -1161,7 +1163,7 @@ footer .flink:hover{color:#fff}
   if(!form)return;
   function lsLoad(){try{return JSON.parse(localStorage.getItem(LS)||'[]')}catch(e){return[]}}
   function lsSave(a){try{localStorage.setItem(LS,JSON.stringify(a))}catch(e){}}
-  function esc(s){return (s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function esc(s){ return KB_esc(s); }   /* 이전엔 (s||'')라 숫자를 넘기면 예외가 났다 */
   function fmt(d){try{return new Date(d).toLocaleDateString('ko-KR')}catch(e){return ''}}
   function paint(items){
     cntEl.textContent=items.length;
@@ -1212,7 +1214,7 @@ footer .flink:hover{color:#fff}
   var listEl=document.getElementById('lbList'); if(!listEl) return;
   var pagerEl=document.getElementById('lbPager'), totalEl=document.getElementById('lbTotal');
   var page=0, PAGE=10, total=0, timer=null, lastTopId='';
-  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function esc(s){ return KB_esc(s); }   /* assets/kb-format.js — 작은따옴표까지 이스케이프 */
   function fmt(n){try{return (n||0).toLocaleString('ko-KR');}catch(e){return ''+(n||0);}}
   function medal(r){return r===1?'🥇':r===2?'🥈':r===3?'🥉':('#'+r);}
   function kwSum(k){k=k||[];if(k.length<=2)return k.join(' · ');return k.slice(0,2).join(' · ')+' 외 '+(k.length-2)+'개';}
@@ -1294,7 +1296,7 @@ footer .flink:hover{color:#fff}
   };
   var BADWORDS=["시발","씨발","ㅅㅂ","병신","ㅂㅅ","개새끼","개새","새끼","좆","존나","꺼져","닥쳐","엿먹","죽어","지랄","미친놈","미친년","fuck","shit"];
   function badWord(s){var t=(s||"").replace(/\s/g,"").toLowerCase();return BADWORDS.some(function(w){return t.indexOf(w)>=0;});}
-  function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];});}
+  function esc(s){ return KB_esc(s); }   /* assets/kb-format.js */
   function fmt(n){try{return (n||0).toLocaleString('ko-KR');}catch(e){return ''+(n||0);}}
   function rel(ts){if(!ts)return '';var s=Math.floor((Date.now()-ts)/1000);if(s<60)return '방금';if(s<3600)return Math.floor(s/60)+'분 전';if(s<86400)return Math.floor(s/3600)+'시간 전';return Math.floor(s/86400)+'일 전';}
   var room='personal',sort='new',offset=0,PAGE=8,total=0,items=[],loading=false,shareStory=null;
@@ -1414,7 +1416,7 @@ footer .flink:hover{color:#fff}
 /* 비전·공약 글 홈 섹션 */
 (function(){
   var el=document.getElementById('vpGrid'); if(!el) return;
-  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function esc(s){ return KB_esc(s); }   /* assets/kb-format.js — 작은따옴표까지 이스케이프 */
   /* 게시일은 항상 한국시간(KST, UTC+9) 기준으로 표기 */
   function fmtDate(ms){try{var d=new Date(ms+32400000);return d.getUTCFullYear()+'.'+('0'+(d.getUTCMonth()+1)).slice(-2)+'.'+('0'+d.getUTCDate()).slice(-2);}catch(e){return '';}}
   function excerpt(b){var t=String(b||'').replace(/\n+/g,' ').replace(/\[[^\]]*\]/g,'').replace(/https?:\/\/[^\s]+/g,'').replace(/\s+/g,' ').trim();return t.slice(0,80);}
@@ -1457,7 +1459,7 @@ footer .flink:hover{color:#fff}
 (function(){
   var wrap=document.getElementById('newsLive'), grid=document.getElementById('newsGrid');
   if(!wrap||!grid) return;
-  function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function esc(x){ return KB_esc(x); }   /* assets/kb-format.js — 작은따옴표까지 이스케이프 */
   function fd(ts){try{var d=new Date(ts);return d.getFullYear()+'.'+('0'+(d.getMonth()+1)).slice(-2)+'.'+('0'+d.getDate()).slice(-2);}catch(e){return '';}}
   fetch('/api/chat?action=news',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){
     var items=(d&&d.ok&&d.items)?d.items.slice(0,6):[];

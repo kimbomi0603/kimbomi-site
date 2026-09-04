@@ -12,6 +12,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>html,body{margin:0;min-height:100%;background:#06121f;
 background:radial-gradient(1200px 600px at 50% -10%,#0e2c40,#06121f)}</style>
+<!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
+<script src="assets/kb-format.js"></script>
 </head>
 <body>
 <script>
@@ -109,7 +111,7 @@ background:radial-gradient(1200px 600px at 50% -10%,#0e2c40,#06121f)}</style>
     langWrap.appendChild(b);
   });
 
-  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function esc(s){ return KB_esc(s); }   /* 이전엔 큰따옴표를 빼먹고 null을 "null"로 찍었다 */
   function render(){
     var U=DATA.ui[lang], T=DATA.title[lang];
     var h='<div class="alme-title">'+
