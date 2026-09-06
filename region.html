@@ -61,7 +61,7 @@ tailwind.config = { theme: { extend: {
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">총예산(세출)</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiB">—</span></div><div class="text-[11px] text-ink-faint mt-1" id="kpiBSub">일반+특별회계+기금 세출예산 · 지방재정365 2024</div></div>
       <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">재정자립도</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiS">—</span><span class="text-[14px] text-ink-faint">%</span></div><div class="text-[11px] text-mint-dark mt-1 font-bold" id="kpiSrcBadge">—</div></div>
-      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">예산 집행률</div><div class="text-[28px] font-black text-minju num mt-1"><span id="kpiE">—</span><span class="text-[14px] text-ink-faint">%</span></div><div class="text-[11px] text-amber-700 mt-1 font-bold">공식 공시 미연동</div></div>
+      <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">세출결산 총계</div><div class="text-[28px] font-black text-minju num mt-1"><span id="kpiE">—</span></div><div class="text-[11px] text-amber-700 mt-1 font-bold" id="kpiENote">공식 공시 미연동</div></div>
       <div class="bg-white rounded-2xl p-5 ring-1 ring-paper-line shadow-sm"><div class="text-[12px] text-ink-faint font-bold">금고 이자율</div><div class="text-[28px] font-black text-navy num mt-1"><span id="kpiR">—</span><span class="text-[14px] text-ink-faint">%</span></div><div class="text-[11px] text-ink-faint mt-1 font-bold" id="kpiRNote">—</div></div>
     </div>
   </div>
@@ -101,7 +101,7 @@ tailwind.config = { theme: { extend: {
           <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">일반회계</div><div class="text-[15px] font-extrabold text-navy" id="acG">—</div></div>
           <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">특별회계</div><div class="text-[15px] font-extrabold text-navy" id="acS">—</div></div>
           <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">기금</div><div class="text-[15px] font-extrabold text-navy" id="acF">—</div></div>
-          <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">세출 총계</div><div class="text-[15px] font-extrabold text-navy" id="acE">—</div></div>
+          <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">세출예산 총계</div><div class="text-[15px] font-extrabold text-navy" id="acE">—</div></div>
         </div>
         <p class="text-[11px] text-ink-faint mb-3" id="acNote">일반회계 + 특별회계 + 기금 = 세출 총계 (지방재정365 2024 회계별 공시) · 나라살림 돋보기와 같은 원자료·같은 정의</p>
         <div class="overflow-hidden rounded-xl ring-1 ring-paper-line">
@@ -246,19 +246,26 @@ const pieChart = (typeof Chart==='undefined') ? null : new Chart(document.getEle
 function render(d,isReal){
   /* 실데이터 원칙: 공시값(b=세입결산, s=재정자립도)만 표시. 추정 생성값(집행률·회계배분·분야비중)은 전량 폐기 → '—' */
   const _eok=(typeof d.bEok==='number')?d.bEok:((typeof d.b==='number')?d.b*10000:null);
-  window.__REV_EOK=(isReal&&_eok!=null)?_eok:null;               /* 세입결산 규모(재정자립도 공시) */
+  window.__REV_EOK=(isReal&&_eok!=null)?_eok:null;               /* 재정자립도 산정 분모 = 일반회계 예산규모(세입결산 아님) */
+  /* 2026-09-06: 스냅샷(ACC)이 먼저 도착하면 이 줄이 영영 안 붙던 경쟁 조건을 막는다 — 어느 쪽이 늦게 와도 채운다 */
+  if(window.__REV_EOK!=null){
+    const _sub=document.getElementById('kpiBSub');
+    if(_sub && !/일반회계 예산규모/.test(_sub.innerHTML))
+      _sub.innerHTML='일반+특별회계+기금 세출예산 · 지방재정365 2024<br>재정자립도 산정 일반회계 예산규모 '+won(window.__REV_EOK)+'원';
+  }
   const _kb=document.getElementById('kpiB');
   if(_kb&&!_kb.dataset.filled) _kb.textContent=(isReal&&_eok!=null)?won(_eok)+'원':'—';
   /* lofin 스냅샷(ACC·SR·EXEC)이 먼저 채운 칸은 덮어쓰지 않는다 — 두 응답의 도착 순서에 따라
      화면 값이 달라지던 경쟁 조건을 막는다(2026-09-03). */
   const _kpiE=document.getElementById('kpiE');
-  if(_kpiE&&!_kpiE.dataset.filled) _kpiE.textContent=(typeof d.e==='number')?(+d.e).toFixed(1):'—';
+  /* 2026-09-06: api/budget 의 e(집행률)는 폐기된 값(e:null)이며, 이 칸은 스냅샷의 회계별 세출결산으로 채운다 */
+  if(_kpiE&&!_kpiE.dataset.filled) _kpiE.textContent='—';
   const _kpiS=document.getElementById('kpiS');
   if(_kpiS&&!_kpiS.dataset.filled) _kpiS.textContent=(isReal&&typeof d.s==='number')?(+d.s).toFixed(1):'—';
   document.getElementById('dataYear').textContent=d&&d.fyr?d.fyr:'—';
   document.getElementById('lastUpdated').textContent=isReal?('갱신 '+new Date().toLocaleString('ko-KR',{hour:'2-digit',minute:'2-digit'})+' · 지방재정365 실데이터'):'실데이터 호출 실패 — 수치를 표시하지 않습니다';
   var srcBadge=document.getElementById('kpiSrcBadge');
-  if(srcBadge&&!srcBadge.dataset.filled){ srcBadge.textContent=isReal?'실데이터(지방재정365) · 개편후 기준':'미연동'; srcBadge.style.color=isReal?'':'#b45309'; }
+  if(srcBadge&&!srcBadge.dataset.filled){ srcBadge.textContent=isReal?'실데이터(지방재정365) · 2024 결산기준':'미연동'; srcBadge.style.color=isReal?'':'#b45309'; }
   /* 회계별 세출예산은 lofin 스냅샷(ACC)에서 별도로 채운다 — applyLofin() 참조 */
   ['acG','acS','acF','acE'].forEach(id=>{ const el=document.getElementById(id); if(el&&!el.dataset.filled) el.textContent='—'; });
   const pieWrap=document.getElementById('pieChart')&&document.getElementById('pieChart').closest('div');
@@ -305,29 +312,39 @@ if (LAF_CD) {
           put('kpiB', won(tot)+'원');
           const sub=document.getElementById('kpiBSub');
           if(sub) sub.innerHTML='일반+특별회계+기금 세출예산 · 지방재정365 2024'
-            + (window.__REV_EOK!=null ? '<br>세입결산 규모 '+won(window.__REV_EOK)+'원 (재정자립도 공시 기준)' : '');
+            + (window.__REV_EOK!=null ? '<br>재정자립도 산정 일반회계 예산규모 '+won(window.__REV_EOK)+'원' : '');
         }
       }
-      /* 재정자립도 (SR) — 개편전 대표 · 개편후 병기: 나라살림 돋보기와 동일 */
-      const S=pick('SR');
-      if(S){
-        const r1=num(S.rate1), r2=num(S.rate2);
-        if(r1!=null){
-          const el=document.getElementById('kpiS'); if(el){ el.textContent=r1.toFixed(2); el.dataset.filled='1'; }
-          const bd=document.getElementById('kpiSrcBadge');
-          if(bd){ bd.textContent='최종예산·개편전 기준'+(r2!=null?' · 개편후 '+r2.toFixed(2)+'%':''); bd.style.color=''; bd.dataset.filled='1'; }
-        }
+      /* 재정자립도 — 2026-09-06: 대표값을 결산기준 공시값(FISCAL rate2)으로 통일.
+         지자체 재정공시문·행안부 발표와 같은 기준이며 narasalim.html과도 같은 값이다.
+         최종예산 기준(SR: 개편전/개편후)은 배지에 병기한다. */
+      const S=pick('SR'), FS=pick('FISCAL');
+      const fr2=FS?num(FS.rate2):null, r1=S?num(S.rate1):null, r2=S?num(S.rate2):null;
+      if(fr2!=null){
+        const el=document.getElementById('kpiS'); if(el){ el.textContent=fr2.toFixed(2); el.dataset.filled='1'; }
+        const bd=document.getElementById('kpiSrcBadge');
+        if(bd){ bd.textContent='2024 결산기준 · 지자체 재정공시와 동일'+(r1!=null&&r2!=null?' · 최종예산기준 '+r1.toFixed(2)+'%(개편전)/'+r2.toFixed(2)+'%(개편후)':''); bd.style.color=''; bd.dataset.filled='1'; }
       }
-      /* 연간 세출 집행률 (EXEC) = 지출액 ÷ 예산현액 */
+      /* 회계별 세출결산 (EXEC) — 2026-09-06 정정.
+         지방재정365 AJGCF의 5칸은 [결산총계·일반회계·공기업특별회계·기타특별회계·기금]이다.
+         이전 코드는 pfa_amt1÷tot_pfa_amt 를 '지출액÷예산현액 집행률'로 표시했으나
+         실제로는 일반회계가 결산 총계에서 차지하는 비중이었다(여수시 2024 결산공시 원본
+         17,318억 = 15,152 + 1,145 + 638 + 383 으로 확정).
+         집행률·이월·불용은 이 공시에 없는 값이라 표시하지 않는다. */
       const E=pick('EXEC');
       if(E){
-        const base=num(E.tot_pfa_amt), spent=num(E.pfa_amt1);
-        if(base!=null&&base>0&&spent!=null){
-          const rate=spent/base*100;
-          const el=document.getElementById('kpiE'); if(el){ el.textContent=rate.toFixed(1); el.dataset.filled='1'; }
-          const card=el?el.closest('.bg-white'):null;
-          const note=card?card.querySelector('.text-amber-700, .text-mint-dark'):null;
-          if(note){ note.textContent='지출액÷예산현액 · 2024 결산 공시'; note.className='text-[11px] text-mint-dark mt-1 font-bold'; }
+        const stot=eok(E.tot_pfa_amt);
+        if(stot!=null){
+          const sgen=Math.round((num(E.pfa_amt1)||0)/1e8),
+                spbco=Math.round((num(E.pfa_amt2)||0)/1e8),
+                setc=Math.round((num(E.pfa_amt3)||0)/1e8),
+                sfnd=Math.round((num(E.pfa_amt4)||0)/1e8);
+          const el=document.getElementById('kpiE'); if(el){ el.textContent=won(stot)+'원'; el.dataset.filled='1'; }
+          const note=document.getElementById('kpiENote');
+          if(note){
+            note.textContent='일반 '+won(sgen)+' · 공기업특회 '+won(spbco)+' · 기타특회 '+won(setc)+' · 기금 '+won(sfnd);
+            note.className='text-[11px] text-mint-dark mt-1 font-bold';
+          }
         }
       }
     }).catch(()=>{});
