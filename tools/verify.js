@@ -251,6 +251,55 @@ for (const f of HTML.concat(APIS.map(a => 'api/' + a))) {
 }
 if (!zeroFill) ok("값 없음을 0억원·0원으로 채우는 포매터 없음");
 
+/* ── 9-3. 회계 항등식 (공시 원자료와 구조가 맞는지) ──────────────────────
+   2026-09-06 신설. 지방재정365 AJGCF(회계별 세출결산)의 5칸을
+   [예산현액·지출액·집행률·이월·불용]으로 잘못 읽어 243개 지자체 전부에
+   존재하지 않는 '세출 집행률'과 잘못된 '이월·불용'을 표시하던 사고가 있었다.
+   원자료의 항등식(총계 = 일반회계 + 공기업특별회계 + 기타특별회계 + 기금)을
+   매번 기계가 확인한다. 여수시 2024 결산공시 17,318 = 15,152+1,145+638+383 로 확정된 구조. */
+console.log('\n[9-3] 회계 항등식 · 결산 데이터 구조');
+(function(){
+  const raw = fs.readFileSync(path.join(ROOT,'narasalim.html'),'utf8');
+  const grab = (name) => {
+    const i = raw.indexOf('const ' + name + '=');
+    if (i < 0) return null;
+    const st = raw.indexOf('{', i);
+    let d = 0, j = st;
+    for (; j < raw.length; j++) { const c = raw[j]; if (c === '{') d++; else if (c === '}') { d--; if (!d) { j++; break; } } }
+    try { return JSON.parse(raw.slice(st, j)); } catch (e) { return null; }
+  };
+  const EX = grab('REAL_EXEC_2024'), AC = grab('REAL_ACC_2024'), SC = grab('REAL_SEC_2024');
+  if (!EX || !AC) { bad('REAL_EXEC_2024 / REAL_ACC_2024 상수를 읽지 못했습니다'); return; }
+
+  /* (1) 세출결산 총계 ≥ 일반회계 + 공기업특회 + 기금 — 나머지가 기타특별회계 */
+  let neg = [];
+  for (const k of Object.keys(EX)) {
+    const e = EX[k];
+    const etc = (e[5] != null) ? e[5] : (e[0] - e[1] - e[3] - e[4]);
+    if (etc < -1) neg.push(`${k}(기타특회 ${etc.toFixed(1)}억)`);
+  }
+  if (neg.length) bad(`회계 항등식 위반 ${neg.length}곳 — 총계 < 일반+공기업특회+기금 : ${neg.slice(0,5).join(', ')}`);
+  else ok(`회계 항등식 정상 (243곳 · 총계 = 일반 + 공기업특회 + 기타특회 + 기금)`);
+
+  /* (2) EXEC[2]를 '집행률'로 부르는 코드가 되살아나지 않았는지 */
+  const src = readSrc('narasalim.html');
+  const revive = /execRate\s*=\s*EXv\[|carryover\s*=\s*EXv\[|unusedAmt\s*=\s*EXv\[|execBase\s*=\s*EXv\[/.test(src);
+  if (revive) bad("REAL_EXEC_2024 배열을 집행률·이월·불용·예산현액으로 다시 읽고 있습니다 — 회계 구분값입니다");
+  else ok("세출결산 배열을 집행률·이월·불용으로 읽는 코드 없음");
+
+  /* (3) 분야별 세출 합계 vs 일반회계 세출결산 — 크게 어긋나면 화면 경고가 필요 */
+  if (SC) {
+    let off = [];
+    for (const k of Object.keys(SC)) {
+      const sum = SC[k].reduce((a, b) => a + (+b || 0), 0), gen = EX[k] && EX[k][1];
+      if (!gen || !sum) continue;
+      if (Math.abs(sum - gen) / gen > 0.5) off.push(k);
+    }
+    if (off.length) warn(`분야별 세출 합계가 일반회계 결산과 50% 넘게 어긋나는 곳 ${off.length}곳 — 화면 경고 문구가 표시되는지 확인 (${off.slice(0,4).join(', ')})`);
+    else ok('분야별 세출 합계 중대 결손 없음');
+  }
+})();
+
 /* ── 10. 전수 렌더 (--render) ───────────────────────────────────────── */
 if (process.argv.includes('--render')) {
   console.log('\n[10] WebKit 전수 렌더 — tools/verify-render.js 를 실행하세요');
