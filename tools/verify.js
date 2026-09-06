@@ -281,11 +281,26 @@ console.log('\n[9-3] 회계 항등식 · 결산 데이터 구조');
   if (neg.length) bad(`회계 항등식 위반 ${neg.length}곳 — 총계 < 일반+공기업특회+기금 : ${neg.slice(0,5).join(', ')}`);
   else ok(`회계 항등식 정상 (243곳 · 총계 = 일반 + 공기업특회 + 기타특회 + 기금)`);
 
-  /* (2) EXEC[2]를 '집행률'로 부르는 코드가 되살아나지 않았는지 */
-  const src = readSrc('narasalim.html');
-  const revive = /execRate\s*=\s*EXv\[|carryover\s*=\s*EXv\[|unusedAmt\s*=\s*EXv\[|execBase\s*=\s*EXv\[/.test(src);
-  if (revive) bad("REAL_EXEC_2024 배열을 집행률·이월·불용·예산현액으로 다시 읽고 있습니다 — 회계 구분값입니다");
-  else ok("세출결산 배열을 집행률·이월·불용으로 읽는 코드 없음");
+  /* (2) 회계별 세출결산(AJGCF)을 집행률·이월·불용으로 다시 읽는 코드가 되살아나지 않았는지 — 전 HTML 대상.
+         2026-09-06: narasalim.html만 보다가 region.html에 같은 오해석이 남아 있던 것을 놓쳤다. */
+  const REVIVE = [
+    [/execRate\s*=\s*EXv\[|carryover\s*=\s*EXv\[|unusedAmt\s*=\s*EXv\[|execBase\s*=\s*EXv\[/, "REAL_EXEC_2024 배열을 집행률·이월·불용·예산현액으로 읽음"],
+    [/pfa_amt1\s*\/\s*[A-Za-z_$][\w.$]*\s*\*\s*100|spent\s*\/\s*base\s*\*\s*100/, "tot_pfa_amt·pfa_amt1(결산총계·일반회계)로 집행률을 계산함"],
+    [/지출액\s*÷\s*예산현액/, "'지출액÷예산현액' 표기 — 이 공시에 없는 지표"]
+  ];
+  let revived = 0;
+  for (const f of HTML) {
+    const src = readSrc(f);
+    if (!/EXEC|REAL_EXEC_2024|tot_pfa_amt/.test(src)) continue;
+    src.split('\n').forEach((ln, i) => {
+      /* '이 공시에 없다'고 설명하는 문장은 제외 — 값을 만들어 쓰는 코드만 잡는다 */
+      if (/표시하지 않|없는 값|없어 표시|존재하지 않/.test(ln)) return;
+      for (const [re, msg] of REVIVE) {
+        if (re.test(ln)) { revived++; bad(`${f}:${i+1} — ${msg}. AJGCF는 [결산총계·일반회계·공기업특별회계·기타특별회계·기금] 회계 구분값입니다`); }
+      }
+    });
+  }
+  if (!revived) ok("세출결산 배열을 집행률·이월·불용으로 읽는 코드 없음 (전 HTML)");
 
   /* (3) 분야별 세출 합계 vs 일반회계 세출결산 — 크게 어긋나면 화면 경고가 필요 */
   if (SC) {

@@ -43,7 +43,10 @@ const CHART_LOCAL = path.join(__dirname, 'chart.umd.min.js');   // 있으면 로
 
 (async () => {
   await new Promise(r => srv.listen(PORT, r));
-  const browser = await pw.webkit.launch();
+  /* WebKit이 설치돼 있지 않은 환경(CI·컨테이너)에서는 Chromium으로 자동 대체한다 — 검사를 건너뛰지 않기 위함 */
+  const hasWebkit = (() => { try { return require('fs').existsSync(pw.webkit.executablePath()); } catch (e) { return false; } })();
+  if (!hasWebkit) console.log('  (WebKit 미설치 → Chromium으로 대체 실행)');
+  const browser = await (hasWebkit ? pw.webkit.launch() : pw.chromium.launch());
   let fail = 0;
 
   for (const scen of [{ n:'차트 정상', chart:true }, { n:'Chart.js CDN 장애', chart:false }]) {
