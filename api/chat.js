@@ -2,7 +2,8 @@
    대한민국 재정 365 — 재정 AI 비서 프록시
    경로: /api/chat  (Vercel 서버리스 함수, CommonJS)
    무료 Google Gemini(gemini-2.5-flash) 로 재정·행정 용어를 쉽게 설명.
-   환경변수: GEMINI_API_KEY (AI Studio 발급)  ※ 없으면 화면에서 안내만 표시
+   환경변수: GEMINI_API_KEY (AI Studio 발급) + GROQ_API_KEY (예비, 무료) ※ 둘 다 없으면 화면에서 안내만 표시
+   2026-09-12: Gemini 실패 시 Groq(openai/gpt-oss-120b) 로 자동 전환. thinkingBudget 0 으로 빈 응답 방지.
    ============================================================ */
 
 var MODELS = ["gemini-2.5-flash", "gemini-2.5-flash-lite"];
@@ -112,9 +113,10 @@ module.exports = async function (req, res) {
   if (req.method !== "POST") return res.status(405).json({ ok: false, error: "POST only" });
 
   var KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "";
+  var GROQ = process.env.GROQ_API_KEY || "";           /* 예비 AI (Gemini 한도·장애 시) — 무료 구간, OpenAI 호환 */
   var RURL2 = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.REDIS_REST_URL || "";
   var RTOK2 = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || process.env.REDIS_REST_TOKEN || "";
-  if (!KEY) return res.status(500).json({ ok: false, error: "GEMINI_API_KEY 미설정(Vercel 환경변수)" });
+  if (!KEY && !GROQ) return res.status(500).json({ ok: false, error: "GEMINI_API_KEY/GROQ_API_KEY 미설정(Vercel 환경변수)" });
 
   /* ── 남용 방지: 출처(Origin) 확인 + IP 레이트리밋 ── */
   var origin = String(req.headers.origin || "");
@@ -159,23 +161,59 @@ module.exports = async function (req, res) {
   var prompt = sys + (kb?("  [더불이 지식자료 — 아래 내용을 최우선 근거로 사용하세요] "+kb):"") + "\n\n[참고 데이터]\n" + (context || "(없음)") + "\n\n[질문]\n" + message;
   contents.push({ role: "user", parts: [{ text: prompt }] });
 
-  for (var i = 0; i < MODELS.length; i++) {
-    var model = MODELS[i];
-    try {
-      var url = "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent?key=" + KEY;
-      var r = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ contents: contents, generationConfig: { temperature: 0.4, maxOutputTokens: 1024 } }),
-        signal: AbortSignal.timeout(25000)
-      });
-      var j = await r.json();
-      if (!r.ok) {
-        if (i < MODELS.length - 1) continue;
-        return res.status(502).json({ ok: false, error: (j.error && j.error.message) || "Gemini 오류" });
-      }
-      var parts = (j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts) || [];
-      var text = parts.map(function (p) { return p.text; }).join("") || "";
+  /* ── AI 호출: Gemini(모델 순서대로) → 전부 실패하면 Groq → 그래도 안 되면 오류 ── */
+  var GROQ_MODELS = ["openai/gpt-oss-120b", "llama-3.3-70b-versatile"];
+  async function askGemini() {
+    var lastErr = "Gemini 오류";
+    if (!KEY) throw new Error("no gemini key");
+    for (var i = 0; i < MODELS.length; i++) {
+      var model = MODELS[i];
+      try {
+        var url = "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent?key=" + KEY;
+        var r = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ contents: contents, generationConfig: { temperature: 0.4, maxOutputTokens: 1024, thinkingConfig: { thinkingBudget: 0 } } }),
+          signal: AbortSignal.timeout(25000)
+        });
+        var j = await r.json();
+        if (!r.ok) { lastErr = (j.error && j.error.message) || ("Gemini " + r.status); continue; }
+        var parts = (j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts) || [];
+        var t = parts.map(function (p) { return p.text || ""; }).join("");
+        if (t) return { model: model, text: t };
+        lastErr = "Gemini 빈 응답";
+      } catch (e) { lastErr = String((e && e.message) || e); }
+    }
+    throw new Error(lastErr);
+  }
+  async function askGroq() {
+    if (!GROQ) throw new Error("no groq key");
+    /* Gemini 형식(contents) → OpenAI 형식(messages). 마지막 user 턴에 system+참고데이터+질문이 들어 있다 */
+    var messages = contents.map(function (c) { return { role: c.role === "model" ? "assistant" : "user", content: c.parts.map(function (p) { return p.text; }).join("") }; });
+    var lastErr = "Groq 오류";
+    for (var k = 0; k < GROQ_MODELS.length; k++) {
+      try {
+        var r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: "Bearer " + GROQ, "User-Agent": "Mozilla/5.0 kimbomi-site" },
+          body: JSON.stringify({ model: GROQ_MODELS[k], messages: messages, temperature: 0.4, max_tokens: 1024 }),
+          signal: AbortSignal.timeout(25000)
+        });
+        var j = await r.json();
+        if (!r.ok) { lastErr = (j.error && j.error.message) || ("Groq " + r.status); continue; }
+        var t = (j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content) || "";
+        if (t) return { model: GROQ_MODELS[k], text: t };
+      } catch (e) { lastErr = String((e && e.message) || e); }
+    }
+    throw new Error(lastErr);
+  }
+  var out, errs = [];
+  try { out = await askGemini(); } catch (e) { errs.push("gemini: " + e.message); }
+  if (!out) { try { out = await askGroq(); } catch (e) { errs.push("groq: " + e.message); } }
+  if (!out) return res.status(502).json({ ok: false, error: "AI 응답 실패 — " + errs.join(" / ") });
+  {
+    {
+      var model = out.model, text = out.text;
       /* 캠프 확인용 — 더불이 대화 기록(Redis) + 메일 알림(Resend 키 있을 때) */
       if (isCampaign) {
         var entry = JSON.stringify({ q: message.slice(0,600), a: text.slice(0,800), ts: Date.now() });
@@ -208,8 +246,6 @@ module.exports = async function (req, res) {
         } catch(e) {}
       }
       return res.status(200).json({ ok: true, model: model, text: text });
-    } catch (e) {
-      if (i === MODELS.length - 1) return res.status(504).json({ ok: false, error: "AI 응답 시간초과", detail: String((e && e.message) || e) });
     }
   }
 };
