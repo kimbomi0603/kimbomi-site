@@ -6563,7 +6563,7 @@ window.kbPhotoZoom=function(host){
     if(!lb){
       lb=document.createElement('div'); lb.id='kbLightbox';
       lb.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(5,15,30,.92);display:none;align-items:center;justify-content:center;padding:28px;cursor:zoom-out;backdrop-filter:blur(6px)';
-      lb.innerHTML='<img style="max-width:94vw;max-height:92vh;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.6);object-fit:contain"><span style="position:fixed;top:16px;right:22px;color:#fff;font-size:1.8rem;font-weight:900;cursor:pointer">✕</span><div style="position:fixed;bottom:18px;left:0;right:0;text-align:center;color:#cbd5e1;font-size:.85rem">김보미 — 클릭하면 닫힙니다</div>';
+      lb.innerHTML='<img alt="확대 이미지" style="max-width:94vw;max-height:92vh;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.6);object-fit:contain"><span style="position:fixed;top:16px;right:22px;color:#fff;font-size:1.8rem;font-weight:900;cursor:pointer">✕</span><div style="position:fixed;bottom:18px;left:0;right:0;text-align:center;color:#cbd5e1;font-size:.85rem">김보미 — 클릭하면 닫힙니다</div>';
       lb.addEventListener('click',function(){lb.style.display='none';});
       document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.style.display='none';});
       document.body.appendChild(lb);

@@ -759,8 +759,8 @@ if(!$('tab-knowledge').classList.contains('hide')){loadKnowledge().catch(handleE
     if(!items.length){ el.innerHTML=''; return; }
     el.innerHTML=items.map(function(it){
       var thumb = (it.k==='video')
-        ? '<img src="https://img.youtube.com/vi/'+esc(it.v)+'/mqdefault.jpg" style="height:74px;width:100px;object-fit:cover;border-radius:8px;border:1px solid var(--line)">'
-        : '<img src="'+esc(it.v)+'" style="height:74px;width:74px;object-fit:cover;border-radius:8px;border:1px solid var(--line)">';
+        ? '<img alt="영상 썸네일" src="https://img.youtube.com/vi/'+esc(it.v)+'/mqdefault.jpg" style="height:74px;width:100px;object-fit:cover;border-radius:8px;border:1px solid var(--line)">'
+        : '<img alt="첨부 이미지" src="'+esc(it.v)+'" style="height:74px;width:74px;object-fit:cover;border-radius:8px;border:1px solid var(--line)">';
       var badge = (it.k==='video') ? '<span style="position:absolute;left:4px;bottom:4px;background:rgba(0,0,0,.72);color:#fff;font-size:.62rem;font-weight:700;padding:1px 5px;border-radius:4px">▶ 영상</span>' : '';
       return '<div style="position:relative">'+thumb+badge
         +'<button type="button" class="poImgDel" data-raw="'+esc(it.raw)+'" title="본문에서 빼기" style="position:absolute;top:-6px;right:-6px;width:20px;height:20px;line-height:1;border-radius:50%;border:1px solid #e5b4b4;background:#fff;color:#c0392b;font-weight:700;cursor:pointer;padding:0">×</button></div>';
