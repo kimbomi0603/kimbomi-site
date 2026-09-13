@@ -1,5 +1,19 @@
 const ENDPOINT = "https://www.lofin365.go.kr/lf/hub/QWGJK";
 
+/* 2026-09-13: 지방재정365 가 느릴 때(점검에서 22초) 매번 기다리지 않도록 Redis(Upstash) 에 결과를 6시간 캐시한다.
+   같은 지자체를 두 번째 여는 사람부터는 0.1초. 원천이 죽어도 24시간 안의 마지막 정상값을 'stale' 표시로 돌려준다.
+   Redis 가 없으면 예전처럼 매번 원천을 부른다(동작 동일). 키·본문은 로그에 남기지 않는다. */
+const RURL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.REDIS_REST_URL || "";
+const RTOK = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || process.env.REDIS_REST_TOKEN || "";
+const TTL_FRESH = 6 * 3600, TTL_STALE = 24 * 3600;
+async function rcmd(cmd) {
+  if (!RURL || !RTOK) return null;
+  try {
+    const r = await fetch(RURL, { method: "POST", headers: { Authorization: "Bearer " + RTOK, "Content-Type": "application/json" }, body: JSON.stringify(cmd), signal: AbortSignal.timeout(2500) });
+    const j = await r.json(); return j && j.result !== undefined ? j.result : null;
+  } catch (e) { return null; }
+}
+
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -11,6 +25,12 @@ module.exports = async (req, res) => {
   const limit = Math.min(parseInt(q.limit || "10", 10), 50);
   const KEY = process.env.DATA_GO_KR_KEY || "";
   if (!KEY) return res.status(500).json({ error: "DATA_GO_KR_KEY 미설정" });
+
+  const ckey = "kb_projects:" + [lafCd, zone, String(q.part || ""), String(q.fyr || ""), limit].join("|");
+  const cached = await rcmd(["GET", ckey]);
+  if (cached) {
+    try { const c = JSON.parse(cached); if (c && Array.isArray(c.projects) && c.projects.length) { res.setHeader("X-Cache", "hit"); return res.status(200).json(c); } } catch (e) {}
+  }
 
   try {
     const yNow = new Date().getFullYear();
@@ -34,7 +54,12 @@ module.exports = async (req, res) => {
       }
     }
 
-    if (!rows || !rows.length) { res.setHeader("Cache-Control", "no-store"); return res.status(200).json({ error: "데이터 없음 — 일자/코드/연도 확인 필요", projects: [] }); }
+    if (!rows || !rows.length) {
+      res.setHeader("Cache-Control", "no-store");
+      const stale = await rcmd(["GET", ckey + ":stale"]);          // 원천 장애 → 24시간 안의 마지막 정상값
+      if (stale) { try { const c = JSON.parse(stale); if (c && c.projects && c.projects.length) { c.stale = true; c.note = "지방재정365 응답 없음 — 마지막 정상값(최대 24시간 전)"; res.setHeader("X-Cache", "stale"); return res.status(200).json(c); } } catch (e) {} }
+      return res.status(200).json({ error: "데이터 없음 — 일자/코드/연도 확인 필요", projects: [] });
+    }
     if (zone) rows = rows.filter(r => String(r.laf_hg_nm || "").includes(zone));
     /* 부문 필터 — ?part=입법및선거관리 처럼 특정 부문만 집계(의회 운영비 등) */
     const part = String(q.part || "").trim();
@@ -56,8 +81,15 @@ module.exports = async (req, res) => {
 
     const sumB = Object.values(groups).reduce((a,p)=>a+p.budget,0);
     const sumE = Object.values(groups).reduce((a,p)=>a+p.exec,0);
-    return res.status(200).json({ part: part||null, sum:{budget:sumB, exec:sumE, count:Object.keys(groups).length, rate: sumB? Math.round(sumE/sumB*1000)/10 : null},
-      region: rows[0] ? String(rows[0].laf_hg_nm || rows[0].wa_laf_hg_nm || "").replace(/^전남광주(?!통합)/, "전남광주통합특별시 ") : "", projects, date: usedDate, fyr: usedFyr, laf_cd: lafCd, count: projects.length, src: "lofin365 QWGJK(세부사업별 세출)" });
+    const out = { part: part||null, sum:{budget:sumB, exec:sumE, count:Object.keys(groups).length, rate: sumB? Math.round(sumE/sumB*1000)/10 : null},
+      region: rows[0] ? String(rows[0].laf_hg_nm || rows[0].wa_laf_hg_nm || "").replace(/^전남광주(?!통합)/, "전남광주통합특별시 ") : "", projects, date: usedDate, fyr: usedFyr, laf_cd: lafCd, count: projects.length, src: "lofin365 QWGJK(세부사업별 세출)" };
+    if (projects.length) {
+      const body = JSON.stringify(out);
+      await rcmd(["SET", ckey, body, "EX", String(TTL_FRESH)]);
+      await rcmd(["SET", ckey + ":stale", body, "EX", String(TTL_STALE)]);
+    }
+    res.setHeader("X-Cache", "miss");
+    return res.status(200).json(out);
   } catch (e) {
     res.setHeader("Cache-Control", "no-store");
     return res.status(500).json({ error: String((e && e.message) || e) });
