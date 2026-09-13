@@ -1,11 +1,14 @@
 const ENDPOINT = "https://www.lofin365.go.kr/lf/hub/QWGJK";
 
-/* 2026-09-13: 지방재정365 가 느릴 때(점검에서 22초) 매번 기다리지 않도록 Redis(Upstash) 에 결과를 6시간 캐시한다.
+/* 2026-09-13: 지방재정365 가 느릴 때(점검에서 22초) 매번 기다리지 않도록 Redis(Upstash) 에 결과를 캐시한다.
    같은 지자체를 두 번째 여는 사람부터는 0.1초. 원천이 죽어도 24시간 안의 마지막 정상값을 'stale' 표시로 돌려준다.
-   Redis 가 없으면 예전처럼 매번 원천을 부른다(동작 동일). 키·본문은 로그에 남기지 않는다. */
+   Redis 가 없으면 예전처럼 매번 원천을 부른다(동작 동일). 키·본문은 로그에 남기지 않는다.
+   2026-09-14: 전수 점검이 04:40·14:40 KST(간격 10~14시간)마다 이 API 를 부르는데 캐시가 6시간만 갔던 탓에
+   매번 캐시가 이미 비어 있어 22초 느린 호출이 매 점검마다 되풀이됐다. 점검 간격보다 길게(20시간) 늘려
+   두 번째 점검부터는 캐시로 잡히게 한다(세출 집행 데이터는 시간 단위로 안 바뀌므로 20시간 지연은 무해). */
 const RURL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.REDIS_REST_URL || "";
 const RTOK = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || process.env.REDIS_REST_TOKEN || "";
-const TTL_FRESH = 6 * 3600, TTL_STALE = 24 * 3600;
+const TTL_FRESH = 20 * 3600, TTL_STALE = 24 * 3600;
 async function rcmd(cmd) {
   if (!RURL || !RTOK) return null;
   try {
