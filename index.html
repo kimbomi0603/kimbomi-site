@@ -67,6 +67,14 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdro
   background:var(--tint);border:1px solid var(--tint-2);border-radius:10px;padding:6px 12px;color:var(--dpk);font-weight:700}
 .menu a.nara .nara-sub{font-size:.68rem;font-weight:600;color:#4a6fa5;letter-spacing:-.01em}
 .menu a.nara:hover{background:var(--tint-2)}
+/* 2026-09-14 우리동네365 — 재정주권시민행동·3초확인 메뉴 통합 버튼 */
+.menu a.nara365{display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1.15;gap:2px;padding:7px 14px;border-radius:12px;color:#fff;
+  background:linear-gradient(135deg,#1E5C52 0%,#2F7F72 55%,#3B6EA8 100%);box-shadow:0 0 0 0 rgba(47,127,114,.45);animation:nara365-pulse 2.6s ease-out infinite;position:relative}
+.menu a.nara365 .n1{font-size:1rem;font-weight:900;letter-spacing:-.01em}
+.menu a.nara365 .n2{font-size:.68rem;font-weight:600;opacity:.92}
+.menu a.nara365:hover{color:#fff;filter:brightness(1.08);animation:none;box-shadow:0 6px 18px rgba(30,92,82,.35)}
+@keyframes nara365-pulse{0%{box-shadow:0 0 0 0 rgba(47,127,114,.45)}70%{box-shadow:0 0 0 10px rgba(47,127,114,0)}100%{box-shadow:0 0 0 0 rgba(47,127,114,0)}}
+@media(prefers-reduced-motion:reduce){.menu a.nara365{animation:none}}
 .menu .btn{padding:10px 20px}
 .menu a.btn-primary{color:#fff}
 .burger{display:none;background:none;border:0;cursor:pointer;padding:8px}
@@ -487,7 +495,7 @@ footer .flink:hover{color:#fff}
 /* nav fit fix (2026-08-31) */
 @media(min-width:641px){.nav{max-width:1340px}.menu{gap:14px}.menu a{font-size:.86rem}}
 @media(min-width:641px) and (max-width:1260px){.menu{gap:11px}.menu a{font-size:.82rem}.brand .tag{display:none}}
-@media(min-width:641px) and (max-width:1140px){.menu{gap:8px}.menu a{font-size:.75rem}.menu a.nara{padding:5px 8px}.home-link{display:none}}
+@media(min-width:641px) and (max-width:1140px){.menu{gap:8px}.menu a{font-size:.75rem}.menu a.nara{padding:5px 8px}.menu a.nara365{padding:5px 10px}.menu a.nara365 .n1{font-size:.85rem}.menu a.nara365 .n2{display:none}.home-link{display:none}}
 </style>
 <!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
 <script src="assets/kb-format.js"></script>
@@ -505,8 +513,7 @@ footer .flink:hover{color:#fff}
       <a href="press.html">언론보도</a>
       <a href="report.html">소통·제보</a>
       <a href="games.html">미니게임</a>
-      <a href="pledge.html" style="color:#C4553A;font-weight:800">재정주권시민행동 함께하기</a>
-      <a href="narasalim.html" class="nara">🔍 우리동네 예산·정책·계약 3초 확인</a>
+      <a href="narasalim.html" class="nara365" aria-label="우리동네365 — 우리 동네 예산·집행·계약 3초 확인, 재정주권시민행동"><span class="n1">🏘️ 우리동네365</span><span class="n2">예산·집행·계약 3초 확인 · 재정주권시민행동</span></a>
       <a href="#join" class="btn btn-primary">함께하기</a>
     </nav>
     <button class="burger" id="burger" aria-label="메뉴 열기"><span></span><span></span><span></span></button>
@@ -875,7 +882,7 @@ footer .flink:hover{color:#fff}
           <div class="bio-val">전라남도 강진군의회 의원(제8·9대) · 제9대 전반기 의장 · 더민주전국혁신회의 상임대표 · 더민주청년혁신회의 상임대표 · (사)한국청년문화예술인협회 창립회장</div>
         </div>
       </div>
-      <div class="record-more"><a href="narasalim.html">김보미가 AI로 직접 만든 '나라살림 돋보기' — 우리동네 예산·정책 3초 확인 &rarr;</a><a href="#journey">김보미 약력·의정 기록 &rarr;</a></div>
+      <div class="record-more"><a href="narasalim.html">김보미가 AI로 직접 만든 '우리동네365' — 우리 동네 예산·집행·계약 3초 확인 &rarr;</a><a href="#journey">김보미 약력·의정 기록 &rarr;</a></div>
     </div>
   </section>
 
@@ -1033,7 +1040,7 @@ footer .flink:hover{color:#fff}
         <a class="flink" href="game.html">계란으로 바위치기 게임</a>
         <a class="flink" href="gacha.html">공약 뽑기 · 25개 약속 수집</a>
         <a class="flink" href="report.html">제보센터</a>
-        <a class="flink" href="narasalim.html">우리동네 예산·정책·계약 3초 확인</a>
+        <a class="flink" href="narasalim.html">우리동네365 — 예산·집행·계약 3초 확인</a>
         <a class="flink" href="privacy.html">개인정보처리방침</a>
       </div>
       <div>
