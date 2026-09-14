@@ -37,21 +37,22 @@ module.exports = async (req, res) => {
     const fyrs = q.fyr ? [String(q.fyr)] : [yNow, yNow - 1].map(String);
     const dates = lastNDates(6);
 
-    /* 무한 대기 방지: 요청별 6초 타임아웃 + 전체 20초 데드라인 */
-    const deadline = Date.now() + 20000;
+    /* 무한 대기 방지: 요청별 6초 타임아웃. fyr x date 조합(최대 12개)을 순차로 기다리면
+       원천(lofin365)이 느릴 때 조합 수만큼 지연이 누적된다(점검에서 24초).
+       동시에 쏘고 우선순위(최신 연도·최신 날짜) 순으로 첫 성공 조합을 골라 지연을 없앤다. */
+    const combos = [];
+    for (const fyr of fyrs) for (const date of dates) combos.push({ fyr, date });
+    const results = await Promise.allSettled(combos.map(({ fyr, date }) => {
+      const url = buildUrl(KEY, fyr, date, lafCd);
+      return fetch(url, { signal: AbortSignal.timeout(6000) })
+        .then(r => r.ok ? r.json() : null)
+        .then(raw => extractRows(raw));
+    }));
     let rows = null, usedDate = null, usedFyr = null;
-    outer:
-    for (const fyr of fyrs) {
-      for (const date of dates) {
-        if (Date.now() > deadline) break outer;
-        const url = buildUrl(KEY, fyr, date, lafCd);
-        let r;
-        try { r = await fetch(url, { signal: AbortSignal.timeout(6000) }); } catch (e) { continue; }
-        if (!r.ok) continue;
-        let raw; try { raw = await r.json(); } catch (e) { continue; }
-        const ex = extractRows(raw);
-        if (ex && ex.length) { rows = ex; usedDate = date; usedFyr = fyr; break outer; }
-      }
+    for (let i = 0; i < combos.length; i++) {
+      const settled = results[i];
+      const ex = settled.status === "fulfilled" ? settled.value : null;
+      if (ex && ex.length) { rows = ex; usedDate = combos[i].date; usedFyr = combos[i].fyr; break; }
     }
 
     if (!rows || !rows.length) {
