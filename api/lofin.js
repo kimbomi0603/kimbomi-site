@@ -129,6 +129,8 @@ module.exports = async (req, res) => {
   if (q.fyr) p.set("fyr", String(q.fyr));
   if (q.laf_cd) p.set("laf_cd", String(q.laf_cd));
   if (q.exe_ymd) p.set("exe_ymd", String(q.exe_ymd));
+  /* 허브별 추가 검색인자 통과(화이트리스트) — 계약현황 WCEGCF: smz_ctrt_ymd(계약일자, 필수) 등 */
+  for (const k of ["smz_ctrt_ymd","ctrt_mth_nm","ctrt_knd_nm","ctrt_trgt_nm","clt_nm","wa_laf_cd","acnt_dv_cd","dbiz_cd","fld_cd","part_cd","prog_cd","sect_cd"]) if (q[k] != null && String(q[k]).length <= 80) p.set(k, String(q[k]));
 
   const url = `${HUB_BASE}/${hub}?${p.toString()}`;
   try {
