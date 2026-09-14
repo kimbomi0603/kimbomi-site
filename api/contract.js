@@ -356,7 +356,8 @@ module.exports = async (req, res) => {
      권익위 반부패(1140100/NcpBaService_v3) 등 apis.data.go.kr 계열 (Hobby 함수 제한으로 통합) */
   if (q.dg) {
     if (!KEY2) return res.status(200).json({ ok: false, error: "G2B_API_KEY2 미설정" });
-    const mg = String(q.dg).match(/^(\d{5,10}|B\d{6})\/([A-Za-z0-9_.\-]{2,80})\/([A-Za-z0-9_]{2,90})$/);
+    /* 2026-09-14: 조달청 나라장터 신규 서비스(1230000/ad|as|ao/서비스/오퍼)는 경로가 4단이라 서비스 세그먼트에 하위 경로를 허용한다 */
+    const mg = String(q.dg).match(/^(\d{5,10}|B\d{6})\/((?:(?:ad|as|ao)\/)?[A-Za-z0-9_.\-]{2,80})\/([A-Za-z0-9_]{2,90})$/);
     if (!mg) return res.status(200).json({ ok: false, error: "dg=기관코드/서비스/오퍼 형식 필요" });
     const qs4 = new URLSearchParams();
     for (const k of Object.keys(q)) {
