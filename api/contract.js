@@ -474,6 +474,12 @@ module.exports = async (req, res) => {
 
   /* 낙찰맵 사전 워밍(크론·수동) — 최근 30일 낙찰 수집해 26시간 캐시 */
   if (q.warmawards) {
+    /* 크론 전용 작업(60초·원천 API 호출 다수) — CRON_SECRET 이 설정돼 있으면 외부 임의 호출을 막는다.
+       Vercel 크론은 Authorization: Bearer <CRON_SECRET> 를 자동으로 붙인다. 미설정이면 기존과 동일하게 동작. */
+    const CRON_SECRET = process.env.CRON_SECRET || "";
+    if (CRON_SECRET && (req.headers && req.headers.authorization) !== "Bearer " + CRON_SECRET) {
+      return res.status(401).json({ ok: false, error: "unauthorized" });
+    }
     if (!KEY2) return res.status(200).json({ ok: false, error: "G2B_API_KEY2 미설정" });
     try {
       const w = await fetchAwardMap(30, true);
