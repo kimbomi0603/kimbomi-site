@@ -42,6 +42,10 @@ function groupDims(result){
 
 
 const CRON_SECRET = process.env.CRON_SECRET || '';
+function safeEq(a, b){
+  const c = require('crypto');
+  return c.timingSafeEqual(c.createHash('sha256').update(String(a)).digest(), c.createHash('sha256').update(String(b)).digest());
+}
 function kstDateFrom(ms){ return new Date(ms + 9*3600*1000).toISOString().slice(0,10); }
 var DOW = ['일','월','화','수','목','금','토'];
 function dow(dstr){ try { return DOW[new Date(dstr+'T00:00:00+09:00').getDay()]; } catch(e){ return ''; } }
@@ -52,9 +56,12 @@ function pctc(a,b){ if(!b) return a>0?'신규':'0%'; var d=Math.round((a-b)/b*10
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control','no-store');
   const action = (req.query.action || 'overview');
-  const key = req.query.key || req.headers['x-admin-key'] || '';
-  const isAdmin = ADMIN_KEY && key === ADMIN_KEY;
-  const isReporter = REPORT_TOKEN && key === REPORT_TOKEN;
+  /* 관리자 키는 x-admin-key 헤더로만 받는다(쿼리스트링 키는 접근 로그에 남음 — admin.html은 이미 헤더로 보냄).
+     외부 리포트 스크립트 호환을 위해 REPORT_TOKEN만 쿼리 키를 계속 허용한다. 비교는 상수 시간. */
+  const hkey = String(req.headers['x-admin-key'] || '');
+  const qkey = String(req.query.key || '');
+  const isAdmin = !!ADMIN_KEY && safeEq(hkey, ADMIN_KEY);
+  const isReporter = !!REPORT_TOKEN && (safeEq(hkey, REPORT_TOKEN) || safeEq(qkey, REPORT_TOKEN));
 
   if (!RURL || !RTOK) { res.status(200).json({ ok:false, configured:false }); return; }
   if (action === 'cronreport') {
