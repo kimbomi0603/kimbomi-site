@@ -87,6 +87,11 @@ module.exports = async (req, res) => {
         실패·불완전 시 기존 스냅샷 유지(임의 숫자 대체 절대 금지) ── */
   if (q.snaprefresh) {
     noStore();
+    /* force=1(40시간 주기 무시 전수 재수집)은 CRON_SECRET 이 설정돼 있으면 비밀값을 요구한다. 미설정이면 기존과 동일. */
+    const CRON_SECRET = process.env.CRON_SECRET || "";
+    if (q.force && CRON_SECRET && (req.headers && req.headers.authorization) !== "Bearer " + CRON_SECRET) {
+      return res.status(401).json({ ok: false, error: "unauthorized" });
+    }
     const last = await kvGet("snap:fiscal:last");
     const now = Date.now();
     if (!q.force && last && (now - last.ts) < 40*3600*1000) {
