@@ -1,0 +1,41 @@
+/* 김보미.com — 괘선 장부(구) 토큰 · about/party-money 전용 (추후 신규 디자인으로 통합 예정) */
+:root{
+  --paper:#F7F3E8; --paper2:#FFFDF7; --ink:#1B1B18; --ink2:#4A4740;
+  --navy:#0E2A47; --red:#B8402A; --gold:#E0A43C; --teal:#2F6F5E;
+  --rule:#D8CFBB; --rule2:#BFB59C;
+  --serif:"Noto Serif KR",serif; --sans:"Noto Sans KR",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;
+  background-image:repeating-linear-gradient(180deg,transparent 0,transparent 35px,rgba(191,181,156,.16) 35px,rgba(191,181,156,.16) 36px)}
+a{color:inherit}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:700;letter-spacing:-.02em;margin:0}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+.rule{border:0;border-top:1px solid var(--rule);margin:0}
+.topbar{position:sticky;top:0;z-index:50;background:var(--navy);color:#F7F3E8;border-bottom:2px solid var(--gold)}
+.topbar .wrap{display:flex;align-items:center;gap:18px;height:56px}
+.brand{font-family:var(--serif);font-weight:900;font-size:1.12rem;text-decoration:none;letter-spacing:-.02em;white-space:nowrap}
+.brand .dot{color:var(--gold)}
+.tnav{margin-left:auto;display:flex;gap:16px;overflow-x:auto;scrollbar-width:none}
+.tnav::-webkit-scrollbar{display:none}
+.tnav a{font-size:.86rem;text-decoration:none;opacity:.86;white-space:nowrap;padding:4px 0;border-bottom:1px solid transparent}
+.tnav a:hover{opacity:1;border-bottom-color:var(--gold)}
+.tnav a.on{opacity:1;border-bottom-color:var(--gold);font-weight:700}
+.sec{padding:52px 0;border-top:1px solid var(--rule)}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;color:var(--ink2);text-transform:uppercase;margin:0 0 10px}
+.sec h2{font-size:1.72rem;line-height:1.35}
+.sec .sub{color:var(--ink2);margin:8px 0 0;font-size:.97rem}
+.lead{font-size:1.04rem;color:var(--ink2)}
+.grid{display:grid;border-top:1px solid var(--rule2);border-left:1px solid var(--rule2);background:var(--paper2)}
+.grid > *{border-right:1px solid var(--rule2);border-bottom:1px solid var(--rule2);padding:18px 20px}
+.btn{display:inline-block;font-family:var(--sans);font-weight:700;font-size:.92rem;text-decoration:none;
+  padding:11px 20px;border:1px solid var(--navy);background:var(--navy);color:var(--paper)}
+.btn:hover{background:#163a5f}
+.btn.ghost{background:transparent;color:var(--navy)}
+.btn.ghost:hover{background:rgba(14,42,71,.06)}
+footer.site{background:var(--navy);color:#EFE8D8;margin-top:0;border-top:2px solid var(--gold)}
+footer.site a{color:#EFE8D8;text-decoration:none}
+footer.site a:hover{color:var(--gold)}
+@media(max-width:720px){body{font-size:15px}.sec{padding:38px 0}.sec h2{font-size:1.42rem}}

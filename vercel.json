@@ -21,6 +21,16 @@
       ],
       "destination": "https://www.xn--4k0b53xuva.com/:path*",
       "permanent": true
+    },
+    {
+      "source": "/narasalim.html",
+      "destination": "/budget365.html",
+      "permanent": true
+    },
+    {
+      "source": "/narasalim",
+      "destination": "/budget365.html",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -133,6 +143,15 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/data/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
         }
       ]
     }
