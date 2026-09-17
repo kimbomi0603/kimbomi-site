@@ -41,6 +41,9 @@ h1,h2,h3{font-family:var(--disp);letter-spacing:-.025em}
 .brand:hover{color:#F5F0E4}
 .brand .mk{width:28px;height:28px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-family:var(--mono);font-size:11px;font-weight:600;flex:none}
 .brand small{font-family:var(--mono);font-size:9.5px;color:rgba(245,240,228,.55);letter-spacing:.14em;font-weight:500;padding:2px 5px;border:1px solid rgba(245,240,228,.25)}
+.gohome{display:flex;align-items:center;gap:7px;text-decoration:none;color:rgba(245,240,228,.82);font-size:12.5px;font-weight:500;padding:8px 11px;border:1px solid rgba(245,240,228,.28);margin-bottom:-4px}
+.gohome:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.gohome span{font-family:var(--mono)}
 .search{position:relative;width:100%;margin:0}
 .search input{width:100%;padding:8px 10px 8px 32px;border:1px solid rgba(245,240,228,.28);background:rgba(245,240,228,.07);color:#F5F0E4;font-size:13px;font-family:inherit}
 .search input::placeholder{color:rgba(245,240,228,.45)}
@@ -62,6 +65,7 @@ h1,h2,h3{font-family:var(--disp);letter-spacing:-.025em}
   .nav{flex-direction:row;border-top:0;order:3;width:100%;overflow-x:auto}
   .nav a{border-bottom:0;border-right:1px solid rgba(245,240,228,.14);white-space:nowrap}
   .search{margin-left:auto;width:min(300px,46%)}.sug{right:0}
+  .gohome{order:-1;width:100%;margin:0;padding:6px 0;border:0;border-bottom:1px solid rgba(245,240,228,.16);font-size:12px}
   .stamp{display:none}
 }
 
@@ -244,6 +248,7 @@ tr.row{cursor:pointer}tr.row:hover td{background:var(--gold-soft)!important}
 <body>
 
 <header class="top"><div class="wrap">
+  <a class="gohome" href="index.html" aria-label="김보미.com 홈으로 돌아가기"><span aria-hidden="true">←</span> 김보미.com 홈으로</a>
   <a class="brand" href="#/"><span class="mk">365</span>우리동네365</a>
   <nav class="nav"><a href="index.html">김보미.com</a><a href="#/" id="navHome">전국</a><a href="#/sido/전남광주통합특별시">전남·광주</a><a href="#/sido/인천광역시">인천</a><a href="#/sido/서울특별시">서울</a></nav>
   <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="q" type="search" placeholder="동네 이름 · 사업 키워드 (예: 강진군, 노인일자리)" autocomplete="off" aria-label="지자체 검색"><div class="sug" id="sug"></div></div>
@@ -882,7 +887,7 @@ function bindSearch(q,sug){ if(!q||!sug||q._bound) return; q._bound=1; let cur=-
 bindSearch(document.getElementById('q'),document.getElementById('sug'));
 document.addEventListener('click',e=>{ if(!e.target.closest('.search')&&!e.target.closest('.bigq')) document.querySelectorAll('.sug').forEach(s=>s.style.display='none'); });
 
-function footer(){ return `<b>우리동네365</b> — 재정주권시민행동. 자료는 원문 그대로 싣고 값을 만들지 않습니다. 확인되지 않은 값은 '—'로 비웁니다. 갱신 주기: 세부사업 집행(당해) 일 단위 · 계약 일 단위 · 재정공시·청렴도·금고이자율 연 단위. 2026.7.1 행정체계 개편(전남광주통합특별시·인천 4개 구)은 화면 표기에 반영했고, 재정 데이터 키는 2024 공시 체계를 유지합니다. 데이터 층 v${S.index?.v||1} · 빌드 ${S.index?.built_at?.slice(0,10)||''}`; }
+function footer(){ return `<a href="index.html" style="color:var(--gold);font-weight:600;text-decoration:none">← 김보미.com 홈으로</a> &nbsp;·&nbsp; <a href="about.html" style="color:inherit">김보미는</a> &nbsp;·&nbsp; <a href="https://taxwatch.kr/" target="_blank" rel="noopener" style="color:inherit">재정주권시민행동 ↗</a><br><b>우리동네365</b> — 재정주권시민행동. 자료는 원문 그대로 싣고 값을 만들지 않습니다. 확인되지 않은 값은 '—'로 비웁니다. 갱신 주기: 세부사업 집행(당해) 일 단위 · 계약 일 단위 · 재정공시·청렴도·금고이자율 연 단위. 2026.7.1 행정체계 개편(전남광주통합특별시·인천 4개 구)은 화면 표기에 반영했고, 재정 데이터 키는 2024 공시 체계를 유지합니다. 데이터 층 v${S.index?.v||1} · 빌드 ${S.index?.built_at?.slice(0,10)||''}`; }
 loadIndex().then(route).catch(e=>{ document.getElementById('app').innerHTML=`<div class="wrap"><div class="loading">색인을 불러오지 못했습니다 — ${esc(e.message)}</div></div>`; });
 </script>
 </body>
