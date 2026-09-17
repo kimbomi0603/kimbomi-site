@@ -256,6 +256,15 @@ tr.row{cursor:pointer}tr.row:hover td{background:var(--gold-soft)!important}
 <script>
 /* ═══════════ 표시 정책: 값이 없으면 '—'. 0으로 대체하지 않는다. 진짜 0은 0으로 ═══════════ */
 const NA='—';
+/* 지자체 합동평가(행안부, 17개 시·도) — index.json joint. 원문이 상위 시·도만 밝힌 값은 비워 둔다 */
+function jeList(cd){ const J=S.index?.joint||{}; if(cd==='6100000') return [...(J['2900000']||[]),...(J['4600000']||[])].sort((a,b)=>a.y-b.y||a.nm.localeCompare(b.nm)); return J[cd]||[]; }
+function jeTable(cd){ const J=jeList(cd); if(!J.length) return '';
+  const cell=(v,u)=>v==null?'<span class="mut">원문 미공개</span>':'<b>'+v+'</b>'+u;
+  return `<div class="card" style="margin-top:12px"><h3>지자체 합동평가 5년 <span class="basis">행정안전부 · 정부업무평가위원회 · ${J[0].div}</span></h3>
+  <div class="tw"><table><thead><tr><th>평가연도(실적)</th>${J.some(x=>x.nm!==J[0].nm)?'<th>시·도</th>':''}<th class="num">정량 목표달성도</th><th class="num">정성 우수사례</th><th class="num">국민평가 선정</th><th>출처</th></tr></thead><tbody>
+  ${J.map(x=>`<tr><td>${x.y} (${x.py})</td>${J.some(z=>z.nm!==J[0].nm)?`<td>${esc(x.nm)}</td>`:''}<td class="num">${cell(x.q,'%')}${x.qr?` <span class="mut">${x.div} ${esc(String(x.qr))}위</span>`:''}</td><td class="num">${cell(x.s,'건')}</td><td class="num">${cell(x.p,'건')}</td><td class="mut">${esc(x.src)}</td></tr>`).join('')}
+  </tbody></table></div>
+  <div class="mut" style="margin-top:8px">원문(결과보고서·보도자료)은 정량 달성도와 일부 연도 정성 건수를 <b>상위 시·도만</b> 공개합니다. 공개되지 않은 값은 '원문 미공개'로 두었습니다.</div></div>`; }
 const isN=v=>v!=null&&v!==''&&isFinite(Number(v));
 const won=v=>{ if(!isN(v)) return NA; v=Number(v); const a=Math.abs(v); const s=v<0?'-':'';
   if(a>=1e12) return s+(a/1e12).toLocaleString('ko-KR',{maximumFractionDigits:2})+'조원';
@@ -439,13 +448,14 @@ function renderLg(lg){ const m=lg.master, cd=lg.laf_cd, F=lg.fiscal||{}; const y
   <div class="mut" style="margin-top:8px">가장 취약한 분야 — <b>${(()=>{const F=['교통사고','화재','범죄','생활안전','자살','감염병'];const mx=Math.max(...X.safety_2025);return F.filter((f,i)=>X.safety_2025[i]===mx).join('·')+' '+mx+'등급';})()}</b> · 가장 안전한 분야 — <b>${(()=>{const F=['교통사고','화재','범죄','생활안전','자살','감염병'];const mn=Math.min(...X.safety_2025);return F.filter((f,i)=>X.safety_2025[i]===mn).join('·')+' '+mn+'등급';})()}</b></div></div>
   <div class="card"><h3>다른 정부 평가</h3><div class="tw"><table><tbody>
   <tr><td>종합청렴도 (국민권익위 2025)</td><td class="num">${isN(X.integrity_2025)?'<b>'+X.integrity_2025+'</b>등급':NA}</td><td class="mut">${isN(X.integrity_2025)?'1등급이 최상 · 5등급제':'평가 대상 235곳에 미포함'}</td></tr>
-  <tr><td>지자체 합동평가 (행안부)</td><td class="num">${m.level==='광역'?'수집 중':'—'}</td><td class="mut">${m.level==='광역'?'17개 시·도만 대상':'시·도만 평가하므로 기초는 해당 없음'}</td></tr>
+  <tr><td>지자체 합동평가 (행안부)</td><td class="num">${(()=>{const J=jeList(cd);if(!J.length) return m.level==='광역'?NA:'—';const L=J[J.length-1];return '국민평가 <b>'+L.p+'</b>건';})()}</td><td class="mut">${(()=>{const J=jeList(cd);if(!J.length) return m.level==='광역'?'원문에 없음':'시·도만 평가하므로 기초는 해당 없음';const L=J[J.length-1];return L.y+'년 평가('+L.py+'년 실적)'+(J.some(x=>x.nm!==J[0].nm)?' · 통합 전 광주·전남':'')+' · 아래 5년 표';})()}</td></tr>
   <tr><td>재정분석·재정진단 (행안부)</td><td class="num">아직 없음</td><td class="mut">공표 자료 수집 중</td></tr>
   <tr><td>민원서비스 종합평가</td><td class="num">아직 없음</td><td class="mut">공표 자료 수집 중</td></tr>
   <tr><td>적극행정 종합평가</td><td class="num">아직 없음</td><td class="mut">공표 자료 수집 중</td></tr>
   <tr><td>지자체 혁신평가</td><td class="num">아직 없음</td><td class="mut">공표 자료 수집 중</td></tr>
   </tbody></table></div>
-  <div class="mut" style="margin-top:8px">확인되지 않은 값은 만들지 않습니다. 원문 공표자료를 대조한 뒤 채워 넣습니다.</div></div></div></section>`:''}
+  <div class="mut" style="margin-top:8px">확인되지 않은 값은 만들지 않습니다. 원문 공표자료를 대조한 뒤 채워 넣습니다.</div></div></div>
+  ${jeTable(cd)}</section>`:''}
 
   <p class="src">출처 — 지방재정365 재정공시(허브 18종, 2020~2026) · 세부사업별 세출(QWGJK) 2022~2025 연말, 2026 ${ymd(e26?.exe_ymd)} · 국민권익위 2025 종합청렴도 · 행정안전부 2025 지역안전지수(2026.1.13 공표) · 행안부 금고 이자율 2026.1.27 · 주민등록 2026.7 · 자료 빌드 ${lg.built_at.slice(0,10)}</p></div>`;
   document.getElementById('foot').innerHTML=footer();

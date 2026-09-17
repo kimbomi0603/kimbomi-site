@@ -368,7 +368,24 @@ module.exports = async (req, res) => {
     if (!q.nodef) {
       if (!qs4.get("pageNo")) qs4.set("pageNo", "1");
       if (!qs4.get("numOfRows")) qs4.set("numOfRows", "20");
-      if (!qs4.get("resultType") && !qs4.get("_type")) qs4.set("resultType", "json");
+      /* 2026-09-18: 조달청(1230000) 서비스는 type=json·inqryDiv·조회기간(inqryBgnDt/inqryEndDt, yyyyMMddHHmm)이 없으면
+         오류 없이 0건을 돌려준다 → 빠진 값을 기본값(최근 7일)으로 채운다. 흔한 오기(inqryBgnDate 등)도 받아준다. */
+      if (mg[1] === "1230000") {
+        if (!qs4.get("type")) qs4.set("type", "json");
+        [["inqryBgnDate", "inqryBgnDt"], ["inqryEndDate", "inqryEndDt"]].forEach(function (pr) {
+          if (qs4.get(pr[0]) && !qs4.get(pr[1])) { qs4.set(pr[1], qs4.get(pr[0])); qs4.delete(pr[0]); }
+        });
+        ["inqryBgnDt", "inqryEndDt"].forEach(function (k) {
+          const v = qs4.get(k);
+          if (v && /^\d{8}$/.test(v)) qs4.set(k, v + (k === "inqryBgnDt" ? "0000" : "2359"));
+        });
+        if (!qs4.get("inqryDiv")) qs4.set("inqryDiv", "1");
+        if (qs4.get("inqryDiv") === "1" && (!qs4.get("inqryBgnDt") || !qs4.get("inqryEndDt"))) {
+          const w7 = windows(7)[0];
+          if (!qs4.get("inqryBgnDt")) qs4.set("inqryBgnDt", w7[0]);
+          if (!qs4.get("inqryEndDt")) qs4.set("inqryEndDt", w7[1]);
+        }
+      } else if (!qs4.get("resultType") && !qs4.get("_type")) qs4.set("resultType", "json");
     }
     const ck4 = "dg:v1:" + q.dg + ":" + qs4.toString();
     const cached4 = q.fresh ? null : await kvGet(ck4);
