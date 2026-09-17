@@ -5,17 +5,24 @@
 .kbx-strip b{color:#C99A2E}
 .kbx-strip a{color:#E8EEF8;text-decoration:none}
 .kbx-hdr{background:#F5F2EA;border-bottom:1px solid #E4DFD3;position:sticky;top:0;z-index:90;margin:0;padding:0;width:100%}
-.kbx-hdr .kbx-w{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:20px;height:62px}
+.kbx-hdr .kbx-w{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:14px;height:64px}
 .kbx-hdr .kbx-brand{font-family:"Noto Serif KR",serif;font-weight:900;font-size:18.5px;color:#0F5A4A;white-space:nowrap;text-decoration:none;letter-spacing:-.02em}
-.kbx-hdr nav{margin-left:auto;display:flex;gap:20px;font-size:14px;overflow-x:auto;scrollbar-width:none;background:none;position:static;padding:0;border:0}
+.kbx-hdr nav{margin-left:auto;margin-right:6px;display:flex;gap:20px;font-size:14px;overflow-x:auto;scrollbar-width:none;background:none;position:static;padding:0;border:0}
 .kbx-hdr nav::-webkit-scrollbar{display:none}
 .kbx-hdr nav a{white-space:nowrap;padding:4px 0;border-bottom:2px solid transparent;color:#3E4045;text-decoration:none;font-weight:400;background:none}
 .kbx-hdr nav a:hover,.kbx-hdr nav a.on{border-bottom-color:#0F5A4A;color:#0F5A4A;font-weight:700}
-.kbx-hdr .kbx-join{background:#0F5A4A;color:#fff;font-size:13.5px;font-weight:700;padding:8px 16px;border-radius:8px;white-space:nowrap;text-decoration:none}
-.kbx-hdr .kbx-join:hover{background:#0B4639;color:#fff}
+.kbx-hdr .kbx-365{display:inline-flex;align-items:center;gap:9px;background:#0F5A4A;color:#fff;padding:7px 15px 7px 11px;border-radius:10px;text-decoration:none;white-space:nowrap;box-shadow:0 4px 14px rgba(15,90,74,.22)}
+.kbx-hdr .kbx-365:hover{background:#0B4639;color:#fff}
+.kbx-hdr .kbx-365 svg{width:20px;height:20px;fill:none;stroke:#F0D48A;stroke-width:2;stroke-linecap:round}
+.kbx-hdr .kbx-365 span{display:flex;flex-direction:column;line-height:1.2}
+.kbx-hdr .kbx-365 b{font-size:14px;font-weight:700;letter-spacing:-.02em}
+.kbx-hdr .kbx-365 em{font-style:normal;font-size:10.5px;color:#F0D48A;font-weight:500}
+.kbx-hdr .kbx-join{background:transparent;color:#0F5A4A;border:1.5px solid #0F5A4A;font-size:13.5px;font-weight:700;padding:7px 14px;border-radius:8px;white-space:nowrap;text-decoration:none}
+.kbx-hdr .kbx-join:hover{background:#0F5A4A;color:#fff}
 @media(max-width:760px){
   .kbx-hdr .kbx-w{height:auto;flex-wrap:wrap;gap:6px 12px;padding:10px 16px 0}
-  .kbx-hdr .kbx-join{margin-left:auto;padding:7px 13px}
+  .kbx-hdr .kbx-365{margin-left:auto;padding:6px 12px 6px 9px}
+  .kbx-hdr .kbx-join{padding:6px 11px}
   .kbx-hdr nav{order:3;width:100%;margin:0;gap:18px;padding:4px 0 0}
   .kbx-hdr nav a{padding:8px 0 9px;font-size:14.5px}
 }

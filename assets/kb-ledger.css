@@ -19,14 +19,20 @@ h1,h2,h3,h4{font-family:var(--serif);font-weight:700;margin:0;letter-spacing:-.0
 
 /* 헤더 */
 .hdr{background:var(--cream);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
-.hdr .w{display:flex;align-items:center;gap:20px;height:62px}
+.hdr .w{display:flex;align-items:center;gap:14px;height:64px}
 .hdr .brand{font-family:var(--serif);font-weight:900;font-size:1.16rem;color:var(--green);white-space:nowrap}
-.hdr nav{margin-left:auto;display:flex;gap:20px;font-size:.86rem;color:#3E4045;overflow-x:auto;scrollbar-width:none}
+.hdr nav{margin-left:auto;margin-right:6px;display:flex;gap:20px;font-size:.86rem;color:#3E4045;overflow-x:auto;scrollbar-width:none}
 .hdr nav::-webkit-scrollbar{display:none}
 .hdr nav a{white-space:nowrap;padding:4px 0;border-bottom:2px solid transparent}
 .hdr nav a:hover,.hdr nav a.on{border-bottom-color:var(--green);color:var(--green);font-weight:700}
-.hdr .join{background:var(--green);color:#fff;font-size:.84rem;font-weight:700;padding:8px 16px;border-radius:8px;white-space:nowrap}
-.hdr .join:hover{background:var(--green2)}
+.hdr .k365{display:inline-flex;align-items:center;gap:9px;background:var(--green);color:#fff;padding:7px 15px 7px 11px;border-radius:10px;white-space:nowrap;box-shadow:0 4px 14px rgba(15,90,74,.22)}
+.hdr .k365:hover{background:var(--green2)}
+.hdr .k365 svg{width:20px;height:20px;fill:none;stroke:#F0D48A;stroke-width:2;stroke-linecap:round}
+.hdr .k365 span{display:flex;flex-direction:column;line-height:1.2}
+.hdr .k365 b{font-size:.875rem;font-weight:700;letter-spacing:-.02em}
+.hdr .k365 em{font-style:normal;font-size:.66rem;color:#F0D48A;font-weight:500}
+.hdr .join{background:transparent;color:var(--green);border:1.5px solid var(--green);font-size:.84rem;font-weight:700;padding:7px 14px;border-radius:8px;white-space:nowrap}
+.hdr .join:hover{background:var(--green);color:#fff}
 
 /* 섹션 */
 .sec{padding:34px 0}
@@ -38,7 +44,8 @@ footer.site a:hover{color:var(--gold)}
 @media(max-width:760px){body{font-size:15px}}
 @media(max-width:760px){
   .hdr .w{height:auto;flex-wrap:wrap;gap:6px 12px;padding:10px 16px 0}
-  .hdr .join{margin-left:auto;padding:7px 13px}
+  .hdr .k365{margin-left:auto;padding:6px 12px 6px 9px}
+  .hdr .join{padding:6px 11px}
   .hdr nav{order:3;width:100%;margin:0;gap:18px;padding:4px 0 0}
   .hdr nav a{padding:8px 0 9px;font-size:.9rem}
 }

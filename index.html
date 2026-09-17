@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>김보미 — 재정주권시민행동 공동대표 · 前 강진군의회 의장</title>
-<meta name="description" content="내 세금이 어디로 가는지, 시민이 직접 보는 나라를 만듭니다. 전국 최연소 기초의회 의장을 지낸 재정주권 시민운동가 김보미 — 243개 지방정부의 예산·집행·계약을 3초에 확인하는 「우리동네365」.">
+<title>김보미 — 공정과 미래, 정치개혁을 시스템으로 | 재정주권시민행동 공동대표</title>
+<meta name="description" content="기득권의 밀실을 열고, 풀뿌리에서 세대교체를 만들고, 정치개혁을 제도로 남깁니다. 전국 최연소 기초의회 의장을 지낸 김보미 — 243개 지방정부의 예산·집행·계약을 시민이 직접 감시하는 「우리동네365」.">
 <link rel="canonical" href="https://www.xn--4k0b53xuva.com/">
-<meta property="og:type" content="website"><meta property="og:title" content="김보미 — 재정주권시민행동 공동대표">
-<meta property="og:description" content="내 세금이 어디로 가는지, 시민이 직접 보는 나라를 만듭니다.">
+<meta property="og:type" content="website"><meta property="og:title" content="김보미 — 공정과 미래, 정치개혁을 시스템으로">
+<meta property="og:description" content="밀실은 열고, 기득권은 깨고, 공정과 미래를 시스템으로 만듭니다.">
 <meta property="og:url" content="https://www.xn--4k0b53xuva.com/">
 <meta property="og:image" content="https://www.xn--4k0b53xuva.com/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -59,6 +59,25 @@
 .mb.navy .k,.mb.navy .go{color:var(--navy)}
 .mb.navy:hover{border-color:var(--navy);box-shadow:0 10px 26px rgba(22,48,90,.10)}
 @media(prefers-reduced-motion:reduce){.mb,.mb .go i{transition:none}.mb:hover{transform:none}}
+
+/* ── 우리동네365 전면 배치 ── */
+.f365{display:grid;grid-template-columns:1.25fr 1fr;gap:30px;align-items:center;background:var(--green);color:#fff;border-radius:18px;padding:34px 36px;margin-top:8px;transition:transform .16s,box-shadow .16s}
+.f365:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(15,90,74,.22)}
+.f365:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.f365 .k{font-size:.8rem;font-weight:700;color:#F0D48A}
+.f365 h2{font-size:2.5rem;color:#fff;margin-top:6px;font-weight:900;letter-spacing:-.04em;line-height:1.2}
+.f365 p{margin:12px 0 0;font-size:.98rem;line-height:1.85;color:rgba(255,255,255,.9);max-width:560px}
+.f365 .go{display:inline-flex;align-items:center;gap:10px;margin-top:20px;background:#fff;color:var(--green2);font-weight:700;font-size:.95rem;padding:11px 20px;border-radius:10px}
+.f365 .go i{font-style:normal;transition:transform .16s}.f365:hover .go i{transform:translateX(4px)}
+.f365 .fr{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.f365 .fr div{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:16px 18px}
+.f365 .fr b{display:block;font-family:var(--mono);font-size:1.7rem;line-height:1.2;color:#fff;font-variant-numeric:tabular-nums}
+.f365 .fr span{display:block;font-size:.78rem;color:rgba(255,255,255,.76);margin-top:4px;line-height:1.5}
+.m6.m4{grid-template-columns:repeat(4,1fr);margin-top:16px}
+.m6.m4 .mb{min-height:0;padding:20px 20px 18px}
+.m6.m4 .mb h3{font-size:1.24rem;margin-top:14px}
+.m6.m4 .mb p{font-size:.85rem}
+@media(prefers-reduced-motion:reduce){.f365,.f365 .go i{transition:none}.f365:hover{transform:none}}
 
 /* ── 기록관 배너 ── */
 .arch{display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-top:26px}
@@ -116,7 +135,9 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   .hpic{max-width:460px}
   .hbd h1{font-size:3.1rem}
   .hbd .slogan{font-size:1.3rem}
-  .m6{grid-template-columns:repeat(2,1fr)}
+  .m6,.m6.m4{grid-template-columns:repeat(2,1fr)}
+  .f365{grid-template-columns:1fr;padding:26px 22px;gap:20px}
+  .f365 h2{font-size:2rem}
   .pm{grid-template-columns:1fr}
   .vrow{grid-template-columns:1fr}
   .prow{grid-template-columns:repeat(2,1fr)}
@@ -124,7 +145,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   footer.site .fl{justify-content:flex-start}
 }
 @media(max-width:600px){
-  .m6{grid-template-columns:1fr}
+  .m6,.m6.m4{grid-template-columns:1fr}
   .mb{min-height:0}
   .prow{grid-template-columns:1fr}
   .hnum{grid-template-columns:repeat(2,1fr)}
@@ -137,19 +158,19 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 </head>
 <body>
 
-<div class="strip">☑ 최신 — <b>우리동네365</b> 전국 243개 지방정부 계약 5년치·업체 전국 역색인 공개 · 기준일 2026.09.13</div>
+<div class="strip"><b>우리동네365</b> — 전국 243개 지방정부의 예산·집행·계약, 시민이 직접 감시합니다 · 기준일 2026.09.13</div>
 
 <header class="hdr">
   <div class="w">
     <a class="brand" href="index.html">김보미.com</a>
     <nav>
-      <a href="budget365.html">우리동네365</a>
       <a href="https://taxwatch.kr/" target="_blank" rel="noopener">재정주권시민행동</a>
       <a href="about.html">김보미는</a>
       <a href="vision.html">김보미목소리</a>
       <a href="press.html">언론·영상</a>
       <a href="archive.html">기록관</a>
     </nav>
+    <a class="k365" href="budget365.html" aria-label="우리동네365 — 지방재정 감시·공공데이터"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg><span><b>우리동네365</b><em>지방재정 감시</em></span></a>
     <a class="join" href="pledge.html">함께하기</a>
   </div>
 </header>
@@ -160,10 +181,10 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 <section class="hero"><div class="w"><div class="hin">
   <figure class="hpic"><img src="img/kb-hero.jpg" alt="김보미" fetchpriority="high"></figure>
   <div class="hbd">
-    <p class="role">재정주권시민행동 공동대표</p>
+    <p class="role">재정주권시민행동 공동대표 · 前 강진군의회 의장</p>
     <h1>김보미</h1>
-    <p class="slogan">내 세금이 어디로 가는지,<br><em>시민이 직접 보는 나라</em>를 만듭니다.</p>
-    <p class="desc">스물셋에 “내 고장 강진에서부터 대한민국을 바꿔보겠다”며 정치를 시작했습니다. 스물여덟에 지역 최초의 청년 군의원이, 서른둘에 전국에서 가장 어린 기초의회 의장이 되었습니다. 지금은 재정주권시민행동 공동대표로, 세금의 주인이 국민이라는 당연한 원칙을 숫자로 확인하는 일을 합니다.</p>
+    <p class="slogan">밀실은 열고, 기득권은 깨고,<br><em>공정과 미래</em>를 시스템으로 만듭니다.</p>
+    <p class="desc">스물셋에 정치를 시작해 스물여덟에 지역 최초의 청년 군의원, 서른둘에 전국에서 가장 어린 기초의회 의장이 되었습니다. 풀뿌리에서 배운 것은 하나입니다. 사람만 바뀌고 제도가 그대로면 정치는 제자리로 돌아옵니다. 그래서 구호가 아니라 시스템을 바꿉니다. 공천은 공정하게, 예산은 투명하게, 세대는 앞으로.</p>
     <div class="hnum">
       <div><b>13년</b><span>정치 활동</span></div>
       <div><b>8년</b><span>지방의원 의정 활동</span></div>
@@ -173,28 +194,36 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   </div>
 </div></div></section>
 
-<!-- 2. 6개 메뉴 -->
+<!-- 2. 우리동네365 전면 배치 + 메뉴 4개 -->
 <section class="sec" style="padding-top:22px"><div class="w">
-  <div class="m6">
-    <a class="mb on" href="budget365.html">
-      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/><path d="M8.5 11h5M11 8.5v5"/></svg></span><span class="k">지방정부 예산 · 243곳</span></span>
-      <h3>우리동네365</h3>
-      <p>우리 동네 시청·군청·구청의 살림입니다. 동네 이름만 넣으면 올해 예산이 어디에 잡혔고, 얼마를 썼고, 어느 업체와 계약했는지 바로 나옵니다.</p>
-      <span class="meta">243개 시·도, 시·군·구 · 예산·집행 5년 · 계약 5년</span>
+  <a class="f365" href="budget365.html">
+    <div class="fl">
+      <span class="k">지방재정 감시 · 공공데이터</span>
+      <h2>우리동네365</h2>
+      <p>전국 243개 지방정부의 장부를 시민 앞에 펼쳤습니다. 동네 이름만 넣으면 올해 예산이 어디에 잡혔고, 얼마를 썼고, 어느 업체와 계약했는지 3초 안에 나옵니다. 감시가 제도가 되어야 세금이 제자리를 찾습니다.</p>
       <span class="go">내 동네 3초 확인 <i>→</i></span>
-    </a>
+    </div>
+    <div class="fr">
+      <div><b>243</b><span>시·도, 시·군·구 전부</span></div>
+      <div><b>468,403</b><span>올해 세부사업 · 2026.09.13</span></div>
+      <div><b>5년</b><span>예산·집행·계약을 해마다 비교</span></div>
+      <div><b>682만</b><span>계약대장 전수 · 2021~2026</span></div>
+    </div>
+  </a>
+
+  <div class="m6 m4">
     <a class="mb " href="about.html">
-      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.8 20c.9-3.7 3.8-5.6 7.2-5.6s6.3 1.9 7.2 5.6"/></svg></span><span class="k">사람</span></span>
+      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.8 20c.9-3.7 3.8-5.6 7.2-5.6s6.3 1.9 7.2 5.6"/></svg></span><span class="k">풀뿌리 13년</span></span>
       <h3>김보미는</h3>
-      <p>스물셋에 입당해 스물여덟에 군의원, 서른둘에 전국 최연소 기초의회 의장. 걸어온 길과 8년 의정 성과, 활동 사진을 모았습니다.</p>
+      <p>계파도 돈도 없이 지역에서 시작했습니다. 스물여덟에 군의원, 서른둘에 전국 최연소 기초의회 의장. 걸어온 길과 8년 의정 성과를 기록으로 남겼습니다.</p>
       <span class="meta">약력 · 걸어온 길 · 의정 성과 · 사진</span>
       <span class="go">소개 보기 <i>→</i></span>
     </a>
     <a class="mb " href="vision.html">
-      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1-4.2L16.6 4.2a1.7 1.7 0 0 1 2.4 0l.8.8a1.7 1.7 0 0 1 0 2.4L8.2 19z"/><path d="M14.5 6.3l3.2 3.2M4 20h16"/></svg></span><span class="k">직접 쓴 글</span></span>
+      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1-4.2L16.6 4.2a1.7 1.7 0 0 1 2.4 0l.8.8a1.7 1.7 0 0 1 0 2.4L8.2 19z"/><path d="M14.5 6.3l3.2 3.2M4 20h16"/></svg></span><span class="k">개혁 의제</span></span>
       <h3>김보미목소리</h3>
-      <p>그날그날의 생각과 약속을 제 글로 소상히 밝힙니다. 현안에 대한 입장과 제안을 최신순으로 읽을 수 있습니다.</p>
-      <span class="meta">생각 · 입장 · 제안</span>
+      <p>공천 혁신, 세대교체, 밀실 정치 청산. 정치를 시스템으로 바꾸자는 제안과 현안에 대한 입장을 제 글로 소상히 밝힙니다.</p>
+      <span class="meta">정치개혁 제안 · 현안 입장 · 최신순</span>
       <span class="go">글 읽기 <i>→</i></span>
     </a>
     <a class="mb navy" href="https://taxwatch.kr/" target="_blank" rel="noopener">
@@ -211,21 +240,14 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
       <span class="meta">기사 · 인터뷰 · 방송 · 유튜브</span>
       <span class="go">기사·영상 보기 <i>→</i></span>
     </a>
-    <a class="mb " href="archive.html">
-      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 8.5h17v10a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5z"/><path d="M5 4.5h14l1.5 4h-17zM9.5 12.5h5"/></svg></span><span class="k">지난 기록</span></span>
-      <h3>기록관</h3>
-      <p>2026 전당대회 당대표 예비경선을 끝까지 완주한 기록입니다. 출마선언문과 25개 약속, 감사 인사를 원문 그대로 보존했습니다.</p>
-      <span class="meta">출마선언문 · 공약집 · 감사 인사</span>
-      <span class="go">기록 보러 가기 <i>→</i></span>
-    </a>
   </div>
 
   <!-- 3. 기록관 배너 -->
   <a class="arch" href="archive.html">
     <div>
-      <span class="k">기록관</span>
-      <h3>2026 전당대회, 끝까지 완주한 기록</h3>
-      <p>출마선언문 · 25개 약속 · 감사 인사 · 서명운동 — 원문 그대로 보존했습니다</p>
+      <span class="k">지난 기록</span>
+      <h3>2026 전당대회 도전 기록</h3>
+      <p>계파도 조직도 없이 나선 당대표 예비경선. 출마선언문 · 25개 약속 · 감사 인사를 원문 그대로 보존했습니다</p>
     </div>
     <span class="go">기록 보러 가기 →</span>
   </a>
@@ -235,7 +257,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 <section class="sec" style="padding-top:8px"><div class="w">
   <div class="pm">
     <div>
-      <span class="k">우리동네365 · 정당 돈, 어디에 썼나</span>
+      <span class="k">정치개혁 · 정당 재정 공개</span>
       <h2>정당은 우리 세금(정치자금)을<br>어디에 썼나?</h2>
       <p>정당이 쓰는 돈도 국민이 낸 세금입니다. 국고보조금은 법으로 공개하게 되어 있고, 그 배분 기준과 금액을 그대로 펼쳐 놓았습니다. 모든 숫자에 출처와 기준일을 붙였고, 확인되지 않은 값은 비워 두었습니다.</p>
       <a class="go" href="party-money.html">정당 돈 자세히 보기 →</a>
@@ -250,9 +272,9 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 
 <!-- 5. 김보미 목소리 -->
 <section class="sec"><div class="w">
-  <p class="eyebrow">김보미목소리</p>
+  <p class="eyebrow">개혁 의제 · 김보미목소리</p>
   <div class="vhd">
-    <h2>그날그날의 생각과 약속을, 제 글로 소상히 밝히겠습니다</h2>
+    <h2>밀실이 아니라 공개된 글로, 생각과 약속을 밝힙니다</h2>
     <a class="go" href="vision.html">글 모아 보기 →</a>
   </div>
   <div class="vrow" id="vrow"></div>
