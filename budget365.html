@@ -257,6 +257,7 @@ tr.row{cursor:pointer}tr.row:hover td{background:var(--gold-soft)!important}
 /* ═══════════ 표시 정책: 값이 없으면 '—'. 0으로 대체하지 않는다. 진짜 0은 0으로 ═══════════ */
 const NA='—';
 /* 지자체 합동평가(행안부, 17개 시·도) — index.json joint. 원문이 상위 시·도만 밝힌 값은 비워 둔다 */
+function gev(cd,k){ const r=S.index?.rows?.find(x=>x.laf_cd===cd); const v=r?r[k]:null; if(v) return v; if(k!=='civil_2025'&&r&&r.civil_2025) return '우수 미선정'; return null; }
 function jeList(cd){ const J=S.index?.joint||{}; if(cd==='6100000') return [...(J['2900000']||[]),...(J['4600000']||[])].sort((a,b)=>a.y-b.y||a.nm.localeCompare(b.nm)); return J[cd]||[]; }
 function jeTable(cd){ const J=jeList(cd); if(!J.length) return '';
   const cell=(v,u)=>v==null?'<span class="mut">원문 미공개</span>':'<b>'+v+'</b>'+u;
@@ -449,10 +450,10 @@ function renderLg(lg){ const m=lg.master, cd=lg.laf_cd, F=lg.fiscal||{}; const y
   <div class="card"><h3>다른 정부 평가</h3><div class="tw"><table><tbody>
   <tr><td>종합청렴도 (국민권익위 2025)</td><td class="num">${isN(X.integrity_2025)?'<b>'+X.integrity_2025+'</b>등급':NA}</td><td class="mut">${isN(X.integrity_2025)?'1등급이 최상 · 5등급제':'평가 대상 235곳에 미포함'}</td></tr>
   <tr><td>지자체 합동평가 (행안부)</td><td class="num">${(()=>{const J=jeList(cd);if(!J.length) return m.level==='광역'?NA:'—';const L=J[J.length-1];return '국민평가 <b>'+L.p+'</b>건';})()}</td><td class="mut">${(()=>{const J=jeList(cd);if(!J.length) return m.level==='광역'?'원문에 없음':'시·도만 평가하므로 기초는 해당 없음';const L=J[J.length-1];return L.y+'년 평가('+L.py+'년 실적)'+(J.some(x=>x.nm!==J[0].nm)?' · 통합 전 광주·전남':'')+' · 아래 5년 표';})()}</td></tr>
-  <tr><td>재정분석·재정진단 (행안부)</td><td class="num">아직 없음</td><td class="mut">공표 자료 수집 중</td></tr>
-  <tr><td>민원서비스 종합평가</td><td class="num">아직 없음</td><td class="mut">공표 자료 수집 중</td></tr>
-  <tr><td>적극행정 종합평가</td><td class="num">아직 없음</td><td class="mut">공표 자료 수집 중</td></tr>
-  <tr><td>지자체 혁신평가</td><td class="num">아직 없음</td><td class="mut">공표 자료 수집 중</td></tr>
+  <tr><td>재정분석·재정진단 (행안부)</td><td class="num">${NA}</td><td class="mut">2025 결과 원문 미확보 — 행안부 보도자료 없음, 지방재정365 종합보고서 확인 중</td></tr>
+  <tr><td>민원서비스 종합평가 (행안부·권익위 2025)</td><td class="num">${(()=>{const v=gev(cd,'civil_2025');return v?'<b>'+v+'</b>등급':NA;})()}</td><td class="mut">${gev(cd,'civil_2025')?'가~마 5등급 · 2026.2.4 발표':'2025 평가 대상 아님(2026 신설·개편)'}</td></tr>
+  <tr><td>적극행정 종합평가 (행안부 2025)</td><td class="num">${(()=>{const v=gev(cd,'active_2025');return v?'<b>'+v+'</b>':NA;})()}</td><td class="mut">${gev(cd,'civil_2025')?'평가군별 상위 30% 우수기관만 공개 · 2026.3.24 발표':'2025 평가 대상 아님'}</td></tr>
+  <tr><td>지방정부 혁신평가 (행안부 2025)</td><td class="num">${(()=>{const v=gev(cd,'innov_2025');return v?'<b>'+v+'</b>':NA;})()}</td><td class="mut">${gev(cd,'civil_2025')?'우수기관 61곳만 공개 · 2026.2.23 발표':'2025 평가 대상 아님'}</td></tr>
   </tbody></table></div>
   <div class="mut" style="margin-top:8px">확인되지 않은 값은 만들지 않습니다. 원문 공표자료를 대조한 뒤 채워 넣습니다.</div></div></div>
   ${jeTable(cd)}</section>`:''}
