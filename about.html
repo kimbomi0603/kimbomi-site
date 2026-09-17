@@ -16,87 +16,95 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/kb-legacy.css">
 <style>
-/* 프로필 카드 */
-.pf{display:grid;grid-template-columns:320px 1fr;border-top:1px solid var(--rule2);border-left:1px solid var(--rule2);background:var(--paper2)}
-.pf figure{margin:0;border-right:1px solid var(--rule2);border-bottom:1px solid var(--rule2);background:var(--navy)}
-.pf figure img{display:block;width:100%;height:100%;min-height:380px;object-fit:cover;object-position:50% 20%}
-.pf .bd{border-right:1px solid var(--rule2);border-bottom:1px solid var(--rule2);padding:28px 30px}
-.pf .bd h1{font-size:2.3rem;line-height:1.2;margin:6px 0 0}
-.pf .bd .tag{font-family:var(--mono);font-size:.74rem;letter-spacing:.2em;color:var(--red)}
-.pf .bd .one{margin:14px 0 0;color:var(--ink2);font-size:1rem;line-height:1.8}
+/* 프로필 — 사진은 자르지 않고 원본 비율 그대로 */
+.pf{display:grid;grid-template-columns:minmax(0,400px) 1fr;gap:28px;align-items:start}
+.pf figure{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--rule);background:#9B9B9B;position:sticky;top:84px}
+.pf figure img{display:block;width:100%;height:auto}
+.pf .bd{background:var(--paper2);border:1px solid var(--rule);border-radius:16px;padding:28px 30px}
+.pf .bd h1{font-size:2.6rem;line-height:1.15;margin:6px 0 0;font-weight:900;letter-spacing:-.04em}
+.pf .bd .tag{font-size:.85rem;font-weight:700;color:var(--teal)}
+.pf .bd .one{margin:14px 0 0;color:var(--ink2);font-size:1rem;line-height:1.85}
 .cv{margin:20px 0 0;border-top:1px solid var(--rule)}
-.cv dl{display:grid;grid-template-columns:44px 1fr;margin:0;font-size:.92rem}
-.cv dt{font-family:var(--mono);font-size:.72rem;color:#fff;background:var(--navy);text-align:center;padding:3px 0;margin:8px 8px 0 0;height:fit-content;letter-spacing:.08em}
-.cv dt.g{background:var(--teal)} .cv dt.p{background:var(--rule2);color:var(--ink)}
-.cv dd{margin:8px 0 0;line-height:1.6;border-bottom:1px dotted var(--rule);padding-bottom:8px}
+.cv dl{display:grid;grid-template-columns:46px 1fr;margin:0;font-size:.93rem}
+.cv dt{font-size:.72rem;font-weight:700;color:#fff;background:var(--teal);text-align:center;padding:3px 0;margin:9px 10px 0 0;height:fit-content;border-radius:6px}
+.cv dt.g{background:var(--navy)} .cv dt.p{background:#E9E4D6;color:var(--ink)}
+.cv dd{margin:8px 0 0;line-height:1.6;border-bottom:1px solid var(--rule);padding-bottom:8px}
+.cv dd:last-of-type{border-bottom:0}
 .sns{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
-.sns a{font-size:.82rem;text-decoration:none;border:1px solid var(--navy);color:var(--navy);padding:5px 11px;font-weight:700}
-.sns a:hover{background:var(--navy);color:var(--paper)}
+.sns a{font-size:.84rem;text-decoration:none;border:1px solid var(--rule2);color:var(--ink);padding:7px 14px;font-weight:700;border-radius:99px;background:var(--paper)}
+.sns a:hover{border-color:var(--teal);color:var(--teal)}
 
-/* 연표 */
-.tl{border-top:1px solid var(--rule2);border-left:1px solid var(--rule2);margin-top:22px}
-.tl .it{display:grid;grid-template-columns:150px 1fr;border-right:1px solid var(--rule2);border-bottom:1px solid var(--rule2);background:var(--paper2)}
-.tl .yr{background:#F2EDE0;padding:16px 18px;border-right:1px solid var(--rule2)}
-.tl .yr b{display:block;font-family:var(--mono);font-size:1.18rem;color:var(--navy)}
-.tl .yr span{font-size:.78rem;color:var(--ink2)}
-.tl .bd{padding:16px 20px}
-.tl .bd h3{font-size:1.1rem}
-.tl .bd p{margin:6px 0 0;font-size:.92rem;color:var(--ink2);line-height:1.7}
+/* 걸어온 길 — 상자·표 없이 세로 선 하나에 해마다의 장면을 건다 */
+.tl{margin:34px 0 0;position:relative;padding:0}
+.tl::before{content:"";position:absolute;left:191px;top:10px;bottom:10px;width:2px;background:linear-gradient(180deg,var(--rule2) 0,var(--rule2) 86%,var(--teal) 100%)}
+.tl .it{display:grid;grid-template-columns:160px 1fr;column-gap:64px;position:relative;padding:0 0 38px}
+.tl .it:last-child{padding-bottom:0}
+.tl .it::before{content:"";position:absolute;left:185px;top:13px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:3px solid var(--navy);box-sizing:border-box}
+.tl .it:last-child::before{background:var(--teal);border-color:var(--teal);box-shadow:0 0 0 6px rgba(15,90,74,.14)}
+.tl .yr{text-align:right;padding-top:2px}
+.tl .yr b{display:block;font-family:var(--serif);font-weight:900;font-size:1.72rem;line-height:1.2;letter-spacing:-.03em;color:var(--navy);white-space:nowrap}
+.tl .it:last-child .yr b{color:var(--teal)}
+.tl .yr span{display:block;font-size:.8rem;color:var(--ink2);margin-top:2px}
+.tl .bd h3{font-size:1.24rem;line-height:1.45}
+.tl .bd p{margin:7px 0 0;font-size:.96rem;color:var(--ink2);line-height:1.85;max-width:720px}
 
 /* 의정 성과 */
-.ach{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--rule2);border-left:1px solid var(--rule2);margin-top:22px}
-.ach section{border-right:1px solid var(--rule2);border-bottom:1px solid var(--rule2);background:var(--paper2);padding:20px 22px}
-.ach h3{font-size:1.06rem;color:var(--navy)}
-.ach .kk{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;color:var(--red);display:block;margin-bottom:4px}
-.ach ul{margin:12px 0 0;padding-left:18px;font-size:.9rem;line-height:1.75;color:var(--ink2)}
-.ach ul b{color:var(--navy);font-family:var(--mono)}
+.ach{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:22px}
+.ach section{background:var(--paper2);border:1px solid var(--rule);border-radius:14px;padding:22px 24px}
+.ach h3{font-size:1.12rem;color:var(--ink)}
+.ach .kk{font-size:.76rem;font-weight:700;color:var(--teal);display:block;margin-bottom:4px}
+.ach ul{margin:12px 0 0;padding-left:18px;font-size:.92rem;line-height:1.8;color:var(--ink2)}
+.ach ul b{color:var(--navy)}
 
-/* 사진 3줄 슬라이드 */
-.ps{overflow:hidden;border-top:1px solid var(--rule2);border-bottom:1px solid var(--rule2);background:#EFE9DA;padding:16px 0}
+/* 사진 3줄 슬라이드 — 높이만 맞추고 폭은 원본 비율(잘림 없음) */
+.ps{overflow:hidden;padding:4px 0}
 .ps-row{display:flex;gap:12px;width:max-content;animation:ps-scroll linear infinite}
 .ps-row + .ps-row{margin-top:12px}
 .ps-row:hover{animation-play-state:paused}
-.ps-row img{height:130px;width:auto;object-fit:cover;flex:0 0 auto;border:1px solid var(--rule2);background:#ddd;cursor:zoom-in}
+.ps-row img{height:150px;width:auto;max-width:none;flex:0 0 auto;border-radius:10px;background:#E7E3DA;cursor:zoom-in}
 @keyframes ps-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-@media(prefers-reduced-motion:reduce){.ps-row{animation:none}}
-#lb{position:fixed;inset:0;background:rgba(14,42,71,.92);display:none;align-items:center;justify-content:center;z-index:99;padding:20px;cursor:zoom-out}
-#lb img{max-width:94vw;max-height:90vh;border:2px solid var(--gold)}
+@media(prefers-reduced-motion:reduce){.ps-row{animation:none}.ps{overflow-x:auto}}
+#lb{position:fixed;inset:0;background:rgba(14,33,67,.93);display:none;align-items:center;justify-content:center;z-index:99;padding:20px;cursor:zoom-out}
+#lb img{max-width:94vw;max-height:90vh;border-radius:8px;object-fit:contain}
 
-.cta2{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--rule2);border-left:1px solid var(--rule2);margin-top:22px}
-.cta2 a{border-right:1px solid var(--rule2);border-bottom:1px solid var(--rule2);padding:22px;text-decoration:none;background:var(--paper2)}
-.cta2 a:hover{background:#FFF8E8}
-.cta2 b{display:block;font-family:var(--serif);font-size:1.16rem;color:var(--navy)}
-.cta2 span{display:block;font-size:.88rem;color:var(--ink2);margin-top:6px}
-
-footer.site .fin{padding:30px 0 18px;font-size:.88rem}
-footer.site .copy{border-top:1px solid rgba(247,243,232,.2);padding:14px 0 30px;font-size:.8rem;color:rgba(239,232,216,.65)}
+.cta2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:22px}
+.cta2 a{border:1px solid var(--rule);border-radius:14px;padding:24px;text-decoration:none;background:var(--paper2);transition:.16s}
+.cta2 a:first-child{background:var(--teal);border-color:var(--teal);color:#fff}
+.cta2 a:first-child b{color:#fff}.cta2 a:first-child span{color:rgba(255,255,255,.85)}
+.cta2 a:hover{transform:translateY(-2px);border-color:var(--teal)}
+.cta2 .scope{display:inline-block;font-style:normal;font-size:.76rem;font-weight:700;padding:3px 10px;border-radius:99px;background:#E8EDF5;color:var(--navy);margin-bottom:10px}
+.cta2 a:first-child .scope{background:rgba(255,255,255,.16);color:#fff}
+.cta2 b{display:block;font-family:var(--serif);font-size:1.2rem;color:var(--ink)}
+.cta2 span{display:block;font-size:.88rem;color:var(--ink2);margin-top:6px;line-height:1.7}
 @media(max-width:900px){
-  .pf{grid-template-columns:1fr}.pf figure img{min-height:300px}.pf .bd h1{font-size:1.9rem}
-  .tl .it{grid-template-columns:1fr}.tl .yr{border-right:0;border-bottom:1px solid var(--rule)}
+  .pf{grid-template-columns:1fr;gap:18px}.pf figure{position:static;max-width:460px}.pf .bd{padding:22px 20px}.pf .bd h1{font-size:2.1rem}
+  .tl::before{left:6px}.tl .it{grid-template-columns:1fr;padding:0 0 30px 32px}.tl .it::before{left:0;top:8px}.tl .yr{text-align:left;display:flex;gap:10px;align-items:baseline}.tl .yr b{font-size:1.38rem}
   .ach,.cta2{grid-template-columns:1fr}
-  .ps-row img{height:100px}
+  .ps-row img{height:110px}
 }
 </style>
+<link rel="stylesheet" href="assets/kb-common.css">
 </head>
 <body>
 
-<header class="topbar">
-  <div class="wrap">
-    <a class="brand" href="index.html">김보미<span class="dot">.com</span></a>
-    <nav class="tnav">
+<header class="kbx-hdr">
+  <div class="kbx-w">
+    <a class="kbx-brand" href="index.html">김보미.com</a>
+    <nav aria-label="주 메뉴">
       <a href="budget365.html">우리동네365</a>
+      <a href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">재정주권시민행동</a>
       <a href="about.html" class="on">김보미는</a>
-      <a href="vision.html">김보미 목소리</a>
+      <a href="vision.html">김보미목소리</a>
       <a href="press.html">언론·영상</a>
-      <a href="party-money.html">정당 돈 어디에</a>
       <a href="archive.html">기록관</a>
     </nav>
+    <a class="kbx-join" href="pledge.html">함께하기</a>
   </div>
 </header>
 
 <main>
 
-<section class="sec" style="border-top:0;padding-top:34px">
+<section class="sec" style="padding-top:30px">
   <div class="wrap">
     <p class="eyebrow">PROFILE</p>
     <h2>김보미를 소개합니다</h2>
@@ -148,7 +156,7 @@ footer.site .copy{border-top:1px solid rgba(247,243,232,.2);padding:14px 0 30px;
       <div class="it"><div class="yr"><b>2022</b><span>32세</span></div><div class="bd"><h3>전국 최연소 기초의회 의장</h3><p>가·나 선거구를 통틀어 최다득표로 재선, 전국 최연소 의장으로 선출. 업무추진비 전면 공개, 역대 최대 규모 낭비예산 삭감, 사상 최초 ‘일문일답’ 군정질문을 도입했습니다.</p></div></div>
       <div class="it"><div class="yr"><b>2022–2024</b><span>시련</span></div><div class="bd"><h3>굽히지 않은 시간</h3><p>세 번째 정밀심사 표적, 여론조사 후보 이름 배제, 100여 건의 허위·비방 보도. 그러나 표적 고소·감사·수사는 전 건 ‘혐의없음·불송치’로 종결됐고, 허위보도 손해배상 소송에서도 승소(2024)했습니다.</p></div></div>
       <div class="it"><div class="yr"><b>2024</b><span>34세</span></div><div class="bd"><h3>청년 정치 플랫폼 구축</h3><p>더민주전국혁신회의 상임대표로 ‘더민주청년혁신회의’ 출범. 지역과 중앙을 잇는 청년 정치 플랫폼을 설계·운영했습니다.</p></div></div>
-      <div class="it"><div class="yr"><b>2026</b><span>36세</span></div><div class="bd"><h3>강진군수 도전, 그리고 승복의 품격</h3><p>제9회 지방선거 기초단체장 당내 경선에 도전했습니다. 화환 대신 3,000원 공약집으로 채운 개소식 — 문제 제기를 넘어 문제 해결의 주체로 나섰습니다. 경선 결과는 겸허히 받아들이고, 당 후보들의 본선 승리를 도왔습니다.</p></div></div>
+      <div class="it"><div class="yr"><b>2026</b><span>36세</span></div><div class="bd"><h3>강진군수 도전</h3><p>제9회 지방선거 기초단체장 당내 경선에 도전했습니다. 화환 대신 3,000원 공약집으로 채운 개소식 — 문제 제기를 넘어 문제 해결의 주체로 나섰습니다. 경선 결과는 겸허히 받아들이고, 당 후보들의 본선 승리를 도왔습니다.</p></div></div>
       <div class="it"><div class="yr"><b>2026</b><span>전당대회</span></div><div class="bd"><h3>당대표 예비경선 완주</h3><p>겨우 4일의 선거운동으로 예비경선을 완주했습니다. 본경선에는 오르지 못했지만, 최고위원회 해체·컷오프 득표 결과 공개·청년최고위원제 도입을 요구하는 서명운동은 계속됩니다. <a href="archive.html" style="color:var(--navy);border-bottom:1px solid var(--gold);text-decoration:none">기록관에서 원문 보기 →</a></p></div></div>
       <div class="it"><div class="yr"><b>지금</b><span>재정주권</span></div><div class="bd"><h3>세금의 주인을 국민에게</h3><p>재정주권시민행동 공동대표로, 243개 지방정부의 예산·집행·계약을 누구나 3초에 확인하는 「우리동네365」를 직접 만들고 있습니다. 감시는 촘촘하게, 공개는 넓게.</p></div></div>
     </div>
@@ -216,8 +224,8 @@ footer.site .copy{border-top:1px solid rgba(247,243,232,.2);padding:14px 0 30px;
     <p class="eyebrow">NOW</p>
     <h2>지금 하고 있는 일</h2>
     <div class="cta2">
-      <a href="budget365.html"><b>🏘️ 우리동네365</b><span>전국 243개 지방정부의 예산·집행·계약을 3초에 확인합니다. 정부 공식 통계를 그대로 불러옵니다.</span></a>
-      <a href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener"><b>재정주권시민행동 ↗</b><span>“내 돈은 내 권리다.” 예산·결산을 시민이 직접 감시하는 시민운동에 공동대표로 함께합니다.</span></a>
+      <a href="budget365.html"><em class="scope">지방정부 예산 · 243개 시·도, 시·군·구</em><b>우리동네365</b><span>우리 동네 시청·군청·구청이 올해 예산을 어디에 잡았고, 얼마를 썼고, 어느 업체와 계약했는지 3초에 확인합니다. 행정안전부 지방재정365 공식 자료를 그대로 불러옵니다.</span></a>
+      <a href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener"><em class="scope">중앙정부 예산 · 58개 부처</em><b>재정주권시민행동 ↗</b><span>“내 돈은 내 권리다.” 2026년 정부예산안 58개 부처, 세출 8,108개 항목을 하나하나 뜯어 누구나 볼 수 있게 공개한 시민단체입니다. 공동대표로 함께합니다.</span></a>
     </div>
   </div>
 </section>
@@ -226,14 +234,27 @@ footer.site .copy{border-top:1px solid rgba(247,243,232,.2);padding:14px 0 30px;
 
 <div id="lb" onclick="this.style.display='none'"><img id="lbi" alt=""></div>
 
-<footer class="site">
-  <div class="wrap fin">
-    <p style="margin:0;color:rgba(239,232,216,.85);line-height:1.8">
-      우리 혈세는 정부의 것도, 단체장의 것도 아닌 국민의 세금입니다. 모든 예산의 편성·집행 과정을 국민에게 공개하고, 시민이 쉽게 알 수 있도록 — 시민의 연대와 참여가 곧 새로운 민주주의의 시작입니다.
-    </p>
-    <p style="margin:14px 0 0"><a href="index.html">← 김보미.com 메인</a> · <a href="budget365.html">우리동네365</a> · <a href="vision.html">김보미 목소리</a> · <a href="press.html">언론 영상</a> · <a href="archive.html">기록관</a> · <a href="privacy.html">개인정보처리방침</a></p>
+<footer class="kbx-foot">
+  <div class="kbx-fw">
+    <div>
+      <div class="kbx-fb">김보미.com</div>
+      <div class="kbx-fc">
+        kimbomi891204@gmail.com · 010-7331-0179<br>
+        우리 혈세는 정부의 것도, 단체장의 것도 아닌 국민의 세금입니다.<br>
+        시민의 연대와 참여가 곧 새로운 민주주의의 시작입니다.
+      </div>
+    </div>
+    <div class="kbx-fl">
+      <a href="https://youtube.com/@kimbomi1989" target="_blank" rel="noopener">유튜브</a>
+      <a href="https://facebook.com/kimbomi1989" target="_blank" rel="noopener">페이스북</a>
+      <a href="https://instagram.com/kimbomi1989" target="_blank" rel="noopener">인스타그램</a>
+      <a href="https://blog.naver.com/kimbom1204" target="_blank" rel="noopener">블로그</a>
+      <a href="party-money.html">정당 돈, 어디에 썼나</a>
+      <a href="report.html">소통·제보</a>
+      <a href="privacy.html">개인정보처리방침</a>
+    </div>
   </div>
-  <div class="wrap copy">© 2026 김보미 · kimbomi891204@gmail.com · 010-7331-0179</div>
+  <div class="kbx-fn">© 2026 김보미 · 재정주권시민행동</div>
 </footer>
 
 <script>

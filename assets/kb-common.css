@@ -1,0 +1,30 @@
+/* 김보미.com 공통 머리·꼬리 — 어느 페이지에 넣어도 그 페이지 CSS와 부딪히지 않게 kbx- 접두사로 격리 (2026-09-18) */
+.kbx-strip,.kbx-hdr,.kbx-foot{font-family:"Noto Sans KR",system-ui,-apple-system,"Malgun Gothic",sans-serif;line-height:1.6;box-sizing:border-box;letter-spacing:0}
+.kbx-strip *,.kbx-hdr *,.kbx-foot *{box-sizing:border-box}
+.kbx-strip{background:#0E2143;color:#E8EEF8;font-size:12.5px;text-align:center;padding:7px 20px}
+.kbx-strip b{color:#C99A2E}
+.kbx-strip a{color:#E8EEF8;text-decoration:none}
+.kbx-hdr{background:#F5F2EA;border-bottom:1px solid #E4DFD3;position:sticky;top:0;z-index:90;margin:0;padding:0;width:100%}
+.kbx-hdr .kbx-w{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:20px;height:62px}
+.kbx-hdr .kbx-brand{font-family:"Noto Serif KR",serif;font-weight:900;font-size:18.5px;color:#0F5A4A;white-space:nowrap;text-decoration:none;letter-spacing:-.02em}
+.kbx-hdr nav{margin-left:auto;display:flex;gap:20px;font-size:14px;overflow-x:auto;scrollbar-width:none;background:none;position:static;padding:0;border:0}
+.kbx-hdr nav::-webkit-scrollbar{display:none}
+.kbx-hdr nav a{white-space:nowrap;padding:4px 0;border-bottom:2px solid transparent;color:#3E4045;text-decoration:none;font-weight:400;background:none}
+.kbx-hdr nav a:hover,.kbx-hdr nav a.on{border-bottom-color:#0F5A4A;color:#0F5A4A;font-weight:700}
+.kbx-hdr .kbx-join{background:#0F5A4A;color:#fff;font-size:13.5px;font-weight:700;padding:8px 16px;border-radius:8px;white-space:nowrap;text-decoration:none}
+.kbx-hdr .kbx-join:hover{background:#0B4639;color:#fff}
+@media(max-width:760px){
+  .kbx-hdr .kbx-w{height:auto;flex-wrap:wrap;gap:6px 12px;padding:10px 16px 0}
+  .kbx-hdr .kbx-join{margin-left:auto;padding:7px 13px}
+  .kbx-hdr nav{order:3;width:100%;margin:0;gap:18px;padding:4px 0 0}
+  .kbx-hdr nav a{padding:8px 0 9px;font-size:14.5px}
+}
+.kbx-foot{background:#0E2143;color:#D9E2F0;margin-top:26px}
+.kbx-foot a{color:#D9E2F0;text-decoration:none}
+.kbx-foot a:hover{color:#C99A2E}
+.kbx-foot .kbx-fw{max-width:1120px;margin:0 auto;padding:34px 20px 16px;display:grid;grid-template-columns:1.5fr 1fr;gap:26px}
+.kbx-foot .kbx-fb{font-family:"Noto Serif KR",serif;font-weight:900;font-size:19px;color:#fff}
+.kbx-foot .kbx-fc{font-size:13.5px;color:rgba(217,226,240,.8);margin-top:8px;line-height:1.9}
+.kbx-foot .kbx-fl{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:flex-end;font-size:13.5px;align-items:flex-start}
+.kbx-foot .kbx-fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;margin:0 auto;padding:12px 20px 28px;font-size:12px;color:rgba(217,226,240,.55);line-height:1.8}
+@media(max-width:760px){.kbx-foot .kbx-fw{grid-template-columns:1fr}.kbx-foot .kbx-fl{justify-content:flex-start}}

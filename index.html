@@ -1,4 +1,3 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -19,34 +18,47 @@
 <style>
 /* ── 히어로 ── */
 .hero{padding:26px 0 8px}
-.hin{display:grid;grid-template-columns:400px 1fr;gap:34px;align-items:stretch}
+.hin{display:grid;grid-template-columns:400px 1fr;gap:34px;align-items:center}
 .hpic{margin:0;border-radius:16px;overflow:hidden;background:var(--green2);border:1px solid var(--line)}
-.hpic img{display:block;width:100%;height:100%;min-height:400px;object-fit:cover;object-position:50% 28%}
+.hpic img{display:block;width:100%;height:auto}
 .hbd{display:flex;flex-direction:column;justify-content:center;padding:6px 0}
 .hbd .role{font-size:.85rem;font-weight:700;color:var(--green);letter-spacing:.02em;margin:0 0 6px}
 .hbd h1{font-size:4.2rem;line-height:1;font-weight:900;letter-spacing:-.05em}
 .hbd .slogan{font-family:var(--serif);font-size:1.6rem;line-height:1.5;font-weight:700;margin:20px 0 0;color:#1B1C1F}
 .hbd .slogan em{font-style:normal;color:var(--green)}
 .hbd .desc{font-size:.95rem;line-height:1.9;color:#4A4C51;margin:16px 0 0;max-width:600px}
-.hnum{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:26px;border-top:1px solid var(--line2)}
-.hnum div{padding:16px 18px 4px;border-right:1px solid var(--line2)}
+.hnum{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:26px;border-top:1px solid var(--line2)}
+.hnum div{padding:16px 14px 4px;border-right:1px solid var(--line2)}
 .hnum div:last-child{border-right:0}
-.hnum b{display:block;font-family:var(--mono);font-size:1.62rem;color:var(--navy);line-height:1.2}
+.hnum b{display:block;font-family:var(--serif);font-weight:900;letter-spacing:-.03em;font-size:1.5rem;color:var(--navy);line-height:1.2}
 .hnum span{display:block;font-size:.76rem;color:var(--mut);margin-top:4px}
 
 /* ── 6개 메뉴 ── */
-.m6{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px}
-.mb{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 22px 20px;position:relative;transition:.16s;display:block}
-.mb:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:0 6px 18px rgba(15,90,74,.08)}
-.mb .ic{font-size:1.24rem;line-height:1}
-.mb .ar{position:absolute;top:20px;right:20px;color:#B9B3A4;font-size:1rem}
-.mb h3{font-size:1.24rem;margin-top:14px}
-.mb p{margin:6px 0 0;font-size:.85rem;color:var(--mut);line-height:1.6}
+.m6{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+.mb{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px;display:flex;flex-direction:column;min-height:252px;transition:transform .16s,box-shadow .16s,border-color .16s}
+.mb:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 10px 26px rgba(15,90,74,.10)}
+.mb:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.mb .top{display:flex;align-items:center;gap:10px}
+.mb .ic{width:42px;height:42px;border-radius:12px;background:#EAF1EE;color:var(--green);display:grid;place-items:center;flex:none}
+.mb .ic svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.mb .k{font-size:.76rem;font-weight:700;color:var(--green);letter-spacing:.02em}
+.mb h3{font-size:1.42rem;margin-top:16px;letter-spacing:-.03em}
+.mb p{margin:8px 0 0;font-size:.88rem;color:#4A4C51;line-height:1.72}
+.mb .meta{display:block;margin-top:auto;padding-top:14px;font-size:.76rem;color:var(--mut);line-height:1.6}
+.mb .go{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:12px;border-top:1px solid var(--line);font-size:.88rem;font-weight:700;color:var(--green)}
+.mb .go i{font-style:normal;font-size:1.05rem;transition:transform .16s}
+.mb:hover .go i{transform:translateX(4px)}
 .mb.on{background:var(--green);border-color:var(--green);color:#fff}
 .mb.on:hover{background:var(--green2)}
-.mb.on p{color:rgba(255,255,255,.84)}
-.mb.on .ar{color:rgba(255,255,255,.7)}
-.mb.ext .tagx{position:absolute;bottom:18px;right:20px;font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;color:var(--mut);border:1px solid var(--line2);border-radius:99px;padding:1px 7px}
+.mb.on .ic{background:rgba(255,255,255,.14);color:#fff}
+.mb.on .k{color:#F0D48A}
+.mb.on p{color:rgba(255,255,255,.88)}
+.mb.on .meta{color:rgba(255,255,255,.7)}
+.mb.on .go{color:#fff;border-top-color:rgba(255,255,255,.22)}
+.mb.navy .ic{background:#E8EDF5;color:var(--navy)}
+.mb.navy .k,.mb.navy .go{color:var(--navy)}
+.mb.navy:hover{border-color:var(--navy);box-shadow:0 10px 26px rgba(22,48,90,.10)}
+@media(prefers-reduced-motion:reduce){.mb,.mb .go i{transition:none}.mb:hover{transform:none}}
 
 /* ── 기록관 배너 ── */
 .arch{display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-top:26px}
@@ -101,7 +113,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 
 @media(max-width:980px){
   .hin{grid-template-columns:1fr;gap:22px}
-  .hpic img{min-height:320px}
+  .hpic{max-width:460px}
   .hbd h1{font-size:3.1rem}
   .hbd .slogan{font-size:1.3rem}
   .m6{grid-template-columns:repeat(2,1fr)}
@@ -113,9 +125,11 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 }
 @media(max-width:600px){
   .m6{grid-template-columns:1fr}
+  .mb{min-height:0}
   .prow{grid-template-columns:1fr}
-  .hnum{grid-template-columns:1fr}
-  .hnum div{border-right:0;border-bottom:1px solid var(--line2)}
+  .hnum{grid-template-columns:repeat(2,1fr)}
+  .hnum div{border-bottom:1px solid var(--line2)}
+  .hnum div:nth-child(2n){border-right:0}
   .pm h2{font-size:1.58rem}
   .arch .go{margin-left:0}
 }
@@ -149,11 +163,12 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
     <p class="role">재정주권시민행동 공동대표</p>
     <h1>김보미</h1>
     <p class="slogan">내 세금이 어디로 가는지,<br><em>시민이 직접 보는 나라</em>를 만듭니다.</p>
-    <p class="desc">前 강진군의회 의장 · 전국 최연소 기초의회 의장. 8년의 의정활동에서 업무추진비를 전면 공개하고 낭비예산 108억원을 깎았습니다. 이제 전국 243개 지자체의 살림을 누구나 볼 수 있게 만드는 일에 힘을 쏟습니다.</p>
+    <p class="desc">스물셋에 “내 고장 강진에서부터 대한민국을 바꿔보겠다”며 정치를 시작했습니다. 스물여덟에 지역 최초의 청년 군의원이, 서른둘에 전국에서 가장 어린 기초의회 의장이 되었습니다. 지금은 재정주권시민행동 공동대표로, 세금의 주인이 국민이라는 당연한 원칙을 숫자로 확인하는 일을 합니다.</p>
     <div class="hnum">
-      <div><b class="num">13년</b><span>정치 활동</span></div>
-      <div><b class="num">만 32세</b><span>전국 최연소 기초의회 의장</span></div>
-      <div><b class="num">108억원</b><span>역대 최대 낭비예산 삭감</span></div>
+      <div><b>13년</b><span>정치 활동</span></div>
+      <div><b>8년</b><span>지방의원 의정 활동</span></div>
+      <div><b>만 36세</b><span>여성 청년 정치인</span></div>
+      <div><b>전국 최연소</b><span>기초의회 의장 (만 32세)</span></div>
     </div>
   </div>
 </div></div></section>
@@ -162,35 +177,46 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 <section class="sec" style="padding-top:22px"><div class="w">
   <div class="m6">
     <a class="mb on" href="budget365.html">
-      <span class="ic">🔍</span><span class="ar">→</span>
+      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/><path d="M8.5 11h5M11 8.5v5"/></svg></span><span class="k">지방정부 예산 · 243곳</span></span>
       <h3>우리동네365</h3>
-      <p>우리 동네 예산·집행·계약 3초 확인</p>
+      <p>우리 동네 시청·군청·구청의 살림입니다. 동네 이름만 넣으면 올해 예산이 어디에 잡혔고, 얼마를 썼고, 어느 업체와 계약했는지 바로 나옵니다.</p>
+      <span class="meta">243개 시·도, 시·군·구 · 예산·집행 5년 · 계약 5년</span>
+      <span class="go">내 동네 3초 확인 <i>→</i></span>
     </a>
-    <a class="mb ext" href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">
-      <span class="ic">🤝</span><span class="ar">→</span>
-      <h3>재정주권시민행동</h3>
-      <p>회원가입 · 후원으로 함께하기</p>
-      <span class="tagx">외부 사이트</span>
-    </a>
-    <a class="mb" href="about.html">
-      <span class="ic">👤</span><span class="ar">→</span>
+    <a class="mb " href="about.html">
+      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.8 20c.9-3.7 3.8-5.6 7.2-5.6s6.3 1.9 7.2 5.6"/></svg></span><span class="k">사람</span></span>
       <h3>김보미는</h3>
-      <p>걸어온 길과 의정 성과</p>
+      <p>스물셋에 입당해 스물여덟에 군의원, 서른둘에 전국 최연소 기초의회 의장. 걸어온 길과 8년 의정 성과, 활동 사진을 모았습니다.</p>
+      <span class="meta">약력 · 걸어온 길 · 의정 성과 · 사진</span>
+      <span class="go">소개 보기 <i>→</i></span>
     </a>
-    <a class="mb" href="vision.html">
-      <span class="ic">✍️</span><span class="ar">→</span>
+    <a class="mb " href="vision.html">
+      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1-4.2L16.6 4.2a1.7 1.7 0 0 1 2.4 0l.8.8a1.7 1.7 0 0 1 0 2.4L8.2 19z"/><path d="M14.5 6.3l3.2 3.2M4 20h16"/></svg></span><span class="k">직접 쓴 글</span></span>
       <h3>김보미목소리</h3>
-      <p>김보미가 직접 쓴 글</p>
+      <p>그날그날의 생각과 약속을 제 글로 소상히 밝힙니다. 현안에 대한 입장과 제안을 최신순으로 읽을 수 있습니다.</p>
+      <span class="meta">생각 · 입장 · 제안</span>
+      <span class="go">글 읽기 <i>→</i></span>
     </a>
-    <a class="mb" href="press.html">
-      <span class="ic">📰</span><span class="ar">→</span>
+    <a class="mb navy" href="https://xn--zf0bk90c9iay4a.kr/" target="_blank" rel="noopener">
+      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.2s-7-4.3-7-9.6a4 4 0 0 1 7-2.6 4 4 0 0 1 7 2.6c0 5.3-7 9.6-7 9.6z"/></svg></span><span class="k">중앙정부 예산 · 58개 부처</span></span>
+      <h3>재정주권시민행동</h3>
+      <p>나라 살림입니다. 2026년 정부예산안 58개 부처, 세출 8,108개 항목을 하나하나 뜯어 누구나 볼 수 있게 공개한 시민단체입니다. 공동대표로 함께합니다.</p>
+      <span class="meta">정부예산안 분석 · 회원가입 · 후원</span>
+      <span class="go">재정주권.kr로 이동 <i>↗</i></span>
+    </a>
+    <a class="mb " href="press.html">
+      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="14" height="14.5" rx="1.6"/><path d="M17.5 9h3v8.5a2 2 0 0 1-2 2M7 9h7M7 12.5h7M7 16h4"/></svg></span><span class="k">언론이 본 김보미</span></span>
       <h3>언론·영상</h3>
-      <p>기사와 인터뷰 모음</p>
+      <p>신문·방송 인터뷰와 기사, 유튜브 영상을 최신순으로 정리했습니다. 원문 링크로 바로 이어집니다.</p>
+      <span class="meta">기사 · 인터뷰 · 방송 · 유튜브</span>
+      <span class="go">기사·영상 보기 <i>→</i></span>
     </a>
-    <a class="mb" href="archive.html">
-      <span class="ic">🗂️</span><span class="ar">→</span>
+    <a class="mb " href="archive.html">
+      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 8.5h17v10a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5z"/><path d="M5 4.5h14l1.5 4h-17zM9.5 12.5h5"/></svg></span><span class="k">지난 기록</span></span>
       <h3>기록관</h3>
-      <p>2026 전당대회 완주 기록</p>
+      <p>2026 전당대회 당대표 예비경선을 끝까지 완주한 기록입니다. 출마선언문과 25개 약속, 감사 인사를 원문 그대로 보존했습니다.</p>
+      <span class="meta">출마선언문 · 공약집 · 감사 인사</span>
+      <span class="go">기록 보러 가기 <i>→</i></span>
     </a>
   </div>
 
@@ -301,7 +327,6 @@ fetch('/api/posts?action=list&type=vision&limit=3').then(function(r){return r.js
   drawPosts(rows);
 }).catch(function(){});
 </script>
+<script defer src="/assets/ud365-buildup.js"></script>
 </body>
 </html>
-
-</body></html>
