@@ -366,6 +366,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   <div class="kbx-fn"><span>Copyright © 2026 김보미 · 재정주권시민행동. All Rights Reserved.</span></div>
 </footer>
 
+<script src="static-posts.js"></script>
 <script>
 /* 김보미목소리 — 최신 3편 (사이트에서는 실시간 갱신, 실패 시 아래 값 유지) */
 var POSTS=[{"id": "pmtj82na5ulu2", "t": "신정훈 단장님, 공천 혁신을 위한 끝장토론을 제안합니다", "x": "신정훈 공천혁신추진단장의 첫 회의 모두발언을 읽었습니다. \"사람보다 원칙이 앞서는 공천\", \"불편한 목소리일수록 경청하겠다.\" 과거에 대한 처절한 반성과 진상규명도 없이 또다시 그럴듯한 '선언'부터 늘어놓는 모습에 실망을 넘어 깊은 ", "d": "2026.09.02"}, {"id": "pmte274174vpm", "t": "[신동아 2030 청년 정치인 대담] 김보미 전 강진군의회 의장-이범석 인천시 의원", "x": "● 김보미 “6·3지선 컷오프 이어 당대표 경선도 ‘광탈’” ● 청년이 민주당 떠나는 이유…내로남불·위선·무책임 ● 당 운영체제만 공정하게 바꿔도 세대교체 이뤄져 ● 이범석 “‘헌신했는데 돌아오는 게 없다’는 청년 무력감 존재” ● ", "d": "2026.08.29"}, {"id": "pmrx16ngsknrx", "t": "여러분의 커피 한 잔이 저의 가장 든든한 '확성기'가 되고 있습니다!", "x": "존경하는 국민 여러분, 당원 동지 여러분, 김보미입니다. 여러분이 십시일반 모아주신 소중한 후원금이 드디어 제 예비후보 기탁금 1천만원을 넘었습니다! 여러분이 주신 후원금으로 스튜디오를 빌려 영상도 찍고, 그리고 오늘 드디어 중앙위원", "d": "2026.07.23"}];
@@ -390,9 +391,18 @@ function drawPress(list){
 }
 drawPosts(POSTS); drawPress(PRESS);
 /* 라이브 갱신 (아티팩트 미리보기에서는 차단되어 정적 값 유지) */
-fetch('/api/posts?action=list&type=vision&limit=3').then(function(r){return r.json()}).then(function(d){
-  if(!d||!d.ok||!d.items||!d.items.length) return;
-  var rows=d.items.slice(0,3).map(function(it){
+/* 고정 게시글(static-posts.js)과 API 목록을 합쳐 최신 3건. 한쪽만 있어도 그것만 쓴다 */
+function kbMergePosts(items){
+  var st=(window.KB_STATIC_POSTS||[]).slice(), ids={};
+  items.forEach(function(p){ ids[p.id]=1; });
+  st.forEach(function(p){ if(!ids[p.id]) items.push(p); });
+  items.sort(function(a,b){ return (b.publishAt||0)-(a.publishAt||0); });
+  return items;
+}
+function kbDrawMerged(apiItems){
+  var all=kbMergePosts((apiItems||[]).slice());
+  if(!all.length) return;
+  var rows=all.slice(0,3).map(function(it){
     var b=String(it.body||'').replace(/\[img:[^\]]*\]/g,'').replace(/<[^>]*>/g,'').replace(/\s+/g,' ').trim();
     if(it.title && b.indexOf(it.title)>-1) b=b.slice(b.indexOf(it.title)+it.title.length).replace(/^[>\]\s]*/,'');
     var dt=new Date(it.publishAt||Date.now());
@@ -400,6 +410,10 @@ fetch('/api/posts?action=list&type=vision&limit=3').then(function(r){return r.js
     return {id:it.id,t:it.title||'',x:b.slice(0,130),d:dt.getFullYear()+'.'+p2(dt.getMonth()+1)+'.'+p2(dt.getDate())};
   });
   drawPosts(rows);
+}
+kbDrawMerged([]);
+fetch('/api/posts?action=list&type=vision&limit=6').then(function(r){return r.json()}).then(function(d){
+  kbDrawMerged((d&&d.ok&&d.items)?d.items:[]);
 }).catch(function(){});
 </script>
 <script defer src="/assets/ud365-buildup.js"></script>
