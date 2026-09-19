@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>김보미 — 공정과 미래, 정치개혁을 시스템으로 | 재정주권시민행동 공동대표</title>
-<meta name="description" content="기득권의 밀실을 열고, 풀뿌리에서 세대교체를 만들고, 정치개혁을 제도로 남깁니다. 전국 최연소 기초의회 의장을 지낸 김보미 — 243개 지방정부의 예산·집행·계약을 시민이 직접 감시하는 「우리동네365」.">
+<title>김보미 | 공정과 미래, 정치개혁을 시스템으로</title>
+<meta name="description" content="기득권의 밀실을 열고, 풀뿌리에서 세대교체를 만들고, 정치개혁을 제도로 남깁니다. 전국 최연소 기초의회 의장을 지낸 김보미. 지방정부 243곳과 중앙정부 62개 부처의 예산을 시민이 직접 보는 「우리동네365」를 운영합니다.">
 <link rel="canonical" href="https://www.xn--4k0b53xuva.com/">
 <meta property="og:type" content="website"><meta property="og:title" content="김보미 — 공정과 미래, 정치개혁을 시스템으로">
 <meta property="og:description" content="밀실은 열고, 기득권은 깨고, 공정과 미래를 시스템으로 만듭니다.">
@@ -17,9 +17,19 @@
 <link rel="stylesheet" href="assets/kb-ledger.css">
 <style>
 /* ── 히어로 ── */
-.hero{padding:26px 0 8px}
+:root{--r-lg:16px;--r-sm:10px;--gap:16px;--blk:24px}
+/* ── 세로 리듬: 블록 24px, 새 주제 앞 38px. 섹션 자체 여백은 쓰지 않는다 ── */
+.sec{padding:0}
+.sec > .w > *{margin-top:var(--blk)}
+.sec > .w > .eyebrow{margin-top:38px;margin-bottom:10px}
+.sec > .w > .eyebrow + .vhd{margin-top:0}
+.sec > .w > .vhd:first-child{margin-top:38px}
+main{padding-bottom:46px}
+
+
+.hero{padding:26px 0 10px}
 .hin{display:grid;grid-template-columns:400px 1fr;gap:34px;align-items:center}
-.hpic{margin:0;border-radius:16px;overflow:hidden;background:var(--green2);border:1px solid var(--line)}
+.hpic{margin:0;border-radius:var(--r-lg);overflow:hidden;background:var(--green2);border:1px solid var(--line)}
 .hpic img{display:block;width:100%;height:auto}
 .hbd{display:flex;flex-direction:column;justify-content:center;padding:6px 0}
 .hbd .role{font-size:.85rem;font-weight:700;color:var(--green);letter-spacing:.02em;margin:0 0 6px}
@@ -34,18 +44,18 @@
 .hnum span{display:block;font-size:.8rem;line-height:1.45;color:var(--mut);margin-top:4px}
 
 /* ── 6개 메뉴 ── */
-.m6{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
-.mb{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px;display:flex;flex-direction:column;min-height:252px;transition:transform .16s,box-shadow .16s,border-color .16s}
+.m6{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);margin-top:var(--blk)}
+.mb{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px 22px 20px;display:flex;flex-direction:column;min-height:252px;transition:transform .16s,box-shadow .16s,border-color .16s}
 .mb:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 10px 26px rgba(15,90,74,.10)}
 .mb:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .mb .top{display:flex;align-items:center;gap:10px}
-.mb .ic{width:42px;height:42px;border-radius:12px;background:#EAF1EE;color:var(--green);display:grid;place-items:center;flex:none}
-.mb .ic svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.mb .k{font-size:.76rem;font-weight:700;color:var(--green);letter-spacing:.02em}
+.mb .ic{width:36px;height:36px;border-radius:var(--r-sm);background:#EAF1EE;color:var(--green);display:grid;place-items:center;flex:none}
+.mb .ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.mb .k{font-size:.72rem;font-weight:700;color:var(--green);letter-spacing:.02em}
 .mb h3{font-size:1.42rem;margin-top:16px;letter-spacing:-.03em}
 .mb p{margin:8px 0 0;font-size:.88rem;color:#4A4C51;line-height:1.72}
-.mb .meta{display:block;margin-top:auto;padding-top:14px;font-size:.8rem;color:var(--mut);line-height:1.6}
-.mb .go{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:12px;border-top:1px solid var(--line);font-size:.88rem;font-weight:700;color:var(--green)}
+.mb .meta{display:block;margin-top:auto;padding-top:11px;font-size:.76rem;color:var(--mut);line-height:1.6}
+.mb .go{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:10px;border-top:1px solid var(--line);font-size:.84rem;font-weight:700;color:var(--green)}
 .mb .go i{font-style:normal;font-size:1.05rem;transition:transform .16s}
 .mb:hover .go i{transform:translateX(4px)}
 .mb.on{background:var(--green);border-color:var(--green);color:#fff}
@@ -61,38 +71,43 @@
 @media(prefers-reduced-motion:reduce){.mb,.mb .go i{transition:none}.mb:hover{transform:none}}
 
 /* ── 우리동네365 전면 배치 ── */
-.f365{display:grid;grid-template-columns:1.25fr 1fr;gap:30px;align-items:center;background:var(--green);color:#fff;border-radius:18px;padding:34px 36px;margin-top:8px;transition:transform .16s,box-shadow .16s}
-.f365:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(15,90,74,.22)}
+.f365{display:block;background:var(--green);color:#fff;border-radius:var(--r-lg);padding:26px 28px;margin-top:var(--blk);transition:transform .16s,box-shadow .16s}
+.f365 .gos{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
+.f365 .go{text-decoration:none;transition:transform .16s,box-shadow .16s}
+.f365 .go:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.f365 .go.alt{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.55)}
+.f365 .go.alt:hover{background:rgba(255,255,255,.12)}
 .f365:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-.f365 .k{font-size:.8rem;font-weight:700;color:#F0D48A}
-.f365 h2{font-size:2.5rem;color:#fff;margin-top:6px;font-weight:900;letter-spacing:-.04em;line-height:1.2}
-.f365 p{margin:12px 0 0;font-size:.98rem;line-height:1.85;color:rgba(255,255,255,.9);max-width:560px}
-.f365 .go{display:inline-flex;align-items:center;gap:10px;margin-top:20px;background:#fff;color:var(--green2);font-weight:700;font-size:.95rem;padding:11px 20px;border-radius:10px}
-.f365 .go i{font-style:normal;transition:transform .16s}.f365:hover .go i{transform:translateX(4px)}
-.f365 .fr{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.f365 .fr div{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:16px 18px}
-.f365 .fr b{display:block;font-family:var(--mono);font-size:1.7rem;line-height:1.2;color:#fff;font-variant-numeric:tabular-nums}
-.f365 .fr span{display:block;font-size:.78rem;color:rgba(255,255,255,.76);margin-top:4px;line-height:1.5}
-.m6.m4{grid-template-columns:repeat(4,1fr);margin-top:16px}
-.m6.m4 .mb{min-height:0;padding:20px 20px 18px}
-.m6.m4 .mb h3{font-size:1.24rem;margin-top:14px}
-.m6.m4 .mb p{font-size:.85rem}
-@media(prefers-reduced-motion:reduce){.f365,.f365 .go i{transition:none}.f365:hover{transform:none}}
+.f365 .k{font-size:.75rem;font-weight:700;color:#F0D48A}
+.f365 h2{font-size:2rem;color:#fff;margin-top:4px;font-weight:900;letter-spacing:-.04em;line-height:1.2}
+.f365 p{margin:10px 0 0;font-size:.92rem;line-height:1.78;color:rgba(255,255,255,.9);max-width:720px}
+.f365 .go{display:inline-flex;align-items:center;gap:9px;background:#fff;color:var(--green2);font-weight:700;font-size:.89rem;padding:9px 17px;border-radius:var(--r-sm)}
+.f365 .go i{font-style:normal;transition:transform .16s}.f365 .go:hover i{transform:translateX(4px)}
+.f365 .fr{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:20px;padding-top:17px;border-top:1px solid rgba(255,255,255,.22)}
+.f365 .fr div{padding:2px 16px 2px 0;border-right:1px solid rgba(255,255,255,.22)}
+.f365 .fr div:last-child{border-right:0;padding-right:0}
+.f365 .fr b{display:block;font-family:var(--mono);font-size:1.42rem;line-height:1.2;color:#fff;font-variant-numeric:tabular-nums}
+.f365 .fr span{display:block;font-size:.74rem;color:rgba(255,255,255,.76);margin-top:4px;line-height:1.5}
+.m6.m4{grid-template-columns:repeat(4,1fr);margin-top:var(--blk)}
+.m6.m4 .mb{min-height:0;padding:17px 17px 15px}
+.m6.m4 .mb h3{font-size:1.1rem;margin-top:11px}
+.m6.m4 .mb p{font-size:.82rem;line-height:1.68;margin-top:6px}
+@media(prefers-reduced-motion:reduce){.f365 .go,.f365 .go i{transition:none}.f365 .go:hover{transform:none}}
 
 /* ── 기록관 배너 ── */
-.arch{display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-top:26px}
+.arch{display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px 24px;margin-top:var(--blk)}
 .arch .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--mut)}
 .arch h3{font-size:1.32rem;margin-top:4px}
 .arch p{margin:5px 0 0;font-size:.85rem;color:var(--mut)}
 .arch .go{margin-left:auto;font-size:.86rem;font-weight:700;color:var(--green);white-space:nowrap}
 
 /* ── 정당 돈 ── */
-.pm{background:var(--navy);color:#EAF0FA;border-radius:16px;padding:30px 32px;margin-top:16px;display:grid;grid-template-columns:1fr 330px;gap:28px;align-items:center}
+.pm{background:var(--navy);color:#EAF0FA;border-radius:var(--r-lg);padding:30px 32px;margin-top:var(--blk);display:grid;grid-template-columns:1fr 330px;gap:28px;align-items:center}
 .pm .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;color:var(--gold)}
 .pm h2{font-size:2.05rem;line-height:1.28;color:#fff;margin-top:8px}
 .pm p{margin:12px 0 0;font-size:.93rem;line-height:1.8;color:rgba(234,240,250,.82);max-width:600px}
 .pm .go{display:inline-block;margin-top:16px;font-size:.88rem;font-weight:700;color:var(--gold);border-bottom:1px solid var(--gold)}
-.pm .box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:20px}
+.pm .box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:var(--r-sm);padding:20px}
 .pm .box .l{font-size:.78rem;color:rgba(234,240,250,.72)}
 .pm .box .n{font-family:var(--mono);font-size:2.35rem;color:#fff;line-height:1.15;margin-top:4px}
 .pm .box .s{font-size:.8rem;color:rgba(234,240,250,.6);margin-top:8px;line-height:1.6}
@@ -101,8 +116,8 @@
 .vhd{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
 .vhd h2{font-size:1.72rem;line-height:1.4}
 .vhd .go{margin-left:auto;font-size:.85rem;font-weight:700;color:var(--green)}
-.vrow{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
-.vc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;min-height:196px}
+.vrow{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);margin-top:var(--gap)}
+.vc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;display:flex;flex-direction:column;min-height:196px}
 .vc:hover{border-color:var(--green)}
 .vc .k{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;color:var(--green)}
 .vc h3{font-size:1.02rem;line-height:1.5;margin-top:8px;font-family:var(--sans);font-weight:700;
@@ -112,8 +127,8 @@
 .vc .d{margin-top:auto;padding-top:12px;font-family:var(--mono);font-size:.72rem;color:#A9A398}
 
 /* ── 언론이 기록한 김보미 ── */
-.prow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
-.pc{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.prow{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);margin-top:var(--gap)}
+.pc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column}
 .pc:hover{border-color:var(--navy);transform:translateY(-2px);transition:.16s}
 .pc .t{display:block;height:148px;background:#E7E3DA;overflow:hidden}
 .pc .t img{width:100%;height:100%;object-fit:cover;display:block}
@@ -154,11 +169,24 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   .pm h2{font-size:1.58rem}
   .arch .go{margin-left:0}
 }
+
+@media(max-width:760px){
+  .f365{padding:26px 22px}
+  .f365 h2{font-size:2rem}
+  .f365 .fr{grid-template-columns:repeat(2,1fr);margin-top:20px;padding-top:18px}
+  .f365 .fr div{padding:10px 14px 10px 0;border-right:1px solid rgba(255,255,255,.22)}
+  .f365 .fr div:nth-child(2n){border-right:0;padding-right:0}
+  .f365 .fr div:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.22)}
+  .f365 .fr b{font-size:1.5rem}
+  .f365 .gos{gap:8px;flex-direction:column;align-items:stretch}
+  .f365 .go{padding:12px 16px;font-size:.92rem;justify-content:space-between}
+}
 </style>
+<link rel="stylesheet" href="assets/kb-common.css">
 </head>
 <body>
 
-<div class="strip"><b>우리동네365</b> — 전국 243개 지방정부의 예산·집행·계약, 시민이 직접 감시합니다 · 기준일 2026.09.13</div>
+<div class="strip"><b>우리동네365</b> | 지방정부 243곳 + 중앙정부 62개 부처, 시민이 직접 봅니다 · 기준일 2026.09.13</div>
 
 <header class="hdr">
   <div class="w">
@@ -170,7 +198,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
       <a href="press.html">언론·영상</a>
       <a href="archive.html">기록관</a>
     </nav>
-    <a class="k365" href="budget365.html" aria-label="우리동네365 — 지방재정 감시·공공데이터"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg><span><b>우리동네365</b><em>지방재정 감시</em></span></a>
+    <a class="k365" href="budget365.html" aria-label="우리동네365 · 내 동네와 나라 살림 예산 보기"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg><span><b>우리동네365</b><em>내 동네와 나라 살림</em></span></a>
     <a class="join" href="pledge.html">함께하기</a>
   </div>
 </header>
@@ -195,22 +223,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 </div></div></section>
 
 <!-- 2. 우리동네365 전면 배치 + 메뉴 4개 -->
-<section class="sec" style="padding-top:22px"><div class="w">
-  <a class="f365" href="budget365.html">
-    <div class="fl">
-      <span class="k">지방재정 감시 · 공공데이터</span>
-      <h2>우리동네365</h2>
-      <p>전국 243개 지방정부의 장부를 시민 앞에 펼쳤습니다. 동네 이름만 넣으면 올해 예산이 어디에 잡혔고, 얼마를 썼고, 어느 업체와 계약했는지 3초 안에 나옵니다. 감시가 제도가 되어야 세금이 제자리를 찾습니다.</p>
-      <span class="go">내 동네 3초 확인 <i>→</i></span>
-    </div>
-    <div class="fr">
-      <div><b>243</b><span>시·도, 시·군·구 전부</span></div>
-      <div><b>468,403</b><span>올해 세부사업 · 2026.09.13</span></div>
-      <div><b>5년</b><span>예산·집행·계약을 해마다 비교</span></div>
-      <div><b>682만</b><span>계약대장 전수 · 2021~2026</span></div>
-    </div>
-  </a>
-
+<section class="sec"><div class="w">
   <div class="m6 m4">
     <a class="mb " href="about.html">
       <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.8 20c.9-3.7 3.8-5.6 7.2-5.6s6.3 1.9 7.2 5.6"/></svg></span><span class="k">풀뿌리 13년</span></span>
@@ -227,10 +240,10 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
       <span class="go">글 읽기 <i>→</i></span>
     </a>
     <a class="mb navy" href="https://taxwatch.kr/" target="_blank" rel="noopener">
-      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.2s-7-4.3-7-9.6a4 4 0 0 1 7-2.6 4 4 0 0 1 7 2.6c0 5.3-7 9.6-7 9.6z"/></svg></span><span class="k">중앙정부 예산 · 58개 부처</span></span>
+      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.2s-7-4.3-7-9.6a4 4 0 0 1 7-2.6 4 4 0 0 1 7 2.6c0 5.3-7 9.6-7 9.6z"/></svg></span><span class="k">시민단체 · 공동대표</span></span>
       <h3>재정주권시민행동</h3>
-      <p>나라 살림입니다. 2026년 정부예산안 58개 부처, 세출 8,108개 항목을 하나하나 뜯어 누구나 볼 수 있게 공개한 시민단체입니다. 공동대표로 함께합니다.</p>
-      <span class="meta">정부예산안 분석 · 회원가입 · 후원</span>
+      <p>숫자를 펼쳐 놓는 데서 그치지 않고 따져 묻는 쪽입니다. 2026년 정부예산안 세출 8,108개 항목을 뜯어 공개했고, 공동대표로 함께합니다.</p>
+      <span class="meta">예산 감시 운동 · 회원가입 · 후원</span>
       <span class="go">taxwatch.kr로 이동 <i>↗</i></span>
     </a>
     <a class="mb " href="press.html">
@@ -242,19 +255,24 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
     </a>
   </div>
 
-  <!-- 3. 기록관 배너 -->
-  <a class="arch" href="archive.html">
-    <div>
-      <span class="k">지난 기록</span>
-      <h3>2026 전당대회 도전 기록</h3>
-      <p>계파도 조직도 없이 나선 당대표 예비경선. 출마선언문 · 25개 약속 · 감사 인사를 원문 그대로 보존했습니다</p>
+  <div class="f365">
+    <div class="fl">
+      <span class="k">지방재정 · 중앙재정 · 공공데이터</span>
+      <h2>우리동네365</h2>
+      <p>지방정부 243곳과 중앙정부 62개 부처의 장부를 한자리에 펼쳤습니다. 동네 이름을 넣으면 올해 예산이 어디에 잡혔고 어느 업체와 계약했는지 나오고, 부처 이름을 넣으면 그 부처가 어떤 사업에 얼마를 쓰는지 나옵니다. 정보공개청구도, 담당 공무원한테 물을 일도 없습니다.</p>
+      <span class="gos"><a class="go" href="budget365.html">내 동네 3초 확인 <i>→</i></a><a class="go alt" href="budget365.html#/gov">나라 살림 보기 <i>→</i></a></span>
     </div>
-    <span class="go">기록 보러 가기 →</span>
-  </a>
+    <div class="fr">
+      <div><b>243</b><span>지방정부 전수</span></div>
+      <div><b>62</b><span>중앙정부 부처 전수</span></div>
+      <div><b>47.7만</b><span>세부사업 전수</span></div>
+      <div><b>682만</b><span>계약 건수 (2021~2026)</span></div>
+    </div>
+  </div>
 </div></section>
 
 <!-- 4. 정당 돈 -->
-<section class="sec" style="padding-top:8px"><div class="w">
+<section class="sec"><div class="w">
   <div class="pm">
     <div>
       <span class="k">정치개혁 · 정당 재정 공개</span>
@@ -281,36 +299,71 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 </div></section>
 
 <!-- 6. 언론이 기록한 김보미 -->
-<section class="sec" style="padding-top:8px"><div class="w">
-  <p class="eyebrow">Press</p>
+<section class="sec"><div class="w">
   <div class="vhd">
     <h2>언론이 기록한 김보미</h2>
     <a class="go" href="press.html">언론·영상 아카이브 전체 보기 →</a>
   </div>
   <div class="prow" id="prow"></div>
+
+  <!-- 지난 기록 -->
+  <a class="arch" href="archive.html">
+    <div>
+      <span class="k">지난 기록</span>
+      <h3>2026 당대표 예비경선 기록</h3>
+      <p>계파도 조직도 없이 나섰던 예비경선. 출마선언문, 25개 약속, 감사 인사를 손대지 않고 그대로 두었습니다.</p>
+    </div>
+    <span class="go">기록 보러 가기 →</span>
+  </a>
 </div></section>
 
 </main>
 
-<footer class="site">
-  <div class="fw">
+<footer class="kbx-foot">
+  <div class="kbx-fw">
     <div>
-      <div class="fb">김보미.com</div>
-      <div class="fc">
-        kimbomi891204@gmail.com · 010-7331-0179<br>
-        우리 혈세는 정부의 것도, 단체장의 것도 아닌 국민의 세금입니다.<br>
-        시민의 연대와 참여가 곧 새로운 민주주의의 시작입니다.
+      <a class="kbx-fb" href="index.html">김보미<i>.com</i></a>
+      <span class="kbx-fs">김보미 공식 홈페이지<br>공정과 미래, 정치개혁을 시스템으로</span>
+    </div>
+    <div>
+      <nav class="kbx-fnav" aria-label="바닥 메뉴">
+        <a href="about.html">김보미는</a>
+        <a href="vision.html">김보미목소리</a>
+        <a href="press.html">언론·영상</a>
+        <a href="party-money.html">정당 돈</a>
+        <a href="report.html">소통·제보</a>
+        <a href="archive.html">기록관</a>
+        <a href="privacy.html">개인정보처리방침</a>
+      </nav>
+      <ul class="kbx-fi">
+        <li><b>운영</b>김보미 · 재정주권시민행동 공동대표 · 前 강진군의회 의장</li>
+        <li><b>전화</b>010-7331-0179</li>
+        <li><b>이메일</b><a href="mailto:kimbomi891204@gmail.com">kimbomi891204@gmail.com</a></li>
+        <li><b>함께하기</b><a href="pledge.html">재정주권시민행동 회원가입 · 후원 안내</a></li>
+        <li><b>자료 출처</b>행정안전부 지방재정365 · 중앙선거관리위원회 · 국민권익위원회</li>
+      </ul>
+    </div>
+    <div>
+      <details class="kbx-rel">
+        <summary>관련 사이트 바로가기</summary>
+        <ul>
+          <li><a href="budget365.html">우리동네365 <span>지방정부 243곳</span></a></li>
+          <li><a href="https://taxwatch.kr/" target="_blank" rel="noopener">재정주권시민행동 <span>taxwatch.kr ↗</span></a></li>
+          <li><a href="https://www.lofin365.go.kr/" target="_blank" rel="noopener">지방재정365 <span>행정안전부 ↗</span></a></li>
+          <li><a href="https://policy.nec.go.kr/" target="_blank" rel="noopener">정책·공약마당 <span>중앙선관위 ↗</span></a></li>
+        </ul>
+      </details>
+      <span class="kbx-snsh">김보미 SNS 채널</span>
+      <div class="kbx-sns">
+        <a href="https://facebook.com/kimbomi1989" target="_blank" rel="noopener" aria-label="페이스북"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.6 21v-7.2h2.5l.4-3h-2.9V8.9c0-.9.3-1.4 1.5-1.4h1.5V4.8c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.300H8.2v3h2.500V21z"/></svg></a>
+        <a href="https://youtube.com/@kimbomi1989" target="_blank" rel="noopener" aria-label="유튜브"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.200 8.100a2.400 2.400 0 0 0-1.700-1.700C18 6 12 6 12 6s-6 0-7.500.4A2.400 2.400 0 0 0 2.800 8.100C2.400 9.600 2.400 12 2.400 12s0 2.400.4 3.900a2.400 2.400 0 0 0 1.700 1.700C6 18 12 18 12 18s6 0 7.500-.4a2.400 2.400 0 0 0 1.700-1.700c.4-1.500.4-3.900.4-3.900s0-2.400-.4-3.900zM10.100 14.600V9.400l4.700 2.600z"/></svg></a>
+        <a href="https://instagram.com/kimbomi1989" target="_blank" rel="noopener" aria-label="인스타그램"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5zm0 1.900A3.100 3.100 0 0 0 4.900 8v8A3.100 3.100 0 0 0 8 19.100h8a3.100 3.100 0 0 0 3.100-3.100V8A3.100 3.100 0 0 0 16 4.900zm4 2.700a4.400 4.400 0 1 1 0 8.800 4.400 4.400 0 0 1 0-8.800zm0 1.900a2.500 2.500 0 1 0 0 5 2.500 2.500 0 0 0 0-5zm4.700-2.300a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg></a>
+        <a href="https://blog.naver.com/kimbom1204" target="_blank" rel="noopener" aria-label="네이버 블로그"><span class="t">blog</span></a>
       </div>
     </div>
-    <div class="fl">
-      <a href="https://youtube.com/@kimbomi1989" target="_blank" rel="noopener">유튜브</a>
-      <a href="https://facebook.com/kimbomi1989" target="_blank" rel="noopener">페이스북</a>
-      <a href="https://instagram.com/kimbomi1989" target="_blank" rel="noopener">인스타그램</a>
-      <a href="https://blog.naver.com/kimbom1204" target="_blank" rel="noopener">블로그</a>
-      <a href="privacy.html">개인정보처리방침</a>
-    </div>
   </div>
-  <div class="fn">자료 출처 — 지방재정365 · 조달청 나라장터 · 국민권익위원회 · 중앙선거관리위원회 · 행정안전부 &nbsp;|&nbsp; © 2026 김보미 · 재정주권시민행동</div>
+  <div class="kbx-fnote"><p>이 사이트의 재정 자료는 정부가 공개한 원자료입니다. 값을 만들지 않으며, 확인되지 않은 값은 비워 둡니다.</p></div>
+  <div class="kbx-fn"><span>Copyright © 2026 김보미 · 재정주권시민행동. All Rights Reserved.</span></div>
 </footer>
 
 <script>
