@@ -96,7 +96,7 @@ module.exports = async (req, res) => {
     if (!rows || !rows.length) {
       res.setHeader("Cache-Control", "no-store");
       if (/인증키|SERVICE ?KEY|UNREGISTERED|등록되지 않|미등록/i.test(lastMsg || "")) {
-        await kbAlertAdmin("지방재정365 인증키 오류 — 나라살림 실데이터 중단", "/api/budget 업스트림 응답: " + lastMsg);
+        await kbAlertAdmin("지방재정365 인증키 오류 — 지방재정 실데이터 중단", "/api/budget 업스트림 응답: " + lastMsg);
       }
       return res.status(200).json({ error: "데이터 없음 — " + (lastMsg || "연도/인증키 확인"), needsKey: /인증키/.test(lastMsg || "") });
     }

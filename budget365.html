@@ -254,7 +254,7 @@ tr.row{cursor:pointer}tr.row:hover td{background:var(--gold-soft)!important}
 .nav a.on b{color:var(--navy)}
 @media (max-width:900px){.nav a b{display:none}}
 
-/* ═══════════ 나라 살림(중앙정부 62개 부처) ═══════════ */
+/* ═══════════ 중앙정부 62개 부처 ═══════════ */
 .nav-hd{padding:13px 14px 6px;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--ink-3);text-transform:none}
 .nav-hd span{display:block;font-weight:500;font-size:10.5px;color:var(--line-2);letter-spacing:0;margin-top:1px}
 .nav-hd.gov{border-top:1px solid var(--line);margin-top:8px}
@@ -914,7 +914,7 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeMd(); });
 /* ═══════════ 사업·민원 키워드 검색(전국) — data/search.txt(2026 세부사업 468,403건 + 2025 연말 금액) ═══════════ */
 async function gunzipB64(url){ const r=await fetch(url); if(!r.ok) throw new Error('자료 없음: '+url); const b64=(await r.text()).trim(); const bin=atob(b64); const u8=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i); const st=new Blob([u8]).stream().pipeThrough(new DecompressionStream('gzip')); return JSON.parse(await new Response(st).text()); }
 
-/* ═══════════ 나라 살림 — 중앙정부 62개 부처 (2026) ═══════════
+/* ═══════════ 중앙정부 62개 부처 (2026) ═══════════
    총액  : 기획예산처·한국재정정보원 열린재정 「부처별 세출예산/결산」 2026 본예산
    세부사업: 2026 예산사업 9,154건 (수집 2026-09-18)
    ※ 두 숫자는 기준이 다르다. 공식 총액은 '총지출 기준'(회계·기금 간 내부거래 제외),
@@ -939,7 +939,7 @@ async function renderGov(sg){ const ix=await loadGovIndex(); if(sg) return rende
   <div class="wrap" style="padding-top:18px">${GOVSW('gov')}</div>
   <div class="band"><div class="wrap hero">
     <span class="pill"><i></i>중앙정부 ${M.length}개 부처 · 2026 본예산 기준</span>
-    <h1>나라 살림도<br><em>같은 장부</em>로 봅니다</h1>
+    <h1>중앙정부 예산도<br><em>같은 장부</em>로 봅니다</h1>
     <p>내 동네 예산을 보던 것과 같은 방식으로 중앙정부를 펼쳤습니다. 부처를 고르면 그 부처가 올해 어떤 사업에 얼마를 쓰는지, 작년보다 얼마나 늘고 줄었는지 한 줄씩 나옵니다. 모든 숫자에 출처와 기준을 붙였고, 정부가 공개하지 않은 금액은 비워 둡니다.</p>
     <div class="stats">
       <div><b>${num(M.length)}<small>곳</small></b><span>중앙행정기관 전수</span></div>

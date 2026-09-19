@@ -33,9 +33,9 @@
   var st=document.createElement('style'); st.textContent=css; document.head.appendChild(st);
   var wrap=document.createElement('div'); wrap.id='ud365bu'; wrap.setAttribute('role','dialog'); wrap.setAttribute('aria-modal','true'); wrap.setAttribute('aria-labelledby','ud365bu-h');
   wrap.innerHTML='<div class="bx"><div class="st"><canvas id="ud365c" aria-hidden="true"></canvas><div class="stat" id="ud365s">기초 다지는 중…</div><button class="x" aria-label="닫기">×</button></div>'+
-    '<div class="tx"><div class="eb">우리동네365 · 새로 열린 화면</div><h2 id="ud365bu-h">이제 나라 살림도 함께 봅니다</h2>'+
+    '<div class="tx"><div class="eb">우리동네365 · 새로 열린 화면</div><h2 id="ud365bu-h">이제 중앙정부 예산도 함께 봅니다</h2>'+
     '<p>지방정부 243곳에 더해 중앙정부 62개 부처의 예산을 같은 화면에서 볼 수 있게 했습니다. 부처를 고르면 올해 어떤 사업에 얼마를 쓰는지 세부사업 9,154건이 한 줄씩 나옵니다. 지방은 지방재정365와 나라장터, 중앙은 열린재정 공식 공개자료를 원자료와 대조해 실었고, 정부가 공개하지 않은 금액은 채우지 않고 비워 둡니다.</p>'+
-    '<div class="pb"><i></i></div><div class="bt"><button id="ud365go">나라 살림 보러 가기 →</button><button class="g" id="ud365hide">오늘 하루 보지 않기</button></div></div></div>';
+    '<div class="pb"><i></i></div><div class="bt"><button id="ud365go">중앙정부 예산 보러 가기 →</button><button class="g" id="ud365hide">오늘 하루 보지 않기</button></div></div></div>';
   document.body.appendChild(wrap);
   var prevOverflow=document.body.style.overflow; document.body.style.overflow='hidden';
   function close(){ try{ if(wrap._raf) cancelAnimationFrame(wrap._raf); }catch(e){} wrap.remove(); document.body.style.overflow=prevOverflow; }
