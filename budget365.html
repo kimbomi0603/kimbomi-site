@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>우리동네365 | 지방정부 243곳과 중앙정부 62개 부처 예산을 한자리에</title>
-<meta name="description" content="내 동네 예산부터 나라 살림까지. 전국 243개 지방정부의 세출예산·집행률·계약·업체 쏠림·단체장 공약과, 중앙정부 62개 부처의 세출예산·세부사업을 원자료 그대로 펼쳐 봅니다.">
+<meta name="description" content="지방정부 243곳부터 중앙정부 62개 부처까지. 전국 243개 지방정부의 세출예산·집행률·계약·업체 쏠림·단체장 공약과, 중앙정부 62개 부처의 세출예산·세부사업을 원자료 그대로 펼쳐 봅니다.">
 <link rel="canonical" href="https://www.xn--4k0b53xuva.com/budget365.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="우리동네365 | 내 동네 예산부터 나라 살림까지">
+<meta property="og:title" content="우리동네365 | 지방정부 243곳부터 중앙정부 62개 부처까지">
 <meta property="og:description" content="지방정부 243곳과 중앙정부 62개 부처의 예산을 원자료 그대로.">
 <meta property="og:url" content="https://www.xn--4k0b53xuva.com/budget365.html">
 <meta property="og:image" content="https://www.xn--4k0b53xuva.com/og.jpg">
@@ -967,7 +967,7 @@ async function renderGovMin(ix,sg){ const m=ix.ministries.find(x=>x.sg===sg); if
   document.getElementById('app').innerHTML=`
   <div class="wrap" style="padding-top:18px">${GOVSW('gov')}</div>
   <div class="lgband"><div class="wrap">
-    <div class="crumb"><a href="#/gov">나라 살림</a> › ${esc(m.cat||'중앙행정기관')}</div>
+    <div class="crumb"><a href="#/gov">중앙정부</a> › ${esc(m.cat||'중앙행정기관')}</div>
     <h1>${esc(m.nm)}</h1>
     <div class="stats">
       <div><b>${m.exp==null?NA:mjo(m.exp)}<small>${m.exp==null?'':'조원'}</small></b><span>2026 총지출 기준</span></div>
