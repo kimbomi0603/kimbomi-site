@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>강진군 예산 365 | 세출예산서 공개</title>
+<title>강진군 예산 상세 | 우리동네365</title>
 <link rel="canonical" href="https://www.xn--4k0b53xuva.com/region.html">
-<meta name="description" content="강진군의 세출예산서·결산서·사업별 집행 현황을 공개하는 시민 재정 감시 페이지">
-<meta property="og:title" content="강진군 예산 365 — 세출예산서 공개">
-<meta property="og:description" content="시민이 직접 확인하는 강진군 세출예산 원본 문서">
+<meta name="description" content="강진군의 세출예산서·결산서·사업별 집행 현황을 공개하는 시민 재정 감시 페이지. 중앙정부 62개 부처와 지방정부 243개 시·군·구의 예산·집행·계약을 한눈에.">
+<meta property="og:title" content="강진군 예산 상세 | 우리동네365">
+<meta property="og:description" content="시민이 직접 확인하는 강진군 세출예산 원본 문서. 중앙정부 62개 부처와 지방정부 243개 시·군·구의 예산·집행·계약을 한눈에.">
 <meta property="og:image" content="https://www.xn--4k0b53xuva.com/assets/hero_campaign.jpg">
 <meta property="og:url" content="https://www.xn--4k0b53xuva.com/region.html">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -71,7 +71,7 @@ tailwind.config = { theme: { extend: {
   <div class="max-w-screen-xl2 mx-auto px-5">
     <blockquote class="border-l-4 border-mint bg-white rounded-r-2xl shadow-sm p-5 lg:p-6 ring-1 ring-paper-line">
       <p class="text-navy text-[15px] lg:text-[16px] font-bold leading-relaxed">"본 플랫폼은 <b class="text-minju">전국 시·도·군·구(지방정부)</b>의 예산 집행 과정을 투명하게 공개하고 시민 의견을 수렴합니다. 국민의 알 권리와 예산 투명성을 위해 각 지자체의 <b class="text-minju">세출 예산 항목을 PDF 문서로 변환·공개</b>하도록 설계되었습니다."</p>
-      <cite class="block mt-2 text-[12.5px] text-ink-faint not-italic">— 대한민국 재정 365 · 운영원칙</cite>
+      <cite class="block mt-2 text-[12.5px] text-ink-faint not-italic">— 우리동네365 · 운영원칙</cite>
     </blockquote>
   </div>
 </section>
@@ -103,7 +103,7 @@ tailwind.config = { theme: { extend: {
           <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">기금</div><div class="text-[15px] font-extrabold text-navy" id="acF">—</div></div>
           <div class="bg-paper rounded-xl p-3"><div class="text-[11px] text-ink-faint">세출예산 총계</div><div class="text-[15px] font-extrabold text-navy" id="acE">—</div></div>
         </div>
-        <p class="text-[11px] text-ink-faint mb-3" id="acNote">일반회계 + 특별회계 + 기금 = 세출 총계 (지방재정365 2024 회계별 공시) · 나라살림 돋보기와 같은 원자료·같은 정의</p>
+        <p class="text-[11px] text-ink-faint mb-3" id="acNote">일반회계 + 특별회계 + 기금 = 세출 총계 (지방재정365 2024 회계별 공시) · 우리동네365와 같은 원자료·같은 정의</p>
         <div class="overflow-hidden rounded-xl ring-1 ring-paper-line">
           <table class="w-full text-[12.5px]">
             <thead class="bg-paper text-ink-faint"><tr><th class="text-left font-semibold px-2.5 py-1.5">분야</th><th class="text-right font-semibold px-2.5 py-1.5">예산</th><th class="text-right font-semibold px-2.5 py-1.5">집행</th><th class="text-right font-semibold px-2.5 py-1.5">집행률</th></tr></thead>
@@ -150,7 +150,7 @@ tailwind.config = { theme: { extend: {
 <footer class="bg-[#EEF4FB] border-t border-paper-line py-10">
   <div class="max-w-screen-xl2 mx-auto px-5 text-[12px] text-ink-faint leading-relaxed">
     <p class="mb-2"><b class="text-navy">[면책]</b> 본 페이지의 수치는 지방재정365 등 공공데이터 공시값을 그대로 표시한 참고 정보이며, 공시 시점·집계 범위에 따라 자치단체 확정 결산과 다를 수 있습니다. 확보하지 못한 값은 추정하지 않고 &lsquo;—&rsquo;로 비웁니다. 공적·법적 대응 전 반드시 해당 지자체·의회 공식 원부로 재확인하세요.</p>
-    <p>© 2026 대한민국 재정 365 · 운영: 김보미 · <a href="/" class="text-minju hover:underline">메인으로</a></p>
+    <p>© 2026 우리동네365 · 운영: 김보미 · <a href="/" class="text-minju hover:underline">메인으로</a></p>
   </div>
 </footer>
 
@@ -179,7 +179,7 @@ const CONTRACTS = {
    자동 처리 — 일반적으로 건드릴 필요 없음
    ============================================================ */
 ['hRegion','heroRegion','ctaRegion','docsRegion'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=REGION; });
-document.title = REGION + ' 예산 365 | 세출예산서 공개';
+document.title = REGION + ' 예산 상세 | 우리동네365';
 document.getElementById('kpiR').textContent = RATE>0 ? RATE.toFixed(2) : '—';
 document.getElementById('kpiRNote').textContent = RATE_NOTE;
 document.getElementById('cityHome').href = CITY_HOME;
@@ -281,7 +281,7 @@ fetch('/api/budget?zone='+encodeURIComponent(ZONE),{cache:'no-store'}).then(r=>r
 }).catch(()=>{ render({},false); });
 
 /* ============================================================
-   2026-09-03 추가 — 나라살림 돋보기(narasalim.html)와 같은 원자료·같은 정의로 통일.
+   2026-09-03 추가 — 우리동네365(narasalim.html)와 같은 원자료·같은 정의로 통일.
    같은 '총예산'이라는 말이 이 페이지에서는 세입결산 규모(6,041억), 저쪽에서는
    회계별 세출예산 총계(5,281억)를 가리켜 두 화면의 숫자가 달라 보였다.
    → 지방재정365 스냅샷(ACC·SR·EXEC)에서 같은 값을 받아 라벨과 함께 표시한다.

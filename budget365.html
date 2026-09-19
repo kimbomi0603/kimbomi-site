@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>우리동네365 | 지방정부 243곳과 중앙정부 62개 부처 예산을 한자리에</title>
-<meta name="description" content="지방정부 243곳부터 중앙정부 62개 부처까지. 전국 243개 지방정부의 세출예산·집행률·계약·업체 쏠림·단체장 공약과, 중앙정부 62개 부처의 세출예산·세부사업을 원자료 그대로 펼쳐 봅니다.">
+<title>우리동네365 | 중앙정부·지방정부 243개 시·군·구 예산을 한눈에</title>
+<meta name="description" content="중앙정부 62개 부처와 지방정부 243개 시·군·구의 예산·집행·계약을 한눈에. 동네 이름이나 부처 이름만 넣으면 올해 예산이 어디에 잡혔고, 얼마를 썼고, 어느 업체와 계약했는지 나옵니다. 정부가 공개한 원자료 그대로, 확인되지 않은 값은 비워 둡니다.">
 <link rel="canonical" href="https://www.xn--4k0b53xuva.com/budget365.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="우리동네365 | 지방정부 243곳부터 중앙정부 62개 부처까지">
-<meta property="og:description" content="지방정부 243곳과 중앙정부 62개 부처의 예산을 원자료 그대로.">
+<meta property="og:title" content="우리동네365 | 중앙정부·지방정부 예산을 한눈에">
+<meta property="og:description" content="중앙정부 62개 부처와 지방정부 243개 시·군·구의 예산·집행·계약을 한눈에. 세부사업 47.7만 건과 계약 682만 건을 원자료 그대로 펼쳤습니다.">
 <meta property="og:url" content="https://www.xn--4k0b53xuva.com/budget365.html">
 <meta property="og:image" content="https://www.xn--4k0b53xuva.com/og.jpg">
 <link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -566,7 +566,7 @@ async function vendorOf(name){ const V=await loadVendor(); if(!V) return null; c
     const st=new Blob([u8]).stream().pipeThrough(new DecompressionStream('gzip')); S.vendSh[sh]=JSON.parse(await new Response(st).text()); }
   return {meta:V.meta, e:S.vendSh[sh][k]||null, key:k}; }
 async function openVendor(cd,name){ const md=document.getElementById('md'); const nm=decodeURIComponent(name);
-  md.innerHTML=`<div class="hd"><button class="x" onclick="closeMd()">×</button><div class="eyebrow">업체 · 전국 계약</div><h3>${esc(nm)}</h3><div class="mut">전국 243개 지자체 계약대장에서 찾는 중…</div></div><div class="bd"><div class="loading">전국 색인을 여는 중… (처음 한 번만 약 9MB)</div></div>`;
+  md.innerHTML=`<div class="hd"><button class="x" onclick="closeMd()">×</button><div class="eyebrow">업체 · 전국 계약</div><h3>${esc(nm)}</h3><div class="mut">지방정부 243개 시·군·구 계약대장에서 찾는 중…</div></div><div class="bd"><div class="loading">전국 색인을 여는 중… (처음 한 번만 약 9MB)</div></div>`;
   document.getElementById('ov').classList.add('open');
   const R=await vendorOf(nm);
   const here=(S.ctrt&&S.ctrt[cd]&&S.ctrt[cd].v||[]).find(v=>vnorm(v[0])===vnorm(nm));
