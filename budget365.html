@@ -98,11 +98,11 @@ h1,h2,h3{font-family:var(--disp);letter-spacing:-.03em}
 .lgband h1{font-family:var(--disp);font-size:clamp(32px,4.6vw,52px);font-weight:900;letter-spacing:-.04em;line-height:1.16;margin:6px 0 6px;color:var(--navy);border-bottom:2px solid var(--rule);padding-bottom:10px}
 .lgband h1 span{color:var(--red)!important;opacity:1!important;font-family:var(--disp)}
 .lgband .sub{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
-.badges{display:flex;gap:0;flex-wrap:wrap;margin-top:12px;border-top:1px solid var(--line-2);border-left:1px solid var(--line-2);width:fit-content;max-width:100%}
+.badges{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin-top:12px;border-top:1px solid var(--line-2);border-left:1px solid var(--line-2);width:fit-content;max-width:100%}
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:13px;padding:6px 12px;border-right:1px solid var(--line-2);border-bottom:1px solid var(--line-2);background:var(--card);color:var(--ink-2)}
 .badge b{font-family:var(--mono);font-weight:600;color:var(--navy)}
-.badge.gold{background:var(--navy);color:#F5F0E4}
-.badge.gold b{color:var(--gold)}
+.badge.gold{background:var(--gold-soft);color:var(--navy);border-right-color:var(--line-2);border-bottom-color:var(--line-2);box-shadow:inset 2px 0 0 var(--navy)}
+.badge.gold b{color:var(--gold-ink)}
 .band .pos{color:var(--teal-ink)}.band .neg{color:var(--red-ink)}
 .modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;margin-top:18px;border-top:1px solid var(--line-2);border-left:1px solid var(--line-2)}
 .modes a{display:grid;grid-template-columns:auto 1fr auto;gap:11px;align-items:center;text-decoration:none;color:var(--ink);background:var(--card);border-right:1px solid var(--line-2);border-bottom:1px solid var(--line-2);padding:13px 15px;transition:background .12s}
@@ -115,9 +115,9 @@ h1,h2,h3{font-family:var(--disp);letter-spacing:-.03em}
 .modes b{display:block;font-family:var(--disp);font-size:16.5px;font-weight:700}
 .modes small{display:block;color:var(--ink-3);font-size:12.5px;line-height:1.5}
 .modes .ar{color:var(--red);font-size:16px}
-.seg{display:inline-flex;background:var(--card);border:1px solid var(--rule);padding:0;margin-top:14px;flex-wrap:wrap}
-.seg a,.seg button{border:0;border-right:1px solid var(--line-2);background:transparent;color:var(--ink-2);padding:7px 16px;font-size:13.5px;font-weight:700;cursor:pointer;text-decoration:none;font-family:inherit}
-.seg a:last-child,.seg button:last-child{border-right:0}
+.seg{display:flex;align-items:stretch;background:var(--card);border:1px solid var(--rule);border-bottom:0;padding:0;margin-top:14px;flex-wrap:wrap;width:fit-content;max-width:100%}
+.seg a,.seg button{border:0;border-right:1px solid var(--line-2);border-bottom:1px solid var(--rule);background:transparent;color:var(--ink-2);padding:7px 16px;font-size:13.5px;font-weight:700;cursor:pointer;text-decoration:none;font-family:inherit}
+.seg .on{outline:1px solid var(--navy);outline-offset:-1px}
 .seg .on{background:var(--navy);color:#F5F0E4}
 .btn{border:1px solid var(--red);background:transparent;color:var(--red);padding:7px 14px;cursor:pointer;font-size:12.5px;font-weight:700}
 .btn:hover{background:var(--red);color:#F5F0E4}
@@ -255,6 +255,10 @@ tr.row{cursor:pointer}tr.row:hover td{background:var(--gold-soft)!important}
 @media (max-width:900px){.nav a b{display:none}}
 
 /* ═══════════ 나라 살림(중앙정부 62개 부처) ═══════════ */
+.nav-hd{padding:13px 14px 6px;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--ink-3);text-transform:none}
+.nav-hd span{display:block;font-weight:500;font-size:10.5px;color:var(--line-2);letter-spacing:0;margin-top:1px}
+.nav-hd.gov{border-top:1px solid var(--line);margin-top:8px}
+.nav .nav-more{font-size:12.5px;color:var(--teal-ink)}
 .gov-sw{display:flex;gap:0;margin:0 0 4px;border:1.5px solid var(--rule)}
 .gov-sw a{flex:1;text-align:center;padding:11px 8px;font-weight:700;font-size:15px;color:var(--ink-2);text-decoration:none;background:var(--card);letter-spacing:-.01em}
 .gov-sw a+a{border-left:1.5px solid var(--rule)}
@@ -289,7 +293,7 @@ tr.row{cursor:pointer}tr.row:hover td{background:var(--gold-soft)!important}
 <header class="top"><div class="wrap">
   <a class="gohome" href="index.html" aria-label="김보미.com 홈으로 돌아가기"><span aria-hidden="true">←</span> 김보미.com 홈으로</a>
   <a class="brand" href="#/"><span class="mk">365</span>우리동네365</a>
-  <nav class="nav"><a href="index.html">김보미.com</a><a href="#/" id="navHome">내 동네 <b>243</b></a><a href="#/gov" id="navGov">나라 살림 <b>62</b></a><a href="#/sido/전남광주통합특별시">전남·광주</a><a href="#/sido/인천광역시">인천</a><a href="#/sido/서울특별시">서울</a></nav>
+  <nav class="nav"><a href="index.html">김보미.com</a><a href="#/" id="navHome">지방정부 <b>243</b></a><a href="#/gov" id="navGov">중앙정부 <b>62</b></a><a href="#/sido/전남광주통합특별시">전남·광주</a><a href="#/sido/인천광역시">인천</a><a href="#/sido/서울특별시">서울</a></nav>
   <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="q" type="search" placeholder="동네 이름 · 사업 키워드 (예: 강진군, 노인일자리)" autocomplete="off" aria-label="지자체 검색"><div class="sug" id="sug"></div></div>
   <span class="stamp" id="stamp"></span>
 </div></header>
@@ -327,12 +331,21 @@ const COLORS=()=>['--c1','--c2','--c3','--c4','--c5','--c6','--c7','--c8'].map(c
 const sgn=(v,f)=>isN(v)?`<span class="${v>0?'pos':v<0?'neg':''}">${v>0?'+':''}${f(v)}</span>`:NA;
 
 const S={index:null,byCd:{},cache:{},g2b:{},charts:[]};
-async function loadIndex(){ const r=await fetch('data/index.json'); S.index=await r.json(); S.index.rows.forEach(x=>S.byCd[x.laf_cd]=x); document.getElementById('stamp').textContent='자료 빌드 '+S.index.built_at.slice(0,10); buildNav(); }
+async function loadIndex(){ const r=await fetch('data/index.json'); S.index=await r.json(); S.index.rows.forEach(x=>S.byCd[x.laf_cd]=x); document.getElementById('stamp').textContent='자료 빌드 '+S.index.built_at.slice(0,10); buildNav();
+  loadGovIndex().then(buildNav).catch(function(){}); }
 const SIDO_SHORT={'전남광주통합특별시':'전남·광주','서울특별시':'서울','부산광역시':'부산','대구광역시':'대구','인천광역시':'인천','대전광역시':'대전','울산광역시':'울산','세종특별자치시':'세종','경기도':'경기','강원특별자치도':'강원','충청북도':'충북','충청남도':'충남','전북특별자치도':'전북','경상북도':'경북','경상남도':'경남','제주특별자치도':'제주'};
 function buildNav(){ const nv=document.querySelector('.nav'); if(!nv||!S.index) return;
   const rows=S.index.rows.filter(x=>x.live_2026&&x.sido_new); const sidos=[...new Set(rows.map(x=>x.sido_new))];
-  nv.innerHTML=`<a href="#/" id="navHome">전국 <b>243</b></a>`+sidos.map(s=>{ const k=rows.filter(x=>x.sido_new===s&&x.level==='기초').length;
-    return `<a href="#/sido/${encodeURIComponent(s)}">${esc(SIDO_SHORT[s]||s)} <b>${k||'단층'}</b></a>`; }).join(''); }
+  const gov=/^#\/gov/.test(location.hash);
+  nv.innerHTML=`<div class="nav-hd">지방정부 <span>243개 시·군·구</span></div>`
+    +`<a href="#/" id="navHome" class="${gov?'':'on'}">전국 <b>243</b></a>`
+    +sidos.map(s=>{ const k=rows.filter(x=>x.sido_new===s&&x.level==='기초').length;
+      return `<a href="#/sido/${encodeURIComponent(s)}">${esc(SIDO_SHORT[s]||s)} <b>${k||'단층'}</b></a>`; }).join('')
+    +`<div class="nav-hd gov">중앙정부 <span>62개 부처</span></div>`
+    +`<a href="#/gov" id="navGov" class="${gov?'on':''}">부처 전체 <b>62</b></a>`
+    +(S.govix?S.govix.ministries.slice().sort((a,b)=>(b.exp??-1)-(a.exp??-1)).slice(0,12)
+        .map(m=>`<a href="#/gov/${encodeURIComponent(m.sg)}">${esc(m.nm)} <b>${m.exp==null?NA:Math.round(m.exp/1e6)+'조'}</b></a>`).join('')
+      :`<a href="#/gov" class="nav-more">부처 목록 열기 →</a>`); }
 async function loadLg(cd){ if(S.cache[cd]) return S.cache[cd];
   const r=await fetch('data/'+cd+'.txt'); if(!r.ok) throw new Error('자료 없음');
   const b64=(await r.text()).trim(); const bin=atob(b64); const u8=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i);
@@ -382,7 +395,8 @@ async function route(){ NAVN++; killCharts(); try{ closeMd(); }catch(e){} const 
   else if(a==='gov'){ await renderGov(cd?decodeURIComponent(cd):''); }
   else renderHome(a==='sido'?decodeURIComponent(cd||''):''); }
   catch(e){ document.getElementById('app').innerHTML=`<div class="wrap"><div class="loading">자료를 불러오지 못했습니다 — ${esc(e.message)}</div></div>`; }
-  document.querySelectorAll('.nav a').forEach(x=>x.classList.toggle('on',x.getAttribute('href')===location.hash||(x.id==='navHome'&&!location.hash)));
+  buildNav();
+  document.querySelectorAll('.nav a').forEach(x=>x.classList.toggle('on',x.getAttribute('href')===location.hash||(x.id==='navHome'&&(!location.hash||location.hash==='#/'))));
   window.scrollTo(0,0); fabSync(); }
 
 /* ═══════════ 홈: 광역 → 기초 격자 ═══════════ */
@@ -391,6 +405,7 @@ function renderHome(sido){ const R=S.index.rows; const live=R.filter(x=>x.live_2
   const withExec=live.filter(x=>x.exec_2026); const dbiz=withExec.reduce((a,x)=>a+x.exec_2026.dbiz,0); const bud=withExec.reduce((a,x)=>a+x.exec_2026.budget,0); const exe=withExec.reduce((a,x)=>a+x.exec_2026.exec,0);
   const asof=withExec[0]?.exec_2026?.exe_ymd;
   document.getElementById('app').innerHTML=`
+  <div class="wrap" style="padding-top:18px">${GOVSW('lg')}</div>
   <div class="band"><div class="wrap hero">
     <span class="pill"><i></i>재정주권시민행동 · 전국 ${live.length}개 지자체 · ${ymd(asof)} 기준</span>
     <h1>우리 혈세는<br><em>국민의 세금</em>입니다</h1>
@@ -905,7 +920,7 @@ async function gunzipB64(url){ const r=await fetch(url); if(!r.ok) throw new Err
    ※ 두 숫자는 기준이 다르다. 공식 총액은 '총지출 기준'(회계·기금 간 내부거래 제외),
      세부사업 합계는 '총계 기준'(내부거래 포함). 한쪽으로 합치지 않고 그대로 나란히 둔다.
    ※ 금액이 공개되지 않은 사업은 '—'. 0으로 채우지 않는다. */
-const GOVSW=(on)=>`<div class="gov-sw"><a href="#/" class="${on==='lg'?'on':''}">내 동네<small>지방정부 243곳</small></a><a href="#/gov" class="${on==='gov'?'on':''}">나라 살림<small>중앙정부 62개 부처</small></a></div>`;
+const GOVSW=(on)=>`<div class="gov-sw"><a href="#/" class="${on==='lg'?'on':''}">지방정부<small>243개 시·군·구</small></a><a href="#/gov" class="${on==='gov'?'on':''}">중앙정부<small>62개 부처</small></a></div>`;
 async function loadGovIndex(){ if(S.govix) return S.govix; const r=await fetch('data/gov-index.json'); if(!r.ok) throw new Error('중앙정부 자료 없음'); return S.govix=await r.json(); }
 async function loadGovMin(sg){ S.govmin=S.govmin||{}; if(S.govmin[sg]) return S.govmin[sg]; return S.govmin[sg]=await gunzipB64('data/gov/'+encodeURIComponent(sg)+'.txt'); }
 const jo=v=>isN(v)?(Number(v)/1e12).toLocaleString('ko-KR',{maximumFractionDigits:1}):NA;   /* 원 → 조 */
