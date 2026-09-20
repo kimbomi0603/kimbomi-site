@@ -7,7 +7,15 @@
    ============================================================ */
 (function(){
   var KEY='ud365-buildup-hide-until';
-  try{ var until=Number(localStorage.getItem(KEY)||0); if(until&&Date.now()<until) return; }catch(e){}
+  /* 하루 보지 않기 — localStorage가 막힌 환경(시크릿 모드·쿠키 차단)에서는
+     sessionStorage, 그것도 막히면 창 변수로 대신해 같은 방문 안에서는 다시 뜨지 않게 한다. */
+  function seen(){ try{ var u=Number(localStorage.getItem(KEY)||0); if(u&&Date.now()<u) return true; }catch(e){}
+    try{ var v=Number(sessionStorage.getItem(KEY)||0); if(v&&Date.now()<v) return true; }catch(e){}
+    return !!(window.__ud365hidden && Date.now()<window.__ud365hidden); }
+  function hide(){ var u=Date.now()+86400000; window.__ud365hidden=u;
+    try{ localStorage.setItem(KEY,String(u)); }catch(e){}
+    try{ sessionStorage.setItem(KEY,String(u)); }catch(e){} }
+  if(seen()) return;
   var reduce=false; try{ reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
   var css='\
 #ud365bu{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(15,23,32,.72);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#1B2430}\
@@ -37,10 +45,15 @@
     '<p>지방정부 243곳에 더해 중앙정부 62개 부처의 예산을 같은 화면에서 볼 수 있게 했습니다. 부처를 고르면 올해 어떤 사업에 얼마를 쓰는지 세부사업 9,154건이 한 줄씩 나옵니다. 지방은 지방재정365와 나라장터, 중앙은 열린재정 공식 공개자료를 원자료와 대조해 실었고, 정부가 공개하지 않은 금액은 채우지 않고 비워 둡니다.</p>'+
     '<div class="pb"><i></i></div><div class="bt"><button id="ud365go">중앙정부 예산 보러 가기 →</button><button class="g" id="ud365hide">오늘 하루 보지 않기</button></div></div></div>';
   document.body.appendChild(wrap);
-  var prevOverflow=document.body.style.overflow; document.body.style.overflow='hidden';
-  function close(){ try{ if(wrap._raf) cancelAnimationFrame(wrap._raf); }catch(e){} wrap.remove(); document.body.style.overflow=prevOverflow; }
+  /* 배경 스크롤 잠금 — iOS 사파리는 overflow:hidden만으로는 막히지 않아 위치를 고정한다 */
+  var B=document.body, prev={overflow:B.style.overflow,position:B.style.position,top:B.style.top,width:B.style.width};
+  var sy=window.pageYOffset||document.documentElement.scrollTop||0;
+  B.style.overflow='hidden'; B.style.position='fixed'; B.style.top=(-sy)+'px'; B.style.width='100%';
+  function close(){ try{ if(wrap._raf) cancelAnimationFrame(wrap._raf); }catch(e){} wrap.remove();
+    B.style.overflow=prev.overflow; B.style.position=prev.position; B.style.top=prev.top; B.style.width=prev.width;
+    window.scrollTo(0,sy); }
   wrap.querySelector('.x').onclick=close; document.getElementById('ud365go').onclick=function(){ close(); location.href='budget365.html#/gov'; };
-  document.getElementById('ud365hide').onclick=function(){ try{ localStorage.setItem(KEY,String(Date.now()+86400000)); }catch(e){} close(); };
+  document.getElementById('ud365hide').onclick=function(){ hide(); close(); };
   wrap.addEventListener('click',function(e){ if(e.target===wrap) close(); });
   document.addEventListener('keydown',function onk(e){ if(e.key==='Escape'){ close(); document.removeEventListener('keydown',onk); } });
   setTimeout(function(){ try{ document.getElementById('ud365go').focus(); }catch(e){} },50);
