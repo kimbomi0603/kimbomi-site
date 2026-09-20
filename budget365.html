@@ -938,18 +938,18 @@ async function renderGov(sg){ const ix=await loadGovIndex(); if(sg) return rende
   document.getElementById('app').innerHTML=`
   <div class="wrap" style="padding-top:18px">${GOVSW('gov')}</div>
   <div class="band"><div class="wrap hero">
-    <span class="pill"><i></i>중앙정부 ${M.length}개 부처 · 2026 본예산 기준</span>
+    <span class="pill"><i></i>중앙정부 ${M.length}개 부처 · 2026 확정예산 기준</span>
     <h1>중앙정부 예산도<br><em>같은 장부</em>로 봅니다</h1>
     <p>내 동네 예산을 보던 것과 같은 방식으로 중앙정부를 펼쳤습니다. 부처를 고르면 그 부처가 올해 어떤 사업에 얼마를 쓰는지, 작년보다 얼마나 늘고 줄었는지 한 줄씩 나옵니다. 모든 숫자에 출처와 기준을 붙였고, 정부가 공개하지 않은 금액은 비워 둡니다.</p>
     <div class="stats">
       <div><b>${num(M.length)}<small>곳</small></b><span>중앙행정기관 전수</span></div>
-      <div><b>${mjo(ix.total_exp)}<small>조원</small></b><span>2026 총지출 (본예산)</span></div>
+      <div><b>${mjo(ix.total_exp)}<small>조원</small></b><span>2026 총지출 (확정예산)</span></div>
       <div><b>${num(nP)}<small>건</small></b><span>세부사업 전수</span></div>
       <div><b>${num(nB)}<small>건</small></b><span>금액 비공개</span></div>
     </div>
   </div></div>
   <div class="wrap">
-    <div class="sech"><span class="no">중앙행정기관</span><h2>부처별 2026 예산</h2><span class="basis">총지출 기준 · 열린재정 2026 본예산</span></div>
+    <div class="note" style="margin:0 0 14px"><b>2027년 예산안은 국회 심의 중입니다</b> — 정부가 2026년 9월 3일 국회에 낸 2027년도 예산안의 총지출은 <b>820조 9,000억원</b>입니다. 2026년 본예산(727조 8,791억원)보다 12.8% 많습니다. 다만 <b>부처별·사업별 숫자는 아직 공개되지 않았습니다.</b> 열린재정은 국회에서 확정된 예산만 싣기 때문입니다. 확정되는 대로 이 화면을 2027년 기준으로 바꿉니다. 그때까지는 확정된 2026년 예산을 그대로 보여 드립니다.<br><span class="basis">출처: 기획예산처 「2027년 예산안 및 2026~2030년 국가재정운용계획」(2026.09) · 열린재정 2027년 자료 없음 확인 2026.09.20</span></div><div class="sech"><span class="no">중앙행정기관</span><h2>부처별 2026 예산</h2><span class="basis">총지출 기준 · 열린재정 2026 확정예산</span></div>
     <div class="note blue" style="margin-top:0"><b>두 가지 기준</b> — <b>총지출 기준</b>은 정부가 발표하는 숫자로, 회계와 기금 사이에 오가는 돈(예탁·전출입)을 뺀 것입니다. 부처를 열면 나오는 <b>세부사업 합계</b>는 그 내부거래까지 포함한 총계 기준이라 더 큽니다. 둘은 서로 다른 것을 재는 자이며, 어느 한쪽이 틀린 값이 아닙니다.</div>
     <div class="mins">${M.map(x=>`<a href="#/gov/${encodeURIComponent(x.sg)}"><b>${esc(x.nm)}</b><div class="n">${x.exp==null?NA:mkor(x.exp)}<small>${x.exp==null?'':'원'}</small></div><div class="m"><span>세부사업 ${num(x.n)}건</span>${x.nblank?`<span>비공개 ${num(x.nblank)}</span>`:''}</div></a>`).join('')}</div>
     <p class="basis" style="margin:14px 0 0">총액 출처: ${esc(ix.src.total)} · 세부사업 출처: ${esc(ix.src.proj)} · 자료 빌드 ${esc(ix.built_at)}</p>
