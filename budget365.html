@@ -955,7 +955,7 @@ async function renderGov(sg){ const ix=await loadGovIndex(); if(sg) return rende
     </div>
   </div></div>
   <div class="wrap">
-    <div class="note" style="margin:0 0 14px"><b>2027년 예산안이 올라왔습니다</b> — 정부가 2026년 9월 3일 국회에 낸 2027년도 예산안·기금운용계획안을 소관별·사업별로 펼쳐 두었습니다. <a href="#/gov27" style="font-weight:800;border-bottom:1.5px solid var(--gold)">2027 정부안 보기 →</a> 아직 국회에서 확정되지 않은 정부안입니다. 이 화면의 2026년 숫자는 확정된 예산입니다.<br><span class="basis">2027 정부안 출처: 2027년도 예산안·기금운용계획안 세부사업 내역(국회 제출본) · 2026 확정예산 출처: 열린재정</span></div><div class="sech"><span class="no">중앙행정기관</span><h2>부처별 2026 예산</h2><span class="basis">총지출 기준 · 열린재정 2026 확정예산</span></div>
+    <div class="note" style="margin:0 0 14px"><b>2027년 예산안이 올라왔습니다</b> — 정부가 2026년 9월 3일 국회에 낸 2027년도 예산안·기금운용계획안을 소관별·사업별로 펼쳐 두었습니다. <a href="#/gov27" style="font-weight:800;border-bottom:1.5px solid var(--gold)">2027 정부안 보기 →</a> 2027년에는 중대범죄수사청·진실화해위원회가 새 소관으로 들어와 62곳에서 64곳이 됩니다. 아직 국회에서 확정되지 않은 정부안입니다. 이 화면의 2026년 숫자는 확정된 예산입니다.<br><span class="basis">2027 정부안 출처: 2027년도 예산안·기금운용계획안 세부사업 내역(국회 제출본) · 2026 확정예산 출처: 열린재정</span></div><div class="sech"><span class="no">중앙행정기관</span><h2>부처별 2026 예산</h2><span class="basis">총지출 기준 · 열린재정 2026 확정예산</span></div>
     <div class="note blue" style="margin-top:0"><b>두 가지 기준</b> — <b>총지출 기준</b>은 정부가 발표하는 숫자로, 회계와 기금 사이에 오가는 돈(예탁·전출입)을 뺀 것입니다. 부처를 열면 나오는 <b>세부사업 합계</b>는 그 내부거래까지 포함한 총계 기준이라 더 큽니다. 둘은 서로 다른 것을 재는 자이며, 어느 한쪽이 틀린 값이 아닙니다.</div>
     <div class="mins">${M.map(x=>`<a href="#/gov/${encodeURIComponent(x.sg)}"><b>${esc(x.nm)}</b><div class="n">${x.exp==null?NA:mkor(x.exp)}<small>${x.exp==null?'':'원'}</small></div><div class="m"><span>세부사업 ${num(x.n)}건</span>${x.nblank?`<span>비공개 ${num(x.nblank)}</span>`:''}</div></a>`).join('')}</div>
     <p class="basis" style="margin:14px 0 0">총액 출처: ${esc(ix.src.total)} · 세부사업 출처: ${esc(ix.src.proj)} · 자료 빌드 ${esc(ix.built_at)}</p>
@@ -991,6 +991,7 @@ async function renderGov27(sg){ const ix=await load27Index(); if(sg) return rend
   </div></div>
   <div class="wrap">
     <div class="note" style="margin-top:0"><b>이 숫자는 '총계 기준'입니다</b> — 정부가 발표하는 2027년 총지출 820조 9,000억원과 다릅니다. 총지출은 회계와 기금 사이에 오가는 돈과 금융성 기금을 뺀 숫자이고, 여기 ${mjo(ix.total_b27)}조원은 예산과 기금을 모두 더하고 외국환평형기금 같은 금융성 기금까지 포함한 총계입니다. 둘은 서로 다른 것을 재는 자이며, 어느 한쪽이 틀린 값이 아닙니다. 소관별·사업별로 나뉜 숫자는 총계 기준으로만 공개됩니다.</div>
+    <div class="note blue" style="margin-top:10px"><b>2026년 62곳, 2027년 64곳인 이유</b> — 2027년에 <b>중대범죄수사청</b>(4,724억원)과 <b>진실·화해를위한과거사정리위원회</b>(229억원)가 새 소관으로 들어왔습니다. 두 곳 모두 2026년 칸이 비어 있는 것은 0원이라는 뜻이 아니라 그 해에는 별도 소관이 아니었다는 뜻입니다. 2026년 화면은 중앙행정기관(부처) 기준이고, 2027년 화면은 국회 제출본의 소관 기준이라 국회·대법원·헌법재판소 같은 기관도 함께 셉니다.</div>
     <div class="note blue"><b>증감율이 크게 튀는 곳은 조직이 바뀐 곳입니다</b> — 기획재정부가 재정경제부와 기획예산처로 나뉘면서 사업과 기금이 두 소관 사이를 옮겨 갔습니다. 기획예산처가 2026년 10.4조원에서 2027년 405.3조원으로 뛴 것은 예산이 그만큼 늘어서가 아니라 맡는 일이 옮겨 왔기 때문입니다. 재정경제부의 -11.6%도 같은 이유입니다. 2026년에 없던 중대범죄수사청과 진실·화해를위한과거사정리위원회는 증감율을 낼 수 없어 비워 두었습니다. 이런 곳에는 표를 붙여 두었습니다.</div><div class="sech"><span class="no">소관별</span><h2>어디에 얼마를 잡았나</h2><span class="basis">2027 정부안 큰 순 · 단위 조원</span></div>
     <div class="mins">${M.map(x=>{
       const tag = x.rate==null ? '<span class="tag warn">2026년 없음</span>'
