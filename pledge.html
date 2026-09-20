@@ -158,6 +158,10 @@ main{padding:34px 0 10px}
 
 /* FAQ */
 details{border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:9px;background:#fff}
+/* 이 페이지의 FAQ용 details 스타일이 푸터의 「관련 사이트 바로가기」에도 걸려
+   흰 배경 위에 흰 글자가 되는 것을 막는다(대비 1:1 → 판독 불가). */
+.kbx-foot details{background:transparent;border:0;padding:0;margin:0;border-radius:0}
+.kbx-foot details[open]{background:transparent;border:0}
 details[open]{border-color:var(--tint-2);background:#fbfdff}
 summary{cursor:pointer;font-weight:700;color:var(--dpk-dark);list-style:none}
 summary::-webkit-details-marker{display:none}
