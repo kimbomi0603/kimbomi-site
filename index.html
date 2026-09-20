@@ -72,17 +72,34 @@ main{padding-bottom:46px}
 
 /* ── 우리동네365 전면 배치 ── */
 .f365{display:block;background:var(--green);color:#fff;border-radius:var(--r-lg);padding:26px 28px;margin-top:var(--blk);transition:transform .16s,box-shadow .16s}
-.f365 .gos{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
-.f365 .go{text-decoration:none;transition:transform .16s,box-shadow .16s}
-.f365 .go:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.18)}
-.f365 .go.alt{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.55)}
-.f365 .go.alt:hover{background:rgba(255,255,255,.12)}
+.f365 .gos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+/* 큰 찾기 버튼 — 돋보기 + 대상 + 설명 한 줄 */
+.f365 .big{display:flex;align-items:center;gap:14px;text-decoration:none;
+  background:#fff;color:var(--green2);border-radius:14px;padding:15px 18px;
+  box-shadow:0 6px 18px rgba(0,0,0,.16);transition:transform .16s,box-shadow .16s}
+.f365 .big:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.26)}
+.f365 .big:focus-visible{outline:3px solid #F0D48A;outline-offset:3px}
+.f365 .big .ic{flex:0 0 auto;display:grid;place-items:center;width:46px;height:46px;
+  border-radius:50%;background:var(--green);color:#fff}
+.f365 .big .ic svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:2.3;
+  stroke-linecap:round;stroke-linejoin:round}
+.f365 .big .tx{flex:1 1 auto;min-width:0}
+.f365 .big .tx b{display:block;font-size:1.02rem;font-weight:900;letter-spacing:-.02em;line-height:1.3;word-break:keep-all}
+.f365 .big .tx small{display:block;margin-top:3px;font-size:.78rem;font-weight:600;
+  color:rgba(11,70,57,.72);line-height:1.45;word-break:keep-all}
+.f365 .big i{flex:0 0 auto;font-style:normal;font-size:1.25rem;font-weight:700;
+  transition:transform .16s}
+.f365 .big:hover i{transform:translateX(5px)}
+.f365 .big.alt{background:#F0D48A;color:#0B4639}
+.f365 .big.alt .ic{background:var(--green2)}
+.f365 .big.alt .tx small{color:rgba(11,70,57,.78)}
 .f365:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .f365 .k{font-size:.75rem;font-weight:700;color:#F0D48A}
-.f365 h2{font-size:2rem;color:#fff;margin-top:4px;font-weight:900;letter-spacing:-.04em;line-height:1.2}
+.f365 h2{font-size:2rem;color:#fff;margin-top:4px;font-weight:900;letter-spacing:-.04em;line-height:1.2;
+  display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.f365 h2 em{font-style:normal;font-size:.8rem;font-weight:800;letter-spacing:0;
+  background:#F0D48A;color:#0B4639;padding:5px 11px;border-radius:999px;white-space:nowrap}
 .f365 p{margin:10px 0 0;font-size:.92rem;line-height:1.78;color:rgba(255,255,255,.9);max-width:720px}
-.f365 .go{display:inline-flex;align-items:center;gap:9px;background:#fff;color:var(--green2);font-weight:700;font-size:.89rem;padding:9px 17px;border-radius:var(--r-sm)}
-.f365 .go i{font-style:normal;transition:transform .16s}.f365 .go:hover i{transform:translateX(4px)}
 .f365 .fr{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:20px;padding-top:17px;border-top:1px solid rgba(255,255,255,.22)}
 .f365 .fr div{padding:2px 16px 2px 0;border-right:1px solid rgba(255,255,255,.22)}
 .f365 .fr div:last-child{border-right:0;padding-right:0}
@@ -92,7 +109,7 @@ main{padding-bottom:46px}
 .m6.m4 .mb{min-height:0;padding:17px 17px 15px}
 .m6.m4 .mb h3{font-size:1.1rem;margin-top:11px}
 .m6.m4 .mb p{font-size:.82rem;line-height:1.68;margin-top:6px}
-@media(prefers-reduced-motion:reduce){.f365 .go,.f365 .go i{transition:none}.f365 .go:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.f365 .big,.f365 .big i{transition:none}.f365 .big:hover{transform:none}}
 
 /* ── 기록관 배너 ── */
 .arch{display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px 24px;margin-top:var(--blk)}
@@ -178,7 +195,14 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   .f365 .fr div:nth-child(2n){border-right:0;padding-right:0}
   .f365 .fr div:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.22)}
   .f365 .fr b{font-size:1.5rem}
-  .f365 .gos{gap:8px;flex-direction:column;align-items:stretch}
+  .f365 .gos{grid-template-columns:1fr;gap:10px}
+  .f365 .big{padding:14px 15px;gap:12px}
+  .f365 .big .ic{width:42px;height:42px}
+  .f365 .big .ic svg{width:23px;height:23px}
+  .f365 .big .tx b{font-size:.95rem}
+  .f365 .big .tx small{font-size:.75rem}
+  .f365 h2{font-size:1.72rem;gap:8px}
+  .f365 h2 em{font-size:.74rem}
   .f365 .go{padding:12px 16px;font-size:.92rem;justify-content:space-between}
 }
 </style>
@@ -258,9 +282,9 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   <div class="f365">
     <div class="fl">
       <span class="k">지방재정 · 중앙재정 · 공공데이터</span>
-      <h2>우리동네365</h2>
+      <h2>우리동네365 <em>내 동네 3초 확인</em></h2>
       <p>지방정부 243곳과 중앙정부 62개 부처의 장부를 한자리에 펼쳤습니다. 동네 이름을 넣으면 올해 예산이 어디에 잡혔고 어느 업체와 계약했는지 나오고, 부처 이름을 넣으면 그 부처가 어떤 사업에 얼마를 쓰는지 나옵니다. 정보공개청구도, 담당 공무원한테 물을 일도 없습니다.</p>
-      <span class="gos"><a class="go" href="budget365.html">내 동네 3초 확인 <i>→</i></a><a class="go alt" href="budget365.html#/gov">중앙정부 예산 보기 <i>→</i></a></span>
+      <div class="gos"><a class="big" href="budget365.html"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.6" cy="10.6" r="6.6"/><path d="m19.6 19.6-4.3-4.3"/></svg></span><span class="tx"><b>지방정부 243개 <span style="white-space:nowrap">시·군·구</span></b><small>우리 동네 예산·집행·계약 찾아보기</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/gov"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.6" cy="10.6" r="6.6"/><path d="m19.6 19.6-4.3-4.3"/></svg></span><span class="tx"><b>중앙정부 62개 부처</b><small>부처별 예산·세부사업 찾아보기</small></span><i aria-hidden="true">→</i></a></div>
     </div>
     <div class="fr">
       <div><b>243</b><span>지방정부 전수</span></div>
