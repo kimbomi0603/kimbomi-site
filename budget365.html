@@ -332,6 +332,9 @@ td.num.up{color:var(--red-ink)}td.num.dn{color:var(--teal-ink)}
 .ptier{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 6px;margin-right:6px;border:1px solid var(--line-2);color:var(--ink-3)}
 .ptier.t1{background:var(--rule);border-color:var(--rule);color:#fff}
 .ptier.t2{border-color:var(--gold);color:var(--gold-ink,var(--ink-2))}
+.pdl{display:inline-block;margin-left:7px;font-size:10.5px;font-weight:700;color:var(--teal-ink,var(--rule));border:1px solid currentColor;padding:0 5px;border-radius:2px}
+.pfile li{font-family:var(--body)}
+.pfile li a{font-weight:600}
 .ppage{display:flex;flex-wrap:wrap;gap:4px;margin-top:18px}
 .ppage button{border:1px solid var(--line-2);background:var(--card);color:var(--ink-2);font:inherit;font-size:13px;padding:6px 11px;cursor:pointer}
 .ppage button.on{background:var(--rule);border-color:var(--rule);color:#fff}
@@ -1335,7 +1338,7 @@ function footer(){ return `<a href="index.html" style="color:var(--gold);font-we
    자료: 정책브리핑(korea.kr)·부처 누리집 원문을 날짜순으로 모은 것.
    숫자와 날짜는 원문 그대로 두고, 확인되지 않은 항목은 비워 둔다. */
 const PTIER={1:'핵심',2:'주요',3:'참고'};
-const P={q:'',cat:'',ym:'',ag:'',tier:'',page:1};
+const P={q:'',cat:'',ym:'',ag:'',tier:'',dl:false,page:1};
 async function loadPolicy(){ if(S.pol) return S.pol;
   const r=await fetch('data/policy.txt'); if(!r.ok) throw new Error('정책 자료 없음');
   const b64=(await r.text()).trim(); const bin=atob(b64); const u8=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i);
@@ -1351,6 +1354,7 @@ function polFilter(D){ const q=P.q.trim().toLowerCase();
     if(P.tier&&String(x.tier)!==P.tier) return false;
     if(P.ym&&String(x.date).slice(0,7)!==P.ym) return false;
     if(P.ag&&agShort(x)!==P.ag) return false;
+    if(P.dl&&!(x.files&&x.files.length)) return false;
     if(q){ const hay=(x.title+' '+x.summary+' '+x.agency+' '+(x.meeting||'')+' '+x.category).toLowerCase(); if(!hay.includes(q)) return false; }
     return true; }); }
 
@@ -1370,7 +1374,7 @@ async function renderPolicy(id){ const D=await loadPolicy();
     <div class="lgband">
       <span class="pill"><i></i>2025.6 ~ 2026.9 · 정부 발표 ${num(D.items.length)}건</span>
       <h1>정부가 무엇을 발표했는지<br><em>날짜순</em>으로 봅니다</h1>
-      <p>제21대 정부 출범일부터 지금까지, 정부가 내놓은 정책과 사업을 발표일 순서로 모았습니다. 각 건마다 발표 부처와 회의, 핵심 내용, 그리고 정부 원문 링크를 붙였습니다. 원문에 없는 금액과 기간은 비워 뒀습니다.</p>
+      <p>제21대 정부 출범일부터 지금까지, 정부가 내놓은 정책과 사업을 발표일 순서로 모았습니다. 각 건마다 발표 부처와 회의, 핵심 내용, 정부 원문 링크를 붙였고, 236건의 원문 파일은 바로 내려받을 수 있습니다. 원문에 없는 금액과 기간은 비워 뒀습니다.</p>
     </div>
     <div class="card pfil">
       <input id="pq" class="pq" type="search" placeholder="정책·부처·회의 이름으로 찾기 (예: AI, 지방소멸, 추경)" value="${esc(P.q)}">
@@ -1378,6 +1382,7 @@ async function renderPolicy(id){ const D=await loadPolicy();
       <div class="prow"><b>중요도</b>${chip(!P.tier,'전체',"P.tier='';P.page=1;route()")}${[1,2,3].map(t=>chip(P.tier===String(t),PTIER[t]+' <i>'+D.items.filter(x=>x.tier===t).length+'</i>',"P.tier='"+t+"';P.page=1;route()")).join('')}</div>
       <div class="prow"><b>시기</b>${chip(!P.ym,'전체',"P.ym='';P.page=1;route()")}${yms.map(y=>chip(P.ym===y,y.replace('-','.'),"P.ym='"+y+"';P.page=1;route()")).join('')}</div>
       <div class="prow"><b>부처</b>${chip(!P.ag,'전체',"P.ag='';P.page=1;route()")}${ags.map(a=>chip(P.ag===a,esc(a),"P.ag='"+esc(a)+"';P.page=1;route()")).join('')}</div>
+      <div class="prow"><b>원문</b>${chip(!P.dl,'전체',"P.dl=false;P.page=1;route()")}${chip(P.dl,'원문 파일 있는 것 <i>'+D.items.filter(x=>x.files&&x.files.length).length+'</i>',"P.dl=true;P.page=1;route()")}</div>
     </div>
     <div class="pbar"><b>${num(L.length)}건</b> <span class="mut">${L.length!==D.items.length?'걸러낸 결과':'전체'}</span>
       <span class="grow"></span>
@@ -1388,7 +1393,7 @@ async function renderPolicy(id){ const D=await loadPolicy();
         <a class="pit" href="#/policy/${encodeURIComponent(x.id)}">
           <span class="pd">${pdate(x.date)}${x.date_note?`<em>${esc(x.date_note)}</em>`:''}</span>
           <span class="pb"><b>${esc(x.title)}</b>
-            <span class="pm"><span class="ptier t${x.tier}">${PTIER[x.tier]||''}</span>${esc(x.agency)}${x.meeting?' · '+esc(x.meeting):''}</span>
+            <span class="pm"><span class="ptier t${x.tier}">${PTIER[x.tier]||''}</span>${esc(x.agency)}${x.meeting?' · '+esc(x.meeting):''}${x.files&&x.files.length?`<span class="pdl">원문 ${x.files.length}</span>`:''}</span>
             <span class="ps">${esc(x.summary||'')}</span></span>
           <span class="pc">${esc(x.category)}</span>
         </a>`).join('')}</div>`).join('')
@@ -1416,6 +1421,7 @@ function renderPolicyOne(D,id){ const x=D.items.find(i=>i.id===id);
         <div><b>기간</b><span>${x.period?esc(x.period):NA}</span></div>
       </div>
       ${x.usage?`<div class="pnote"><b>어떻게 쓸 수 있나</b><p>${esc(x.usage)}</p></div>`:''}
+      ${(x.files||[]).length?`<div class="pgrp"><h3>원문 파일 내려받기 <span class="mut" style="font-weight:400;font-size:12.5px">${x.files.length}건</span></h3><ul class="plink pfile">${x.files.map(f=>`<li><a href="${esc(f.u)}" target="_blank" rel="noopener" download>${esc(f.f)}</a></li>`).join('')}</ul><p class="mut" style="margin:6px 0 0;font-size:12.5px">정책브리핑(korea.kr)이 공개한 원문 파일로 바로 연결됩니다.</p></div>`:''}
       ${(x.official||[]).length?`<div class="pgrp"><h3>정부 원문</h3><ul class="plink">${x.official.map(o=>`<li><a href="${esc(o.url)}" target="_blank" rel="noopener">${esc(o.title)}</a>${o.type?`<span class="tag">${esc(o.type)}</span>`:''}</li>`).join('')}</ul></div>`:'<div class="pgrp"><h3>정부 원문</h3><p class="mut">원문 링크가 확인되지 않았습니다.</p></div>'}
       ${rl.length?`<div class="pgrp"><h3>관계 법령</h3><ul class="plink">${rl.map(l=>`<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.name)}</a>${l.status?`<span class="tag">${esc(l.status)}</span>`:''}${l.summary?`<em>${esc(l.summary)}</em>`:''}</li>`).join('')}</ul></div>`:''}
       ${rt.length?`<div class="pgrp"><h3>연결된 국정과제</h3><ul class="plink">${rt.map(t=>`<li><a href="#/task/${t.no}">${t.no}. ${esc(t.title)}</a><span class="tag">${esc(t.ministry||'')}</span></li>`).join('')}</ul></div>`:''}
@@ -1485,8 +1491,8 @@ function renderTaskOne(D,no){ const t=D.tasks.find(x=>String(x.no)===String(no))
 const POLSW=(on)=>`<div class="gov-sw pol"><a href="#/policy" class="${on==='policy'?'on':''}">정부 발표 정책<small>2025.6~ 날짜순</small></a><a href="#/task" class="${on==='task'?'on':''}">123대 국정과제<small>5대 목표</small></a></div>`;
 
 function polCsv(){ const D=S.pol; const L=polFilter(D);
-  const rows=[['발표일','시점구분','제목','분야','중요도','발표주체','회의·계기','핵심내용','예산','기간','정부원문URL']];
-  L.forEach(x=>rows.push([x.date,x.date_note||'',x.title,x.category,PTIER[x.tier]||'',x.agency,x.meeting||'',x.summary||'',x.budget||'',x.period||'',(x.official&&x.official[0]&&x.official[0].url)||'']));
+  const rows=[['발표일','시점구분','제목','분야','중요도','발표주체','회의·계기','핵심내용','예산','기간','정부원문URL','원문파일수','원문파일URL']];
+  L.forEach(x=>rows.push([x.date,x.date_note||'',x.title,x.category,PTIER[x.tier]||'',x.agency,x.meeting||'',x.summary||'',x.budget||'',x.period||'',(x.official&&x.official[0]&&x.official[0].url)||'',(x.files||[]).length||'',(x.files||[]).map(f=>f.u).join(' | ')]));
   saveFile('정부발표정책_'+L.length+'건_'+D.built_at+'.csv',csv(rows)); }
 function polOneCsv(id){ const D=S.pol; const x=D.items.find(i=>i.id===id); if(!x) return;
   const rows=[['항목','내용'],['발표일',x.date+(x.date_note?' ('+x.date_note+')':'')],['제목',x.title],['분야',x.category],['중요도',PTIER[x.tier]||''],['발표주체',x.agency],['회의·계기',x.meeting||''],['핵심내용',x.summary||''],['예산',x.budget||''],['기간',x.period||'']];
