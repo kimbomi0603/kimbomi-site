@@ -4,4 +4,17 @@ Allow: /
 Disallow: /admin.html
 Disallow: /admin
 
+User-agent: Yeti
+Allow: /
+Disallow: /admin.html
+
+User-agent: Daum
+Allow: /
+Disallow: /admin.html
+
+User-agent: Daumoa
+Allow: /
+Disallow: /admin.html
+
 Sitemap: https://www.xn--4k0b53xuva.com/sitemap.xml
+Sitemap: https://www.xn--4k0b53xuva.com/rss.xml

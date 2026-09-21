@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>김보미.com — 우리동네365</title>
+<link>https://www.xn--4k0b53xuva.com/</link>
+<atom:link href="https://www.xn--4k0b53xuva.com/rss.xml" rel="self" type="application/rss+xml"/>
+<description>지방정부 243개 시·군·구와 중앙정부 부처의 예산·집행·계약을 시민이 직접 확인하는 공공재정 공개 플랫폼</description>
+<language>ko</language>
+<lastBuildDate>Mon, 21 Sep 2026 14:00:00 +0900</lastBuildDate>
+<item>
+<title>우리동네365 — 지방·중앙정부 예산·집행·계약 3초 만에 확인</title>
+<link>https://www.xn--4k0b53xuva.com/budget365.html</link>
+<guid isPermaLink="true">https://www.xn--4k0b53xuva.com/budget365.html</guid>
+<description>지방정부 243개 시·군·구와 중앙정부 부처의 예산, 집행 내역, 수의·일반 계약을 이름만 넣으면 바로 조회합니다. 정부가 공개한 원자료 그대로 싣고, 확인되지 않은 값은 비워 둡니다.</description>
+<pubDate>Mon, 21 Sep 2026 14:00:00 +0900</pubDate>
+</item>
+<item>
+<title>243개 시·군·구 계약현황 대시보드</title>
+<link>https://www.xn--4k0b53xuva.com/gyeyak.html</link>
+<guid isPermaLink="true">https://www.xn--4k0b53xuva.com/gyeyak.html</guid>
+<description>나라장터 계약 자료를 시·군·구 단위로 모아 수의계약 비중과 업체 집중도를 볼 수 있게 정리했습니다.</description>
+<pubDate>Sun, 20 Sep 2026 14:00:00 +0900</pubDate>
+</item>
+<item>
+<title>정당 돈, 어디에 썼나 — 2026 국고보조금 공개</title>
+<link>https://www.xn--4k0b53xuva.com/party-money.html</link>
+<guid isPermaLink="true">https://www.xn--4k0b53xuva.com/party-money.html</guid>
+<description>2026년 정당 국고보조금 사용 내역을 항목별로 펼쳐 공개합니다.</description>
+<pubDate>Sat, 19 Sep 2026 14:00:00 +0900</pubDate>
+</item>
+<item>
+<title>재정주권시민행동 함께하기</title>
+<link>https://www.xn--4k0b53xuva.com/pledge.html</link>
+<guid isPermaLink="true">https://www.xn--4k0b53xuva.com/pledge.html</guid>
+<description>중앙정부와 지방정부의 예산·집행·계약을 시민이 직접 감시하는 재정주권시민행동 회원가입과 후원 안내.</description>
+<pubDate>Fri, 18 Sep 2026 14:00:00 +0900</pubDate>
+</item>
+<item>
+<title>김보미는 — 약력과 의정 기록</title>
+<link>https://www.xn--4k0b53xuva.com/about.html</link>
+<guid isPermaLink="true">https://www.xn--4k0b53xuva.com/about.html</guid>
+<description>전국 최연소 기초의회 의장을 지낸 김보미의 약력과 의정 기록, 그리고 지금 하는 일.</description>
+<pubDate>Thu, 17 Sep 2026 14:00:00 +0900</pubDate>
+</item>
+<item>
+<title>언론보도·영상 아카이브</title>
+<link>https://www.xn--4k0b53xuva.com/press.html</link>
+<guid isPermaLink="true">https://www.xn--4k0b53xuva.com/press.html</guid>
+<description>김보미 관련 언론보도와 영상 기록.</description>
+<pubDate>Wed, 16 Sep 2026 14:00:00 +0900</pubDate>
+</item>
+</channel>
+</rss>
