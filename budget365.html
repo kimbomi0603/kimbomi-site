@@ -299,6 +299,72 @@ td.num.up{color:var(--red-ink)}td.num.dn{color:var(--teal-ink)}
 .blank{color:var(--ink-3)}
 @media (max-width:640px){.pjt .hs{display:none}}
 
+
+/* ═══════════ 정책 아카이브 ═══════════ */
+.nav-hd.pol{border-top:1px solid var(--line);margin-top:8px}
+.gov-sw.pol{margin-top:0}
+.pfil{padding:14px 16px 12px}
+.pq{width:100%;padding:11px 13px;border:1.5px solid var(--rule);background:var(--card);color:var(--ink);font:inherit;font-size:15px;margin-bottom:10px}
+.pq:focus{outline:2px solid var(--gold);outline-offset:1px}
+.prow{display:flex;flex-wrap:wrap;gap:5px;align-items:center;padding:4px 0}
+.prow>b{font-size:11.5px;font-weight:700;color:var(--ink-3);min-width:44px;letter-spacing:.04em}
+.pchip{border:1px solid var(--line-2);background:var(--bg-2);color:var(--ink-2);font:inherit;font-size:12.5px;padding:5px 10px;cursor:pointer;border-radius:2px;line-height:1.4}
+.pchip i{font-style:normal;font-family:var(--mono);font-size:10.5px;opacity:.6;margin-left:3px}
+.pchip:hover{border-color:var(--rule)}
+.pchip.on{background:var(--rule);border-color:var(--rule);color:#fff}
+.pchip.on i{opacity:.75}
+.pbar{display:flex;align-items:center;gap:8px;margin:16px 0 8px;font-size:14px}
+.pbar b{font-family:var(--mono);font-size:17px}
+.pbar .grow{flex:1}
+.pmon{display:flex;align-items:center;gap:10px;margin:20px 0 8px}
+.pmon span{font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:-.01em}
+.pmon::after{content:"";flex:1;height:1px;background:var(--line)}
+.plist{border-top:1px solid var(--line)}
+.pit{display:grid;grid-template-columns:104px minmax(0,1fr) auto;gap:14px;align-items:start;padding:13px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit}
+.pit:hover{background:var(--bg-2)}
+.pit .pd{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);padding-top:2px}
+.pit .pd em{display:block;font-style:normal;font-size:11px;color:var(--ink-3);opacity:.8;margin-top:2px}
+.pit .pb{min-width:0}
+.pit .pb b{display:block;font-size:15.5px;font-weight:700;letter-spacing:-.01em;line-height:1.45}
+.pit .pm{display:block;font-size:12px;color:var(--ink-3);margin-top:3px}
+.pit .ps{display:block;font-size:13px;color:var(--ink-2);line-height:1.62;margin-top:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pit .pc{font-size:11.5px;color:var(--ink-3);white-space:nowrap;padding-top:3px}
+.ptier{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 6px;margin-right:6px;border:1px solid var(--line-2);color:var(--ink-3)}
+.ptier.t1{background:var(--rule);border-color:var(--rule);color:#fff}
+.ptier.t2{border-color:var(--gold);color:var(--gold-ink,var(--ink-2))}
+.ppage{display:flex;flex-wrap:wrap;gap:4px;margin-top:18px}
+.ppage button{border:1px solid var(--line-2);background:var(--card);color:var(--ink-2);font:inherit;font-size:13px;padding:6px 11px;cursor:pointer}
+.ppage button.on{background:var(--rule);border-color:var(--rule);color:#fff}
+.pone{padding:22px 24px 24px}
+.pone h1{font-size:28px;line-height:1.3;letter-spacing:-.025em;margin:6px 0 0}
+.pone .pm{font-size:12.5px;color:var(--ink-3)}
+.psum{font-size:15.5px;line-height:1.8;margin:14px 0 0}
+.pkv{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:18px;border-top:1px solid var(--line)}
+.pkv div{padding:11px 12px 9px;border-right:1px solid var(--line)}
+.pkv div:last-child{border-right:0}
+.pkv b{display:block;font-size:11.5px;font-weight:700;color:var(--ink-3)}
+.pkv span{display:block;font-size:14px;margin-top:3px}
+.pnote{margin-top:16px;padding:12px 14px;background:var(--bg-2);border-left:3px solid var(--gold)}
+.pnote b{font-size:12px;color:var(--ink-3)}
+.pnote p{margin:4px 0 0;font-size:14px;line-height:1.7}
+.pgrp{margin-top:20px;padding-top:14px;border-top:1px solid var(--line)}
+.pgrp h3{font-size:14.5px;margin:0 0 8px;letter-spacing:-.01em}
+.plink{list-style:none;margin:0;padding:0}
+.plink li{padding:6px 0;border-bottom:1px dotted var(--line);font-size:14px;line-height:1.6}
+.plink li:last-child{border-bottom:0}
+.plink li em{display:block;font-style:normal;font-size:12.5px;color:var(--ink-3);margin-top:2px}
+.plink .tag{margin-left:6px}
+@media (max-width:640px){
+  .pit{grid-template-columns:minmax(0,1fr);gap:4px}
+  .pit .pd{padding-top:0}
+  .pit .pd em{display:inline;margin-left:6px}
+  .pit .pc{padding-top:0}
+  .pkv{grid-template-columns:1fr}
+  .pkv div{border-right:0;border-bottom:1px solid var(--line)}
+  .pone{padding:18px 16px 20px}
+  .pone h1{font-size:23px}
+}
+
 </style>
 </head>
 <body>
@@ -306,7 +372,7 @@ td.num.up{color:var(--red-ink)}td.num.dn{color:var(--teal-ink)}
 <header class="top"><div class="wrap">
   <a class="gohome" href="index.html" aria-label="김보미.com 홈으로 돌아가기"><span aria-hidden="true">←</span> 김보미.com 홈으로</a>
   <a class="brand" href="#/"><span class="mk">365</span>우리동네365</a>
-  <nav class="nav"><a href="index.html">김보미.com</a><a href="#/" id="navHome">지방정부 <b>243</b></a><a href="#/gov" id="navGov">중앙정부 <b>62</b></a><a href="#/sido/전남광주통합특별시">전남·광주</a><a href="#/sido/인천광역시">인천</a><a href="#/sido/서울특별시">서울</a></nav>
+  <nav class="nav"><a href="index.html">김보미.com</a><a href="#/" id="navHome">지방정부 <b>243</b></a><a href="#/gov" id="navGov">중앙정부 <b>62</b></a><a href="#/sido/전남광주통합특별시">전남·광주</a><a href="#/sido/인천광역시">인천</a><a href="#/sido/서울특별시">서울</a><a href="#/policy" id="navPol">정책</a></nav>
   <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="q" type="search" placeholder="동네 이름 · 사업 키워드 (예: 강진군, 노인일자리)" autocomplete="off" aria-label="지자체 검색"><div class="sug" id="sug"></div></div>
   <span class="stamp" id="stamp"></span>
 </div></header>
@@ -358,7 +424,10 @@ function buildNav(){ const nv=document.querySelector('.nav'); if(!nv||!S.index) 
     +`<a href="#/gov" id="navGov" class="${gov?'on':''}">부처 전체 <b>62</b></a>`
     +(S.govix?S.govix.ministries.slice().sort((a,b)=>(b.exp??-1)-(a.exp??-1)).slice(0,12)
         .map(m=>`<a href="#/gov/${encodeURIComponent(m.sg)}">${esc(m.nm)} <b>${m.exp==null?NA:Math.round(m.exp/1e6)+'조'}</b></a>`).join('')
-      :`<a href="#/gov" class="nav-more">부처 목록 열기 →</a>`); }
+      :`<a href="#/gov" class="nav-more">부처 목록 열기 →</a>`)
+    +`<div class="nav-hd pol">정책 아카이브 <span>정부 발표 정책·국정과제</span></div>`
+    +`<a href="#/policy" class="${/^#\/policy/.test(location.hash)?'on':''}">정부 발표 정책 <b>206</b></a>`
+    +`<a href="#/task" class="${/^#\/task/.test(location.hash)?'on':''}">123대 국정과제 <b>123</b></a>`; }
 async function loadLg(cd){ if(S.cache[cd]) return S.cache[cd];
   const r=await fetch('data/'+cd+'.txt'); if(!r.ok) throw new Error('자료 없음');
   const b64=(await r.text()).trim(); const bin=atob(b64); const u8=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i);
@@ -407,6 +476,8 @@ async function route(){ NAVN++; killCharts(); try{ closeMd(); }catch(e){} const 
   else if(a==='q'&&cd){ await renderSearch(decodeURIComponent(cd),sub?decodeURIComponent(sub):''); }
   else if(a==='gov'){ await renderGov(cd?decodeURIComponent(cd):''); }
   else if(a==='gov27'){ await renderGov27(cd?decodeURIComponent(cd):''); }
+  else if(a==='policy'){ await renderPolicy(cd||''); }
+  else if(a==='task'){ await renderTasks(cd||''); }
   else renderHome(a==='sido'?decodeURIComponent(cd||''):''); }
   catch(e){ document.getElementById('app').innerHTML=`<div class="wrap"><div class="loading">자료를 불러오지 못했습니다 — ${esc(e.message)}</div></div>`; }
   buildNav();
@@ -1162,6 +1233,173 @@ bindSearch(document.getElementById('q'),document.getElementById('sug'));
 document.addEventListener('click',e=>{ if(!e.target.closest('.search')&&!e.target.closest('.bigq')) document.querySelectorAll('.sug').forEach(s=>s.style.display='none'); });
 
 function footer(){ return `<a href="index.html" style="color:var(--gold);font-weight:600;text-decoration:none">← 김보미.com 홈으로</a> &nbsp;·&nbsp; <a href="about.html" style="color:inherit">김보미는</a> &nbsp;·&nbsp; <a href="https://taxwatch.kr/" target="_blank" rel="noopener" style="color:inherit">재정주권시민행동 ↗</a><br><b>우리동네365</b> — 재정주권시민행동. 자료는 원문 그대로 싣고 값을 만들지 않습니다. 확인되지 않은 값은 '—'로 비웁니다. 갱신 주기: 세부사업 집행(당해) 일 단위 · 계약 일 단위 · 재정공시·청렴도·금고이자율 연 단위. 2026.7.1 행정체계 개편(전남광주통합특별시·인천 4개 구)은 화면 표기에 반영했고, 재정 데이터 키는 2024 공시 체계를 유지합니다. 데이터 층 v${S.index?.v||1} · 빌드 ${S.index?.built_at?.slice(0,10)||''}`; }
+
+/* ═══════════ 정책 아카이브 (정부 발표 정책·123대 국정과제) ═══════════
+   자료: 정책브리핑(korea.kr)·부처 누리집 원문을 날짜순으로 모은 것.
+   숫자와 날짜는 원문 그대로 두고, 확인되지 않은 항목은 비워 둔다. */
+const PTIER={1:'핵심',2:'주요',3:'참고'};
+const P={q:'',cat:'',ym:'',ag:'',tier:'',page:1};
+async function loadPolicy(){ if(S.pol) return S.pol;
+  const r=await fetch('data/policy.txt'); if(!r.ok) throw new Error('정책 자료 없음');
+  const b64=(await r.text()).trim(); const bin=atob(b64); const u8=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i);
+  const st=new Blob([u8]).stream().pipeThrough(new DecompressionStream('gzip'));
+  return S.pol=JSON.parse(await new Response(st).text()); }
+
+const pdate=s=>s?String(s).replace(/-/g,'.'):NA;
+const agShort=x=>x.agency_short||String(x.agency||'').split(/[·(]/)[0];
+
+function polFilter(D){ const q=P.q.trim().toLowerCase();
+  return D.items.filter(x=>{
+    if(P.cat&&x.category!==P.cat) return false;
+    if(P.tier&&String(x.tier)!==P.tier) return false;
+    if(P.ym&&String(x.date).slice(0,7)!==P.ym) return false;
+    if(P.ag&&agShort(x)!==P.ag) return false;
+    if(q){ const hay=(x.title+' '+x.summary+' '+x.agency+' '+(x.meeting||'')+' '+x.category).toLowerCase(); if(!hay.includes(q)) return false; }
+    return true; }); }
+
+async function renderPolicy(id){ const D=await loadPolicy();
+  if(id) return renderPolicyOne(D,decodeURIComponent(id));
+  const L=polFilter(D);
+  const cats=[...new Set(D.items.map(x=>x.category))].sort((a,b)=>D.items.filter(x=>x.category===b).length-D.items.filter(x=>x.category===a).length);
+  const yms=[...new Set(D.items.map(x=>String(x.date).slice(0,7)))].sort().reverse();
+  const ags=[...new Set(D.items.map(agShort))].sort((a,b)=>D.items.filter(x=>agShort(x)===b).length-D.items.filter(x=>agShort(x)===a).length).slice(0,14);
+  const per=40, pages=Math.max(1,Math.ceil(L.length/per)); if(P.page>pages) P.page=pages;
+  const view=L.slice((P.page-1)*per,P.page*per);
+  const byMonth={}; view.forEach(x=>{ const k=String(x.date).slice(0,7); (byMonth[k]=byMonth[k]||[]).push(x); });
+  const chip=(on,label,fn)=>`<button type="button" class="pchip${on?' on':''}" onclick="${fn}">${label}</button>`;
+  document.getElementById('app').innerHTML=`
+  <section class="wrap">
+    ${POLSW('policy')}
+    <div class="lgband">
+      <span class="pill"><i></i>2025.6 ~ 2026.9 · 정부 발표 ${num(D.items.length)}건</span>
+      <h1>정부가 무엇을 발표했는지<br><em>날짜순</em>으로 봅니다</h1>
+      <p>제21대 정부 출범일부터 지금까지, 정부가 내놓은 정책과 사업을 발표일 순서로 모았습니다. 각 건마다 발표 부처와 회의, 핵심 내용, 그리고 정부 원문 링크를 붙였습니다. 원문에 없는 금액과 기간은 비워 뒀습니다.</p>
+    </div>
+    <div class="card pfil">
+      <input id="pq" class="pq" type="search" placeholder="정책·부처·회의 이름으로 찾기 (예: AI, 지방소멸, 추경)" value="${esc(P.q)}">
+      <div class="prow"><b>분야</b>${chip(!P.cat,'전체',"P.cat='';P.page=1;route()")}${cats.map(c=>chip(P.cat===c,esc(c)+' <i>'+D.items.filter(x=>x.category===c).length+'</i>',"P.cat='"+esc(c)+"';P.page=1;route()")).join('')}</div>
+      <div class="prow"><b>중요도</b>${chip(!P.tier,'전체',"P.tier='';P.page=1;route()")}${[1,2,3].map(t=>chip(P.tier===String(t),PTIER[t]+' <i>'+D.items.filter(x=>x.tier===t).length+'</i>',"P.tier='"+t+"';P.page=1;route()")).join('')}</div>
+      <div class="prow"><b>시기</b>${chip(!P.ym,'전체',"P.ym='';P.page=1;route()")}${yms.map(y=>chip(P.ym===y,y.replace('-','.'),"P.ym='"+y+"';P.page=1;route()")).join('')}</div>
+      <div class="prow"><b>부처</b>${chip(!P.ag,'전체',"P.ag='';P.page=1;route()")}${ags.map(a=>chip(P.ag===a,esc(a),"P.ag='"+esc(a)+"';P.page=1;route()")).join('')}</div>
+    </div>
+    <div class="pbar"><b>${num(L.length)}건</b> <span class="mut">${L.length!==D.items.length?'걸러낸 결과':'전체'}</span>
+      <span class="grow"></span>
+      <button class="btn" onclick="polCsv()">이 목록 CSV로 내려받기</button></div>
+    ${L.length?Object.keys(byMonth).map(m=>`
+      <div class="pmon"><span>${m.replace('-','년 ')}월</span></div>
+      <div class="plist">${byMonth[m].map(x=>`
+        <a class="pit" href="#/policy/${encodeURIComponent(x.id)}">
+          <span class="pd">${pdate(x.date)}${x.date_note?`<em>${esc(x.date_note)}</em>`:''}</span>
+          <span class="pb"><b>${esc(x.title)}</b>
+            <span class="pm"><span class="ptier t${x.tier}">${PTIER[x.tier]||''}</span>${esc(x.agency)}${x.meeting?' · '+esc(x.meeting):''}</span>
+            <span class="ps">${esc(x.summary||'')}</span></span>
+          <span class="pc">${esc(x.category)}</span>
+        </a>`).join('')}</div>`).join('')
+      :'<div class="empty">조건에 맞는 정책이 없습니다. 필터를 줄여 보세요.</div>'}
+    ${pages>1?`<div class="ppage">${Array.from({length:pages},(_,i)=>i+1).map(i=>`<button class="${i===P.page?'on':''}" onclick="P.page=${i};route()">${i}</button>`).join('')}</div>`:''}
+    <p class="mut" style="margin-top:18px">자료 출처는 정책브리핑(korea.kr)과 각 부처 누리집 원문입니다. 각 건의 제목을 누르면 원문 링크가 나옵니다. 자료 정리 기준일 ${esc(D.built_at)}.</p>
+  </section>`;
+  const q=document.getElementById('pq'); if(q){ q.addEventListener('input',()=>{ P.q=q.value; P.page=1; clearTimeout(S.pt); S.pt=setTimeout(()=>{ route(); setTimeout(()=>{const e=document.getElementById('pq'); if(e){e.focus(); e.setSelectionRange(e.value.length,e.value.length);} },0); },260); }); } }
+
+function renderPolicyOne(D,id){ const x=D.items.find(i=>i.id===id);
+  if(!x){ document.getElementById('app').innerHTML='<div class="wrap"><div class="empty">해당 정책을 찾지 못했습니다. <a href="#/policy">목록으로</a></div></div>'; return; }
+  const rt=(x.tasks||[]).map(n=>D.tasks.find(t=>t.no===n)).filter(Boolean);
+  const rl=(x.laws||[]).map(k=>D.laws.find(l=>l.short===k||l.name===k)).filter(Boolean);
+  document.getElementById('app').innerHTML=`
+  <section class="wrap">
+    <div class="crumb"><a href="#/policy">정책 아카이브</a> › ${esc(x.category)}</div>
+    <div class="card pone">
+      <div class="pm"><span class="ptier t${x.tier}">${PTIER[x.tier]||''}</span>${pdate(x.date)}${x.date_note?' '+esc(x.date_note):''} · ${esc(x.agency)}</div>
+      <h1>${esc(x.title)}</h1>
+      ${x.meeting?`<div class="mut">${esc(x.meeting)}</div>`:''}
+      <p class="psum">${esc(x.summary||'')}</p>
+      <div class="pkv">
+        <div><b>분야</b><span>${esc(x.category)}</span></div>
+        <div><b>예산</b><span>${x.budget?esc(x.budget):NA}</span></div>
+        <div><b>기간</b><span>${x.period?esc(x.period):NA}</span></div>
+      </div>
+      ${x.usage?`<div class="pnote"><b>어떻게 쓸 수 있나</b><p>${esc(x.usage)}</p></div>`:''}
+      ${(x.official||[]).length?`<div class="pgrp"><h3>정부 원문</h3><ul class="plink">${x.official.map(o=>`<li><a href="${esc(o.url)}" target="_blank" rel="noopener">${esc(o.title)}</a>${o.type?`<span class="tag">${esc(o.type)}</span>`:''}</li>`).join('')}</ul></div>`:'<div class="pgrp"><h3>정부 원문</h3><p class="mut">원문 링크가 확인되지 않았습니다.</p></div>'}
+      ${rl.length?`<div class="pgrp"><h3>관계 법령</h3><ul class="plink">${rl.map(l=>`<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.name)}</a>${l.status?`<span class="tag">${esc(l.status)}</span>`:''}${l.summary?`<em>${esc(l.summary)}</em>`:''}</li>`).join('')}</ul></div>`:''}
+      ${rt.length?`<div class="pgrp"><h3>연결된 국정과제</h3><ul class="plink">${rt.map(t=>`<li><a href="#/task/${t.no}">${t.no}. ${esc(t.title)}</a><span class="tag">${esc(t.ministry||'')}</span></li>`).join('')}</ul></div>`:''}
+      ${(x.news||[]).length?`<div class="pgrp"><h3>언론 보도</h3><ul class="plink">${x.news.map(n=>`<li><a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a>${n.outlet?`<span class="tag">${esc(n.outlet)}</span>`:''}</li>`).join('')}</ul></div>`:''}
+      <div style="margin-top:18px"><button class="btn" onclick="polOneCsv('${esc(x.id)}')">이 건 CSV로 내려받기</button> <a class="btn" href="#/policy">목록으로</a></div>
+    </div>
+  </section>`; }
+
+/* ── 123대 국정과제 ── */
+const T={q:'',goal:'',key:false};
+async function renderTasks(no){ const D=await loadPolicy();
+  if(no) return renderTaskOne(D,no);
+  const q=T.q.trim().toLowerCase();
+  const L=D.tasks.filter(t=>{ if(T.goal&&String(t.goal_no)!==T.goal) return false; if(T.key&&!t.key12) return false;
+    if(q&&!((t.title+' '+t.desc+' '+t.strategy+' '+(t.ministry||'')).toLowerCase().includes(q))) return false; return true; });
+  const goals=[...new Map(D.tasks.map(t=>[t.goal_no,t.goal])).entries()].sort((a,b)=>a[0]-b[0]);
+  const byGoal={}; L.forEach(t=>{ (byGoal[t.goal_no]=byGoal[t.goal_no]||[]).push(t); });
+  const chip=(on,label,fn)=>`<button type="button" class="pchip${on?' on':''}" onclick="${fn}">${label}</button>`;
+  document.getElementById('app').innerHTML=`
+  <section class="wrap">
+    ${POLSW('task')}
+    <div class="lgband">
+      <span class="pill"><i></i>국정과제 ${D.tasks.length}개 · 5대 목표</span>
+      <h1>123대 국정과제를<br><em>과제별</em>로 펼쳤습니다</h1>
+      <p>정부가 확정한 국정과제 전문을 목표별로 정리했습니다. 과제를 고르면 담당 부처와 과제 내용, 그리고 그 과제에 맞물려 실제로 발표된 정책이 함께 나옵니다.</p>
+    </div>
+    <div class="card pfil">
+      <input id="tq" class="pq" type="search" placeholder="과제·부처 이름으로 찾기" value="${esc(T.q)}">
+      <div class="prow"><b>목표</b>${chip(!T.goal,'전체',"T.goal='';route()")}${goals.map(([n,g])=>chip(T.goal===String(n),n+'. '+esc(g),"T.goal='"+n+"';route()")).join('')}</div>
+      <div class="prow"><b>구분</b>${chip(!T.key,'전체',"T.key=false;route()")}${chip(T.key,'12대 핵심과제',"T.key=true;route()")}</div>
+    </div>
+    <div class="pbar"><b>${num(L.length)}개</b> <span class="mut">과제</span><span class="grow"></span>
+      <button class="btn" onclick="taskCsv()">국정과제 CSV로 내려받기</button></div>
+    ${L.length?goals.filter(([n])=>byGoal[n]).map(([n,g])=>`
+      <div class="pmon"><span>목표 ${n} · ${esc(g)}</span></div>
+      <div class="plist">${byGoal[n].map(t=>`
+        <a class="pit" href="#/task/${t.no}">
+          <span class="pd">${t.no}${t.key12?'<em>핵심</em>':''}</span>
+          <span class="pb"><b>${esc(t.title)}</b>
+            <span class="pm">${esc(t.strategy||'')}</span>
+            <span class="ps">${esc(t.desc||'')}</span></span>
+          <span class="pc">${esc(t.ministry||'')}</span>
+        </a>`).join('')}</div>`).join('')
+      :'<div class="empty">조건에 맞는 과제가 없습니다.</div>'}
+  </section>`;
+  const q2=document.getElementById('tq'); if(q2){ q2.addEventListener('input',()=>{ T.q=q2.value; clearTimeout(S.tt); S.tt=setTimeout(()=>{ route(); setTimeout(()=>{const e=document.getElementById('tq'); if(e){e.focus(); e.setSelectionRange(e.value.length,e.value.length);} },0); },260); }); } }
+
+function renderTaskOne(D,no){ const t=D.tasks.find(x=>String(x.no)===String(no));
+  if(!t){ document.getElementById('app').innerHTML='<div class="wrap"><div class="empty">해당 과제를 찾지 못했습니다. <a href="#/task">목록으로</a></div></div>'; return; }
+  const rel=D.items.filter(x=>(x.tasks||[]).includes(t.no)).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+  document.getElementById('app').innerHTML=`
+  <section class="wrap">
+    <div class="crumb"><a href="#/task">123대 국정과제</a> › 목표 ${t.goal_no}</div>
+    <div class="card pone">
+      <div class="pm">${t.no}번 과제${t.key12?' · <span class="ptier t1">12대 핵심과제</span>':''} · ${esc(t.ministry||'')}</div>
+      <h1>${esc(t.title)}</h1>
+      <div class="mut">목표 ${t.goal_no}. ${esc(t.goal)} › ${esc(t.strategy||'')}</div>
+      <p class="psum">${esc(t.desc||'')}</p>
+      ${t.url?`<div class="pgrp"><h3>정부 원문</h3><ul class="plink"><li><a href="${esc(t.url)}" target="_blank" rel="noopener">국정과제 자료집 (PDF)</a></li></ul></div>`:''}
+      <div class="pgrp"><h3>이 과제로 발표된 정책 ${rel.length}건</h3>
+        ${rel.length?`<div class="plist">${rel.map(x=>`<a class="pit" href="#/policy/${encodeURIComponent(x.id)}"><span class="pd">${pdate(x.date)}</span><span class="pb"><b>${esc(x.title)}</b><span class="pm">${esc(x.agency)}</span></span><span class="pc">${esc(x.category)}</span></a>`).join('')}</div>`:'<p class="mut">아직 연결된 발표 정책이 없습니다.</p>'}
+      </div>
+      <div style="margin-top:18px"><a class="btn" href="#/task">목록으로</a></div>
+    </div>
+  </section>`; }
+
+const POLSW=(on)=>`<div class="gov-sw pol"><a href="#/policy" class="${on==='policy'?'on':''}">정부 발표 정책<small>2025.6~ 날짜순</small></a><a href="#/task" class="${on==='task'?'on':''}">123대 국정과제<small>5대 목표</small></a></div>`;
+
+function polCsv(){ const D=S.pol; const L=polFilter(D);
+  const rows=[['발표일','시점구분','제목','분야','중요도','발표주체','회의·계기','핵심내용','예산','기간','정부원문URL']];
+  L.forEach(x=>rows.push([x.date,x.date_note||'',x.title,x.category,PTIER[x.tier]||'',x.agency,x.meeting||'',x.summary||'',x.budget||'',x.period||'',(x.official&&x.official[0]&&x.official[0].url)||'']));
+  saveFile('정부발표정책_'+L.length+'건_'+D.built_at+'.csv',csv(rows)); }
+function polOneCsv(id){ const D=S.pol; const x=D.items.find(i=>i.id===id); if(!x) return;
+  const rows=[['항목','내용'],['발표일',x.date+(x.date_note?' ('+x.date_note+')':'')],['제목',x.title],['분야',x.category],['중요도',PTIER[x.tier]||''],['발표주체',x.agency],['회의·계기',x.meeting||''],['핵심내용',x.summary||''],['예산',x.budget||''],['기간',x.period||'']];
+  (x.official||[]).forEach(o=>rows.push(['정부 원문',o.title+' '+o.url]));
+  saveFile('정책_'+x.id+'.csv',csv(rows)); }
+function taskCsv(){ const D=S.pol;
+  const rows=[['번호','과제명','목표번호','목표','추진전략','담당부처','12대핵심','과제내용','원문URL']];
+  D.tasks.forEach(t=>rows.push([t.no,t.title,t.goal_no,t.goal,t.strategy||'',t.ministry||'',t.key12?'O':'',t.desc||'',t.url||'']));
+  saveFile('123대국정과제_'+D.built_at+'.csv',csv(rows)); }
+
 loadIndex().then(route).catch(e=>{ document.getElementById('app').innerHTML=`<div class="wrap"><div class="loading">색인을 불러오지 못했습니다 — ${esc(e.message)}</div></div>`; });
 </script>
 </body>
