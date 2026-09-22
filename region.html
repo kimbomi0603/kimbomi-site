@@ -21,7 +21,7 @@
 if (typeof tailwind !== 'undefined') {
 tailwind.config = { theme: { extend: {
   colors: { navy:{ DEFAULT:'#0A1F44' }, minju:{ DEFAULT:'#0050A0', blue:'#0073CF' },
-    mint:{ DEFAULT:'#10C9B0', dark:'#0A8C7C' }, ink:{ DEFAULT:'#152033', soft:'#3A465C', faint:'#6B7686' },
+    mint:{ DEFAULT:'#10C9B0', dark:'#0A8C7C' }, ink:{ DEFAULT:'#152033', soft:'#3A465C', faint:'#677080' },
     paper:{ DEFAULT:'#F6F8FB', line:'#E5EAF1' } },
   fontFamily:{ sans:['"Pretendard Variable"','Pretendard','-apple-system','system-ui','sans-serif'] },
   maxWidth:{ 'screen-xl2':'1240px' }
@@ -362,8 +362,8 @@ function render(d,isReal){
   ['acG','acS','acF','acE'].forEach(id=>{ const el=document.getElementById(id); if(el&&!el.dataset.filled) el.textContent='—'; });
   const pieWrap=document.getElementById('pieChart')&&document.getElementById('pieChart').closest('div');
   if(pieChart && Array.isArray(d.f)&&d.f.length===6){ pieChart.data.datasets[0].data=d.f; pieChart.update(); }
-  else if(pieWrap){ pieWrap.innerHTML='<div style="padding:28px 12px;text-align:center;color:#94a3b8;font-size:13px">분야별 비중 — 공식 공시 미연동으로 표시하지 않습니다.<br>정확한 분야별 예산은 아래 결산서 원본에서 확인하세요.</div>'; }
-  document.getElementById('execTable').innerHTML='<tr><td colspan="4" style="padding:14px;text-align:center;color:#94a3b8;font-size:12px">분야별 집행 현황 — 공식 공시 미연동으로 표시하지 않습니다 (집행률·분야비중 추정치 제공 중단)</td></tr>';
+  else if(pieWrap){ pieWrap.innerHTML='<div style="padding:28px 12px;text-align:center;color:#637896;font-size:13px">분야별 비중 — 공식 공시 미연동으로 표시하지 않습니다.<br>정확한 분야별 예산은 아래 결산서 원본에서 확인하세요.</div>'; }
+  document.getElementById('execTable').innerHTML='<tr><td colspan="4" style="padding:14px;text-align:center;color:#637896;font-size:12px">분야별 집행 현황 — 공식 공시 미연동으로 표시하지 않습니다 (집행률·분야비중 추정치 제공 중단)</td></tr>';
 }
 
 fetch('/api/budget?zone='+encodeURIComponent(ZONE),{cache:'no-store'}).then(r=>r.json()).then(d=>{

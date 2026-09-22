@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root{
-  --surface:#fcfcfb;--page:#f9f9f7;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;
+  --surface:#fcfcfb;--page:#f9f9f7;--ink:#0b0b0b;--ink2:#52514e;--muted:#74736d;
   --grid:#e1e0d9;--axis:#c3c2b7;--border:rgba(11,11,11,.10);
   --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#008300;--s7:#4a3aa7;--s8:#e34948;
   --navy:#0b2545;--navy2:#163665;--link:#15448f;
@@ -239,8 +239,8 @@ tr.vrow:hover{background:#f2f5fa}
   </div>
 
   <div class="picker">
-    <div class="fld"><label>시·도</label><select id="selSido"></select></div>
-    <div class="fld"><label>시·군·구</label><select id="selSgg"></select></div>
+    <div class="fld"><label>시·도</label><select aria-label="시·도 선택" id="selSido"></select></div>
+    <div class="fld"><label>시·군·구</label><select aria-label="시·군·구 선택" id="selSgg"></select></div>
     <div class="fld"><label>조회기간</label><div class="days" id="daysBox">
       <span class="chip" data-d="90">90일</span><span class="chip on" data-d="180">180일</span></div></div>
     <button class="go" id="goBtn">📊 상세 조회</button>
@@ -265,19 +265,19 @@ tr.vrow:hover{background:#f2f5fa}
     <div class="card" id="catCard"><h2>🗂️ 분야별 집계</h2><div class="cap">계약명 키워드로 자동 분류한 세부분야별 금액·건수(자동 분류, 오분류 가능).</div><div class="bars" id="catBody"></div></div>
     <div class="card" id="vendorCard"><h2>🏆 업체별 계약 순위</h2><div class="cap">행을 클릭하면 해당 업체의 계약 내역이 펼쳐집니다.</div>
       <div class="controls">
-        <select id="vSort"><option value="amount">금액순</option><option value="count">건수순</option><option value="sutil">수의건수순</option></select>
-        <select id="vTop"><option value="30">상위 30</option><option value="50">상위 50</option><option value="100">상위 100</option><option value="9999">전체</option></select>
-        <input id="vSearch" type="search" placeholder="업체명 검색" style="flex:1;min-width:120px">
+        <select aria-label="업체 정렬 기준" id="vSort"><option value="amount">금액순</option><option value="count">건수순</option><option value="sutil">수의건수순</option></select>
+        <select aria-label="표시 개수" id="vTop"><option value="30">상위 30</option><option value="50">상위 50</option><option value="100">상위 100</option><option value="9999">전체</option></select>
+        <input aria-label="업체명 검색" id="vSearch" type="search" placeholder="업체명 검색" style="flex:1;min-width:120px">
       </div>
       <div class="tblwrap"><table id="vTable"></table></div>
     </div>
     <div class="card" id="trendCard"><h2>📈 월별 계약 추이</h2><div class="cap">최근 기간 월별 계약 건수/금액. 특정 월 집중 여부를 봅니다.</div>
-      <div class="controls"><select id="trMode"><option value="count">건수</option><option value="amount">금액</option></select></div>
+      <div class="controls"><select aria-label="추이 보기 기준" id="trMode"><option value="count">건수</option><option value="amount">금액</option></select></div>
       <div class="cols" id="trendBody"></div>
     </div>
     <div class="card" id="splitCard"><h2>⚠️ 분할발주(쪼개기) 검토 대상</h2><div class="cap" id="splitCap">동일 업체·31일 이내·수의계약 3건 이상·합계 6천만원 이상을 기계적으로 묶어 표시(관급자재·레미콘 등 제외). <b>혐의가 아니라 확인 대상</b>입니다.</div><div id="splitBody"></div></div>
     <div class="card" id="tableCard"><h2>📋 전체 계약 목록</h2><div class="cap">머리글을 클릭하면 정렬됩니다. 계약명을 누르면 나라장터 원문으로 이동합니다.</div>
-      <div class="controls"><input id="tSearch" type="search" placeholder="계약명·업체 검색" style="flex:1;min-width:140px"><span id="tCount" style="font-size:.8rem;color:var(--muted)"></span></div>
+      <div class="controls"><input aria-label="계약명·업체 검색" id="tSearch" type="search" placeholder="계약명·업체 검색" style="flex:1;min-width:140px"><span id="tCount" style="font-size:.8rem;color:var(--muted)"></span></div>
       <div class="tblwrap"><table id="dTable"></table></div>
     </div>
     <div class="card" id="method"><h2>📖 수집·집계 방법 (방법론)</h2><div class="method-txt" id="methodTxt"></div></div>
