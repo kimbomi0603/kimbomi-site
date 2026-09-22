@@ -1,8 +1,8 @@
 /* 김보미.com 공통 디자인 — 딥그린 + 네이비 + 크림 */
 :root{
   --cream:#F5F2EA; --card:#FFFFFF; --ink:#17181A; --mut:#6A6B70;
-  --green:#0F5C46; --green2:#0B3F31; --navy:#0B3F31; --navy2:#072A21; --lime:#B6F04A;
-  --gold:#B6F04A; --line:#E4DFD3; --line2:#D6CFBE;
+  --green:#0F5C46; --green2:#0B3F31; --navy:#0E2A47; --navy2:#0A1F36; --lime:#F0CB7A;
+  --gold:#E0A43C; --line:#E4DFD3; --line2:#D6CFBE;
   --serif:"Noto Serif KR",serif; --sans:"Noto Sans KR",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
 }
 *{box-sizing:border-box}

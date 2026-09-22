@@ -25,15 +25,15 @@
 <style>
 /* ═══════════ 디자인 토큰 — 03 괘선 장부 (A 신문 1면 × D 쪽빛 전통) ═══════════ */
 :root{
-  --navy:#0B3F31;--navy-2:#0F5C46;--navy-3:#166B52;--royal:#0F5C46;--sky:#E9F2EE;--sky-2:#D3E6DD;--lime:#B6F04A;
-  --gold:#B6F04A;--gold-ink:#3D6B00;--gold-soft:#EEF8D9;--teal:#2F6F5E;--teal-soft:#E2EFEA;--teal-ink:#24594B;
+  --navy:#1C1B18;--navy-2:#2A2925;--navy-3:#3A3934;--royal:#2A2925;--sky:#F1EEE6;--sky-2:#E4DFD2;--lime:#F2A48F;
+  --gold:#C8412B;--gold-ink:#93321F;--gold-soft:#FBE7E1;--teal:#2F6F5E;--teal-soft:#E2EFEA;--teal-ink:#24594B;
   --red:#B8402A;--red-soft:#FBE7E1;--red-ink:#93321F;--violet:#6B5C8A;
-  --bg:#F1F7F3;--bg-2:#E6F0EA;--card:#FFFFFF;--ink:#15202E;--ink-2:#39424F;--ink-3:#6B6455;
-  --line:#DDE3D8;--line-2:#C3CDBF;--rule:#0B3F31;
-  --z-lg:#7FB2D9;--z-gov:#F4B26B;--z-pol:#C9A9F0;--z-lg-ink:#1E4A75;--z-gov-ink:#8A4E0A;--z-pol-ink:#5A3E8A;--z-lg-soft:#E4EEF7;--z-gov-soft:#FBEEDD;--z-pol-soft:#EFE8F9;
-  --c1:#0B3F31;--c2:#2F6F5E;--c3:#C79319;--c4:#6B5C8A;--c5:#B8402A;--c6:#4A6B8A;--c7:#9A9384;--c8:#3F8FA6;
+  --bg:#FBF7EE;--bg-2:#F3EDDF;--card:#FFFFFF;--ink:#15202E;--ink-2:#39424F;--ink-3:#6B6455;
+  --line:#E6DFCF;--line-2:#D2C9B5;--rule:#1C1B18;
+  --z-lg:#7FB2D9;--z-gov:#7FD0BF;--z-pol:#C9A9F0;--z-lg-ink:#1E4A75;--z-gov-ink:#1F6A5A;--z-pol-ink:#5A3E8A;--z-lg-soft:#E4EEF7;--z-gov-soft:#E3F4EF;--z-pol-soft:#EFE8F9;
+  --c1:#1C1B18;--c2:#2F6F5E;--c3:#C79319;--c4:#6B5C8A;--c5:#B8402A;--c6:#4A6B8A;--c7:#9A9384;--c8:#3F8FA6;
   --mono:'IBM Plex Mono','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',ui-monospace,monospace;--body:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;--disp:'Noto Serif KR','Nanum Myeongjo',serif;
-  --side:236px;--r:0;--r-s:0;--sh:none;--sh-2:0 2px 0 rgba(11,63,49,.05);
+  --side:236px;--r:0;--r-s:0;--sh:none;--sh-2:0 2px 0 rgba(28,27,24,.05);
   color-scheme:light}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -44,7 +44,7 @@ h1,h2,h3{font-family:var(--disp);letter-spacing:-.03em}
 .wrap{max-width:1180px;margin:0 auto;padding-inline:clamp(16px,2.6vw,34px)}
 
 /* ═══════════ 좌측 쪽빛 사이드바 ═══════════ */
-.top{position:fixed;left:0;top:0;bottom:0;width:var(--side);z-index:30;background:var(--navy);color:#F5F0E4;border-right:3px solid #072A21;overflow-y:auto}
+.top{position:fixed;left:0;top:0;bottom:0;width:var(--side);z-index:30;background:var(--navy);color:#F5F0E4;border-right:3px solid #0E0E0C;overflow-y:auto}
 .top .wrap{display:flex;flex-direction:column;align-items:stretch;gap:16px;height:auto;max-width:none;padding:22px 18px 24px}
 .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:#F5F0E4;font-family:var(--disp);font-weight:900;font-size:20px;letter-spacing:-.02em;white-space:nowrap}
 .brand:hover{color:#F5F0E4}
@@ -53,7 +53,7 @@ h1,h2,h3{font-family:var(--disp);letter-spacing:-.03em}
 .brand .three{color:var(--lime)}
 .brand small{font-family:var(--mono);font-size:9.5px;color:rgba(245,240,228,.55);letter-spacing:.14em;font-weight:500;padding:2px 5px;border:1px solid rgba(245,240,228,.25)}
 .gohome{display:flex;align-items:center;gap:7px;text-decoration:none;color:rgba(245,240,228,.82);font-size:12.5px;font-weight:500;padding:8px 11px;border:1px solid rgba(245,240,228,.28);margin-bottom:-4px}
-.gohome:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.gohome:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
 .gohome span{font-family:var(--mono)}
 .search{position:relative;width:100%;margin:0}
 .search input{width:100%;padding:8px 10px 8px 32px;border:1px solid rgba(245,240,228,.28);background:rgba(245,240,228,.07);color:#F5F0E4;font-size:13px;font-family:inherit}
@@ -67,11 +67,11 @@ h1,h2,h3{font-family:var(--disp);letter-spacing:-.03em}
 .nav{display:flex;flex-direction:column;gap:0;margin:0;border-top:1px solid rgba(245,240,228,.16)}
 .nav a{text-decoration:none;color:rgba(245,240,228,.76);font-size:13.5px;font-weight:500;padding:9px 11px;border-bottom:1px solid rgba(245,240,228,.12)}
 .nav a:hover{background:rgba(245,240,228,.08);color:#F5F0E4}
-.nav a.on{background:var(--gold);color:var(--navy);font-weight:700;border-bottom-color:var(--gold)}
+.nav a.on{background:var(--gold);color:#fff;font-weight:700;border-bottom-color:var(--gold)}
 .stamp{font-family:var(--mono);font-size:10px;color:rgba(245,240,228,.62);line-height:1.8;margin-top:auto;padding-top:14px;border-top:1px solid rgba(245,240,228,.16);white-space:normal}
 @media (max-width:900px){
   body{padding-left:0}
-  .top{position:sticky;left:auto;top:0;bottom:auto;width:auto;height:auto;border-right:0;border-bottom:3px solid #072A21;overflow:visible}
+  .top{position:sticky;left:auto;top:0;bottom:auto;width:auto;height:auto;border-right:0;border-bottom:3px solid #0E0E0C;overflow:visible}
   .top .wrap{flex-direction:row;align-items:center;gap:12px;padding:10px 16px;flex-wrap:wrap}
   .nav{flex-direction:row;border-top:0;order:3;width:100%;overflow-x:auto}
   .nav a{border-bottom:0;border-right:1px solid rgba(245,240,228,.14);white-space:nowrap}
@@ -140,7 +140,7 @@ h1,h2,h3{font-family:var(--disp);letter-spacing:-.03em}
 .fabs.show{display:flex}
 .fabs button{border:1px solid var(--navy);background:var(--navy);color:#F5F0E4;font-family:inherit;font-size:14px;font-weight:700;padding:0 16px;min-height:46px;cursor:pointer;box-shadow:0 8px 22px -8px rgba(14,42,71,.55)}
 .fabs button.up{background:var(--card);color:var(--navy)}
-.fabs button:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.fabs button:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
 @media (max-width:900px){.fabs{left:12px;bottom:calc(12px + env(safe-area-inset-bottom))}}
 /* ═══════════ 본문 — 장부 ═══════════ */
 main{padding-bottom:36px;background:var(--bg)}
@@ -191,7 +191,7 @@ th.num{text-align:right}
 .sido button{background:var(--card);border:0;border-right:1px solid var(--line-2);border-bottom:1px solid var(--line-2);padding:7px 13px;cursor:pointer;color:var(--ink-2);font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:6px}
 .sido button small{font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
 .sido button.on{background:var(--navy);color:#F5F0E4;font-weight:700}
-.sido button.on small{color:var(--gold)}
+.sido button.on small{color:var(--lime)}
 .gu{display:grid;grid-template-columns:repeat(auto-fill,minmax(226px,1fr));gap:0;margin:12px 0 28px;border-top:1px solid var(--line-2);border-left:1px solid var(--line-2)}
 .gu a{position:relative;display:block;text-decoration:none;color:var(--ink);background:var(--card);border-right:1px solid var(--line-2);border-bottom:1px solid var(--line-2);padding:12px 15px 11px;transition:background .12s;overflow:hidden}
 .gu a::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--navy)}
@@ -241,12 +241,12 @@ tr.row{cursor:pointer}tr.row:hover td{background:var(--gold-soft)!important}
 .ov.open{display:flex}
 .md{background:var(--card);border:1px solid var(--navy);max-width:820px;width:100%;box-shadow:0 24px 60px -20px rgba(14,42,71,.5);overflow:hidden}
 .md .hd{background:var(--navy);color:#F5F0E4;padding:18px 24px 16px;position:relative}
-.md .hd .eyebrow{color:var(--gold)}
+.md .hd .eyebrow{color:var(--lime)}
 .md .hd h3{font-family:var(--disp);font-size:23px;font-weight:900;margin:6px 0 4px;line-height:1.25}
 .md .hd .mut{color:rgba(245,240,228,.75)}
 .md .bd{padding:18px 24px 22px}
 .md .x{position:absolute;right:14px;top:12px;border:1px solid rgba(245,240,228,.4);background:transparent;color:#F5F0E4;width:32px;height:32px;font-size:19px;cursor:pointer}
-.md .x:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.md .x:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
 .yr{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:0;margin:4px 0 14px;border-top:1px solid var(--line-2);border-left:1px solid var(--line-2)}
 .yr > div{border-right:1px solid var(--line-2);border-bottom:1px solid var(--line-2);padding:11px 14px;background:#FDFBF5}
 .yr b{font-family:var(--mono);font-size:19px;font-weight:600;display:block;font-variant-numeric:tabular-nums;color:var(--navy)}
@@ -254,7 +254,7 @@ tr.row{cursor:pointer}tr.row:hover td{background:var(--gold-soft)!important}
 
 .foot{margin-top:50px;background:var(--navy);color:rgba(245,240,228,.78);font-size:12.5px;line-height:1.9;font-variant-numeric:tabular-nums}
 .foot .wrap{padding-block:24px 30px}
-.foot b{color:var(--gold)}
+.foot b{color:var(--lime)}
 .loading{padding:70px 0;text-align:center;color:var(--ink-3);font-family:var(--disp);font-size:18px}
 .empty{padding:36px;text-align:center;color:var(--ink-3);background:var(--card);border:1px dashed var(--line-2)}
 @media (max-width:560px){.tree summary,.tree .leaf{grid-template-columns:minmax(0,1fr) auto auto}.tree .mini{display:none}.tree .n.x{display:none}.kpi .n{font-size:21px}.big{font-size:28px}.modes a{grid-template-columns:auto 1fr}.modes .ar{display:none}.hero h1{font-size:34px}.lgband h1{font-size:30px}}
@@ -262,7 +262,7 @@ tr.row{cursor:pointer}tr.row:hover td{background:var(--gold-soft)!important}
 .rkb{display:inline-block;width:52px;height:7px;background:var(--bg-2);border:1px solid var(--line-2);position:relative;vertical-align:middle;margin-left:6px}
 .rkb i{position:absolute;top:-1px;bottom:-1px;width:4px;background:var(--red);transform:translateX(-50%)}
 .nav a b{float:right;font-family:var(--mono);font-size:10.5px;font-weight:500;color:rgba(245,240,228,.62)}
-.nav a.on b{color:var(--navy)}
+.nav a.on b{color:#fff}
 @media (max-width:900px){.nav a b{display:none}}
 
 /* ═══════════ 중앙정부 62개 부처 ═══════════ */
@@ -279,7 +279,7 @@ tr.row{cursor:pointer}tr.row:hover td{background:var(--gold-soft)!important}
 .ng-lg{--zc:var(--z-lg)} .ng-gov{--zc:var(--z-gov)} .ng-pol{--zc:var(--z-pol)}
 .ng:first-child .nav-hd{margin-top:0}
 .ng a.k{font-weight:700;color:#F5F0E4}
-.ng a.k.on{color:var(--navy)}
+.ng a.k.on{color:#fff}
 @media (max-width:900px){.ng{flex-direction:row}.ng .nav-hd{padding:6px 10px;margin:0;justify-content:center}.ng .nav-hd span{display:none}.ng a{border-left:0;border-top:3px solid var(--zc);padding-left:11px}}
 /* 상단 3구역 전환 */
 .zsw{display:flex;gap:0;margin:0 0 6px;border:1.5px solid var(--rule)}
@@ -300,8 +300,8 @@ tr.row{cursor:pointer}tr.row:hover td{background:var(--gold-soft)!important}
 .gov-sw a.on{background:var(--rule);color:#fff}
 .gov-sw a small{display:block;font-weight:500;font-size:11.5px;opacity:.72;margin-top:2px}
 .gov-sw.yr{margin-top:8px;border-color:var(--gold)}
-.gov-sw.yr a.on{background:var(--gold);color:var(--navy)}
-.gov-sw.yr a.on small{color:var(--navy);opacity:.85}
+.gov-sw.yr a.on{background:var(--gold);color:#fff}
+.gov-sw.yr a.on small{color:#fff;opacity:.85}
 td.num.up{color:var(--red-ink)}td.num.dn{color:var(--teal-ink)}
 .mins{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:-1px 0;border-top:1px solid var(--line-2)}
 .mins a{display:block;padding:13px 14px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);text-decoration:none;color:inherit;background:var(--card)}
@@ -1415,7 +1415,7 @@ function bindSearch(q,sug){ if(!q||!sug||q._bound) return; q._bound=1; let cur=-
 bindSearch(document.getElementById('q'),document.getElementById('sug'));
 document.addEventListener('click',e=>{ if(!e.target.closest('.search')&&!e.target.closest('.bigq')) document.querySelectorAll('.sug').forEach(s=>s.style.display='none'); });
 
-function footer(){ return `<a href="index.html" style="color:var(--gold);font-weight:600;text-decoration:none">← 김보미.com 홈으로</a> &nbsp;·&nbsp; <a href="about.html" style="color:inherit">김보미는</a> &nbsp;·&nbsp; <a href="https://taxwatch.kr/" target="_blank" rel="noopener" style="color:inherit">재정주권시민행동 ↗</a><br><b>우리동네365</b> — 재정주권시민행동. 자료는 원문 그대로 싣고 값을 만들지 않습니다. 확인되지 않은 값은 '—'로 비웁니다. 갱신 주기: 세부사업 집행(당해) 일 단위 · 계약 일 단위 · 재정공시·청렴도·금고이자율 연 단위. 2026.7.1 행정체계 개편(전남광주통합특별시·인천 4개 구)은 화면 표기에 반영했고, 재정 데이터 키는 2024 공시 체계를 유지합니다. 데이터 층 v${S.index?.v||1} · 빌드 ${S.index?.built_at?.slice(0,10)||''}`; }
+function footer(){ return `<a href="index.html" style="color:var(--lime);font-weight:600;text-decoration:none">← 김보미.com 홈으로</a> &nbsp;·&nbsp; <a href="about.html" style="color:inherit">김보미는</a> &nbsp;·&nbsp; <a href="https://taxwatch.kr/" target="_blank" rel="noopener" style="color:inherit">재정주권시민행동 ↗</a><br><b>우리동네365</b> — 재정주권시민행동. 자료는 원문 그대로 싣고 값을 만들지 않습니다. 확인되지 않은 값은 '—'로 비웁니다. 갱신 주기: 세부사업 집행(당해) 일 단위 · 계약 일 단위 · 재정공시·청렴도·금고이자율 연 단위. 2026.7.1 행정체계 개편(전남광주통합특별시·인천 4개 구)은 화면 표기에 반영했고, 재정 데이터 키는 2024 공시 체계를 유지합니다. 데이터 층 v${S.index?.v||1} · 빌드 ${S.index?.built_at?.slice(0,10)||''}`; }
 
 /* ═══════════ 정책 아카이브 (정부 발표 정책·123대 국정과제) ═══════════
    자료: 정책브리핑(korea.kr)·부처 누리집 원문을 날짜순으로 모은 것.
