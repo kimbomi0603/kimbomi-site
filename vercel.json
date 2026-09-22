@@ -39,6 +39,10 @@
       "destination": "/api/community?kind=thoughts"
     },
     {
+      "source": "/api/alerts",
+      "destination": "/api/community?kind=alerts"
+    },
+    {
       "source": "/api/stories",
       "destination": "/api/community?kind=stories"
     },

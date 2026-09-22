@@ -12,6 +12,7 @@ const HANDLERS = {
   scores: require("../lib/community/scores.js"),
   stories: require("../lib/community/stories.js"),
   thoughts: require("../lib/community/thoughts.js"),
+  alerts: require("../lib/community/alerts.js"),   // 내 동네 변화 알림 구독 (2026-09-23)
 };
 
 function pickKind(req) {
@@ -19,7 +20,7 @@ function pickKind(req) {
   if (q.kind && HANDLERS[q.kind]) return q.kind;
   // rewrite 가 kind 를 못 넘긴 경우의 예비: 원래 경로에서 추정
   const u = String(req.url || "");
-  const m = u.match(/\/api\/(scores|stories|thoughts)\b/);
+  const m = u.match(/\/api\/(scores|stories|thoughts|alerts)\b/);
   return m ? m[1] : "";
 }
 

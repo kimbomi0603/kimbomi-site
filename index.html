@@ -169,9 +169,9 @@ main{padding-bottom:46px}
 .hbd{display:flex;flex-direction:column;justify-content:center;padding:6px 0}
 .hbd .role{font-size:.85rem;font-weight:700;color:var(--green);letter-spacing:.02em;margin:0 0 6px}
 .hbd h1{font-size:4.2rem;line-height:1;font-weight:900;letter-spacing:-.05em}
-.hbd .slogan{font-family:var(--serif);font-size:1.6rem;line-height:1.5;font-weight:700;margin:20px 0 0;color:#1B1C1F}
+.hbd .slogan{font-family:var(--serif);font-size:1.6rem;line-height:1.5;font-weight:700;margin:20px 0 0;color:var(--ink)}
 .hbd .slogan em{font-style:normal;color:var(--green)}
-.hbd .desc{font-size:1rem;line-height:1.85;color:#4A4C51;margin:16px 0 0;max-width:600px}
+.hbd .desc{font-size:1rem;line-height:1.85;color:var(--mut);margin:16px 0 0;max-width:600px}
 .hnum{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:26px;border-top:1px solid var(--line2)}
 .hnum div{padding:16px 14px 4px;border-right:1px solid var(--line2)}
 .hnum div:last-child{border-right:0}
@@ -184,11 +184,11 @@ main{padding-bottom:46px}
 .mb:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 10px 26px rgba(15,90,74,.10)}
 .mb:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .mb .top{display:flex;align-items:center;gap:10px}
-.mb .ic{width:36px;height:36px;border-radius:var(--r-sm);background:#EAF1EE;color:var(--green);display:grid;place-items:center;flex:none}
+.mb .ic{width:36px;height:36px;border-radius:var(--r-sm);background:color-mix(in srgb,var(--green) 12%,var(--card));color:var(--green);display:grid;place-items:center;flex:none}
 .mb .ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .mb .k{font-size:.72rem;font-weight:700;color:var(--green);letter-spacing:.02em}
 .mb h3{font-size:1.42rem;margin-top:16px;letter-spacing:-.03em}
-.mb p{margin:8px 0 0;font-size:.88rem;color:#4A4C51;line-height:1.72}
+.mb p{margin:8px 0 0;font-size:.88rem;color:var(--mut);line-height:1.72}
 .mb .meta{display:block;margin-top:auto;padding-top:11px;font-size:.76rem;color:var(--mut);line-height:1.6}
 .mb .go{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:10px;border-top:1px solid var(--line);font-size:.84rem;font-weight:700;color:var(--green)}
 .mb .go i{font-style:normal;font-size:1.05rem;transition:transform .16s}
@@ -200,7 +200,7 @@ main{padding-bottom:46px}
 .mb.on p{color:rgba(255,255,255,.88)}
 .mb.on .meta{color:rgba(255,255,255,.7)}
 .mb.on .go{color:#fff;border-top-color:rgba(255,255,255,.22)}
-.mb.navy .ic{background:#E8EDF5;color:var(--navy)}
+.mb.navy .ic{background:color-mix(in srgb,var(--navy) 12%,var(--card));color:var(--navy)}
 .mb.navy .k,.mb.navy .go{color:var(--navy)}
 .mb.navy:hover{border-color:var(--navy);box-shadow:0 10px 26px rgba(22,48,90,.10)}
 @media(prefers-reduced-motion:reduce){.mb,.mb .go i{transition:none}.mb:hover{transform:none}}
@@ -210,7 +210,7 @@ main{padding-bottom:46px}
 .f365 .gos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
 /* 큰 찾기 버튼 — 돋보기 + 대상 + 설명 한 줄 */
 .f365 .big{display:flex;align-items:center;gap:14px;text-decoration:none;
-  background:#fff;color:var(--green2);border-radius:14px;padding:15px 18px;
+  background:var(--card);color:var(--green2);border-radius:14px;padding:15px 18px;
   box-shadow:0 6px 18px rgba(0,0,0,.16);transition:transform .16s,box-shadow .16s}
 .f365 .big:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.26)}
 .f365 .big:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
@@ -283,13 +283,13 @@ main{padding-bottom:46px}
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .vc p{margin:9px 0 0;font-size:.86rem;color:var(--mut);line-height:1.7;
   display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.vc .d{margin-top:auto;padding-top:12px;font-family:var(--mono);font-size:.72rem;color:#7D7668}
+.vc .d{margin-top:auto;padding-top:12px;font-family:var(--mono);font-size:.72rem;color:var(--mut)}
 
 /* ── 언론이 기록한 김보미 ── */
 .prow{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);margin-top:var(--gap)}
 .pc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column}
 .pc:hover{border-color:var(--navy);transform:translateY(-2px);transition:.16s}
-.pc .t{display:block;height:148px;background:#E7E3DA;overflow:hidden}
+.pc .t{display:block;height:148px;background:var(--line);overflow:hidden}
 .pc .t img{width:100%;height:100%;object-fit:cover;display:block}
 .pc .b{padding:13px 15px 16px;display:flex;flex-direction:column;flex:1}
 .pc .s{font-family:var(--mono);font-size:.68rem;color:var(--mut);letter-spacing:.04em}
@@ -349,6 +349,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 }
 </style>
 <link rel="stylesheet" href="assets/kb-common.css">
+<script src="assets/kb-prefs.js" defer></script>
 </head>
 <body>
 

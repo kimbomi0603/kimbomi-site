@@ -5,6 +5,10 @@
   --gold:#E0A43C; --line:#E4DFD3; --line2:#D6CFBE;
   --serif:"Noto Serif KR",serif; --sans:"Noto Sans KR",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
 }
+html[data-font="1"] body{zoom:1.12} html[data-font="2"] body{zoom:1.25}
+html[data-theme="dark"]{--cream:#15171A; --card:#1E2126; --ink:#ECEAE3; --mut:#A9A8A0; --green:#4FB08F; --green2:#2E7A62; --navy:#9CC7EA; --navy2:#08131F; --navybg:#0B1B2E; --gold:#E0A43C; --lime:#F0CB7A; --line:#2C3036; --line2:#3A3F46; color-scheme:dark}
+html[data-theme="dark"] .hdr{background:#15171A} html[data-theme="dark"] .pm{background:var(--navybg)} html[data-theme="dark"] .strip{background:var(--navy2)} html[data-theme="dark"] .f365{background:#1F5A47} html[data-theme="dark"] .f365 .big.alt{background:#F0CB7A;color:#143D30} html[data-theme="dark"] .f365 .big.alt .tx b,html[data-theme="dark"] .f365 .big.alt .tx small,html[data-theme="dark"] .f365 .big.alt span{color:#143D30} html[data-theme="dark"] .f365 .big .tx b .nb{background:#143D30;color:#F0CB7A} html[data-theme="dark"] .f365 .big.new .tx b,html[data-theme="dark"] .f365 .big.new .tx small,html[data-theme="dark"] .f365 .big.new span{color:#143D30} html[data-theme="dark"] .f365 h2 em{background:#F0CB7A;color:#143D30} html[data-theme="dark"] .hdr .k365{background:#245F4E;color:#fff} html[data-theme="dark"] .hdr .k365 b{color:#fff} html[data-theme="dark"] .f365 .big{background:#245F4E;color:#fff} html[data-theme="dark"] .f365 .big.new{background:#F0CB7A;color:#143D30} html[data-theme="dark"] .f365 .big .tx small,html[data-theme="dark"] .f365 .big span{color:rgba(255,255,255,.85)} html[data-theme="dark"] .hdr nav{color:#C9C7BF} html[data-theme="dark"] .hdr .brand img{filter:brightness(1.35) saturate(.85)}
+html[data-theme="dark"] .hdr .join{color:var(--green);border-color:var(--green)} html[data-theme="dark"] img.photo,html[data-theme="dark"] .hero img{filter:brightness(.9)}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;letter-spacing:-.012em;word-break:keep-all;overflow-wrap:break-word}

@@ -64,9 +64,48 @@ module.exports = async (req, res) => {
   const isReporter = !!REPORT_TOKEN && (safeEq(hkey, REPORT_TOKEN) || safeEq(qkey, REPORT_TOKEN));
 
   if (!RURL || !RTOK) { res.status(200).json({ ok:false, configured:false }); return; }
+  /* 내 동네 변화 알림 발송 (cron 일 1회). 구독: lib/community/alerts.js
+     index.json 의 exec_2026(rate, exe_ymd) 를 구독자별 마지막 발송값과 비교해 달라졌을 때만 메일/텔레그램. */
+  async function runAlerts(){
+    try {
+      var SITE='https://www.xn--4k0b53xuva.com';
+      var ixr = await fetch(SITE+'/data/index.json', { signal: AbortSignal.timeout(15000) }); var ix = await ixr.json();
+      var byCd = {}; (ix.rows||[]).forEach(function(r){ byCd[r.laf_cd]=r; });
+      var subs = hobj(await redis(['HGETALL','kb_alerts']).then(function(d){return d.result;}));
+      var RESEND2 = process.env.RESEND_API_KEY || '', FROM2 = process.env.MAIL_FROM || 'onboarding@resend.dev', TG = process.env.TELEGRAM_BOT_TOKEN || '';
+      var crypto2 = require('crypto'); var SEC = process.env.ALERT_SECRET || process.env.CRON_SECRET || process.env.ADMIN_KEY || 'kb-alerts';
+      var sent=0, skipped=0, errors=0, emails=Object.keys(subs);
+      for (var i=0;i<emails.length;i++) {
+        var em=emails[i]; var o; try{ o=JSON.parse(subs[em]); }catch(e){ continue; }
+        if (!o.ok) { skipped++; continue; }
+        var r = byCd[o.cd]; var ex = r && r.exec_2026; if (!ex) { skipped++; continue; }
+        var cur = { ymd: ex.exe_ymd, rate: ex.rate, dbiz: ex.dbiz };
+        var last = o.last || null;
+        if (last && last.ymd===cur.ymd && last.rate===cur.rate) { skipped++; continue; }
+        var nm = o.nm || (r.sigungu_new || r.display_new || r.display || o.cd);
+        var diff = last && typeof last.rate==='number' ? ' (지난 알림 '+last.rate+'% → '+cur.rate+'%)' : '';
+        var ymdK = String(cur.ymd||'').replace(/(\d{4})(\d{2})(\d{2})/,'$1.$2.$3');
+        var line = nm+' 집행률 '+cur.rate+'%'+diff+' · 세부사업 '+(cur.dbiz||0).toLocaleString()+'건 · 자료 기준일 '+ymdK;
+        var link = SITE+'/budget365.html#/lg/'+o.cd;
+        var tok = crypto2.createHmac('sha256', SEC).update(em.toLowerCase()).digest('hex').slice(0,32);
+        var unsub = SITE+'/api/community?kind=alerts&unsub='+tok+'&e='+encodeURIComponent(em);
+        var okAny=false;
+        if (RESEND2) { try { var mr = await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+RESEND2,'Content-Type':'application/json'},
+          body:JSON.stringify({from:FROM2,to:[em],subject:'[우리동네365] '+nm+' 예산 집행 변화',html:'<div style="font-family:\'Noto Sans KR\',sans-serif;line-height:1.7"><p>'+line.replace(/</g,'&lt;')+'</p><p><a href="'+link+'" style="color:#0F5C46;font-weight:700">우리동네365에서 자세히 보기 →</a></p><p style="color:#888;font-size:12px">자료는 행정안전부 지방재정365 세부사업 집행 현황입니다. <a href="'+unsub+'" style="color:#888">알림 해지</a></p></div>'}),signal:AbortSignal.timeout(8000)}); okAny = okAny || mr.ok; } catch(e){ errors++; } }
+        if (TG && o.tg) { try { var tr = await fetch('https://api.telegram.org/bot'+TG+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:o.tg,text:'[우리동네365] '+line+'\n'+link,disable_web_page_preview:true}),signal:AbortSignal.timeout(8000)}); okAny = okAny || tr.ok; } catch(e){ errors++; } }
+        if (okAny) { o.last = cur; o.last_sent = Date.now(); await redis(['HSET','kb_alerts',em,JSON.stringify(o)]); sent++; } else { errors++; }
+      }
+      return { ok:true, subscribers: emails.length, sent: sent, skipped: skipped, errors: errors, telegram: !!TG, mail: !!RESEND2 };
+    } catch(e) { return { ok:false, error: String(e && e.message || e) }; }
+  }
+  if (action === 'alerts') {
+    if (CRON_SECRET) { var _a2=req.headers['authorization']||''; var _t2=req.query.t||''; if(_a2!=='Bearer '+CRON_SECRET && _t2!==CRON_SECRET){ res.status(401).json({ok:false,error:'unauthorized'}); return; } }
+    res.status(200).json(await runAlerts()); return;
+  }
   if (action === 'cronreport') {
     if (CRON_SECRET) { var _a=req.headers['authorization']||''; var _t=req.query.t||''; if(_a!=='Bearer '+CRON_SECRET && _t!==CRON_SECRET){ res.status(401).json({ok:false,error:'unauthorized'}); return; } }
     try {
+      var alertsResult = await runAlerts();   // 내 동네 변화 알림(하루 1회, 같은 cron 슬롯 사용)
       var cdate = req.query.date || kstDate(1);
       var cprev = kstDateFrom(new Date(cdate+'T00:00:00+09:00').getTime() - 86400000);
       var cpr = await pipeline([['GET','a:pv:'+cdate],['PFCOUNT','a:uv:'+cdate],['HGETALL','a:h:'+cdate],['GET','a:pv:'+cprev],['PFCOUNT','a:uv:'+cprev],['LRANGE','kb_thoughts',0,499]]);
