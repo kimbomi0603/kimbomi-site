@@ -1539,7 +1539,7 @@ async function renderTasks(no){ const D=await loadPolicy();
     <div class="card pfil">
       <input id="tq" class="pq" type="search" placeholder="과제·부처 이름으로 찾기" value="${esc(T.q)}">
       <div class="prow"><b>목표</b>${chip(!T.goal,'전체',"T.goal='';route()")}${goals.map(([n,g])=>chip(T.goal===String(n),n+'. '+esc(g),"T.goal='"+n+"';route()")).join('')}</div>
-      <div class="prow"><b>구분</b>${chip(!T.key,'전체',"T.key=false;route()")}${chip(T.key,'12대 핵심과제',"T.key=true;route()")}</div>
+      <div class="prow"><b>구분</b>${chip(!T.key,'전체',"T.key=false;route()")}${chip(T.key,'핵심 표시 과제 <i>'+D.tasks.filter(t=>t.key12).length+'</i>',"T.key=true;route()")}</div>
     </div>
     <div class="pbar"><b>${num(L.length)}개</b> <span class="mut">과제</span><span class="grow"></span>
       <button class="btn" onclick="taskCsv()">국정과제 CSV로 내려받기</button></div>
@@ -1564,7 +1564,7 @@ function renderTaskOne(D,no){ const t=D.tasks.find(x=>String(x.no)===String(no))
   <section class="wrap">
     <div class="crumb"><a href="#/task">123대 국정과제</a> › 목표 ${t.goal_no}</div>
     <div class="card pone">
-      <div class="pm">${t.no}번 과제${t.key12?' · <span class="ptier t1">12대 핵심과제</span>':''} · ${esc(t.ministry||'')}</div>
+      <div class="pm">${t.no}번 과제${t.key12?' · <span class="ptier t1">핵심 표시 과제</span>':''} · ${esc(t.ministry||'')}</div>
       <h1>${esc(t.title)}</h1>
       <div class="mut">목표 ${t.goal_no}. ${esc(t.goal)} › ${esc(t.strategy||'')}</div>
       <p class="psum">${esc(t.desc||'')}</p>
@@ -1632,7 +1632,7 @@ function polOneCsv(id){ const D=S.pol; const x=D.items.find(i=>i.id===id); if(!x
   (x.official||[]).forEach(o=>rows.push(['정부 원문',o.title+' '+o.url]));
   saveFile('정책_'+x.id+'.csv',csv(rows)); }
 function taskCsv(){ const D=S.pol;
-  const rows=[['번호','과제명','목표번호','목표','추진전략','담당부처','12대핵심','과제내용','원문URL']];
+  const rows=[['번호','과제명','목표번호','목표','추진전략','담당부처','핵심표시','과제내용','원문URL']];
   D.tasks.forEach(t=>rows.push([t.no,t.title,t.goal_no,t.goal,t.strategy||'',t.ministry||'',t.key12?'O':'',t.desc||'',t.url||'']));
   saveFile('123대국정과제_'+D.built_at+'.csv',csv(rows)); }
 
