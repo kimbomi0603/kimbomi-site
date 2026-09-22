@@ -25,7 +25,7 @@
 <meta name="twitter:description" content="지방정부 243개 시·군·구와 중앙정부 62개 부처의 예산, 집행 내역, 수의·일반 계약 정보를 누구나 3초 만에 확인할 수 있는 공공재정 분석 플랫폼">
 <meta name="twitter:image" content="https://www.xn--4k0b53xuva.com/og-ud365.jpg?v=20260921d">
 <link rel="alternate" type="application/rss+xml" title="김보미.com — 우리동네365" href="/rss.xml">
-<link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="assets/brand/kb-icon.svg"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script type="application/ld+json">
@@ -195,7 +195,7 @@ main{padding-bottom:46px}
 .mb.on{background:var(--green);border-color:var(--green);color:#fff}
 .mb.on:hover{background:var(--green2)}
 .mb.on .ic{background:rgba(255,255,255,.14);color:#fff}
-.mb.on .k{color:#F0D48A}
+.mb.on .k{color:var(--lime)}
 .mb.on p{color:rgba(255,255,255,.88)}
 .mb.on .meta{color:rgba(255,255,255,.7)}
 .mb.on .go{color:#fff;border-top-color:rgba(255,255,255,.22)}
@@ -212,7 +212,7 @@ main{padding-bottom:46px}
   background:#fff;color:var(--green2);border-radius:14px;padding:15px 18px;
   box-shadow:0 6px 18px rgba(0,0,0,.16);transition:transform .16s,box-shadow .16s}
 .f365 .big:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.26)}
-.f365 .big:focus-visible{outline:3px solid #F0D48A;outline-offset:3px}
+.f365 .big:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
 .f365 .big .ic{flex:0 0 auto;display:grid;place-items:center;width:46px;height:46px;
   border-radius:50%;background:var(--green);color:#fff}
 .f365 .big .ic svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:2.3;
@@ -227,19 +227,19 @@ main{padding-bottom:46px}
 .f365 .big.wide{grid-column:1/-1}
 .f365 .gnote{grid-column:1/-1;margin:2px 0 0;font-size:.78rem;line-height:1.6;
   color:rgba(255,255,255,.72);word-break:keep-all}
-.f365 .big.alt{background:#F0D48A;color:#0B4639}
+.f365 .big.alt{background:var(--lime);color:var(--green2)}
 .f365 .big.new{background:#E9C980}
 .f365 .big .tx b .nb{font-style:normal;font-size:.68rem;font-weight:800;letter-spacing:0;
-  background:var(--green2);color:#F0D48A;padding:3px 8px;border-radius:999px;margin-left:6px;
+  background:var(--green2);color:var(--lime);padding:3px 8px;border-radius:999px;margin-left:6px;
   vertical-align:middle;white-space:nowrap}
 .f365 .big.alt .ic{background:var(--green2)}
 .f365 .big.alt .tx small{color:rgba(11,70,57,0.81)}
 .f365:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-.f365 .k{font-size:.75rem;font-weight:700;color:#F0D48A}
+.f365 .k{font-size:.75rem;font-weight:700;color:var(--lime)}
 .f365 h2{font-size:2rem;color:#fff;margin-top:4px;font-weight:900;letter-spacing:-.04em;line-height:1.2;
   display:flex;align-items:center;flex-wrap:wrap;gap:10px}
 .f365 h2 em{font-style:normal;font-size:.8rem;font-weight:800;letter-spacing:0;
-  background:#F0D48A;color:#0B4639;padding:5px 11px;border-radius:999px;white-space:nowrap}
+  background:var(--lime);color:var(--green2);padding:5px 11px;border-radius:999px;white-space:nowrap}
 .f365 p{margin:10px 0 0;font-size:.92rem;line-height:1.78;color:rgba(255,255,255,.9);max-width:720px}
 .f365 .fr{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:20px;padding-top:17px;border-top:1px solid rgba(255,255,255,.22)}
 .f365 .fr div{padding:2px 16px 2px 0;border-right:1px solid rgba(255,255,255,.22)}
@@ -355,7 +355,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 
 <header class="hdr">
   <div class="w">
-    <a class="brand" href="index.html">김보미.com</a>
+    <a class="brand" href="index.html"><img src="assets/brand/kb-wordmark.svg" alt="김보미.com"></a>
     <nav>
       <a href="https://taxwatch.kr/" target="_blank" rel="noopener">재정주권시민행동</a>
       <a href="about.html">김보미는</a>
@@ -363,7 +363,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
       <a href="press.html">언론·영상</a>
       <a href="archive.html">기록관</a>
     </nav>
-    <a class="k365" href="budget365.html" aria-label="우리동네365 · 지방정부와 중앙정부 예산 보기"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg><span><b>우리동네365</b><em>지방정부와 중앙정부</em></span></a>
+    <a class="k365" href="budget365.html" aria-label="우리동네365 · 지방정부와 중앙정부 예산 보기"><img src="assets/brand/ud365-icon-light.svg" alt=""><span><b>우리동네365</b><em>지방정부와 중앙정부</em></span></a>
     <a class="join" href="pledge.html">함께하기</a>
   </div>
 </header>

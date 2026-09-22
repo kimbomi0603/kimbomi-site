@@ -1,8 +1,8 @@
 /* 김보미.com 공통 디자인 — 딥그린 + 네이비 + 크림 */
 :root{
   --cream:#F5F2EA; --card:#FFFFFF; --ink:#17181A; --mut:#6A6B70;
-  --green:#0F5A4A; --green2:#0B4639; --navy:#16305A; --navy2:#0E2143;
-  --gold:#C99A2E; --line:#E4DFD3; --line2:#D6CFBE;
+  --green:#0F5C46; --green2:#0B3F31; --navy:#0B3F31; --navy2:#072A21; --lime:#B6F04A;
+  --gold:#B6F04A; --line:#E4DFD3; --line2:#D6CFBE;
   --serif:"Noto Serif KR",serif; --sans:"Noto Sans KR",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
 }
 *{box-sizing:border-box}
@@ -20,17 +20,19 @@ h1,h2,h3,h4{font-family:var(--serif);font-weight:700;margin:0;letter-spacing:-.0
 /* 헤더 */
 .hdr{background:var(--cream);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
 .hdr .w{display:flex;align-items:center;gap:14px;height:64px}
-.hdr .brand{font-family:var(--serif);font-weight:900;font-size:1.16rem;color:var(--green);white-space:nowrap}
+.hdr .brand{font-family:var(--serif);font-weight:900;font-size:1.16rem;color:var(--green);white-space:nowrap;display:flex;align-items:center}
+.hdr .brand img{height:30px;width:auto;display:block}
 .hdr nav{margin-left:auto;margin-right:6px;display:flex;gap:20px;font-size:.86rem;color:#3E4045;overflow-x:auto;scrollbar-width:none}
 .hdr nav::-webkit-scrollbar{display:none}
 .hdr nav a{white-space:nowrap;padding:4px 0;border-bottom:2px solid transparent}
 .hdr nav a:hover,.hdr nav a.on{border-bottom-color:var(--green);color:var(--green);font-weight:700}
 .hdr .k365{display:inline-flex;align-items:center;gap:9px;background:var(--green);color:#fff;padding:7px 15px 7px 11px;border-radius:10px;white-space:nowrap;box-shadow:0 4px 14px rgba(15,90,74,.22)}
 .hdr .k365:hover{background:var(--green2)}
-.hdr .k365 svg{width:20px;height:20px;fill:none;stroke:#F0D48A;stroke-width:2;stroke-linecap:round}
+.hdr .k365 svg{width:20px;height:20px;fill:none;stroke:var(--lime);stroke-width:2;stroke-linecap:round}
+.hdr .k365 img{width:26px;height:26px;display:block;border-radius:6px}
 .hdr .k365 span{display:flex;flex-direction:column;line-height:1.2}
 .hdr .k365 b{font-size:.875rem;font-weight:700;letter-spacing:-.02em}
-.hdr .k365 em{font-style:normal;font-size:.66rem;color:#F0D48A;font-weight:500}
+.hdr .k365 em{font-style:normal;font-size:.66rem;color:var(--lime);font-weight:500}
 .hdr .join{background:transparent;color:var(--green);border:1.5px solid var(--green);font-size:.84rem;font-weight:700;padding:7px 14px;border-radius:8px;white-space:nowrap}
 .hdr .join:hover{background:var(--green);color:#fff}
 

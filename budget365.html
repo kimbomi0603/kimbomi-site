@@ -19,21 +19,21 @@
 <meta name="author" content="김보미">
 <meta name="keywords" content="우리동네365,예산 조회,계약 조회,지방재정,지자체 예산,시군구 예산,중앙정부 예산,부처별 예산,2027 예산안,집행 내역,수의계약 조회,나라장터 계약,세금 어디에 쓰이나,재정주권시민행동,재정주권,예산감시,김보미,김보미.com">
 <link rel="alternate" type="application/rss+xml" title="김보미.com — 우리동네365" href="/rss.xml">
-<link rel="icon" href="favicon.ico"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="assets/brand/kb-icon.svg"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 /* ═══════════ 디자인 토큰 — 03 괘선 장부 (A 신문 1면 × D 쪽빛 전통) ═══════════ */
 :root{
-  --navy:#0E2A47;--navy-2:#16395C;--navy-3:#1E4A75;--royal:#1E4A75;--sky:#E9EEF4;--sky-2:#D6E0EA;
-  --gold:#E0A43C;--gold-ink:#8A6510;--gold-soft:#FBF0D8;--teal:#2F6F5E;--teal-soft:#E2EFEA;--teal-ink:#24594B;
+  --navy:#0B3F31;--navy-2:#0F5C46;--navy-3:#166B52;--royal:#0F5C46;--sky:#E9F2EE;--sky-2:#D3E6DD;--lime:#B6F04A;
+  --gold:#B6F04A;--gold-ink:#3D6B00;--gold-soft:#EEF8D9;--teal:#2F6F5E;--teal-soft:#E2EFEA;--teal-ink:#24594B;
   --red:#B8402A;--red-soft:#FBE7E1;--red-ink:#93321F;--violet:#6B5C8A;
-  --bg:#F7F3E8;--bg-2:#EFE9D8;--card:#FFFFFF;--ink:#15202E;--ink-2:#39424F;--ink-3:#6B6455;
-  --line:#E5DECA;--line-2:#CFC5AD;--rule:#0E2A47;
-  --z-lg:#5FB3A1;--z-gov:#7FB2D9;--z-pol:#C9A9F0;--z-lg-ink:#24594B;--z-gov-ink:#1E4A75;--z-pol-ink:#5A3E8A;--z-lg-soft:#E2EFEA;--z-gov-soft:#E4EEF7;--z-pol-soft:#EFE8F9;
-  --c1:#0E2A47;--c2:#2F6F5E;--c3:#C79319;--c4:#6B5C8A;--c5:#B8402A;--c6:#4A6B8A;--c7:#9A9384;--c8:#3F8FA6;
+  --bg:#F1F7F3;--bg-2:#E6F0EA;--card:#FFFFFF;--ink:#15202E;--ink-2:#39424F;--ink-3:#6B6455;
+  --line:#DDE3D8;--line-2:#C3CDBF;--rule:#0B3F31;
+  --z-lg:#7FB2D9;--z-gov:#F4B26B;--z-pol:#C9A9F0;--z-lg-ink:#1E4A75;--z-gov-ink:#8A4E0A;--z-pol-ink:#5A3E8A;--z-lg-soft:#E4EEF7;--z-gov-soft:#FBEEDD;--z-pol-soft:#EFE8F9;
+  --c1:#0B3F31;--c2:#2F6F5E;--c3:#C79319;--c4:#6B5C8A;--c5:#B8402A;--c6:#4A6B8A;--c7:#9A9384;--c8:#3F8FA6;
   --mono:'IBM Plex Mono','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',ui-monospace,monospace;--body:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;--disp:'Noto Serif KR','Nanum Myeongjo',serif;
-  --side:236px;--r:0;--r-s:0;--sh:none;--sh-2:0 2px 0 rgba(14,42,71,.05);
+  --side:236px;--r:0;--r-s:0;--sh:none;--sh-2:0 2px 0 rgba(11,63,49,.05);
   color-scheme:light}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -44,11 +44,13 @@ h1,h2,h3{font-family:var(--disp);letter-spacing:-.03em}
 .wrap{max-width:1180px;margin:0 auto;padding-inline:clamp(16px,2.6vw,34px)}
 
 /* ═══════════ 좌측 쪽빛 사이드바 ═══════════ */
-.top{position:fixed;left:0;top:0;bottom:0;width:var(--side);z-index:30;background:var(--navy);color:#F5F0E4;border-right:3px solid #0A1F36;overflow-y:auto}
+.top{position:fixed;left:0;top:0;bottom:0;width:var(--side);z-index:30;background:var(--navy);color:#F5F0E4;border-right:3px solid #072A21;overflow-y:auto}
 .top .wrap{display:flex;flex-direction:column;align-items:stretch;gap:16px;height:auto;max-width:none;padding:22px 18px 24px}
 .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:#F5F0E4;font-family:var(--disp);font-weight:900;font-size:20px;letter-spacing:-.02em;white-space:nowrap}
 .brand:hover{color:#F5F0E4}
-.brand .mk{width:28px;height:28px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-family:var(--mono);font-size:11px;font-weight:600;flex:none}
+.brand .mk{width:30px;height:30px;flex:none;display:block}
+.brand .mk img{width:30px;height:30px;display:block;border-radius:7px}
+.brand .three{color:var(--lime)}
 .brand small{font-family:var(--mono);font-size:9.5px;color:rgba(245,240,228,.55);letter-spacing:.14em;font-weight:500;padding:2px 5px;border:1px solid rgba(245,240,228,.25)}
 .gohome{display:flex;align-items:center;gap:7px;text-decoration:none;color:rgba(245,240,228,.82);font-size:12.5px;font-weight:500;padding:8px 11px;border:1px solid rgba(245,240,228,.28);margin-bottom:-4px}
 .gohome:hover{background:var(--gold);color:var(--navy);border-color:var(--gold)}
@@ -69,7 +71,7 @@ h1,h2,h3{font-family:var(--disp);letter-spacing:-.03em}
 .stamp{font-family:var(--mono);font-size:10px;color:rgba(245,240,228,.62);line-height:1.8;margin-top:auto;padding-top:14px;border-top:1px solid rgba(245,240,228,.16);white-space:normal}
 @media (max-width:900px){
   body{padding-left:0}
-  .top{position:sticky;left:auto;top:0;bottom:auto;width:auto;height:auto;border-right:0;border-bottom:3px solid #0A1F36;overflow:visible}
+  .top{position:sticky;left:auto;top:0;bottom:auto;width:auto;height:auto;border-right:0;border-bottom:3px solid #072A21;overflow:visible}
   .top .wrap{flex-direction:row;align-items:center;gap:12px;padding:10px 16px;flex-wrap:wrap}
   .nav{flex-direction:row;border-top:0;order:3;width:100%;overflow-x:auto}
   .nav a{border-bottom:0;border-right:1px solid rgba(245,240,228,.14);white-space:nowrap}
@@ -546,7 +548,7 @@ td.num.up{color:var(--red-ink)}td.num.dn{color:var(--teal-ink)}
 
 <header class="top"><div class="wrap">
   <a class="gohome" href="index.html" aria-label="김보미.com 홈으로 돌아가기"><span aria-hidden="true">←</span> 김보미.com 홈으로</a>
-  <a class="brand" href="#/"><span class="mk">365</span>우리동네365</a>
+  <a class="brand" href="#/"><span class="mk"><img src="assets/brand/ud365-icon-light.svg" alt=""></span>우리동네<span class="three">365</span></a>
   <nav class="nav"><a href="index.html">김보미.com</a><a href="#/" id="navHome">지방정부 <b>243</b></a><a href="#/gov" id="navGov">중앙정부 <b>62</b></a><a href="#/sido/전남광주통합특별시">전남·광주</a><a href="#/sido/인천광역시">인천</a><a href="#/sido/서울특별시">서울</a><a href="#/policy" id="navPol">정책</a></nav>
   <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="q" type="search" placeholder="동네 이름 · 사업 키워드 (예: 강진군, 노인일자리)" autocomplete="off" aria-label="지자체 검색"><div class="sug" id="sug"></div></div>
   <span class="stamp" id="stamp"></span>
