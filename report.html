@@ -242,6 +242,7 @@ textarea.field{min-height:180px;resize:vertical;line-height:1.7}
         <div class="row">
           <input aria-label="이름 (선택)" class="field" id="twName" type="text" placeholder="이름 (선택)" maxlength="20">
           <input aria-label="지역 (선택)" class="field" id="twRegion" type="text" placeholder="지역 (선택)" maxlength="20">
+          <input id="twHp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none">
         </div>
         <textarea aria-label="남기실 생각" class="field" id="twMsg" placeholder="여러분이 그리는 민주당, 만들고 싶은 대한민국을 자유롭게 남겨주세요." maxlength="1000" required></textarea>
         <button type="submit" class="tw-btn">💬 생각 남기기</button>
@@ -417,7 +418,8 @@ $('rSubmit').addEventListener('click',function(){
   form.addEventListener('submit',function(e){
     e.preventDefault();
     var msg=document.getElementById('twMsg').value.trim();if(!msg)return;
-    var p={name:document.getElementById('twName').value.trim(),region:document.getElementById('twRegion').value.trim(),msg:msg};
+    var hp=(document.getElementById('twHp')||{}).value||'';
+    var p={name:document.getElementById('twName').value.trim(),region:document.getElementById('twRegion').value.trim(),msg:msg,hp:hp};
     var btn=form.querySelector('button');btn.disabled=true;
     fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)})
       .then(function(r){return r.json();}).then(function(d){
