@@ -298,7 +298,7 @@ const c=CONTRACTS||{};
 if(c.total||c.soleRate!=null||(c.top&&c.top.length)){
   let h='<div class="grid lg:grid-cols-[1fr_1.3fr] gap-6"><div class="bg-white rounded-2xl p-6 ring-1 ring-paper-line shadow-sm">';
   if(c.total) h+=`<div class="text-[12px] text-ink-faint font-bold">전체 계약</div><div class="text-[28px] font-black text-navy num">${c.total.toLocaleString('ko-KR')}<span class="text-[14px] text-ink-faint">건</span></div>`;
-  if(c.soleRate!=null) h+=`<div class="mt-4 text-[12px] text-ink-faint font-bold">수의계약 비율</div><div class="text-[28px] font-black ${c.soleRate>=30?'text-red-600':c.soleRate>=20?'text-amber-600':'text-navy'} num">${c.soleRate}<span class="text-[14px] text-ink-faint">%</span></div>`;
+  if(c.soleRate!=null) h+=`<div class="mt-4 text-[12px] text-ink-faint font-bold">수의계약 비율</div><div class="text-[28px] font-black ${c.soleRate>=30?'text-red-600':c.soleRate>=20?'text-amber-700':'text-navy'} num">${c.soleRate}<span class="text-[14px] text-ink-faint">%</span></div>`;
   h+='</div>';
   if(c.top&&c.top.length){
     h+='<div class="bg-white rounded-2xl p-6 ring-1 ring-paper-line shadow-sm"><h3 class="text-[15px] font-extrabold text-navy mb-3">상위 수주 단체</h3><div class="overflow-hidden rounded-xl ring-1 ring-paper-line"><table class="w-full text-[12.5px]"><thead class="bg-paper text-ink-faint"><tr><th class="text-left font-semibold px-2.5 py-1.5">단체명</th><th class="text-right font-semibold px-2.5 py-1.5">건수</th><th class="text-right font-semibold px-2.5 py-1.5">금액</th></tr></thead><tbody class="num">';
@@ -315,7 +315,7 @@ pBlock.innerHTML=ph('주요 사업별 집행 데이터 로딩 중…');
 
 function renderProjects(projects, date, count){
   pBlock.innerHTML='<div class="bg-white rounded-2xl ring-1 ring-paper-line shadow-sm overflow-hidden"><table class="w-full text-[13.5px]"><thead class="bg-paper text-ink-faint"><tr><th class="text-left font-semibold px-4 py-3">사업명</th><th class="text-right font-semibold px-4 py-3">예산</th><th class="text-right font-semibold px-4 py-3">집행</th><th class="text-right font-semibold px-4 py-3">집행률</th></tr></thead><tbody class="num">'+
-    projects.map(p=>`<tr class="border-t border-paper-line"><td class="px-4 py-3 text-navy font-semibold">${p.name}</td><td class="px-4 py-3 text-right text-ink-soft">${p.budget||'—'}</td><td class="px-4 py-3 text-right text-ink-soft">${p.exec||'—'}</td><td class="px-4 py-3 text-right font-bold ${p.rate>=70?'text-mint-dark':p.rate>=40?'text-amber-600':'text-red-600'}">${p.rate!=null?p.rate+'%':'—'}</td></tr>`).join('')+
+    projects.map(p=>`<tr class="border-t border-paper-line"><td class="px-4 py-3 text-navy font-semibold">${p.name}</td><td class="px-4 py-3 text-right text-ink-soft">${p.budget||'—'}</td><td class="px-4 py-3 text-right text-ink-soft">${p.exec||'—'}</td><td class="px-4 py-3 text-right font-bold ${p.rate>=70?'text-mint-dark':p.rate>=40?'text-amber-700':'text-red-600'}">${p.rate!=null?p.rate+'%':'—'}</td></tr>`).join('')+
   `</tbody></table><p class="text-[11px] text-ink-faint px-4 py-3 border-t border-paper-line">📡 lofin365 실데이터 · ${date||''} 기준 · 상위 ${count}개 사업</p></div>`;
 }
 
