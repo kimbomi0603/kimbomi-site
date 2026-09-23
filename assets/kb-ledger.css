@@ -55,3 +55,5 @@ footer.site a:hover{color:var(--gold)}
   .hdr nav{order:3;width:100%;margin:0;gap:18px;padding:4px 0 0}
   .hdr nav a{padding:8px 0 9px;font-size:.9rem}
 }
+
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--gold,#C8412B);outline-offset:2px}

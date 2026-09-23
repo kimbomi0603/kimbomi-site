@@ -213,6 +213,9 @@ main{padding:52px 0 80px;min-height:50vh}
 }
 </script>
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<link rel="alternate" type="application/rss+xml" title="김보미목소리 RSS" href="https://www.xn--4k0b53xuva.com/feed.xml">
+<link rel="stylesheet" href="assets/kb-dark.css">
+<script src="assets/kb-prefs.js" defer></script>
 </head>
 <body>
 <header class="kbx-hdr">
@@ -441,7 +444,7 @@ function renderDetail(p){
 }
 function doShare(p){
   var text='「'+p.title+'」 — 김보미 생각 · '+HASHTAGS;
-  var url='https://www.xn--4k0b53xuva.com/vision.html?post='+encodeURIComponent(p.id);
+  var url='https://www.xn--4k0b53xuva.com/post/'+encodeURIComponent(p.id);
   if(navigator.share){ navigator.share({title:p.title,text:text,url:url}).catch(function(){}); return; }
   try{ navigator.clipboard.writeText(text+' '+url); toast('링크가 복사됐어요'); }catch(e){ prompt('복사해 공유하세요', text+' '+url); }
 }

@@ -177,6 +177,45 @@ module.exports = async (req, res) => {
       res.status(200).json(oout);
       return;
     }
+    if (action === 'rss') {
+      // 김보미목소리 RSS — 공개 글 최신 50건
+      var arrR = await loadRaw(); if (!arrR) arrR = DEFAULT_POSTS;
+      var itemsR = pubList(arrR).slice(0, 50);
+      var xe = function(t){ return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+      var strip = function(b){ return String(b||'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim().slice(0, 300); };
+      var base = 'https://www.xn--4k0b53xuva.com';
+      var xml = '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>'
+        + '<title>김보미목소리 — 김보미.com</title><link>' + base + '/vision.html</link>'
+        + '<atom:link href="' + base + '/feed.xml" rel="self" type="application/rss+xml"/>'
+        + '<description>기득권의 밀실을 열고 공정한 경쟁을 제도로 만들자는 김보미의 정치개혁 제안과 현안 입장</description><language>ko</language>'
+        + '<lastBuildDate>' + new Date(itemsR.length ? (itemsR[0].publishAt||Date.now()) : Date.now()).toUTCString() + '</lastBuildDate>'
+        + itemsR.map(function(p){ var u = base + '/post/' + encodeURIComponent(p.id); return '<item><title>' + xe(p.title) + '</title><link>' + u + '</link><guid isPermaLink="true">' + u + '</guid><description>' + xe(strip(p.body)) + '</description><pubDate>' + new Date(p.publishAt||Date.now()).toUTCString() + '</pubDate></item>'; }).join('')
+        + '</channel></rss>';
+      res.setHeader('Content-Type', 'application/rss+xml; charset=utf-8');
+      res.setHeader('Cache-Control', 'public, max-age=600, s-maxage=1800');
+      res.status(200).send(xml);
+      return;
+    }
+    if (action === 'page') {
+      // 글별 공유용 정적 페이지: 봇에게는 OG 메타, 사람에게는 vision.html?post= 로 이동
+      var arrP = await loadRaw(); if (!arrP) arrP = DEFAULT_POSTS;
+      var pid = String(req.query.id||''); var pp = pubList(arrP).find(function(x){ return x.id===pid; });
+      var xe2 = function(t){ return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+      var base2 = 'https://www.xn--4k0b53xuva.com';
+      if (!pp) { res.setHeader('Location', base2 + '/vision.html'); res.status(302).end(); return; }
+      var desc = String(pp.body||'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim().slice(0, 160);
+      var target = base2 + '/vision.html?post=' + encodeURIComponent(pp.id);
+      var htmlP = '<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><title>' + xe2(pp.title) + ' | 김보미목소리</title>'
+        + '<meta name="description" content="' + xe2(desc) + '"><link rel="canonical" href="' + target + '">'
+        + '<meta property="og:type" content="article"><meta property="og:site_name" content="김보미.com"><meta property="og:title" content="' + xe2(pp.title) + '"><meta property="og:description" content="' + xe2(desc) + '"><meta property="og:url" content="' + target + '">'
+        + '<meta property="og:image" content="' + base2 + '/og-ud365.jpg?v=20260921d"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="' + xe2(pp.title) + '"><meta name="twitter:description" content="' + xe2(desc) + '">'
+        + '<meta property="article:published_time" content="' + new Date(pp.publishAt||Date.now()).toISOString() + '"><meta property="article:author" content="김보미">'
+        + '<meta http-equiv="refresh" content="0;url=' + target + '"></head><body style="font-family:sans-serif;padding:24px"><h1>' + xe2(pp.title) + '</h1><p>' + xe2(desc) + '</p><p><a href="' + target + '">글 읽기 →</a></p><script>location.replace(' + JSON.stringify(target) + ')</script></body></html>';
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('Cache-Control', 'public, max-age=300, s-maxage=900');
+      res.status(200).send(htmlP);
+      return;
+    }
     if (action === 'list') {
       var arr = await loadRaw(); if (!arr) arr = DEFAULT_POSTS;
       var items = pubList(arr).map(function(p){ return { id:p.id, title:p.title, body:p.body, publishAt:p.publishAt }; });

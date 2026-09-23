@@ -40,6 +40,14 @@
   ],
   "rewrites": [
     {
+      "source": "/feed.xml",
+      "destination": "/api/posts?action=rss"
+    },
+    {
+      "source": "/post/:id",
+      "destination": "/api/posts?action=page&id=:id"
+    },
+    {
       "source": "/api/thoughts",
       "destination": "/api/community?kind=thoughts"
     },

@@ -1,0 +1,11 @@
+/* 페이지별 색 체계가 다른 화면(김보미는·함께하기·언론·목소리·소통·정당 돈·개인정보)에 다크 모드·글자 크기를 한 번에 적용.
+   kb-prefs.js 가 <html data-theme="dark"> / data-font="1|2" 를 붙이면 아래가 동작한다.
+   방식: 화면 전체를 반전(invert)한 뒤 사진·영상·로고는 다시 반전해 원래대로 둔다. 사진이 많은 페이지도 안전.
+   [한계] 그라데이션·브랜드 색은 근사치. 완전한 다크 팔레트가 필요한 페이지는 개별 CSS로 덮어쓴다. */
+html[data-font="1"] body{zoom:1.12} html[data-font="2"] body{zoom:1.25}
+html[data-theme="dark"]{background:#161512}
+html[data-theme="dark"] body{background:#1a1916}
+html[data-theme="dark"] body > *:not(#kbPrefs):not(script):not(style){filter:invert(.92) hue-rotate(180deg)}
+html[data-theme="dark"] img,html[data-theme="dark"] video,html[data-theme="dark"] iframe,html[data-theme="dark"] picture,html[data-theme="dark"] canvas,html[data-theme="dark"] .noinv,html[data-theme="dark"] [style*="background-image"]{filter:invert(1) hue-rotate(180deg)}
+/* 접근성: 키보드 포커스 표시 */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:3px solid #C8412B;outline-offset:2px}

@@ -521,6 +521,7 @@ td.nm .pu{display:block;font-size:11.5px;line-height:1.5;color:var(--ink-2);font
   .pone h1{font-size:23px}
 }
 
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .hero .sig{display:inline-block;margin-left:6px;font-weight:700;color:var(--gold-ink)}
 </style>
 <script type="application/ld+json">
@@ -1357,9 +1358,13 @@ async function natWide(c,encName){ const box=document.getElementById('natbox'); 
     </tbody></table></div>${hits.length>20?`<div class="mut" style="margin-top:6px">상위 20곳만 표시 · 전체 ${num(hits.length)}곳</div>`:''}
     <p class="src">사업명 문자열이 완전히 같은 경우만 셉니다. 이름이 조금씩 다른 같은 성격의 사업은 「이 이름으로 전국 검색」에서 유의어까지 넓혀 볼 수 있습니다.</p></div>`;
   }catch(e){ box.innerHTML='<div class="empty">전국 색인을 불러오지 못했습니다 — '+esc(e.message)+'</div>'; } }
-function closeMd(){ document.getElementById('ov').classList.remove('open'); }
+/* 모달 접근성: 열릴 때 포커스를 안으로, Tab 은 모달 안에서만 돌고, 닫으면 열었던 곳으로 돌아간다 */
+let MD_PREV=null;
+function closeMd(){ const ov=document.getElementById('ov'); if(!ov.classList.contains('open')) return; ov.classList.remove('open'); if(MD_PREV&&MD_PREV.focus){ try{ MD_PREV.focus(); }catch(e){} } MD_PREV=null; }
 document.getElementById('ov').addEventListener('click',e=>{ if(e.target.id==='ov') closeMd(); });
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeMd(); });
+new MutationObserver(()=>{ const ov=document.getElementById('ov'); if(ov.classList.contains('open')){ MD_PREV=document.activeElement; const md=document.getElementById('md'); md.setAttribute('tabindex','-1'); const f=md.querySelector('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])'); (f||md).focus({preventScroll:true}); } }).observe(document.getElementById('ov'),{attributes:true,attributeFilter:['class']});
+document.addEventListener('keydown',e=>{ const ov=document.getElementById('ov'); if(e.key==='Escape'){ closeMd(); return; }
+  if(e.key==='Tab'&&ov.classList.contains('open')){ const f=[...document.getElementById('md').querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(x=>!x.disabled&&x.offsetParent!==null); if(!f.length) return; const a=document.activeElement; if(e.shiftKey&&(a===f[0]||!document.getElementById('md').contains(a))){ e.preventDefault(); f[f.length-1].focus(); } else if(!e.shiftKey&&a===f[f.length-1]){ e.preventDefault(); f[0].focus(); } } });
 
 /* ═══════════ 사업·민원 키워드 검색(전국) — data/search.txt(2026 세부사업 468,403건 + 2025 연말 금액) ═══════════ */
 async function gunzipB64(url){ const r=await fetch(url); if(!r.ok) throw new Error('자료 없음: '+url); const b64=(await r.text()).trim(); const bin=atob(b64); const u8=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i); const st=new Blob([u8]).stream().pipeThrough(new DecompressionStream('gzip')); return JSON.parse(await new Response(st).text()); }
@@ -1525,6 +1530,7 @@ async function renderGovMin(ix,sg){ const m=ix.ministries.find(x=>x.sg===sg); if
   <div class="lgband"><div class="wrap">
     <div class="crumb"><a href="#/gov">중앙정부</a> › ${esc(m.cat||'중앙행정기관')}</div>
     <h1>${esc(m.nm)}</h1>
+    ${PU?`<span class="pill" style="margin-top:6px"><i></i>사업 목적 문장 ${num(PU.n)}건 연결 · 출처 2026 사업설명자료</span>`:`<span class="pill" style="margin-top:6px;opacity:.85"><i></i>사업설명자료 미공개·접근 차단 — 사업 목적 문장 없음</span>`}
     <div class="stats">
       <div><b>${m.exp==null?NA:mjo(m.exp)}<small>${m.exp==null?'':'조원'}</small></b><span>2026 총지출 기준</span></div>
       <div><b>${m.gross==null?NA:mjo(m.gross)}<small>${m.gross==null?'':'조원'}</small></b><span>2026 총계 기준</span></div>
@@ -1541,7 +1547,7 @@ async function renderGovMin(ix,sg){ const m=ix.ministries.find(x=>x.sg===sg); if
       <select id="gs" aria-label="정렬"><option value="b26">2026 예산 큰 순</option><option value="rt">증가율 높은 순</option><option value="rtd">감소율 큰 순</option><option value="dl">증감액 큰 순</option><option value="nm">사업명 순</option></select>
     </div>
     <div id="gtb"></div>
-    <p class="basis" style="margin:14px 0 0">총액 출처: ${esc(ix.src.total)} · 세부사업 출처: ${esc(ix.src.proj)} · 값이 공개되지 않은 항목은 ${NA}로 두었고 0으로 채우지 않았습니다.${PU?` · 사업 목적 출처: ${esc(m.nm)} 「${esc(PU.src)}」 (세부사업 ${num(PU.n)}건에 목적 문장, 나머지는 설명자료에 없는 항목)`:' · 이 부처는 2026년 사업설명자료가 누리집에 공개되지 않아 사업 목적 문장이 없습니다.'}</p>
+    <p class="basis" style="margin:14px 0 0">총액 출처: ${esc(ix.src.total)} · 세부사업 출처: ${esc(ix.src.proj)} · 값이 공개되지 않은 항목은 ${NA}로 두었고 0으로 채우지 않았습니다.${PU?` · 사업 목적 출처: ${esc(m.nm)} 「${esc(PU.src)}」 (세부사업 ${num(PU.n)}건에 목적 문장, 나머지는 설명자료에 없는 항목)`:' · 이 부처는 2026년 사업설명자료가 누리집에 없거나 접근이 막혀 있어 사업 목적 문장을 붙이지 못했습니다. 이름으로만 검색됩니다.'}</p>
   </div>`;
   const draw=()=>{
     const q=GOVF.q.trim(), f=document.getElementById('gf').value;
