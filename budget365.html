@@ -520,6 +520,7 @@ td.num.up{color:var(--red-ink)}td.num.dn{color:var(--teal-ink)}
   .pone h1{font-size:23px}
 }
 
+.hero .sig{display:inline-block;margin-left:6px;font-weight:700;color:var(--gold-ink)}
 </style>
 <script type="application/ld+json">
 {
@@ -674,7 +675,7 @@ function myCard(){ const cd=myCd(); if(!cd) return `<div class="myhint"><b>내 �
   const x=S.byCd[cd]; const e=x.exec_2026; const rr=e?rank(cd,r=>r.exec_2026?.rate,'high'):null;
   return `<section class="mycard" aria-label="내 동네"><div class="hd"><span class="lbl">★ 내 동네</span><h2><a href="#/lg/${cd}">${esc(x.display)}</a></h2><span class="mut" style="font-size:12px">${esc(x.sido_new)} · ${esc(x.level)} · ${e?ymd(e.exe_ymd)+' 기준':''}</span><button type="button" class="rm" onclick="if(confirm('내 동네 저장을 해제할까요?')) setMy('')">해제</button></div>
     <div class="kp"><div><b>${e?eok(e.budget):NA}<small>억원</small></b><span>2026 예산현액</span></div><div><b>${e?pct(e.rate):NA}</b><span>집행률${rr?' · 전국 '+rr.r+'/'+rr.n+'위':''}</span></div><div><b>${e?num(e.dbiz):NA}<small>건</small></b><span>세부사업</span></div><div><b>${x.fiscal?pct(x.fiscal.sr_rate2):NA}</b><span>재정자립도 (2024 결산)</span></div></div>
-    <div class="lk"><a href="#/lg/${cd}">현황</a><a href="#/lg/${cd}/budget" onclick="B.mode='budget'">예산</a><a href="#/lg/${cd}/budget" onclick="B.mode='exec'">집행</a><a href="#/lg/${cd}/budget" onclick="B.mode='contract'">계약</a><a href="#/lg/${cd}/budget" onclick="B.mode='diag'">진단</a><a href="#/lg/${cd}/budget" onclick="B.mode='pledge'">공약</a><a href="#/lg/${cd}/budget" onclick="B.mode='peer'">비교</a><a href="javascript:void 0" onclick="shareCard('${cd}')">공유 카드 저장</a></div>
+    <div class="lk"><a href="#/lg/${cd}">현황</a><a href="#/lg/${cd}/budget">예산</a><a href="#/lg/${cd}/exec">집행</a><a href="#/lg/${cd}/contract">계약</a><a href="#/lg/${cd}/diag">진단</a><a href="#/lg/${cd}/pledge">공약</a><a href="#/lg/${cd}/peer">비교</a><a href="javascript:void 0" onclick="shareCard('${cd}')">공유 카드 저장</a></div>
     ${alertForm(cd)}</section>`; }
 function alertForm(cd){ const nm=S.byCd[cd]?S.byCd[cd].display:''; return `<div class="alert"><b class="t">변화 알림 받기</b><p>집행률이나 자료 기준일이 바뀌면 이메일로 한 줄 알려드립니다. 하루 1회를 넘지 않고, 메일 안 링크로 언제든 해지됩니다.</p>
   <form onsubmit="return subAlert(event,'${cd}')"><input type="email" name="email" placeholder="이메일 주소" required autocomplete="email"><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button type="submit">알림 신청</button>
@@ -751,7 +752,7 @@ window.addEventListener('scroll',fabSync,{passive:true});
 
 window.addEventListener('hashchange',route);
 async function route(){ NAVN++; killCharts(); try{ closeMd(); }catch(e){} const h=location.hash.replace(/^#\/?/,''); const [a,cd,sub,pid]=h.split('/');
-  try{ if(a==='lg'&&cd){ const lg=await loadLg(cd); if(sub==='budget'){ await renderBudget(lg,pid); } else renderLg(lg); if(pid&&sub==='budget') openProject(lg,decodeURIComponent(pid)); }
+  try{ if(a==='lg'&&cd){ const lg=await loadLg(cd); const MK=['budget','exec','contract','diag','pledge','peer']; if(sub&&MK.includes(sub)){ if(B.mode!==sub){ B.mode=sub; B.page=1; B.cy=''; } await renderBudget(lg,pid); } else renderLg(lg); if(pid&&(sub==='budget'||sub==='exec')) openProject(lg,decodeURIComponent(pid)); }
   else if(a==='q'&&cd){ await renderSearch(decodeURIComponent(cd),sub?decodeURIComponent(sub):''); }
   else if(a==='gov'){ await renderGov(cd?decodeURIComponent(cd):''); }
   else if(a==='gov27'){ await renderGov27(cd?decodeURIComponent(cd):''); }
@@ -761,7 +762,7 @@ async function route(){ NAVN++; killCharts(); try{ closeMd(); }catch(e){} const 
   else if(a==='policy'){ await renderPolicy(cd||''); }
   else if(a==='task'){ await renderTasks(cd||''); }
   else renderHome(a==='sido'?decodeURIComponent(cd||''):''); }
-  catch(e){ document.getElementById('app').innerHTML=`<div class="wrap"><div class="loading">자료를 불러오지 못했습니다 — ${esc(e.message)}</div></div>`; }
+  catch(e){ const nf=/자료 없음|찾지 못했/.test(e.message||''); document.getElementById('app').innerHTML=`<div class="wrap"><div class="empty" style="margin-top:28px"><b style="font-size:17px">${nf?(a==='lg'?'해당 지자체를 찾을 수 없습니다':'해당 자료를 찾을 수 없습니다'):'자료를 불러오지 못했습니다'}</b><div class="mut" style="margin:8px 0 14px">${nf?(a==='lg'?'주소의 코드가 바뀌었거나 없는 지자체입니다. 처음 화면에서 동네 이름으로 다시 찾아 주세요.':'주소가 바뀌었거나 없는 항목입니다. 목록에서 다시 골라 주세요.'):esc(e.message)}</div><a class="btn" href="#/">우리동네365 처음으로</a> <a class="btn" href="#/gov">중앙정부 부처 목록</a></div></div>`; }
   buildNav();
   document.querySelectorAll('.nav a').forEach(x=>{ const hf=x.getAttribute('href'); x.classList.toggle('on',hf===location.hash||(x.id==='navHome'&&(!location.hash||location.hash==='#/'))||(/^#\/(key|policy|task|docs)$/.test(hf)&&location.hash.startsWith(hf+'/'))); });
   window.scrollTo(0,0); fabSync(); }
@@ -775,20 +776,20 @@ function renderHome(sido){ const R=S.index.rows; const live=R.filter(x=>x.live_2
   <div class="wrap" style="padding-top:18px">${GOVSW('lg')}</div>
   <div class="band"><div class="wrap hero">
     <span class="zone lg">지방정부</span><br>
-    <span class="pill"><i></i>재정주권시민행동 · 전국 ${live.length}개 지자체 · ${ymd(asof)} 기준</span>
-    <h1>우리 혈세는<br><em>국민의 세금</em>입니다</h1>
-    <p>세금은 정부의 것도, 단체장의 것도 아닙니다. 전국 지방정부 ${live.length}곳과 중앙정부 62개 부처의 예산을 한 화면에 펼쳤습니다. 올해 세부사업 ${num(dbiz)}건과 계약대장 전수, 단체장 공약이 예산에 실제로 반영됐는지, 수의계약 비중이나 특정 업체 반복 수주 같은 계약 이상 징후까지 걸러서 보여드립니다. 정부가 발표한 굵직한 정책을 열면 그 정책이 우리 동네 예산에 어떻게 잡혔는지 바로 나옵니다. 모든 숫자에 출처와 기준일을 붙였고, 확인되지 않은 값은 비워 둡니다.</p>
+    <span class="pill"><i></i>지방정부 전수 · 전국 ${live.length}개 지자체 · ${ymd(asof)} 기준</span>
+    <h1>세금의 주인은<br><em>국민</em>입니다</h1>
+    <p>세금은 정부의 것도, 단체장의 것도 아닙니다. 그래서 지방정부 ${live.length}곳과 중앙정부 62개 부처가 올해 어디에 얼마를 잡았고 어디까지 썼는지 한 화면에 펼쳤습니다. 세부사업 ${num(dbiz)}건, 계약대장 전수, 단체장 공약의 예산 반영 여부, 수의계약 쏠림과 특정 업체 되풀이 수주까지 규칙으로 걸러 보여 드립니다. 정부의 큰 정책 하나를 열면 그 돈이 우리 동네 어느 사업에 앉았는지 나옵니다. 모든 숫자에 출처와 기준일을 붙였고, 확인되지 않은 값은 비워 둡니다. <span class="sig">— 김보미</span></p>
     <div class="bigq"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="hq" type="search" placeholder="동네 이름 또는 사업·민원 키워드 — 강진군, 노인일자리, 주차장…" autocomplete="off" aria-label="지자체 검색"><div class="sug" id="hsug"></div></div>
     <div class="stats"><div><b>${num(live.length)}<small>곳</small></b><span>2026 행정체계 지자체</span></div><div><b>${num(dbiz)}<small>건</small></b><span>올해 세부사업</span></div><div><b>${(bud/1e12).toLocaleString('ko-KR',{maximumFractionDigits:0})}<small>조원</small></b><span>2026 예산현액 합계</span></div><div><b>${pct(bud?exe/bud*100:null)}</b><span>전국 집행률 (${ymd(asof)})</span></div></div>
   </div></div>
   <div class="wrap">
   <div class="cansee" aria-label="여기서 볼 수 있는 것">
-    <a href="#/lg/${(myCd()||'4678000')}/budget" onclick="B.mode='budget'"><span class="no">01</span><b>세부사업 예산·집행</b><span>올해 세부사업 ${num(dbiz)}건. 사업 하나하나 예산현액과 오늘까지 집행률.</span><i>→</i></a>
-    <a href="#/lg/${(myCd()||'4678000')}/budget" onclick="B.mode='contract'"><span class="no">02</span><b>계약대장 전수</b><span>2021년부터 누구와 얼마에 계약했는지. 업체별 수주 이력까지.</span><i>→</i></a>
-    <a href="#/lg/${(myCd()||'4678000')}/budget" onclick="B.mode='diag'"><span class="no">03</span><b>계약 이상 징후</b><span>수의계약 비중, 특정 업체 반복 수주, 분할 발주 의심을 규칙으로 걸러 표시.</span><i>→</i></a>
-    <a href="#/lg/${(myCd()||'4678000')}/budget" onclick="B.mode='pledge'"><span class="no">04</span><b>공약, 예산에 반영됐나</b><span>단체장 공약별로 미반영·예산 반영·집행 시작을 신호등으로.</span><i>→</i></a>
-    <a href="#/key"><span class="no">05</span><b>정부 굵직한 정책</b><span>메가프로젝트·성장펀드·5극3특. 열면 우리 동네 예산과 바로 연결.</span><i>→</i></a>
-    <a href="#/gov"><span class="no">06</span><b>중앙정부 62개 부처</b><span>2026 확정예산과 2027 정부안을 부처·사업별로.</span><i>→</i></a>
+    <a href="#/lg/${(myCd()||'4678000')}/budget"><span class="no">01</span><b>세부사업 예산·집행</b><span>올해 세부사업 ${num(dbiz)}건. 사업마다 잡힌 돈과 오늘까지 쓴 비율.</span><i>→</i></a>
+    <a href="#/lg/${(myCd()||'4678000')}/contract"><span class="no">02</span><b>계약대장 전수</b><span>2021년부터 누구와 얼마에 계약했는지, 그 업체가 전국 어디와 또 계약했는지까지.</span><i>→</i></a>
+    <a href="#/lg/${(myCd()||'4678000')}/diag"><span class="no">03</span><b>계약 이상 징후</b><span>수의계약 쏠림, 한 업체 되풀이 수주, 쪼개기 발주 의심을 여섯 가지 규칙으로 걸러 표시. 판정이 아니라 눈여겨 살펴볼 곳입니다.</span><i>→</i></a>
+    <a href="#/lg/${(myCd()||'4678000')}/pledge"><span class="no">04</span><b>공약, 예산에 반영됐나</b><span>단체장 공약마다 미반영·예산 반영·집행 시작을 신호등 세 칸으로.</span><i>→</i></a>
+    <a href="#/key"><span class="no">05</span><b>정부의 큰 정책</b><span>메가프로젝트·국민성장펀드·5극3특. 열면 우리 동네 예산의 어느 사업과 닿는지 바로 연결.</span><i>→</i></a>
+    <a href="#/gov"><span class="no">06</span><b>중앙정부 62개 부처</b><span>2026년 확정예산과 국회에 가 있는 2027년 정부안을 부처·사업별로.</span><i>→</i></a>
   </div>
   ${myCard()}
   <div class="sido">${sidos.map(s=>{const k=R.filter(x=>x.sido_new===s&&x.level==='기초'&&x.live_2026).length; return `<button class="${s===cur?'on':''}" onclick="location.hash='#/sido/${encodeURIComponent(s)}'">${esc(s)}<small>${k?k:'단층'}</small></button>`}).join('')}</div>
@@ -808,7 +809,7 @@ function series(lg,hub,f){ return lg.fiscal_years.map(y=>({y,v:lg.fiscal?.[y]?.[
 function spark(pts,color){ if(pts.length<2) return ''; const vs=pts.map(p=>p.v),mn=Math.min(...vs),mx=Math.max(...vs),W=92,H=24; const x=i=>i/(pts.length-1)*(W-4)+2, y=v=>mx===mn?H/2:H-3-(v-mn)/(mx-mn)*(H-6);
   return `<svg class="spark" viewBox="0 0 ${W} ${H}"><polyline fill="none" stroke="${color}" stroke-width="1.6" points="${pts.map((p,i)=>x(i)+','+y(p.v)).join(' ')}"/><circle cx="${x(pts.length-1)}" cy="${y(vs[vs.length-1])}" r="2.2" fill="${color}"/></svg>`; }
 function lgTitle(m){ return (m.sigungu_new||m.display_new.replace(/^\(2024 공시\) /,'')); }
-function lgBand(lg,mode,extra){ const m=lg.master,cd=lg.laf_cd,title=lgTitle(m); const MODES=[['budget','예산','b','01','세부사업 예산 하나하나'],['exec','집행','e','02','사업별 올해 집행 현황'],['contract','계약','c','03','연도별 합계·업체 순위'],['diag','진단','d','04','규칙 기반 자동 스크리닝'],['pledge','공약','p','05','단체장·공약과 예산 반영'],['peer','비교','q','06','닮은 지자체 5곳과 나란히']];
+function lgBand(lg,mode,extra){ const m=lg.master,cd=lg.laf_cd,title=lgTitle(m); const MODES=[['budget','예산','b','01','세부사업 하나하나'],['exec','집행','e','02','올해 어디까지 썼나'],['contract','계약','c','03','누구와 얼마에'],['diag','진단','d','04','규칙으로 걸러 본 곳'],['pledge','공약','p','05','공약이 예산이 됐나'],['peer','비교','q','06','닮은 지자체 5곳과 나란히']];
   return `<div class="band"><div class="wrap lgband">
     <div class="crumb"><button type="button" class="backbtn" onclick="goBack()" aria-label="이전 화면으로">← 뒤로</button><a href="#/">전국</a> › <a href="#/sido/${encodeURIComponent(m.sido_new)}">${esc(m.sido_new)}</a> › ${mode?`<a href="#/lg/${cd}">${esc(title)}</a> › ${esc(mode)}`:esc(title)}</div>
     <div class="eyebrow" style="margin-top:12px">${esc(m.level)} · ${esc(m.type)}${m.key_2024&&m.key_2024!==title?' · 2024 공시명 '+esc(m.key_2024):''}</div>
@@ -816,8 +817,8 @@ function lgBand(lg,mode,extra){ const m=lg.master,cd=lg.laf_cd,title=lgTitle(m);
     <div class="sub">지자체 코드 ${cd}${m.prev_codes?.length?' (2023까지 '+m.prev_codes.join(',')+')':''}${m.replaces?' · 2026 개편으로 '+m.replaces.join('·')+' 승계':''}</div>
     ${myBtn(cd)}
     ${extra||''}
-    ${mode?`<div class="seg">${MODES.map(([k,l])=>`<button type="button" class="${B.mode===k?'on':''}" onclick="B.mode='${k}';B.page=1;B.cy='';route()">${l}</button>`).join('')}<a href="#/lg/${cd}">← 현황</a></div>`:
-    `<div class="modes">${MODES.map(([k,l,c,ic,d])=>`<a href="#/lg/${cd}/budget" onclick="B.mode='${k}';B.page=1"><span class="ic ${c}">${ic}</span><span><b>${l} 보기</b><small>${d}</small></span><span class="ar">→</span></a>`).join('')}</div>`}
+    ${mode?`<div class="seg">${MODES.map(([k,l])=>`<button type="button" class="${B.mode===k?'on':''}" onclick="B.mode='${k}';B.page=1;B.cy='';if(location.hash==='#/lg/${cd}/${k}')route();else location.hash='#/lg/${cd}/${k}'">${l}</button>`).join('')}<a href="#/lg/${cd}">← 현황</a></div>`:
+    `<div class="modes">${MODES.map(([k,l,c,ic,d])=>`<a href="#/lg/${cd}/${k}" onclick="B.page=1"><span class="ic ${c}">${ic}</span><span><b>${l} 보기</b><small>${d}</small></span><span class="ar">→</span></a>`).join('')}</div>`}
   </div></div>`; }
 
 function renderLg(lg){ const m=lg.master, cd=lg.laf_cd, F=lg.fiscal||{}; const y24=F['2024']||{}; const e26=lg.exec?.['2026'], e25=lg.exec?.['2025'], e24=lg.exec?.['2024']; const X=lg.extra||{};
@@ -848,10 +849,10 @@ function renderLg(lg){ const m=lg.master, cd=lg.laf_cd, F=lg.fiscal||{}; const y
   ${gone?`<div class="note">${esc(m.note_2026)}. 2026년 당해 집행 자료는 승계 지자체에서 확인하세요.</div>`:''}
   ${m.new_2026?`<div class="note blue">2026.7.1 개편으로 신설된 지자체입니다. 2020~2024 재정공시는 개편 전 지자체(${(m.replaces||[]).map(c=>S.byCd[c]?.key_2024||c).join(', ')})에 있습니다.</div>`:''}
   ${gone?'':`<div class="glance" id="glance" style="margin-top:0;margin-bottom:18px">
-    <a href="#/lg/${cd}/budget" onclick="B.mode='exec'" style="--kc:var(--c2)"><div class="l">올해 집행</div><div class="n">${e26?pct(e26.sum.rate):NA}</div><div class="s">${e26?`세부사업 ${num(e26.dbiz_count)}건 · ${ymd(e26.exe_ymd)} 기준`:'자료 없음'}</div></a>
-    <a href="#/lg/${cd}/budget" onclick="B.mode='contract'" style="--kc:var(--c6)"><div class="l">계약대장</div><div class="n" id="glCtrt">불러오는 중…</div><div class="s" id="glCtrtS">2021년~ 전수</div></a>
-    <a href="#/lg/${cd}/budget" onclick="B.mode='diag'" style="--kc:var(--c5)"><div class="l">계약 이상 징후</div><div class="n" id="glDiag">판정 중…</div><div class="s" id="glDiagS">규칙 6개</div></a>
-    <a href="#/lg/${cd}/budget" onclick="B.mode='pledge'" style="--kc:var(--c3)"><div class="l">공약, 예산에 반영됐나</div><div class="n" id="glPl">확인 중…</div><div class="s" id="glPlS">단체장 공약 · 사업명 매칭</div></a>
+    <a href="#/lg/${cd}/exec" style="--kc:var(--c2)"><div class="l">올해 집행</div><div class="n">${e26?pct(e26.sum.rate):NA}</div><div class="s">${e26?`세부사업 ${num(e26.dbiz_count)}건 · ${ymd(e26.exe_ymd)} 기준`:'자료 없음'}</div></a>
+    <a href="#/lg/${cd}/contract" style="--kc:var(--c6)"><div class="l">계약대장</div><div class="n" id="glCtrt">불러오는 중…</div><div class="s" id="glCtrtS">2021년~ 전수</div></a>
+    <a href="#/lg/${cd}/diag" style="--kc:var(--c5)"><div class="l">계약 이상 징후</div><div class="n" id="glDiag">판정 중…</div><div class="s" id="glDiagS">규칙 6개</div></a>
+    <a href="#/lg/${cd}/pledge" style="--kc:var(--c3)"><div class="l">공약, 예산에 반영됐나</div><div class="n" id="glPl">확인 중…</div><div class="s" id="glPlS">단체장 공약 · 사업명 매칭</div></a>
   </div>`}
   <div class="kpi">${kpis.map(k=>`<div><div class="l">${k.l}</div><div class="n">${k.n}<small>${k.u}</small>${rk(k.r)}</div><div class="s">${k.s}</div></div>`).join('')}</div>
 
@@ -862,12 +863,12 @@ function renderLg(lg){ const m=lg.master, cd=lg.laf_cd, F=lg.fiscal||{}; const y
       <div class="mut">예산현액 ${won(e26.sum.budget)} · 집행 ${won(e26.sum.exec)} · 미집행 ${won(e26.sum.budget-e26.sum.exec)}</div>
       ${e25?`<div class="mut" style="margin-top:8px">참고 — 2025 연말(12.31) 집행률 ${pct(e25.sum.rate)} · 2024 연말 ${e24?pct(e24.sum.rate):NA}</div>`:''}
       <div class="ch" style="height:150px;margin-top:12px"><canvas id="cSrc"></canvas></div><div class="mut">재원 구성(예산현액): 국비 ${eok(e26.sum.ntep)}억 · 시도비 ${eok(e26.sum.capep)}억 · 시군구비 ${eok(e26.sum.sggep)}억 · 기타 ${eok(e26.sum.etc)}억</div>
-      ${(()=>{ const g=groupProjects(e26.rows).filter(p=>p.b>=5e8).sort((a,b)=>(b.b-b.e)-(a.b-a.e)).slice(0,6); return `<div style="margin-top:14px"><div class="mut" style="margin-bottom:6px">사업별 — 미집행액이 큰 사업 (예산현액 5억 이상)</div><div class="tw"><table><thead><tr><th>사업</th><th class="num">예산현액</th><th class="num">집행률</th></tr></thead><tbody>${g.map(p=>`<tr class="row" onclick="B.mode='exec';location.hash='#/lg/${cd}/budget/${encodeURIComponent(p.c)}'"><td>${esc(p.n)}</td><td class="num">${eok(p.b)}억</td><td class="num">${pct(p.rate)}</td></tr>`).join('')}</tbody></table></div><a href="#/lg/${cd}/budget" onclick="B.mode='exec'" style="font-size:13px;font-weight:600">사업별 집행 전체 보기 →</a></div>`; })()}</div>
+      ${(()=>{ const g=groupProjects(e26.rows).filter(p=>p.b>=5e8).sort((a,b)=>(b.b-b.e)-(a.b-a.e)).slice(0,6); return `<div style="margin-top:14px"><div class="mut" style="margin-bottom:6px">사업별 — 미집행액이 큰 사업 (예산현액 5억 이상)</div><div class="tw"><table><thead><tr><th>사업</th><th class="num">예산현액</th><th class="num">집행률</th></tr></thead><tbody>${g.map(p=>`<tr class="row" onclick="location.hash='#/lg/${cd}/exec/${encodeURIComponent(p.c)}'"><td>${esc(p.n)}</td><td class="num">${eok(p.b)}억</td><td class="num">${pct(p.rate)}</td></tr>`).join('')}</tbody></table></div><a href="#/lg/${cd}/exec" style="font-size:13px;font-weight:600">사업별 집행 전체 보기 →</a></div>`; })()}</div>
     <div class="card"><h3>분야별 예산현액·집행 <span class="basis">억원</span></h3><div class="ch tall"><canvas id="cFld"></canvas></div>
       ${(()=>{ const G=groupProjects(e26.rows); const pop=y24.M_BJHJB?.pptn_num;
         const fl=Object.entries(e26.by_fld).sort((a,b)=>b[1].b-a[1].b);
         return `<div class="tw" style="margin-top:12px"><table><thead><tr><th>분야</th><th class="num">사업 수</th><th class="num">예산현액</th><th class="num">집행률</th><th class="num">1인당</th><th class="num">비중</th></tr></thead><tbody>
-        ${fl.map(([f,v])=>{ const cnt=G.filter(p=>p.f===f).length; return `<tr class="row" onclick="B.mode='budget';B.q='';B.page=1;location.hash='#/lg/${cd}/budget'"><td>${esc(f)}</td><td class="num">${num(cnt)}</td><td class="num">${eok(v.b)}억</td><td class="num">${pct(v.b?v.e/v.b*100:null)}</td><td class="num">${isN(pop)&&pop>0?Math.round(v.b/pop).toLocaleString('ko-KR')+'원':NA}</td><td class="num">${pct(e26.sum.budget?v.b/e26.sum.budget*100:null)}</td></tr>`; }).join('')}
+        ${fl.map(([f,v])=>{ const cnt=G.filter(p=>p.f===f).length; return `<tr class="row" onclick="B.q='';B.page=1;location.hash='#/lg/${cd}/budget'"><td>${esc(f)}</td><td class="num">${num(cnt)}</td><td class="num">${eok(v.b)}억</td><td class="num">${pct(v.b?v.e/v.b*100:null)}</td><td class="num">${isN(pop)&&pop>0?Math.round(v.b/pop).toLocaleString('ko-KR')+'원':NA}</td><td class="num">${pct(e26.sum.budget?v.b/e26.sum.budget*100:null)}</td></tr>`; }).join('')}
         </tbody></table></div><div class="mut" style="margin-top:6px">1인당은 2024 공시 인구 기준 · 행을 누르면 사업 목록으로</div>`; })()}
     </div>
   </div></section>`:''}
@@ -927,6 +928,12 @@ function renderLg(lg){ const m=lg.master, cd=lg.laf_cd, F=lg.fiscal||{}; const y
 /* ═══════════ 예산 탐색기 ═══════════ */
 function groupProjects(rows){ const g={}; rows.forEach(r=>{ const k=r.c||r.n; if(!g[k]) g[k]={c:k,n:r.n,f:r.f,p:r.p,a:new Set(),b:0,e:0,nt:0,cp:0,sg:0,et:0,x:0,rows:[]}; const o=g[k]; o.b+=r.b||0; o.e+=r.e||0; o.nt+=r.nt||0; o.cp+=r.cp||0; o.sg+=r.sg||0; o.et+=r.et||0; if(r.a) o.a.add(r.a); if(r.x) o.x=1; o.rows.push(r); }); return Object.values(g).map(o=>({...o,a:[...o.a].join('·'),rate:o.b>0?Math.round(o.e/o.b*1000)/10:null})); }
 const B={y:'2026',view:'tree',q:'',acnt:'',sort:'b',dir:-1,page:1,mode:'budget',cy:''};
+/* 세부사업 목록 CSV — 화면과 같은 검색·회계 필터·정렬을 그대로 적용 */
+function bizCsv(cd){ const lg=S.cache[cd]; if(!lg||!lg.exec||!lg.exec[B.y]) return; const e=lg.exec[B.y]; const G=groupProjects(e.rows); const prev=lg.exec[String(Number(B.y)-1)]; const P=prev?Object.fromEntries(groupProjects(prev.rows).map(p=>[p.c,p])):null;
+  let L=G; const q=B.q.trim(); if(q) L=L.filter(p=>p.n.includes(q)||(p.c||'').includes(q)); if(B.acnt) L=L.filter(p=>p.rows.some(r=>r.a===B.acnt));
+  const key=B.sort; L=[...L].sort((a,b)=>{ const va=key==='d'?(P&&P[a.c]?a.b-P[a.c].b:-Infinity):key==='n'?a.n:a[key]??-Infinity, vb=key==='d'?(P&&P[b.c]?b.b-P[b.c].b:-Infinity):key==='n'?b.n:b[key]??-Infinity; return (va>vb?1:va<vb?-1:0)*B.dir; });
+  const nm=S.byCd[cd]?S.byCd[cd].display:cd; const rows=[['지자체','연도','사업코드','세부사업명','분야','부문','회계','예산현액(원)','집행액(원)','집행률(%)','전년 예산현액(원)','기준일']];
+  L.forEach(p=>rows.push([nm,B.y,p.c||'',p.n||'',p.f||'',p.p||'',p.a||'',p.b??'',p.e??'',p.rate??'',P&&P[p.c]?P[p.c].b:'',e.exe_ymd||''])); saveFile(nm+'_'+B.y+'_세부사업_'+L.length+'건.csv',csv(rows)); }
 const PROMO=/축제|행사|홍보|기념|박람회|엑스포|캠페인|페스티벌|경축|잔치/;
 /* 진단 규칙 — 실자료만으로 판정(값 생성 없음). 각 규칙은 화면에 기준 문장으로 노출 */
 function diagnose(lg){ const e26=lg.exec?.['2026'], e25=lg.exec?.['2025']; if(!e26) return null;
@@ -983,7 +990,7 @@ function ctrtDiagHtml(cd,D){ if(!D) return '<div class="card" style="margin-top:
   <div class="tw"><table><thead><tr><th>규칙</th><th class="num">값</th><th>판정</th><th>근거</th></tr></thead><tbody>${D.map(x=>`<tr><td><b>${x.l}</b><div class="mut" style="font-size:11.5px">${x.d}</div></td><td class="num">${x.v}</td><td><b style="color:${CSEV[x.sev][1]}">${CSEV[x.sev][0]}</b></td><td class="mut">${x.note||'—'}</td></tr>`).join('')}</tbody></table></div>
   ${(()=>{ const s=D.find(x=>x.split&&x.split.length); return s?`<div style="margin-top:10px"><b style="font-size:13px">분할 발주 의심 묶음</b><div class="tw"><table><thead><tr><th>업체</th><th>기간</th><th class="num">건수</th><th class="num">합계</th></tr></thead><tbody>${s.split.map(p=>`<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(p.v)}')"><td>${esc(p.v)}</td><td class="mut">${ymd(p.from)}~${ymd(p.to)}</td><td class="num">${p.n}</td><td class="num">${won(p.a)}</td></tr>`).join('')}</tbody></table></div></div>`:''; })()}
   ${(()=>{ const s=D.find(x=>x.list&&x.list.length); return s?`<div style="margin-top:10px"><b style="font-size:13px">수의계약 금액 상위 업체 (조달청 제외)</b><div class="tw"><table><thead><tr><th>업체</th><th class="num">수의 건수</th><th class="num">수의 금액</th><th class="num">전체 건수</th></tr></thead><tbody>${s.list.map(v=>`<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(v.nm)}')"><td>${esc(v.nm)}</td><td class="num">${num(v.sn)}</td><td class="num">${won(v.sa)}</td><td class="num">${num(v.n)}</td></tr>`).join('')}</tbody></table></div></div>`:''; })()}
-  <div class="act" style="margin-top:10px"><a class="btn" href="#/lg/${cd}/budget" onclick="B.mode='contract'">계약 보기에서 건별 확인 →</a></div></div>`; }
+  <div class="act" style="margin-top:10px"><a class="btn" href="#/lg/${cd}/contract">계약 보기에서 건별 확인 →</a></div></div>`; }
 
 /* ═══════════ 계약 보기 — 나라장터 전국 피드 아카이브(data/g2b) ═══════════ */
 const CB={y:'',vtop:20,rtop:10,vsort:'a',q:'',fld:'',kind:'',meth:''};
@@ -1015,7 +1022,7 @@ async function openVendor(cd,name){ const md=document.getElementById('md'); cons
     <div><div class="l">수의계약 비중</div><div class="n">${pct(tot?totS/tot*100:null)}</div><div class="s">금액 기준</div></div>
     ${mine?`<div><div class="l">${esc(S.byCd[cd]?.display||'이 지자체')}</div><div class="n">${eok(mine.a)}<small>억원</small></div><div class="s">전국의 ${pct(tot?mine.a/tot*100:null)} · ${num(mine.n)}건</div></div>`:''}</div>
   <div class="tw" style="margin-top:14px"><table><thead><tr><th class="num">#</th><th>지자체</th><th class="num">건수</th><th class="num">계약금액</th><th class="num">수의 비중</th><th class="num">전국 비중</th></tr></thead><tbody>
-  ${rows.map((r,i)=>`<tr class="row ${r.cd===cd?'':''}" onclick="closeMd();B.mode='contract';location.hash='#/lg/${r.cd}/budget'"><td class="num">${i+1}</td><td>${r.cd===cd?'<b>':''}${esc(S.byCd[r.cd]?.display||r.cd)}${r.cd===cd?'</b> <span class="tag">보는 중</span>':''}</td><td class="num">${num(r.n)}</td><td class="num">${won(r.a)}</td><td class="num ${r.a&&r.sa/r.a>=0.9?'neg':''}">${pct(r.a?r.sa/r.a*100:null)}</td><td class="num">${pct(tot?r.a/tot*100:null)}</td></tr>`).join('')}
+  ${rows.map((r,i)=>`<tr class="row ${r.cd===cd?'':''}" onclick="closeMd();location.hash='#/lg/${r.cd}/contract'"><td class="num">${i+1}</td><td>${r.cd===cd?'<b>':''}${esc(S.byCd[r.cd]?.display||r.cd)}${r.cd===cd?'</b> <span class="tag">보는 중</span>':''}</td><td class="num">${num(r.n)}</td><td class="num">${won(r.a)}</td><td class="num ${r.a&&r.sa/r.a>=0.9?'neg':''}">${pct(r.a?r.sa/r.a*100:null)}</td><td class="num">${pct(tot?r.a/tot*100:null)}</td></tr>`).join('')}
   </tbody></table></div>
   ${R.e.t>rows.length?`<div class="mut" style="margin-top:6px">금액 상위 ${num(rows.length)}곳만 표시 · 전체 ${num(R.e.t)}곳</div>`:''}
   <p class="src">지방재정365 계약대장(WCEGCF) 2021~2026 전국 전수에서 업체명을 정규화((주)·주식회사 등 제거)해 만든 역색인입니다. <b>사업자번호가 아닌 상호 기준</b>이라 같은 이름의 다른 업체가 섞일 수 있고, 조달청 경유 계약은 업체명이 '○○지방조달청'으로 기재되어 실제 납품업체가 가려질 수 있습니다. 한 곳에서만 계약한 업체는 색인에 담지 않았습니다.</p></div>`; }
@@ -1054,7 +1061,7 @@ function contractView(lg,K,g){ const cd=lg.laf_cd; S.cacheName=lg.master.display
   const chg=(K.v||[]).map(v=>{ const r2=recent.reduce((a,yy)=>a+((v[5][yy]||[0,0])[1]),0), p2=prev.reduce((a,yy)=>a+((v[5][yy]||[0,0])[1]),0);
     return {nm:v[0], r2, p2, d:r2-p2, isNew:p2===0&&r2>0}; }).filter(o=>o.d>0).sort((a,b)=>b.d-a.d).slice(0,10);
   return `
-  <div class="note blue" style="margin-top:0"><b>이 화면 읽는 법</b> — ① 연도 탭으로 기간을 고르고 → ② 아래 필터·검색으로 좁히고 → ③ 업체 이름을 누르면 <b>그 업체가 전국 243곳과 맺은 계약</b>이 열립니다. 수의계약 자체는 지방계약법이 허용하는 적법한 방식이며, 특정 업체에 계약이 몰린다고 곧바로 위법·특혜인 것은 아닙니다. 모든 숫자는 공개 자료의 기계적 집계입니다.</div>
+  <div class="note blue" style="margin-top:0"><b>읽는 법</b> — 연도 탭으로 기간을 고르고, 필터·검색으로 좁히고, 업체 이름을 누르면 <b>그 업체가 전국 243곳과 맺은 계약</b>이 열립니다. 수의계약은 지방계약법이 허용하는 적법한 방식입니다. 계약이 한 업체에 몰렸다고 곧바로 위법·특혜는 아닙니다. 모든 숫자는 공개 자료의 기계적 집계입니다. 이 표는 지방재정365 계약대장(2021~) 기준이며, 최근 180일의 나라장터 계약·입찰공고는 <a href="gyeyak.html?sido=${encodeURIComponent(lg.master.sido_new||'')}&sgg=${lg.master.level==='기초'?encodeURIComponent(lg.master.display||''):''}&auto=1" target="_blank" rel="noopener"><b>나라장터 실시간 대시보드 ↗</b></a>에서 따로 볼 수 있습니다.</div>
 
   <div class="tabs"><button class="${!y?'on':''}" onclick="CB.y='';CB.rtop=10;renderBudget(S.cache['${cd}'])">전체 기간</button>${years.map(yy=>`<button class="${yy===y?'on':''}" onclick="CB.y='${yy}';CB.rtop=10;renderBudget(S.cache['${cd}'])">${yy}년</button>`).join('')}<span class="sp"></span><span class="mut">계약체결일 ${esc(K.range[0]||'')} ~ ${esc(K.range[1]||'')} · 전체 ${num(K.rn||K.t.n)}건</span></div>
   <div class="ctl"><input id="cq" type="search" placeholder="계약명 · 업체명 검색" value="${esc(CB.q)}">
@@ -1274,7 +1281,7 @@ async function renderBudget(lg,pid){ const m=lg.master,cd=lg.laf_cd; const years
   app.innerHTML=lgBand(lg,MODES[B.mode])+`<div class="wrap"><section class="sec" style="margin-top:22px">
   <div class="sech"><span class="no">${B.mode==='exec'?'집행':'예산'}</span><h2>${B.y}년 세부사업 ${num(e.dbiz_count)}건</h2><span class="basis">${ymd(e.exe_ymd)} 기준 · 예산현액 ${won(e.sum.budget)} · 집행 ${won(e.sum.exec)} (${pct(e.sum.rate)})</span></div>
   <div class="tabs">${years.map(y=>`<button class="${y===B.y?'on':''}" onclick="B.y='${y}';B.page=1;renderBudget(S.cache['${cd}'])">${y}년${y==='2026'?' (진행 중)':' (연말)'}</button>`).join('')}<span class="sp"></span><button class="${B.view==='tree'?'on':''}" onclick="B.view='tree';renderBudget(S.cache['${cd}'])">트리 구조</button><button class="${B.view==='table'?'on':''}" onclick="B.view='table';renderBudget(S.cache['${cd}'])">테이블 뷰</button></div>
-  <div class="ctl"><input id="bq" type="search" placeholder="사업명 또는 사업코드 검색 (예: 축제, 도로)" value="${esc(B.q)}" aria-label="사업 검색"><select id="bacnt" aria-label="회계 선택"><option value="">모든 회계</option>${acnts.map(a=>`<option ${a===B.acnt?'selected':''}>${esc(a)}</option>`).join('')}</select><span class="cnt">${num(L.length)} / ${num(G.length)}건 · 단위 억원</span></div>
+  <div class="ctl"><input id="bq" type="search" placeholder="사업명 또는 사업코드 검색 (예: 축제, 도로)" value="${esc(B.q)}" aria-label="사업 검색"><select id="bacnt" aria-label="회계 선택"><option value="">모든 회계</option>${acnts.map(a=>`<option ${a===B.acnt?'selected':''}>${esc(a)}</option>`).join('')}</select><span class="cnt">${num(L.length)} / ${num(G.length)}건 · 단위 억원</span><button type="button" class="btn" onclick="bizCsv('${cd}')">이 목록 CSV로 내려받기</button></div>
   <div id="bbody"></div></section></div>`;
   document.getElementById('bq').addEventListener('input',ev=>{B.q=ev.target.value;B.page=1;renderBudget(lg);setTimeout(()=>{const i=document.getElementById('bq');if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length);}},0);});
   document.getElementById('bacnt').addEventListener('change',ev=>{B.acnt=ev.target.value;B.page=1;renderBudget(lg);});
@@ -1632,7 +1639,7 @@ function bindSearch(q,sug){ if(!q||!sug||q._bound) return; q._bound=1; let cur=-
 bindSearch(document.getElementById('q'),document.getElementById('sug'));
 document.addEventListener('click',e=>{ if(!e.target.closest('.search')&&!e.target.closest('.bigq')) document.querySelectorAll('.sug').forEach(s=>s.style.display='none'); });
 
-function footer(){ return `<a href="index.html" style="color:var(--lime);font-weight:600;text-decoration:none">← 김보미.com 홈으로</a> &nbsp;·&nbsp; <a href="about.html" style="color:inherit">김보미는</a> &nbsp;·&nbsp; <a href="https://taxwatch.kr/" target="_blank" rel="noopener" style="color:inherit">재정주권시민행동 ↗</a><br><b>우리동네365</b> — 재정주권시민행동. 자료는 원문 그대로 싣고 값을 만들지 않습니다. 확인되지 않은 값은 '—'로 비웁니다. 갱신 주기: 세부사업 집행(당해) 일 단위 · 계약 일 단위 · 재정공시·청렴도·금고이자율 연 단위. 2026.7.1 행정체계 개편(전남광주통합특별시·인천 4개 구)은 화면 표기에 반영했고, 재정 데이터 키는 2024 공시 체계를 유지합니다. 데이터 층 v${S.index?.v||1} · 빌드 ${S.index?.built_at?.slice(0,10)||''}`; }
+function footer(){ return `<a href="index.html" style="color:var(--lime);font-weight:600;text-decoration:none">← 김보미.com 홈으로</a> &nbsp;·&nbsp; <a href="about.html" style="color:inherit">김보미는</a> &nbsp;·&nbsp; <a href="https://taxwatch.kr/" target="_blank" rel="noopener" style="color:inherit">재정주권시민행동 ↗</a><br><b>우리동네365</b> — 김보미.com. 자료는 원문 그대로 싣고 값을 만들지 않습니다. 확인되지 않은 값은 '—'로 비웁니다. 갱신 주기: 세부사업 집행(당해) 일 단위 · 계약 일 단위 · 재정공시·청렴도·금고이자율 연 단위. 2026.7.1 행정체계 개편(전남광주통합특별시·인천 4개 구)은 화면 표기에 반영했고, 재정 데이터 키는 2024 공시 체계를 유지합니다. 데이터 층 v${S.index?.v||1} · 빌드 ${S.index?.built_at?.slice(0,10)||''}`; }
 
 /* ═══════════ 정책 아카이브 (정부 발표 정책·123대 국정과제) ═══════════
    자료: 정책브리핑(korea.kr)·부처 누리집 원문을 날짜순으로 모은 것.
@@ -1753,8 +1760,9 @@ async function renderDocs(){ const [A,P]=await Promise.all([loadArchive(),loadPo
   document.getElementById('app').innerHTML=`<section class="wrap docs">${POLSW('docs')}
     <div class="lgband"><span class="zone pol">정책 아카이브</span><br><span class="pill"><i></i>지자체 재정 원자료 ${num(A.rows.length)}건 · 중앙정부 정책 원문 ${num(ALL.length-A.rows.length)}건</span>
       <h1>원문을 <em>그대로</em> 찾아봅니다</h1>
-      <p>지자체 누리집에 흩어진 재정공시·예산서·결산서·업무추진비 등 재정 원자료 목록과 정책브리핑의 정부 정책 원문 파일을 한곳에서 찾습니다. 원본 주소가 확보된 건은 바로 열리고, 주소가 없는 건은 파일명만 보입니다(원본은 재정주권시민행동이 보관).</p>
+      <p>243곳 누리집에 흩어진 재정공시·예산서·결산서·업무추진비 ${num(A.rows.length)}건과 정부 정책 원문 ${num(ALL.length-A.rows.length)}건을 한곳에 모았습니다. 원본 주소가 있는 ${num(A.rows.filter(r=>r[4]).length)}건은 바로 열리고, 없는 건은 파일명만 보입니다(원본 파일은 운영자가 보관합니다).</p>
     ${POLQ()}</div>
+    <div class="note" style="margin-top:12px"><b>함께 보는 분석 도구</b> — <a href="gyeyak.html" target="_blank" rel="noopener">지방정부 243곳 나라장터 계약현황 대시보드 ↗</a> (최근 180일 계약·입찰공고, 수의계약 비중·업체 집중도·분할발주 탐지) · <a href="%EC%A0%84%EB%82%A87%EA%B0%9C%EA%B5%B0_%EA%B3%84%EC%95%BD%ED%98%84%ED%99%A9_%EC%B4%9D%EC%A0%95%EB%A6%AC_1.html" target="_blank" rel="noopener">전남 7개군 계약현황 총정리 2018~2026 ↗</a> (강진·장흥·보성·고흥·진도·완도·해남 업체별·계약방법별 전수 집계)</div>
     <div class="card pfil"><input id="dq" class="pq" type="search" placeholder="파일명·지자체·분류로 찾기 (예: 업무추진비 2025, 강진군 결산)" value="${esc(DQ.q)}">
       <div class="dsel"><select onchange="DQ.src=this.value;DQ.sido='';DQ.cat='';DQ.page=1;route()"><option value="">구분 전체</option>${opt(['지자체','중앙정부'],DQ.src)}</select>
         <select onchange="DQ.sido=this.value;DQ.cat='';DQ.page=1;route()"><option value="">${DQ.src==='중앙정부'?'부처':'시도'} 전체</option>${opt(sidos,DQ.sido)}</select>
@@ -1772,7 +1780,7 @@ function docsCsv(){ const A=S.arch; if(!A) return; const ALL=docsAll(A,S.pol); c
   const rows=[['구분','시도·부처','분류','연도','파일명','원본URL','크기(바이트)','관련 정책']]; L.forEach(d=>rows.push([d.src,d.sido,d.cat,d.yr,d.fn,d.u||'',d.sz||'',d.pt||''])); saveFile('원문자료실_'+L.length+'건.csv',csv(rows)); }
 
 /* ── 공유 카드(PNG)·링크 복사 ── */
-async function copyLink(cd,mode){ const u=location.origin+location.pathname+'#/lg/'+cd+(mode?'/budget':''); try{ await navigator.clipboard.writeText(u); alert('링크를 복사했습니다.\n'+u); }catch(e){ prompt('아래 주소를 복사하세요',u); } }
+async function copyLink(cd,mode){ const u=location.origin+location.pathname+'#/lg/'+cd+(mode?'/'+(typeof mode==='string'&&mode!=='1'?mode:B.mode||'budget'):''); try{ await navigator.clipboard.writeText(u); alert('링크를 복사했습니다.\n'+u); }catch(e){ prompt('아래 주소를 복사하세요',u); } }
 async function shareCard(cd){ const me=S.byCd[cd]; if(!me) return; try{ await document.fonts.load('900 60px "Noto Sans KR"'); await document.fonts.load('700 28px "Noto Sans KR"'); }catch(e){}
   const pool=S.index.rows.filter(x=>x.live_2026&&x.laf_cd!==cd&&x.level===me.level&&x.type===me.type&&isN(x.pop_2024));
   const peers=isN(me.pop_2024)?pool.map(x=>({...x,d:Math.abs(x.pop_2024-me.pop_2024)})).sort((a,b)=>a.d-b.d).slice(0,5):pool.slice(0,5);
@@ -1783,7 +1791,7 @@ async function shareCard(cd){ const me=S.byCd[cd]; if(!me) return; try{ await do
   // 브랜드(지도핀)
   g.fillStyle='#fff'; g.beginPath(); g.moveTo(60,22); g.arc(60,40,18,Math.PI,0); g.lineTo(60,74); g.closePath(); g.fill(); g.fillStyle='#C8412B'; g.beginPath(); g.arc(60,40,7,0,Math.PI*2); g.fill();
   g.fillStyle='#F5F0E4'; g.font=F(900,30); g.textBaseline='middle'; g.fillText('우리동네',94,48); g.fillStyle='#F2A48F'; g.fillText('365',94+g.measureText('우리동네').width+6,48);
-  g.fillStyle='#B6AE99'; g.font=F(500,18); g.textAlign='right'; g.fillText('김보미.com · 재정주권시민행동',W-50,48); g.textAlign='left';
+  g.fillStyle='#B6AE99'; g.font=F(500,18); g.textAlign='right'; g.fillText('김보미.com · 우리동네365',W-50,48); g.textAlign='left';
   // 제목
   g.fillStyle='#1C1B18'; g.font=F(900,56); g.fillText(me.display,50,150);
   g.fillStyle='#5A574F'; g.font=F(500,20); g.fillText(`${me.sido_new} · ${me.level} · ${me.type} · 2026 예산현액·집행률 ${ymd(e.exe_ymd)} 기준`,52,200);
@@ -1812,7 +1820,7 @@ async function polLocalFill(x){ const cd=myCd(); const el=document.getElementByI
     const hit=G.map(g=>{ const nn=String(g.n).replace(/\s/g,''); const m=kws.filter(k=>nn.includes(k.replace(/\s/g,''))); return m.length?{...g,m}:null; }).filter(Boolean).sort((a,b)=>b.b-a.b);
     const nm=S.byCd[cd].display; if(!hit.length){ el.innerHTML=`<div class="mut" style="font-size:12.5px">★ ${esc(nm)} ${y}년 세부사업 이름에는 위 낱말이 들어간 사업이 없습니다. 전국 검색으로 다른 지자체 사례를 보세요.</div>`; return; }
     const tb=hit.reduce((a,g)=>a+g.b,0), te=hit.reduce((a,g)=>a+g.e,0);
-    el.innerHTML=`<div style="font-size:13px;margin:4px 0 6px"><b>★ ${esc(nm)}</b> · 관련 사업 <b>${hit.length}</b>건 · 예산현액 <b>${won(tb)}</b> · 집행률 <b>${pct(tb?te/tb*100:null)}</b> <a href="#/lg/${cd}/budget" onclick="B.mode='budget'" style="margin-left:8px;font-weight:700">예산 전체 보기 →</a></div>
+    el.innerHTML=`<div style="font-size:13px;margin:4px 0 6px"><b>★ ${esc(nm)}</b> · 관련 사업 <b>${hit.length}</b>건 · 예산현액 <b>${won(tb)}</b> · 집행률 <b>${pct(tb?te/tb*100:null)}</b> <a href="#/lg/${cd}/budget" style="margin-left:8px;font-weight:700">예산 전체 보기 →</a></div>
       <div class="tw"><table><thead><tr><th>사업명</th><th>분야</th><th class="num">예산현액</th><th class="num">집행률</th><th>맞은 낱말</th></tr></thead><tbody>${hit.slice(0,8).map(g=>`<tr class="row" onclick="openFrom('${cd}',decodeURIComponent('${encodeURIComponent(g.c)}'))"><td><b>${esc(g.n)}</b></td><td class="mut">${esc(g.f||'')}</td><td class="num">${won(g.b)}</td><td class="num">${pct(g.rate)}</td><td class="mut">${g.m.map(esc).join('·')}</td></tr>`).join('')}</tbody></table></div>`;
   }catch(e){ el.innerHTML='<div class="mut" style="font-size:12.5px">동네 자료를 불러오지 못했습니다.</div>'; } }
 
@@ -1896,7 +1904,7 @@ async function renderKey(th){ const D=await loadPolicy(); K.th=th||'';
       <span class="zone pol">정책 아카이브</span><br>
       <span class="pill"><i></i>핵심 정책 ${KEYS.length}건 · ${order.length}개 묶음 · 2025.6 ~ ${String(KEYS[0].date).slice(0,7).replace('-','.')}</span>
       <h1>굵직한 정책만<br><em>한눈에</em> 봅니다</h1>
-      <p>3대 메가프로젝트, 국민성장펀드 150조원, 5극3특, 미래대응기금처럼 나라 살림의 방향을 정하는 정책 ${KEYS.length}건을 ${order.length}개 묶음으로 나눠 놓았습니다. 묶음 상자의 큰 숫자는 그 묶음에서 가장 최근 발표된 원문에 적힌 규모입니다. 원문에 없는 금액은 비워 뒀습니다.</p>
+      <p>3대 메가프로젝트, 국민성장펀드 150조원, 5극3특, 미래대응기금처럼 국가 재정의 방향을 정하는 정책 ${KEYS.length}건을 ${order.length}개 묶음으로 나눠 놓았습니다. 묶음 상자의 큰 숫자는 그 묶음에서 가장 최근 발표된 원문에 적힌 규모입니다. 원문에 없는 금액은 비워 뒀습니다.</p>
     ${POLQ()}
     </div>
     <div class="kgrid">${order.map(k=>{ const ld=lead(k); return `
