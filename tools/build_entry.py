@@ -81,6 +81,9 @@ def write(path, s):
 
 def build_lg():
     ix = json.load(open(os.path.join(ROOT, 'data/index.json'), encoding='utf-8'))
+    lgpu = {}
+    p = os.path.join(ROOT, 'data/lgpu/_index.json')
+    if os.path.exists(p): lgpu = json.load(open(p, encoding='utf-8')).get('lgs', {})
     urls = []
     for r in ix['rows']:
         cd = r['laf_cd']; disp = r['display']; nm = short(disp)
@@ -105,6 +108,7 @@ def build_lg():
   <div><b>{num(ex.get('dbiz')) if live else '—'}<small>건</small></b><span>2026 세부사업</span></div>
   <div><b>{pct(fi.get('sr_rate2'))}</b><span>재정자립도 · {esc(r.get('settle_fyr') or '')} 결산</span></div>
   <div><b>{num(r.get('pop_2024'))}<small>명</small></b><span>인구 · 2024</span></div>
+  {f'<div><b>{num(lgpu[cd]["n"])}<small>건</small></b><span>사업 내역 연결 · 2026 사업명세서</span></div>' if cd in lgpu else ''}
 </div>
 <a class="cta" href="{app}">우리동네365에서 {esc(nm)} 열기 →</a>
 <div class="links">
