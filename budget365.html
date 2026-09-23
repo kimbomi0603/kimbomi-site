@@ -399,6 +399,7 @@ td.num.up{color:var(--red-ink)}td.num.dn{color:var(--teal-ink)}
 .plink .tag{margin-left:6px}
 /* 전 부처 사업 검색 결과 */
 .gqhit td.nm b{font-weight:600} .gqhit td .sub{display:block;font-size:11.5px;color:var(--ink-3)}
+td.nm .pu{display:block;font-size:11.5px;line-height:1.5;color:var(--ink-2);font-weight:400;margin-top:3px;max-width:560px} td.nm .pu i{font-style:normal;font-weight:700;font-size:10.5px;color:var(--gold-ink);border:1px solid var(--gold);border-radius:4px;padding:0 4px;margin-right:4px}
 /* 홈: 여기서 볼 수 있는 것 */
 .cansee{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;margin:22px 0 4px;border:1.5px solid var(--rule);border-left:0}
 .cansee a{display:block;padding:16px 18px 14px;border-left:1.5px solid var(--rule);text-decoration:none;color:inherit;background:var(--card);position:relative}
@@ -1371,6 +1372,10 @@ async function gunzipB64(url){ const r=await fetch(url); if(!r.ok) throw new Err
    ※ 금액이 공개되지 않은 사업은 '—'. 0으로 채우지 않는다. */
 const GOVSW=(on)=>`<div class="zsw"><a href="#/" class="lg ${on==='lg'?'on':''}">지방정부<small>243개 시·군·구 예산·집행·계약</small></a><a href="#/gov" class="gov ${on==='gov'?'on':''}">중앙정부<small>62개 부처 예산</small></a><a href="#/key" class="pol ${on==='pol'?'on':''}">정책 아카이브<small>핵심 정책·발표 정책·국정과제</small></a></div>`;
 async function loadGovIndex(){ if(S.govix) return S.govix; const r=await fetch('data/gov-index.json'); if(!r.ok) throw new Error('중앙정부 자료 없음'); return S.govix=await r.json(); }
+/* 사업 목적: 각 부처 2026 사업설명자료(공통 Ⅱ-1) '1) 사업목적·내용'에서 뽑은 문장. 없는 부처는 null */
+async function loadGovPu(sg){ S.govpu=S.govpu||{}; if(sg in S.govpu) return S.govpu[sg]; try{ S.govpu[sg]=await gunzipB64('data/govpu/'+encodeURIComponent(sg)+'.txt'); }catch(e){ S.govpu[sg]=null; } return S.govpu[sg]; }
+const puOf=(PU,x)=>PU&&PU.pu?((PU.pu[x.cd]||PU.pu['nm:'+x.nm]||{}).p||''):'';
+const puSnip=(t,q)=>{ if(!t) return ''; const T=t.replace(/\s+/g,' '); const i=T.replace(/\s+/g,'').indexOf(q); if(i<0) return T.slice(0,120); let k=0,pos=0; for(let c=0;c<T.length;c++){ if(!/\s/.test(T[c])){ if(k===i){pos=c;break;} k++; } } const a=Math.max(0,pos-45); return (a>0?'…':'')+T.slice(a,pos+q.length+75)+(pos+q.length+75<T.length?'…':''); };
 async function loadGovMin(sg){ S.govmin=S.govmin||{}; if(S.govmin[sg]) return S.govmin[sg]; return S.govmin[sg]=await gunzipB64('data/gov/'+encodeURIComponent(sg)+'.txt'); }
 const jo=v=>isN(v)?(Number(v)/1e12).toLocaleString('ko-KR',{maximumFractionDigits:1}):NA;   /* 원 → 조 */
 const mjo=v=>isN(v)?(Number(v)/1e6).toLocaleString('ko-KR',{maximumFractionDigits:1}):NA;   /* 백만원 → 조 */
@@ -1509,7 +1514,7 @@ async function render27Min(ix,sg){ const m=ix.ministries.find(x=>x.sg===sg); if(
 
 const GOVF={q:'',sort:'b26',dir:-1};
 async function renderGovMin(ix,sg){ const m=ix.ministries.find(x=>x.sg===sg); if(!m) throw new Error('부처를 찾지 못했습니다');
-  const P=await loadGovMin(sg); GOVF.q=''; GOVF.sort='b26'; GOVF.dir=-1;
+  const P=await loadGovMin(sg); const PU=await loadGovPu(sg); GOVF.q=''; GOVF.sort='b26'; GOVF.dir=-1;
   const known=P.filter(x=>isN(x.b26));
   const psum=known.reduce((a,x)=>a+x.b26,0);
   const flds=[...new Set(P.map(x=>x.fd).filter(Boolean))].sort();
@@ -1531,22 +1536,22 @@ async function renderGovMin(ix,sg){ const m=ix.ministries.find(x=>x.sg===sg); if
     ${splitNote}
     <div class="sech"><span class="no">세부사업</span><h2>${esc(m.nm)}는 올해 어디에 쓰나</h2><span class="basis">2026 확정예산 · 2025 본예산 대비</span></div>
     <div class="govtools">
-      <input id="gq" type="search" placeholder="사업 이름·프로그램 검색" aria-label="사업 검색">
+      <input id="gq" type="search" placeholder="${PU?'사업 이름·프로그램·사업 목적 낱말 검색':'사업 이름·프로그램 검색'}" aria-label="사업 검색">
       <select id="gf" aria-label="분야 고르기"><option value="">분야 전체</option>${flds.map(f=>`<option>${esc(f)}</option>`).join('')}</select>
       <select id="gs" aria-label="정렬"><option value="b26">2026 예산 큰 순</option><option value="rt">증가율 높은 순</option><option value="rtd">감소율 큰 순</option><option value="dl">증감액 큰 순</option><option value="nm">사업명 순</option></select>
     </div>
     <div id="gtb"></div>
-    <p class="basis" style="margin:14px 0 0">총액 출처: ${esc(ix.src.total)} · 세부사업 출처: ${esc(ix.src.proj)} · 값이 공개되지 않은 항목은 ${NA}로 두었고 0으로 채우지 않았습니다.</p>
+    <p class="basis" style="margin:14px 0 0">총액 출처: ${esc(ix.src.total)} · 세부사업 출처: ${esc(ix.src.proj)} · 값이 공개되지 않은 항목은 ${NA}로 두었고 0으로 채우지 않았습니다.${PU?` · 사업 목적 출처: ${esc(m.nm)} 「${esc(PU.src)}」 (세부사업 ${num(PU.n)}건에 목적 문장, 나머지는 설명자료에 없는 항목)`:' · 이 부처는 2026년 사업설명자료가 누리집에 공개되지 않아 사업 목적 문장이 없습니다.'}</p>
   </div>`;
   const draw=()=>{
     const q=GOVF.q.trim(), f=document.getElementById('gf').value;
-    let L=P.filter(x=>(!f||x.fd===f)&&(!q||[x.nm,x.pg,x.un,x.cd].some(v=>v&&v.includes(q))));
+    const qq=q.replace(/\s+/g,''); let L=P.filter(x=>(!f||x.fd===f)&&(!q||[x.nm,x.pg,x.un,x.cd,puOf(PU,x)].some(v=>v&&String(v).replace(/\s+/g,'').includes(qq))));
     const k=GOVF.sort;
     if(k==='nm') L.sort((a,b)=>String(a.nm||'').localeCompare(String(b.nm||''),'ko'));
     else if(k==='rtd') L.sort((a,b)=>(a.rt??1e9)-(b.rt??1e9));
     else L.sort((a,b)=>(b[k==='rt'?'rt':k]??-1e18)-(a[k==='rt'?'rt':k]??-1e18));
     const rows=L.slice(0,600).map(x=>`<tr>
-      <td class="nm">${esc(x.nm||NA)}${x.pg?`<span class="sub">${esc(x.pg)}${x.un&&x.un!==x.pg?' · '+esc(x.un):''}</span>`:''}</td>
+      <td class="nm">${esc(x.nm||NA)}${x.pg?`<span class="sub">${esc(x.pg)}${x.un&&x.un!==x.pg?' · '+esc(x.un):''}</span>`:''}${(()=>{ const pu=puOf(PU,x); return pu?`<span class="pu" title="${esc(pu)}"><i>목적</i> ${esc(qq?puSnip(pu,qq):pu.slice(0,140)+(pu.length>140?'…':''))}</span>`:''; })()}</td>
       <td class="hs">${esc(x.fd||NA)}${x.sb?`<span class="sub">${esc(x.sb)}</span>`:''}</td>
       <td class="hs">${esc(x.ac||NA)}</td>
       <td class="r">${x.b26==null?`<span class="blank">${NA}</span>`:eok(x.b26)}</td>
@@ -1604,19 +1609,23 @@ function bindGovSearch(q,sug,yr){ if(!q||!sug||q._bound) return; q._bound=1; let
 async function renderGovSearch(qs,yr){ const app=document.getElementById('app'); const is27=yr==='27'; const ix=is27?await load27Index():await loadGovIndex(); const M=ix.ministries;
   app.innerHTML=`<div class="wrap"><div class="loading">${M.length}개 부처 세부사업에서 「${esc(qs)}」를 찾는 중…</div></div>`;
   const q=qs.replace(/\s+/g,''); const hits=[];
-  await Promise.all(M.map(async m=>{ try{ const P=is27?await load27Min(m.sg):await loadGovMin(m.sg); P.forEach(x=>{ const hay=is27?[x.n,x.p,x.d,x.u]:[x.nm,x.pg,x.un,x.sb]; if(hay.some(v=>v&&String(v).replace(/\s+/g,'').includes(q))) hits.push({m:m.nm,sg:m.sg,n:is27?x.n:x.nm,pg:is27?x.p:x.pg,f:is27?x.f:x.fd,b:is27?(isN(x.b27)?x.b27*1e6:null):x.b26,p:is27?(isN(x.b26)?x.b26*1e6:null):x.b25}); }); }catch(e){} }));
+  let puMin=0, puN=0;
+  await Promise.all(M.map(async m=>{ try{ const P=is27?await load27Min(m.sg):await loadGovMin(m.sg); const PU=is27?null:await loadGovPu(m.sg); if(PU){ puMin++; puN+=PU.n||0; }
+    P.forEach(x=>{ const hay=is27?[x.n,x.p,x.d,x.u]:[x.nm,x.pg,x.un,x.sb]; const byName=hay.some(v=>v&&String(v).replace(/\s+/g,'').includes(q)); const pu=is27?'':puOf(PU,x); const byPu=!byName&&pu&&pu.replace(/\s+/g,'').includes(q);
+      if(byName||byPu) hits.push({m:m.nm,sg:m.sg,n:is27?x.n:x.nm,pg:is27?x.p:x.pg,f:is27?x.f:x.fd,b:is27?(isN(x.b27)?x.b27*1e6:null):x.b26,p:is27?(isN(x.b26)?x.b26*1e6:null):x.b25,pu:byPu?puSnip(pu,q):''}); }); }catch(e){} }));
+  const nPu=hits.filter(h=>h.pu).length;
   hits.sort((a,b)=>(b.b??-1)-(a.b??-1)); const byM={}; hits.forEach(h=>{ (byM[h.m]||={n:0,b:0,sg:h.sg}); byM[h.m].n++; byM[h.m].b+=h.b||0; });
   const TB=hits.reduce((a,h)=>a+(h.b||0),0);
   app.innerHTML=`<div class="wrap" style="padding-top:18px">${GOVSW('gov')}${YRSW(is27?'y27':'y26')}</div>
   <div class="band"><div class="wrap lgband"><div class="crumb"><button type="button" class="backbtn" onclick="goBack()" aria-label="이전 화면으로">← 뒤로</button><a href="${is27?'#/gov27':'#/gov'}">중앙정부</a> › 사업 검색</div>
-    <div class="eyebrow" style="margin-top:12px">${M.length}개 부처 세부사업 검색 · ${is27?'2027 정부안 (국회 심의 중)':'2026 확정예산'} · 사업명·프로그램·단위사업 이름 기준</div>
+    <div class="eyebrow" style="margin-top:12px">${M.length}개 부처 세부사업 검색 · ${is27?'2027 정부안 (국회 심의 중) · 사업명·프로그램·단위사업 이름 기준':'2026 확정예산 · 사업명·프로그램·단위사업 이름 + 사업설명자료의 「사업 목적」 문장'}</div>
     <h1><em style="font-style:normal;color:var(--rd)">${esc(qs)}</em> <span style="font-weight:500;opacity:.8">관련 사업</span></h1>
-    <div class="badges"><span class="badge">부처 <b>${num(Object.keys(byM).length)}</b>/${M.length}곳</span><span class="badge">사업 <b>${num(hits.length)}</b>건</span><span class="badge">${is27?'2027 정부안':'2026 예산'} 합계 <b>${won(TB)}</b></span></div>
+    <div class="badges"><span class="badge">부처 <b>${num(Object.keys(byM).length)}</b>/${M.length}곳</span><span class="badge">사업 <b>${num(hits.length)}</b>건</span><span class="badge">${is27?'2027 정부안':'2026 예산'} 합계 <b>${won(TB)}</b></span>${nPu?`<span class="badge gold">사업 목적에서 찾은 것 <b>${num(nPu)}</b>건</span>`:''}</div>
     ${BIGQ('gq2','부처 이름 또는 사업 키워드 — 보건복지부, 청년, 지방소멸…')}
   </div></div><div class="wrap">
   ${hits.length?`<section class="sec"><div class="sech"><span class="no">01</span><h2>부처별</h2><span class="basis">예산 큰 순</span></div><div class="card"><div class="tw"><table><thead><tr><th>부처</th><th class="num">사업 수</th><th class="num">${is27?'2027 정부안':'2026 예산'}</th></tr></thead><tbody>${Object.entries(byM).sort((a,b)=>b[1].b-a[1].b).map(([m,v])=>`<tr class="row" onclick="location.hash='${is27?'#/gov27/':'#/gov/'}${encodeURIComponent(v.sg)}'"><td><b>${esc(m)}</b></td><td class="num">${num(v.n)}</td><td class="num">${won(v.b)}</td></tr>`).join('')}</tbody></table></div></div></section>
-  <section class="sec"><div class="sech"><span class="no">02</span><h2>사업 목록</h2><span class="basis">상위 300건 · 줄을 누르면 그 부처 화면</span></div><div class="card"><div class="tw"><table class="gqhit"><thead><tr><th>부처</th><th>사업명</th><th>분야</th><th class="num">${is27?'2027 정부안':'2026 예산'}</th><th class="num">${is27?'2026 본예산':'2025 예산'}</th></tr></thead><tbody>${hits.slice(0,300).map(h=>`<tr class="row" onclick="location.hash='${is27?'#/gov27/':'#/gov/'}${encodeURIComponent(h.sg)}'"><td class="mut">${esc(h.m)}</td><td class="nm"><b>${esc(h.n||'')}</b>${h.pg?`<span class="sub">${esc(h.pg)}</span>`:''}</td><td class="mut">${esc(h.f||'')}</td><td class="num">${isN(h.b)?won(h.b):NA}</td><td class="num">${isN(h.p)?won(h.p):NA}</td></tr>`).join('')}</tbody></table></div></div>
-  <p class="src">이름 문자열 일치로만 찾습니다(사업 목적·내용은 보지 못함). 금액이 없는 항목은 ${NA}로 두었고 0으로 채우지 않았습니다.</p></section>`:'<div class="empty" style="margin-top:22px">사업명에 이 말이 들어간 세부사업이 없습니다. 다른 표현으로 다시 찾아보세요.</div>'}</div>`;
+  <section class="sec"><div class="sech"><span class="no">02</span><h2>사업 목록</h2><span class="basis">상위 300건 · 줄을 누르면 그 부처 화면</span></div><div class="card"><div class="tw"><table class="gqhit"><thead><tr><th>부처</th><th>사업명</th><th>분야</th><th class="num">${is27?'2027 정부안':'2026 예산'}</th><th class="num">${is27?'2026 본예산':'2025 예산'}</th></tr></thead><tbody>${hits.slice(0,300).map(h=>`<tr class="row" onclick="location.hash='${is27?'#/gov27/':'#/gov/'}${encodeURIComponent(h.sg)}'"><td class="mut">${esc(h.m)}</td><td class="nm"><b>${esc(h.n||'')}</b>${h.pg?`<span class="sub">${esc(h.pg)}</span>`:''}${h.pu?`<span class="pu"><i>사업 목적</i> ${esc(h.pu)}</span>`:''}</td><td class="mut">${esc(h.f||'')}</td><td class="num">${isN(h.b)?won(h.b):NA}</td><td class="num">${isN(h.p)?won(h.p):NA}</td></tr>`).join('')}</tbody></table></div></div>
+  <p class="src">${is27?'2027 정부안은 이름 문자열 일치로만 찾습니다(사업설명자료 미공개).':`사업명·프로그램·단위사업 이름과, 각 부처가 국회에 낸 2026년 사업설명자료의 「사업 목적」 문장에서 찾습니다. 사업 목적 문장은 ${puMin}개 부처 ${num(puN)}건에 붙어 있고(기본경비·인건비 등 설명자료가 없는 항목 제외), 자료를 공개하지 않은 부처는 이름으로만 찾습니다.`} 금액이 없는 항목은 ${NA}로 두었고 0으로 채우지 않았습니다.</p></section>`:`<div class="empty" style="margin-top:22px">사업명${is27?'':'과 사업 목적 문장'}에 이 말이 들어간 세부사업이 없습니다. 다른 표현으로 다시 찾아보세요.</div>`}</div>`;
   bindGovSearch(document.getElementById('gq2'),document.getElementById('gq2Sug'),yr); document.getElementById('foot').innerHTML=footer(); }
 /* 정책 아카이브: 정책·국정과제·원문 통합 검색 */
 function bindPolSearch(q,sug){ if(!q||!sug||q._bound) return; q._bound=1; let cur=-1;
