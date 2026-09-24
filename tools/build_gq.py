@@ -1,6 +1,7 @@
 """중앙정부 사업 검색용 색인 2개를 만든다 (2026-09-24).
 검색 한 번에 부처 파일 62~64개 + 사업목적 파일 53개를 따로 받던 것을 파일 1개로 합친다.
-  data/gq26.json : 2026 확정예산 — [부처번호, 사업명, 프로그램, 단위사업, 세부분야, 분야, 2026예산(원), 2025예산(원), 사업목적문장]
+  data/gq26.json : 2026 확정예산 — [부처번호, 사업명, 프로그램, 단위사업, 세부분야, 분야, 2026예산(원), 2025예산(원)]
+  data/gq26pu.json : 같은 순서의 사업목적 문장 배열
   data/gq27.json : 2027 정부안   — [부처번호, 사업명, 프로그램, 세부, 단위, 분야, 2027(백만원), 2026(백만원)]
 원자료(data/gov, data/gov27, data/govpu)가 바뀌면 이 스크립트를 다시 돌린다. 값은 원자료 그대로 옮기며 새로 만들지 않는다."""
 import json, gzip, base64, os
@@ -26,7 +27,9 @@ for i, m in enumerate(ix['ministries']):
         if PU and PU.get('pu'):
             p = (PU['pu'].get(x.get('cd')) or PU['pu'].get('nm:' + str(x.get('nm'))) or {}).get('p', '')
         rows.append([i, x.get('nm'), x.get('pg'), x.get('un'), x.get('sb'), x.get('fd'), x.get('b26'), x.get('b25'), p])
-n26 = wr(os.path.join(D, 'gq26.json'), {'built': ix.get('built_at'), 'M': M, 'puMin': pu_min, 'puN': pu_n, 'rows': rows})
+# 이름 색인(약 0.2MB 압축)과 사업목적 문장(약 1MB 압축)을 나눈다: 이름으로 찾은 결과를 먼저 보여 주고, 문장은 뒤따라 받는다.
+n26 = wr(os.path.join(D, 'gq26.json'), {'built': ix.get('built_at'), 'M': M, 'puMin': pu_min, 'puN': pu_n, 'rows': [r[:8] for r in rows]})
+wr(os.path.join(D, 'gq26pu.json'), [r[8] for r in rows])
 
 ix27 = json.load(open(os.path.join(D, 'gov27-index.json')))
 M27, r27 = [], []
