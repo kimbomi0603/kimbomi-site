@@ -52,6 +52,29 @@ tr.tot td{background:#F2EDE0;font-weight:700}
 .links a:hover{background:#FFF8E8}
 .links b{display:block;font-family:var(--serif);font-size:1.02rem;color:var(--navy)}
 .links span{display:block;font-size:.84rem;color:var(--ink2);margin-top:5px}
+.viz{margin-top:18px;background:var(--paper2);border:1px solid var(--rule2);border-radius:14px;padding:18px 20px}
+.viz h3{font-size:1.05rem;margin:0 0 4px}
+.viz .cap{font-size:.8rem;color:var(--ink2);margin:0 0 12px}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:.8rem;color:var(--ink2);margin:8px 0 0}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:5px}
+.sbar{margin:10px 0 0}
+.sbar .lab{display:flex;justify-content:space-between;font-size:.84rem;margin-bottom:5px}
+.sbar .lab b{font-family:var(--serif)}
+.sbar .trk{display:flex;height:26px;gap:2px;border-radius:6px;overflow:hidden}
+.sbar .trk span{display:block;height:100%;position:relative;min-width:2px}
+.sbar .trk span em{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:.74rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden}
+.hbar{display:grid;grid-template-columns:150px 1fr 90px;gap:8px 10px;align-items:center;font-size:.86rem;margin-top:10px}
+.hbar .b{height:20px;border-radius:0 4px 4px 0;position:relative}
+.hbar .v{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.hbar .k{color:var(--ink);word-break:keep-all}
+.hbar .k small{display:block;color:var(--ink2);font-size:.72rem}
+.ratio{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px;align-items:end}
+.ratio .box{border:1px solid var(--rule2);border-radius:10px;padding:14px;background:#fff}
+.ratio .sq{display:block;background:var(--navy);border-radius:4px}
+.ratio .n{font-family:var(--mono);font-size:1.3rem;color:var(--navy);margin-top:8px}
+.ratio .l{font-size:.8rem;color:var(--ink2)}
+.c-a{background:#2a78d6}.c-b{background:#e34948}.c-c{background:#1baf7a}.c-d{background:#eda100}
+@media(max-width:640px){.hbar{grid-template-columns:110px 1fr 76px}.ratio{grid-template-columns:1fr}.sbar .trk span em{font-size:.66rem}}
 footer.site .fin{padding:30px 0 18px;font-size:.88rem}
 footer.site .copy{border-top:1px solid rgba(247,243,232,.2);padding:14px 0 30px;font-size:.8rem;color:rgba(239,232,216,.65)}
 @media(max-width:900px){.hd h1{font-size:1.9rem}.kpi{grid-template-columns:repeat(2,1fr)}.how,.links{grid-template-columns:1fr}}
@@ -321,6 +344,14 @@ footer.site .copy{border-top:1px solid rgba(247,243,232,.2);padding:14px 0 30px;
       <div><div class="l">국민의힘</div><div class="n">459<small>억원</small></div><div class="s">43.8% · 경상 216.4억 + 대선 242.9억</div></div>
       <div><div class="l">거대 양당 몫</div><div class="n">91.6<small>%</small></div><div class="s">나머지 5개 정당이 8.4%를 나눔</div></div>
     </div>
+    
+    <div class="viz">
+      <h3>정당별 몫 — 두 거대 정당이 거의 다 가져갑니다</h3>
+      <p class="cap">막대 하나가 그해(또는 그 지급분) 전체 100%입니다. 막대에 마우스를 올리면 금액이 나옵니다.</p>
+<div class="sbar"><div class="lab"><b>2025년 전체 (경상 + 대선)</b><span>1,048억원</span></div><div class="trk"><span class="c-a" style="width:47.80%" title="민주 500.8억원 · 47.8%"><em>민주 48%</em></span><span class="c-b" style="width:43.84%" title="국힘 459.3억원 · 43.8%"><em>국힘 44%</em></span><span class="c-c" style="width:4.28%" title="조국혁신당 44.8억원 · 4.3%"></span><span class="c-d" style="width:4.09%" title="기타 42.8억원 · 4.1%"></span></div></div><div class="sbar"><div class="lab"><b>2026년 지방선거 보조금 (5.18)</b><span>571억원</span></div><div class="trk"><span class="c-a" style="width:45.35%" title="민주 258.9억원 · 45.4%"><em>민주 45%</em></span><span class="c-b" style="width:41.63%" title="국힘 237.6억원 · 41.6%"><em>국힘 42%</em></span><span class="c-c" style="width:8.09%" title="조국혁신당 46.1억원 · 8.1%"><em>조국혁신당 8%</em></span><span class="c-d" style="width:4.93%" title="기타 28.1억원 · 4.9%"></span></div></div><div class="sbar"><div class="lab"><b>2026년 3분기 경상보조금 (8.14)</b><span>134억원</span></div><div class="trk"><span class="c-a" style="width:43.70%" title="민주 58.6억원 · 43.7%"><em>민주 44%</em></span><span class="c-b" style="width:40.74%" title="국힘 54.6억원 · 40.7%"><em>국힘 41%</em></span><span class="c-c" style="width:8.40%" title="조국혁신당 11.3억원 · 8.4%"><em>조국혁신당 8%</em></span><span class="c-d" style="width:7.15%" title="기타 9.6억원 · 7.2%"><em>기타 7%</em></span></div></div><div class="legend"><span><i class="c-a"></i>더불어민주당</span><span><i class="c-b"></i>국민의힘</span><span><i class="c-c"></i>조국혁신당</span><span><i class="c-d"></i>그 밖의 정당</span></div>
+      <p class="src" style="margin-top:10px">2025년 조국혁신당·기타는 분기 지급액(각 11.2억·기타 합)을 4배 한 개략치. 2026년 두 막대는 선관위 공표치 그대로.</p>
+    </div>
+
     <h3 style="margin-top:26px;font-size:1.18rem">제21대 대통령선거 보조금 (2025.05.13 지급)</h3>
     <div class="tw">
       <table>
@@ -356,6 +387,19 @@ footer.site .copy{border-top:1px solid rgba(247,243,232,.2);padding:14px 0 30px;
       </table>
     </div>
     <p class="src">출처 뉴시스 「선관위, 12개 정당에 선거보조금 440억 지급」(2020.03.30) · SBS 「선관위, 총선 선거보조금 508억 지급」(2024.03.25) · 서울신문(2024.04.23) · 확인일 2026.09.24. 2020년 금액은 보도 반올림치(미래한국당 13.56%, 더불어시민당 5.42%).</p>
+    
+    <div class="viz">
+      <h3>위성정당 4곳이 받은 선거보조금</h3>
+      <p class="cap">막대 길이 = 금액. 색은 모정당(파랑 더불어민주당 계열, 빨강 국민의힘 계열). 합계 약 142억원, 반환 0원.</p>
+      <div class="hbar" role="img" aria-label="위성정당 선거보조금 막대: 미래한국당 61.2억, 국민의미래 28.0억, 더불어민주연합 28.3억, 더불어시민당 24.5억">
+        <div class="k">미래한국당<small>2020 · 국민의힘 계열</small></div><div><div class="b c-b" style="width:100%"></div></div><div class="v">61.2억</div>
+        <div class="k">더불어민주연합<small>2024 · 민주당 계열</small></div><div><div class="b c-a" style="width:46.2%"></div></div><div class="v">28.3억</div>
+        <div class="k">국민의미래<small>2024 · 국민의힘 계열</small></div><div><div class="b c-b" style="width:45.8%"></div></div><div class="v">28.0억</div>
+        <div class="k">더불어시민당<small>2020 · 민주당 계열</small></div><div><div class="b c-a" style="width:40.0%"></div></div><div class="v">24.5억</div>
+      </div>
+      <div class="legend"><span><i class="c-a"></i>더불어민주당 계열 52.8억</span><span><i class="c-b"></i>국민의힘 계열 89.2억</span></div>
+    </div>
+
     <div class="note blue"><b>왜 돌려주지 않아도 되나 —</b> 「정치자금법」 제30조는 보조금을 받은 정당이 <b>해산되거나 등록이 취소된 때</b>에만 잔액을 반환하도록 정합니다. 「정당법」상 합당은 해산이 아니므로, 선거가 끝나고 모정당에 흡수되면 남은 돈도 함께 넘어갑니다. 여야 모두 이 구멍을 썼습니다.</div>
   </div>
 </section>
@@ -403,6 +447,16 @@ footer.site .copy{border-top:1px solid rgba(247,243,232,.2);padding:14px 0 30px;
       <div><b>허위 회계보고 처벌</b>회계장부 허위기재·회계보고 미제출·증빙 위조는 3년 이하 징역 또는 <b>600만원 이하 벌금</b>(제46조). 보조금 용도 외 사용은 2년 이하 징역 또는 400만원 이하 벌금(제47조). 선거비용 회계보고 허위기재만 5년·2천만원(제49조).</div>
       <div><b>보조금 회수</b>보조금 회계보고를 허위·누락하면 해당 금액의 2배를 회수·감액할 수 있습니다(제29조). 그러나 보조금 지급 자체를 중단하는 규정은 없습니다.</div>
     </div>
+    
+    <div class="viz">
+      <h3>받는 돈과 벌금의 크기</h3>
+      <p class="cap">더불어민주당이 2025년 한 해 받은 국고보조금(501억원)과, 회계보고를 거짓으로 써도 물리는 벌금 상한(600만원). 넓이가 금액입니다.</p>
+      <div class="ratio">
+        <div class="box"><span class="sq" style="width:100%;aspect-ratio:1/1;max-width:260px"></span><div class="n">501억원</div><div class="l">2025년 한 해 국고보조금 (한 정당)</div></div>
+        <div class="box"><span class="sq" style="width:3px;height:3px;background:var(--red)"></span><div class="n">600만원</div><div class="l">허위 회계보고 벌금 상한 (제46조) — 보조금의 0.012%. 왼쪽 큰 정사각형이 501억원이면, 벌금은 위의 작은 점 크기입니다.</div></div>
+      </div>
+    </div>
+
     <p class="src">출처 인사혁신처 공직윤리시스템 「재산등록의무자」 · 국민의힘 공지 「사무처당직자(일반당무직 5급) 공개채용」(2020) · 뉴시스(2025.11.17) · 국가법령정보센터 정치자금법 제29·46·47·49조 · 확인일 2026.09.24</p>
   </div>
 </section>

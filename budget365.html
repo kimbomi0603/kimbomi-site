@@ -401,14 +401,15 @@ td.num.up{color:var(--red-ink)}td.num.dn{color:var(--teal-ink)}
 .gqhit td.nm b{font-weight:600} .gqhit td .sub{display:block;font-size:11.5px;color:var(--ink-3)}
 td.nm .pu{display:block;font-size:11.5px;line-height:1.5;color:var(--ink-2);font-weight:400;margin-top:3px;max-width:560px} td.nm .pu i{font-style:normal;font-weight:700;font-size:10.5px;color:var(--gold-ink);border:1px solid var(--gold);border-radius:4px;padding:0 4px;margin-right:4px}
 /* 홈: 여기서 볼 수 있는 것 */
-.cansee{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;margin:22px 0 4px;border:1.5px solid var(--rule);border-left:0}
-.cansee a{display:block;padding:16px 18px 14px;border-left:1.5px solid var(--rule);text-decoration:none;color:inherit;background:var(--card);position:relative}
-.cansee a:hover{background:var(--bg-2)}
+.cansee{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 4px}
+.cansee a{display:block;padding:18px 20px 16px;border:1.5px solid var(--rule);border-radius:14px;text-decoration:none;color:inherit;background:var(--card);position:relative;transition:transform .14s,box-shadow .14s,border-color .14s}
+.cansee a:hover{background:var(--card);border-color:var(--gold-ink);transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.08)}
 .cansee a .no{font-family:var(--mono);font-size:11px;color:var(--gold-ink);font-weight:600}
-.cansee a b{display:block;font-family:var(--disp);font-size:17px;letter-spacing:-.02em;margin:4px 0 6px;line-height:1.3}
-.cansee a span{display:block;font-size:12.5px;color:var(--ink-2);line-height:1.6}
-.cansee a i{position:absolute;right:14px;top:14px;font-style:normal;color:var(--gold-ink);font-weight:700}
-@media (max-width:640px){.cansee{grid-template-columns:1fr 1fr;border-left:1.5px solid var(--rule);border-top:0}.cansee a{border-left:0;border-top:1.5px solid var(--rule)}}
+.cansee a b{display:block;font-family:var(--disp);font-size:18px;letter-spacing:-.02em;margin:4px 36px 6px 0;line-height:1.3}
+.cansee a span{display:block;font-size:13px;color:var(--ink-2);line-height:1.65}
+.cansee a i{position:absolute;right:16px;top:16px;font-style:normal;color:var(--gold-ink);font-weight:700;font-size:18px}
+@media (max-width:980px){.cansee{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.cansee{grid-template-columns:1fr;gap:10px}.cansee a{padding:14px 16px 13px}}
 /* 현황: 한눈에 */
 .glance{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px;margin-top:16px}
 .glance a{display:block;padding:13px 15px 12px;background:var(--card);border:1px solid var(--line-2);border-top:4px solid var(--kc,var(--rule));text-decoration:none;color:inherit}
