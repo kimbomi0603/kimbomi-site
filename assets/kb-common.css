@@ -28,6 +28,17 @@
   .kbx-hdr nav{order:3;width:100%;margin:0;gap:18px;padding:4px 0 0}
   .kbx-hdr nav a{padding:8px 0 9px;font-size:14.5px}
 }
+@media(max-width:480px){ /* 2026-09-24 휴대폰: 상표·우리동네365·함께하기 한 줄에 */
+  .kbx-hdr .kbx-w{gap:6px 8px;padding:9px 12px 0}
+  .kbx-hdr .kbx-brand img{height:26px}
+  .kbx-hdr .kbx-365{padding:5px 10px 5px 7px;gap:6px;border-radius:9px}
+  .kbx-hdr .kbx-365 img{width:22px;height:22px}
+  .kbx-hdr .kbx-365 em{display:none}
+  .kbx-hdr .kbx-365 b{font-size:13px}
+  .kbx-hdr .kbx-join{padding:5px 9px;font-size:12.5px}
+  .kbx-hdr nav{gap:14px}
+  .kbx-hdr nav a{font-size:14px}
+}
 .kbx-foot{background:#0E2143;color:#C9D4E6;margin-top:40px;font-size:14px;line-height:1.75;letter-spacing:-.01em;word-break:keep-all}
 .kbx-foot a{color:#E6EDF8;text-decoration:none}
 .kbx-foot a:hover{color:#E8BC55}

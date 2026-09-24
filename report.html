@@ -114,6 +114,39 @@ textarea.field{min-height:180px;resize:vertical;line-height:1.7}
 <!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
 <script src="assets/kb-format.js"></script>
 <link rel="stylesheet" href="assets/kb-common.css">
+<style id="kb-theme-unify">
+/* 2026-09-24 새 메인(크림·딥그린·네이비) 통일 — 예전 캠프(파랑) 테마 덮어쓰기 */
+:root{--dpk:#0F5A4A;--dpk-2:#16305A;--dpk-dark:#0B4639;--navy:#16305A;--tint:#E8EFEA;--tint-2:#D7E3DA;--ink:#17181A;--muted:#55565A;--line:#E4DFD3;--cream:#F5F2EA;--white:#F5F2EA;--yellow:#C99A2E;--brick:#0F5A4A;
+  --serif:'Noto Serif KR',serif;--sans:'Noto Sans KR',system-ui,-apple-system,sans-serif;}
+body{background:#F5F2EA}
+header{background:rgba(245,242,234,.94)}
+.hero{background:#FFFFFF;color:var(--ink);border-bottom:1px solid var(--line);text-align:left;padding:44px 0 40px}
+.hero .eyebrow{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:.7rem;letter-spacing:.24em;color:var(--muted);text-transform:uppercase;font-weight:500;margin-bottom:10px}
+.hero h1{font-family:var(--serif);color:var(--ink);font-weight:900;letter-spacing:-.03em}
+.hero p{color:var(--muted)}
+.pcard,.press-feat,.pc{background:#fff;border-color:var(--line);border-radius:14px}
+.pcard:hover{border-color:var(--dpk);box-shadow:0 12px 30px rgba(15,90,74,.10)}
+.pcard .chip{background:var(--dpk);color:#fff}
+.pcard h2{color:var(--ink)}
+.pcard .go,.back:hover,.foot a{color:var(--dpk)}
+.article h1{border-bottom:2px solid var(--line)}
+.article p.tagline,.article p.p-sub{background:var(--tint);color:var(--dpk-dark)}
+.article p.p-head{border-left-color:var(--dpk);color:var(--dpk-dark)}
+.article p.p-num,.article p.p-li{background:#F5F2EA;border-left-color:var(--dpk)}
+.btn.p{background:var(--dpk)}.btn.p:hover{background:var(--dpk-dark)}
+.btn.g{color:var(--dpk);border-color:var(--dpk)}.btn.g:hover{background:var(--tint)}
+.foot{background:#F5F2EA;border-top-color:var(--line)}
+.menu a.cur{color:var(--dpk);border-bottom:2px solid var(--dpk);padding-bottom:2px}
+.home-link{border-color:#16305A;color:#16305A}
+.home-link:hover{background:#16305A;color:#fff}
+.privacy{background:var(--tint);border-color:var(--tint-2);border-left-color:var(--dpk);color:var(--ink)}
+.hero h1,.hero p{color:inherit}
+.hero{background:linear-gradient(160deg,#0F5A4A,#16305A);color:#fff;text-align:center;padding:48px 0 40px}
+.hero h1{color:#fff}.hero p{color:rgba(255,255,255,.85)}
+.cat.on,.bigtab.on{background:var(--dpk);border-color:var(--dpk)}
+.field:focus{border-color:var(--dpk)}
+.tw-wall-head .c,.note b,.privacy b{color:var(--dpk)}
+</style>
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",

@@ -28,7 +28,8 @@
   '#bomi form button{border:0;background:#0F5A4A;color:#fff;border-radius:12px;padding:0 16px;font:700 14px "Noto Sans KR",system-ui,sans-serif;cursor:pointer}',
   '#bomi form button:disabled{opacity:.5;cursor:default}',
   '#bomi .ft{font-size:10.5px;color:#55565A;text-align:center;padding:0 12px 8px;background:#fff}',
-  '@media(max-width:640px){#bomi-fab{bottom:60px;right:12px}#bomi{right:8px;left:8px;width:auto;bottom:60px}}',
+  '#bomi-fab .lb-s{display:none}',
+  '@media(max-width:640px){#bomi-fab{bottom:58px;right:10px;padding:6px 12px 6px 6px;font-size:13px;gap:6px}#bomi-fab .av{width:32px;height:32px}#bomi-fab .av svg{width:27px;height:27px}#bomi-fab .lb-f{display:none}#bomi-fab .lb-s{display:inline}#bomi{right:8px;left:8px;width:auto;bottom:58px;max-height:calc(100vh - 70px)}}',
   'html[data-theme="dark"] #bomi{background:#1E1F1B;color:#ECE8DF}html[data-theme="dark"] #bomi .log{background:#141412}html[data-theme="dark"] #bomi .m.b{background:#26271F;border-color:#3A3B33;color:#ECE8DF}html[data-theme="dark"] #bomi form,html[data-theme="dark"] #bomi .ft{background:#1E1F1B}html[data-theme="dark"] #bomi input{background:#141412;color:#ECE8DF;border-color:#3A3B33}html[data-theme="dark"] #bomi .chips{background:#141412}html[data-theme="dark"] #bomi .chips button{background:#26271F;border-color:#3A3B33;color:#CFE3D6}html[data-theme="dark"] #bomi .m .x{color:#A8A99F}'
   ].join('');
   var AV = '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M30.5 30.5 41.5 41.5" stroke="#0B2140" stroke-width="7" stroke-linecap="round"/><path d="M31.5 31.5 41 41" stroke="#16305A" stroke-width="4.2" stroke-linecap="round"/><circle cx="21" cy="21" r="15" fill="#16305A"/><circle cx="21" cy="21" r="12" fill="#FFE6B3"/><path d="M12.5 15.5q3-5.5 9-6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" opacity=".75"/><path d="M21 9c-1-5.5 2-8.5 6-9.5-1 3.5 0 6.5-6 9.5z" fill="#3E9D63"/><path d="M21 9c-3-4.5-7.5-5.5-10.5-4 3 .8 6 2.5 10.5 4z" fill="#6DBF7A"/><circle cx="16.5" cy="21" r="2.1" fill="#17181A"/><circle cx="25.5" cy="21" r="2.1" fill="#17181A"/><circle cx="17.3" cy="20.2" r=".7" fill="#fff"/><circle cx="26.3" cy="20.2" r=".7" fill="#fff"/><path d="M17 26q4 3.2 8 0" stroke="#17181A" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="13" cy="25" r="1.9" fill="#F5A79A" opacity=".85"/><circle cx="29" cy="25" r="1.9" fill="#F5A79A" opacity=".85"/></svg>';
@@ -44,7 +45,7 @@
   }
   function init(){
     var st=document.createElement('style'); st.textContent=CSS; document.head.appendChild(st);
-    var fab = el('<button type="button" id="bomi-fab" aria-haspopup="dialog" aria-controls="bomi"><span class="av">'+AV+'</span><span>봄이에게 물어보기</span></button>');
+    var fab = el('<button type="button" id="bomi-fab" aria-haspopup="dialog" aria-controls="bomi"><span class="av">'+AV+'</span><span class="lb-f">봄이에게 물어보기</span><span class="lb-s">봄이에게 질문</span></button>');
     var box = el('<section id="bomi" role="dialog" aria-label="봄이 — 예산 도우미" aria-modal="false">'+
       '<div class="hd"><span class="av">'+AV+'</span><div><b>봄이 🌱</b><small>어려운 예산 용어, 쉽게 풀어 드려요</small></div><button type="button" aria-label="닫기">×</button></div>'+
       '<div class="log" aria-live="polite"></div>'+
