@@ -46,7 +46,7 @@ tr.tot td{background:#F2EDE0;font-weight:700}
 .note.blue{border-left-color:var(--navy);background:#EEF2F7}
 .how{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--rule2);border-left:1px solid var(--rule2);margin-top:18px}
 .how div{border-right:1px solid var(--rule2);border-bottom:1px solid var(--rule2);background:var(--paper2);padding:16px 18px;font-size:.9rem;line-height:1.7}
-.how b{display:block;color:var(--navy);font-family:var(--serif);font-size:1rem;margin-bottom:5px}
+.how div>b:first-child{display:block;color:var(--navy);font-family:var(--serif);font-size:1rem;margin-bottom:5px}
 .links{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule2);border-left:1px solid var(--rule2);margin-top:18px}
 .links a{border-right:1px solid var(--rule2);border-bottom:1px solid var(--rule2);background:var(--paper2);padding:18px;text-decoration:none}
 .links a:hover{background:#FFF8E8}
@@ -75,6 +75,24 @@ tr.tot td{background:#F2EDE0;font-weight:700}
 .ratio .l{font-size:.8rem;color:var(--ink2)}
 .c-a{background:#2a78d6}.c-b{background:#e34948}.c-c{background:#1baf7a}.c-d{background:#eda100}
 @media(max-width:640px){.hbar{grid-template-columns:110px 1fr 76px}.ratio{grid-template-columns:1fr}.sbar .trk span em{font-size:.66rem}}
+
+/* 모바일: 표를 카드형으로 */
+@media(max-width:640px){
+  .tw{border:0;background:transparent;overflow:visible}
+  table{min-width:0;font-size:.88rem}
+  table thead{display:none}
+  table,tbody,tr,td{display:block;width:100%}
+  tr{background:var(--paper2);border:1px solid var(--rule2);border-radius:12px;padding:8px 12px;margin-bottom:10px}
+  tr.tot{background:#F2EDE0}
+  td{border:0;padding:5px 0;text-align:left!important}
+  td.n{font-family:var(--mono)}
+  td[data-label]::before{content:attr(data-label);display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:var(--ink2);margin-bottom:1px}
+  td:empty{display:none}
+  .kpi .n{font-size:1.3rem}
+  .hd h1{font-size:1.75rem}
+  .sec h2{font-size:1.4rem}
+  .viz{padding:14px 14px}
+}
 footer.site .fin{padding:30px 0 18px;font-size:.88rem}
 footer.site .copy{border-top:1px solid rgba(247,243,232,.2);padding:14px 0 30px;font-size:.8rem;color:rgba(239,232,216,.65)}
 @media(max-width:900px){.hd h1{font-size:1.9rem}.kpi{grid-template-columns:repeat(2,1fr)}.how,.links{grid-template-columns:1fr}}
@@ -435,5 +453,10 @@ footer.site .copy{border-top:1px solid rgba(247,243,232,.2);padding:14px 0 30px;
 
 <script src="assets/bomi.js" defer></script>
 <script src="a.js" defer></script>
+<script>
+/* 표의 머리글을 각 칸의 data-label 로 — 모바일 카드형 표시용 */
+document.querySelectorAll('table').forEach(function(t){var hs=[].map.call(t.querySelectorAll('thead th'),function(th){return th.textContent.trim()});
+ t.querySelectorAll('tbody tr').forEach(function(tr){var i=0;[].forEach.call(tr.children,function(td){var span=td.colSpan||1;if(hs[i]&&td.textContent.trim())td.setAttribute('data-label',hs[i]);i+=span;});});});
+</script>
 </body>
 </html>
