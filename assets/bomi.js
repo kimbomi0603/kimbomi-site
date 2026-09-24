@@ -29,6 +29,7 @@
   '#bomi form button:disabled{opacity:.5;cursor:default}',
   '#bomi .ft{font-size:10.5px;color:#55565A;text-align:center;padding:0 12px 8px;background:#fff}',
   '#bomi-fab .lb-s{display:none}',
+  'html.has-cta #bomi-fab{bottom:132px}html.has-cta #bomi{bottom:84px}',
   '@media(max-width:640px){#bomi-fab{bottom:58px;right:10px;padding:6px 12px 6px 6px;font-size:13px;gap:6px}#bomi-fab .av{width:32px;height:32px}#bomi-fab .av svg{width:27px;height:27px}#bomi-fab .lb-f{display:none}#bomi-fab .lb-s{display:inline}#bomi{right:8px;left:8px;width:auto;bottom:58px;max-height:calc(100vh - 70px)}}',
   'html[data-theme="dark"] #bomi{background:#1E1F1B;color:#ECE8DF}html[data-theme="dark"] #bomi .log{background:#141412}html[data-theme="dark"] #bomi .m.b{background:#26271F;border-color:#3A3B33;color:#ECE8DF}html[data-theme="dark"] #bomi form,html[data-theme="dark"] #bomi .ft{background:#1E1F1B}html[data-theme="dark"] #bomi input{background:#141412;color:#ECE8DF;border-color:#3A3B33}html[data-theme="dark"] #bomi .chips{background:#141412}html[data-theme="dark"] #bomi .chips button{background:#26271F;border-color:#3A3B33;color:#CFE3D6}html[data-theme="dark"] #bomi .m .x{color:#A8A99F}'
   ].join('');

@@ -16,15 +16,17 @@
   apply();
   function mount(){
     if(document.getElementById('kbPrefs')) return;
-    var st=document.createElement('style'); st.textContent='#kbPrefs{position:fixed;right:14px;bottom:14px;z-index:9000;display:flex;gap:4px;align-items:center;background:rgba(28,27,24,.92);color:#F5F0E4;border-radius:999px;padding:5px 8px 5px 10px;font:600 12px/1 "Noto Sans KR",sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.25)}#kbPrefs button{font:inherit;background:transparent;color:inherit;border:1px solid rgba(245,240,228,.35);border-radius:999px;padding:5px 9px;cursor:pointer;min-width:30px}#kbPrefs button:hover{background:rgba(245,240,228,.15)}#kbPrefs .fsz{opacity:.75;min-width:40px;text-align:center}@media print{#kbPrefs{display:none}}@media (max-width:640px){#kbPrefs{right:10px;bottom:10px;padding:4px 6px 4px 8px}}';
+    var st=document.createElement('style'); st.textContent='#kbPrefs{position:fixed;right:14px;bottom:14px;z-index:9000;display:flex;gap:4px;align-items:center;background:rgba(28,27,24,.92);color:#F5F0E4;border-radius:999px;padding:5px 8px 5px 10px;font:600 12px/1 "Noto Sans KR",sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.25)}#kbPrefs button{font:inherit;background:transparent;color:inherit;border:1px solid rgba(245,240,228,.35);border-radius:999px;padding:5px 9px;cursor:pointer;min-width:30px}#kbPrefs button:hover{background:rgba(245,240,228,.15)}#kbPrefs .fsz{opacity:.75;min-width:40px;text-align:center}@media print{#kbPrefs{display:none}}#kbPrefs .tog{display:none}@media (max-width:640px){#kbPrefs{right:10px;bottom:10px;padding:4px 6px 4px 8px}#kbPrefs .tog{display:inline-block;border:0;font-weight:800;min-width:34px;height:34px;padding:0}#kbPrefs.col{padding:3px}#kbPrefs.col>*:not(.tog){display:none}}html.has-cta #kbPrefs{bottom:84px}';
     document.head.appendChild(st);
     var d=document.createElement('div'); d.id='kbPrefs'; d.setAttribute('role','group'); d.setAttribute('aria-label','화면 설정');
-    d.innerHTML='<button type="button" data-act="fm" aria-label="글자 작게">가−</button><span class="fsz">보통</span><button type="button" data-act="fp" aria-label="글자 크게">가＋</button><button type="button" data-act="theme" aria-pressed="false">☾ 어둡게</button>';
+    d.className='col'; d.innerHTML='<button type="button" class="tog" data-act="tog" aria-label="화면 설정 열기" aria-expanded="false">가A</button><button type="button" data-act="fm" aria-label="글자 작게">가−</button><span class="fsz">보통</span><button type="button" data-act="fp" aria-label="글자 크게">가＋</button><button type="button" data-act="theme" aria-pressed="false">☾ 어둡게</button>';
     d.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; var a=b.getAttribute('data-act'); var f=+(get('kb_font')||0);
       if(a==='fp') set('kb_font',String(Math.min(2,f+1))); else if(a==='fm') set('kb_font',String(Math.max(0,f-1)));
+      else if(a==='tog'){ var c=d.classList.toggle('col'); b.setAttribute('aria-expanded',c?'false':'true'); b.textContent=c?'가A':'✕'; return; }
       else if(a==='theme'){ var dark=H.getAttribute('data-theme')==='dark'; set('kb_theme',dark?'light':'dark'); }
       apply(); });
     document.body.appendChild(d); apply();
+    var cta=document.querySelector('.sticky-cta'); if(cta&&getComputedStyle(cta).display!=='none') H.classList.add('has-cta');
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',mount); else mount();
 })();

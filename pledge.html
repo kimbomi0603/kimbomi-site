@@ -568,8 +568,9 @@ details p{margin-top:9px;font-size:.94rem;color:#46536b}
   if(c) c.addEventListener('click',function(){
     var v='신한은행 140-016-505630 재정주권시민행동';
     if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(v).then(function(){toast('계좌번호가 복사됐어요 · 고맙습니다!');}).catch(function(){window.prompt('복사해 주세요',v);});
-    } else { window.prompt('복사해 주세요',v); }
+      navigator.clipboard.writeText(v).then(function(){toast('계좌번호가 복사됐어요 · 고맙습니다!');}).catch(function(){fb();});
+    } else { fb(); }
+    function fb(){ try{ var t=document.createElement('textarea'); t.value=v; t.setAttribute('readonly',''); t.style.cssText='position:fixed;top:0;left:0;opacity:0'; document.body.appendChild(t); t.select(); t.setSelectionRange(0,v.length); var ok=document.execCommand('copy'); document.body.removeChild(t); if(ok){ toast('계좌번호가 복사됐어요 · 고맙습니다!'); return; } }catch(e){} window.prompt('길게 눌러 복사해 주세요',v); }
   });
 
   var URL_='https://www.xn--4k0b53xuva.com/pledge.html';

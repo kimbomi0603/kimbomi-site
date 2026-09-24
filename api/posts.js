@@ -237,7 +237,11 @@ module.exports = async (req, res) => {
     if (action === 'list') {
       var arr = await loadRaw(); if (!arr) arr = DEFAULT_POSTS.concat(STATIC_POSTS);
       var items = pubList(arr).map(function(p){ return { id:p.id, title:p.title, body:p.body, publishAt:p.publishAt }; });
-      res.status(200).json({ ok:true, total:items.length, items:items });
+      var total = items.length;
+      /* limit=N 이면 최신 N건만, 본문은 미리보기 길이로 잘라 보낸다(홈 화면 전송량 절감). limit 없으면 전과 같다. */
+      var lim = parseInt(req.query.limit, 10);
+      if (lim > 0) items = items.slice(0, Math.min(lim, 50)).map(function(p){ return { id:p.id, title:p.title, body:String(p.body||'').slice(0,1500), publishAt:p.publishAt }; });
+      res.status(200).json({ ok:true, total:total, items:items });
       return;
     }
     if (action === 'get') {
