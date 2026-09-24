@@ -77,3 +77,9 @@
   .kbx-foot .kbx-rel{max-width:320px}
 }
 @media(prefers-reduced-motion:reduce){.kbx-foot .kbx-sns a,.kbx-foot .kbx-rel summary::after{transition:none}}
+/* 2026-09-24 다크 모드: 공통 머리글 */
+html[data-theme="dark"] .kbx-hdr{background:#15171A;border-bottom-color:#2C3036}
+html[data-theme="dark"] .kbx-hdr nav a{color:#CFCAC0}
+html[data-theme="dark"] .kbx-hdr nav a:hover,html[data-theme="dark"] .kbx-hdr nav a.on{color:#7FD1B0;border-bottom-color:#7FD1B0}
+html[data-theme="dark"] .kbx-hdr .kbx-brand img{filter:invert(1) hue-rotate(180deg) brightness(1.05)}
+html[data-theme="dark"] .kbx-hdr .kbx-join{color:#7FD1B0;border-color:#7FD1B0}

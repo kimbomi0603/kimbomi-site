@@ -730,8 +730,10 @@ async function loadG2b(cd){ if(cd in S.g2b) return S.g2b[cd]; try{ if(!S.g2bAll)
   const st=new Blob([u8]).stream().pipeThrough(new DecompressionStream('gzip')); S.g2b[cd]=JSON.parse(await new Response(st).text()); }catch(e){ S.g2b[cd]=null; } return S.g2b[cd]; }
 async function loadCtrt(cd){ if(!S.ctrt) S.ctrt={}; if(cd in S.ctrt) return S.ctrt[cd];
   const sh=cd[0]<='3'?'a':'b';
-  try{ S.ctrtAll=S.ctrtAll||{}; if(!S.ctrtAll[sh]){ const r=await fetch('data/ctrt-'+sh+'.json'); S.ctrtAll[sh]=r.ok?await r.json():{}; }
-    const b64=S.ctrtAll[sh][cd]; if(!b64){ S.ctrt[cd]=null; return null; }
+  try{ /* 2026-09-24: 지자체별 파일(data/ctrt/<코드>.txt, 약 40KB)을 먼저 받는다. 없거나 실패하면 예전 묶음 파일(수 MB)로. */
+    let b64=null; try{ const r1=await fetch('data/ctrt/'+cd+'.txt'); if(r1.ok) b64=(await r1.text()).trim(); }catch(e1){}
+    if(!b64){ S.ctrtAll=S.ctrtAll||{}; if(!S.ctrtAll[sh]){ const r=await fetch('data/ctrt-'+sh+'.json'); S.ctrtAll[sh]=r.ok?await r.json():{}; } b64=S.ctrtAll[sh][cd]; }
+    if(!b64){ S.ctrt[cd]=null; return null; }
     const bin=atob(b64); const u8=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i);
     const st=new Blob([u8]).stream().pipeThrough(new DecompressionStream('gzip')); S.ctrt[cd]=JSON.parse(await new Response(st).text());
   }catch(e){ S.ctrt[cd]=null; } return S.ctrt[cd]; }
@@ -964,7 +966,7 @@ async function glanceFill(lg){ loadSido().then(D=>{ const g=document.querySelect
     else { q('glCtrt').textContent=NA; }
     const D=ctrtDiagnose(cd,K); if(D&&q('glDiag')){ const w=D.filter(x=>x.sev===2).length,c=D.filter(x=>x.sev===1).length; q('glDiag').innerHTML=w?`<em>경고 ${w}</em> · 주의 ${c}`:c?`주의 ${c}`:'해당 없음'; const top=D.find(x=>x.sev===2)||D.find(x=>x.sev===1); q('glDiagS').textContent=top?top.l:'6개 규칙 모두 정상 범위'; }
   }catch(e){ if(q('glCtrt')) q('glCtrt').textContent=NA; if(q('glDiag')) q('glDiag').textContent=NA; }
-  try{ const PL=await loadPledge(); if(!q('glPl')) return; const P=PL?.lg?.[cd]?.p||[]; if(!P.length){ q('glPl').textContent='공약 자료 없음'; return; }
+  try{ const PL=await loadPledge(cd); if(!q('glPl')) return; const P=PL?.lg?.[cd]?.p||[]; if(!P.length){ q('glPl').textContent='공약 자료 없음'; return; }
     const e26=lg.exec?.['2026']; const G=e26?groupProjects(e26.rows):[]; let ex=0,bud=0; P.forEach(p=>{ const m=pledgeMatch(G,p.t); if(m.n){ if(m.e>0) ex++; else bud++; } });
     q('glPl').innerHTML=`${P.length}개 중 <b>${ex}</b> 집행 시작`; q('glPlS').textContent=`예산 반영 ${bud} · 미반영 ${P.length-ex-bud} · ${esc(PL.lg[cd].w?.name||'')} 단체장`;
   }catch(e){ if(q('glPl')) q('glPl').textContent=NA; } }
@@ -1194,11 +1196,14 @@ function pledgeTerms(t){ return String(t||'').replace(/[^가-힣A-Za-z0-9 ]/g,' 
 function pledgeMatch(G,title){ const ts=pledgeTerms(title); if(!ts.length) return {n:0,b:0,e:0,list:[],ts}; 
   const hit=G.filter(p=>ts.some(t=>String(p.n).replace(/\s/g,'').includes(t)));
   return {n:hit.length,b:hit.reduce((a,p)=>a+p.b,0),e:hit.reduce((a,p)=>a+p.e,0),list:hit.sort((a,b)=>b.b-a.b).slice(0,5),ts}; }
-async function loadPledge(){ if(S.pl) return S.pl; try{ const r=await fetch('data/pledge.json'); S.pl=r.ok?await r.json():null; }catch(e){ S.pl=null; } return S.pl; }
+async function loadPledge(cd){ S.plc=S.plc||{}; if(cd&&S.plc[cd]!==undefined) return S.plc[cd]; if(S.pl) return S.pl;
+  /* 2026-09-24: 지자체별 파일(data/pledge/<코드>.json, 수 KB). 404면 사전 수집 자료에 없는 지자체(빈 lg), 네트워크 실패면 예전 전체 파일로. */
+  if(cd){ try{ const r=await fetch('data/pledge/'+cd+'.json'); if(r.ok) return S.plc[cd]=await r.json(); if(r.status===404) return S.plc[cd]={lg:{},built_at:''}; }catch(e){} }
+  try{ const r=await fetch('data/pledge.json'); S.pl=r.ok?await r.json():null; }catch(e){ S.pl=null; } return S.pl; }
 async function renderPledge(lg){ const cd=lg.laf_cd,m=lg.master,app=document.getElementById('app');
   app.innerHTML=lgBand(lg,'공약')+`<div class="wrap"><div class="loading">당선인·공약 자료를 여는 중…</div></div>`;
   let W=null,P=[],err='',asof='';
-  const PL=await loadPledge();
+  const PL=await loadPledge(cd);
   if(PL&&PL.lg&&PL.lg[cd]){ W=PL.lg[cd].w; P=PL.lg[cd].p||[]; asof=(PL.built_at||'').slice(0,10); }
   else if(PL){ err='이 지자체의 당선인·공약이 사전 수집 자료에 없습니다'; }
   else { /* 실제 사이트에서는 선관위 실시간 조회로 보완 */
@@ -1426,6 +1431,7 @@ async function loadLgPu(cd){ S.lgpu=S.lgpu||{}; if(cd in S.lgpu) return S.lgpu[c
 async function loadLgPuIndex(){ if(S.lgpuix!==undefined) return S.lgpuix; try{ const r=await fetch('data/lgpu/_index.json'); S.lgpuix=r.ok?await r.json():null; }catch(e){ S.lgpuix=null; } return S.lgpuix; }
 const lgPuOf=(PU,p)=>PU&&PU.pu?((PU.pu['nm:'+p.n]||{}).p||''):'';
 const puSnip=(t,q)=>{ if(!t) return ''; const T=t.replace(/\s+/g,' '); const i=T.replace(/\s+/g,'').indexOf(q); if(i<0) return T.slice(0,120); let k=0,pos=0; for(let c=0;c<T.length;c++){ if(!/\s/.test(T[c])){ if(k===i){pos=c;break;} k++; } } const a=Math.max(0,pos-45); return (a>0?'…':'')+T.slice(a,pos+q.length+75)+(pos+q.length+75<T.length?'…':''); };
+async function loadGQ(is27){ const k=is27?'gq27':'gq26'; S.gq=S.gq||{}; if(k in S.gq) return S.gq[k]; try{ const r=await fetch('data/'+k+'.json'); S.gq[k]=r.ok?await r.json():null; }catch(e){ S.gq[k]=null; } return S.gq[k]; }
 async function loadGovMin(sg){ S.govmin=S.govmin||{}; if(S.govmin[sg]) return S.govmin[sg]; return S.govmin[sg]=await gunzipB64('data/gov/'+encodeURIComponent(sg)+'.txt'); }
 const jo=v=>isN(v)?(Number(v)/1e12).toLocaleString('ko-KR',{maximumFractionDigits:1}):NA;   /* 원 → 조 */
 const mjo=v=>isN(v)?(Number(v)/1e6).toLocaleString('ko-KR',{maximumFractionDigits:1}):NA;   /* 백만원 → 조 */
@@ -1665,7 +1671,12 @@ async function renderGovSearch(qs,yr){ const app=document.getElementById('app');
   app.innerHTML=`<div class="wrap"><div class="loading">${M.length}개 부처 세부사업에서 「${esc(qs)}」를 찾는 중…</div></div>`;
   const q=qs.replace(/\s+/g,''); const hits=[];
   let puMin=0, puN=0;
-  await Promise.all(M.map(async m=>{ try{ const P=is27?await load27Min(m.sg):await loadGovMin(m.sg); const PU=is27?null:await loadGovPu(m.sg); if(PU){ puMin++; puN+=PU.n||0; }
+  /* 2026-09-24: 검색 색인 파일 1개(data/gq26.json · gq27.json, tools/build_gq.py)로 한 번에 찾는다. 색인을 못 받으면 예전처럼 부처 파일을 하나씩 받는다. */
+  const GQ=await loadGQ(is27);
+  if(GQ){ const GM=GQ.M; if(!is27){ puMin=GQ.puMin||0; puN=GQ.puN||0; }
+    for(const r of GQ.rows){ const m=GM[r[0]]; if(is27){ const [,n,p,d,u,f,b27,b26]=r; if([n,p,d,u].some(v=>v&&String(v).replace(/\s+/g,'').includes(q))) hits.push({m:m.nm,sg:m.sg,n,pg:p,f,b:isN(b27)?b27*1e6:null,p:isN(b26)?b26*1e6:null,pu:''}); }
+      else { const [,nm,pg,un,sb,fd,b26,b25,pu]=r; const byName=[nm,pg,un,sb].some(v=>v&&String(v).replace(/\s+/g,'').includes(q)); const byPu=!byName&&pu&&pu.replace(/\s+/g,'').includes(q); if(byName||byPu) hits.push({m:m.nm,sg:m.sg,n:nm,pg,f:fd,b:b26,p:b25,pu:byPu?puSnip(pu,q):''}); } } }
+  else await Promise.all(M.map(async m=>{ try{ const P=is27?await load27Min(m.sg):await loadGovMin(m.sg); const PU=is27?null:await loadGovPu(m.sg); if(PU){ puMin++; puN+=PU.n||0; }
     P.forEach(x=>{ const hay=is27?[x.n,x.p,x.d,x.u]:[x.nm,x.pg,x.un,x.sb]; const byName=hay.some(v=>v&&String(v).replace(/\s+/g,'').includes(q)); const pu=is27?'':puOf(PU,x); const byPu=!byName&&pu&&pu.replace(/\s+/g,'').includes(q);
       if(byName||byPu) hits.push({m:m.nm,sg:m.sg,n:is27?x.n:x.nm,pg:is27?x.p:x.pg,f:is27?x.f:x.fd,b:is27?(isN(x.b27)?x.b27*1e6:null):x.b26,p:is27?(isN(x.b26)?x.b26*1e6:null):x.b25,pu:byPu?puSnip(pu,q):''}); }); }catch(e){} }));
   const nPu=hits.filter(h=>h.pu).length;

@@ -48,3 +48,5 @@ P['terms_src']='중앙선거관리위원회 당선인정보(역대 지방선거�
 json.dump(P,open('data/pledge.json','w',encoding='utf-8'),ensure_ascii=False)
 from collections import Counter
 print('done',n,Counter(e['w'].get('term') for e in P['lg'].values() if e.get('w')))
+
+# 지자체별로 쪼갠 파일(data/pledge/<코드>.json)도 함께 갱신: python3 tools/split_lg.py

@@ -9,3 +9,8 @@ html[data-theme="dark"] body > *:not(#kbPrefs):not(script):not(style){filter:inv
 html[data-theme="dark"] img,html[data-theme="dark"] video,html[data-theme="dark"] iframe,html[data-theme="dark"] picture,html[data-theme="dark"] canvas,html[data-theme="dark"] .noinv,html[data-theme="dark"] [style*="background-image"]{filter:invert(1) hue-rotate(180deg)}
 /* 접근성: 키보드 포커스 표시 */
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:3px solid #C8412B;outline-offset:2px}
+/* 2026-09-24: kb-dark.js(요소별 실제 색 변환)가 켜지면 화면 반전을 끈다. 스크립트가 없거나 실패하면 위 반전 방식이 그대로 남는다. */
+html.kb-smart[data-theme="dark"] body > *:not(#kbPrefs):not(script):not(style),
+html.kb-smart[data-theme="dark"] img,html.kb-smart[data-theme="dark"] video,html.kb-smart[data-theme="dark"] iframe,html.kb-smart[data-theme="dark"] picture,html.kb-smart[data-theme="dark"] canvas,html.kb-smart[data-theme="dark"] .noinv,html.kb-smart[data-theme="dark"] [style*="background-image"]{filter:none}
+html.kb-smart[data-theme="dark"] img{filter:brightness(.92)}
+html.kb-smart[data-theme="dark"]{color-scheme:dark}
