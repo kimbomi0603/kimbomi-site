@@ -234,6 +234,21 @@ main{padding-bottom:46px}
   background:var(--green2);color:var(--lime);padding:3px 8px;border-radius:999px;margin-left:6px;
   vertical-align:middle;white-space:nowrap}
 .f365 .big.alt .ic{background:var(--green2)}
+.f365 .govpick{display:block;padding:0;position:relative}
+.f365 .govpick[data-open]{z-index:5}
+.f365 .govpick .pickbtn{display:flex;align-items:center;gap:14px;width:100%;padding:15px 18px;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.f365 .govpick .pickbtn:focus-visible{outline:3px solid var(--green2);outline-offset:-3px}
+.f365 .govpick .pickbtn i{transition:transform .16s}
+.f365 .govpick .pickbtn[aria-expanded="true"] i{transform:rotate(180deg)}
+.f365 .govpick:hover .pickbtn i{transform:none}
+.f365 .govpick[data-open]:hover{transform:none}
+.f365 .govpick .yrs{position:absolute;left:0;right:0;top:calc(100% + 6px);display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;background:var(--lime);border-radius:12px;box-shadow:0 14px 30px rgba(0,0,0,.28)}
+.f365 .govpick .yrs a{display:block;text-decoration:none;color:var(--green2);background:rgba(255,255,255,.7);border:1.5px solid rgba(11,70,57,.25);border-radius:10px;padding:10px 12px;transition:background .12s,border-color .12s}
+.f365 .govpick .yrs a:hover,.f365 .govpick .yrs a:focus-visible{background:#fff;border-color:var(--green2);outline:none}
+.f365 .govpick .yrs a b{display:block;font-size:.95rem;font-weight:900;letter-spacing:-.02em;line-height:1.3}
+.f365 .govpick .yrs a small{display:block;margin-top:2px;font-size:.74rem;font-weight:600;color:rgba(11,70,57,.75);line-height:1.4;word-break:keep-all}
+.f365 .govpick .yrs .tag{font-size:.64rem;font-weight:800;background:#E9C980;color:var(--green2);padding:2px 7px;border-radius:999px;margin-left:4px;vertical-align:middle;white-space:nowrap}
+
 .f365 .big.alt .tx small{color:var(--green2)}
 .f365:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .f365 .k{font-size:.75rem;font-weight:700;color:var(--lime)}
@@ -271,7 +286,7 @@ main{padding-bottom:46px}
 .pm .box .n{font-family:var(--mono);font-size:2.35rem;color:#fff;line-height:1.15;margin-top:4px}
 .pm .box .s{font-size:.8rem;color:rgba(234,240,250,0.64);margin-top:8px;line-height:1.6}
 
-/* ── 김보미 목소리 ── */
+/* ── 김보미 생각 ── */
 .vhd{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
 .vhd h2{font-size:1.72rem;line-height:1.4}
 .vhd .go{margin-left:auto;font-size:.85rem;font-weight:700;color:var(--green)}
@@ -343,6 +358,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   .f365 .big .ic svg{width:23px;height:23px}
   .f365 .big .tx b{font-size:.95rem}
   .f365 .big .tx small{font-size:.75rem}
+  .f365 .govpick .yrs{grid-template-columns:1fr}
   .f365 h2{font-size:1.72rem;gap:8px}
   .f365 h2 em{font-size:.74rem}
   .f365 .go{padding:12px 16px;font-size:.92rem;justify-content:space-between}
@@ -361,7 +377,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
     <nav>
       <a href="https://taxwatch.kr/" target="_blank" rel="noopener">재정주권시민행동</a>
       <a href="about.html">김보미는</a>
-      <a href="vision.html">김보미목소리</a>
+      <a href="vision.html">김보미생각</a>
       <a href="press.html">언론·영상</a>
       <a href="archive.html">기록관</a>
     </nav>
@@ -401,7 +417,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
     </a>
     <a class="mb " href="vision.html">
       <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1-4.2L16.6 4.2a1.7 1.7 0 0 1 2.4 0l.8.8a1.7 1.7 0 0 1 0 2.4L8.2 19z"/><path d="M14.5 6.3l3.2 3.2M4 20h16"/></svg></span><span class="k">개혁 의제</span></span>
-      <h3>김보미목소리</h3>
+      <h3>김보미생각</h3>
       <p>공천 혁신, 세대교체, 밀실 정치 청산. 정치를 시스템으로 바꾸자는 제안과 현안에 대한 입장을 소상히 밝힙니다.</p>
       <span class="meta">정치개혁 제안 · 현안 입장 · 최신순</span>
       <span class="go">글 읽기 <i>→</i></span>
@@ -427,7 +443,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
       <span class="k">지방재정 · 중앙재정 · 공공데이터</span>
       <h2>우리동네365 <em>내 동네 3초 확인</em></h2>
       <p>전국 지방정부 243곳과 중앙정부 62개 부처의 예산을 한 화면에서 확인할 수 있습니다. 올해 세부사업과 계약대장 전수, 단체장 공약이 예산에 실제로 반영됐는지까지 보입니다. 수의계약 비중이나 특정 업체 반복 수주 같은 계약 이상 징후도 걸러서 보여 줍니다. 정부가 발표한 굵직한 정책도 같이 있어, 정책 하나를 열면 그 정책이 우리 동네 예산에 어떻게 잡혔는지 바로 나옵니다. 예산과 계약, 집행 내역을 이렇게 투명하게 공개하는 것이 재정주권의 시작입니다.</p>
-      <div class="gos"><a class="big wide" href="budget365.html"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.6" cy="10.6" r="6.6"/><path d="m19.6 19.6-4.3-4.3"/></svg></span><span class="tx"><b>지방정부 243개 <span style="white-space:nowrap">시·군·구</span></b><small>예산·집행·계약·공약·이상 징후 한 화면에</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/key"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.6" cy="10.6" r="6.6"/><path d="m19.6 19.6-4.3-4.3"/></svg></span><span class="tx"><b>정부 정책, 내 동네에서는</b><small>메가프로젝트·성장펀드·5극3특이 우리 동네 예산에</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/gov"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.6" cy="10.6" r="6.6"/><path d="m19.6 19.6-4.3-4.3"/></svg></span><span class="tx"><b>중앙정부 2026 확정예산</b><small>62개 부처 · 올해 쓰는 돈</small></span><i aria-hidden="true">→</i></a><a class="big alt new" href="budget365.html#/gov27"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.6" cy="10.6" r="6.6"/><path d="m19.6 19.6-4.3-4.3"/></svg></span><span class="tx"><b>중앙정부 2027 정부안 <em class="nb">국회 심의 중</em></b><small>64개 소관 · 내년에 쓰려는 돈</small></span><i aria-hidden="true">→</i></a></div><p class="gnote">2027년에 중대범죄수사청과 진실·화해를위한과거사정리위원회가 새 소관으로 들어와 62곳에서 64곳이 되었습니다. 2026년은 부처 기준, 2027년은 국회 제출본의 소관 기준입니다.</p>
+      <div class="gos"><a class="big wide" href="budget365.html"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.6" cy="10.6" r="6.6"/><path d="m19.6 19.6-4.3-4.3"/></svg></span><span class="tx"><b>지방정부 243개 <span style="white-space:nowrap">시·군·구</span></b><small>예산·집행·계약·공약·이상 징후 한 화면에</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/key"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.6" cy="10.6" r="6.6"/><path d="m19.6 19.6-4.3-4.3"/></svg></span><span class="tx"><b>정부 정책, 내 동네에서는</b><small>메가프로젝트·성장펀드·5극3특이 우리 동네 예산에</small></span><i aria-hidden="true">→</i></a><div class="big alt govpick" id="govpick"><button type="button" class="pickbtn" aria-expanded="false" aria-controls="govyrs"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.6" cy="10.6" r="6.6"/><path d="m19.6 19.6-4.3-4.3"/></svg></span><span class="tx"><b>중앙정부 예산 <em class="nb">2026 · 2027</em></b><small>62개 부처 · 올해 확정예산과 내년 정부안 중 골라 보기</small></span><i aria-hidden="true">▾</i></button><div class="yrs" id="govyrs" hidden><a href="budget365.html#/gov"><b>2026 확정예산</b><small>62개 부처 · 올해 쓰는 돈</small></a><a href="budget365.html#/gov27"><b>2027 정부안 <span class="tag">국회 심의 중</span></b><small>64개 소관 · 내년에 쓰려는 돈</small></a></div></div></div><p class="gnote">2027년에 중대범죄수사청과 진실·화해를위한과거사정리위원회가 새 소관으로 들어와 62곳에서 64곳이 되었습니다. 2026년은 부처 기준, 2027년은 국회 제출본의 소관 기준입니다.</p>
     </div>
     <div class="fr">
       <div><b>243</b><span>지방정부 전수</span></div>
@@ -455,9 +471,9 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   </div>
 </div></section>
 
-<!-- 5. 김보미 목소리 -->
+<!-- 5. 김보미 생각 -->
 <section class="sec"><div class="w">
-  <p class="eyebrow">개혁 의제 · 김보미목소리</p>
+  <p class="eyebrow">개혁 의제 · 김보미생각</p>
   <div class="vhd">
     <h2>깜깜이 밀실이 아니라 공개된 글로 말합니다</h2>
     <a class="go" href="vision.html">글 모아 보기 →</a>
@@ -503,7 +519,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
     <div>
       <nav class="kbx-fnav" aria-label="바닥 메뉴">
         <a href="about.html">김보미는</a>
-        <a href="vision.html">김보미목소리</a>
+        <a href="vision.html">김보미생각</a>
         <a href="press.html">언론·영상</a>
         <a href="party-money.html">정당 돈</a>
         <a href="report.html">소통·제보</a>
@@ -543,7 +559,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 
 <script src="static-posts.js"></script>
 <script>
-/* 김보미목소리 — 최신 3편 (사이트에서는 실시간 갱신, 실패 시 아래 값 유지) */
+/* 김보미생각 — 최신 3편 (사이트에서는 실시간 갱신, 실패 시 아래 값 유지) */
 var POSTS=[{"id": "pmtj82na5ulu2", "t": "신정훈 단장님, 공천 혁신을 위한 끝장토론을 제안합니다", "x": "신정훈 공천혁신추진단장의 첫 회의 모두발언을 읽었습니다. \"사람보다 원칙이 앞서는 공천\", \"불편한 목소리일수록 경청하겠다.\" 과거에 대한 처절한 반성과 진상규명도 없이 또다시 그럴듯한 '선언'부터 늘어놓는 모습에 실망을 넘어 깊은 ", "d": "2026.09.02"}, {"id": "pmte274174vpm", "t": "[신동아 2030 청년 정치인 대담] 김보미 전 강진군의회 의장-이범석 인천시 의원", "x": "● 김보미 “6·3지선 컷오프 이어 당대표 경선도 ‘광탈’” ● 청년이 민주당 떠나는 이유…내로남불·위선·무책임 ● 당 운영체제만 공정하게 바꿔도 세대교체 이뤄져 ● 이범석 “‘헌신했는데 돌아오는 게 없다’는 청년 무력감 존재” ● ", "d": "2026.08.29"}, {"id": "pmrx16ngsknrx", "t": "여러분의 커피 한 잔이 저의 가장 든든한 '확성기'가 되고 있습니다!", "x": "존경하는 국민 여러분, 당원 동지 여러분, 김보미입니다. 여러분이 십시일반 모아주신 소중한 후원금이 드디어 제 예비후보 기탁금 1천만원을 넘었습니다! 여러분이 주신 후원금으로 스튜디오를 빌려 영상도 찍고, 그리고 오늘 드디어 중앙위원", "d": "2026.07.23"}];
 var PRESS=[{"img": "img/news-1.jpg", "src": "신동아", "d": "2026.08.28", "t": "[2030 청년 정치인 대담] “청년 정치인에게 공정만 보장하라, 실력으로 승부 내겠다”", "u": "https://n.news.naver.com/mnews/article/262/0000019650?sid=100"}, {"img": "img/news-2.jpg", "src": "채널A 라디오", "d": "2026.08.27", "t": "김보미 “당대표 경선, 기울어진 운동장 정도가 아니라 입장을 못해”", "u": "https://n.news.naver.com/article/449/0000358363?sid=100"}, {"img": "img/news-3.jpg", "src": "한겨레21", "d": "2026.08.20", "t": "‘버스 하우스’는 됐고… 민주당은 ‘청년정치’ 문 열어라", "u": "https://h21.hani.co.kr/arti/politics/politics_general/59793.html"}, {"img": "img/news-4.jpg", "src": "월간중앙", "d": "2026.08.20", "t": "청년 정치인 김보미의 8·17 전당대회 관전기 — “686 세대교체는 시대정신”", "u": "https://www.m-joongang.com/news/articleView.html?idxno=402915"}];
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]})}
@@ -592,5 +608,12 @@ fetch('/api/posts?action=list&type=vision&limit=6').then(function(r){return r.js
 }).catch(function(){});
 </script>
 
+<script>
+(function(){var w=document.getElementById('govpick');if(!w)return;var b=w.querySelector('.pickbtn'),y=document.getElementById('govyrs');
+function set(o){b.setAttribute('aria-expanded',o?'true':'false');y.hidden=!o;if(o){w.setAttribute('data-open','');y.querySelector('a').focus();}else w.removeAttribute('data-open');}
+b.addEventListener('click',function(){set(y.hidden)});
+w.addEventListener('keydown',function(e){if(e.key==='Escape'&&!y.hidden){set(false);b.focus();}});
+document.addEventListener('click',function(e){if(!w.contains(e.target)&&!y.hidden)set(false);});})();
+</script>
 </body>
 </html>

@@ -1083,22 +1083,15 @@ function contractView(lg,K,g){ const cd=lg.laf_cd; S.cacheName=lg.master.display
     <div><div class="l">허핀달지수(HHI)</div><div class="n">${num(C?.hhi)}</div><div class="s">1,500 미만 경쟁적 · 2,500↑ 고집중</div></div>
   </div>
 
-  <section class="sec"><div class="sech"><span class="no">진단</span><h2>계약 데이터가 말하는 것</h2><span class="basis">기계적 산출 · 위법 여부를 단정하지 않습니다</span></div>
-  <div class="card"><div style="font-size:14px;line-height:1.85">
-  <p style="margin:0 0 12px"><b>① 수의계약 비율 — ${NR?(NR.v>=NR.stat.p75?'전국 상위권':NR.v<=NR.stat.p25?'전국 하위권':'전국 중간'):'—'}</b><br>
-  정부 공식 산식(1,000만원 이상 수의계약 실적금액 ÷ 1,000만원 이상 총 계약 실적금액)으로 계산하면 ${y||'전체 기간'} <b>${pct(r10)}</b>입니다. 전국 ${NR?num(NR.n):'—'}곳의 중앙값은 ${NR?pct(NR.stat.p50):'—'}, 평균 ${NR?pct(NR.stat.avg):'—'}이고, 이 지자체는 <b>${NR?num(NR.r):'—'}위(상위 ${NR?NR.p:'—'}%)</b>입니다.</p>
-  <p style="margin:0 0 12px"><b>② 1인견적 한도(2천만원) 부근 밀집</b><br>
-  ${nr?`1,000~1,500만원 ${num(nr[0])}건 → 1,500~2,000만원 ${num(nr[1])}건 → 2,000~2,500만원 ${num(nr[2])}건. 한도를 넘는 순간 건수가 <b>${drop!=null?drop+'%':'—'}</b> ${drop>0?'줄어듭니다':'변합니다'}.`:'—'} 확인 포인트: 같은 시기·같은 부서·비슷한 이름의 계약이 나뉘어 발주됐는지.</p>
-  <p style="margin:0 0 12px"><b>③ 행사·축제·홍보성 계약</b><br>
-  ${ev&&ev[0]?`축제·행사·기념식·홍보로 분류된 계약이 <b>${num(ev[0])}건 · ${won(ev[1])}</b>이며, 이 중 금액의 <b>${pct(ev[1]?ev[3]/ev[1]*100:null)}</b>가 수의계약입니다.`:'해당 계약이 확인되지 않습니다.'}</p>
-  <p style="margin:0 0 12px"><b>④ 민선 기수별 계약 규모 변화</b><br>
-  ${(K.term||[]).filter(t=>t.n).map(t=>`${esc(t.nm)} ${num(t.n)}건 · ${eok(t.a)}억`).join(' → ')||'—'}. 아래 「기수·최근 변화」에서 어느 업체가 늘었는지 볼 수 있습니다.</p>
-  <p style="margin:0"><b>⑤ 견적 경쟁조차 없는 1인견적</b><br>
-  ${T.n?`전체 ${num(T.n)}건 중 <b>${num(one[0])}건(${pct(one[0]/T.n*100)})</b>이 수의 1인견적 — 단 한 곳의 견적만 받고 체결됐습니다. 2인 이상 견적(전자견적 공개수의)으로 돌릴 수 있는 물량이 얼마인지가 핵심 질문입니다.`:'—'}</p>
-  </div></div>
-  <div class="note" style="margin-top:12px"><b>다음 단계 — 시민이 쓸 수 있는 확인 수단</b><br>
-  ① <b>정보공개청구</b>: 개별 계약의 견적서·예정가격 산출근거·분임재무관 결재문서 ② <b>감사원 국민감사청구</b>(18세 이상 300인) 또는 공익감사청구 ③ <b>${esc(lgTitle(lg.master))}의회 행정사무감사</b> 자료요구 건의 ④ <b>국민권익위</b> 부패·공익신고</div>
+  <section class="sec"><div class="sech"><span class="no">업체</span><h2>업체별 계약 순위</h2><span class="basis">${y||'전체 기간'} · 이름을 누르면 전국 계약 · 전체 ${num(K.vn)}개사</span></div>
+  <div class="tabs"><button class="${CB.vsort==='a'?'on':''}" onclick="CB.vsort='a';renderBudget(S.cache['${cd}'])">금액순</button><button class="${CB.vsort==='n'?'on':''}" onclick="CB.vsort='n';renderBudget(S.cache['${cd}'])">건수순</button><button class="${CB.vsort==='s'?'on':''}" onclick="CB.vsort='s';renderBudget(S.cache['${cd}'])">수의금액순</button><span class="sp"></span></div>
+  <div class="tw"><table><thead><tr><th class="num">#</th><th>업체명</th><th class="num">건수</th><th class="num">계약금액</th><th class="num">점유율</th><th class="num">전 기간 수의 비중</th></tr></thead><tbody>
+  ${vend.slice(0,CB.vtop).map((v,i)=>{ const share=v.a?null:null; const sv=(K.v||[]).find(x=>x[0]===v.nm)||[]; const sh=sv[2]?sv[4]/sv[2]*100:null;
+    return `<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(v.nm)}')"><td class="num">${i+1}</td><td><b>${esc(v.nm)}</b></td><td class="num">${num(v.n)}</td><td class="num">${won(v.a)}</td><td class="num">${pct(vtot?v.a/vtot*100:null)}</td><td class="num ${sh>=90?'neg':''}">${pct(sh)}</td></tr>`; }).join('')||'<tr><td colspan="6" class="mut">해당 없음</td></tr>'}
+  </tbody></table></div>
+  ${vend.length>CB.vtop?`<div class="pg"><button onclick="CB.vtop+=30;renderBudget(S.cache['${cd}'])">30개 더 보기 (${num(CB.vtop)}/${num(vend.length)})</button></div>`:''}
   </section>
+
 
   <section class="sec"><div class="sech"><span class="no">한눈에</span><h2>어느 업체로 몰렸나</h2><span class="basis">전 기간 · 수의계약 금액 큰 순 · 업체를 누르면 전국 계약</span></div>
   <div class="tw"><table><thead><tr><th class="num">#</th><th>업체명</th><th class="num">전체 계약</th><th class="num">그중 수의계약</th><th class="num">수의 비중</th></tr></thead><tbody>
@@ -1120,14 +1113,6 @@ function contractView(lg,K,g){ const cd=lg.laf_cd; S.cacheName=lg.master.display
       <div class="tw" style="margin-top:10px"><table><thead><tr><th>수의계약 한도 부근</th><th class="num">건수</th></tr></thead><tbody>${nrL.map((l,i)=>`<tr><td>${l}</td><td class="num">${num(nr[i])}</td></tr>`).join('')}</tbody></table></div></div>
   </div>
 
-  <section class="sec"><div class="sech"><span class="no">업체</span><h2>업체별 계약 순위</h2><span class="basis">${y||'전체 기간'} · 이름을 누르면 전국 계약 · 전체 ${num(K.vn)}개사</span></div>
-  <div class="tabs"><button class="${CB.vsort==='a'?'on':''}" onclick="CB.vsort='a';renderBudget(S.cache['${cd}'])">금액순</button><button class="${CB.vsort==='n'?'on':''}" onclick="CB.vsort='n';renderBudget(S.cache['${cd}'])">건수순</button><button class="${CB.vsort==='s'?'on':''}" onclick="CB.vsort='s';renderBudget(S.cache['${cd}'])">수의금액순</button><span class="sp"></span></div>
-  <div class="tw"><table><thead><tr><th class="num">#</th><th>업체명</th><th class="num">건수</th><th class="num">계약금액</th><th class="num">점유율</th><th class="num">전 기간 수의 비중</th></tr></thead><tbody>
-  ${vend.slice(0,CB.vtop).map((v,i)=>{ const share=v.a?null:null; const sv=(K.v||[]).find(x=>x[0]===v.nm)||[]; const sh=sv[2]?sv[4]/sv[2]*100:null;
-    return `<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(v.nm)}')"><td class="num">${i+1}</td><td><b>${esc(v.nm)}</b></td><td class="num">${num(v.n)}</td><td class="num">${won(v.a)}</td><td class="num">${pct(vtot?v.a/vtot*100:null)}</td><td class="num ${sh>=90?'neg':''}">${pct(sh)}</td></tr>`; }).join('')||'<tr><td colspan="6" class="mut">해당 없음</td></tr>'}
-  </tbody></table></div>
-  ${vend.length>CB.vtop?`<div class="pg"><button onclick="CB.vtop+=30;renderBudget(S.cache['${cd}'])">30개 더 보기 (${num(CB.vtop)}/${num(vend.length)})</button></div>`:''}
-  </section>
 
   <section class="sec"><div class="sech"><span class="no">변화</span><h2>기수·최근 업체 변화</h2><span class="basis">최근 2년(${recent.join('·')}) vs 그 전 2년(${prev.join('·')})</span></div>
   <div class="grid2">
@@ -1150,7 +1135,25 @@ function contractView(lg,K,g){ const cd=lg.laf_cd; S.cacheName=lg.master.display
   </tbody></table></div>
   <div class="pg">${rows.length>CB.rtop?`<button onclick="CB.rtop+=10;renderBudget(S.cache['${cd}'])">10건 더 보기</button><button onclick="CB.rtop+=100;renderBudget(S.cache['${cd}'])">100건 더</button>`:''}<span class="mut">${num(Math.min(CB.rtop,rows.length))} / ${num(rows.length)}건 표시</span>${CB.rtop>10?`<button onclick="CB.rtop=10;renderBudget(S.cache['${cd}'])">접기</button>`:''}</div>
   <div class="act"><button class="btn" onclick="ctrtXlsx('${cd}')">엑셀(.xlsx)로 내려받기</button><button class="btn" onclick="ctrtCsv('${cd}')">계약목록 CSV</button></div>
-  <p class="src">출처 행정안전부 지방재정365 「계약현황」(WCEGCF) — 지방계약법 제43조에 따라 각 지자체가 공개한 계약대장 전수(소액 수의계약 포함). 수집 범위 ${esc(K.range[0]||'')}~${esc(K.range[1]||'')} · 빌드 ${esc((K.built_at||'').slice(0,10))}. 연도별·업체별·방법별·분야별 집계는 <b>전수 기준</b>이며, 화면의 계약 목록은 연도별 최근·고액 표본입니다. 업체명은 (주)·주식회사 등 표기를 정규화해 합산했고 사업자번호가 아닌 상호 기준입니다.</p></section>`; }
+
+  <p class="src">출처 행정안전부 지방재정365 「계약현황」(WCEGCF) — 지방계약법 제43조에 따라 각 지자체가 공개한 계약대장 전수(소액 수의계약 포함). 수집 범위 ${esc(K.range[0]||'')}~${esc(K.range[1]||'')} · 빌드 ${esc((K.built_at||'').slice(0,10))}. 연도별·업체별·방법별·분야별 집계는 <b>전수 기준</b>이며, 화면의 계약 목록은 연도별 최근·고액 표본입니다. 업체명은 (주)·주식회사 등 표기를 정규화해 합산했고 사업자번호가 아닌 상호 기준입니다.</p></section>
+  <section class="sec"><div class="sech"><span class="no">진단</span><h2>계약 데이터가 말하는 것</h2><span class="basis">기계적 산출 · 위법 여부를 단정하지 않습니다</span></div>
+  <div class="card"><div style="font-size:14px;line-height:1.85">
+  <p style="margin:0 0 12px"><b>① 수의계약 비율 — ${NR?(NR.v>=NR.stat.p75?'전국 상위권':NR.v<=NR.stat.p25?'전국 하위권':'전국 중간'):'—'}</b><br>
+  정부 공식 산식(1,000만원 이상 수의계약 실적금액 ÷ 1,000만원 이상 총 계약 실적금액)으로 계산하면 ${y||'전체 기간'} <b>${pct(r10)}</b>입니다. 전국 ${NR?num(NR.n):'—'}곳의 중앙값은 ${NR?pct(NR.stat.p50):'—'}, 평균 ${NR?pct(NR.stat.avg):'—'}이고, 이 지자체는 <b>${NR?num(NR.r):'—'}위(상위 ${NR?NR.p:'—'}%)</b>입니다.</p>
+  <p style="margin:0 0 12px"><b>② 1인견적 한도(2천만원) 부근 밀집</b><br>
+  ${nr?`1,000~1,500만원 ${num(nr[0])}건 → 1,500~2,000만원 ${num(nr[1])}건 → 2,000~2,500만원 ${num(nr[2])}건. 한도를 넘는 순간 건수가 <b>${drop!=null?drop+'%':'—'}</b> ${drop>0?'줄어듭니다':'변합니다'}.`:'—'} 확인 포인트: 같은 시기·같은 부서·비슷한 이름의 계약이 나뉘어 발주됐는지.</p>
+  <p style="margin:0 0 12px"><b>③ 행사·축제·홍보성 계약</b><br>
+  ${ev&&ev[0]?`축제·행사·기념식·홍보로 분류된 계약이 <b>${num(ev[0])}건 · ${won(ev[1])}</b>이며, 이 중 금액의 <b>${pct(ev[1]?ev[3]/ev[1]*100:null)}</b>가 수의계약입니다.`:'해당 계약이 확인되지 않습니다.'}</p>
+  <p style="margin:0 0 12px"><b>④ 민선 기수별 계약 규모 변화</b><br>
+  ${(K.term||[]).filter(t=>t.n).map(t=>`${esc(t.nm)} ${num(t.n)}건 · ${eok(t.a)}억`).join(' → ')||'—'}. 위 「기수·최근 업체 변화」에서 어느 업체가 늘었는지 볼 수 있습니다.</p>
+  <p style="margin:0"><b>⑤ 견적 경쟁조차 없는 1인견적</b><br>
+  ${T.n?`전체 ${num(T.n)}건 중 <b>${num(one[0])}건(${pct(one[0]/T.n*100)})</b>이 수의 1인견적 — 단 한 곳의 견적만 받고 체결됐습니다. 2인 이상 견적(전자견적 공개수의)으로 돌릴 수 있는 물량이 얼마인지가 핵심 질문입니다.`:'—'}</p>
+  </div></div>
+  <div class="note" style="margin-top:12px"><b>다음 단계 — 시민이 쓸 수 있는 확인 수단</b><br>
+  ① <b>정보공개청구</b>: 개별 계약의 견적서·예정가격 산출근거·분임재무관 결재문서 ② <b>감사원 국민감사청구</b>(18세 이상 300인) 또는 공익감사청구 ③ <b>${esc(lgTitle(lg.master))}의회 행정사무감사</b> 자료요구 건의 ④ <b>국민권익위</b> 부패·공익신고</div>
+  </section>
+`; }
 async function ctrtCsv(cd){ const K=await loadCtrt(cd); if(!K) return; const y=CB.y; const rows=ctrtRows(K,y);
   const out=[['체결일','계약명','계약방법','구분','업체','계약금액(원)']].concat(rows.map(r=>[r[0],r[1],r[2],r[3],r[4],r[5]]));
   await saveFile(`우리동네365_계약목록_${K.nm||cd}_${y||'전체'}.csv`, csv(out)); }
