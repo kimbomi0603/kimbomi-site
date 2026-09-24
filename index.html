@@ -347,6 +347,25 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   .f365 h2{font-size:1.72rem;gap:8px}
   .f365 h2 em{font-size:.74rem}
   .f365 .go{padding:12px 16px;font-size:.92rem;justify-content:space-between}
+  /* 2026-09-24 휴대폰: 우리동네365 맨 위 배치 · 시인성 */
+  .top365 .w{padding-top:12px}
+  .top365 .f365{margin-top:0;padding:22px 18px 20px;border-radius:18px}
+  .top365 .f365 .k{font-size:.8rem}
+  .top365 .f365 h2{font-size:1.9rem;margin-top:6px}
+  .top365 .f365 h2 em{font-size:.78rem}
+  .f365 p.lead{font-size:.95rem;line-height:1.72}
+  .f365 p.lead.clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .f365 button.more{display:inline-block;margin:8px 0 0;border:0;background:transparent;color:var(--lime);font:700 .84rem/1 var(--sans);padding:6px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+  .top365 .f365 .gos{margin-top:16px;gap:10px}
+  .top365 .f365 .big{padding:15px 15px;border-radius:14px;min-height:64px}
+  .top365 .f365 .big .tx b{font-size:1.04rem;line-height:1.28}
+  .top365 .f365 .big .tx small{font-size:.78rem;margin-top:4px;line-height:1.45}
+  .top365 .f365 .gnote{font-size:.74rem;color:rgba(255,255,255,.72)}
+  .top365 .f365 .fr{margin-top:16px;padding-top:14px}
+  .top365 .f365 .fr div{padding:8px 12px 8px 0}
+  .top365 .f365 .fr b{font-size:1.55rem}
+  .top365 .f365 .fr span{font-size:.76rem}
+  .top365 + .hero{padding-top:28px}
 }
 </style>
 <link rel="stylesheet" href="assets/kb-common.css">
@@ -427,7 +446,8 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
     <div class="fl">
       <span class="k">지방재정 · 중앙재정 · 공공데이터</span>
       <h2>우리동네365 <em>내 동네 3초 확인</em></h2>
-      <p>전국 지방정부 243곳과 중앙정부 62개 부처의 예산을 한 화면에서 확인할 수 있습니다. 올해 세부사업과 계약대장 전수, 단체장 공약이 예산에 실제로 반영됐는지까지 보입니다. 수의계약 비중이나 특정 업체 반복 수주 같은 계약 이상 징후도 걸러서 보여 줍니다. 정부가 발표한 굵직한 정책도 같이 있어, 정책 하나를 열면 그 정책이 우리 동네 예산에 어떻게 잡혔는지 바로 나옵니다. 예산과 계약, 집행 내역을 이렇게 투명하게 공개하는 것이 재정주권의 시작입니다.</p>
+      <p class="lead">전국 지방정부 243곳과 중앙정부 62개 부처의 예산을 한 화면에서 확인할 수 있습니다. 올해 세부사업과 계약대장 전수, 단체장 공약이 예산에 실제로 반영됐는지까지 보입니다. 수의계약 비중이나 특정 업체 반복 수주 같은 계약 이상 징후도 걸러서 보여 줍니다. 정부가 발표한 굵직한 정책도 같이 있어, 정책 하나를 열면 그 정책이 우리 동네 예산에 어떻게 잡혔는지 바로 나옵니다. 예산과 계약, 집행 내역을 이렇게 투명하게 공개하는 것이 재정주권의 시작입니다.</p>
+      <button type="button" class="more" aria-expanded="false" hidden>설명 더 보기 ▾</button>
       <div class="gos"><a class="big wide" href="budget365.html"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.6" cy="10.6" r="6.6"/><path d="m19.6 19.6-4.3-4.3"/></svg></span><span class="tx"><b>지방정부 243개 <span style="white-space:nowrap">시·군·구</span></b><small>예산·집행·계약·공약·이상 징후 한 화면에</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/key"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.6" cy="10.6" r="6.6"/><path d="m19.6 19.6-4.3-4.3"/></svg></span><span class="tx"><b>정부 정책, 내 동네에서는</b><small>메가프로젝트·성장펀드·5극3특이 우리 동네 예산에</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/gov"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.6" cy="10.6" r="6.6"/><path d="m19.6 19.6-4.3-4.3"/></svg></span><span class="tx"><b>중앙정부 예산 <em class="nb">2026 · 2027</em></b><small>62개 부처 · 들어가서 올해 확정예산과 내년 정부안을 골라 봅니다</small></span><i aria-hidden="true">→</i></a></div><p class="gnote">2027년에 중대범죄수사청과 진실·화해를위한과거사정리위원회가 새 소관으로 들어와 62곳에서 64곳이 되었습니다. 2026년은 부처 기준, 2027년은 국회 제출본의 소관 기준입니다.</p>
     </div>
     <div class="fr">
@@ -438,6 +458,17 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
     </div>
   </div>
 </div></section>
+<script>
+/* 휴대폰(≤760px)에서는 우리동네365 상자를 프로필보다 먼저 보이게 맨 위로 올린다. 넓은 화면은 그대로. */
+(function(){
+  var mq=window.matchMedia('(max-width:760px)'); if(!mq.matches) return;
+  var f=document.querySelector('.f365'), h=document.querySelector('.hero'); if(!f||!h) return;
+  var s=document.createElement('section'); s.className='sec top365'; var w=document.createElement('div'); w.className='w'; w.appendChild(f); s.appendChild(w);
+  h.parentNode.insertBefore(s,h);
+  var p=f.querySelector('p.lead'), b=f.querySelector('button.more');
+  if(p&&b){ p.classList.add('clamp'); b.hidden=false; b.addEventListener('click',function(){ var on=p.classList.toggle('clamp'); b.textContent=on?'설명 더 보기 ▾':'설명 접기 ▴'; b.setAttribute('aria-expanded',on?'false':'true'); }); }
+})();
+</script>
 
 <!-- 4. 정당 돈 -->
 <section class="sec"><div class="w">
