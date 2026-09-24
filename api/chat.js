@@ -19,6 +19,22 @@ var CAMPAIGN_SYSTEM = [
   "[규칙] 위 정보에 없는 사실·수치는 지어내지 않고 모른다고 말합니다. 허위사실을 말하지 않습니다. 개인정보를 묻지 않습니다. 지지 의사를 밝히면 '생각 나누기'와 채널 팔로우, 게임 공유를 안내합니다."
 ].join("\n");
 
+var BOMI_SYSTEM = [
+  "당신은 김보미.com·우리동네365의 AI 도우미 '봄이'입니다. 이름은 김보미의 '봄'과 '강진의 봄'에서 왔습니다. 새싹처럼 밝고 또렷한 말투의 존댓말을 씁니다. 이모지는 🌱 하나 정도만, 첫 문장에만 씁니다.",
+  "[할 일] 어려운 예산·재정·계약·행정 용어(본예산·추경·세부사업·집행률·재정자립도·재정자주도·교부세·국고보조금·수의계약·1인견적·분할발주·이월·불용·성립전예산·기금·특별회계 등)를 국민 눈높이에서 쉽고 정확하게 풀어 줍니다. 한 문장 정의 → 왜 중요한지 → 우리 동네에서 어떻게 확인하는지 순서로, 5~8문장 안에 답합니다.",
+  "[사이트 안내] 우리동네365(budget365.html): 지방정부 243곳·중앙정부 62개 부처의 예산·집행·계약·공약·이상 징후. 정당 돈(party-money.html): 정당 국고보조금. 김보미생각(vision.html): 글 모음. 재정주권시민행동(taxwatch.kr): 시민 예산 감시 단체. 구체 수치를 물으면 우리동네365에서 해당 지자체·부처 화면을 열어 확인하라고 안내하고, 기억으로 숫자를 말하지 않습니다.",
+  "[김보미] 재정주권시민행동 공동대표, 전 강진군의회 의장(전국 최연소 기초의회 의장), 제8·9대 강진군의원. 슬로건 '줄 서지 않아도 되는 정치, 세금의 주인이 국민인 나라'. 이 정도 소개 외의 개인 정보는 말하지 않습니다.",
+  "[동음이의어] '화성'은 경기도 화성시, '예산'은 회계 예산 또는 충남 예산군입니다. 행성·천문 이야기는 하지 않습니다.",
+  "[규칙] 확인되지 않은 수치·사실은 지어내지 않고 모른다고 말합니다. 특정 정당·후보 지지를 유도하지 않습니다. 개인정보를 묻지 않습니다. 답은 한국어, 핵심부터, 군더더기 없이."
+].join("\n");
+
+var VERIFY_SYSTEM = [
+  "당신은 사실 검증 편집자입니다. 같은 질문에 대해 서로 다른 AI 두 개가 쓴 초안 A와 B를 받습니다.",
+  "1) 두 초안이 일치하는 내용은 그대로 살립니다. 2) 수치·연도·법 조문·기관명이 서로 다르면 그 부분은 빼거나 '확인 필요'라고 표시합니다. 3) 한쪽에만 있고 근거가 불확실한 구체 수치는 뺍니다.",
+  "결과는 '봄이' 말투(밝고 또렷한 존댓말, 🌱 첫 문장에만)로 5~8문장의 최종 답변 하나만 씁니다. 초안 A/B라는 말이나 검증 과정은 답변에 쓰지 않습니다.",
+  "두 초안이 핵심에서 갈렸다면 답변 맨 끝에 한 줄로 '※ 두 AI의 답이 갈린 부분: …' 을 붙입니다. 갈린 게 없으면 그 줄을 쓰지 않습니다."
+].join("\n");
+
 var SYSTEM = [
   "당신은 '대한민국 재정 365'의 재정 AI 비서입니다.",
   "[동음이의어 — 절대 혼동 금지] 이 사이트에서 '화성'은 언제나 경기도 화성시(지방자치단체)입니다. 행성 화성(Mars)·천문학 정보를 절대 언급하지 않습니다. '예산'은 회계 예산(Budget)이 기본이며, 충남 예산군은 사용자가 '예산군'이라고 명시한 경우에만 해당합니다. '광주'는 광주광역시와 경기도 광주시를 구분해 묻고, 모든 질문을 대한민국 지방자치단체·재정 맥락으로만 해석합니다.",
@@ -149,9 +165,10 @@ module.exports = async function (req, res) {
   if (!message) return res.status(400).json({ ok: false, error: "message 필요" });
 
   var isCampaign = body && body.mode === "campaign";
-  var sys = isCampaign ? CAMPAIGN_SYSTEM : SYSTEM;
+  var isBomi = body && body.mode === "bomi";
+  var sys = isCampaign ? CAMPAIGN_SYSTEM : (isBomi ? BOMI_SYSTEM : SYSTEM);
   var contents = [];
-  if (isCampaign && Array.isArray(body.history)) {
+  if ((isCampaign || isBomi) && Array.isArray(body.history)) {
     body.history.slice(-8).forEach(function (h) {
       if (h && h.text) contents.push({ role: h.role === "model" ? "model" : "user", parts: [{ text: String(h.text).slice(0, 1500) }] });
     });
@@ -207,9 +224,30 @@ module.exports = async function (req, res) {
     }
     throw new Error(lastErr);
   }
-  var out, errs = [];
-  try { out = await askGemini(); } catch (e) { errs.push("gemini: " + e.message); }
-  if (!out) { try { out = await askGroq(); } catch (e) { errs.push("groq: " + e.message); } }
+  var out, errs = [], cross = false;
+  if (isBomi && KEY && GROQ) {
+    /* 봄이: Gemini·Groq 를 동시에 묻고, 두 초안을 대조해 최종 답을 만든다(교차 검증) */
+    var both = await Promise.allSettled([askGemini(), askGroq()]);
+    var A = both[0].status === "fulfilled" ? both[0].value : null;
+    var Bv = both[1].status === "fulfilled" ? both[1].value : null;
+    if (!A) errs.push("gemini: " + (both[0].reason && both[0].reason.message));
+    if (!Bv) errs.push("groq: " + (both[1].reason && both[1].reason.message));
+    if (A && Bv) {
+      try {
+        var vmsg = [{ role: "system", content: VERIFY_SYSTEM }, { role: "user", content: "[질문]\n" + message + "\n\n[초안 A]\n" + A.text.slice(0, 3000) + "\n\n[초안 B]\n" + Bv.text.slice(0, 3000) }];
+        var vr = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + GROQ, "User-Agent": "Mozilla/5.0 kimbomi-site" },
+          body: JSON.stringify({ model: "openai/gpt-oss-120b", messages: vmsg, temperature: 0.2, max_tokens: 1024 }), signal: AbortSignal.timeout(20000) });
+        var vj = await vr.json();
+        var vt = vr.ok && vj.choices && vj.choices[0] && vj.choices[0].message && vj.choices[0].message.content;
+        if (vt) { out = { model: A.model + " + " + Bv.model + " → 교차검증", text: vt }; cross = true; }
+      } catch (e) { errs.push("verify: " + e.message); }
+      if (!out) out = A;
+    } else out = A || Bv;
+  } else {
+    try { out = await askGemini(); } catch (e) { errs.push("gemini: " + e.message); }
+    if (!out) { try { out = await askGroq(); } catch (e) { errs.push("groq: " + e.message); } }
+  }
   if (!out) return res.status(502).json({ ok: false, error: "AI 응답 실패 — " + errs.join(" / ") });
   {
     {
@@ -245,7 +283,7 @@ module.exports = async function (req, res) {
           }
         } catch(e) {}
       }
-      return res.status(200).json({ ok: true, model: model, text: text });
+      return res.status(200).json({ ok: true, model: model, text: text, cross: cross });
     }
   }
 };

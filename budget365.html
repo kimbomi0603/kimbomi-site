@@ -1211,7 +1211,7 @@ async function renderPledge(lg){ const cd=lg.laf_cd,m=lg.master,app=document.get
   const PF={all:''}; 
   app.innerHTML=lgBand(lg,'공약')+`<div class="wrap"><section class="sec" style="margin-top:22px">
   ${W?`<div class="kpi">
-    <div><div class="l">단체장</div><div class="n" style="font-family:var(--disp);font-size:24px">${esc(W.name)}</div><div class="s">${esc(W.party||'')}${W.age?' · '+esc(W.age)+'세':''}</div></div>
+    <div><div class="l">단체장</div><div class="n" style="font-family:var(--disp);font-size:24px">${esc(W.name)}</div><div class="s">${esc(W.party||'')}${W.age?' · '+esc(W.age)+'세':''}${W.term?' · <b>'+(W.term===1?'초선':W.term===2?'재선':W.term+'선')+'</b>'+(W.termWins&&W.termWins.length?' <span class="mut" title="이전 당선 연도">('+W.termWins.join('·')+')</span>':''):''}</div></div>
     <div><div class="l">임기</div><div class="n" style="font-size:19px">2026.07.01<small>~2030.06.30</small></div><div class="s">민선 9기 · 2026.06.03 선거</div></div>
     <div><div class="l">득표</div><div class="n">${pct(Number(W.dugyul||0),2)}</div><div class="s">${num(Number(W.dugsu||0))}표 · 기호 ${esc(W.giho||'')}</div></div>
     <div><div class="l">등록 공약</div><div class="n">${num(P.length)}<small>건</small></div><div class="s">선관위 공약마당 등록 기준</div></div>
@@ -1234,7 +1234,7 @@ async function renderPledge(lg){ const cd=lg.laf_cd,m=lg.master,app=document.get
     <div class="mut" style="margin-top:8px">맞춰 본 낱말: ${r.m.ts.map(t=>`<span class="tag">${esc(t)}</span>`).join(' ')||'—'}</div>
     ${r.body?`<details style="margin-top:8px"><summary style="cursor:pointer;font-size:13px;font-weight:700;color:var(--navy)">공약 원문 보기</summary><div class="mut" style="white-space:pre-wrap;margin-top:8px;font-size:13px;line-height:1.75">${esc(r.body)}</div></details>`:''}
   </div>`).join(''):`<div class="empty">등록된 공약을 찾지 못했습니다.</div>`}`:`<div class="empty">${esc(err||'당선인 정보를 찾지 못했습니다')}</div>`}
-  <p class="src">출처 중앙선거관리위원회 당선인정보·후보자 공약 — 제9회 전국동시지방선거 2026.06.03 · 사전 수집 ${esc(asof||'')} · 예산 매칭은 지방재정365 세부사업별 세출 2026</p>
+  <p class="src">출처 중앙선거관리위원회 당선인정보·후보자 공약 — 제9회 전국동시지방선거 2026.06.03 · 사전 수집 ${esc(asof||'')} · 예산 매칭은 지방재정365 세부사업별 세출 2026 · 선수(초선·재선)는 선관위 당선인정보의 2002년 이후 지방선거·2011년 이후 재보궐 당선 기록을 이름과 선거구로 대조해 센 값이며, 괄호 안은 이전 당선 연도</p>
   </section></div>`;
   document.getElementById('foot').innerHTML=footer(); }
 
@@ -2045,5 +2045,7 @@ function taskCsv(){ const D=S.pol;
 
 loadIndex().then(route).catch(e=>{ document.getElementById('app').innerHTML=`<div class="wrap"><div class="loading">색인을 불러오지 못했습니다 — ${esc(e.message)}</div></div>`; });
 </script>
+<script src="assets/bomi.js" defer></script>
+<script src="a.js" defer></script>
 </body>
 </html>

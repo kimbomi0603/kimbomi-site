@@ -561,7 +561,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 <script>
 /* 김보미생각 — 최신 3편 (사이트에서는 실시간 갱신, 실패 시 아래 값 유지) */
 var POSTS=[{"id": "pmtj82na5ulu2", "t": "신정훈 단장님, 공천 혁신을 위한 끝장토론을 제안합니다", "x": "신정훈 공천혁신추진단장의 첫 회의 모두발언을 읽었습니다. \"사람보다 원칙이 앞서는 공천\", \"불편한 목소리일수록 경청하겠다.\" 과거에 대한 처절한 반성과 진상규명도 없이 또다시 그럴듯한 '선언'부터 늘어놓는 모습에 실망을 넘어 깊은 ", "d": "2026.09.02"}, {"id": "pmte274174vpm", "t": "[신동아 2030 청년 정치인 대담] 김보미 전 강진군의회 의장-이범석 인천시 의원", "x": "● 김보미 “6·3지선 컷오프 이어 당대표 경선도 ‘광탈’” ● 청년이 민주당 떠나는 이유…내로남불·위선·무책임 ● 당 운영체제만 공정하게 바꿔도 세대교체 이뤄져 ● 이범석 “‘헌신했는데 돌아오는 게 없다’는 청년 무력감 존재” ● ", "d": "2026.08.29"}, {"id": "pmrx16ngsknrx", "t": "여러분의 커피 한 잔이 저의 가장 든든한 '확성기'가 되고 있습니다!", "x": "존경하는 국민 여러분, 당원 동지 여러분, 김보미입니다. 여러분이 십시일반 모아주신 소중한 후원금이 드디어 제 예비후보 기탁금 1천만원을 넘었습니다! 여러분이 주신 후원금으로 스튜디오를 빌려 영상도 찍고, 그리고 오늘 드디어 중앙위원", "d": "2026.07.23"}];
-var PRESS=[{"img": "img/news-1.jpg", "src": "신동아", "d": "2026.08.28", "t": "[2030 청년 정치인 대담] “청년 정치인에게 공정만 보장하라, 실력으로 승부 내겠다”", "u": "https://n.news.naver.com/mnews/article/262/0000019650?sid=100"}, {"img": "img/news-2.jpg", "src": "채널A 라디오", "d": "2026.08.27", "t": "김보미 “당대표 경선, 기울어진 운동장 정도가 아니라 입장을 못해”", "u": "https://n.news.naver.com/article/449/0000358363?sid=100"}, {"img": "img/news-3.jpg", "src": "한겨레21", "d": "2026.08.20", "t": "‘버스 하우스’는 됐고… 민주당은 ‘청년정치’ 문 열어라", "u": "https://h21.hani.co.kr/arti/politics/politics_general/59793.html"}, {"img": "img/news-4.jpg", "src": "월간중앙", "d": "2026.08.20", "t": "청년 정치인 김보미의 8·17 전당대회 관전기 — “686 세대교체는 시대정신”", "u": "https://www.m-joongang.com/news/articleView.html?idxno=402915"}];
+var PRESS=[{"img": "img/news-issuegj.jpg", "src": "이슈광주", "d": "2026.09.23", "t": "“보는 사람 생기면 돈 방향 바뀐다”…김보미, 시민참여 길 넓힌다", "u": "http://www.issuegj.co.kr/article.php?aid=3901316143"}, {"img": "img/news-1.jpg", "src": "신동아", "d": "2026.08.28", "t": "[2030 청년 정치인 대담] “청년 정치인에게 공정만 보장하라, 실력으로 승부 내겠다”", "u": "https://n.news.naver.com/mnews/article/262/0000019650?sid=100"}, {"img": "img/news-2.jpg", "src": "채널A 라디오", "d": "2026.08.27", "t": "김보미 “당대표 경선, 기울어진 운동장 정도가 아니라 입장을 못해”", "u": "https://n.news.naver.com/article/449/0000358363?sid=100"}, {"img": "img/news-3.jpg", "src": "한겨레21", "d": "2026.08.20", "t": "‘버스 하우스’는 됐고… 민주당은 ‘청년정치’ 문 열어라", "u": "https://h21.hani.co.kr/arti/politics/politics_general/59793.html"}, {"img": "img/news-4.jpg", "src": "월간중앙", "d": "2026.08.20", "t": "청년 정치인 김보미의 8·17 전당대회 관전기 — “686 세대교체는 시대정신”", "u": "https://www.m-joongang.com/news/articleView.html?idxno=402915"}];
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]})}
 function drawPosts(list){
   document.getElementById('vrow').innerHTML=list.slice(0,3).map(function(p){
@@ -615,5 +615,7 @@ b.addEventListener('click',function(){set(y.hidden)});
 w.addEventListener('keydown',function(e){if(e.key==='Escape'&&!y.hidden){set(false);b.focus();}});
 document.addEventListener('click',function(e){if(!w.contains(e.target)&&!y.hidden)set(false);});})();
 </script>
+<script src="assets/bomi.js" defer></script>
+<script src="a.js" defer></script>
 </body>
 </html>

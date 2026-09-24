@@ -39,6 +39,14 @@ const DEFAULT_POSTS = [
     ].join("\n\n") }
 ];
 
+// ===== 코드에 박아 두는 글(관리자 키 없이 배포로 추가) — 저장소에 같은 id 가 없으면 첫 조회 때 합쳐 저장 =====
+var T3 = Date.parse('2026-09-24T09:30:00+09:00');
+const STATIC_POSTS = [
+  { id:'fb20260924', status:'published', publishAt:T3, createdAt:T3, updatedAt:T3,
+    title:'연휴 잘 보내고 계신가요? 「우리동네365」와 김보미의 근황을 전합니다',
+    body:"국민 여러분, 당원 동지 여러분, 잘 지내시죠? 요즘 뭐 하고 지내는지 연락 주시는 분들이 많아 한 분 한 분 답을 드려야 하는데, 해야만 하는 것들이 너무 많아 바쁘다는 핑계로 늦었지만, 명절을 빌려 근황을 전합니다. 잊지 않고 응원해 주시는 분들께 정말, 정말 감사드립니다. 덕분에 잘 버티고 있습니다.🫡\n\n요즘 김보미는, 재정주권시민행동 공동대표로 뛰고 있습니다. \"내 돈은 내 권리다.\" 이 한 문장으로 모인 비영리 시민단체입니다. 세금은 정부의 것도, 단체장의 것도 아닙니다. 누가 얼마를 어디에 쓰는지 국민이 직접 볼 수 있어야 합니다. 중앙정부 62개 부처의 올해 확정예산 세부사업을 하나하나 뜯어 taxwatch.kr에 누구나 볼 수 있게 공개했고, 예산 읽는 법을 같이 배우는 스터디와 토론회를 열며, 주민이 자기 동네 살림을 들여다보는 우리 동네 감시단도 만들어 가는 중입니다.\n\n또, 시골쥐가 서울로 상경해 연구위원으로 출퇴근하고 있습니다. 시골의 1km와 서울의 1km가 다른 만큼 너무나 다른 환경을 보고 배우며 분투하고 있습니다. 지자체 재정을 분석하고, 지방정부의 정책과 재정전략을 짜고, 지방의원의 의정 역량을 키우는 교육까지, 하나하나 배우고 있습니다. 군의회에서 8년 동안 예산서를 붙들고 씨름했지만, 전국 단위로 숫자와 정책을 다루는 건 또 다른 세계입니다. 밤샘 작업을 하면서 뉴스를 볼 때마다, 전당대회 이후 떨어지는 지지율을 볼 때마다, 불쑥불쑥 화도 나지만, 지금 제가 할 수 있는 자리에서 바꾸어 나가는 것이 최선이라고 생각하고 그야말로 열공하고 있습니다.\n\n군의회 8년 동안 일문일답 군정질문을 처음 도입해 집행부에 따져 묻고, 낭비성 예산을 삭감하고, 업무추진비를 전면 공개하고, 본회의와 행정사무감사를 생중계했습니다. 그런데 예산서와 결산서를 붙들고 씨름할수록 절실하게 느낀 게 있었습니다. 그 두꺼운 예산서, 보기도 어려운 계약 내역을 누가 시간을 내서 들여다보겠습니까? 확인하려면 아는 공무원을 찾아가야 하는데, 시골은 한 집 건너 아는 사이라 눈치 보여 정보공개청구도 사실상 어렵습니다. 자료 요구를 해도 개인정보를 이유로 제대로 받지도 못합니다.\n\n결국 의원도 제대로 파악하지 못하고, 군민은 우리 혈세가 어디로 가는지 모른 채 지나갑니다. 의원이 아니어도 군민 한 사람 한 사람이 군정을 훤히 들여다보고 있어야 우리 동네가 바뀌지 않겠습니까? CCTV처럼 지켜보는 사람이 생기면 돈의 방향이 바뀝니다. 낙선하고도 공약을 지키려고 강진의 예산,집행,계약 현황을 누구나 볼 수 있는 「김보미365」를 만든 이유이고, 지금의 재정주권시민행동 활동으로 이어졌습니다.\n\n그 확신으로 당대표 예비경선 홈페이지로 사용했던 김보미.com을 뜯어고쳤습니다. 「우리동네365」에 들어가면 전국 지방정부 243곳과 중앙정부 62개 부처의 예산이 한 화면에 있습니다. 올해 세부사업, 계약대장 전수, 단체장 공약이 예산에 실제로 반영됐는지까지 확인됩니다. 내 동네를 한 번 저장해 두면 다음부터 우리 동네 집행률이 가장 먼저 뜹니다.\n\n정부가 발표한 정책도 한눈에 확인할 수 있습니다. 3대 메가프로젝트나 국민성장펀드 150조 원 같은 정책 하나를 열면, 이 정책이 우리 동네 예산에 어떻게 잡혔는지가 바로 나옵니다. 지자체 재정 원자료를 검색해 원문으로 열 수 있고, 수의계약 비중이나 특정 업체 반복 수주, 분할 발주 의심 같은 계약 이상 징후도 규칙으로 걸러 보여 줍니다.\n\n이리저리 뛰면서 동지들도 생겼습니다. 능력자 후배님들부터 든든한 686 짱돌 선배님들까지, 정치개혁으로 세대교체를 진짜로 해 보자는 3060 혁신가분들이 모였습니다. 지난 13일 국회에서 첫 워크숍을 하며 위성정당이 어떻게 선거제도를 망가뜨렸는지 배웠고, 밤늦게까지 토론하고 열공하며 계란으로 바위 치기(?)를 함께 준비하고 있습니다. 계란들의 도전, 기대해 주세요!\n\n또! 바람이지만...선거와 의정 활동에 밀려 미뤄 둔 숙제도 하려고 합니다. '경단녀'가 되어 버린 논문을 다시 써서 석사를 마치고, 새로운 공부도 시작해 보고 싶습니다.\n\n추석 연휴 끝내주는 가을 하늘 아래, 보고 싶었던 분들과 마주 앉은 명절 밥상에서 \"우리 동네 세금은 잘 쓰이고 있나\" 한 번쯤 이야기 나눠 주세요. 그 질문이 재정주권의 시작이고, 가장 확실한 정치 참여입니다.\n\n김보미가 여러분의 목소리를 들고 가서 기어이 반영시켰다는 기쁜 소식을 전할 수 있도록, 꺾이지 않는 마음으로 깡깡하게 킵고잉하겠습니다. 다시 힘내서 인사드리겠습니다.\n👉 www.김보미.com" }
+];
+
 async function redis(cmd){
   const r = await fetch(RURL, { method:'POST', headers:{ Authorization:'Bearer '+RTOK, 'Content-Type':'application/json' }, body: JSON.stringify(cmd) });
   return r.json();
@@ -59,8 +67,14 @@ function clean(s, max){
 async function loadRaw(){
   var r = await redis(['GET', KEY]);
   var v = r && r.result;
-  if (!v) return null;
-  try { var a = JSON.parse(v); return Array.isArray(a) ? a : null; } catch(e){ return null; }
+  var a = null;
+  if (v) { try { var t = JSON.parse(v); a = Array.isArray(t) ? t : null; } catch(e){ a = null; } }
+  if (!a) return null;
+  // 코드에 박아 둔 글 병합(없는 id 만) → 저장
+  var added = false;
+  STATIC_POSTS.forEach(function(sp){ if (!a.some(function(x){ return x.id === sp.id; })) { a.push(sp); added = true; } });
+  if (added) { try { await save(a); } catch(e){} }
+  return a;
 }
 async function save(arr){ await redis(['SET', KEY, JSON.stringify(arr)]); }
 function pubList(arr){
@@ -217,13 +231,13 @@ module.exports = async (req, res) => {
       return;
     }
     if (action === 'list') {
-      var arr = await loadRaw(); if (!arr) arr = DEFAULT_POSTS;
+      var arr = await loadRaw(); if (!arr) arr = DEFAULT_POSTS.concat(STATIC_POSTS);
       var items = pubList(arr).map(function(p){ return { id:p.id, title:p.title, body:p.body, publishAt:p.publishAt }; });
       res.status(200).json({ ok:true, total:items.length, items:items });
       return;
     }
     if (action === 'get') {
-      var arr2 = await loadRaw(); if (!arr2) arr2 = DEFAULT_POSTS;
+      var arr2 = await loadRaw(); if (!arr2) arr2 = DEFAULT_POSTS.concat(STATIC_POSTS);
       var id = String(req.query.id||'');
       var p = pubList(arr2).find(function(x){ return x.id===id; });
       if (!p) { res.status(200).json({ ok:false, error:'not found' }); return; }
