@@ -1,0 +1,49 @@
+<svg class="bm" viewBox="0 0 220 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="봄이">
+  <defs>
+    <radialGradient id="bmRing" cx="38%" cy="30%" r="80%"><stop offset="0" stop-color="#3a5fa3"/><stop offset=".45" stop-color="#1a376b"/><stop offset="1" stop-color="#0c1d3d"/></radialGradient>
+    <radialGradient id="bmFace" cx="40%" cy="34%" r="75%"><stop offset="0" stop-color="#fff0cf"/><stop offset=".55" stop-color="#ffd690"/><stop offset="1" stop-color="#eeb866"/></radialGradient>
+    <linearGradient id="bmLeafA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6fcf87"/><stop offset="1" stop-color="#23804a"/></linearGradient>
+    <linearGradient id="bmLeafB" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fe0a0"/><stop offset="1" stop-color="#3a9e5c"/></linearGradient>
+    <linearGradient id="bmHandle" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2a4c8a"/><stop offset=".5" stop-color="#16305a"/><stop offset="1" stop-color="#0b1a36"/></linearGradient>
+    <radialGradient id="bmHand" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e9e2d4"/></radialGradient>
+    <radialGradient id="bmShadow"><stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+  </defs>
+  <ellipse class="bm-shadow" cx="112" cy="226" rx="70" ry="9" fill="url(#bmShadow)"/>
+  <g class="bm-body">
+    <!-- 손잡이 -->
+    <g class="bm-handle" transform="rotate(-36 150 170)"><rect x="140" y="160" width="26" height="66" rx="13" fill="url(#bmHandle)"/><rect x="138" y="160" width="30" height="12" rx="4" fill="#e0a43c"/><rect x="140" y="186" width="26" height="4" rx="2" fill="#e0a43c" opacity=".9"/><rect x="140" y="198" width="26" height="4" rx="2" fill="#e0a43c" opacity=".9"/></g>
+    <!-- 발 -->
+    <ellipse cx="88" cy="214" rx="16" ry="8" fill="#12294f"/><ellipse cx="124" cy="214" rx="16" ry="8" fill="#12294f"/>
+    <!-- 팔 -->
+    <g class="bm-arm bm-arm-l"><path d="M34 128 Q18 138 14 150" stroke="#12294f" stroke-width="10" stroke-linecap="round" fill="none"/><circle cx="13" cy="152" r="12" fill="url(#bmHand)"/></g>
+    <g class="bm-arm bm-arm-r"><path d="M186 128 Q202 138 206 150" stroke="#12294f" stroke-width="10" stroke-linecap="round" fill="none"/><circle cx="207" cy="152" r="12" fill="url(#bmHand)"/></g>
+    <!-- 테 + 얼굴 -->
+    <circle cx="110" cy="118" r="82" fill="url(#bmRing)"/>
+    <circle cx="110" cy="118" r="62" fill="#e0a43c"/>
+    <circle cx="110" cy="118" r="58.5" fill="url(#bmFace)"/>
+    <path d="M70 96 A46 46 0 0 1 104 66" stroke="#fff" stroke-opacity=".7" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <path d="M52 84 A66 66 0 0 1 86 50" stroke="#fff" stroke-opacity=".25" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <!-- 얼굴 -->
+    <g class="bm-face">
+      <g class="bm-eyes">
+        <g class="bm-eye"><ellipse cx="86" cy="112" rx="8.5" ry="10" fill="#1b1c20"/><circle cx="89" cy="107.5" r="3" fill="#fff"/><circle cx="84" cy="116" r="1.4" fill="#fff"/></g>
+        <g class="bm-eye"><ellipse cx="134" cy="112" rx="8.5" ry="10" fill="#1b1c20"/><circle cx="137" cy="107.5" r="3" fill="#fff"/><circle cx="132" cy="116" r="1.4" fill="#fff"/></g>
+      </g>
+      <g class="bm-eyes-happy"><path d="M78 114 Q86 104 94 114" stroke="#1b1c20" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M126 114 Q134 104 142 114" stroke="#1b1c20" stroke-width="4" stroke-linecap="round" fill="none"/></g>
+      <ellipse cx="70" cy="128" rx="10" ry="6" fill="#f5a79a" opacity=".85"/><ellipse cx="150" cy="128" rx="10" ry="6" fill="#f5a79a" opacity=".85"/>
+      <path class="bm-mouth" d="M100 129 Q110 138 120 129" stroke="#1b1c20" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <g class="bm-mouth-open"><path d="M95 126 Q110 152 125 126 Z" fill="#7a2424"/><ellipse cx="110" cy="140" rx="8" ry="4" fill="#f08a7e"/></g>
+      <circle class="bm-mouth-o" cx="114" cy="133" r="4.5" stroke="#1b1c20" stroke-width="3" fill="none"/>
+    </g>
+    <!-- 생각 점 -->
+    <g class="bm-dots"><circle cx="178" cy="44" r="5" fill="#16305a"/><circle cx="194" cy="30" r="6.5" fill="#16305a"/><circle cx="212" cy="12" r="8" fill="#16305a"/></g>
+    <!-- 새싹 -->
+    <g class="bm-sprout">
+      <path d="M110 38 L110 22" stroke="#23693f" stroke-width="5" stroke-linecap="round"/>
+      <path class="bm-leaf-l" d="M110 24 C96 6 76 8 66 16 C80 26 96 30 110 24 Z" fill="url(#bmLeafA)"/>
+      <path class="bm-leaf-r" d="M110 24 C124 4 146 4 156 14 C142 26 124 30 110 24 Z" fill="url(#bmLeafB)"/>
+      <path d="M110 24 C98 16 86 14 74 16" stroke="#d9f2c9" stroke-width="1.6" fill="none" opacity=".8"/>
+      <path d="M110 24 C122 14 136 12 148 14" stroke="#d9f2c9" stroke-width="1.6" fill="none" opacity=".8"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,35 @@
+.bm{display:block;overflow:visible}
+.bm .bm-body,.bm .bm-sprout,.bm .bm-eye,.bm .bm-eyes,.bm .bm-arm,.bm .bm-mouth-open{transform-box:fill-box}
+.bm .bm-eyes-happy,.bm .bm-mouth-open,.bm .bm-mouth-o,.bm .bm-dots{display:none}
+.bm .bm-body{transform-origin:50% 100%;animation:bmBreath 2.8s ease-in-out infinite}
+.bm .bm-sprout{transform-origin:50% 100%;animation:bmSway 2.8s ease-in-out infinite}
+.bm .bm-eye{transform-origin:center;animation:bmBlink 4.2s infinite}
+.bm .bm-arm-r{transform-origin:0% 0%}
+.bm .bm-arm-l{transform-origin:100% 0%}
+@keyframes bmBreath{0%,100%{transform:translateY(0) scale(1,1)}50%{transform:translateY(-3px) scale(1.01,.99)}}
+@keyframes bmSway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+@keyframes bmBlink{0%,93%,100%{transform:scaleY(1)}95.5%{transform:scaleY(.1)}}
+@keyframes bmWave{0%,100%{transform:rotate(-75deg)}50%{transform:rotate(-45deg)}}
+@keyframes bmTalk{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(1)}}
+@keyframes bmDot{0%,20%{opacity:0}40%,100%{opacity:1}}
+@keyframes bmBounce{0%,100%{transform:translateY(0)}30%{transform:translateY(-10px)}55%{transform:translateY(0)}70%{transform:translateY(-4px)}}
+@keyframes bmTilt{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(-7deg)}}
+/* 상태: hello(손 흔들기) · listen(귀 기울이기) · think(생각 중) · talk(답하는 중) · happy(기쁨) · oops(오류) */
+.bm[data-s="hello"] .bm-arm-r{animation:bmWave .7s ease-in-out infinite}
+.bm[data-s="listen"] .bm-body{animation:bmTilt 2s ease-in-out infinite;transform-origin:50% 100%}
+.bm[data-s="listen"] .bm-eye ellipse{ry:11.5}
+.bm[data-s="think"] .bm-eyes{transform:translate(4px,-5px)}
+.bm[data-s="think"] .bm-mouth{display:none}
+.bm[data-s="think"] .bm-mouth-o{display:inline}
+.bm[data-s="think"] .bm-dots{display:inline}
+.bm[data-s="think"] .bm-dots circle{animation:bmDot 1.2s infinite}
+.bm[data-s="think"] .bm-dots circle:nth-child(2){animation-delay:.2s}
+.bm[data-s="think"] .bm-dots circle:nth-child(3){animation-delay:.4s}
+.bm[data-s="talk"] .bm-mouth{display:none}
+.bm[data-s="talk"] .bm-mouth-open{display:inline;transform-origin:50% 0%;animation:bmTalk .28s ease-in-out infinite}
+.bm[data-s="happy"] .bm-eyes,.bm[data-s="happy"] .bm-mouth{display:none}
+.bm[data-s="happy"] .bm-eyes-happy,.bm[data-s="happy"] .bm-mouth-open{display:inline}
+.bm[data-s="happy"] .bm-body{animation:bmBounce 1s ease-in-out infinite}
+.bm[data-s="oops"] .bm-mouth{d:path("M100 134 Q110 126 120 134")}
+.bm[data-s="oops"] .bm-eye ellipse{ry:6}
+@media (prefers-reduced-motion:reduce){.bm *{animation:none!important}}

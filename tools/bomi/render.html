@@ -1,0 +1,19 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script></head><body>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { buildBomi } from './bomi3d.js';
+const P=new URLSearchParams(location.search); const W=+P.get('w')||800,H=+P.get('h')||800;
+const r=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true}); r.setSize(W,H); r.setPixelRatio(1); r.outputColorSpace=THREE.SRGBColorSpace; r.toneMapping=THREE.NeutralToneMapping; r.toneMappingExposure=1.0; r.shadowMap.enabled=true; r.shadowMap.type=THREE.PCFSoftShadowMap; document.body.appendChild(r.domElement);
+const sc=new THREE.Scene(); const pm=new THREE.PMREMGenerator(r); sc.environment=pm.fromScene(new RoomEnvironment(),.04).texture;
+if(P.get('bg')) sc.background=new THREE.Color(P.get('bg'));
+const cam=new THREE.PerspectiveCamera(30,W/H,.1,100); const yaw=(+P.get('yaw')||0)*Math.PI/180; const d=+P.get('d')||7.2; cam.position.set(Math.sin(yaw)*d,.35,Math.cos(yaw)*d); const ly=P.get('ly')!=null?+P.get('ly'):-.15; cam.position.y=P.get('cy')!=null?+P.get('cy'):.35; cam.lookAt(0,ly,0);
+const key=new THREE.DirectionalLight(0xfff3e0,2.2); key.position.set(1.2,8,4); key.castShadow=true; Object.assign(key.shadow.camera,{left:-4,right:4,top:4,bottom:-4}); key.shadow.bias=-.0005; key.shadow.mapSize.set(2048,2048); key.shadow.radius=6; sc.add(key);
+const rim=new THREE.DirectionalLight(0xbfe3ff,1.4); rim.position.set(-5,3,-4); sc.add(rim);
+sc.add(new THREE.HemisphereLight(0xffffff,0xe8dfcf,.6));
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(20,20),new THREE.ShadowMaterial({opacity:.18})); ground.rotation.x=-Math.PI/2; ground.position.y=-1.37; ground.receiveShadow=true; sc.add(ground);
+const B=buildBomi(THREE,{wave:+(P.get('wave')||1.25)}); B.group.traverse(o=>{if(o.isMesh){o.castShadow=true;}}); sc.add(B.group);
+B.setExpr(P.get('expr')||'idle'); B.setPose(P.get('pose')||'stand'); B.tick(+P.get('t')||0.5);
+r.render(sc,cam); window.DONE=1;
+</script></body></html>
