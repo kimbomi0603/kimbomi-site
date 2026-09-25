@@ -80,7 +80,19 @@
   'html[data-theme="dark"] #bomi form{border-color:#3A3E43}html[data-theme="dark"] #bomi .mic{color:#ECE8DF}',
   '@media (prefers-reduced-motion:reduce){#bomi-fab *,#bomi *{animation:none!important;transition:none!important}}'
   ].join('');
-  var CHIPS=['재정자립도가 뭐예요?','수의계약이 뭔가요?','본예산과 추경의 차이','국고보조금이란?','집행률은 어떻게 보나요?','우리 동네 예산 보는 법'];
+  /* 질문 예시: 지금 보는 화면에 맞는 것 2개를 앞에 두고, 나머지는 여러 갈래에서 고른다 */
+  var PAGE_CHIPS={
+    'budget365':['우리 동네 예산 보는 법','집행률은 어떻게 보나요?'],
+    'gyeyak':['수의계약이 뭔가요?','쪼개기 계약은 왜 문제예요?'],
+    'party-money':['정당 보조금은 왜 깜깜이예요?','위성정당 142억은 무슨 돈이에요?'],
+    'about':['김보미는 어떤 사람이에요?','군의원 때 무슨 일을 했어요?'],
+    'vision':['김보미 최근 생각 요약해 줘','정치개혁, 뭘 바꾸자는 거예요?'],
+    'pledge':['재정주권시민행동은 뭐 하는 곳?','회원은 어떻게 돼요?'],
+    'report':['제보하면 이름이 남나요?','생각 나누기는 누가 읽어요?'],
+    'press':['요즘 김보미 소식은?','김보미는 어떤 사람이에요?']
+  };
+  var MIX=['김보미는 어떤 사람이에요?','재정자립도가 뭐예요?','청년이 동네 일에 목소리 내려면?','우리 동네에 100억이 생긴다면?','내가 군수라면 뭘 먼저 할까?','정당 보조금은 왜 깜깜이예요?','청년 정책은 어디서 찾아요?','제보는 어떻게 해요?','본예산과 추경의 차이','수의계약이 뭔가요?'];
+  var CHIPS=(function(){ var p=(location.pathname.split('/').pop()||'index').replace('.html','')||'index'; var a=(PAGE_CHIPS[p]||[]).slice(); var rest=MIX.filter(function(x){return a.indexOf(x)<0;}); for(var i=rest.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)); var t=rest[i]; rest[i]=rest[j]; rest[j]=t;} return a.concat(rest).slice(0,7); })();
   /* 대화 단계 → 무대의 자세 그림과 효과 글씨 */
   var ST={ bow:['bow','꾸벅'], hello:['hello','안녕!'], idle:['idle',''], listen:['idle','응응!'], think:['think','음…'], talk:['talk','설명할게!'], happy:['happy','짜잔!'], oops:['oops','앗!'] };
   var SAYS=['안녕','궁금해?','물어봐!'];
@@ -98,11 +110,11 @@
       '<span class="fig"><img src="'+IMG+'body.webp" width="118" height="116" alt=""><span class="say" aria-hidden="true">안녕</span><i class="dot d1"></i><i class="dot d2"></i><i class="dot d3"></i></span>'+
       '<span class="tag"><span class="ai">AI</span> 봄이</span></button>');
     var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-    var box=el('<section id="bomi" role="dialog" aria-label="AI 봄이 — 예산 도우미" aria-modal="false">'+
+    var box=el('<section id="bomi" role="dialog" aria-label="AI 봄이 — 김보미.com 길잡이" aria-modal="false">'+
       '<div class="top"><div class="logo"><span class="ai">AI</span>봄이</div>'+
       '<button type="button" class="sw" role="switch" aria-checked="false" title="켜면 아주 쉬운 말로 답해요"><i></i><span>쉬운 말</span></button>'+
       '<button type="button" class="x" aria-label="닫기">×</button></div>'+
-      '<div class="stage" aria-hidden="true"><div class="brand">김보미.com<small>우리동네365 예산 도우미</small></div><img class="pose fl" alt="" src="'+IMG+'pose_bow.webp"><div class="word"></div></div>'+
+      '<div class="stage" aria-hidden="true"><div class="brand">김보미.com<small>무엇이든 물어봐 · 김보미.com 길잡이</small></div><img class="pose fl" alt="" src="'+IMG+'pose_bow.webp"><div class="word"></div></div>'+
       '<div class="sheet"><div class="grab"></div><div class="log" aria-live="polite"></div><div class="chips"></div>'+
       '<form><label for="bomiQ" style="position:absolute;left:-9999px">질문</label><input id="bomiQ" type="text" placeholder="메시지를 입력하고 Enter를 누르세요." maxlength="500" autocomplete="off">'+
       (SR?'<button type="button" class="mic" aria-label="말로 묻기">'+MIC+'</button>':'')+
@@ -121,7 +133,7 @@
     function addBot(text,extra){ var r=el('<div class="bot"><span class="av"><img src="'+IMG+'face.webp" width="40" height="40" alt=""></span></div>'); var m=el('<div class="m"></div>'); m.textContent=text;
       if(extra){ var x=el('<span class="v"></span>'); x.textContent=extra; m.appendChild(x); } r.appendChild(m); var t=el('<span class="t"></span>'); t.textContent=hm(); r.appendChild(t); log.appendChild(r); log.scrollTop=log.scrollHeight; return m; }
     function addMe(text){ var r=el('<div class="me"><div class="m"></div><span class="t"></span></div>'); r.firstChild.textContent=text; r.lastChild.textContent=hm(); log.appendChild(r); log.scrollTop=log.scrollHeight; }
-    addBot('안녕하세요! 김보미.com 예산 도우미 봄이예요. 재정자립도, 수의계약, 추경처럼 어렵게 들리는 예산 용어와 우리 동네 살림 보는 법을 쉽게 풀어 드릴게요. 궁금한 게 있으면 편하게 물어보세요!');
+    addBot('안녕하세요! 돋보기 든 봄이예요. 어려운 예산 용어는 물론이고, 김보미가 어떤 사람인지, 우리 동네 이야기, 청년들의 궁금증, "내가 군수라면?" 같은 상상 질문까지 뭐든 물어보세요. 김보미.com 어디에 답이 있는지도 찾아 드릴게요!');
     CHIPS.forEach(function(c){ var b=el('<button type="button"></button>'); b.textContent=c; b.addEventListener('click',function(){ ask(c); }); chips.appendChild(b); });
     var lastFocus=null;
     function open(){ lastFocus=document.activeElement; preload(); box.classList.add('on'); fab.style.display='none'; state('bow',1500,'hello'); setTimeout(function(){ if(!busy) state('hello',1800); },1500);
