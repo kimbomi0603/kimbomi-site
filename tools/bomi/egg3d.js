@@ -15,9 +15,9 @@ export function buildEgg(THREE, opt = {}) {
 
   /* 초록 목도리(김보미.com 초록) */
   const scarf = new THREE.Mesh(new THREE.TorusGeometry(.95, .1, 16, 80), toy(C.scarf, { roughness: .7, clearcoat: .1 }));
-  scarf.rotation.x = Math.PI / 2; scarf.position.y = -.27; scarf.scale.set(1, 1, .9); body.add(scarf);
-  const knot = new THREE.Mesh(new THREE.SphereGeometry(.1, 20, 14), toy(C.scarf, { roughness: .7, clearcoat: .1 })); knot.scale.set(1.2,1,.8); knot.position.set(.42, -.3, .88); body.add(knot);
-  const tail = new THREE.Mesh(new THREE.CapsuleGeometry(.06, .22, 4, 10), toy(C.scarf, { roughness: .7, clearcoat: .1 })); tail.position.set(.5, -.5, .86); tail.rotation.z = .3; body.add(tail); const tail2 = tail.clone(); tail2.position.set(.33, -.52, .9); tail2.rotation.z = -.15; body.add(tail2);
+  scarf.visible = false; scarf.rotation.x = Math.PI / 2; scarf.position.y = -.27; scarf.scale.set(1, 1, .9); body.add(scarf);
+  const knot = new THREE.Mesh(new THREE.SphereGeometry(.1, 20, 14), toy(C.scarf, { roughness: .7, clearcoat: .1 })); knot.visible = false; knot.scale.set(1.2,1,.8); knot.position.set(.42, -.3, .88); body.add(knot);
+  const tail = new THREE.Mesh(new THREE.CapsuleGeometry(.06, .22, 4, 10), toy(C.scarf, { roughness: .7, clearcoat: .1 })); tail.position.set(.5, -.5, .86); tail.rotation.z = .3; tail.visible = false; body.add(tail); const tail2 = tail.clone(); tail2.position.set(.33, -.52, .9); tail2.rotation.z = -.15; tail2.visible = false; body.add(tail2);
 
   /* 얼굴 */
   const F = new THREE.Group(); F.position.set(0, .3, 0); body.add(F);
@@ -84,7 +84,7 @@ export function buildEgg(THREE, opt = {}) {
   const mh = new THREE.Group(); mh.position.set(0, -.34, 0); mag.add(mh);
   const mcol = new THREE.Mesh(new THREE.CylinderGeometry(.07, .07, .09, 24), toy(C.gold, { metalness: .5, roughness: .3 })); mcol.position.y = -.04; mh.add(mcol);
   const mgrip = new THREE.Mesh(new THREE.CapsuleGeometry(.06, .34, 6, 16), toy(C.navy, { roughness: .45 })); mgrip.position.y = -.28; mh.add(mgrip);
-  mag.userData = { lens };
+  mag.userData = { lens }; mag.scale.setScalar(1.55);
   body.add(mag);
 
   /* 다리와 운동화 */
@@ -129,8 +129,8 @@ export function buildEgg(THREE, opt = {}) {
   function setPose(n) {
     body.rotation.set(0, 0, 0); body.position.z = 0; doc.visible = false;
     aim(armL, REST_L);
-    placeMag(new THREE.Vector3(1.2, .12, .55), -.12);
-    if (n === 'look') placeMag(new THREE.Vector3(.3, .42, 1.3), .55);
+    placeMag(new THREE.Vector3(1.5, .38, .6), -.18);
+    if (n === 'look') placeMag(new THREE.Vector3(.36, .42, 1.35), .55);
     if (n === 'point') { aim(armL, new THREE.Vector3(-1.5, .45, .45)); }
     if (n === 'think') { aim(armL, new THREE.Vector3(-.42, .12, 1.02)); }
     if (n === 'hold') { doc.visible = true; doc.position.set(-.5, -.45, 1.08); doc.rotation.set(-.1, .15, .12); aim(armL, new THREE.Vector3(-.7, -.55, 1.05)); }
