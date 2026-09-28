@@ -88,6 +88,13 @@
   .ach,.cta2{grid-template-columns:1fr}
   .ps-row img{height:110px}
 }
+.motto{margin:22px 0 0;padding:22px 26px 18px;background:var(--paper2);border:1px solid var(--rule2);border-left:6px solid var(--gold);border-radius:14px}
+.motto blockquote{margin:0;font-family:var(--serif);font-weight:700;font-size:1.3rem;line-height:1.75;color:var(--navy);letter-spacing:-.02em;word-break:keep-all}
+.motto figcaption{margin-top:10px;font-size:.84rem;color:var(--ink2)}
+@media(max-width:600px){.motto{padding:16px 16px 14px;border-left-width:5px}.motto blockquote{font-size:1.1rem}}
+html[data-theme="dark"] .motto{background:#1E2126;border-color:#343840;border-left-color:#E0B354}
+html[data-theme="dark"] .motto blockquote{color:#F1E6C8}
+html[data-theme="dark"] .motto figcaption{color:#B9B3A6}
 </style>
 <link rel="stylesheet" href="assets/kb-common.css">
 <script type="application/ld+json">
@@ -223,6 +230,10 @@
     <p class="eyebrow">PROFILE</p>
     <h2>김보미를 소개합니다</h2>
     <p class="sub">정치 13년, 의정 8년. 지방에서 시작한 변화가 대한민국을 바꾼다는 말을, 구호가 아니라 기록으로 증명하려 합니다.</p>
+    <figure class="motto">
+      <blockquote>“민주당의 적통은 혈통도 계파도 아니죠. 계란으로 바위를 쳤던 김대중, 노무현의 도전 정신입니다. 저는 그 도전의 적통을 잇는 호남청년 김보미입니다.”</blockquote>
+      <figcaption>— 김보미, 광주KBS 「이맘때」 인터뷰에서</figcaption>
+    </figure>
 
     <div class="pf" style="margin-top:22px">
       <figure><img src="img/kb-about.jpg" alt="김보미" fetchpriority="high"></figure>
