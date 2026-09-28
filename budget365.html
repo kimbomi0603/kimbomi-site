@@ -117,7 +117,7 @@ h1,h2,h3{font-family:var(--disp);letter-spacing:-.03em}
 .stats span{font-size:12.5px;color:var(--ink-3)}
 .lgband{padding-block:22px 22px}
 .crumb{font-size:13px;color:var(--ink-3);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.crumb a{text-decoration:none}.crumb a:hover{text-decoration:underline}
+.crumb a{text-decoration:none;display:inline-block;padding:6px 2px}.crumb a:hover{text-decoration:underline}
 .lgband h1{font-family:var(--disp);font-size:clamp(32px,4.6vw,52px);font-weight:900;letter-spacing:-.04em;line-height:1.16;margin:6px 0 6px;color:var(--navy);border-bottom:2px solid var(--rule);padding-bottom:10px}
 .lgband h1 span{color:var(--red)!important;opacity:1!important;font-family:var(--disp)}
 .lgband .sub{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
@@ -775,7 +775,7 @@ async function route(){ NAVN++; killCharts(); try{ closeMd(); }catch(e){} const 
   else if(a==='task'){ await renderTasks(cd||''); }
   else if(a==='spol'){ await renderSido(cd?decodeURIComponent(cd):'',sub?decodeURIComponent(sub):''); }
   else renderHome(a==='sido'?decodeURIComponent(cd||''):''); }
-  catch(e){ if(/Failed to fetch|NetworkError|Load failed/i.test(e.message||'')&&!route._rt){ route._rt=1; setTimeout(()=>{ route().finally(()=>{route._rt=0;}); },900); return; } route._rt=0; const nf=/자료 없음|찾지 못했/.test(e.message||''); document.getElementById('app').innerHTML=`<div class="wrap"><div class="empty" style="margin-top:28px"><b style="font-size:17px">${nf?(a==='lg'?'해당 지자체를 찾을 수 없습니다':'해당 자료를 찾을 수 없습니다'):'자료를 불러오지 못했습니다'}</b><div class="mut" style="margin:8px 0 14px">${nf?(a==='lg'?'주소의 코드가 바뀌었거나 없는 지자체입니다. 처음 화면에서 동네 이름으로 다시 찾아 주세요.':'주소가 바뀌었거나 없는 항목입니다. 목록에서 다시 골라 주세요.'):(/Failed to fetch|NetworkError|Load failed/i.test(e.message||'')?'인터넷 연결이 잠깐 끊겼거나 자료 서버가 늦게 답했습니다. 다시 시도해 주세요.':esc(e.message))}</div><div class="errbtns">${nf?'':'<button class="btn" type="button" onclick="route()">다시 시도</button>'}<a class="btn" href="#/">우리동네365 처음으로</a><a class="btn" href="#/gov">중앙정부 부처 목록</a></div></div></div>`; }
+  catch(e){ if(!route._rt&&!/자료 없음|찾지 못했/.test(e.message||'')){ /* 2026-09-29 네트워크·압축풀기 등 일시 오류는 한 번 더 시도 */ route._rt=1; setTimeout(()=>{ route().finally(()=>{route._rt=0;}); },900); return; } route._rt=0; const nf=/자료 없음|찾지 못했/.test(e.message||''); document.getElementById('app').innerHTML=`<div class="wrap"><div class="empty" style="margin-top:28px"><b style="font-size:17px">${nf?(a==='lg'?'해당 지자체를 찾을 수 없습니다':'해당 자료를 찾을 수 없습니다'):'자료를 불러오지 못했습니다'}</b><div class="mut" style="margin:8px 0 14px">${nf?(a==='lg'?'주소의 코드가 바뀌었거나 없는 지자체입니다. 처음 화면에서 동네 이름으로 다시 찾아 주세요.':'주소가 바뀌었거나 없는 항목입니다. 목록에서 다시 골라 주세요.'):(/Failed to fetch|NetworkError|Load failed/i.test(e.message||'')?'인터넷 연결이 잠깐 끊겼거나 자료 서버가 늦게 답했습니다. 다시 시도해 주세요.':esc(e.message))}</div><div class="errbtns">${nf?'':'<button class="btn" type="button" onclick="route()">다시 시도</button>'}<a class="btn" href="#/">우리동네365 처음으로</a><a class="btn" href="#/gov">중앙정부 부처 목록</a></div></div></div>`; }
   buildNav();
   document.querySelectorAll('.nav a').forEach(x=>{ const hf=x.getAttribute('href'); x.classList.toggle('on',hf===location.hash||(x.id==='navHome'&&(!location.hash||location.hash==='#/'))||(/^#\/(key|policy|task|docs)$/.test(hf)&&location.hash.startsWith(hf+'/'))); });
   window.scrollTo(0,0); fabSync(); }

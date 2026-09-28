@@ -1,5 +1,7 @@
 /* 김보미.com — first-party analytics collector (privacy-safe, no cookies/PII) */
 (function(){
+  /* 같은 페이지에 두 번 붙어도 한 번만 집계 */
+  if (window.__kbA) return; window.__kbA = 1;
   try{
     var EP = '/api/track';
     var host = location.host;

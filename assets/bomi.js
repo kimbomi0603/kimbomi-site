@@ -25,7 +25,8 @@
   '@keyframes bmFloat{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-7px) rotate(1.5deg)}}',
   '@keyframes bmPop{0%,70%,100%{transform:rotate(8deg) scale(1)}8%{transform:rotate(8deg) scale(1.22)}16%{transform:rotate(8deg) scale(1)}}',
   '@keyframes bmTw{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1)}}',
-  'html.has-cta #bomi-fab{bottom:88px}',
+  'html.has-cta #bomi-fab{bottom:128px}',
+  'html[data-theme="dark"] #bomi-fab .say{color:#FFF1BF;-webkit-text-stroke:.3px #FFF1BF;text-shadow:0 0 6px #000,0 0 3px #000}',
   '@media(max-width:640px){#bomi-fab{right:4px;bottom:56px;width:104px}#bomi-fab .fig{width:92px;height:92px}#bomi-fab .fig img{width:92px}#bomi-fab .say{font-size:18px;right:-2px;top:-6px}#bomi-fab .tag{font-size:12px;padding:5px 11px 5px 9px}}',
   /* 대화창 */
   '#bomi{position:fixed;z-index:9991;display:none;flex-direction:column;background:#fff;color:#17181A;font:15px/1.6 "Noto Sans KR",system-ui,sans-serif;word-break:keep-all;overflow:hidden;right:20px;bottom:20px;width:410px;height:min(780px,calc(100vh - 40px));border-radius:26px;box-shadow:0 28px 70px rgba(10,20,40,.32)}',

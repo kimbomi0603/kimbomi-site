@@ -39,6 +39,25 @@
   .kbx-hdr nav{gap:14px}
   .kbx-hdr nav a{font-size:14px}
 }
+body{overflow-wrap:break-word} /* 2026-09-29 긴 낱말(예: 국가청년취업보장제도를)이 좁은 화면에서 삐져나가지 않게 */
+.kbx-hdr .kbx-brand,.hdr .brand{display:inline-flex;align-items:center;min-height:40px}
+@media(max-width:480px){ /* 첫 화면(.hdr)도 휴대폰에서 한 줄 */
+  .hdr .w{gap:6px 8px;padding:9px 12px 0}
+  .hdr .brand img{height:26px}
+  .hdr .k365{padding:5px 10px 5px 7px;gap:6px;border-radius:9px}
+  .hdr .k365 img{width:22px;height:22px}
+  .hdr .k365 em{display:none}
+  .hdr .k365 b{font-size:13px}
+  .hdr .join{padding:5px 9px;font-size:12.5px}
+}
+@media(max-width:374px){ /* 2026-09-29 아주 좁은 휴대폰(320px): 함께하기가 둘째 줄로 밀리지 않게 */
+  .kbx-hdr .kbx-w,.hdr .w{gap:6px 6px;padding:8px 10px 0}
+  .kbx-hdr .kbx-brand img,.hdr .brand img{height:22px}
+  .kbx-hdr .kbx-365,.hdr .k365{padding:5px 8px 5px 6px;gap:5px}
+  .kbx-hdr .kbx-365 img,.hdr .k365 img{width:20px;height:20px}
+  .kbx-hdr .kbx-365 b,.hdr .k365 b{font-size:12px}
+  .kbx-hdr .kbx-join,.hdr .join{padding:4px 7px;font-size:12px}
+}
 .kbx-foot{background:#0E2143;color:#C9D4E6;margin-top:40px;font-size:14px;line-height:1.75;letter-spacing:-.01em;word-break:keep-all}
 .kbx-foot a{color:#E6EDF8;text-decoration:none}
 .kbx-foot a:hover{color:#E8BC55}
