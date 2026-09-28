@@ -273,6 +273,7 @@ module.exports = async function (req, res) {
   {
     {
       var model = out.model, text = out.text;
+      if (isBomi) text = String(text || '').replace(/\*\*/g, '').replace(/^#{1,6}\s*/gm, '');  /* 봄이 화면은 글자 그대로 보여 주므로 마크다운 기호 제거 */
       /* 캠프 확인용 — 더불이 대화 기록(Redis) + 메일 알림(Resend 키 있을 때) */
       if (isCampaign) {
         var entry = JSON.stringify({ q: message.slice(0,600), a: text.slice(0,800), ts: Date.now() });
