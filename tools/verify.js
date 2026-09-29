@@ -395,6 +395,16 @@ console.log('\n[14] 금액 이름표 — 기금이 들어간 합계를 예산 �
   if (!n) ok("기금 포함 합계 이름표에 '기금' 표기");
 })();
 
+console.log('\n[15] AI 대화 — 본인이 고른 「저장 안 함」이 지켜지는지');
+(function(){
+  const chat = readSrc('api/chat.js'), bomi = readSrc('assets/bomi.js');
+  let n = 0;
+  if (!/body\.nolog\s*===\s*true\)\s*return/.test(chat)) { n++; bad('api/chat.js saveChat 이 nolog(저장 안 함)를 확인하지 않음'); }
+  if (!/id="bomiNolog"/.test(bomi) || !/nolog:\s*!!/.test(bomi)) { n++; bad('assets/bomi.js 에 「이 대화 저장 안 함」 체크 또는 nolog 전송이 없음'); }
+  if (/LTRIM/.test(chat) || !/CHATLOG_KEYS/.test(chat)) { n++; bad('api/chat.js 가 대화 기록을 자르거나(LTRIM) 챗봇별 저장 키(CHATLOG_KEYS)를 쓰지 않음'); }
+  if (!n) ok('저장 안 함 체크·전송·서버 확인 모두 있음, 대화 기록 자르기 없음');
+})();
+
 /* ── 10. 전수 렌더 (--render) ───────────────────────────────────────── */
 if (process.argv.includes('--render')) {
   console.log('\n[10] WebKit 전수 렌더 — tools/verify-render.js 를 실행하세요');

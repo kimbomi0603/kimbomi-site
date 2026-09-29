@@ -71,6 +71,9 @@
   '#bomi .send{background:'+G+';color:#fff}#bomi .send:disabled{opacity:.45;cursor:default}',
   '#bomi .mic.on{background:#FCE8E6;color:#C8412B}',
   '#bomi svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}',
+  '#bomi .nolog{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:5px;margin:0 14px 4px;font-size:11px;color:#5F6368;cursor:pointer;user-select:none}',
+  '#bomi .nolog input{flex:0 0 auto!important;width:13px!important;height:13px!important;min-width:0!important;padding:0!important;border:0!important;margin:0!important;accent-color:'+G+';cursor:pointer}',
+  'html[data-theme="dark"] #bomi .nolog{color:#B9B5AC}',
   '#bomi .ft{flex:0 0 auto;font-size:10.5px;color:#7A7D83;text-align:center;padding:0 14px calc(10px + env(safe-area-inset-bottom,0px))}',
   '#bomi .ft a{color:inherit;text-decoration:underline;text-underline-offset:2px}',
   '@media(max-width:640px){#bomi{inset:0;width:auto;height:auto;border-radius:0;right:0;bottom:0}#bomi .top{padding-top:calc(10px + env(safe-area-inset-top,0px))}#bomi .word{font-size:38px}}',
@@ -121,7 +124,8 @@
       '<form><label for="bomiQ" style="position:absolute;left:-9999px">질문</label><input id="bomiQ" type="text" placeholder="메시지를 입력하고 Enter를 누르세요." maxlength="500" autocomplete="off">'+
       (SR?'<button type="button" class="mic" aria-label="말로 묻기">'+MIC+'</button>':'')+
       '<button type="submit" class="send" aria-label="보내기">'+SEND+'</button></form>'+
-      '<div class="ft">봄이는 AI라 틀릴 수 있어요. 숫자는 우리동네365 화면과 지방재정365 원자료로 확인해 주세요. 대화는 답변 점검을 위해 저장되니 개인정보는 적지 마세요(<a href="/privacy.html">개인정보처리방침</a>).</div></div></section>');
+      '<label class="nolog"><input type="checkbox" id="bomiNolog"> 이 대화 저장 안 함 <span style="opacity:.75">(관리자에게 전달되지 않아요)</span></label>'+
+      '<div class="ft">봄이는 AI라 틀릴 수 있어요. 숫자는 우리동네365 화면과 지방재정365 원자료로 확인해 주세요. 대화는 답변 점검을 위해 저장되며, 원치 않으면 위 칸을 체크하세요. 개인정보는 적지 마세요(<a href="/privacy.html">개인정보처리방침</a>).</div></div></section>');
     document.body.appendChild(fab); document.body.appendChild(box);
     /* 떠 있는 봄이 말풍선 글씨 바꾸기 */
     var say=fab.querySelector('.say'), si=0; if(!reduce) setInterval(function(){ si=(si+1)%SAYS.length; say.textContent=SAYS[si]; },4000);
@@ -150,6 +154,9 @@
       rec.onresult=function(e){ var t=''; for(var i=0;i<e.results.length;i++) t+=e.results[i][0].transcript; inp.value=t; if(e.results[e.results.length-1].isFinal){ stopMic(); ask(inp.value); } };
       rec.onerror=function(){ stopMic(); }; rec.onend=function(){ if(mic) mic.classList.remove('on'); rec=null; }; rec.start(); mic.classList.add('on'); state('listen'); }catch(e){ stopMic(); } });
     var busy=false;
+    /* 저장 안 함 — 본인이 고르면 서버가 이 대화를 기록하지 않는다. 고른 값은 이 브라우저에만 기억 */
+    var nolog=box.querySelector('#bomiNolog'); try{ nolog.checked=localStorage.getItem('bomiNolog')==='1'; }catch(e){}
+    nolog.addEventListener('change',function(){ try{ localStorage.setItem('bomiNolog',nolog.checked?'1':'0'); }catch(e){} addBot(nolog.checked?'알겠어요. 이제부터 이 창의 대화는 저장하지 않아요.':'이제부터 대화를 답변 점검용으로 저장해요.'); });
     /* 대화번호 — 한 번의 대화를 관리자 화면에서 묶어 보기 위한 임시 번호. 탭을 닫으면 사라지고, 개인을 알아볼 수 없다 */
     var SID=(function(){ var mk=function(){ return (Date.now().toString(36)+Math.random().toString(36).slice(2,10)).toLowerCase(); }; try{ var s=sessionStorage.getItem('bomiSid'); if(!s||!/^[a-z0-9]{6,32}$/.test(s)){ s=mk(); sessionStorage.setItem('bomiSid',s); } return s; }catch(e){ return mk(); } })();
     function typeOut(m,text,extra,done){ if(reduce||text.length>900){ m.textContent=text; fin(); return; } var k=0; var t=setInterval(function(){ k+=4; m.textContent=text.slice(0,k); log.scrollTop=log.scrollHeight; if(k>=text.length){ clearInterval(t); fin(); } },28);
@@ -160,7 +167,7 @@
       var tThink=setTimeout(function(){ state('think'); },700);
       function end(){ busy=false; send.disabled=false; if(innerWidth>640) inp.focus(); }
       try{
-        var r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'bomi',message:q,context:ctx(),history:hist.slice(-8),sid:SID,page:(location.pathname+location.search+location.hash).slice(0,200)})});
+        var r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'bomi',message:q,context:ctx(),history:hist.slice(-8),sid:SID,page:(location.pathname+location.search+location.hash).slice(0,200),nolog:!!(nolog&&nolog.checked)})});
         var j=await r.json(); clearTimeout(tThink); w.remove();
         if(!j.ok||!j.text){ state('oops',4000); addBot('앗, 지금은 답을 만들지 못했어요. 잠시 후 다시 물어봐 주세요. '+(j.error?'('+j.error+')':'')); end(); }
         else { state('talk'); var m=addBot(''); typeOut(m,j.text,(j.cross?'✔ Gemini·Groq 교차검증 완료':'AI 1개 응답(교차검증 생략)'),function(){ state('happy',2600); end(); }); hist.push({role:'user',text:q},{role:'model',text:j.text}); }

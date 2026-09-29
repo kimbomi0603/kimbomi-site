@@ -99,6 +99,20 @@ const PRESERVE = ['archive.html', 'story.html', 'manifesto.html', 'gongyak.html'
   if (cl.status !== 403) fail('API', `관리자 대화 기록이 키 없이 열림(status ${cl.status})`); else ok('API', '관리자 대화 기록 잠김(403)');
   const news = await json(BASE + 'api/chat?action=news');
   if (!news || news.ok === false) warn('API', '언론 보도 자동 로드 실패(api/chat?action=news)'); else ok('API', '언론 보도 자동 로드');
+  /* 2026-09-29 사용자 지시: API 연동 점검은 항상. 값이 없으면 '없음'으로 두고 지어내지 않는지까지 본다 */
+  const th = await json(BASE + 'api/thoughts');
+  if (!th || th.ok === false || !Array.isArray(th.items)) fail('API', '생각 나누기 목록(api/thoughts) 실패'); else ok('API', `생각 나누기 ${th.items.length}건`);
+  const ct = await json(BASE + 'api/contract?full=1&days=90&region=' + encodeURIComponent('세종특별자치시'));
+  if (!ct || ct.ok === false) warn('API', '나라장터 계약(api/contract) 응답 실패 — 계약현황 화면이 안내 문구를 띄우는지 확인');
+  else ok('API', '나라장터 계약 조회');
+  const lfq = await json(BASE + 'api/lofin?hub=QWGJK&fyr=2026&laf_cd=4678000&pSize=5&exe_ymd=' + (new Date(Date.now() - 3 * 864e5).toISOString().slice(0, 10).replace(/-/g, '')));
+  if (!lfq || lfq.ok === false) warn('API', '지방재정365(api/lofin) 응답 실패 — 화면은 내장 자료로 표시되는지 확인'); else ok('API', `지방재정365 실시간 조회 (${lfq.total ?? '건수 없음'})`);
+  /* AI 대화: '저장 안 함'(nolog)으로 물어 기록을 남기지 않고 응답만 확인 */
+  try {
+    const r = await fetch(BASE + 'api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: BASE.replace(/\/$/, '') }, body: JSON.stringify({ mode: 'bomi', message: '[자동 점검] 재정자립도를 한 문장으로 알려 주세요.', nolog: true }), signal: AbortSignal.timeout(90000) });
+    const j = await r.json().catch(() => null);
+    if (!j || !j.ok || !j.text) fail('API', `AI 봄이 응답 실패(${r.status} ${j && j.error || ''})`); else ok('API', `AI 봄이 응답 (${j.cross ? '교차검증' : 'AI 1개'})`);
+  } catch (e) { fail('API', 'AI 봄이 호출 오류: ' + e.message); }
 
   /* ── 4. 원자료 대조: 내장 집행 합계 ↔ 지방재정365 QWGJK ─────────── */
   console.log('\n[4] 원자료 대조 — 집행');

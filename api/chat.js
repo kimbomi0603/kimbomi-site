@@ -285,6 +285,7 @@ module.exports = async function (req, res) {
      저장 항목: 질문·답변·시각·대화번호(탭을 닫으면 사라지는 임시 번호)·보고 있던 페이지. IP는 저장하지 않는다. */
   async function saveChat(ans, mdl, crossed) {
     if (!RURL2) return;
+    if (body && body.nolog === true) return;   /* 방문자가 「이 대화 저장 안 함」을 고른 경우 — 기록하지 않는다 */
     var sid = String((body && body.sid) || "");
     if (!/^[a-z0-9]{6,32}$/.test(sid)) sid = "";
     var page = String((body && body.page) || "");
@@ -301,8 +302,8 @@ module.exports = async function (req, res) {
       if (isBomi) text = String(text || '').replace(/\*\*/g, '').replace(/^#{1,6}\s*/gm, '');  /* 봄이 화면은 글자 그대로 보여 주므로 마크다운 기호 제거 */
       /* 대화 기록(Redis) — 모든 챗봇. 2026-09-29 전까지는 더불이만 최근 1,000건(질문 600자·답 800자)을 남겼다. 이제 전문을 자르지 않고 전부 남긴다 */
       try { await saveChat(text, model, cross); } catch(e) {}
-      /* 캠프 확인용 — 더불이 대화 메일 알림(Resend 키 있을 때) */
-      if (isCampaign) {
+      /* 캠프 확인용 — 더불이 대화 메일 알림(Resend 키 있을 때). 저장 안 함을 고른 대화는 메일도 보내지 않는다 */
+      if (isCampaign && !(body && body.nolog === true)) {
         try {
           var RESEND = process.env.RESEND_API_KEY || "";
           /* 메일 알림 디바운스 — 같은 IP는 10분에 1통만 (대화 전체 기록은 kb_chatlog에 항상 저장됨) */
