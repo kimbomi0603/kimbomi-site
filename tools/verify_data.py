@@ -584,15 +584,30 @@ def l2_ctrt_one(cd, K, n_dates=3):
     dates = sorted({r[0] for r in R})
     day = int(datetime.datetime.now(KST).strftime('%j'))
     pick = [dates[(day * 7 + i * 13) % len(dates)] for i in range(min(n_dates, len(dates)))]
-    miss = []
+    miss, changed = [], []
+    built = str(K.get('built_at') or '')[:10].replace('-', '')
     for d in pick:
         j = http_json(f'{BASE}/api/lofin?' + urllib.parse.urlencode({'hub': 'WCEGCF', 'smz_ctrt_ymd': d, 'laf_cd': cd, 'pSize': 1000}))
         if not j or not j.get('ok'): return (cd, None, f'API 응답 없음 {d}(보류)')
-        api = {(str(x.get('ctrt_trgt_nm') or '').strip(), str(x.get('clt_nm') or '').strip(), x.get('ctrt_tot_tott_amt')) for x in j.get('rows') or []}
+        rows = j.get('rows') or []
+        api = {(str(x.get('ctrt_trgt_nm') or '').strip(), str(x.get('clt_nm') or '').strip(), x.get('ctrt_tot_tott_amt')) for x in rows}
         for r in R:
             if r[0] != d: continue
-            if (str(r[1]).strip(), str(r[4]).strip(), r[5]) not in api: miss.append(f'{d} {r[1][:20]} {r[4]} {r[5]:,}')
-    return (cd, not miss, f'API에 없는 저장 계약 {len(miss)}건: ' + '; '.join(miss[:2]) if miss else 'ok')
+            if (str(r[1]).strip(), str(r[4]).strip(), r[5]) in api: continue
+            # 같은 계약(이름·업체)이 있는데 금액만 다르고, 원자료가 수집 뒤에 고쳐졌으면(data_crt_ymd > 수집일) 변경계약 — 저장값이 틀린 게 아니라 수집 시점 값이다
+            core = lambda t: re.sub(r'\([^)]*\)|\s+', '', str(t or ''))
+            def alike(a2, b2):
+                a2, b2 = core(a2), core(b2)
+                return a2 == b2 or (min(len(a2), len(b2)) >= 8 and (a2.startswith(b2) or b2.startswith(a2)))
+            vend = [x for x in rows if str(x.get('clt_nm') or '').strip() == str(r[4]).strip()]
+            same_ct = [x for x in vend if str(x.get('ctrt_trgt_nm') or '').strip() == str(r[1]).strip()] or [x for x in vend if alike(x.get('ctrt_trgt_nm'), r[1])]
+            # 원자료 수정일이 수집일 이후(같은 날 포함)면 변경계약·계약해지 표시 등 사후 수정
+            amt_hit = [x for x in same_ct if x.get('ctrt_tot_tott_amt') == r[5]]
+            if amt_hit and all(str(x.get('data_crt_ymd') or '') >= built for x in amt_hit): changed.append(f'{d} {r[1][:16]}')   # 금액은 같고 이름만 수집 뒤 바뀜
+            elif not amt_hit and same_ct and any(str(x.get('data_crt_ymd') or '') >= built for x in same_ct): changed.append(f'{d} {r[1][:16]}')   # 수집 뒤 금액이 고쳐짐
+            else: miss.append(f'{d} {r[1][:20]} {r[4]} {r[5]:,}')
+    if miss: return (cd, False, f'API에 없는 저장 계약 {len(miss)}건: ' + '; '.join(miss[:2]))
+    return (cd, True, ('changed:' + str(len(changed))) if changed else 'ok')
 
 # ─────────────────────────────── L4 기대값 ───────────────────────────────
 def expect_for(cd, row, lg, idx_rows, L):
@@ -644,6 +659,7 @@ def main():
         l1_index(L, cd, rows[cd], lg)
         l1_extra(L, cd, rows[cd], lg)
     have_docs = l1_docs(L, lgs, rows, ix) | l1_sido(L, lgs, rows)
+    stale_ct = {}
     ctrt = {}
     for cd in lgs:
         pc = os.path.join(ROOT, 'data', 'ctrt', cd + '.txt')
@@ -660,6 +676,7 @@ def main():
             for cd, ok, why in ex.map(lambda kv: l2_ctrt_one(kv[0], kv[1]), ctrt.items()):
                 if ok is None: notes.append(f'{cd} 계약: {why}'); continue
                 L.mark(cd, 'ct', 'L2', ok, None if ok else why)
+                if ok and str(why).startswith('changed:'): stale_ct[cd] = int(why.split(':')[1])
         years = sorted({y for lg in lgs.values() for y in (lg.get('fiscal') or {})})
         miss = l2_fiscal(L, lgs, years, a.workers)
         if miss: notes.append('API 무응답(판정 보류): ' + ', '.join(miss))
@@ -736,6 +753,9 @@ def main():
                     status['deny'].setdefault(cd, []).append(k)
                     status['deny_why'].setdefault(cd, {})[k] = (prev.get('deny_why') or {}).get(cd, {}).get(k, ['마지막 API 대조에서 막힘'])
     deny = status['deny']
+    # 수집 뒤 원자료가 고쳐진 계약(변경계약) — 틀린 값은 아니지만 수집 시점 값이라는 것을 화면에 알린다
+    if a.api: status['stale_ct'] = stale_ct
+    else: status['stale_ct'] = prev.get('stale_ct') or {}
     n_inst = sum(len(v) for v in L.r.values()); n_fail = sum(len(v) for v in deny.values())
     layer_cnt = {Lk: sum(1 for v in L.r.values() for e in v.values() if e.get(Lk) is True) for Lk in LAYERS}
     status['summary'] = {'datasets': n_inst, 'blocked': n_fail, 'lgs': len(lgs), 'passed_by_layer': layer_cnt, 'notes': notes[:20]}
