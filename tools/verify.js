@@ -220,7 +220,7 @@ for (const f of HTML) {
   const src = readSrc(f).split('\n');
   src.forEach((ln, i) => {
     if (!FORMATTER.test(ln)) return;
-    if (/KB_esc\(|KB_won억\(|KB_won원\(|KB_fmt\(/.test(ln)) return;      // 위임은 정상
+    if (/KB_(esc|won억|won원|won365|fmt)\(/.test(ln)) return;      // 위임은 정상 (KB_won365: 2026-09-29 우리동네365 표기)
     reimpl++;
     bad(`${f}:${i+1} 표시 유틸을 자체 구현함 — assets/kb-format.js 로 위임하십시오   « ${ln.trim().slice(0,80)} »`);
   });
@@ -230,7 +230,7 @@ if (!reimpl) ok('esc·금액 포매터 전부 assets/kb-format.js 위임');
 /* KB_ 를 쓰면서 공통 파일을 로드하지 않으면 화면이 통째로 죽는다 */
 for (const f of HTML) {
   const raw = fs.readFileSync(path.join(ROOT, f), 'utf8');
-  if (!/\bKB_(esc|won억|won원|fmt)\s*\(/.test(raw)) continue;
+  if (!/\bKB_(esc|won억|won원|won365|fmt)\s*\(/.test(raw)) continue;
   /* 2026-09-04: 처음엔 파일명 문자열만 찾아, 위임 주석에 적힌 이름까지 '로드됨'으로
      세는 바람에 실제로 로더가 빠진 페이지 7개를 놓쳤다. script 태그로 확인한다. */
   if (!/<script[^>]+src=["'][^"']*assets\/kb-format\.js["'][^>]*>/.test(raw))
@@ -313,6 +313,86 @@ console.log('\n[9-3] 회계 항등식 · 결산 데이터 구조');
     if (off.length) warn(`분야별 세출 합계가 일반회계 결산과 50% 넘게 어긋나는 곳 ${off.length}곳 — 화면 경고 문구가 표시되는지 확인 (${off.slice(0,4).join(', ')})`);
     else ok('분야별 세출 합계 중대 결손 없음');
   }
+})();
+
+/* ── 11~15. 가짜 판정·동명 오매칭·경계 변경 (2026-09-29 신설) ─────────────────
+   사고: 인천 화면에서 (1) 공약 제목 낱말('전국'·'인천')이 사업명에 들어 있기만 하면 '예산 반영·집행 시작'으로
+   판정해, 신산업 공약이 향교·농산물 행사 사업으로 '이행'된 것처럼 보였다. (2) 선관위 당선인을 구·군 이름만으로
+   찾아 대구·광주·대전·울산·부산 등 19곳에 다른 시·도 구청장(서울 중구청장, 부산 동구청장 등)이 붙어 있었다.
+   (3) 서해구(옛 서구, 2026.7.1 검단구 분리)에 검단 포함 인구로 1인당 값을 냈고, 인구 공시가 없는 곳은
+   '인구가 비슷한 5곳'을 목록 앞 5곳으로 아무렇게나 골랐다. (4) 기금이 포함된 합계를 '세출예산 총계'라 불렀다.
+   아래 검사는 같은 종류가 되살아나면 배포를 막는다. */
+console.log('\n[11] 자동 판정 금지 — 낱말이 겹친다고 이행·반영을 판정하지 않는다');
+(function(){
+  const src = readSrc('budget365.html');
+  const BAN = [
+    [/공약 이행 신호등|예산에 이름이 닿은 공약|pledgeMatch\s*\(/, '공약-사업 낱말 매칭으로 이행 상태를 판정함'],
+    [/['"`]집행 시작['"`]|>집행 시작</, "'집행 시작' 판정 표기"],
+    [/관련 사업 예산현액 합계/, '낱말 매칭 합계를 공약 예산처럼 표시함'],
+    [/어느 사업에 앉았는지|어느 사업과 닿는지/, '정책 돈이 특정 사업에 들어갔다고 단정하는 문구'],
+    [/POL_KW\[[^\]]+\]\s*\|\|\s*\[\]\)\.slice/, '정책 제목에 없는 분야 일반어로 사업을 찾음']
+  ];
+  let n = 0;
+  src.split('\n').forEach((ln, i) => { for (const [re, msg] of BAN) if (re.test(ln)) { n++; bad(`budget365.html:${i+1} ${msg}`); } });
+  if (!n) ok('공약·정책 자동 판정 표기 없음');
+})();
+
+console.log('\n[12] 당선인 자료 — 시·도와 구·군이 둘 다 맞는지 (동명 구·군 오매칭 차단)');
+(function(){
+  const src = readSrc('budget365.html');
+  const mw = src.match(/function matchWinner[\s\S]*?\n/);
+  if (!mw || /\|\|\s*list\.find\(\s*w\s*=>\s*\(\s*w\.wiwName/.test(src)) bad('matchWinner 가 구·군 이름만으로 당선인을 찾는 경로를 가짐');
+  let gz; try { gz = require('zlib'); } catch (e) {}
+  const DIR = path.join(ROOT, 'data', 'pledge');
+  if (!fs.existsSync(DIR) || !gz) { warn('data/pledge 없음 — 건너뜀'); return; }
+  const master = (cd) => { try { return JSON.parse(gz.gunzipSync(Buffer.from(fs.readFileSync(path.join(ROOT,'data',cd+'.txt'),'utf8').trim(),'base64'))).master; } catch (e) { return null; } };
+  const TONG = { '전남광주통합특별시': ['광주광역시','전라남도','전남광주통합특별시'] };
+  let wrong = [], dead = [];
+  for (const f of fs.readdirSync(DIR)) {
+    if (!/^\d{7}\.json$/.test(f)) continue;
+    const cd = f.slice(0,7); const j = JSON.parse(fs.readFileSync(path.join(DIR,f),'utf8')); const w = j.lg && j.lg[cd] && j.lg[cd].w;
+    if (!w) continue;
+    const m = master(cd); if (!m) continue;
+    if (m.live_2026 === false) { dead.push(cd); continue; }
+    const sds = new Set([m.sido_2024, m.sido_new, ...(TONG[m.sido_new]||[])].filter(Boolean));
+    const gus = new Set([m.sigungu_new, m.sigungu_2024].filter(Boolean));
+    const okSd = sds.has(w.sd);
+    const okGu = m.level === '광역' ? true : gus.has(w.wiw) || (m.sigungu_new && String(w.wiw||'').startsWith(m.sigungu_new));
+    if (!okSd || !okGu) wrong.push(`${cd} ${m.display_new||''} ← ${w.sd} ${w.wiw} ${w.name}`);
+  }
+  if (wrong.length) bad(`당선인이 다른 시·도·구·군 사람으로 붙은 곳 ${wrong.length}곳: ${wrong.slice(0,5).join(' / ')}`);
+  if (dead.length) bad(`2026.7.1 없어진 지자체에 당선인이 붙어 있음: ${dead.join(', ')}`);
+  if (!wrong.length && !dead.length) ok('당선인 자료 전부 시·도+구·군 일치');
+})();
+
+console.log('\n[13] 경계 변경 지자체 — 옛 경계 값에 표시가 있는지');
+(function(){
+  let gz; try { gz = require('zlib'); } catch (e) { return; }
+  const ix = JSON.parse(fs.readFileSync(path.join(ROOT,'data','index.json'),'utf8'));
+  const byCd = {}; ix.rows.forEach(r => byCd[r.laf_cd] = r);
+  const miss = [];
+  for (const r of ix.rows) {
+    let m; try { m = JSON.parse(gz.gunzipSync(Buffer.from(fs.readFileSync(path.join(ROOT,'data',r.laf_cd+'.txt'),'utf8').trim(),'base64'))).master; } catch (e) { continue; }
+    for (const old of (m.replaces || [])) {
+      const o = byCd[old];
+      if (o && o.live_2026 && !o.bnd_2026) miss.push(`${old} ${o.display}(→ ${r.display} 분리)`);
+    }
+  }
+  if (miss.length) bad(`경계가 바뀌었는데 bnd_2026 표시가 없는 지자체: ${[...new Set(miss)].join(', ')} — 옛 인구로 1인당 값이 계산됩니다`);
+  else ok('경계 변경 지자체 전부 표시됨');
+  const src = readSrc('budget365.html');
+  if (!/bnd_2026/.test(src)) bad('budget365.html 이 bnd_2026(경계 변경)을 처리하지 않음');
+  if (/:pool\.slice\(0,\s*5\)/.test(src)) bad("비교 대상이 없을 때 목록 앞 5곳을 임의로 고름 (':pool.slice(0,5)')");
+})();
+
+console.log('\n[14] 금액 이름표 — 기금이 들어간 합계를 예산 총계라 부르지 않기');
+(function(){
+  const src = readSrc('budget365.html');
+  let n = 0;
+  src.split('\n').forEach((ln, i) => {
+    if (/ane_tott_amt|tot_pfa_amt/.test(ln) && /l:\s*[`'"](세출예산 총계|세출결산 총계)/.test(ln)) { n++; bad(`budget365.html:${i+1} 기금 포함 합계에 '기금' 없이 총계라고 붙임`); }
+  });
+  if (!n) ok("기금 포함 합계 이름표에 '기금' 표기");
 })();
 
 /* ── 10. 전수 렌더 (--render) ───────────────────────────────────────── */

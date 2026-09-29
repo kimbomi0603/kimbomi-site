@@ -77,6 +77,19 @@
     return Math.round(Number(n)).toLocaleString('ko-KR');
   }
 
+  /* 우리동네365(budget365) 표기 — 원 단위 입력.
+     1조 이상은 소수 둘째 자리까지 '조원', 1억 이상은 반올림한 '억원', 1만 이상은 '만원'. 값이 없으면 '—'.
+     2026-09-29 budget365.html 의 자체 won() 을 이곳으로 옮겼다(출력은 한 글자도 바뀌지 않게 그대로). */
+  function KB_won365(v) {
+    if (v === null || v === undefined || v === '' || !isFinite(Number(v))) return '—';
+    v = Number(v); var a = Math.abs(v), s = v < 0 ? '-' : '';
+    if (a >= 1e12) return s + (a / 1e12).toLocaleString('ko-KR', { maximumFractionDigits: 2 }) + '조원';
+    if (a >= 1e8) return s + Math.round(a / 1e8).toLocaleString('ko-KR') + '억원';
+    if (a >= 1e4) return s + Math.round(a / 1e4).toLocaleString('ko-KR') + '만원';
+    return s + Math.round(a).toLocaleString('ko-KR') + '원';
+  }
+
+  root.KB_won365 = KB_won365;
   root.KB_esc = KB_esc;
   root.KB_won억 = KB_won억;
   root.KB_won원 = KB_won원;

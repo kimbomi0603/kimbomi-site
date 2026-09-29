@@ -92,7 +92,7 @@ def build_lg():
         asof = ymd(ex.get('exe_ymd'))
         title = f"{nm} 2026년 예산·집행·계약 한눈에 | 우리동네365"
         if live:
-            desc = f"{disp} 2026년 예산현액 {won(ex.get('budget'))}, 집행률 {pct(ex.get('rate'))}({asof} 기준), 세부사업 {num(ex.get('dbiz'))}건. 계약대장 전수·단체장 공약 반영·계약 이상 징후까지 우리동네365에서 확인합니다."
+            desc = f"{disp} 2026년 예산현액 {won(ex.get('budget'))}, 집행률 {pct(ex.get('rate'))}({asof} 기준), 세부사업 {num(ex.get('dbiz'))}건. 계약대장 전수·단체장 공약 원문·계약 이상 징후까지 우리동네365에서 확인합니다."
         else:
             desc = f"{disp}의 예산·집행·계약 자료. 2026년 세부사업 집행 자료가 아직 공개되지 않아 값은 비워 두었습니다. 우리동네365에서 확인합니다."
         url = f"{SITE}/lg/{cd}.html"
@@ -101,13 +101,13 @@ def build_lg():
         body = HEAD.format(title=esc(title), desc=esc(desc), url=url, site=SITE, ld=ld, zone='#7FB2D9')
         body += f"""<span class="zone">지방정부</span>
 <h1>{esc(disp)}</h1>
-<p class="sub">2026년 예산현액과 오늘까지 집행, 2021년부터의 계약대장, 단체장 공약의 예산 반영 여부를 한 화면에서 봅니다.</p>
+<p class="sub">2026년 예산현액과 오늘까지 집행, 2021년부터의 계약대장, 단체장 공약 원문을 한 화면에서 봅니다.</p>
 <div class="stats">
   <div><b>{won(ex.get('budget')) if live else '—'}</b><span>2026 예산현액</span></div>
   <div><b>{pct(ex.get('rate')) if live else '—'}</b><span>집행률 · {asof if live else '자료 없음'} 기준</span></div>
   <div><b>{num(ex.get('dbiz')) if live else '—'}<small>건</small></b><span>2026 세부사업</span></div>
   <div><b>{pct(fi.get('sr_rate2'))}</b><span>재정자립도 · {esc(r.get('settle_fyr') or '')} 결산</span></div>
-  <div><b>{num(r.get('pop_2024'))}<small>명</small></b><span>인구 · 2024</span></div>
+  <div><b>{num(r.get('pop_2024'))}<small>명</small></b><span>인구 · 2024{' · ' + esc(r['bnd_2026']['pre']) if r.get('bnd_2026') else ''}</span></div>
   {f'<div><b>{num(lgpu[cd]["n"])}<small>건</small></b><span>사업 내역 연결 · 2026 사업명세서</span></div>' if cd in lgpu else ''}
 </div>
 <a class="cta" href="{app}">우리동네365에서 {esc(nm)} 열기 →</a>
@@ -116,7 +116,7 @@ def build_lg():
   <a href="{app}/exec">집행 <small>올해 어디까지 썼나</small></a>
   <a href="{app}/contract">계약 <small>누구와 얼마에</small></a>
   <a href="{app}/diag">진단 <small>규칙으로 걸러 본 곳</small></a>
-  <a href="{app}/pledge">공약 <small>공약이 예산이 됐나</small></a>
+  <a href="{app}/pledge">공약 <small>단체장 등록 공약 원문</small></a>
   <a href="{app}/peer">비교 <small>닮은 지자체 5곳과 나란히</small></a>
 </div>
 <p class="src">출처: 행정안전부 지방재정365 세부사업별 세출 집행(기준일 {asof if live else '—'}), 재정공시 결산({esc(r.get('settle_fyr') or '—')}), 지방계약 계약대장(2021~). 이 페이지는 검색용 요약이며 최신 값은 우리동네365 화면이 기준입니다.</p>
