@@ -476,8 +476,9 @@ function doShare(p){
   var text='「'+p.title+'」 — 김보미 생각 · '+HASHTAGS;
   var url='https://www.xn--4k0b53xuva.com/post/'+encodeURIComponent(p.id);
   if(navigator.share){ navigator.share({title:p.title,text:text,url:url}).catch(function(){}); return; }
-  try{ navigator.clipboard.writeText(text+' '+url); toast('링크가 복사됐어요'); }catch(e){ prompt('복사해 공유하세요', text+' '+url); }
+  kbCopyText(text+' '+url).then(function(){ toast('링크가 복사됐어요'); },function(){ prompt('복사해 공유하세요', text+' '+url); });
 }
+function kbCopyText(t){ /* 2026-09-29 클립보드 API가 막힌 환경(인앱 브라우저 등)에서도 복사되게 */ var fb=function(){ var ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly',''); ta.style.cssText='position:fixed;top:-1000px;left:0;opacity:0'; document.body.appendChild(ta); ta.select(); var ok=false; try{ ok=document.execCommand('copy'); }catch(e){} ta.remove(); if(!ok) throw new Error('copy failed'); }; if(navigator.clipboard&&window.isSecureContext){ return navigator.clipboard.writeText(t).catch(fb); } try{ fb(); return Promise.resolve(); }catch(e){ return Promise.reject(e); } }
 function showById(id){
   var p=posts.filter(function(x){return x.id===id;})[0];
   if(p){ renderDetail(p); }

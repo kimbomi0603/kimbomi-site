@@ -763,7 +763,7 @@ function fabSync(){ const f=document.getElementById('fabs'); if(!f) return; cons
 window.addEventListener('scroll',fabSync,{passive:true});
 
 window.addEventListener('hashchange',route);
-async function route(){ NAVN++; killCharts(); try{ closeMd(); }catch(e){} const h=location.hash.replace(/^#\/?/,''); const [a,cd,sub,pid]=h.split('/');
+async function route(heal){ const RT=(route._seq=(route._seq||0)+1); if(heal!==true) NAVN++; killCharts(); try{ closeMd(); }catch(e){} const h=location.hash.replace(/^#\/?/,''); const [a,cd,sub,pid]=h.split('/');
   try{ if(a==='lg'&&cd){ const lg=await loadLg(cd); const MK=['budget','exec','contract','diag','pledge','peer']; if(sub&&MK.includes(sub)){ if(B.mode!==sub){ B.mode=sub; B.page=1; B.cy=''; } await renderBudget(lg,pid); } else renderLg(lg); if(pid&&(sub==='budget'||sub==='exec')) openProject(lg,decodeURIComponent(pid)); }
   else if(a==='q'&&cd){ await renderSearch(decodeURIComponent(cd),sub?decodeURIComponent(sub):''); }
   else if(a==='gov'){ await renderGov(cd?decodeURIComponent(cd):''); }
@@ -775,10 +775,12 @@ async function route(){ NAVN++; killCharts(); try{ closeMd(); }catch(e){} const 
   else if(a==='task'){ await renderTasks(cd||''); }
   else if(a==='spol'){ await renderSido(cd?decodeURIComponent(cd):'',sub?decodeURIComponent(sub):''); }
   else renderHome(a==='sido'?decodeURIComponent(cd||''):''); }
-  catch(e){ if(!route._rt&&!/자료 없음|찾지 못했/.test(e.message||'')){ /* 2026-09-29 네트워크·압축풀기 등 일시 오류는 한 번 더 시도 */ route._rt=1; setTimeout(()=>{ route().finally(()=>{route._rt=0;}); },900); return; } route._rt=0; const nf=/자료 없음|찾지 못했/.test(e.message||''); document.getElementById('app').innerHTML=`<div class="wrap"><div class="empty" style="margin-top:28px"><b style="font-size:17px">${nf?(a==='lg'?'해당 지자체를 찾을 수 없습니다':'해당 자료를 찾을 수 없습니다'):'자료를 불러오지 못했습니다'}</b><div class="mut" style="margin:8px 0 14px">${nf?(a==='lg'?'주소의 코드가 바뀌었거나 없는 지자체입니다. 처음 화면에서 동네 이름으로 다시 찾아 주세요.':'주소가 바뀌었거나 없는 항목입니다. 목록에서 다시 골라 주세요.'):(/Failed to fetch|NetworkError|Load failed/i.test(e.message||'')?'인터넷 연결이 잠깐 끊겼거나 자료 서버가 늦게 답했습니다. 다시 시도해 주세요.':esc(e.message))}</div><div class="errbtns">${nf?'':'<button class="btn" type="button" onclick="route()">다시 시도</button>'}<a class="btn" href="#/">우리동네365 처음으로</a><a class="btn" href="#/gov">중앙정부 부처 목록</a></div></div></div>`; }
+  catch(e){ if(RT!==route._seq){ /* 2026-09-29 이미 다른 화면으로 넘어간 뒤 끝난 옛 요청의 오류는 무시 */ if(route._done===route._seq) setTimeout(()=>route(true),0); return; }
+    if(!route._rt&&!/자료 없음|찾지 못했/.test(e.message||'')){ /* 2026-09-29 네트워크·압축풀기 등 일시 오류는 한 번 더 시도 */ route._rt=1; setTimeout(()=>{ route().finally(()=>{route._rt=0;}); },900); return; } route._rt=0; const nf=/자료 없음|찾지 못했/.test(e.message||''); document.getElementById('app').innerHTML=`<div class="wrap"><div class="empty" style="margin-top:28px"><b style="font-size:17px">${nf?(a==='lg'?'해당 지자체를 찾을 수 없습니다':'해당 자료를 찾을 수 없습니다'):'자료를 불러오지 못했습니다'}</b><div class="mut" style="margin:8px 0 14px">${nf?(a==='lg'?'주소의 코드가 바뀌었거나 없는 지자체입니다. 처음 화면에서 동네 이름으로 다시 찾아 주세요.':'주소가 바뀌었거나 없는 항목입니다. 목록에서 다시 골라 주세요.'):(/Failed to fetch|NetworkError|Load failed/i.test(e.message||'')?'인터넷 연결이 잠깐 끊겼거나 자료 서버가 늦게 답했습니다. 다시 시도해 주세요.':esc(e.message))}</div><div class="errbtns">${nf?'':'<button class="btn" type="button" onclick="route()">다시 시도</button>'}<a class="btn" href="#/">우리동네365 처음으로</a><a class="btn" href="#/gov">중앙정부 부처 목록</a></div></div></div>`; }
+  if(RT!==route._seq){ /* 옛 화면이 늦게 끝나 새 화면을 덮었으면 지금 주소로 다시 그림 */ if(route._done===route._seq) setTimeout(()=>route(true),0); return; }
   buildNav();
   document.querySelectorAll('.nav a').forEach(x=>{ const hf=x.getAttribute('href'); x.classList.toggle('on',hf===location.hash||(x.id==='navHome'&&(!location.hash||location.hash==='#/'))||(/^#\/(key|policy|task|docs)$/.test(hf)&&location.hash.startsWith(hf+'/'))); });
-  window.scrollTo(0,0); fabSync(); }
+  window.scrollTo(0,0); fabSync(); route._done=RT; }
 
 /* ═══════════ 홈: 광역 → 기초 격자 ═══════════ */
 function renderHome(sido){ const R=S.index.rows; const live=R.filter(x=>x.live_2026); const sidos=[...new Set(live.map(x=>x.sido_new))];
@@ -1501,7 +1503,7 @@ async function renderGov27(sg){ const ix=await load27Index(); if(sg) return rend
   <div class="wrap">
     <div class="note" style="margin-top:0"><b>이 숫자는 '총계 기준'입니다</b> — 정부가 발표하는 2027년 총지출 820조 9,000억원과 다릅니다. 총지출은 회계와 기금 사이에 오가는 돈과 금융성 기금을 뺀 숫자이고, 여기 ${mjo(ix.total_b27)}조원은 예산과 기금을 모두 더하고 외국환평형기금 같은 금융성 기금까지 포함한 총계입니다. 둘은 서로 다른 것을 재는 자이며, 어느 한쪽이 틀린 값이 아닙니다. 소관별·사업별로 나뉜 숫자는 총계 기준으로만 공개됩니다.</div>
     <div class="note blue" style="margin-top:10px"><b>2026년 62곳, 2027년 64곳인 이유</b> — 2027년에 <b>중대범죄수사청</b>(4,724억원)과 <b>진실·화해를위한과거사정리위원회</b>(229억원)가 새 소관으로 들어왔습니다. 두 곳 모두 2026년 칸이 비어 있는 것은 0원이라는 뜻이 아니라 그 해에는 별도 소관이 아니었다는 뜻입니다. 2026년 화면은 중앙행정기관(부처) 기준이고, 2027년 화면은 국회 제출본의 소관 기준이라 국회·대법원·헌법재판소 같은 기관도 함께 셉니다.</div>
-    <div class="note blue"><b>증감율이 크게 튀는 곳은 조직이 바뀐 곳입니다</b> — 기획재정부가 재정경제부와 기획예산처로 나뉘면서 사업과 기금이 두 소관 사이를 옮겨 갔습니다. 기획예산처가 2026년 10.4조원에서 2027년 405.3조원으로 뛴 것은 예산이 그만큼 늘어서가 아니라 맡는 일이 옮겨 왔기 때문입니다. 재정경제부의 -11.6%도 같은 이유입니다. 2026년에 없던 중대범죄수사청과 진실·화해를위한과거사정리위원회는 증감율을 낼 수 없어 비워 두었습니다. 이런 곳에는 표를 붙여 두었습니다.</div><div class="sech"><span class="no">소관별</span><h2>어디에 얼마를 잡았나</h2><span class="basis">2027 정부안 큰 순 · 단위 조원</span></div>
+    <div class="note blue"><b>증감률이 크게 튀는 곳은 조직이 바뀐 곳입니다</b> — 기획재정부가 재정경제부와 기획예산처로 나뉘면서 사업과 기금이 두 소관 사이를 옮겨 갔습니다. 기획예산처가 2026년 10.4조원에서 2027년 405.3조원으로 뛴 것은 예산이 그만큼 늘어서가 아니라 맡는 일이 옮겨 왔기 때문입니다. 재정경제부의 -11.6%도 같은 이유입니다. 2026년에 없던 중대범죄수사청과 진실·화해를위한과거사정리위원회는 증감률을 낼 수 없어 비워 두었습니다. 이런 곳에는 표를 붙여 두었습니다.</div><div class="sech"><span class="no">소관별</span><h2>어디에 얼마를 잡았나</h2><span class="basis">2027 정부안 큰 순 · 단위 조원</span></div>
     <div class="mins">${M.map(x=>{
       const tag = x.rate==null ? '<span class="tag warn">2026년 없음</span>'
                 : Math.abs(x.rate)>=200 ? '<span class="tag warn">소관 이동</span>' : '';
@@ -1558,7 +1560,7 @@ async function render27Min(ix,sg){ const m=ix.ministries.find(x=>x.sg===sg); if(
       <td class="num hs ${d>0?'up':d<0?'dn':''}">${rt(r)}</td></tr>`; }).join('');
     document.getElementById('t27').innerHTML=`<div class="tw"><table><thead><tr>
       <th>세부사업</th><th class="hs">분야·부문</th><th class="hs">회계·기금</th>
-      <th class="num">2026 본예산</th><th class="num">2027 정부안</th><th class="num">증감</th><th class="num hs">증감율</th>
+      <th class="num">2026 본예산</th><th class="num">2027 정부안</th><th class="num">증감</th><th class="num hs">증감률</th>
       </tr></thead><tbody>${rows||'<tr><td colspan="7" class="mut">해당 사업이 없습니다</td></tr>'}</tbody></table></div>
       ${L.length>600?`<div class="mut" style="margin-top:6px">상위 600건만 표시 · 전체 ${num(L.length)}건</div>`:`<div class="mut" style="margin-top:6px">${num(L.length)}건</div>`}`;
   };
@@ -1858,7 +1860,8 @@ function docsCsv(){ const A=S.arch; if(!A) return; const ALL=docsAll(A,S.pol); c
   const rows=[['구분','시도·부처','분류','연도','파일명','원본URL','크기(바이트)','관련 정책']]; L.forEach(d=>rows.push([d.src,d.sido,d.cat,d.yr,d.fn,d.u||'',d.sz||'',d.pt||''])); saveFile('원문자료실_'+L.length+'건.csv',csv(rows)); }
 
 /* ── 공유 카드(PNG)·링크 복사 ── */
-async function copyLink(cd,mode){ const u=location.origin+location.pathname+'#/lg/'+cd+(mode?'/'+(typeof mode==='string'&&mode!=='1'?mode:B.mode||'budget'):''); try{ await navigator.clipboard.writeText(u); alert('링크를 복사했습니다.\n'+u); }catch(e){ prompt('아래 주소를 복사하세요',u); } }
+function kbCopyText(t){ /* 2026-09-29 클립보드 API가 막힌 환경(인앱 브라우저 등)에서도 복사되게 */ var fb=function(){ var ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly',''); ta.style.cssText='position:fixed;top:-1000px;left:0;opacity:0'; document.body.appendChild(ta); ta.select(); var ok=false; try{ ok=document.execCommand('copy'); }catch(e){} ta.remove(); if(!ok) throw new Error('copy failed'); }; if(navigator.clipboard&&window.isSecureContext){ return navigator.clipboard.writeText(t).catch(fb); } try{ fb(); return Promise.resolve(); }catch(e){ return Promise.reject(e); } }
+async function copyLink(cd,mode){ const u=location.origin+location.pathname+'#/lg/'+cd+(mode?'/'+(typeof mode==='string'&&mode!=='1'?mode:B.mode||'budget'):''); try{ await kbCopyText(u); alert('링크를 복사했습니다.\n'+u); }catch(e){ prompt('아래 주소를 복사하세요',u); } }
 async function shareCard(cd){ const me=S.byCd[cd]; if(!me) return; try{ await document.fonts.load('900 60px "Noto Sans KR"'); await document.fonts.load('700 28px "Noto Sans KR"'); }catch(e){}
   const pool=S.index.rows.filter(x=>x.live_2026&&x.laf_cd!==cd&&x.level===me.level&&x.type===me.type&&isN(x.pop_2024));
   const peers=isN(me.pop_2024)?pool.map(x=>({...x,d:Math.abs(x.pop_2024-me.pop_2024)})).sort((a,b)=>a.d-b.d).slice(0,5):pool.slice(0,5);

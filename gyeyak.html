@@ -343,14 +343,15 @@ function load(){
   $("dash").classList.add("hide");$("topnav").classList.add("hide");
   var sb=$("stateBox");sb.classList.remove("hide");sb.innerHTML='<span class="spin"></span>'+esc(REGION)+' 계약을 나라장터에서 불러오는 중…';
   var url="/api/contract?full=1&days="+DAYS+"&region="+encodeURIComponent(REGION);
-  var ctrl=new AbortController(),t=setTimeout(function(){ctrl.abort();},28000);
+  /* 2026-09-29 서버 최대 60초에 맞춰 58초까지 기다림(시·도 전체 조회는 처음에 오래 걸림). 10초가 지나면 안내 문구를 바꿈 */
+  var ctrl=new AbortController(),t=setTimeout(function(){ctrl.abort();},58000),slow=setTimeout(function(){ if(!sb.classList.contains('hide')) sb.innerHTML='<span class="spin"></span>'+esc(REGION)+' 계약을 불러오는 중… 시·도 전체처럼 범위가 넓으면 처음 한 번은 30초 넘게 걸릴 수 있습니다.'; },10000);
   fetch(url,{signal:ctrl.signal}).then(function(r){return r.json();}).then(function(j){
-    clearTimeout(t);
+    clearTimeout(t);clearTimeout(slow);
     if(!j||j.error||!j.bids){sb.innerHTML='<div class="err">데이터를 불러오지 못했습니다. '+esc((j&&j.error)||"")+'<br>잠시 후 다시 시도하거나 다른 기간/지자체를 선택해 주세요.</div>';return;}
     if(!j.bids.length){sb.innerHTML='<div class="err">최근 '+DAYS+'일간 '+esc(REGION)+'의 나라장터 계약·입찰 공고가 없습니다. 기간을 넓히거나 다른 지자체를 선택해 보세요.</div>';return;}
     DATA=prep(j);sb.classList.add("hide");$("dash").classList.remove("hide");$("topnav").classList.remove("hide");renderAll();
     try{history.replaceState(null,"","?sido="+encodeURIComponent(selSido.value)+"&sgg="+encodeURIComponent(selSgg.value)+"&auto=1");}catch(e){}
-  }).catch(function(e){clearTimeout(t);sb.innerHTML='<div class="err">불러오기 실패: '+esc(String(e&&e.message||e))+'<br>네트워크를 확인하고 다시 시도해 주세요.</div>';});
+  }).catch(function(e){clearTimeout(t);clearTimeout(slow);var ab=(e&&e.name==='AbortError')||/abort/i.test(String(e&&e.message||''));sb.innerHTML='<div class="err">'+(ab?'나라장터 응답이 늦어 불러오지 못했습니다. 한 번 더 누르면 대부분 바로 열립니다.':'불러오기 실패 — 네트워크를 확인해 주세요.')+'<br><button type="button" class="retry" onclick="load()" style="margin-top:10px;padding:8px 16px;border-radius:10px;border:1px solid currentColor;background:transparent;color:inherit;font-weight:700;cursor:pointer">다시 시도</button></div>';});
 }
 
 function prep(j){
