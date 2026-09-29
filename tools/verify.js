@@ -48,6 +48,9 @@ const COEF_ALLOW = [
   { file:'narasalim.html', expr:'R.debtRatio*2.2',
     why:'레이더 차트 정규화. 공시값을 그대로 쓰는 게 아니라 0~100 척도로 환산하는 것이며, '
       + '화면에 "본 사이트 자체 산식"이라고 명시돼 있다. 금액·공시 지표로 표시되지 않는다.' },
+  // 2026-09-29 실시간 불러오기 교차 검사 문턱값 — 값을 만드는 곳이 아니라, 검증된 기준값에서 크게 벗어난 실시간 값을 막는 비교식
+  ...['B0.exec*0.98', 'B0.budget*0.9', 'B0.budget*1.35', 'base.rows_total*0.2'].map(expr => ({ file:'budget365.html', expr,
+    why:'liveExec 교차 검사 문턱값(비교만 하고 화면에 표시하지 않음). 기준값과 어긋나면 실시간 값을 버린다.' })),
 ];
 const COEF = /([A-Za-z_$][\w.$\[\]']*)\s*\*\s*(0?\.\d{1,2}|\d\.\d{1,2})\b/g;
 let coefHits = 0;
@@ -403,6 +406,47 @@ console.log('\n[15] AI 대화 — 본인이 고른 「저장 안 함」이 지�
   if (!/id="bomiNolog"/.test(bomi) || !/nolog:\s*!!/.test(bomi)) { n++; bad('assets/bomi.js 에 「이 대화 저장 안 함」 체크 또는 nolog 전송이 없음'); }
   if (/LTRIM/.test(chat) || !/CHATLOG_KEYS/.test(chat)) { n++; bad('api/chat.js 가 대화 기록을 자르거나(LTRIM) 챗봇별 저장 키(CHATLOG_KEYS)를 쓰지 않음'); }
   if (!n) ok('저장 안 함 체크·전송·서버 확인 모두 있음, 대화 기록 자르기 없음');
+})();
+
+console.log('\n[16] 5중 검증 장치 — 원자료 스캔·API 재조회·교차·재계산·화면 대조가 빠지지 않았는지');
+(function(){
+  const fs = require('fs'), path = require('path'), cp = require('child_process');
+  const html = readSrc('budget365.html'), chat = readSrc('api/chat.js'), lofin = readSrc('api/lofin.js');
+  let n = 0;
+  // ① 화면 게이트: 판정표를 읽고, 통과 못한 묶음을 지우는 코드가 로더에 붙어 있어야 한다
+  if (!/async function loadVerify\(\)/.test(html) || !/await loadVerify\(\)/.test(html)) { n++; bad('budget365.html 이 판정표(data/verify/status.json)를 읽지 않음'); }
+  if (!/vApplyLg\(lg\)/.test(html) || !/vApplyIndex\(\)/.test(html)) { n++; bad('budget365.html 로더가 5중 검증 게이트(vApplyLg/vApplyIndex)를 거치지 않음'); }
+  if (!/if\(!vOk\(cd,'ct'\)\)\{ S\.ctrt\[cd\]=null/.test(html)) { n++; bad('계약대장 로더가 검증 게이트를 거치지 않음'); }
+  if (!/all\.length!==found\.total/.test(html)) { n++; bad('실시간 불러오기가 받은 행 수 = 전체 건수 확인 없이 합계를 냄(쪽 누락 시 가짜 합계)'); }
+  // ② 서버 실시간 대조와 매일 크론
+  if (!/if \(q\.vcheck\)/.test(lofin) || !/if \(q\.vdeny\)/.test(lofin)) { n++; bad('api/lofin.js 에 서버 실시간 대조(vcheck/vdeny)가 없음'); }
+  try { const vj = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8')); if (!(vj.crons || []).some(c => /vcheck=1/.test(c.path))) { n++; bad('vercel.json 에 매일 서버 대조 크론(/api/lofin?vcheck=1)이 없음'); } } catch (e) { n++; bad('vercel.json 읽기 실패'); }
+  // ③ AI 답변 숫자 근거 대조
+  if (!/function groundNumbers\(/.test(chat) || !/groundNumbers\(text, groundTxt\)/.test(chat)) { n++; bad('api/chat.js 가 AI 답의 숫자를 근거와 대조하지 않음(groundNumbers)'); }
+  // ④ 판정표: 있어야 하고, 오래되지 않아야 하고, 방금 원자료로 다시 돌린 판정과 같아야 한다
+  const st = path.join(ROOT, 'data/verify/status.json');
+  if (!fs.existsSync(st)) { n++; bad('data/verify/status.json 없음 — python3 tools/verify_data.py --api 를 먼저 돌리세요'); }
+  else {
+    let S0; try { S0 = JSON.parse(fs.readFileSync(st, 'utf8')); } catch (e) { n++; bad('status.json 파싱 실패'); }
+    if (S0) {
+      const need = ['exec', 'fis:ACC', 'fis:FISCAL', 'fis:EXEC', 'fis:M_BJHJB', 'pl:w'];
+      need.forEach(t => { if (!(S0.types || {})[t]) { n++; bad(`판정표 types 에 핵심 자료 종류 ${t} 가 없음`); } });
+      const apiAt = Date.parse(String(S0.api_checked_at || '').replace(' ', 'T') + ':00+09:00');
+      if (!apiAt || Date.now() - apiAt > 8 * 86400000) { n++; bad(`API 전수 대조가 8일 넘게 안 돌았음(${S0.api_checked_at || '기록 없음'}) — python3 tools/verify_data.py --api`); }
+      // 오프라인 층(L1·L3)을 지금 다시 돌려, 새로 막힐 것이 판정표에 빠져 있으면 실패
+      try {
+        cp.execFileSync('python3', [path.join(ROOT, 'tools/verify_data.py')], { cwd: ROOT, stdio: 'pipe', timeout: 180000 });
+      } catch (e) { /* 종료코드 1 = 막힌 값 있음(정상 동작). 아래에서 내용 비교 */ }
+      try {
+        const S1 = JSON.parse(fs.readFileSync(st, 'utf8'));
+        const miss = [];
+        Object.entries(S1.deny || {}).forEach(([cd, ks]) => ks.forEach(k => { if (!((S0.deny || {})[cd] || []).includes(k)) miss.push(cd + '/' + k); }));
+        if (miss.length) { n++; bad(`판정표가 원자료와 어긋남 — 새로 막혀야 할 ${miss.length}건: ${miss.slice(0, 5).join(', ')} (status.json 을 다시 만들고 커밋하세요)`); }
+        else ok(`판정표 최신(API ${S0.api_checked_at}), 막힌 묶음 ${Object.values(S1.deny || {}).reduce((a, b) => a + b.length, 0)}개 모두 화면에서 비움`);
+      } catch (e) { n++; bad('verify_data.py 재실행 결과를 읽지 못함 ' + e.message); }
+    }
+  }
+  if (!n) ok('화면 게이트·실시간 불러오기 검사·서버 대조·크론·AI 숫자 대조·판정표 모두 있음');
 })();
 
 /* ── 10. 전수 렌더 (--render) ───────────────────────────────────────── */

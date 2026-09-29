@@ -1,0 +1,2256 @@
+{
+"dataset": "sd:items",
+"sido": {
+"강원특별자치도": {
+"status": "ok",
+"n": 7,
+"missing": [],
+"urls": [
+"https://state.gwd.go.kr/egf/bp/common/front/262891/download",
+"https://state.gwd.go.kr/egf/bp/common/front/262870/download",
+"https://state.gwd.go.kr/portal/administration/finance/budgetSummary/2026",
+"https://www.kado.net/news/articleView.html?idxno=2015555",
+"https://v.daum.net/v/20260710124507524"
+]
+},
+"경기도": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"urls": [
+"https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
+"https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68258",
+"https://gnews.gg.go.kr/news/news_detail.do?number=202512311015478095C048&s_code=C401",
+"https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003251407&PAGE_CD=N0002&BLCK_NO=&CMPT_CD=M0147",
+"https://www.ajunews.com/view/20260714114946228"
+]
+},
+"경상남도": {
+"status": "ok",
+"n": 7,
+"missing": [],
+"urls": [
+"https://www.idomin.com/news/articleView.html?idxno=950182",
+"https://biz.heraldcorp.com/article/10615568",
+"https://www.newscj.com/news/articleView.html?idxno=3339551",
+"https://www.e-newsp.com/news/article.html?no=89091",
+"https://www.mt.co.kr/policy/2026/07/08/2026070816335762284"
+]
+},
+"경상북도": {
+"status": "ok",
+"n": 6,
+"missing": [],
+"urls": [
+"https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
+"https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-12-29&searchEndDt=2025-12-29",
+"https://www.gukjenews.com/news/articleView.html?idxno=3630488",
+"https://www.imaeil.com/page/view/2026071514451424792",
+"https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2026-07-15&searchEndDt=2026-07-15"
+]
+},
+"대구광역시": {
+"status": "ok",
+"n": 7,
+"missing": [],
+"urls": [
+"https://www.ajunews.com/view/20251106152514604",
+"https://m.joongdo.co.kr/view.php?key=20251106010002381",
+"https://www.sisajournal.com/news/articleView.html?idxno=352102",
+"https://www.kyongbuk.co.kr/news/articleView.html?idxno=4077164",
+"https://dgmbc.com/NewsArticle/848684"
+]
+},
+"대전광역시": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"urls": [
+"https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
+"https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1522817042",
+"https://www.khan.co.kr/article/202609171505001/",
+"https://www.goodmorningcc.com/news/articleView.html?idxno=452550"
+]
+},
+"부산광역시": {
+"status": "ok",
+"n": 3,
+"missing": [],
+"urls": [
+"https://busan.go.kr/nbtnewsBU/1705768",
+"https://www.busan.go.kr/nbnews/1705880",
+"https://www.sedaily.com/article/14141925",
+"https://www.busan.go.kr/mayor/news/1737943",
+"https://www.busan.go.kr/news/snsbusan01/view?dataNo=72982&curPage=1"
+]
+},
+"서울특별시": {
+"status": "ok",
+"n": 4,
+"missing": [],
+"urls": [
+"https://mediahub.seoul.go.kr/archives/2016029",
+"https://news.seoul.go.kr/gov/archives/576501",
+"https://www.fnnews21.com/news/articleView.html?idxno=49221",
+"https://newsseoul.co.kr/news/view/1065583228128166",
+"https://www.newspim.com/news/view/20260917000289"
+]
+},
+"세종특별자치시": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"urls": [
+"https://www.eroun.net/news/articleView.html?idxno=66200",
+"https://www.aflnews.co.kr/news/articleView.html?idxno=307339",
+"https://www.naewoeilbo.com/news/articleView.html?idxno=2226345",
+"https://www.sedaily.com/NewsView/2H0B7KFNSY",
+"https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003249401"
+]
+},
+"울산광역시": {
+"status": "ok",
+"n": 9,
+"missing": [],
+"urls": [
+"https://www.ulsan.go.kr/u/media/data.do?mediaId=MEDIA_00000000008920",
+"https://www.ulsan.go.kr/u/rep/contents.ulsan?mId=001005001003000000",
+"https://www.ulsan.go.kr/u/tax/contents.ulsan?mId=001003001019000000",
+"https://www.gukjenews.com/news/articleView.html?idxno=3425924",
+"https://www.newspim.com/news/view/20260127000980"
+]
+},
+"인천광역시": {
+"status": "ok",
+"n": 4,
+"missing": [],
+"urls": [
+"https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000013441585&curPage=1",
+"https://www.incheon.go.kr/open/OPEN060105/3065565",
+"https://www.incheon.go.kr/goodmorning/GM010100/view?nttNo=2042582&srchPblicteIssnoCode=202607",
+"https://ic.newdaily.co.kr/site/data/html/2026/07/01/2026070100344.html",
+"https://www.e-newsp.com/news/article.html?no=91787"
+]
+},
+"전남광주통합특별시": {
+"status": "ok",
+"n": 13,
+"missing": [],
+"urls": [
+"https://www.anewsa.com/detail.php?number=3196413",
+"https://www.jeonmae.co.kr/news/articleView.html?idxno=1291156",
+"https://www.fieldnews.co.kr/news/articleView.html?idxno=228969",
+"https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003250915",
+"https://www.asiatoday.co.kr/kn/view.php?key=20260701010000085"
+]
+},
+"전북특별자치도": {
+"status": "ok",
+"n": 4,
+"missing": [],
+"urls": [
+"https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=637935",
+"https://www.seoul.co.kr/news/society/2026/06/30/20260630500167",
+"https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=666359",
+"https://www.mhns.co.kr/news/articleView.html?idxno=753182",
+"https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=666461"
+]
+},
+"제주특별자치도": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"urls": [
+"https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
+"https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=2024411",
+"https://www.headlinejeju.co.kr/news/articleView.html?idxno=595303",
+"https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=2025764",
+"https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=2027374"
+]
+},
+"충청남도": {
+"status": "mismatch",
+"n": 11,
+"missing": [
+"5,900만"
+],
+"urls": [
+"https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
+"https://www.dominilbo.com/news/articleView.html?idxno=254545",
+"https://www.seoul.co.kr/news/politics/2026/06/29/20260629500169",
+"https://www.ajunews.com/view/20260901141827082",
+"https://www.gukjenews.com/news/articleView.html?idxno=3681672"
+]
+},
+"충청북도": {
+"status": "unreachable",
+"n": 5,
+"urls": [
+"https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=322071",
+"https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=322337",
+"https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=415053",
+"https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=437259",
+"https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=437253"
+]
+}
+},
+"checked": "2026-09-29",
+"method": "src_url 원문을 받아 글자로 바꾼 뒤 요약·예산 문장의 숫자(10 이하 단순 수·연도 제외)가 원문에 그대로 있는지 대조",
+"items": {
+"gw-01": {
+"status": "mismatch",
+"n": 10,
+"missing": [
+"1,600억",
+"1,600억"
+],
+"url": "https://state.gwd.go.kr/egf/bp/common/front/262891/download",
+"chars": 9864,
+"sido": "강원특별자치도"
+},
+"gw-02": {
+"status": "ok",
+"n": 10,
+"missing": [],
+"url": "https://state.gwd.go.kr/egf/bp/common/front/262891/download",
+"chars": 9864,
+"sido": "강원특별자치도"
+},
+"gw-03": {
+"status": "mismatch",
+"n": 14,
+"missing": [
+"90억",
+"250억",
+"90억",
+"250억"
+],
+"url": "https://www.kado.net/news/articleView.html?idxno=2015555",
+"chars": 5666,
+"sido": "강원특별자치도"
+},
+"gw-04": {
+"status": "mismatch",
+"n": 14,
+"missing": [
+"764억",
+"15,897명",
+"292천",
+"73,389명",
+"67개",
+"764억"
+],
+"url": "https://state.gwd.go.kr/egf/bp/common/front/262891/download",
+"chars": 9864,
+"sido": "강원특별자치도"
+},
+"gw-05": {
+"status": "mismatch",
+"n": 7,
+"missing": [
+"120억",
+"33억",
+"120억",
+"33억"
+],
+"url": "https://state.gwd.go.kr/egf/bp/common/front/262891/download",
+"chars": 9864,
+"sido": "강원특별자치도"
+},
+"gw-06": {
+"status": "mismatch",
+"n": 4,
+"missing": [
+"3,676명"
+],
+"url": "https://www.kado.net/news/articleView.html?idxno=2015555",
+"chars": 5666,
+"sido": "강원특별자치도"
+},
+"gw-07": {
+"status": "mismatch",
+"n": 12,
+"missing": [
+"250억",
+"213억"
+],
+"url": "https://www.kado.net/news/articleView.html?idxno=2015555",
+"chars": 5666,
+"sido": "강원특별자치도"
+},
+"gw-08": {
+"status": "ok",
+"n": 4,
+"missing": [],
+"url": "https://biz.heraldcorp.com/article/10794887",
+"chars": 7442,
+"sido": "강원특별자치도"
+},
+"gw-09": {
+"status": "ok",
+"n": 4,
+"missing": [],
+"url": "https://biz.heraldcorp.com/article/10794887",
+"chars": 7442,
+"sido": "강원특별자치도"
+},
+"gw-10": {
+"status": "ok",
+"n": 2,
+"missing": [],
+"url": "https://v.daum.net/v/20260710124507524",
+"chars": 3667,
+"sido": "강원특별자치도"
+},
+"gw-11": {
+"status": "mismatch",
+"n": 6,
+"missing": [
+"7,838대",
+"440대",
+"89억",
+"7,838대",
+"440대",
+"89억"
+],
+"url": "https://v.daum.net/v/20260710124507524",
+"chars": 3667,
+"sido": "강원특별자치도"
+},
+"gw-12": {
+"status": "mismatch",
+"n": 1,
+"missing": [
+"66개"
+],
+"url": "https://biz.heraldcorp.com/article/10794887",
+"chars": 7442,
+"sido": "강원특별자치도"
+},
+"gw-13": {
+"status": "ok",
+"n": 16,
+"missing": [],
+"url": "https://www.kado.net/news/curationView.html?idxno=2057595",
+"chars": 1484,
+"sido": "강원특별자치도"
+},
+"gw-14": {
+"status": "mismatch",
+"n": 2,
+"missing": [
+"423억",
+"423억"
+],
+"url": "https://state.gwd.go.kr/egf/bp/common/front/262870/download",
+"chars": 75633,
+"sido": "강원특별자치도"
+},
+"gg-01": {
+"status": "mismatch",
+"n": 10,
+"missing": [
+"1,194억",
+"1,194억"
+],
+"url": "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
+"chars": 4655,
+"sido": "경기도"
+},
+"gg-02": {
+"status": "mismatch",
+"n": 11,
+"missing": [
+"7,706억",
+"50%",
+"7,706억"
+],
+"url": "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
+"chars": 4655,
+"sido": "경기도"
+},
+"gg-03": {
+"status": "mismatch",
+"n": 17,
+"missing": [
+"1,382억",
+"1,382억"
+],
+"url": "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
+"chars": 4655,
+"sido": "경기도"
+},
+"gg-04": {
+"status": "ok",
+"n": 9,
+"missing": [],
+"url": "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
+"chars": 4655,
+"sido": "경기도"
+},
+"gg-05": {
+"status": "ok",
+"missing": [],
+"chars": 10001,
+"via": "PC",
+"url": "https://gnews.gg.go.kr/news/news_detail.do?number=202512311015478095C048&s_code=C401",
+"sido": "경기도",
+"n": 5
+},
+"gg-06": {
+"status": "mismatch",
+"n": 13,
+"missing": [
+"9,636억",
+"14개",
+"9,636억"
+],
+"url": "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
+"chars": 4655,
+"sido": "경기도"
+},
+"gg-07": {
+"status": "mismatch",
+"n": 9,
+"missing": [
+"3,624억",
+"3,624억"
+],
+"url": "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
+"chars": 4655,
+"sido": "경기도"
+},
+"gg-08": {
+"status": "mismatch",
+"n": 13,
+"missing": [
+"6,560억",
+"6,560억"
+],
+"url": "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
+"chars": 4655,
+"sido": "경기도"
+},
+"gg-09": {
+"status": "ok",
+"missing": [],
+"chars": 10001,
+"via": "PC",
+"url": "https://gnews.gg.go.kr/news/news_detail.do?number=202512311015478095C048&s_code=C401",
+"sido": "경기도",
+"n": 8
+},
+"gg-10": {
+"status": "mismatch",
+"n": 3,
+"missing": [
+"170명"
+],
+"url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003251407&PAGE_CD=N0002&BLCK_NO=&CMPT_CD=M0147",
+"chars": 5028,
+"sido": "경기도"
+},
+"gg-11": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.ajunews.com/view/20260714114946228",
+"chars": 5007,
+"sido": "경기도"
+},
+"gg-12": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.ajunews.com/view/20260714114946228",
+"chars": 5007,
+"sido": "경기도"
+},
+"gg-13": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.ajunews.com/view/20260714114946228",
+"chars": 5007,
+"sido": "경기도"
+},
+"gg-14": {
+"status": "ok",
+"n": 23,
+"missing": [],
+"url": "https://www.etoday.co.kr/news/view/2615932",
+"chars": 10874,
+"sido": "경기도"
+},
+"gg-15": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003251407&PAGE_CD=N0002&BLCK_NO=&CMPT_CD=M0147",
+"chars": 5028,
+"sido": "경기도"
+},
+"gn-01": {
+"status": "ok",
+"n": 13,
+"missing": [],
+"url": "https://www.idomin.com/news/articleView.html?idxno=950182",
+"chars": 6738,
+"sido": "경상남도"
+},
+"gn-02": {
+"status": "ok",
+"n": 22,
+"missing": [],
+"url": "https://www.idomin.com/news/articleView.html?idxno=950182",
+"chars": 6738,
+"sido": "경상남도"
+},
+"gn-03": {
+"status": "ok",
+"n": 5,
+"missing": [],
+"url": "https://www.idomin.com/news/articleView.html?idxno=950182",
+"chars": 6738,
+"sido": "경상남도"
+},
+"gn-04": {
+"status": "mismatch",
+"n": 17,
+"missing": [
+"1,398억",
+"1,398억",
+"4,300억",
+"1,398억",
+"4,300억"
+],
+"url": "https://www.idomin.com/news/articleView.html?idxno=950182",
+"chars": 6738,
+"sido": "경상남도"
+},
+"gn-05": {
+"status": "mismatch",
+"n": 12,
+"missing": [
+"5,209억",
+"131개",
+"5,209억",
+"131개"
+],
+"url": "https://www.idomin.com/news/articleView.html?idxno=950182",
+"chars": 6738,
+"sido": "경상남도"
+},
+"gn-06": {
+"status": "ok",
+"n": 13,
+"missing": [],
+"url": "https://www.idomin.com/news/articleView.html?idxno=950182",
+"chars": 6738,
+"sido": "경상남도"
+},
+"gn-07": {
+"status": "mismatch",
+"n": 7,
+"missing": [
+"99억",
+"99억",
+"99억"
+],
+"url": "https://www.idomin.com/news/articleView.html?idxno=950182",
+"chars": 6738,
+"sido": "경상남도"
+},
+"gn-08": {
+"status": "ok",
+"n": 6,
+"missing": [],
+"url": "https://www.idomin.com/news/articleView.html?idxno=950182",
+"chars": 6738,
+"sido": "경상남도"
+},
+"gn-09": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.mt.co.kr/policy/2026/07/08/2026070816335762284",
+"chars": 3798,
+"sido": "경상남도"
+},
+"gn-10": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.mt.co.kr/policy/2026/07/08/2026070816335762284",
+"chars": 3798,
+"sido": "경상남도"
+},
+"gn-11": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.mt.co.kr/policy/2026/07/08/2026070816335762284",
+"chars": 3798,
+"sido": "경상남도"
+},
+"gn-12": {
+"status": "mismatch",
+"n": 1,
+"missing": [
+"155건"
+],
+"url": "https://www.mt.co.kr/policy/2026/07/08/2026070816335762284",
+"chars": 3798,
+"sido": "경상남도"
+},
+"gb-01": {
+"status": "ok",
+"n": 12,
+"missing": [],
+"url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
+"chars": 14886,
+"sido": "경상북도"
+},
+"gb-02": {
+"status": "ok",
+"n": 7,
+"missing": [],
+"url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
+"chars": 14886,
+"sido": "경상북도"
+},
+"gb-03": {
+"status": "ok",
+"n": 12,
+"missing": [],
+"url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
+"chars": 14886,
+"sido": "경상북도"
+},
+"gb-04": {
+"status": "ok",
+"n": 10,
+"missing": [],
+"url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
+"chars": 14886,
+"sido": "경상북도"
+},
+"gb-05": {
+"status": "ok",
+"n": 12,
+"missing": [],
+"url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
+"chars": 14886,
+"sido": "경상북도"
+},
+"gb-06": {
+"status": "ok",
+"n": 7,
+"missing": [],
+"url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
+"chars": 14886,
+"sido": "경상북도"
+},
+"gb-07": {
+"status": "ok",
+"n": 16,
+"missing": [],
+"url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
+"chars": 14886,
+"sido": "경상북도"
+},
+"gb-08": {
+"status": "ok",
+"n": 17,
+"missing": [],
+"url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
+"chars": 14886,
+"sido": "경상북도"
+},
+"gb-09": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-12-29&searchEndDt=2025-12-29",
+"chars": 16225,
+"sido": "경상북도"
+},
+"gb-10": {
+"status": "mismatch",
+"n": 3,
+"missing": [
+"500만"
+],
+"url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-12-29&searchEndDt=2025-12-29",
+"chars": 16225,
+"sido": "경상북도"
+},
+"gb-11": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-12-29&searchEndDt=2025-12-29",
+"chars": 16225,
+"sido": "경상북도"
+},
+"gb-12": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.gukjenews.com/news/articleView.html?idxno=3630488",
+"chars": 6049,
+"sido": "경상북도"
+},
+"gb-13": {
+"status": "ok",
+"n": 4,
+"missing": [],
+"url": "https://www.seoul.co.kr/news/society/2026/07/30/20260730500048",
+"chars": 5777,
+"sido": "경상북도"
+},
+"daegu-01": {
+"status": "ok",
+"n": 9,
+"missing": [],
+"url": "https://m.joongdo.co.kr/view.php?key=20251106010002381",
+"chars": 6229,
+"sido": "대구광역시"
+},
+"daegu-02": {
+"status": "ok",
+"n": 14,
+"missing": [],
+"url": "https://www.sisajournal.com/news/articleView.html?idxno=352102",
+"chars": 5511,
+"sido": "대구광역시"
+},
+"daegu-03": {
+"status": "ok",
+"n": 9,
+"missing": [],
+"url": "https://www.sisajournal.com/news/articleView.html?idxno=352102",
+"chars": 5511,
+"sido": "대구광역시"
+},
+"daegu-04": {
+"status": "mismatch",
+"n": 11,
+"missing": [
+"56억",
+"56억"
+],
+"url": "https://m.joongdo.co.kr/view.php?key=20251106010002381",
+"chars": 6229,
+"sido": "대구광역시"
+},
+"daegu-05": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"url": "https://m.joongdo.co.kr/view.php?key=20251106010002381",
+"chars": 6229,
+"sido": "대구광역시"
+},
+"daegu-06": {
+"status": "mismatch",
+"n": 16,
+"missing": [
+"30억",
+"418억",
+"418억"
+],
+"url": "https://www.sisajournal.com/news/articleView.html?idxno=352102",
+"chars": 5511,
+"sido": "대구광역시"
+},
+"daegu-07": {
+"status": "ok",
+"n": 9,
+"missing": [],
+"url": "https://www.ajunews.com/view/20251106152514604",
+"chars": 4822,
+"sido": "대구광역시"
+},
+"daegu-08": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://dgmbc.com/NewsArticle/848684",
+"chars": 4025,
+"sido": "대구광역시"
+},
+"daegu-09": {
+"status": "ok",
+"n": 2,
+"missing": [],
+"url": "https://www.ynenews.kr/news/articleView.html?idxno=79744",
+"chars": 4682,
+"sido": "대구광역시"
+},
+"daegu-10": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.ynenews.kr/news/articleView.html?idxno=79744",
+"chars": 4682,
+"sido": "대구광역시"
+},
+"daegu-11": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://dgmbc.com/NewsArticle/848684",
+"chars": 4025,
+"sido": "대구광역시"
+},
+"dj-01": {
+"status": "ok",
+"n": 6,
+"missing": [],
+"url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
+"chars": 8112,
+"sido": "대전광역시"
+},
+"dj-02": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
+"chars": 8112,
+"sido": "대전광역시"
+},
+"dj-03": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
+"chars": 8112,
+"sido": "대전광역시"
+},
+"dj-04": {
+"status": "ok",
+"n": 12,
+"missing": [],
+"url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
+"chars": 8112,
+"sido": "대전광역시"
+},
+"dj-05": {
+"status": "ok",
+"n": 12,
+"missing": [],
+"url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
+"chars": 8112,
+"sido": "대전광역시"
+},
+"dj-06": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
+"chars": 8112,
+"sido": "대전광역시"
+},
+"dj-07": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
+"chars": 8112,
+"sido": "대전광역시"
+},
+"dj-08": {
+"status": "ok",
+"n": 7,
+"missing": [],
+"url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
+"chars": 8112,
+"sido": "대전광역시"
+},
+"dj-09": {
+"status": "ok",
+"n": 10,
+"missing": [],
+"url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
+"chars": 8112,
+"sido": "대전광역시"
+},
+"dj-10": {
+"status": "mismatch",
+"n": 1,
+"missing": [
+"77개"
+],
+"url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1522817042",
+"chars": 6310,
+"sido": "대전광역시"
+},
+"dj-11": {
+"status": "mismatch",
+"n": 2,
+"missing": [
+"99,715명"
+],
+"url": "https://www.khan.co.kr/article/202609171505001/",
+"chars": 4307,
+"sido": "대전광역시"
+},
+"dj-12": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.goodmorningcc.com/news/articleView.html?idxno=452550",
+"chars": 5137,
+"sido": "대전광역시"
+},
+"dj-13": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.goodmorningcc.com/news/articleView.html?idxno=452550",
+"chars": 5137,
+"sido": "대전광역시"
+},
+"dj-14": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.khan.co.kr/article/202609171505001/",
+"chars": 4307,
+"sido": "대전광역시"
+},
+"busan-01": {
+"status": "ok",
+"n": 7,
+"missing": [],
+"url": "https://www.sedaily.com/article/14141925",
+"chars": 7377,
+"sido": "부산광역시"
+},
+"busan-02": {
+"status": "ok",
+"n": 10,
+"missing": [],
+"url": "https://www.sedaily.com/article/14141925",
+"chars": 7377,
+"sido": "부산광역시"
+},
+"busan-03": {
+"status": "mismatch",
+"n": 9,
+"missing": [
+"4,407억",
+"4,407억",
+"4,407억"
+],
+"url": "https://www.sedaily.com/article/14141925",
+"chars": 7377,
+"sido": "부산광역시"
+},
+"busan-04": {
+"status": "ok",
+"n": 7,
+"missing": [],
+"url": "https://www.sedaily.com/article/14141925",
+"chars": 7377,
+"sido": "부산광역시"
+},
+"busan-05": {
+"status": "ok",
+"n": 7,
+"missing": [],
+"url": "https://www.sedaily.com/article/14141925",
+"chars": 7377,
+"sido": "부산광역시"
+},
+"busan-06": {
+"status": "ok",
+"n": 7,
+"missing": [],
+"url": "https://www.sedaily.com/article/14141925",
+"chars": 7377,
+"sido": "부산광역시"
+},
+"busan-07": {
+"status": "mismatch",
+"n": 12,
+"missing": [
+"3,783억",
+"5,350명",
+"3,783억"
+],
+"url": "https://www.busan.go.kr/news/snsbusan01/view?dataNo=72982&curPage=1",
+"chars": 3466,
+"sido": "부산광역시"
+},
+"busan-08": {
+"status": "ok",
+"missing": [],
+"chars": 2308,
+"via": "PC",
+"url": "https://www.busan.go.kr/mayor/inaugural",
+"sido": "부산광역시",
+"n": 0
+},
+"busan-09": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://v.daum.net/v/20260630170612443",
+"chars": 4565,
+"sido": "부산광역시"
+},
+"busan-10": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://v.daum.net/v/20260630170612443",
+"chars": 4565,
+"sido": "부산광역시"
+},
+"busan-11": {
+"status": "ok",
+"n": 18,
+"missing": [],
+"url": "https://www.seoul.co.kr/news/society/2026/06/30/20260630500155",
+"chars": 7508,
+"sido": "부산광역시"
+},
+"seoul-01": {
+"status": "ok",
+"n": 16,
+"missing": [],
+"url": "https://www.fnnews21.com/news/articleView.html?idxno=49221",
+"chars": 6620,
+"sido": "서울특별시"
+},
+"seoul-02": {
+"status": "ok",
+"n": 4,
+"missing": [],
+"url": "https://www.fnnews21.com/news/articleView.html?idxno=49221",
+"chars": 6620,
+"sido": "서울특별시"
+},
+"seoul-03": {
+"status": "ok",
+"n": 10,
+"missing": [],
+"url": "https://www.fnnews21.com/news/articleView.html?idxno=49221",
+"chars": 6620,
+"sido": "서울특별시"
+},
+"seoul-04": {
+"status": "mismatch",
+"n": 11,
+"missing": [
+"5,234개",
+"5,234개"
+],
+"url": "https://www.fnnews21.com/news/articleView.html?idxno=49221",
+"chars": 6620,
+"sido": "서울특별시"
+},
+"seoul-05": {
+"status": "ok",
+"n": 9,
+"missing": [],
+"url": "https://www.fnnews21.com/news/articleView.html?idxno=49221",
+"chars": 6620,
+"sido": "서울특별시"
+},
+"seoul-06": {
+"status": "ok",
+"n": 4,
+"missing": [],
+"url": "https://www.fnnews21.com/news/articleView.html?idxno=49221",
+"chars": 6620,
+"sido": "서울특별시"
+},
+"seoul-07": {
+"status": "ok",
+"n": 5,
+"missing": [],
+"url": "https://www.fnnews21.com/news/articleView.html?idxno=49221",
+"chars": 6620,
+"sido": "서울특별시"
+},
+"seoul-08": {
+"status": "mismatch",
+"n": 13,
+"missing": [
+"3,000개"
+],
+"url": "https://www.fnnews21.com/news/articleView.html?idxno=49221",
+"chars": 6620,
+"sido": "서울특별시"
+},
+"seoul-09": {
+"status": "ok",
+"n": 10,
+"missing": [],
+"url": "https://www.fnnews21.com/news/articleView.html?idxno=49221",
+"chars": 6620,
+"sido": "서울특별시"
+},
+"seoul-10": {
+"status": "ok",
+"n": 6,
+"missing": [],
+"url": "https://www.fnnews21.com/news/articleView.html?idxno=49221",
+"chars": 6620,
+"sido": "서울특별시"
+},
+"seoul-11": {
+"status": "ok",
+"n": 6,
+"missing": [],
+"url": "https://www.fnnews21.com/news/articleView.html?idxno=49221",
+"chars": 6620,
+"sido": "서울특별시"
+},
+"seoul-12": {
+"status": "mismatch",
+"n": 13,
+"missing": [
+"6,500호"
+],
+"url": "https://newsseoul.co.kr/news/view/1065583228128166",
+"chars": 9959,
+"sido": "서울특별시"
+},
+"seoul-13": {
+"status": "ok",
+"n": 4,
+"missing": [],
+"url": "https://newsseoul.co.kr/news/view/1065583228128166",
+"chars": 9959,
+"sido": "서울특별시"
+},
+"seoul-14": {
+"status": "ok",
+"n": 3,
+"missing": [],
+"url": "https://www.newspim.com/news/view/20260917000289",
+"chars": 16309,
+"sido": "서울특별시"
+},
+"sj-01": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"url": "https://www.eroun.net/news/articleView.html?idxno=66200",
+"chars": 3452,
+"sido": "세종특별자치시"
+},
+"sj-02": {
+"status": "ok",
+"n": 12,
+"missing": [],
+"url": "https://www.sedaily.com/NewsView/2H0B7KFNSY",
+"chars": 7941,
+"sido": "세종특별자치시"
+},
+"sj-03": {
+"status": "ok",
+"n": 2,
+"missing": [],
+"url": "https://www.sedaily.com/NewsView/2H0B7KFNSY",
+"chars": 7941,
+"sido": "세종특별자치시"
+},
+"sj-04": {
+"status": "ok",
+"n": 15,
+"missing": [],
+"url": "https://www.naewoeilbo.com/news/articleView.html?idxno=2226345",
+"chars": 3023,
+"sido": "세종특별자치시"
+},
+"sj-05": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.naewoeilbo.com/news/articleView.html?idxno=2226345",
+"chars": 3023,
+"sido": "세종특별자치시"
+},
+"sj-06": {
+"status": "mismatch",
+"n": 10,
+"missing": [
+"1,000만",
+"1,000만"
+],
+"url": "https://www.naewoeilbo.com/news/articleView.html?idxno=2226345",
+"chars": 3023,
+"sido": "세종특별자치시"
+},
+"sj-07": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"url": "https://www.aflnews.co.kr/news/articleView.html?idxno=307339",
+"chars": 5431,
+"sido": "세종특별자치시"
+},
+"sj-08": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"url": "https://www.sedaily.com/NewsView/2H0B7KFNSY",
+"chars": 7941,
+"sido": "세종특별자치시"
+},
+"sj-09": {
+"status": "mismatch",
+"n": 6,
+"missing": [
+"16억",
+"1,400만",
+"87건",
+"132건"
+],
+"url": "https://www.naewoeilbo.com/news/articleView.html?idxno=2226345",
+"chars": 3023,
+"sido": "세종특별자치시"
+},
+"sj-10": {
+"status": "ok",
+"n": 24,
+"missing": [],
+"url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003249401",
+"chars": 4977,
+"sido": "세종특별자치시"
+},
+"sj-11": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.newscj.com/news/articleView.html?idxno=3418986",
+"chars": 8824,
+"sido": "세종특별자치시"
+},
+"sj-12": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.newscj.com/news/articleView.html?idxno=3418986",
+"chars": 8824,
+"sido": "세종특별자치시"
+},
+"sj-13": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.newscj.com/news/articleView.html?idxno=3418986",
+"chars": 8824,
+"sido": "세종특별자치시"
+},
+"sj-14": {
+"status": "ok",
+"n": 2,
+"missing": [],
+"url": "https://www.newscj.com/news/articleView.html?idxno=3418986",
+"chars": 8824,
+"sido": "세종특별자치시"
+},
+"us-01": {
+"status": "ok",
+"n": 7,
+"missing": [],
+"url": "https://www.ulsan.go.kr/u/media/data.do?mediaId=MEDIA_00000000008920",
+"chars": 82153,
+"sido": "울산광역시"
+},
+"us-02": {
+"status": "mismatch",
+"n": 7,
+"missing": [
+"4,146억"
+],
+"url": "https://www.ulsan.go.kr/u/media/data.do?mediaId=MEDIA_00000000008920",
+"chars": 82153,
+"sido": "울산광역시"
+},
+"us-03": {
+"status": "mismatch",
+"n": 12,
+"missing": [
+"670억",
+"670억"
+],
+"url": "https://www.ulsan.go.kr/u/media/data.do?mediaId=MEDIA_00000000008920",
+"chars": 82153,
+"sido": "울산광역시"
+},
+"us-04": {
+"status": "mismatch",
+"n": 6,
+"missing": [
+"2,482억",
+"2,482억"
+],
+"url": "https://www.ulsan.go.kr/u/media/data.do?mediaId=MEDIA_00000000008920",
+"chars": 82153,
+"sido": "울산광역시"
+},
+"us-05": {
+"status": "ok",
+"n": 10,
+"missing": [],
+"url": "https://www.gukjenews.com/news/articleView.html?idxno=3425924",
+"chars": 7830,
+"sido": "울산광역시"
+},
+"us-06": {
+"status": "mismatch",
+"n": 13,
+"missing": [
+"199억",
+"7,022억",
+"135억",
+"7,022억",
+"199억",
+"135억"
+],
+"url": "https://www.ulsan.go.kr/u/media/data.do?mediaId=MEDIA_00000000008920",
+"chars": 82153,
+"sido": "울산광역시"
+},
+"us-07": {
+"status": "mismatch",
+"n": 7,
+"missing": [
+"104억",
+"104억"
+],
+"url": "https://www.ulsan.go.kr/u/media/data.do?mediaId=MEDIA_00000000008920",
+"chars": 82153,
+"sido": "울산광역시"
+},
+"us-08": {
+"status": "mismatch",
+"n": 15,
+"missing": [
+"263억",
+"187억",
+"6,032억",
+"263억",
+"187억",
+"6,032억"
+],
+"url": "https://www.ulsan.go.kr/u/media/data.do?mediaId=MEDIA_00000000008920",
+"chars": 82153,
+"sido": "울산광역시"
+},
+"us-09": {
+"status": "mismatch",
+"n": 8,
+"missing": [
+"64%"
+],
+"url": "https://www.gukjenews.com/news/articleView.html?idxno=3425924",
+"chars": 7830,
+"sido": "울산광역시"
+},
+"us-10": {
+"status": "mismatch",
+"n": 18,
+"missing": [
+"9,878억",
+"7,438억",
+"39.44%",
+"58.31%",
+"7,438억"
+],
+"url": "https://www.newspim.com/news/view/20260127000980",
+"chars": 14056,
+"sido": "울산광역시"
+},
+"us-11": {
+"status": "ok",
+"n": 1,
+"missing": [],
+"url": "https://www.newspim.com/news/view/20260127000980",
+"chars": 14056,
+"sido": "울산광역시"
+},
+"us-12": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://view.asiae.co.kr/article/2026063012275104827",
+"chars": 5208,
+"sido": "울산광역시"
+},
+"us-13": {
+"status": "ok",
+"n": 19,
+"missing": [],
+"url": "https://www.newspim.com/news/view/20260821000414",
+"chars": 15579,
+"sido": "울산광역시"
+},
+"incheon-01": {
+"status": "mismatch",
+"n": 26,
+"missing": [
+"646억",
+"50만",
+"68억",
+"23년",
+"411억",
+"139억",
+"150만",
+"28억",
+"114억",
+"46억",
+"1.0%",
+"51억"
+],
+"url": "https://www.incheon.go.kr/open/OPEN060105/3065565",
+"chars": 3611,
+"sido": "인천광역시"
+},
+"incheon-02": {
+"status": "mismatch",
+"n": 8,
+"missing": [
+"1,500원",
+"25개"
+],
+"url": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000013441585&curPage=1",
+"chars": 7896,
+"sido": "인천광역시"
+},
+"incheon-03": {
+"status": "mismatch",
+"n": 10,
+"missing": [
+"63억",
+"12개",
+"30만",
+"3억",
+"4.4억",
+"63억",
+"3억",
+"4.4억"
+],
+"url": "https://www.incheon.go.kr/open/OPEN060105/3065565",
+"chars": 3611,
+"sido": "인천광역시"
+},
+"incheon-04": {
+"status": "mismatch",
+"n": 16,
+"missing": [
+"298억",
+"100.4억",
+"127.7억",
+"20억",
+"94억",
+"133억",
+"298억",
+"94억"
+],
+"url": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000013441585&curPage=1",
+"chars": 7896,
+"sido": "인천광역시"
+},
+"incheon-05": {
+"status": "mismatch",
+"n": 6,
+"missing": [
+"3,153억",
+"27년",
+"421억",
+"3,153억",
+"421억",
+"66억"
+],
+"url": "https://www.incheon.go.kr/open/OPEN060105/3065565",
+"chars": 3611,
+"sido": "인천광역시"
+},
+"incheon-06": {
+"status": "mismatch",
+"n": 14,
+"missing": [
+"16개"
+],
+"url": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000013441585&curPage=1",
+"chars": 7896,
+"sido": "인천광역시"
+},
+"incheon-07": {
+"status": "ok",
+"n": 6,
+"missing": [],
+"url": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000013441585&curPage=1",
+"chars": 7896,
+"sido": "인천광역시"
+},
+"incheon-08": {
+"status": "mismatch",
+"n": 4,
+"missing": [
+"30년"
+],
+"url": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000013441585&curPage=1",
+"chars": 7896,
+"sido": "인천광역시"
+},
+"incheon-09": {
+"status": "mismatch",
+"n": 18,
+"missing": [
+"2,422억",
+"2,422억",
+"55,646명",
+"50개",
+"250개",
+"48개",
+"5,800명",
+"183억",
+"24개",
+"100억",
+"632억",
+"65%"
+],
+"url": "https://www.incheon.go.kr/open/OPEN060105/3065565",
+"chars": 3611,
+"sido": "인천광역시"
+},
+"incheon-10": {
+"status": "mismatch",
+"n": 14,
+"missing": [
+"26년",
+"542억",
+"180,552명",
+"16만",
+"16,471명",
+"15만",
+"302억",
+"115억",
+"100억",
+"161억",
+"542억",
+"302억"
+],
+"url": "https://www.incheon.go.kr/open/OPEN060105/3065565",
+"chars": 3611,
+"sido": "인천광역시"
+},
+"incheon-11": {
+"status": "mismatch",
+"n": 4,
+"missing": [
+"76개",
+"76개",
+"5,500만"
+],
+"url": "https://www.incheon.go.kr/goodmorning/GM010100/view?nttNo=2042582&srchPblicteIssnoCode=202607",
+"chars": 6474,
+"sido": "인천광역시"
+},
+"incheon-12": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.incheon.go.kr/goodmorning/GM010100/view?nttNo=2042582&srchPblicteIssnoCode=202607",
+"chars": 6474,
+"sido": "인천광역시"
+},
+"incheon-13": {
+"status": "mismatch",
+"n": 3,
+"missing": [
+"42개"
+],
+"url": "https://www.incheon.go.kr/goodmorning/GM010100/view?nttNo=2042582&srchPblicteIssnoCode=202607",
+"chars": 6474,
+"sido": "인천광역시"
+},
+"incheon-14": {
+"status": "mismatch",
+"n": 8,
+"missing": [
+"5,000억"
+],
+"url": "https://www.e-newsp.com/news/article.html?no=91787",
+"chars": 4618,
+"sido": "인천광역시"
+},
+"gj-01": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.fieldnews.co.kr/news/articleView.html?idxno=228969",
+"chars": 3948,
+"sido": "전남광주통합특별시"
+},
+"gj-02": {
+"status": "mismatch",
+"n": 4,
+"missing": [
+"800조",
+"800조"
+],
+"url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003250915",
+"chars": 3239,
+"sido": "전남광주통합특별시"
+},
+"gj-03": {
+"status": "ok",
+"n": 4,
+"missing": [],
+"url": "https://www.asiatoday.co.kr/kn/view.php?key=20260701010000085",
+"chars": 3952,
+"sido": "전남광주통합특별시"
+},
+"gj-04": {
+"status": "mismatch",
+"n": 4,
+"missing": [
+"416억",
+"1,178억",
+"416억",
+"1,178억"
+],
+"url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003250915",
+"chars": 3239,
+"sido": "전남광주통합특별시"
+},
+"gj-05": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.asiatoday.co.kr/kn/view.php?key=20260701010000085",
+"chars": 3952,
+"sido": "전남광주통합특별시"
+},
+"gj-06": {
+"status": "ok",
+"n": 13,
+"missing": [],
+"url": "https://www.anewsa.com/detail.php?number=3196413",
+"chars": 2841,
+"sido": "전남광주통합특별시"
+},
+"gj-07": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"url": "https://www.jeonmae.co.kr/news/articleView.html?idxno=1291156",
+"chars": 5735,
+"sido": "전남광주통합특별시"
+},
+"gj-08": {
+"status": "mismatch",
+"n": 17,
+"missing": [
+"6,000만",
+"6,000만"
+],
+"url": "https://www.jeonmae.co.kr/news/articleView.html?idxno=1291156",
+"chars": 5735,
+"sido": "전남광주통합특별시"
+},
+"gj-09": {
+"status": "mismatch",
+"n": 12,
+"missing": [
+"7,176억",
+"1,413억",
+"899억",
+"1,413억",
+"899억"
+],
+"url": "https://www.jeonmae.co.kr/news/articleView.html?idxno=1291156",
+"chars": 5735,
+"sido": "전남광주통합특별시"
+},
+"gj-10": {
+"status": "ok",
+"n": 32,
+"missing": [],
+"url": "https://gj.newdaily.co.kr/site/data/html/2025/11/11/2025111100443.html",
+"chars": 5285,
+"sido": "전남광주통합특별시"
+},
+"gj-11": {
+"status": "mismatch",
+"n": 14,
+"missing": [
+"564억",
+"1,151억",
+"668억",
+"1,151억",
+"668억"
+],
+"url": "https://gj.newdaily.co.kr/site/data/html/2025/11/11/2025111100443.html",
+"chars": 5285,
+"sido": "전남광주통합특별시"
+},
+"gj-12": {
+"status": "mismatch",
+"n": 13,
+"missing": [
+"368억"
+],
+"url": "https://gj.newdaily.co.kr/site/data/html/2025/11/11/2025111100449.html",
+"chars": 4679,
+"sido": "전남광주통합특별시"
+},
+"gj-13": {
+"status": "ok",
+"n": 6,
+"missing": [],
+"url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003181946",
+"chars": 4017,
+"sido": "전남광주통합특별시"
+},
+"gj-14": {
+"status": "mismatch",
+"n": 14,
+"missing": [
+"152억",
+"152억"
+],
+"url": "https://gj.newdaily.co.kr/site/data/html/2025/11/11/2025111100449.html",
+"chars": 4679,
+"sido": "전남광주통합특별시"
+},
+"jb-01": {
+"status": "ok",
+"n": 6,
+"missing": [],
+"url": "https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=637935",
+"chars": 2839,
+"sido": "전북특별자치도"
+},
+"jb-02": {
+"status": "mismatch",
+"n": 4,
+"missing": [
+"7,300억"
+],
+"url": "https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=637935",
+"chars": 2839,
+"sido": "전북특별자치도"
+},
+"jb-03": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=637935",
+"chars": 2839,
+"sido": "전북특별자치도"
+},
+"jb-04": {
+"status": "ok",
+"n": 3,
+"missing": [],
+"url": "https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=637935",
+"chars": 2839,
+"sido": "전북특별자치도"
+},
+"jb-05": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=637935",
+"chars": 2839,
+"sido": "전북특별자치도"
+},
+"jb-06": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=637935",
+"chars": 2839,
+"sido": "전북특별자치도"
+},
+"jb-07": {
+"status": "ok",
+"n": 3,
+"missing": [],
+"url": "https://www.mhns.co.kr/news/articleView.html?idxno=753182",
+"chars": 6320,
+"sido": "전북특별자치도"
+},
+"jb-08": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=668002",
+"chars": 5185,
+"sido": "전북특별자치도"
+},
+"jb-09": {
+"status": "ok",
+"n": 5,
+"missing": [],
+"url": "https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=668002",
+"chars": 5185,
+"sido": "전북특별자치도"
+},
+"jb-10": {
+"status": "ok",
+"n": 2,
+"missing": [],
+"url": "https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=668002",
+"chars": 5185,
+"sido": "전북특별자치도"
+},
+"jb-11": {
+"status": "ok",
+"n": 2,
+"missing": [],
+"url": "https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=666461",
+"chars": 2993,
+"sido": "전북특별자치도"
+},
+"jb-12": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"url": "https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=668030",
+"chars": 6337,
+"sido": "전북특별자치도"
+},
+"jb-13": {
+"status": "ok",
+"n": 7,
+"missing": [],
+"url": "https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=668543",
+"chars": 3784,
+"sido": "전북특별자치도"
+},
+"jb-14": {
+"status": "ok",
+"n": 5,
+"missing": [],
+"url": "https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=666109",
+"chars": 2712,
+"sido": "전북특별자치도"
+},
+"jb-15": {
+"status": "ok",
+"n": 1,
+"missing": [],
+"url": "https://www.jeonbuk.go.kr/newsroom/board/view.jeonbuk?menuCd=DOM_000001101000000000&boardId=BBS_0000090&dataSid=666359",
+"chars": 1870,
+"sido": "전북특별자치도"
+},
+"jj-01": {
+"status": "ok",
+"n": 18,
+"missing": [],
+"url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
+"chars": 13648,
+"sido": "제주특별자치도"
+},
+"jj-02": {
+"status": "ok",
+"n": 18,
+"missing": [],
+"url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
+"chars": 13648,
+"sido": "제주특별자치도"
+},
+"jj-03": {
+"status": "ok",
+"n": 17,
+"missing": [],
+"url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
+"chars": 13648,
+"sido": "제주특별자치도"
+},
+"jj-04": {
+"status": "ok",
+"n": 23,
+"missing": [],
+"url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
+"chars": 13648,
+"sido": "제주특별자치도"
+},
+"jj-05": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
+"chars": 13648,
+"sido": "제주특별자치도"
+},
+"jj-06": {
+"status": "ok",
+"n": 23,
+"missing": [],
+"url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
+"chars": 13648,
+"sido": "제주특별자치도"
+},
+"jj-07": {
+"status": "mismatch",
+"n": 14,
+"missing": [
+"123억"
+],
+"url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
+"chars": 13648,
+"sido": "제주특별자치도"
+},
+"jj-08": {
+"status": "ok",
+"n": 23,
+"missing": [],
+"url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
+"chars": 13648,
+"sido": "제주특별자치도"
+},
+"jj-09": {
+"status": "ok",
+"n": 21,
+"missing": [],
+"url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
+"chars": 13648,
+"sido": "제주특별자치도"
+},
+"jj-10": {
+"status": "mismatch",
+"n": 23,
+"missing": [
+"80억",
+"80억"
+],
+"url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=2025764",
+"chars": 10317,
+"sido": "제주특별자치도"
+},
+"jj-11": {
+"status": "mismatch",
+"n": 1,
+"missing": [
+"100대"
+],
+"url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=2028579",
+"chars": 9927,
+"sido": "제주특별자치도"
+},
+"jj-12": {
+"status": "mismatch",
+"n": 7,
+"missing": [
+"110억",
+"277억",
+"100대",
+"110억",
+"277억",
+"110억",
+"277억"
+],
+"url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=2024411",
+"chars": 9695,
+"sido": "제주특별자치도"
+},
+"jj-13": {
+"status": "mismatch",
+"n": 10,
+"missing": [
+"100대",
+"14억",
+"14억"
+],
+"url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=2028579",
+"chars": 9927,
+"sido": "제주특별자치도"
+},
+"jj-14": {
+"status": "ok",
+"n": 1,
+"missing": [],
+"url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=2027374",
+"chars": 9463,
+"sido": "제주특별자치도"
+},
+"cn-01": {
+"status": "ok",
+"n": 11,
+"missing": [],
+"url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
+"chars": 8173,
+"sido": "충청남도"
+},
+"cn-02": {
+"status": "ok",
+"n": 8,
+"missing": [],
+"url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
+"chars": 8173,
+"sido": "충청남도"
+},
+"cn-03": {
+"status": "ok",
+"n": 10,
+"missing": [],
+"url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
+"chars": 8173,
+"sido": "충청남도"
+},
+"cn-04": {
+"status": "ok",
+"n": 10,
+"missing": [],
+"url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
+"chars": 8173,
+"sido": "충청남도"
+},
+"cn-05": {
+"status": "ok",
+"n": 4,
+"missing": [],
+"url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
+"chars": 8173,
+"sido": "충청남도"
+},
+"cn-06": {
+"status": "mismatch",
+"n": 7,
+"missing": [
+"8,000만"
+],
+"url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
+"chars": 8173,
+"sido": "충청남도"
+},
+"cn-07": {
+"status": "ok",
+"n": 2,
+"missing": [],
+"url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
+"chars": 8173,
+"sido": "충청남도"
+},
+"cn-08": {
+"status": "ok",
+"n": 2,
+"missing": [],
+"url": "https://www.gukjenews.com/news/articleView.html?idxno=3681672",
+"chars": 6475,
+"sido": "충청남도"
+},
+"cn-09": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.newspim.com/news/view/20260901001035",
+"chars": 14325,
+"sido": "충청남도"
+},
+"cn-10": {
+"status": "ok",
+"n": 3,
+"missing": [],
+"url": "https://www.newspim.com/news/view/20260901001035",
+"chars": 14325,
+"sido": "충청남도"
+},
+"cn-11": {
+"status": "ok",
+"n": 0,
+"missing": [],
+"url": "https://www.gukjenews.com/news/articleView.html?idxno=3681672",
+"chars": 6475,
+"sido": "충청남도"
+},
+"cn-12": {
+"status": "ok",
+"n": 3,
+"missing": [],
+"url": "https://www.asiatoday.co.kr/kn/view.php?key=20260823010007306",
+"chars": 2954,
+"sido": "충청남도"
+},
+"cn-13": {
+"status": "ok",
+"n": 13,
+"missing": [],
+"url": "https://www.asiatoday.co.kr/kn/view.php?key=20260823010007306",
+"chars": 2954,
+"sido": "충청남도"
+},
+"cn-14": {
+"status": "ok",
+"n": 2,
+"missing": [],
+"url": "https://www.seoul.co.kr/news/politics/2026/06/29/20260629500169",
+"chars": 5988,
+"sido": "충청남도"
+},
+"cb-01": {
+"status": "ok",
+"missing": [],
+"chars": 9557,
+"via": "PC",
+"url": "https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=322071",
+"sido": "충청북도",
+"n": 16
+},
+"cb-02": {
+"status": "mismatch",
+"missing": [
+"50억"
+],
+"chars": 9557,
+"via": "PC",
+"url": "https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=322071",
+"sido": "충청북도",
+"n": 13
+},
+"cb-03": {
+"status": "mismatch",
+"missing": [
+"12,177원"
+],
+"chars": 9557,
+"via": "PC",
+"url": "https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=322071",
+"sido": "충청북도",
+"n": 11
+},
+"cb-04": {
+"status": "mismatch",
+"missing": [
+"38억",
+"26년",
+"7억",
+"231억",
+"30억",
+"120억"
+],
+"chars": 7341,
+"via": "PC",
+"url": "https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=322337",
+"sido": "충청북도",
+"n": 12
+},
+"cb-05": {
+"status": "ok",
+"missing": [],
+"chars": 9557,
+"via": "PC",
+"url": "https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=322071",
+"sido": "충청북도",
+"n": 14
+},
+"cb-06": {
+"status": "mismatch",
+"missing": [
+"130억",
+"193억",
+"98억"
+],
+"chars": 9557,
+"via": "PC",
+"url": "https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=322071",
+"sido": "충청북도",
+"n": 15
+},
+"cb-07": {
+"status": "ok",
+"missing": [],
+"chars": 9557,
+"via": "PC",
+"url": "https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=322071",
+"sido": "충청북도",
+"n": 10
+},
+"cb-08": {
+"status": "mismatch",
+"missing": [
+"60억",
+"34억",
+"69억"
+],
+"chars": 9557,
+"via": "PC",
+"url": "https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=322071",
+"sido": "충청북도",
+"n": 13
+},
+"cb-09": {
+"status": "mismatch",
+"missing": [
+"97억"
+],
+"chars": 9557,
+"via": "PC",
+"url": "https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=322071",
+"sido": "충청북도",
+"n": 8
+},
+"cb-10": {
+"status": "ok",
+"missing": [],
+"chars": 11893,
+"via": "PC",
+"url": "https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=441125",
+"sido": "충청북도",
+"n": 20
+},
+"cb-11": {
+"status": "ok",
+"missing": [],
+"chars": 7417,
+"via": "PC",
+"url": "https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=441902",
+"sido": "충청북도",
+"n": 28
+},
+"cb-12": {
+"status": "ok",
+"missing": [],
+"chars": 11893,
+"via": "PC",
+"url": "https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=441125",
+"sido": "충청북도",
+"n": 7
+},
+"cb-13": {
+"status": "mismatch",
+"missing": [
+"0.3억"
+],
+"chars": 8941,
+"via": "PC",
+"url": "https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=441513",
+"sido": "충청북도",
+"n": 8
+},
+"cb-14": {
+"status": "ok",
+"missing": [],
+"chars": 9452,
+"via": "PC",
+"url": "https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=415053",
+"sido": "충청북도",
+"n": 6
+},
+"cb-15": {
+"status": "mismatch",
+"missing": [
+"21개",
+"8,090억"
+],
+"chars": 7341,
+"via": "PC",
+"url": "https://www.chungbuk.go.kr/www/selectBbsNttView.do?key=429&bbsNo=65&nttNo=322337",
+"sido": "충청북도",
+"n": 6
+}
+}
+}

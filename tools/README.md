@@ -78,3 +78,15 @@ WebKit(Safari 엔진)으로 **선택 가능한 지자체 전부**의 상세페�
 | 3 | 고친 뒤 | 새 종류의 결함이면 같은 배포에서 `verify.js`에 검사를 더하고 `DATA-INTEGRITY-GUARD.md`에 원칙을 적는다 |
 
 결과는 `audit-out/latest.md`(문제만 요약)와 `latest.json`. 종료코드 1이면 고칠 것이 있다.
+
+## 숫자 5중 검증 (2026-09-29)
+
+| 순서 | 명령 | 하는 일 |
+|---|---|---|
+| 1 | `python3 tools/verify_data.py --api` | L1 원자료 스캔 · L2 API 재조회(재정 허브 전수, 집행 행 수 전수 + 원본 행 순환 35곳/일, 선관위 당선인, 재정공시 확장, 계약 표본) · L3 교차 · L4 기대값. 결과 `data/verify/status.json`(화면 판정표)·`snap.json`(서버 대조용)·`audit-out/data-verify.md` |
+| 1-1 | `python3 tools/verify_data.py --api --full` | 집행 원본 행을 247곳 × 5개 연도 전부 한 줄씩 API와 대조(약 15분) |
+| 2 | `node tools/verify-screen.js` | L5 운영 화면 243곳 대조 → `audit-out/screen.md` |
+| 3 | 서버 | `/api/lofin?vcheck=1` 매일 크론, `/api/lofin?vdeny=1` 화면이 읽는 실시간 차단 목록 |
+
+원문 문서에서 온 값(청렴도·금고 이자율·지역안전지수·민원/적극행정/혁신 평가·합동평가·재정공시 확장·주민등록 인구)은
+`tools/sources/*.json`에 원문 파일 위치·쪽·해시·추출 방법과 함께 있다. 사이트 저장값을 보지 않고 새로 읽은 값이다.

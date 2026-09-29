@@ -130,6 +130,46 @@ function readBody(req) {
   });
 }
 
+/* ═══ 숫자 근거 대조(2026-09-29) ═══
+   AI 두 개가 같은 숫자를 말해도 둘 다 틀릴 수 있다(교차 검증만으로는 부족). 그래서 답에 나온 숫자를
+   이번 질문에 실제로 준 근거(시스템 지식·참고 데이터·게시글·질문 자체)와 기계로 맞춰 본다.
+   근거에 없는 금액·비율·건수·연도가 들어간 문장은 빼고, 남는 게 없으면 "확인된 자료에 없다"고 답한다. */
+var NUM_RE = /(?<![가-힣A-Za-z\d.,])(\d[\d,]*(?:\.\d+)?)\s*(%p|%포인트|%|퍼센트|조|억|만|천|원|명|건|곳|개|배|위|등급|년|월|일|세|호|회|차|석|표|시간|분|km|㎢)?/g;
+var STRICT_UNITS = { "%p":1, "%포인트":1, "%":1, "퍼센트":1, "조":1, "억":1, "만":1, "천":1, "원":1, "배":1, "위":1 };
+function normNum(x) { return String(x).replace(/,/g, ""); }
+function groundIndex(t) {
+  var set = {}; var m; var re = /\d[\d,]*(?:\.\d+)?/g; t = String(t || "");
+  while ((m = re.exec(t))) { var n = normNum(m[0]); set[n] = 1; if (n.indexOf(".") > 0) set[n.replace(/0+$/, "").replace(/\.$/, "")] = 1; }
+  return set;
+}
+function isFree(n, unit) {
+  var v = parseFloat(n);
+  if (!isFinite(v)) return true;
+  if (unit === "년" || (!unit && /^20[2-3]\d$/.test(n))) return v >= 2024 && v <= 2027;   /* 올해 전후 연도만 근거 없이 허용 */
+  if (unit === "월") return v >= 1 && v <= 12 && n.indexOf(".") < 0;
+  if (unit === "일") return v >= 1 && v <= 31 && n.indexOf(".") < 0;
+  if (unit === "등급") return v >= 1 && v <= 5 && n.indexOf(".") < 0;
+  if (STRICT_UNITS[unit]) return false;
+  return v <= 10 && n.indexOf(".") < 0;   /* 「세 가지」「3~7문장」 같은 작은 수 */
+}
+function groundNumbers(text, groundText) {
+  var G = groundIndex(groundText);
+  var parts = String(text || "").split(/(?<=[.!?。…])\s+|\n+/);
+  var kept = [], dropped = [], bad = [];
+  parts.forEach(function (sen) {
+    if (!sen) return;
+    var miss = []; var m; NUM_RE.lastIndex = 0;
+    while ((m = NUM_RE.exec(sen))) {
+      var n = normNum(m[1]); var unit = m[2] || "";
+      if (isFree(n, unit)) continue;
+      var n2 = n.indexOf(".") > 0 ? n.replace(/0+$/, "").replace(/\.$/, "") : n;
+      if (!G[n] && !G[n2]) miss.push(m[0].trim());
+    }
+    if (miss.length) { dropped.push(sen); bad = bad.concat(miss); } else kept.push(sen);
+  });
+  return { text: kept.join(" ").replace(/\s+\n/g, "\n").trim(), dropped: dropped, bad: bad };
+}
+
 module.exports = async function (req, res) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   res.setHeader("Cache-Control", "no-store");
@@ -292,6 +332,7 @@ module.exports = async function (req, res) {
     if (!page) { try { var rf = new URL(String(req.headers.referer || "")); page = rf.pathname + rf.search + rf.hash; } catch (e) { page = ""; } }
     if (page.charAt(0) !== "/") page = "";
     var rec = { q: message, a: ans == null ? "" : String(ans), ts: Date.now(), sid: sid, page: page.slice(0, 200), model: mdl || "", cross: !!crossed };
+    if (typeof gchk !== "undefined" && gchk && gchk.bad && gchk.bad.length) rec.ungrounded = gchk.bad.slice(0, 20);
     if (ans == null) { rec.fail = 1; rec.a = "(답변 실패) " + errs.join(" / ").slice(0, 300); }
     await redisCmd(["LPUSH", CHATLOG_KEYS[isCampaign ? "dobuli" : (isBomi ? "bomi" : "fin")], JSON.stringify(rec)]);
   }
@@ -300,6 +341,15 @@ module.exports = async function (req, res) {
     {
       var model = out.model, text = out.text;
       if (isBomi) text = String(text || '').replace(/\*\*/g, '').replace(/^#{1,6}\s*/gm, '');  /* 봄이 화면은 글자 그대로 보여 주므로 마크다운 기호 제거 */
+      /* 숫자 근거 대조 — 근거에 없는 숫자가 든 문장은 뺀다 */
+      var groundTxt = [prompt].concat(contents.slice(0, -1).map(function (c) { return c.parts.map(function (p) { return p.text; }).join(" "); })).join("\n");
+      var gchk = groundNumbers(text, groundTxt);
+      if (gchk.bad.length) {
+        text = gchk.text
+          ? gchk.text + "\n\n(근거 자료에서 확인되지 않은 숫자가 든 문장은 뺐습니다. 정확한 수치는 우리동네365·지방재정365에서 확인해 주세요.)"
+          : "그 숫자는 제가 가진 확인된 자료에 없어 말씀드리지 않겠습니다. 지자체 예산·집행은 우리동네365에서, 원자료는 지방재정365에서 확인하실 수 있습니다.";
+        model = model + " · 숫자 근거 대조(" + gchk.bad.length + "개 제외)";
+      }
       /* 대화 기록(Redis) — 모든 챗봇. 2026-09-29 전까지는 더불이만 최근 1,000건(질문 600자·답 800자)을 남겼다. 이제 전문을 자르지 않고 전부 남긴다 */
       try { await saveChat(text, model, cross); } catch(e) {}
       /* 캠프 확인용 — 더불이 대화 메일 알림(Resend 키 있을 때). 저장 안 함을 고른 대화는 메일도 보내지 않는다 */

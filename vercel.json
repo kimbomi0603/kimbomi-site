@@ -99,6 +99,10 @@
     {
       "path": "/api/contract?warmawards=1",
       "schedule": "40 15 * * *"
+    },
+    {
+      "path": "/api/lofin?vcheck=1",
+      "schedule": "40 1 * * *"
     }
   ],
   "headers": [

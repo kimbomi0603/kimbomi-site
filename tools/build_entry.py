@@ -69,7 +69,7 @@ footer{{max-width:860px;margin:0 auto;padding:0 16px 30px;font-size:12.5px;color
 <main class="wrap">
 """
 FOOT = """</main>
-<footer>자료는 정부가 공개한 원자료를 기계적으로 집계한 것이며, 모든 숫자에 출처와 기준일을 붙였습니다. 확인되지 않은 값은 비워 둡니다. · <a href="../privacy.html">개인정보처리방침</a> · 운영 김보미</footer>
+<footer>자료는 정부가 공개한 원자료를 기계적으로 집계한 것이며, 모든 숫자에 출처와 기준일을 붙였습니다. 확인되지 않은 값은 비워 둡니다. · <a href="../privacy.html">개인정보처리방침</a> · 운영 김보미<br><b>알려 드립니다</b> — 숫자는 정부 공개 원자료를 기계로 모으고 원자료·API·다른 공개 자료와 대조한 뒤 싣지만, 원자료 자체의 오류, 수집·계산 과정의 버그, 공개 시점 차이로 실제와 다를 수 있습니다. 중요한 판단에는 지방재정365 등 해당 기관의 원문을 꼭 확인해 주십시오. AI 봄이의 답변은 틀릴 수 있으며 공식 입장이나 법률·재정 자문이 아닙니다. 이 사이트의 정보를 이용해 생긴 결과에 대해 운영자는 법적 책임을 지지 않습니다. 틀린 값을 발견하시면 <a href="../report.html">소통·제보</a>로 알려 주십시오.</footer>
 <script>try{var t=localStorage.getItem('kb_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 </body>
 </html>
@@ -79,20 +79,37 @@ def write(path, s):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     open(path, 'w', encoding='utf-8').write(s)
 
+def load_verify():
+    """5중 검증 판정표 — 통과하지 못한 값은 정적 페이지에도 쓰지 않는다"""
+    try: V = json.load(open(os.path.join(ROOT, 'data/verify/status.json'), encoding='utf-8'))
+    except Exception: V = None
+    def vok(cd, key):
+        if not V: return False
+        t = 'exec' if key.startswith('exec:') else (':'.join(key.split(':')[:2]) if key.startswith('fis:') else key)
+        if t not in (V.get('types') or {}): return False
+        return key not in ((V.get('deny') or {}).get(cd) or [])
+    return vok
+
 def build_lg():
     ix = json.load(open(os.path.join(ROOT, 'data/index.json'), encoding='utf-8'))
+    vok = load_verify()
     lgpu = {}
     p = os.path.join(ROOT, 'data/lgpu/_index.json')
     if os.path.exists(p): lgpu = json.load(open(p, encoding='utf-8')).get('lgs', {})
     urls = []
     for r in ix['rows']:
         cd = r['laf_cd']; disp = r['display']; nm = short(disp)
-        ex = r.get('exec_2026') or {}; fi = r.get('fiscal') or {}
-        live = bool(r.get('live_2026'))
+        ex = (r.get('exec_2026') or {}) if vok(cd, 'exec:2026') else {}
+        fi = dict(r.get('fiscal') or {})
+        if not vok(cd, 'fis:FISCAL:' + (r.get('settle_fyr') or '2024')): fi['sr_rate2'] = None
+        pop = r.get('pop_2024') if vok(cd, 'fis:M_BJHJB:' + (r.get('settle_fyr') or '2024')) else None
+        live = bool(r.get('live_2026')) and bool(ex)
         asof = ymd(ex.get('exe_ymd'))
         title = f"{nm} 2026년 예산·집행·계약 한눈에 | 우리동네365"
         if live:
             desc = f"{disp} 2026년 예산현액 {won(ex.get('budget'))}, 집행률 {pct(ex.get('rate'))}({asof} 기준), 세부사업 {num(ex.get('dbiz'))}건. 계약대장 전수·단체장 공약 원문·계약 이상 징후까지 우리동네365에서 확인합니다."
+        elif r.get('live_2026') and r.get('exec_2026'):
+            desc = f"{disp}의 예산·집행·계약 자료. 2026년 집행 값은 원자료·API 대조가 끝나지 않아 비워 두었습니다. 우리동네365에서 확인합니다."
         else:
             desc = f"{disp}의 예산·집행·계약 자료. 2026년 세부사업 집행 자료가 아직 공개되지 않아 값은 비워 두었습니다. 우리동네365에서 확인합니다."
         url = f"{SITE}/lg/{cd}.html"
@@ -107,7 +124,7 @@ def build_lg():
   <div><b>{pct(ex.get('rate')) if live else '—'}</b><span>집행률 · {asof if live else '자료 없음'} 기준</span></div>
   <div><b>{num(ex.get('dbiz')) if live else '—'}<small>건</small></b><span>2026 세부사업</span></div>
   <div><b>{pct(fi.get('sr_rate2'))}</b><span>재정자립도 · {esc(r.get('settle_fyr') or '')} 결산</span></div>
-  <div><b>{num(r.get('pop_2024'))}<small>명</small></b><span>인구 · 2024{' · ' + esc(r['bnd_2026']['pre']) if r.get('bnd_2026') else ''}</span></div>
+  <div><b>{num(pop)}<small>명</small></b><span>인구 · 2024{' · ' + esc(r['bnd_2026']['pre']) if r.get('bnd_2026') else ''}</span></div>
   {f'<div><b>{num(lgpu[cd]["n"])}<small>건</small></b><span>사업 내역 연결 · 2026 사업명세서</span></div>' if cd in lgpu else ''}
 </div>
 <a class="cta" href="{app}">우리동네365에서 {esc(nm)} 열기 →</a>

@@ -125,7 +125,7 @@
       (SR?'<button type="button" class="mic" aria-label="말로 묻기">'+MIC+'</button>':'')+
       '<button type="submit" class="send" aria-label="보내기">'+SEND+'</button></form>'+
       '<label class="nolog"><input type="checkbox" id="bomiNolog"> 이 대화 저장 안 함 <span style="opacity:.75">(관리자에게 전달되지 않아요)</span></label>'+
-      '<div class="ft">봄이는 AI라 틀릴 수 있어요. 숫자는 우리동네365 화면과 지방재정365 원자료로 확인해 주세요. 대화는 답변 점검을 위해 저장되며, 원치 않으면 위 칸을 체크하세요. 개인정보는 적지 마세요(<a href="/privacy.html">개인정보처리방침</a>).</div></div></section>');
+      '<div class="ft">봄이는 AI라 틀릴 수 있어요. 근거 자료에 없는 숫자는 답에서 빼지만, 오류·버그로 틀릴 수 있으니 숫자는 우리동네365 화면과 지방재정365 원자료로 확인해 주세요. 봄이의 답은 공식 입장이나 법률·재정 자문이 아니며, 운영자는 답변 이용 결과에 법적 책임을 지지 않습니다. 대화는 답변 점검을 위해 저장되며, 원치 않으면 위 칸을 체크하세요. 개인정보는 적지 마세요(<a href="/privacy.html">개인정보처리방침</a>).</div></div></section>');
     document.body.appendChild(fab); document.body.appendChild(box);
     /* 떠 있는 봄이 말풍선 글씨 바꾸기 */
     var say=fab.querySelector('.say'), si=0; if(!reduce) setInterval(function(){ si=(si+1)%SAYS.length; say.textContent=SAYS[si]; },4000);
