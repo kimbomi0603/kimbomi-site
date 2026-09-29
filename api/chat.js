@@ -8,6 +8,10 @@
 
 var MODELS = ["gemini-2.5-flash", "gemini-2.5-flash-lite"];
 
+/* 2026-09-29: 챗봇 대화 기록 저장 키 — 챗봇마다 따로 쌓고, 지우거나 자르지 않는다(관리자 화면 「AI 대화 기록」에서 확인).
+   더불이(archive.html, mode=campaign)는 예전부터 쓰던 kb_chatlog 를 그대로 쓴다. */
+var CHATLOG_KEYS = { bomi: "kb_chatlog_bomi", dobuli: "kb_chatlog", fin: "kb_chatlog_fin" };
+
 var CAMPAIGN_SYSTEM = [
   "당신은 더불어민주당 당대표 후보 김보미의 온라인 소통캠프(김보미.com) 공식 AI 챗봇 '더불이'입니다. 슬로건: '더불어 함께 바꿔봐요'.",
   "[김보미 프로필] 만 36세 청년 정치인. 전남 강진 출신. 더불어민주당 정당활동 13년, 의정활동 8년. 2018년 지역 최초 20대 여성·청년 군의원(최다득표), 재선 후 만 32세에 전국 최연소 기초의회 의장. 업무추진비 전면 공개, 낭비예산 108억원 삭감, 최초 일문일답 군정질문 도입, 강진형 육아양육수당(월 60만원) 조례 대표발의. 2026년 강진군수 경선에서 -15% 감산 등 불공정을 겪고도 결과에 승복. 현재 2026 전당대회 당대표 후보.",
@@ -139,12 +143,20 @@ module.exports = async function (req, res) {
     const _akey = req.headers['x-admin-key'] || req.query.key || '';
     if (!process.env.ADMIN_KEY || _akey !== process.env.ADMIN_KEY) return res.status(403).json({ ok:false, error:"forbidden" });
     if (!RURLq) return res.status(200).json({ ok:true, items:[], note:"Redis 미설정" });
+    /* 2026-09-29: 챗봇별 기록 조회 — bot=bomi(AI 봄이)|dobuli(더불이, 기존 kb_chatlog)|fin(재정 도우미), offset·limit로 나눠 읽기(최신순).
+       기록은 지우거나 자르지 않고 전부 쌓는다. counts에 챗봇별 전체 건수를 함께 돌려준다. */
+    var bot = CHATLOG_KEYS[req.query.bot] ? req.query.bot : "dobuli";
+    var off = Math.max(0, parseInt(req.query.offset, 10) || 0);
+    var lim = Math.min(1000, Math.max(1, parseInt(req.query.limit, 10) || 200));
     try {
-      var rr = await fetch(RURLq, { method:"POST", headers:{ Authorization:"Bearer "+RTOKq, "Content-Type":"application/json" }, body: JSON.stringify(["LRANGE","kb_chatlog","0","199"]) });
+      var rr = await fetch(RURLq + "/pipeline", { method:"POST", headers:{ Authorization:"Bearer "+RTOKq, "Content-Type":"application/json" },
+        body: JSON.stringify([["LRANGE", CHATLOG_KEYS[bot], String(off), String(off + lim - 1)], ["LLEN", CHATLOG_KEYS.bomi], ["LLEN", CHATLOG_KEYS.dobuli], ["LLEN", CHATLOG_KEYS.fin]]) });
       var dd = await rr.json();
-      var items = (dd.result||[]).map(function(x){ try{ return JSON.parse(x); }catch(e){ return null; } }).filter(Boolean);
-      return res.status(200).json({ ok:true, items:items });
-    } catch(e){ return res.status(200).json({ ok:false, items:[] }); }
+      if (!Array.isArray(dd)) throw new Error("redis");
+      var items = ((dd[0] && dd[0].result) || []).map(function(x){ try{ return JSON.parse(x); }catch(e){ return null; } }).filter(Boolean);
+      var counts = { bomi: +((dd[1]||{}).result||0), dobuli: +((dd[2]||{}).result||0), fin: +((dd[3]||{}).result||0) };
+      return res.status(200).json({ ok:true, bot:bot, offset:off, limit:lim, total:counts[bot], counts:counts, items:items });
+    } catch(e){ return res.status(200).json({ ok:false, items:[], error:"기록을 읽지 못했습니다" }); }
   }
   if (req.method !== "POST") return res.status(405).json({ ok: false, error: "POST only" });
 
@@ -269,20 +281,28 @@ module.exports = async function (req, res) {
     try { out = await askGemini(); } catch (e) { errs.push("gemini: " + e.message); }
     if (!out) { try { out = await askGroq(); } catch (e) { errs.push("groq: " + e.message); } }
   }
-  if (!out) return res.status(502).json({ ok: false, error: "AI 응답 실패 — " + errs.join(" / ") });
+  /* 대화 기록 저장 — 봄이·더불이·재정 도우미 모두. 답을 못 만든 질문도 남긴다.
+     저장 항목: 질문·답변·시각·대화번호(탭을 닫으면 사라지는 임시 번호)·보고 있던 페이지. IP는 저장하지 않는다. */
+  async function saveChat(ans, mdl, crossed) {
+    if (!RURL2) return;
+    var sid = String((body && body.sid) || "");
+    if (!/^[a-z0-9]{6,32}$/.test(sid)) sid = "";
+    var page = String((body && body.page) || "");
+    if (!page) { try { var rf = new URL(String(req.headers.referer || "")); page = rf.pathname + rf.search + rf.hash; } catch (e) { page = ""; } }
+    if (page.charAt(0) !== "/") page = "";
+    var rec = { q: message, a: ans == null ? "" : String(ans), ts: Date.now(), sid: sid, page: page.slice(0, 200), model: mdl || "", cross: !!crossed };
+    if (ans == null) { rec.fail = 1; rec.a = "(답변 실패) " + errs.join(" / ").slice(0, 300); }
+    await redisCmd(["LPUSH", CHATLOG_KEYS[isCampaign ? "dobuli" : (isBomi ? "bomi" : "fin")], JSON.stringify(rec)]);
+  }
+  if (!out) { try { await saveChat(null); } catch (e) {} return res.status(502).json({ ok: false, error: "AI 응답 실패 — " + errs.join(" / ") }); }
   {
     {
       var model = out.model, text = out.text;
       if (isBomi) text = String(text || '').replace(/\*\*/g, '').replace(/^#{1,6}\s*/gm, '');  /* 봄이 화면은 글자 그대로 보여 주므로 마크다운 기호 제거 */
-      /* 캠프 확인용 — 더불이 대화 기록(Redis) + 메일 알림(Resend 키 있을 때) */
+      /* 대화 기록(Redis) — 모든 챗봇. 2026-09-29 전까지는 더불이만 최근 1,000건(질문 600자·답 800자)을 남겼다. 이제 전문을 자르지 않고 전부 남긴다 */
+      try { await saveChat(text, model, cross); } catch(e) {}
+      /* 캠프 확인용 — 더불이 대화 메일 알림(Resend 키 있을 때) */
       if (isCampaign) {
-        var entry = JSON.stringify({ q: message.slice(0,600), a: text.slice(0,800), ts: Date.now() });
-        try {
-          if (RURL2) {
-            await fetch(RURL2, { method:"POST", headers:{ Authorization:"Bearer "+RTOK2, "Content-Type":"application/json" }, body: JSON.stringify(["LPUSH","kb_chatlog",entry]) });
-            await fetch(RURL2, { method:"POST", headers:{ Authorization:"Bearer "+RTOK2, "Content-Type":"application/json" }, body: JSON.stringify(["LTRIM","kb_chatlog","0","999"]) });
-          }
-        } catch(e) {}
         try {
           var RESEND = process.env.RESEND_API_KEY || "";
           /* 메일 알림 디바운스 — 같은 IP는 10분에 1통만 (대화 전체 기록은 kb_chatlog에 항상 저장됨) */

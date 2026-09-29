@@ -77,8 +77,43 @@ async function loadRaw(){
   // 코드에 박아 둔 글 병합(없는 id 만) → 저장
   var added = false;
   STATIC_POSTS.forEach(function(sp){ if (!a.some(function(x){ return x.id === sp.id; })) { a.push(sp); added = true; } });
-  if (added) { try { await save(a); } catch(e){} }
+  // 게시글 오타 교정(관리자 화면 없이 배포로 반영) — 틀린 글자가 남아 있을 때만 바꾸고 저장
+  var fixed = applyTypoFixes(a);
+  if (added || fixed) { try { await save(a); } catch(e){} }
   return a;
+}
+
+// ===== 2026-09-29 게시글 오타 교정 목록 [글 id, 틀린 글, 고친 글] =====
+//   맞춤법 검사기(다음) + 원문 대조로 확정한 것만 넣는다. 인용문 끝의 '~다"고'(입말) 같은 문체는 건드리지 않는다.
+//   바뀐 뒤에는 틀린 글이 더 없으므로 다시 실행돼도 아무 일도 하지 않는다.
+const TYPO_FIXES = [
+  ['pmrplk7wjaiqq', '중꺽마', '중꺾마'],
+  ['pmrplk7wjaiqq', '꺽이지', '꺾이지'],
+  ['pmrx12rismzyw', '깍아주라고 이견을', '깎아주라고 의견을'],
+  ['pmro53ph5payp', '최고위은 원칙대로', '최고위는 원칙대로'],
+  ['pmro53ph5payp', '어제 밤 10시30분', '어젯밤 10시30분'],
+  ['pmro53ph5payp', '박지현과 똑 같은', '박지현과 똑같은'],
+  ['pmrubfxo5zsd5', '5일이구요.', '5일이고요.'],
+  ['pmrbwyoy3dcv5', "해외 파견'와", "해외 파견'과"],
+  ['pmrlnapghvgve', '당원들로부터 나돈다"', '당원들로부터 나온다"'],
+  ['pmrlnapghvgve', '후보는 어제"모든', '후보는 어제 "모든'],
+  ['pmrlnapghvgve', '신주단지 모시듯하는', '신줏단지 모시듯 하는'],
+  ['pmrqh15wvgxyr', '신주단지처럼', '신줏단지처럼']
+];
+function applyTypoFixes(arr){
+  var changed = false;
+  arr.forEach(function(p){
+    if (!p) return;
+    var hit = false;
+    TYPO_FIXES.forEach(function(f){
+      if (p.id !== f[0]) return;
+      ['title','body'].forEach(function(k){
+        if (typeof p[k] === 'string' && p[k].indexOf(f[1]) >= 0) { p[k] = p[k].split(f[1]).join(f[2]); hit = true; }
+      });
+    });
+    if (hit) { p.updatedAt = Date.now(); changed = true; }
+  });
+  return changed;
 }
 async function save(arr){ await redis(['SET', KEY, JSON.stringify(arr)]); }
 function pubList(arr){

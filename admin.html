@@ -21,8 +21,8 @@ header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0
 .btn.p{background:var(--dpk);color:#fff}
 .btn.g{border-color:var(--line);color:var(--muted)}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);background:#fff}
-.tabs .wrap{display:flex;gap:4px}
-.tab{padding:14px 16px;font-weight:700;font-size:.92rem;color:var(--muted);border-bottom:2px solid transparent;cursor:pointer}
+.tabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:thin}
+.tab{padding:14px 16px;font-weight:700;font-size:.92rem;color:var(--muted);border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;flex:none}
 .tab.on{color:var(--dpk);border-bottom-color:var(--dpk)}
 main{padding:26px 0 60px}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
@@ -74,6 +74,20 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
 .po-item .a{margin-top:8px}
 .po-item .a button{border:1px solid var(--line);background:#fff;color:var(--dpk);font-size:.76rem;font-weight:700;padding:4px 12px;border-radius:7px;cursor:pointer;margin-right:6px}
 .po-item .a button.del{color:#c0392b;border-color:#e5b4b4}
+/* AI 대화 기록 */
+.clbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px}
+.clbots{display:flex;flex-wrap:wrap;gap:6px}
+.clb{font-family:inherit;font-weight:700;font-size:.86rem;padding:8px 13px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--muted);cursor:pointer}
+.clb[aria-pressed="true"]{border-color:var(--dpk);background:var(--tint);color:var(--dpk)}
+.clb span{font-weight:800;margin-left:2px}
+.clbar .pfield{flex:1;min-width:180px;margin:0}
+.cl-sid{display:inline-block;font-size:.72rem;font-weight:800;border-radius:6px;padding:1px 7px;margin-right:6px}
+.cl-fail{display:inline-block;font-size:.72rem;font-weight:800;border-radius:6px;padding:1px 7px;margin-right:6px;background:#fdecec;color:#c0392b}
+.th .q{font-weight:600;color:var(--ink)}
+.th .m.a{color:#33405a;margin-top:6px}
+.th details{margin-top:4px;font-size:.86rem}
+.th details summary{cursor:pointer;color:var(--dpk);font-weight:700}
+.th .meta a{color:var(--dpk)}
 </style>
 <!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
 <script src="assets/kb-format.js"></script>
@@ -110,7 +124,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     <div class="tab" data-tab="pledges">💛 후원 현황</div>
     <div class="tab" data-tab="reportcenter">🛡️ 제보센터</div>
     <div class="tab" data-tab="reports">리포트 보관함</div>
-<div class="tab" data-tab="dobuli">💬 더불이 대화</div>
+<div class="tab" data-tab="dobuli">💬 AI 대화 기록</div>
 <div class="tab" data-tab="knowledge">🧠 지식 주입</div>
   </div></div>
 
@@ -237,9 +251,19 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
     </section>
   <!-- DOBULI CHAT LOG + SUGGESTIONS -->
 <section id="tab-dobuli" class="hide">
-<div class="panel"><h3>💬 더불이 대화 기록 <span id="dlCount" style="color:var(--dpk)"></span></h3>
-<p style="font-size:.85rem;color:var(--muted);margin:0 0 14px">시민과 더불이가 나눈 모든 대화 (최근 200건, 최신순)</p>
-<div id="dlList"></div></div>
+<div class="panel"><h3>💬 AI 대화 기록 <span id="dlCount" style="color:var(--dpk)"></span></h3>
+<p style="font-size:.85rem;color:var(--muted);margin:0 0 14px">방문자가 AI 봄이·더불이·재정 도우미와 나눈 대화를 하나도 지우지 않고 모두 저장합니다(최신순). 같은 색 「대화」 번호는 한 사람이 한 번에 나눈 대화입니다. 답을 못 만든 질문도 남습니다. AI 봄이 기록은 2026년 9월 29일부터 쌓입니다.</p>
+<div class="clbar">
+  <div class="clbots" role="group" aria-label="챗봇 선택">
+    <button type="button" class="clb" data-bot="bomi" aria-pressed="true">🥚 AI 봄이 <span></span></button>
+    <button type="button" class="clb" data-bot="dobuli" aria-pressed="false">💬 더불이 <span></span></button>
+    <button type="button" class="clb" data-bot="fin" aria-pressed="false">📊 재정 도우미 <span></span></button>
+  </div>
+  <input id="clSearch" class="pfield" type="search" placeholder="불러온 기록에서 낱말 찾기" aria-label="불러온 기록에서 낱말 찾기">
+  <button type="button" id="clCsv" class="btn">⬇ 이 챗봇 기록 전체 내려받기(CSV)</button>
+</div>
+<div id="dlList"></div>
+<div style="text-align:center;margin-top:12px"><button type="button" id="clMore" class="btn g hide">더 보기</button></div></div>
 <div class="panel"><h3>🌱 시민 의견 수집 <span id="sgCount" style="color:var(--dpk)"></span></h3>
 <p style="font-size:.85rem;color:var(--muted);margin:0 0 14px">더불이가 '공약을 함께 만들어가요'로 답하며 시민 의견을 요청한 항목입니다.</p>
 <div id="sgList"></div></div>
@@ -840,21 +864,68 @@ if(!$('tab-knowledge').classList.contains('hide')){loadKnowledge().catch(handleE
       .catch(function(){ alert('삭제에 실패했습니다.'); b.disabled=false; b.textContent='삭제'; });
   });
   
-/* ===== 더불이 대화 & 의견수집 ===== */
+/* ===== AI 대화 기록(봄이·더불이·재정 도우미) & 의견수집 ===== */
+var CL={bot:'bomi',items:[],total:0,counts:{},busy:false};
+var CLN={bomi:'AI 봄이',dobuli:'더불이',fin:'재정 도우미'};
+function clFetch(bot,off,lim){
+  return fetch('/api/chat?action=chatlog&bot='+encodeURIComponent(bot)+'&offset='+off+'&limit='+lim,{cache:'no-store',headers:{'x-admin-key':getKey()}})
+    .then(function(r){ if(r.status===403){ var e=new Error('unauth'); e.code=401; throw e; } return r.json(); });
+}
+function clHue(sid){ var h=0; for(var i=0;i<sid.length;i++){ h=(h*31+sid.charCodeAt(i))%360; } return h; }
+function clRow(t){
+  var dt=''; try{ dt=new Date(t.ts).toLocaleString('ko-KR'); }catch(e){}
+  var sid=String(t.sid||''), tag='';
+  if(sid){ var h=clHue(sid); tag='<span class="cl-sid" style="background:hsl('+h+',70%,93%);color:hsl('+h+',60%,30%)" title="같은 번호는 한 번의 대화">대화 '+esc(sid.slice(-5))+'</span>'; }
+  var a=String(t.a||''), aH;
+  if(a.length>600){ aH='<div class="m a"><b>A:</b> '+esc(a.slice(0,600))+'…</div><details><summary>전체 답변 보기 ('+a.length.toLocaleString()+'자)</summary><div class="m a">'+esc(a)+'</div></details>'; }
+  else aH='<div class="m a"><b>A:</b> '+esc(a)+'</div>';
+  var pg=String(t.page||''), pgD=pg; try{ pgD=decodeURIComponent(pg); }catch(e){}
+  var pgH=(pg&&pg.charAt(0)==='/')?' · <a href="'+esc(pg)+'" target="_blank" rel="noopener">'+esc(pgD.length>60?pgD.slice(0,60)+'…':pgD)+'</a>':'';
+  return '<div class="th">'+(t.fail?'<span class="cl-fail">답변 실패</span>':'')+tag
+    +'<div class="m q"><b>Q:</b> '+esc(t.q)+'</div>'+aH
+    +'<div class="meta">'+esc(dt)+pgH+(t.model?' · '+esc(t.model):'')+'</div></div>';
+}
+function clRender(){
+  var el=$('dlList'), kw=($('clSearch').value||'').trim().toLowerCase();
+  document.querySelectorAll('.clb').forEach(function(b){ var k=b.getAttribute('data-bot'); b.setAttribute('aria-pressed', k===CL.bot?'true':'false'); var n=CL.counts[k]; b.querySelector('span').textContent=(n==null?'':n.toLocaleString()+'건'); });
+  var list=CL.items;
+  if(kw) list=list.filter(function(t){ return (String(t.q||'')+' '+String(t.a||'')+' '+String(t.page||'')).toLowerCase().indexOf(kw)>=0; });
+  $('dlCount').textContent=CL.total?(CL.total.toLocaleString()+'건 중 '+CL.items.length.toLocaleString()+'건 불러옴'+(kw?' · 찾은 것 '+list.length.toLocaleString()+'건':'')):'';
+  el.innerHTML=list.length?list.map(clRow).join(''):'<div class="empty">'+(kw?'찾는 낱말이 들어간 기록이 없습니다.':esc(CLN[CL.bot])+' 대화 기록이 아직 없습니다.')+'</div>';
+  $('clMore').classList.toggle('hide', CL.items.length>=CL.total);
+}
+function clLoad(reset){
+  if(CL.busy) return Promise.resolve(); CL.busy=true;
+  if(reset){ CL.items=[]; CL.total=0; $('dlList').innerHTML='<div class="empty">불러오는 중…</div>'; }
+  return clFetch(CL.bot, CL.items.length, 200).then(function(d){
+    CL.busy=false;
+    if(!d.ok){ $('dlList').innerHTML='<div class="empty">'+esc(d.error||'기록을 불러오지 못했습니다.')+'</div>'; return; }
+    CL.counts=d.counts||{}; CL.total=d.total||0; CL.items=CL.items.concat(d.items||[]); clRender();
+  }).catch(function(e){ CL.busy=false; throw e; });
+}
+document.querySelectorAll('.clb').forEach(function(b){ b.addEventListener('click',function(){ var k=b.getAttribute('data-bot'); if(k===CL.bot&&CL.items.length) return; CL.bot=k; clLoad(true).catch(handleErr); }); });
+$('clMore').addEventListener('click',function(){ clLoad(false).catch(handleErr); });
+$('clSearch').addEventListener('input',clRender);
+$('clCsv').addEventListener('click',async function(){
+  var b=this, bot=CL.bot, all=[], off=0, total=null;
+  b.disabled=true;
+  try{
+    while(total===null||off<total){
+      b.textContent='내려받는 중… '+off.toLocaleString()+(total?'/'+total.toLocaleString():'');
+      var d=await clFetch(bot,off,1000); if(!d.ok) throw new Error(d.error||'fail');
+      total=d.total||0; var got=d.items||[]; all=all.concat(got); off+=got.length; if(!got.length) break;
+    }
+    var q=function(v){ return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'; };
+    var rows=[['시각','챗봇','대화번호','페이지','질문','답변','답변실패','모델'].map(q).join(',')];
+    all.forEach(function(t){ var dt=''; try{ dt=new Date(t.ts).toLocaleString('ko-KR'); }catch(e){} var pgc=String(t.page||''); try{ pgc=decodeURIComponent(pgc); }catch(e){} rows.push([dt,CLN[bot],t.sid||'',pgc,t.q||'',t.a||'',t.fail?'예':'',t.model||''].map(q).join(',')); });
+    var blob=new Blob(['﻿'+rows.join('\r\n')],{type:'text/csv;charset=utf-8'});
+    var d8=new Date(), ymd=d8.getFullYear()+String(d8.getMonth()+1).padStart(2,'0')+String(d8.getDate()).padStart(2,'0');
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='kimbomi_ai_chat_'+bot+'_'+ymd+'.csv';   /* 한글 파일명은 일부 브라우저에서 'download'로 바뀌어 영문으로 */ document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },1500);
+  }catch(e){ if(e&&e.code===401){ handleErr(e); } else alert('내려받기에 실패했습니다. 잠시 후 다시 시도해 주세요.'); }
+  b.disabled=false; b.textContent='⬇ 이 챗봇 기록 전체 내려받기(CSV)';
+});
 function loadDobuli(){
-  var p1=fetch('/api/chat?action=chatlog&key='+encodeURIComponent(getKey()),{cache:'no-store'})
-    .then(function(r){return r.json();})
-    .then(function(d){
-      var el=$('dlList');
-      if(!d.ok||!d.items||!d.items.length){el.innerHTML='<div class="empty">대화 기록이 없습니다.</div>';$('dlCount').textContent='';return;}
-      $('dlCount').textContent=d.items.length+'건';
-      el.innerHTML=d.items.map(function(t){
-        var dt='';try{dt=new Date(t.ts).toLocaleString('ko-KR');}catch(e){}
-        return '<div class="th"><div class="m"><b>Q:</b> '+esc(t.q)+'</div>'
-          +'<div class="m" style="color:#33405a;margin-top:4px"><b>A:</b> '+esc(t.a)+'</div>'
-          +'<div class="meta">'+esc(dt)+'</div></div>';
-      }).join('');
-    });
+  var p1=clLoad(true);
   var p2=fetch('/api/admin?action=suggestions&key='+encodeURIComponent(getKey()),{cache:'no-store'})
     .then(function(r){return r.json();})
     .then(function(d){

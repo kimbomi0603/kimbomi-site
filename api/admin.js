@@ -150,7 +150,7 @@ module.exports = async (req, res) => {
       var crec=JSON.stringify({ date:cdate, title:'일일 분석 리포트 · '+cdate+' ('+dow(cdate)+')', md:cmd, stats:{pv:cpv,uv:cuv,newThoughts:cNew.length}, ts:Date.now() });
       var chead=await redis(['LRANGE','a:reports',0,0]); var csame=false;
       try{ csame=chead.result&&chead.result[0]&&JSON.parse(chead.result[0]).date===cdate; }catch(e){}
-      if(csame){ await redis(['LSET','a:reports',0,crec]); } else { await pipeline([['LPUSH','a:reports',crec],['LTRIM','a:reports',0,199]]); }
+      if(csame){ await redis(['LSET','a:reports',0,crec]); } else { await redis(['LPUSH','a:reports',crec]); }
       res.status(200).json({ ok:true, date:cdate, pv:cpv, uv:cuv, saved:true, replaced:csame });
     } catch(e){ res.status(200).json({ ok:false, error:String(e&&e.message||e) }); }
     return;
@@ -174,7 +174,7 @@ module.exports = async (req, res) => {
       var rid = Date.now().toString(36)+Math.random().toString(36).slice(2,8);
       // 개인정보(IP 등)는 제보 레코드에 저장하지 않는다.
       var rrec = JSON.stringify({ id:rid, category:cat, content:content, region:region, contact:contact, ts:Date.now() });
-      await pipeline([ ['LPUSH','kb_reports', rrec], ['LTRIM','kb_reports',0,499] ]);
+      await redis(['LPUSH','kb_reports', rrec]);   /* 2026-09-29: 제보는 자르지 않고 전부 보관(예전: 최근 500건) */
       res.status(200).json({ ok:true });
     } catch(e){ res.status(200).json({ ok:false, error:String(e&&e.message||e) }); }
     return;
@@ -274,7 +274,7 @@ module.exports = async (req, res) => {
       var raw = await readBody(req); var b = raw;
       if (typeof raw === 'string') { try { b = JSON.parse(raw||'{}'); } catch(e){ b={}; } }
       var rec = JSON.stringify({ date: (b.date||kstDate(1)), title: String(b.title||'').slice(0,200), md: String(b.md||'').slice(0,20000), stats: b.stats||{}, ts: Date.now() });
-      await pipeline([ ['LPUSH','a:reports', rec], ['LTRIM','a:reports',0,199] ]);
+      await redis(['LPUSH','a:reports', rec]);   /* 2026-09-29: 기록 전부 보관(예전: 최근 200건) */
       res.status(200).json({ ok:true }); return;
     }
 
@@ -328,7 +328,7 @@ module.exports = async (req, res) => {
 
     if (action === 'reportlist') {
       if (!isAdmin) { res.status(401).json({ ok:false, error:'admin only' }); return; }
-      var rl = await redis(['LRANGE','kb_reports',0,499]);
+      var rl = await redis(['LRANGE','kb_reports',0,-1]);
       var ritems = (rl.result||[]).map(function(x){ try{ var o=JSON.parse(x); return o; }catch(e){ return null; } }).filter(Boolean);
       res.status(200).json({ ok:true, count:ritems.length, items:ritems }); return;
     }
@@ -338,18 +338,18 @@ module.exports = async (req, res) => {
       var rr2 = await readBody(req); var rb2 = rr2;
       if (typeof rr2 === 'string') { try { rb2 = JSON.parse(rr2||'{}'); } catch(e){ rb2={}; } }
       var rtid = rb2 && rb2.id; if(!rtid){ res.status(200).json({ ok:false, error:'no id' }); return; }
-      var rall = await redis(['LRANGE','kb_reports',0,499]);
+      var rall = await redis(['LRANGE','kb_reports',0,-1]);
       var rtarget = (rall.result||[]).find(function(x){ try{ return JSON.parse(x).id===rtid; }catch(e){ return false; } });
       if(!rtarget){ res.status(200).json({ ok:false, error:'not found' }); return; }
       var rrem = await redis(['LREM','kb_reports',1,rtarget]);
       var rremoved = parseInt((rrem&&rrem.result)||0,10)||0;
-      if(rremoved>0){ await pipeline([ ['LPUSH','kb_reports_removed', rtarget], ['LTRIM','kb_reports_removed',0,199] ]); }
+      if(rremoved>0){ await redis(['LPUSH','kb_reports_removed', rtarget]); }
       res.status(200).json({ ok:true, removed:rremoved }); return;
     }
 
     if (action === 'thoughts') {
       if (!isAdmin) { res.status(401).json({ ok:false, error:'admin only' }); return; }
-      var t = await redis(['LRANGE','kb_thoughts',0,499]);
+      var t = await redis(['LRANGE','kb_thoughts',0,-1]);
       var items = (t.result||[]).map(function(s){ try { var o=JSON.parse(s); o._raw=s; return o; } catch(e){ return null; } }).filter(Boolean);
       res.status(200).json({ ok:true, count: items.length, items: items }); return;
     }
@@ -362,7 +362,7 @@ module.exports = async (req, res) => {
       if (!target) { res.status(200).json({ ok:false, error:'no target' }); return; }
       var rem = await redis(['LREM','kb_thoughts',1,target]);
       var n = parseInt((rem&&rem.result)||0,10)||0;
-      if (n > 0) { await pipeline([ ['LPUSH','kb_thoughts_removed', target], ['LTRIM','kb_thoughts_removed',0,499] ]); }
+      if (n > 0) { await redis(['LPUSH','kb_thoughts_removed', target]); }
       res.status(200).json({ ok:true, removed:n }); return;
     }
 
@@ -407,7 +407,7 @@ return;
   }
 
   if (action === 'listknowledge') {
-    var kl = await redis(['LRANGE','kb_knowledge',0,49]);
+    var kl = await redis(['LRANGE','kb_knowledge',0,-1]);
     var knItems = (kl.result||[]).map(function(x){ try{ return JSON.parse(x); }catch(e){ return null; } }).filter(Boolean);
     res.status(200).json({ ok:true, count:knItems.length, items:knItems }); return;
   }
@@ -420,7 +420,7 @@ return;
     var knFilename = String(knB.filename||'').trim().slice(0,100);
     if (!knContent) { res.status(200).json({ ok:false, error:'empty' }); return; }
     var knRec = JSON.stringify({ filename:knFilename, content:knContent, ts:Date.now() });
-    await pipeline([ ['LPUSH','kb_knowledge', knRec], ['LTRIM','kb_knowledge',0,49] ]);
+    await redis(['LPUSH','kb_knowledge', knRec]);   /* 2026-09-29: 지식자료 전부 보관(예전: 최근 50건). 더불이는 최근 10건만 참고 */
     res.status(200).json({ ok:true }); return;
   }
 
@@ -430,7 +430,7 @@ return;
     if (typeof rkRaw === 'string') { try { rkB = JSON.parse(rkRaw||'{}'); } catch(e){ rkB={}; } }
     var rkTs = rkB && rkB.ts;
     if (!rkTs) { res.status(200).json({ ok:false, error:'no ts' }); return; }
-    var rkAll = await redis(['LRANGE','kb_knowledge',0,49]);
+    var rkAll = await redis(['LRANGE','kb_knowledge',0,-1]);
     var rkTarget = (rkAll.result||[]).find(function(x){ try{ return JSON.parse(x).ts===rkTs; }catch(e){ return false; } });
     if (!rkTarget) { res.status(200).json({ ok:false, error:'not found' }); return; }
     var rkRem = await redis(['LREM','kb_knowledge',1,rkTarget]);
