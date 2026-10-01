@@ -11,6 +11,9 @@
     },
     "api/chat.js": {
       "maxDuration": 60
+    },
+    "api/live.js": {
+      "maxDuration": 60
     }
   },
   "redirects": [
