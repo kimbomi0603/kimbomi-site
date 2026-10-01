@@ -18,7 +18,7 @@
    ============================================================ */
 
 const KEY  = process.env.DATA_GO_KR_KEY || process.env.GOV_API_KEY || "";
-const YKEY = process.env.YOUTH_API_KEY  || "";
+const YKEY = process.env.YOUTH_KEY || process.env.YOUTH_API_KEY || "";
 
 function stripGu(s) {
   return String(s || "").replace(/(특별자치시|특별시|광역시|특별자치도|도|시|군|구)$/, "").trim();
