@@ -273,7 +273,8 @@ module.exports = async (req, res) => {
       OPFI121:{nm:"이월의 성질별 추이",yr:"ACNT_YR"}, OPFB129:{nm:"분야별 재원배분 계획",yr:"ACNT_YR"},
       OPFI172:{nm:"분야별 프로그램 예산",yr:"ACNT_YR"}, OPFI134:{nm:"분야별 출연금 지출추이",yr:"ACNT_YR"},
       OPFI165:{nm:"16대 분야별 재원배분",yr:"ACNT_YR"}, OPFI150:{nm:"작성기준별 주요재정통계",yr:"ACNT_YR"},
-      OPFI140:{nm:"연도별 총세입·총세출",yr:"ACNT_YR"}
+      OPFI140:{nm:"연도별 총세입·총세출",yr:"ACNT_YR"},
+      ExpenditureBudgetInit5:{nm:"세출/지출 세부사업 예산편성현황(국회확정)",yr:"FSCL_YY"}   /* 2026-10-03 부처 화면 새로고침용(OFFC_NM 소관 필터) */
     };
     const ep = String(q.ofd).trim();
     if (ep === "list") {
@@ -287,10 +288,12 @@ module.exports = async (req, res) => {
     const oyr = String(q[d.yr] || q.year || "").replace(/[^0-9]/g,"").slice(0,4);
     const osz = Math.min(parseInt(q.pSize||"1000",10)||1000, 1000);
     const oix = Math.max(parseInt(q.pIndex||"1",10)||1, 1);
-    const ock = `ofd:v1:${ep}:${oyr}:${oix}:${osz}`;
+    const ooffc = String(q.OFFC_NM||"").trim().slice(0,60);
+    const ock = `ofd:v1:${ep}:${oyr}:${oix}:${osz}:${ooffc}`;
     if (!q.fresh) { const c = await kvGet(ock); if (c) { c.cached = true; return res.status(200).json(c); } }
     const op = new URLSearchParams({ Key:OKEY, Type:"json", pIndex:String(oix), pSize:String(osz) });
     if (oyr) op.set(d.yr, oyr);
+    if (ooffc) op.set("OFFC_NM", ooffc);
     try {
       const rr = await fetch(`https://openapi.openfiscaldata.go.kr/${ep}?${op}`, {
         headers:{ "User-Agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
