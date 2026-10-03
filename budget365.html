@@ -1433,7 +1433,7 @@ async function liveExec(cd){ const btn=document.getElementById('liveBtn'); const
     const sm=k=>rows.reduce((a,r)=>a+(r[k]||0),0);
     const grp=k=>{ const o={}; rows.forEach(r=>{ const g=o[r[k]||'기타']||(o[r[k]||'기타']={b:0,e:0,k:0}); g.b+=r.b; g.e+=r.e; g.k++; }); return o; };   /* 분야·회계 합도 같은 기준일로(옛 기준일 값과 섞지 않음) */
     lg.exec['2026']={...base,rows,rows_total:rows.length,exe_ymd:found.day,dbiz_count:new Set(rows.map(r=>r.c)).size,sum:{budget:b,exec:e,rate:b?Math.round(e/b*1000)/10:null,ntep:sm('nt'),capep:sm('cp'),sggep:sm('sg'),etc:sm('et')},by_fld:grp('f'),by_acnt:grp('a'),live:true,live_total:found.total,live_got:all.length,base_ymd:lg._exec2026.exe_ymd,base_sum:lg._exec2026.sum};
-    S.diag&&delete S.diag[cd]; renderBudget(lg);
+    S.diag&&delete S.diag[cd]; await renderBudget(lg); try{ injectAsof('lg',cd,(location.hash.split('?')[0].split('/')[3]||'exec')); }catch(e){}
   }catch(err){ if(box) box.innerHTML=`<div class="note" style="margin:0 0 12px"><b>실시간 조회 실패</b> — ${esc(err.message||'오류')}. 내장 자료(${ymd(new Date())} 이전 기준일)를 그대로 보여 드립니다.</div>`; if(btn){ btn.disabled=false; btn.textContent='⟳ API로 새로고침'; } } }
 function liveBanner(e,cd){ if(S.autoLive===cd&&!e.live){ S.autoLive=null; setTimeout(()=>liveExec(cd),0); } if(!e.live) return `<div id="liveBox"><div class="note blue" style="margin:0 0 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span><b>기준일 ${ymd(e.exe_ymd)}</b> 자료입니다. 지방재정365는 매일 갱신되므로 오늘 기준 집행률을 바로 받아 볼 수 있습니다.</span><button type="button" class="btn" id="liveBtn" onclick="liveExec('${cd}')">⟳ API로 새로고침</button></div></div>`;
   const d=e.sum.exec-(e.base_sum?.exec||0), dr=(e.sum.rate??0)-(e.base_sum?.rate??0);
