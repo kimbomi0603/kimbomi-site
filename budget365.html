@@ -1690,7 +1690,7 @@ async function renderGovMin(ix,sg){ const m=ix.ministries.find(x=>x.sg===sg); if
   draw();
 }
 
-async function loadSearch(){ if(S.search) return S.search; const [a,b]=await Promise.all([gunzipB64('data/search-a.txt'),gunzipB64('data/search-b.txt')]); return S.search={...a,y25:b.y25}; }
+async function loadSearch(){ if(S.search) return S.search; const [a,a2,b]=await Promise.all([gunzipB64('data/search-a.txt'),gunzipB64('data/search-a2.txt').catch(()=>({y26:{}})),gunzipB64('data/search-b.txt')]); Object.assign(a.y26,a2.y26); return S.search={...a,y25:b.y25}; }
 const SYN={'노인일자리':['노인일자리','노인 일자리','시니어','어르신 일자리','노인사회활동'],'청년':['청년'],'아동':['아동','어린이'],'보육':['보육','어린이집','유치원'],'장애인':['장애인'],'축제':['축제','페스티벌','잔치'],'홍보':['홍보','광고'],'도로':['도로','포장','보도'],'하천':['하천','소하천'],'주차장':['주차장','주차'],'경로당':['경로당'],'버스':['버스','대중교통'],'쓰레기':['쓰레기','폐기물','청소'],'CCTV':['CCTV','방범'],'농업':['농업','농촌','농가'],'기본소득':['기본소득','수당'],'문화':['문화','예술','공연'],'체육':['체육','운동','스포츠'],'관광':['관광','여행'],'복지':['복지'],'교육':['교육','학교'],'보건':['보건','건강','의료'],'환경':['환경','기후','탄소'],'재난':['재난','안전','소방'],'일자리':['일자리','고용','취업']};
 function termsOf(q){ const parts=q.replace(/\s+/g,' ').trim().split(' ').filter(Boolean); const groups=parts.map(p=>{ const k=Object.keys(SYN).find(k=>k.replace(/\s/g,'')===p.replace(/\s/g,'')); return k?SYN[k]:[p]; }); return groups; }
 async function renderSearch(q,sidoF){ sidoF=sidoF||''; const app=document.getElementById('app'); app.innerHTML=`<div class="wrap"><div class="loading">전국 세부사업 색인을 불러와 「${esc(q)}」를 찾는 중… (처음 한 번만 약 17MB)</div></div>`;
