@@ -21,6 +21,8 @@ const unent = (s) => String(s || '').replace(/<!\[CDATA\[|\]\]>/g, '').replace(/
   .replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
 const xf = (x, t) => { const m = x.match(new RegExp('<' + t + '>([\\s\\S]*?)</' + t + '>')); return m ? unent(m[1]) : ''; };
 const xitems = (x, tag) => String(x || '').split('<' + (tag || 'item') + '>').slice(1);
+// 국회 의안 상세: API 의 DETAIL_LINK·LINK_URL(옛 billDetail.do)은 지금 의안정보시스템 첫 화면으로 튕긴다(2026-10-06 확인) → 새 주소로 만든다.
+const billUrl = (id, old) => (id ? 'https://likms.assembly.go.kr/bill/bi/billDetailPage.do?billId=' + encodeURIComponent(id) : httpUrl(old));
 const httpUrl = (u) => { u = String(u || '').trim(); if (!u) return ''; if (/^www\./.test(u)) u = 'https://' + u; return /^https?:\/\//.test(u) ? u : ''; };
 
 function scrub(s) {
@@ -137,7 +139,7 @@ const SOURCES = [
   { id: 'nabill', g: 'nas', org: '국회 발의법률안', key: 'asm', home: 'https://likms.assembly.go.kr/bill/main.do',
     async run() {
       const { rows } = await asmRows('nzmimeepazxkubdpn', { AGE: 22, pIndex: 1, pSize: 100 });
-      return rows.map((x) => ({ id: 'nabill:' + x.BILL_ID, date: normDate(x.PROPOSE_DT), title: x.BILL_NAME, org: '국회', who: x.PROPOSER, dept: x.COMMITTEE || '', kind: x.PROC_RESULT || '계류', url: httpUrl(x.DETAIL_LINK), no: x.BILL_NO }));
+      return rows.map((x) => ({ id: 'nabill:' + x.BILL_ID, date: normDate(x.PROPOSE_DT), title: x.BILL_NAME, org: '국회', who: x.PROPOSER, dept: x.COMMITTEE || '', kind: x.PROC_RESULT || '계류', url: billUrl(x.BILL_ID, x.DETAIL_LINK), no: x.BILL_NO }));
     } },
   { id: 'nalgsl', g: 'nas', org: '국회 입법예고(진행 중)', key: 'asm', home: 'https://pal.assembly.go.kr/',
     async run() {
@@ -147,7 +149,7 @@ const SOURCES = [
   { id: 'naplen', g: 'nas', org: '국회 본회의 처리안건', key: 'asm', home: 'https://likms.assembly.go.kr/bill/main.do',
     async run() {
       const { rows } = await asmRows('nwbpacrgavhjryiph', { AGE: 22, pIndex: 1, pSize: 100 });
-      return rows.map((x) => ({ id: 'naplen:' + x.BILL_ID, date: normDate(x.RGS_PROC_DT || x.PROPOSE_DT), title: x.BILL_NM, org: '국회 본회의', who: x.PROPOSER, dept: x.COMMITTEE_NM || '', kind: x.PROC_RESULT_CD || '', vote: x.VOTE_TCNT != null ? { all: x.VOTE_TCNT, yes: x.YES_TCNT, no: x.NO_TCNT, blank: x.BLANK_TCNT } : null, url: httpUrl(x.LINK_URL), no: x.BILL_NO }));
+      return rows.map((x) => ({ id: 'naplen:' + x.BILL_ID, date: normDate(x.RGS_PROC_DT || x.PROPOSE_DT), title: x.BILL_NM, org: '국회 본회의', who: x.PROPOSER, dept: x.COMMITTEE_NM || '', kind: x.PROC_RESULT_CD || '', vote: x.VOTE_TCNT != null ? { all: x.VOTE_TCNT, yes: x.YES_TCNT, no: x.NO_TCNT, blank: x.BLANK_TCNT } : null, url: billUrl(x.BILL_ID, x.LINK_URL), no: x.BILL_NO }));
     } },
   { id: 'napress', g: 'nas', org: '국회 보도자료', key: 'asm', home: 'https://www.assembly.go.kr/portal/bbs/B0000051/list.do?menuNo=600101',
     async run() {
@@ -193,4 +195,4 @@ async function youth(op, q) {
   return { state: 'ok', data: JSON.parse(s) };
 }
 
-module.exports = { SOURCES, runAll, runOne, youth, YOUTH_OPS, normDate, kday };
+module.exports = { billUrl, SOURCES, runAll, runOne, youth, YOUTH_OPS, normDate, kday };
