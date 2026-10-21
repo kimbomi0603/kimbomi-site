@@ -19,6 +19,21 @@
 
 const KEY  = process.env.DATA_GO_KR_KEY || process.env.GOV_API_KEY || "";
 const YKEY = process.env.YOUTH_KEY || process.env.YOUTH_API_KEY || "";
+/* 2026-10-21: 김보미.com 의 DATA_GO_KR_KEY 에는 지방재정365 키가 들어 있어 공공데이터포털·odcloud 가
+   「등록되지 않은 인증키」로 거절한다(보조금24·복지로가 늘 0건). 같은 계정 계열 키를 차례로 써 본다. 순서는 기존 우선순위 유지. */
+function decKey(k) { k = String(k || "").trim(); try { if (/%[0-9A-Fa-f]{2}/.test(k)) k = decodeURIComponent(k); } catch (e) {} return k; }
+const KEYS = Array.from(new Set([process.env.DATA_GO_KR_KEY, process.env.GOV_API_KEY, process.env.G2B_API_KEY2, process.env.G2B_API_KEY].map(decKey).filter(Boolean)));
+const KEY_REJECT = /SERVICE_KEY_IS_NOT_REGISTERED|SERVICE_ACCESS_DENIED|DEADLINE_HAS_EXPIRED|LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS|등록되지 않은|"code"\s*:\s*-4\b/;
+/* build(key) → [url, opts]. 거절 응답이면 다음 키로. 마지막 응답 본문을 돌려준다. */
+async function fetchWithKeys(build) {
+  let text = "";
+  for (const k of KEYS) {
+    const b = build(k);
+    text = await fetchText(b[0], b[1]);
+    if (!KEY_REJECT.test(String(text).slice(0, 600))) return text;
+  }
+  return text;
+}
 
 function stripGu(s) {
   return String(s || "").replace(/(특별자치시|특별시|광역시|특별자치도|도|시|군|구)$/, "").trim();
@@ -34,13 +49,14 @@ async function fetchText(url, opts) {
 
 /* 1) 보조금24 / 정부24 공공서비스(혜택) — odcloud gov24 */
 async function gov24(q, region) {
-  if (!KEY) return [];
-  const p = new URLSearchParams();
-  p.set("page", "1"); p.set("perPage", "10"); p.set("serviceKey", KEY);
-  if (q) p.set("cond[서비스명::LIKE]", q);
-  if (region) p.set("cond[소관기관명::LIKE]", stripGu(region));
-  const url = "https://api.odcloud.kr/api/gov24/v3/serviceList?" + p.toString();
-  const text = await fetchText(url, { headers: { Authorization: "Infuser " + KEY } });
+  if (!KEYS.length) return [];
+  const text = await fetchWithKeys(function (k) {
+    const p = new URLSearchParams();
+    p.set("page", "1"); p.set("perPage", "10"); p.set("serviceKey", k);
+    if (q) p.set("cond[서비스명::LIKE]", q);
+    if (region) p.set("cond[소관기관명::LIKE]", stripGu(region));
+    return ["https://api.odcloud.kr/api/gov24/v3/serviceList?" + p.toString(), { headers: { Authorization: "Infuser " + k } }];
+  });
   let j; try { j = JSON.parse(text); } catch (e) { return []; }
   const rows = j.data || [];
   return rows.map(function (x) {
@@ -58,12 +74,13 @@ async function gov24(q, region) {
 
 /* 2) 복지로 지자체복지서비스 */
 async function bokjiro(q, region) {
-  if (!KEY) return [];
-  const p = new URLSearchParams();
-  p.set("serviceKey", KEY); p.set("pageNo", "1"); p.set("numOfRows", "10");
-  if (q) p.set("searchWrd", q);
-  const url = "http://apis.data.go.kr/B554287/LocalGovernmentWelfareInformations/LcgvWelfarelist?" + p.toString();
-  const text = await fetchText(url);
+  if (!KEYS.length) return [];
+  const text = await fetchWithKeys(function (k) {
+    const p = new URLSearchParams();
+    p.set("serviceKey", k); p.set("pageNo", "1"); p.set("numOfRows", "10");
+    if (q) p.set("searchWrd", q);
+    return ["http://apis.data.go.kr/B554287/LocalGovernmentWelfareInformations/LcgvWelfarelist?" + p.toString()];
+  });
   const blocks = text.split(/<servList>/).slice(1);
   const out = [];
   for (const b of blocks) {
@@ -112,7 +129,7 @@ module.exports = async (req, res) => {
 
   if (Q.selfcheck) {
     res.setHeader("Cache-Control", "no-store");
-    const out = { hasDataKey: !!KEY, hasYouthKey: !!YKEY, tests: {} };
+    const out = { hasDataKey: !!KEY, dataKeys: KEYS.length, hasYouthKey: !!YKEY, tests: {} };
     const probes = [["gov24", gov24], ["bokjiro", bokjiro], ["youth", youth]];
     for (const [nm, fn] of probes) {
       try { out.tests[nm] = (await fn(q || "청년", region)).length; }
@@ -121,7 +138,7 @@ module.exports = async (req, res) => {
     return res.status(200).json(out);
   }
 
-  if (!KEY && !YKEY) return res.status(200).json({ ok: true, configured: false, items: [] });
+  if (!KEYS.length && !YKEY) return res.status(200).json({ ok: true, configured: false, items: [] });
   if (!q) return res.status(200).json({ ok: true, configured: true, items: [] });
 
   let items = [];

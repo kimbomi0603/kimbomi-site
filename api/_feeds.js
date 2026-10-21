@@ -41,11 +41,29 @@ async function get(url, ms) {
     return { ok: r.ok, status: r.status, text: await r.text() };
   } finally { clearTimeout(t); }
 }
-function dataUrl(path, params) {
-  const k = DKEY(); if (!k) return null;
+function dataUrl(path, params, key) {
+  const k = key || DKEY(); if (!k) return null;
   const u = new URL('https://apis.data.go.kr' + path);
   for (const [a, b] of Object.entries(params || {})) u.searchParams.set(a, String(b));
   return u.toString() + '&serviceKey=' + (/%[0-9A-Fa-f]{2}/.test(k) ? k : encodeURIComponent(k));
+}
+// 2026-10-21: 김보미.com 의 DATA_GO_KR_KEY 에는 지방재정365 키가 들어 있어 공공데이터포털이 「등록되지 않은 서비스키」로 거절한다
+// (그래서 정책브리핑·부처 보도자료·성평등가족부가 전부 0건이었다). 같은 계열의 다른 키(G2B_API_KEY2 등)로 차례로 다시 부른다.
+// 브레인허브처럼 DATA_GO_KR_KEY 가 맞는 곳은 첫 키에서 끝나므로 동작이 같다.
+const DKEYS = () => [...new Set([env('DATA_GO_KR_KEY'), env('DATA_API_KEY'), env('G2B_API_KEY2'), env('G2B_API_KEY')].filter(Boolean))];
+const KEY_REJECT = /SERVICE_KEY_IS_NOT_REGISTERED|SERVICE_ACCESS_DENIED|DEADLINE_HAS_EXPIRED|LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS|등록되지 않은 서비스키/;
+let goodKey = 0; // 마지막으로 통한 키 순번(같은 인스턴스 안에서 재사용)
+async function dataGet(path, params, ms) {
+  const keys = DKEYS(); if (!keys.length) throw new Error('no_key');
+  let last = null;
+  for (let i = 0; i < keys.length; i++) {
+    const idx = (goodKey + i) % keys.length;
+    const r = await get(dataUrl(path, params, keys[idx]), ms);
+    if (KEY_REJECT.test(String(r.text || '').slice(0, 600))) { last = r; continue; }
+    goodKey = idx; return r;
+  }
+  const m = String(last && last.text || '').match(/<returnAuthMsg>([^<]+)|"returnAuthMsg"\s*:\s*"([^"]+)"|<errMsg>([^<]+)|"errMsg"\s*:\s*"([^"]+)"/);
+  throw new Error('공공데이터포털 인증키 거절: ' + (m ? (m[1] || m[2] || m[3] || m[4]) : 'unknown'));
 }
 function asmUrl(code, params) {
   const k = AKEY(); if (!k) return null;
@@ -73,8 +91,7 @@ const SOURCES = [
       while (start <= end) {
         const s2 = Math.min(start + 2 * 86400e3, end);
         for (let page = 1; page <= 3; page++) {
-          const url = dataUrl('/1371000/policyNewsService2/policyNewsList2', { startDate: ymd(start), endDate: ymd(s2), numOfRows: 100, pageNo: page });
-          const r = await get(url, 15000); const its = xitems(r.text, 'NewsItem');
+          const r = await dataGet('/1371000/policyNewsService2/policyNewsList2', { startDate: ymd(start), endDate: ymd(s2), numOfRows: 100, pageNo: page }, 15000); const its = xitems(r.text, 'NewsItem');
           for (const it of its) out.push({ id: 'korea:' + xf(it, 'NewsItemId'), date: normDate(xf(it, 'ApproveDate') || xf(it, 'ModifyDate')), title: xf(it, 'Title'), org: xf(it, 'MinisterCode') || '정책브리핑', url: httpUrl(xf(it, 'OriginalUrl')), sub: xf(it, 'SubTitle1').slice(0, 160), kind: xf(it, 'GroupingCode') });
           if (its.length < 100) break;
         }
@@ -84,23 +101,23 @@ const SOURCES = [
     } },
   { id: 'msit', g: 'gov', org: '과학기술정보통신부', key: 'data', home: 'https://www.msit.go.kr/bbs/list.do?sCode=user&mPid=208&mId=307',
     async run() {
-      const r = await get(dataUrl('/1721000/msitpressreleaseinfo/pressReleaseList', { pageNo: 1, numOfRows: 50 }));
+      const r = await dataGet('/1721000/msitpressreleaseinfo/pressReleaseList', { pageNo: 1, numOfRows: 50 });
       return xitems(r.text).map((it) => ({ id: 'msit:' + (xf(it, 'viewUrl').match(/nttSeqNo=(\d+)/) || [, xf(it, 'subject')])[1], date: normDate(xf(it, 'pressDt')), title: xf(it, 'subject'), org: '과학기술정보통신부', dept: xf(it, 'deptName'), url: httpUrl(xf(it, 'viewUrl')) }));
     } },
   { id: 'mss', g: 'gov', org: '중소벤처기업부', key: 'data', home: 'https://www.mss.go.kr/site/smba/ex/bbs/List.do?cbIdx=86',
     async run(days) {
-      const r = await get(dataUrl('/1421000/mssPressService_v2/getPressList_v2', { pageNo: 1, numOfRows: 100, startDate: kday(Date.now() - (days - 1) * 86400e3), endDate: kday(Date.now()) }));
+      const r = await dataGet('/1421000/mssPressService_v2/getPressList_v2', { pageNo: 1, numOfRows: 100, startDate: kday(Date.now() - (days - 1) * 86400e3), endDate: kday(Date.now()) });
       return xitems(r.text).map((it) => ({ id: 'mss:' + xf(it, 'itemId'), date: normDate(xf(it, 'regDate')), title: xf(it, 'title'), org: '중소벤처기업부', dept: xf(it, 'writerPosition'), url: httpUrl(xf(it, 'viewUrl')) }));
     } },
   { id: 'mofa', g: 'gov', org: '외교부', key: 'data', home: 'https://www.mofa.go.kr/www/brd/m_4080/list.do',
     // 이 API 는 오래된 글부터 준다 → 전체 건수로 마지막 쪽을 계산해 최근 글을 받는다.
     async run() {
-      const first = JSON.parse((await get(dataUrl('/1262000/pressRlsService/getPressRls', { pageNo: 1, numOfRows: 1, returnType: 'JSON' }))).text);
+      const first = JSON.parse((await dataGet('/1262000/pressRlsService/getPressRls', { pageNo: 1, numOfRows: 1, returnType: 'JSON' })).text);
       const total = +first.response.body.totalCount || 0; const n = 50; const last = Math.max(1, Math.ceil(total / n));
       const rows = [];
       for (const pg of [last - 1, last]) {
         if (pg < 1) continue;
-        const j = JSON.parse((await get(dataUrl('/1262000/pressRlsService/getPressRls', { pageNo: pg, numOfRows: n, returnType: 'JSON' }))).text);
+        const j = JSON.parse((await dataGet('/1262000/pressRlsService/getPressRls', { pageNo: pg, numOfRows: n, returnType: 'JSON' })).text);
         const it = j.response.body.items && j.response.body.items.item; if (it) rows.push(...[].concat(it));
       }
       return rows.map((x) => { const f = String(x.file_url || '').split(',')[0]; const seq = (f.match(/seq=(\d+)/) || [])[1];
@@ -108,17 +125,17 @@ const SOURCES = [
     } },
   { id: 'unikorea', g: 'gov', org: '통일부', key: 'data', home: 'https://www.unikorea.go.kr/unikorea/news/release/',
     async run() {
-      const j = JSON.parse((await get(dataUrl('/1250000/nesdta/getNesdta', { pageNo: 1, numOfRows: 50, bgng_ymd: ymd(Date.now() - 400 * 86400e3), end_ymd: ymd(Date.now()) }))).text);
+      const j = JSON.parse((await dataGet('/1250000/nesdta/getNesdta', { pageNo: 1, numOfRows: 50, bgng_ymd: ymd(Date.now() - 400 * 86400e3), end_ymd: ymd(Date.now()) })).text);
       return [].concat(j.items || []).map((x) => ({ id: 'unikorea:' + ((String(x.url).match(/cntId=(\d+)/) || [])[1] || x.sj), date: normDate(x.wrt_ymd), title: unent(x.sj), org: '통일부', dept: x.dept || '', url: httpUrl(x.url) }));
     } },
   { id: 'mogef', g: 'gov', org: '성평등가족부', key: 'data', home: 'https://www.mogef.go.kr/nw/enw/nw_enw_s001.do?mid=mda700',
     async run() {
       const out = [];
-      const a = JSON.parse((await get(dataUrl('/1383000/mogefNew/nwEnwSelectList', { pageNo: 1, numOfRows: 50, type: 'json' }))).text);
+      const a = JSON.parse((await dataGet('/1383000/mogefNew/nwEnwSelectList', { pageNo: 1, numOfRows: 50, type: 'json' })).text);
       for (const x of [].concat(((a.body || [])[0] || {}).items ? a.body[0].items.item : [])) out.push({ id: 'mogef:' + ((String(x.viewUrl).match(/bbtSn=(\d+)/) || [])[1] || x.title), date: normDate(x.regDt), title: unent(x.title), org: '성평등가족부', kind: '정책뉴스', url: httpUrl(x.viewUrl) });
-      const b = JSON.parse((await get(dataUrl('/1383000/policy/subjectList', { pageNo: 1, numOfRows: 30, type: 'json' }))).text);
+      const b = JSON.parse((await dataGet('/1383000/policy/subjectList', { pageNo: 1, numOfRows: 30, type: 'json' })).text);
       for (const x of [].concat(((b.body || [])[0] || {}).items ? b.body[0].items.item : [])) out.push({ id: 'mogefp:' + ((String(x.url).match(/bbtSn=(\d+)/) || [])[1] || x.title), date: normDate(x.regDt), title: unent(x.title), org: '성평등가족부', dept: x.deptNm || '', kind: '정책자료', url: httpUrl(x.url) });
-      const c = JSON.parse((await get(dataUrl('/1383000/yhis/YouthNewsService/getYouthNewsList', { pageNo: 1, numOfRows: 30, type: 'json' }))).text);
+      const c = JSON.parse((await dataGet('/1383000/yhis/YouthNewsService/getYouthNewsList', { pageNo: 1, numOfRows: 30, type: 'json' })).text);
       const ci = (((c.response || {}).body || {}).items || {}).item;
       for (const x of [].concat(ci || [])) out.push({ id: 'mogefy:' + x.pstNo, date: normDate(x.pstRegYmd), title: unent(x.pstTtlNm), org: x.operInstNm || '성평등가족부', kind: '청소년 ' + (x.pstClsfNm || ''), url: '', sub: unent(x.pstCn).slice(0, 160) });
       return out;
@@ -128,7 +145,7 @@ const SOURCES = [
     async run(days) {
       const out = []; const from = ymd(Date.now() - Math.max(7, days) * 86400e3), to = ymd(Date.now());
       for (const [path, kind] of [['/1741000/ApiPblancLgsltService/getApiPblancLgsltList', '입법예고'], ['/1741000/ApiPredeceService/getApiPredeceList', '대통령공고'], ['/1741000/ApiTotalService/getApiTotalList', '관보']]) {
-        const r = await get(dataUrl(path, { pageNo: 1, pageSize: 50, reqFrom: from, reqTo: to, type: 'json' }), 15000);
+        const r = await dataGet(path, { pageNo: 1, pageSize: 50, reqFrom: from, reqTo: to, type: 'json' }, 15000);
         if (!String(r.text || '').trim()) throw new Error('관보 제공 서버가 빈 응답을 줌(' + r.status + ')');
         let j; try { j = JSON.parse(r.text); } catch (e) { if (/SERVICETIMEOUT|연결실패/.test(r.text)) throw new Error('관보 제공 서버 연결 실패'); continue; }
         const list = []; (function walk(o) { if (Array.isArray(o)) o.forEach(walk); else if (o && typeof o === 'object') { if (o.cntntSj || o.cntntSeqNo) list.push(o); else Object.values(o).forEach(walk); } })(j);

@@ -116,7 +116,7 @@ const CHART_LOCAL = path.join(__dirname, 'chart.umd.min.js');   // 있으면 로
   {
     /* 404·소유권 확인용 페이지는 본문이 원래 짧다 */
     /* 404·소유권 확인 페이지, 그리고 admin은 로그인 게이트라 본문이 원래 짧다 */
-    const SHORT_OK = /^(404\.html|admin\.html|google[0-9a-f]+\.html|.*verification.*\.html)$/i;
+    const SHORT_OK = /^(404\.html|admin\.html|google[0-9a-f]+\.html|naver[0-9a-f]+\.html|.*verification.*\.html)$/i;
     const PAGES = fs.readdirSync(ROOT).filter(f => f.endsWith('.html'));
     const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     await ctx.route('**/*', (route, req) =>
