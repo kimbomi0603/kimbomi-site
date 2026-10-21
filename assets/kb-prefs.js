@@ -4,8 +4,9 @@
    화면 오른쪽 아래에 작은 조절판을 붙인다. [위험] localStorage 가 막힌 환경(시크릿 창 등)에서는 저장만 안 되고 동작은 한다. */
 (function(){
   var H=document.documentElement;
-  function get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
-  function set(k,v){ try{ v==null?localStorage.removeItem(k):localStorage.setItem(k,v); }catch(e){} }
+  var MEM={}; /* 저장소가 막힌 환경(일부 시크릿 창 등)에서도 버튼이 동작하도록 메모리에 보관 */
+  function get(k){ try{ return localStorage.getItem(k); }catch(e){ return MEM.hasOwnProperty(k)?MEM[k]:null; } }
+  function set(k,v){ try{ v==null?localStorage.removeItem(k):localStorage.setItem(k,v); }catch(e){ if(v==null) delete MEM[k]; else MEM[k]=String(v); } }
   function sysDark(){ try{ return window.matchMedia('(prefers-color-scheme: dark)').matches; }catch(e){ return false; } }
   function apply(){
     var t=get('kb_theme'); var dark = t? t==='dark' : sysDark();

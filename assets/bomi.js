@@ -152,7 +152,7 @@
     function stopMic(){ if(rec){ try{ rec.stop(); }catch(e){} rec=null; } if(mic) mic.classList.remove('on'); }
     if(mic) mic.addEventListener('click',function(){ if(rec){ stopMic(); return; } try{ rec=new SR(); rec.lang='ko-KR'; rec.interimResults=true; rec.maxAlternatives=1;
       rec.onresult=function(e){ var t=''; for(var i=0;i<e.results.length;i++) t+=e.results[i][0].transcript; inp.value=t; if(e.results[e.results.length-1].isFinal){ stopMic(); ask(inp.value); } };
-      rec.onerror=function(){ stopMic(); }; rec.onend=function(){ if(mic) mic.classList.remove('on'); rec=null; }; rec.start(); mic.classList.add('on'); state('listen'); }catch(e){ stopMic(); } });
+      rec.onerror=function(ev){ stopMic(); addBot('마이크를 쓸 수 없어요. 글자로 물어봐 주세요.'+(ev&&ev.error?' ('+ev.error+')':'')); }; rec.onend=function(){ if(mic) mic.classList.remove('on'); rec=null; }; rec.start(); mic.classList.add('on'); state('listen'); }catch(e){ stopMic(); } });
     var busy=false;
     /* 저장 안 함 — 본인이 고르면 서버가 이 대화를 기록하지 않는다. 고른 값은 이 브라우저에만 기억 */
     var nolog=box.querySelector('#bomiNolog'); try{ nolog.checked=localStorage.getItem('bomiNolog')==='1'; }catch(e){}
