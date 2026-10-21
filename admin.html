@@ -476,7 +476,7 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
         $('rcCount').textContent=(rcItems.length)+'건';
         var el=$('rcList');
         if(!rcItems.length){ el.innerHTML='<div class="empty">접수된 제보가 없습니다.</div>'; return; }
-        var CAT={line:'줄세우기·투표 강요',pressure:'부당한 압박·불이익',watch:'SNS·좋아요 감시',etc:'기타'};
+        var CAT={budget:'예산 낭비·부당 집행',contract:'수의계약·입찰 의혹',subsidy:'보조금 유용',line:'줄세우기·투표 강요',pressure:'부당한 압박·불이익',watch:'SNS·좋아요 감시',etc:'기타'};
         el.innerHTML=rcItems.map(function(t,i){
           var dt=''; try{dt=new Date(t.ts).toLocaleString('ko-KR');}catch(e){}
           var meta=[]; if(t.region) meta.push('지역: '+esc(t.region)); if(t.contact) meta.push('연락: '+esc(t.contact)); meta.push(esc(dt));

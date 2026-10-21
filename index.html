@@ -592,7 +592,7 @@ function drawPosts(list){
 }
 function drawPress(list){
   document.getElementById('prow').innerHTML=list.slice(0,4).map(function(n){
-    return '<a class="pc" href="'+esc(n.u)+'">'
+    return '<a class="pc" href="'+esc(n.u)+'" target="_blank" rel="noopener">'
       +'<span class="t"><img src="'+esc(n.img)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'"></span>'
       +'<span class="b"><span class="s">'+esc(n.src)+' · '+esc(n.d)+'</span>'
       +'<span class="n">'+esc(n.t)+'</span><span class="g">기사 보기 ↗</span></span></a>';
@@ -616,7 +616,7 @@ function kbDrawMerged(apiItems){
     if(it.title && b.indexOf(it.title)>-1) b=b.slice(b.indexOf(it.title)+it.title.length).replace(/^[>\]\s]*/,'');
     var dt=new Date(it.publishAt||Date.now());
     var p2=function(n){return (n<10?'0':'')+n};
-    return {id:it.id,t:it.title||'',x:b.slice(0,130),d:dt.getFullYear()+'.'+p2(dt.getMonth()+1)+'.'+p2(dt.getDate())};
+    return {id:it.id,t:it.title||'',x:b.length>130?b.slice(0,130)+'…':b,d:dt.getFullYear()+'.'+p2(dt.getMonth()+1)+'.'+p2(dt.getDate())};
   });
   drawPosts(rows);
 }

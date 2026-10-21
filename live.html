@@ -10,7 +10,7 @@
 <meta property="og:title" content="정책 실시간 — 정부·국회·청년정책 | 김보미">
 <meta property="og:description" content="정부·국회 발표와 청년정책을 공공 API 원자료 그대로, 원문 링크와 함께.">
 <meta property="og:url" content="https://www.xn--4k0b53xuva.com/live.html">
-<meta property="og:image" content="https://www.xn--4k0b53xuva.com/og-campaign.jpg">
+<meta property="og:image" content="https://www.xn--4k0b53xuva.com/og.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -145,10 +145,6 @@ header{background:rgba(245,242,234,.94)}
 .lv-note{font-size:.8rem;color:var(--muted);margin-top:18px;line-height:1.6}
 .lv-empty{padding:22px;text-align:center;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:12px}
 </style>
-  }
- ]
-}
-</script>
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="stylesheet" href="assets/kb-dark.css">
 <script src="assets/kb-prefs.js" defer></script>
@@ -258,7 +254,7 @@ header{background:rgba(245,242,234,.94)}
       var ws=S.q.trim().toLowerCase().split(/\s+/).filter(Boolean);
       var L=j.items.filter(function(x){if(S.src&&x.src!==S.src)return false;var t=[x.title,x.org,x.dept,x.who,x.kind].join(' ').toLowerCase();return ws.every(function(w){return t.indexOf(w)>=0})});
       var h='<div class="lv-st">'+j.status.map(function(s){return '<span class="'+(s.state==='error'?'bad':s.state==='ok'?'':'off')+'">'+esc(s.org)+' '+(ST[s.state]||s.state)+(s.n?' '+s.n+'건':'')+'</span>'}).join('')+'</div>';
-      h+='<div class="lv-bar"><input id="lv-q" type="search" placeholder="'+(g==='nas'?'법안명·의원·위원회 검색':'제목·부처 검색')+'" value="'+esc(S.q)+'"><select id="lv-src"><option value="">모든 출처</option>'+Object.keys(orgs).map(function(k){return '<option value="'+esc(k)+'"'+(k===S.src?' selected':'')+'>'+esc(orgs[k])+'</option>'}).join('')+'</select></div>';
+      h+='<div class="lv-bar"><input id="lv-q" type="search" aria-label="자료 검색" placeholder="'+(g==='nas'?'법안명·의원·위원회 검색':'제목·부처 검색')+'" value="'+esc(S.q)+'"><select id="lv-src" aria-label="출처 선택"><option value="">모든 출처</option>'+Object.keys(orgs).map(function(k){return '<option value="'+esc(k)+'"'+(k===S.src?' selected':'')+'>'+esc(orgs[k])+'</option>'}).join('')+'</select></div>';
       h+='<p class="lv-meta">받은 시각 '+fmtAt(j.at)+' · '+L.length.toLocaleString('ko-KR')+'건</p>';
       h+='<ul class="lv-list">'+(L.slice(0,S.n).map(function(x){
         var meta=[x.date,x.until?x.until+' 마감':'',x.who,x.dept,x.kind].filter(Boolean).map(esc).join(' · ');
@@ -273,15 +269,15 @@ header{background:rgba(245,242,234,.94)}
     });
   }
   /* 온통청년: 청년정책 검색 + 청년센터 + 청년 소식 */
-  function pick(o,ks){for(var i=0;i<ks.length;i++){if(o[ks[i]]!=null&&o[ks[i]]!=='')return o[ks[i]]}return ''}
+  function pick(o,ks){for(var i=0;i<ks.length;i++){if(o[ks[i]]!=null&&String(o[ks[i]]).trim()!=='')return String(o[ks[i]]).trim()}return ''}
   function rowsOf(j){var out=[];(function walk(o){if(Array.isArray(o)){if(o.length&&typeof o[0]==='object'&&!Array.isArray(o[0]))out=out.length?out:o;else o.forEach(walk)}else if(o&&typeof o==='object')Object.keys(o).forEach(function(k){walk(o[k])})})(j);return out}
   function drawYouth(){
     var ops={plcy:'청년정책 찾기',space:'청년센터',content:'청년 소식'};
-    var h='<div class="lv-bar"><select id="ly-op">'+Object.keys(ops).map(function(k){return '<option value="'+k+'"'+(k===S.yop?' selected':'')+'>'+ops[k]+'</option>'}).join('')+'</select><input id="ly-q" type="search" placeholder="'+(S.yop==='plcy'?'정책 키워드 (예: 월세, 창업, 강진)':'이름 검색')+'" value="'+esc(S.yq)+'"></div><div id="ly-out"><div class="lv-empty">불러오는 중…</div></div>';
+    var h='<div class="lv-bar"><select id="ly-op" aria-label="청년정책 분류">'+Object.keys(ops).map(function(k){return '<option value="'+k+'"'+(k===S.yop?' selected':'')+'>'+ops[k]+'</option>'}).join('')+'</select><input id="ly-q" aria-label="정책 키워드" type="search" placeholder="'+(S.yop==='plcy'?'정책 키워드 (예: 월세, 창업, 강진)':'이름 검색')+'" value="'+esc(S.yq)+'"></div><div id="ly-out"><div class="lv-empty">불러오는 중…</div></div>';
     pane.innerHTML=h;
     document.getElementById('ly-op').onchange=function(e){S.yop=e.target.value;S.ypage=1;drawYouth()};
     var qi=document.getElementById('ly-q');qi.onkeydown=function(e){if(e.key==='Enter'){S.yq=qi.value.trim();S.ypage=1;drawYouth()}};
-    var u='/api/live?src=youth&op='+S.yop+'&size=20&page='+S.ypage+(S.yq&&S.yop==='plcy'?'&plcyKywdNm='+encodeURIComponent(S.yq):'');
+    var u='/api/live?src=youth&op='+S.yop+'&size=20&page='+S.ypage+(S.yq&&S.yop==='plcy'?'&plcyNm='+encodeURIComponent(S.yq):'');
     fetch(u).then(function(r){return r.json()}).then(function(j){
       if(S.tab!=='youth')return;var out=document.getElementById('ly-out');if(!out)return;
       if(!j||j.state==='no_key'){out.innerHTML='<div class="lv-empty">온통청년 연결을 준비 중입니다.</div>';return}

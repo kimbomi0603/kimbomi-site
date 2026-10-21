@@ -682,7 +682,7 @@ footer .flink:hover{color:#fff}
 (function(){
   var f=document.getElementById("scForm"); if(!f) return;
   var msg=document.getElementById("scMsg"), btn=document.getElementById("scBtn");
-  var TXT="최고위원회 해체 · 컷오프 폐기 · 청년최고위원제 도입 — 김보미와 함께 서명해 주세요.";
+  var TXT="최고위원회 해체 · 밀실 컷오프 득표 결과 공개 · 청년최고위원제 도입 — 김보미와 함께 서명해 주세요.";
   var URL_="https://www.xn--4k0b53xuva.com/archive.html#sign";
   f.addEventListener("submit",function(e){
     e.preventDefault();
@@ -799,7 +799,7 @@ footer .flink:hover{color:#fff}
         <li>매년 12월 의정활동비·수당 전액 지역사회 기탁</li>
         <li>100여 건 허위·비방 보도 손해배상 승소 (2024)</li>
         <li>표적 고소·감사·수사 전 건 '혐의없음·불송치' 종결</li>
-        <li>시민 재정감시 플랫폼 '나라살림 돋보기'·'김보미365' 구축</li>
+        <li>시민 재정감시 플랫폼 '김보미365' 구축(지금의 '우리동네365')</li>
         <li>전남·광주 '청년결정정부' AI 통합 디지털 플랫폼 참여 (2026)</li>
         <li>세계 최대 민주주의 축제 '알메달렌' 참가 (2026)</li>
       </ul>
@@ -877,14 +877,14 @@ footer .flink:hover{color:#fff}
         </div>
         <div class="bio-row">
           <div class="bio-lab">現</div>
-          <div class="bio-val">전남대학교 총동창회 부회장 · 더불어민주당 참좋은지방정부위원회 상임위원 · 더불어민주당 청년정책연구소 부소장</div>
+          <div class="bio-val">재정주권시민행동 공동대표 · 전남대학교 총동창회 부회장</div>
         </div>
         <div class="bio-row">
           <div class="bio-lab">前</div>
-          <div class="bio-val">전라남도 강진군의회 의원(제8·9대) · 제9대 전반기 의장 · 더민주전국혁신회의 상임대표 · 더민주청년혁신회의 상임대표 · (사)한국청년문화예술인협회 창립회장</div>
+          <div class="bio-val">제9대 강진군의회 전반기 의장(전국 최연소 기초의회 의장) · 전라남도 강진군의회 의원(제8·9대) · 더불어민주당 당대표 예비후보(2026 전당대회) · 더불어민주당 참좋은지방정부위원회 상임위원 · 더불어민주당 청년정책연구소 부소장 · 더민주전국혁신회의 상임대표 · 더민주청년혁신회의 상임대표 · (사)한국청년문화예술인협회 창립회장</div>
         </div>
       </div>
-      <div class="record-more"><a href="budget365.html">김보미가 AI로 직접 만든 '우리동네365' — 우리 동네 예산·집행·계약 3초 확인 &rarr;</a><a href="#journey">김보미 약력·의정 기록 &rarr;</a></div>
+      <div class="record-more"><a href="budget365.html">김보미가 AI로 직접 만든 '우리동네365' — 우리 동네 예산·집행·계약 3초 확인 &rarr;</a><a href="about.html">김보미 약력·의정 기록 &rarr;</a></div>
     </div>
   </section>
 
@@ -1109,7 +1109,7 @@ footer .flink:hover{color:#fff}
   function send(q){
     if(busy||!q)return; busy=true; $('bomiSend').disabled=true;
     add('user',q); hist.push({role:'user',text:q});
-    var w=add('bot','봄이가 생각 중… 🌱',true);
+    var w=add('bot','더불이가 생각 중… 🥚',true);
     fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({mode:'campaign',message:q,history:hist.slice(0,-1)})})
       .then(function(r){return r.json();})

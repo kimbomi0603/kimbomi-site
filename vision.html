@@ -10,10 +10,10 @@
 <meta property="og:description" content="밀실이 아니라 공개된 글로. 김보미의 정치개혁 제안과 현안 입장 모음. 중앙정부 61개 부처와 지방정부 243개 시·군·구의 예산·집행·계약을 한눈에.">
 <meta property="og:url" content="https://www.xn--4k0b53xuva.com/vision.html">
 <link rel="canonical" href="https://www.xn--4k0b53xuva.com/vision.html">
-<meta property="og:image" content="https://www.xn--4k0b53xuva.com/og-campaign.jpg">
+<meta property="og:image" content="https://www.xn--4k0b53xuva.com/og.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://www.xn--4k0b53xuva.com/og-campaign.jpg">
+<meta name="twitter:image" content="https://www.xn--4k0b53xuva.com/og.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -474,7 +474,7 @@ function renderDetail(p){
 }
 function doShare(p){
   var text='「'+p.title+'」 — 김보미 생각 · '+HASHTAGS;
-  var url='https://www.xn--4k0b53xuva.com/post/'+encodeURIComponent(p.id);
+  var isSt=(window.KB_STATIC_POSTS||[]).some(function(x){return x.id===p.id;}); var url='https://www.xn--4k0b53xuva.com/'+(isSt?'vision.html?post=':'post/')+encodeURIComponent(p.id);
   if(navigator.share){ navigator.share({title:p.title,text:text,url:url}).catch(function(){}); return; }
   kbCopyText(text+' '+url).then(function(){ toast('링크가 복사됐어요'); },function(){ prompt('복사해 공유하세요', text+' '+url); });
 }
