@@ -105,7 +105,7 @@ def build_lg():
         pop = r.get('pop_2024') if vok(cd, 'fis:M_BJHJB:' + (r.get('settle_fyr') or '2024')) else None
         live = bool(r.get('live_2026')) and bool(ex)
         asof = ymd(ex.get('exe_ymd'))
-        title = f"{nm} 2026년 예산·집행·계약 한눈에 | 우리동네365"
+        title = f"{disp} 2026년 예산·집행·계약 한눈에 | 우리동네365"
         if live:
             desc = f"{disp} 2026년 예산현액 {won(ex.get('budget'))}, 집행률 {pct(ex.get('rate'))}({asof} 기준), 세부사업 {num(ex.get('dbiz'))}건. 계약대장 전수·단체장 공약 원문·계약 이상 징후까지 우리동네365에서 확인합니다."
         elif r.get('live_2026') and r.get('exec_2026'):
@@ -145,17 +145,19 @@ def build_lg():
 
 def build_gov():
     g = json.load(open(os.path.join(ROOT, 'data/gov-index.json'), encoding='utf-8'))
-    g27 = {m['sg']: m for m in json.load(open(os.path.join(ROOT, 'data/gov27-index.json'), encoding='utf-8'))['ministries']}
+    _nk = lambda s: re.sub(r'[\s·]', '', str(s))  # '국무조정실 및 국무총리비서실' ↔ '국무조정실및국무총리비서실' 띄어쓰기 차이 흡수
+    g27 = {_nk(m['sg']): m for m in json.load(open(os.path.join(ROOT, 'data/gov27-index.json'), encoding='utf-8'))['ministries']}
+    jo = lambda v: (f"{v/1e6:.1f}조원" if v >= 1e6 else f"{round(v/100):,}억원")  # 백만원 단위 입력. 1조 미만은 억원으로
     pu = {}
     p = os.path.join(ROOT, 'data/govpu/_index.json')
     if os.path.exists(p): pu = json.load(open(p, encoding='utf-8')).get('ministries', {})
     urls = []
     for m in g['ministries']:
         sg = m['sg']; nm = m['nm']; q = urllib.parse.quote(sg)
-        exp = m.get('exp'); n = m.get('n'); m27 = g27.get(sg) or {}
-        expw = f"{exp/1e6:.1f}조원" if exp else '—'
+        exp = m.get('exp'); n = m.get('n'); m27 = g27.get(_nk(sg)) or {}
+        expw = jo(exp) if exp else '—'
         title = f"{nm} 2026년 예산 세부사업 {num(n)}건 | 우리동네365"
-        desc = (f"{nm} 2026년 확정예산 총지출 {expw}, 세부사업 {num(n)}건을 사업별로 봅니다." if exp else f"{nm} 2026년 확정예산 세부사업 {num(n)}건을 사업별로 봅니다(공식 총지출은 미공개라 비워 둠).") + (f" 2027년 정부안 {m27['b27']/1e6:.1f}조원(국회 심의 중)." if m27.get('b27') else '') + (f" 사업 목적 문장 {num(pu[sg]['n'])}건 연결." if sg in pu else '')
+        desc = (f"{nm} 2026년 확정예산 총지출 {expw}, 세부사업 {num(n)}건을 사업별로 봅니다." if exp else f"{nm} 2026년 확정예산 세부사업 {num(n)}건을 사업별로 봅니다(공식 총지출은 미공개라 비워 둠).") + (f" 2027년 정부안(예산+기금 총계) {jo(m27['b27'])}" + (f", 2026 총계 {jo(m27['b26'])} 대비 {m27['rate']:+.1f}%" if m27.get('b26') and m27.get('rate') is not None else '') + "(국회 심의 중)." if m27.get('b27') else '') + (f" 사업 목적 문장 {num(pu[sg]['n'])}건 연결." if sg in pu else '')
         url = f"{SITE}/gov/{q}.html"
         ld = json.dumps({"@context":"https://schema.org","@type":"Dataset","name":title,"description":desc,"url":url,"creator":{"@type":"Person","name":"김보미"},"isBasedOn":"https://www.openfiscaldata.go.kr/","dateModified":TODAY}, ensure_ascii=False)
         app = f"../budget365.html#/gov/{q}"
@@ -166,14 +168,14 @@ def build_gov():
 <div class="stats">
   <div><b>{expw}</b><span>2026 총지출 기준</span></div>
   <div><b>{num(n)}<small>건</small></b><span>2026 세부사업{(' · 비공개 '+num(m.get('nblank'))) if m.get('nblank') else ''}</span></div>
-  <div><b>{(f"{m27['b27']/1e6:.1f}조원" if m27.get('b27') else '—')}</b><span>2027 정부안 · 예산+기금 총계</span></div>
+  <div><b>{(jo(m27['b27']) if m27.get('b27') else '—')}</b><span>2027 정부안 · 예산+기금 총계</span></div>
   <div><b>{num(pu[sg]['n']) if sg in pu else '—'}<small>건</small></b><span>사업 목적 문장 연결</span></div>
 </div>
 <a class="cta" href="{app}">우리동네365에서 {esc(nm)} 열기 →</a>
 <div class="links">
   <a href="{app}">2026 확정예산 <small>세부사업·전년 대비</small></a>
   <a href="../budget365.html#/gov27/{q}">2027 정부안 <small>국회 심의 중</small></a>
-  <a href="../budget365.html#/gov">부처 전체 <small>62개 부처</small></a>
+  <a href="../budget365.html#/gov">부처 전체 <small>중앙정부 전체</small></a>
 </div>
 <p class="src">출처: 기획예산처 열린재정 2026 확정예산(총지출·세부사업), 2027년도 예산안·기금운용계획안 국회 제출본{', 사업 목적은 '+esc(nm)+' 2026년 사업설명자료(공통요구자료 Ⅱ-1)' if sg in pu else ''}. 이 페이지는 검색용 요약이며 최신 값은 우리동네365 화면이 기준입니다.</p>
 """
