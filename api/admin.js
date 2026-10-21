@@ -165,7 +165,7 @@ module.exports = async (req, res) => {
       var rraw = await readBody(req); var rb = rraw;
       if (typeof rraw === 'string') { try { rb = JSON.parse(rraw||'{}'); } catch(e){ rb={}; } }
       var _clean = function(v,max){ var x=String(v==null?'':v); var o=''; for(var i=0;i<x.length;i++){var c=x.charCodeAt(i); if(c===9||c===10||c>=32)o+=x[i];} o=o.replace(/\r/g,'').replace(/\n{3,}/g,'\n\n').trim(); if(o.length>max)o=o.slice(0,max); return o; };
-      var CATS = {line:1,pressure:1,watch:1,etc:1};
+      var CATS = {budget:1,contract:1,subsidy:1,line:1,pressure:1,watch:1,etc:1};
       var cat = CATS[rb.category] ? rb.category : 'etc';
       var content = _clean(rb.content, 1500);
       if(!content){ res.status(200).json({ ok:false, error:'empty' }); return; }

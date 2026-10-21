@@ -17,7 +17,7 @@ const normDate = (d) => {
 };
 const unent = (s) => String(s || '').replace(/<!\[CDATA\[|\]\]>/g, '').replace(/<[^>]+>/g, ' ')
   .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
-  .replace(/&lsquo;|&rsquo;/g, "'").replace(/&ldquo;|&rdquo;/g, '"').replace(/&middot;/g, '·').replace(/&nbsp;/g, ' ')
+  .replace(/&lsquo;|&rsquo;/g, "'").replace(/&ldquo;|&rdquo;/g, '"').replace(/&middot;/g, '·').replace(/&hellip;/g, '…').replace(/&nbsp;/g, ' ')
   .replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
 const xf = (x, t) => { const m = x.match(new RegExp('<' + t + '>([\\s\\S]*?)</' + t + '>')); return m ? unent(m[1]) : ''; };
 const xitems = (x, tag) => String(x || '').split('<' + (tag || 'item') + '>').slice(1);
@@ -92,7 +92,7 @@ const SOURCES = [
         const s2 = Math.min(start + 2 * 86400e3, end);
         for (let page = 1; page <= 3; page++) {
           const r = await dataGet('/1371000/policyNewsService2/policyNewsList2', { startDate: ymd(start), endDate: ymd(s2), numOfRows: 100, pageNo: page }, 15000); const its = xitems(r.text, 'NewsItem');
-          for (const it of its) out.push({ id: 'korea:' + xf(it, 'NewsItemId'), date: normDate(xf(it, 'ApproveDate') || xf(it, 'ModifyDate')), title: xf(it, 'Title'), org: xf(it, 'MinisterCode') || '정책브리핑', url: httpUrl(xf(it, 'OriginalUrl')), sub: xf(it, 'SubTitle1').slice(0, 160), kind: xf(it, 'GroupingCode') });
+          for (const it of its) out.push({ id: 'korea:' + xf(it, 'NewsItemId'), date: normDate(xf(it, 'ApproveDate') || xf(it, 'ModifyDate')), title: xf(it, 'Title'), org: xf(it, 'MinisterCode') || '정책브리핑', url: httpUrl(xf(it, 'OriginalUrl')), sub: xf(it, 'SubTitle1').slice(0, 160), kind: ({ policy: '정책뉴스', fact: '설명자료' })[xf(it, 'GroupingCode')] || xf(it, 'GroupingCode') });
           if (its.length < 100) break;
         }
         start += 3 * 86400e3;
