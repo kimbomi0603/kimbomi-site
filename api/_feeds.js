@@ -209,7 +209,10 @@ async function youth(op, q) {
   const r = await get(u.toString(), 15000);
   let j; try { j = JSON.parse(r.text); } catch (e) { return { state: 'error', msg: 'JSON 아님 ' + r.status }; }
   const s = scrub(JSON.stringify(j)).split(key).join('***');
-  return { state: 'ok', data: JSON.parse(s) };
+  const body = JSON.parse(s);
+  // 2026-10-21: 온통청년이 200 응답 안에 errorCode(e002 "invalid param data" 등)를 담아 줄 때가 있다 → 정상으로 보고 1시간 캐시하면 오류가 굳는다.
+  if (body && body.errorCode) return { state: 'error', msg: String(body.errorCode) + ' ' + String(body.errorMsg || '').slice(0, 120) };
+  return { state: 'ok', data: body };
 }
 
 module.exports = { billUrl, SOURCES, runAll, runOne, youth, YOUTH_OPS, normDate, kday };
