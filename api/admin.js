@@ -188,6 +188,7 @@ module.exports = async (req, res) => {
     return;
   }
   if (action === 'signsubmit' && req.method === 'POST') {
+    res.status(200).json({ ok:false, closed:true, error:'서명 접수는 종료되었습니다.' }); return; // 2026-10-22 접수 종료(기록관 보존)
     try {
       var sip = ((req.headers['x-forwarded-for']||'').split(',')[0]||'').trim();
       var srk = 'rl:sign:'+sip;
@@ -236,6 +237,7 @@ module.exports = async (req, res) => {
     return;
   }
   if (action === 'pledgesubmit' && req.method === 'POST') {
+    res.status(200).json({ ok:false, closed:true, error:'후원 약정 접수는 종료되었습니다.' }); return; // 2026-10-22 접수 종료
     try {
       var pip = ((req.headers['x-forwarded-for']||'').split(',')[0]||'').trim();
       var prk = 'rl:pledge:'+pip;

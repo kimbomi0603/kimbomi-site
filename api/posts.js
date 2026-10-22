@@ -118,7 +118,9 @@ function applyTypoFixes(arr){
 async function save(arr){ await redis(['SET', KEY, JSON.stringify(arr)]); }
 function pubList(arr){
   var now = Date.now();
-  return arr.filter(function(p){ return p.status==='published' && (p.publishAt||0) <= now; })
+  // 2026-10-22 비공개: 경선 기간 후원회 계좌·영수증 문자(개인정보) 안내가 담긴 글 3건
+  var HIDE = { pmrubib71aeb0:1, pmrx12rismzyw:1, pmrx16ngsknrx:1 };
+  return arr.filter(function(p){ return p.status==='published' && (p.publishAt||0) <= now && !HIDE[p.id]; })
             .sort(function(a,b){ return (b.publishAt||0)-(a.publishAt||0); });
 }
 
