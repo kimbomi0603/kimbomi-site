@@ -623,7 +623,7 @@ footer .flink:hover{color:#fff}
 <section class="pledgeteaser" id="pledge-teaser">
   <div class="wrap">
     <div class="pt-eyebrow">🙏 후원회 마감 안내</div>
-    <div class="pt-h">📩 후원해주신 분들께 —<br>아직 문자를 안 보내셨다면, <em>영수증 발급 정보</em>를 꼭 보내주세요</div>
+    <div class="pt-h"><span style="display:inline-block;font-size:.8rem;background:#1C1B18;color:#F5F0E4;border-radius:6px;padding:2px 8px;margin-bottom:6px">2026년 7월 당시 안내 · 종료</span><br>📩 후원해주신 분들께 —<br>아직 문자를 안 보내셨다면, <em>영수증 발급 정보</em>를 꼭 보내주세요</div>
     <div class="pt-info">
       <div class="pt-info-h">정치자금 영수증 발급, 이 문자 하나면 됩니다</div>
       <p class="pt-info-p">정치자금 영수증 발급과 회계보고를 위해 <b>이름 · 생년월일 · 전화번호 · 주소 · 후원금액</b> 다섯 가지를 <span class="hl">반드시 문자로</span> 보내주셔야 합니다. <b>아직 문자를 보내주시지 않은 분들이 많습니다.</b> 이 정보가 없으면 영수증 발급이 불가능하니, 지금 바로 보내주세요.</p>
@@ -665,7 +665,8 @@ footer .flink:hover{color:#fff}
         <input aria-label="이메일" id="scEmail" class="sc-in" type="email" placeholder="이메일 *" maxlength="100" autocomplete="email">
         <label class="sc-chk"><input type="checkbox" id="scAgree"><span>위 요구에 <b>동참하며 서명합니다.</b> <i>(필수)</i></span></label>
                 <label class="sc-chk"><input type="checkbox" id="scNews"><span>입력하신 이메일로 <b>재정주권운동 소식</b>을 받아보시겠습니까? <i>(선택)</i></span></label>
-        <button type="submit" class="sc-btn" id="scBtn">서명 동참하기</button>
+        <button type="submit" class="sc-btn" id="scBtn" disabled aria-disabled="true">서명 접수 종료</button>
+        <p class="sc-msg" style="color:#8a6d00">서명 접수는 종료되었습니다. 그동안 함께해 주신 분들께 감사드립니다. 이 화면은 기록으로 보존합니다.</p>
         <p class="sc-msg" id="scMsg"></p>
         <p class="sc-priv">[개인정보 수집·이용 안내] 수집 항목: 이름, 지역, 이메일 · 이용 목적: 서명운동 참여자 확인 및 결과 안내(동의 시 재정주권운동 소식 발송) · 보유 기간: 재정주권운동 종료 시 또는 동의 철회 요청 시 즉시 파기. 동의를 거부하실 수 있으나, 거부 시 서명 참여가 제한됩니다. 자세한 내용은 <a href="privacy.html" style="text-decoration:underline">개인정보처리방침</a>을 참고해 주세요.</p>
       </form>
@@ -685,7 +686,7 @@ footer .flink:hover{color:#fff}
   var TXT="최고위원회 해체 · 밀실 컷오프 득표 결과 공개 · 청년최고위원제 도입 — 김보미와 함께 서명해 주세요.";
   var URL_="https://www.xn--4k0b53xuva.com/archive.html#sign";
   f.addEventListener("submit",function(e){
-    e.preventDefault();
+    e.preventDefault(); return; /* 2026-10-22 서명 접수 종료 */
     var name=document.getElementById("scName").value.trim();
     var region=document.getElementById("scRegion").value;
     var email=document.getElementById("scEmail").value.trim();
