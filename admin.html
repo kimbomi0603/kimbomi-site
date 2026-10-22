@@ -98,7 +98,8 @@ select{font-family:inherit;padding:7px 10px;border:1.5px solid var(--line);borde
   <div class="login">
     <h2>관리자 로그인</h2>
     <p>김보미.com 분석 대시보드</p>
-    <input id="keyInput" type="password" placeholder="관리자 비밀키" autocomplete="off">
+    <input id="idInput" type="text" placeholder="아이디" autocomplete="username" style="margin-bottom:8px">
+    <input id="keyInput" type="password" placeholder="비밀번호" autocomplete="current-password">
     <button class="btn p" id="loginBtn">입장</button>
     <div class="err" id="loginErr"></div>
   </div>
@@ -649,7 +650,7 @@ if(name==='knowledge' && !loaded.knowledge){ loaded.knowledge=1; loadKnowledge()
     loadDash().catch(handleErr);
   }
   function handleErr(e){
-    if(e && (e.code===401)){ clearKey(); showLogin('비밀키가 올바르지 않습니다.'); }
+    if(e && (e.code===401)){ clearKey(); showLogin('아이디 또는 비밀번호가 올바르지 않습니다.'); }
     else if(e && e.code==='needsKey'){ showLogin('서버에 ADMIN_KEY가 설정되지 않았습니다. Vercel 환경변수를 확인하세요.'); }
   }
   function showLogin(msg){
@@ -661,15 +662,15 @@ if(name==='knowledge' && !loaded.knowledge){ loaded.knowledge=1; loadKnowledge()
 
   document.querySelectorAll('.tab').forEach(function(el){ el.addEventListener('click',function(){ showTab(el.getAttribute('data-tab')); }); });
   $('loginBtn').addEventListener('click',function(){
-    var k=$('keyInput').value.trim(); if(!k) return;
+    var _id=($('idInput')&&$('idInput').value.trim())||''; var _pw=$('keyInput').value.trim(); if(!_id||!_pw) return; var k=_id+':'+_pw;
     setKey(k);
     api('overview',{days:1}).then(function(d){
       if(d.ok){ enterApp(); }
       else if(d.needsKey){ showLogin('서버에 ADMIN_KEY가 설정되지 않았습니다.'); }
-      else { clearKey(); showLogin('비밀키가 올바르지 않습니다.'); }
-    }).catch(function(e){ clearKey(); showLogin('비밀키가 올바르지 않습니다.'); });
+      else { clearKey(); showLogin('아이디 또는 비밀번호가 올바르지 않습니다.'); }
+    }).catch(function(e){ clearKey(); showLogin('아이디 또는 비밀번호가 올바르지 않습니다.'); });
   });
-  $('keyInput').addEventListener('keydown',function(e){ if(e.key==='Enter') $('loginBtn').click(); });
+  $('keyInput').addEventListener('keydown',function(e){ if(e.key==='Enter') $('loginBtn').click(); }); if($('idInput')) $('idInput').addEventListener('keydown',function(e){ if(e.key==='Enter') $('keyInput').focus(); });
   $('logoutBtn').addEventListener('click',function(){ clearKey(); loaded={}; showLogin(''); });
   $('refreshBtn').addEventListener('click',function(){ loaded={}; loadDash().catch(handleErr); if(!$('tab-thoughts').classList.contains('hide')){loadThoughts();} if(!$('tab-scores').classList.contains('hide')){loadScores().catch(handleErr);} if(!$('tab-stories').classList.contains('hide')){loadStories().catch(handleErr);} if(!$('tab-posts').classList.contains('hide')){loadPosts().catch(handleErr);} if(!$('tab-reportcenter').classList.contains('hide')){loadReportCenter().catch(handleErr);} if(!$('tab-reports').classList.contains('hide')){loadReports();}
 if(!$('tab-dobuli').classList.contains('hide')){loadDobuli().catch(handleErr);}
