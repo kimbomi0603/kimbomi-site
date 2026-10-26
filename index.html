@@ -628,5 +628,62 @@ fetch('/api/posts?action=list&type=vision&limit=6').then(function(r){return r.js
 
 <script src="assets/bomi.js" defer></script>
 <script src="a.js" defer></script>
+
+<!-- 연세대 정외과 여야정책토론회(10.27) 환영 팝업 · 2026-10-27 18:00 KST ~ 2026-11-03 24:00 KST 사이에만 표시. 이후엔 이 블록을 지워도 됨. -->
+<style id="ys-pop-css">
+#ys-pop{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(10,18,36,.62);backdrop-filter:blur(3px)}
+#ys-pop.on{display:flex}
+#ys-pop .bx{position:relative;width:min(440px,100%);background:#fff;color:#1b2333;border-radius:20px;padding:26px 22px 18px;box-shadow:0 20px 60px rgba(0,0,0,.35);font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;word-break:keep-all;animation:ysin .35s ease}
+@keyframes ysin{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+#ys-pop .x{position:absolute;top:10px;right:12px;border:0;background:none;font-size:26px;line-height:1;color:#8a93a3;cursor:pointer;padding:6px}
+#ys-pop .hd{display:flex;gap:14px;align-items:center}
+#ys-pop .hd img{width:84px;height:84px;border-radius:50%;object-fit:cover;object-position:top;border:3px solid #f2c200;flex:0 0 84px}
+#ys-pop .hd small{display:block;font-size:12.5px;color:#1f4fa3;font-weight:800;letter-spacing:.02em}
+#ys-pop .hd b{display:block;font-size:20px;line-height:1.3;margin-top:2px}
+#ys-pop p{font-size:15px;line-height:1.65;margin:14px 0 0;color:#333c4a}
+#ys-pop .btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+#ys-pop .btns a{display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;font-weight:800;font-size:14.5px;padding:12px 10px;border-radius:12px;border:1px solid #dfe3ea;color:#15264a;background:#f6f8fb}
+#ys-pop .btns a.tel{grid-column:1/-1;background:#15264a;color:#fff;border-color:#15264a;font-size:17px}
+#ys-pop .btns a.fb{background:#e9f0fb;border-color:#c9d8f1;color:#1f3b6e}
+#ys-pop .ft{display:flex;justify-content:space-between;margin-top:14px;font-size:12.5px}
+#ys-pop .ft button{border:0;background:none;color:#8a93a3;cursor:pointer;font:inherit;padding:4px}
+#ys-pop .toast{position:absolute;left:50%;bottom:-8px;transform:translate(-50%,100%);background:#15264a;color:#fff;font-size:13px;padding:8px 14px;border-radius:999px;opacity:0;transition:.25s;pointer-events:none}
+#ys-pop .toast.on{opacity:1;transform:translate(-50%,120%)}
+@media(prefers-color-scheme:dark){#ys-pop .bx{background:#1a202c;color:#e7eaf0}#ys-pop p{color:#c9d0db}#ys-pop .btns a{background:#232b3a;border-color:#2c3445;color:#e7eaf0}#ys-pop .btns a.fb{background:#1e2a44;border-color:#2c3a5c;color:#9fb8e8}}
+</style>
+<div id="ys-pop" role="dialog" aria-modal="true" aria-labelledby="ys-ttl">
+  <div class="bx">
+    <button class="x" type="button" aria-label="닫기" data-ys="close">×</button>
+    <div class="hd"><img src="face.jpg" alt="김보미"><div><small>연세대 정치외교학과 여야정책토론회 · 10.27</small><b id="ys-ttl">연세대 학생 여러분, 반갑습니다.<br>평당원 김보미입니다.</b></div></div>
+    <p>저는 지금도 강진 임대아파트에 살고, 서울에선 방 한 칸을 못 구해 언니 집을 오가며 출퇴근합니다. 여러분 방 이야기는 제 이야기입니다. 오늘 못다 한 질문, 틀렸다고 생각하는 답, 그대로 보내 주십시오. 페이스북에 다시 정리해 올리겠습니다.</p>
+    <div class="btns">
+      <a class="tel" href="tel:01073310179" data-ys="copy">📞 010-7331-0179</a>
+      <a class="fb" href="https://facebook.com/kimbomi1989" target="_blank" rel="noopener">페이스북으로 이어가기</a>
+      <a href="budget365.html">우리 동네 예산 3초 보기</a>
+      <a href="https://kimbomi-interview.vercel.app/dashboard.html#event/overview" target="_blank" rel="noopener">오늘 토론 준비노트</a>
+      <a href="narasalim.html">나라살림 돋보기</a>
+    </div>
+    <div class="ft"><button type="button" data-ys="today">오늘 하루 보지 않기</button><button type="button" data-ys="close">닫기</button></div>
+    <div class="toast" id="ys-toast">전화번호를 복사했습니다</div>
+  </div>
+</div>
+<script id="ys-pop-js">
+(function(){
+  var START=Date.UTC(2026,9,27,9,0,0), END=Date.UTC(2026,10,3,15,0,0); /* KST 10.27 18:00 ~ 11.03 24:00 */
+  var now=Date.now(); if(now<START||now>END) return;
+  var key='ys-pop-hide'; try{ if(localStorage.getItem(key)&&+localStorage.getItem(key)>now) return; }catch(e){}
+  var el=document.getElementById('ys-pop'); if(!el) return;
+  function close(){ el.classList.remove('on'); }
+  el.addEventListener('click',function(e){
+    var t=e.target.closest('[data-ys]'); if(!t){ if(e.target===el) close(); return; }
+    var a=t.getAttribute('data-ys');
+    if(a==='close') close();
+    else if(a==='today'){ try{ var d=new Date(); d.setHours(24,0,0,0); localStorage.setItem(key,String(d.getTime())); }catch(e){} close(); }
+    else if(a==='copy'){ try{ navigator.clipboard&&navigator.clipboard.writeText('010-7331-0179'); var ts=document.getElementById('ys-toast'); ts.classList.add('on'); setTimeout(function(){ts.classList.remove('on')},1600); }catch(e){} }
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  setTimeout(function(){ el.classList.add('on'); },600);
+})();
+</script>
 </body>
 </html>
