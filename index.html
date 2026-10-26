@@ -631,36 +631,48 @@ fetch('/api/posts?action=list&type=vision&limit=6').then(function(r){return r.js
 
 <!-- 연세대 정외과 여야정책토론회(10.27) 환영 팝업 · 2026-10-27 18:00 KST ~ 2026-11-03 24:00 KST 사이에만 표시. 이후엔 이 블록을 지워도 됨. -->
 <style id="ys-pop-css">
-#ys-pop{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(10,18,36,.62);backdrop-filter:blur(3px)}
+#ys-pop{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(8,14,30,.66);backdrop-filter:blur(4px)}
 #ys-pop.on{display:flex}
-#ys-pop .bx{position:relative;width:min(440px,100%);background:#fff;color:#1b2333;border-radius:20px;padding:26px 22px 18px;box-shadow:0 20px 60px rgba(0,0,0,.35);font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;word-break:keep-all;animation:ysin .35s ease}
-@keyframes ysin{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
-#ys-pop .x{position:absolute;top:10px;right:12px;border:0;background:none;font-size:26px;line-height:1;color:#8a93a3;cursor:pointer;padding:6px}
-#ys-pop .hd{display:flex;gap:14px;align-items:center}
-#ys-pop .hd img{width:84px;height:84px;border-radius:50%;object-fit:cover;object-position:top;border:3px solid #f2c200;flex:0 0 84px}
-#ys-pop .hd small{display:block;font-size:12.5px;color:#1f4fa3;font-weight:800;letter-spacing:.02em}
-#ys-pop .hd b{display:block;font-size:20px;line-height:1.3;margin-top:2px}
-#ys-pop p{font-size:15px;line-height:1.65;margin:14px 0 0;color:#333c4a}
-#ys-pop .btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px}
-#ys-pop .btns a{display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;font-weight:800;font-size:14.5px;padding:12px 10px;border-radius:12px;border:1px solid #dfe3ea;color:#15264a;background:#f6f8fb}
-#ys-pop .btns a.tel{grid-column:1/-1;background:#15264a;color:#fff;border-color:#15264a;font-size:17px}
+#ys-pop .bx{position:relative;width:min(420px,100%);background:#fff;color:#1b2333;border-radius:24px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.4);font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;word-break:keep-all;animation:ysin .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes ysin{from{transform:translateY(22px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+#ys-pop .top{background:linear-gradient(135deg,#15264a 0%,#1f3b6e 60%,#2a4f8f 100%);padding:22px 22px 54px;color:#fff;position:relative}
+#ys-pop .top small{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.04em;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);padding:4px 10px;border-radius:999px}
+#ys-pop .top h2{margin:14px 0 0;font-size:23px;line-height:1.3;font-weight:800;letter-spacing:-.02em}
+#ys-pop .top h2 em{font-style:normal;color:#ffd84d}
+#ys-pop .x{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:20px;line-height:34px;text-align:center;cursor:pointer;padding:0}
+#ys-pop .pic{width:92px;height:92px;border-radius:50%;object-fit:cover;object-position:top;border:4px solid #fff;box-shadow:0 8px 24px rgba(0,0,0,.25);margin:-46px 0 0 22px;display:block;position:relative;background:#e9edf3}
+#ys-pop .bd{padding:12px 22px 20px}
+#ys-pop .q{font-family:"Gowun Batang","Nanum Myeongjo","AppleMyungjo",Batang,serif;font-size:16.5px;line-height:1.75;margin:0;color:#1b2333}
+#ys-pop .q b{font-weight:700;background:linear-gradient(transparent 60%,#fff0a8 60%)}
+#ys-pop .q .cta{display:block;margin-top:10px;font-family:inherit;font-size:14.5px;color:#5d6676;font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+#ys-pop .btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+#ys-pop .btns a{display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;font-weight:800;font-size:14.5px;padding:13px 10px;border-radius:14px;border:1px solid #e3e7ee;color:#15264a;background:#f6f8fb;transition:.15s}
+#ys-pop .btns a:active{transform:scale(.98)}
+#ys-pop .btns a.tel{grid-column:1/-1;background:#15264a;color:#fff;border-color:#15264a;font-size:18px;letter-spacing:.01em;padding:15px 10px;box-shadow:0 8px 20px rgba(21,38,74,.25)}
 #ys-pop .btns a.fb{background:#e9f0fb;border-color:#c9d8f1;color:#1f3b6e}
-#ys-pop .ft{display:flex;justify-content:space-between;margin-top:14px;font-size:12.5px}
-#ys-pop .ft button{border:0;background:none;color:#8a93a3;cursor:pointer;font:inherit;padding:4px}
-#ys-pop .toast{position:absolute;left:50%;bottom:-8px;transform:translate(-50%,100%);background:#15264a;color:#fff;font-size:13px;padding:8px 14px;border-radius:999px;opacity:0;transition:.25s;pointer-events:none}
-#ys-pop .toast.on{opacity:1;transform:translate(-50%,120%)}
-@media(prefers-color-scheme:dark){#ys-pop .bx{background:#1a202c;color:#e7eaf0}#ys-pop p{color:#c9d0db}#ys-pop .btns a{background:#232b3a;border-color:#2c3445;color:#e7eaf0}#ys-pop .btns a.fb{background:#1e2a44;border-color:#2c3a5c;color:#9fb8e8}}
+#ys-pop .ft{display:flex;justify-content:space-between;margin-top:12px;font-size:12.5px}
+#ys-pop .ft button{border:0;background:none;color:#8a93a3;cursor:pointer;font:inherit;padding:6px 2px}
+#ys-pop .toast{position:absolute;left:50%;bottom:14px;transform:translate(-50%,20px);background:#15264a;color:#fff;font-size:13px;padding:8px 14px;border-radius:999px;opacity:0;transition:.25s;pointer-events:none;white-space:nowrap}
+#ys-pop .toast.on{opacity:1;transform:translate(-50%,0)}
+@media(prefers-color-scheme:dark){#ys-pop .bx{background:#1a202c;color:#e7eaf0}#ys-pop .q{color:#e7eaf0}#ys-pop .q b{background:linear-gradient(transparent 60%,#4a4214 60%)}#ys-pop .q .cta{color:#9aa3b2}#ys-pop .btns a{background:#232b3a;border-color:#2c3445;color:#e7eaf0}#ys-pop .btns a.fb{background:#1e2a44;border-color:#2c3a5c;color:#9fb8e8}#ys-pop .pic{border-color:#1a202c}}
 </style>
 <div id="ys-pop" role="dialog" aria-modal="true" aria-labelledby="ys-ttl">
   <div class="bx">
-    <button class="x" type="button" aria-label="닫기" data-ys="close">×</button>
-    <div class="hd"><img src="face.jpg" alt="김보미"><div><small>연세대 정치외교학과 여야정책토론회 · 10.27</small><b id="ys-ttl">연세대 학생 여러분, 반갑습니다.<br>평당원 김보미입니다.</b></div></div>
-    <div class="btns">
-      <a class="tel" href="tel:01073310179" data-ys="copy">📞 010-7331-0179</a>
-      <a href="budget365.html">우리 동네 예산·계약 보기</a>
-      <a class="fb" href="https://facebook.com/kimbomi1989" target="_blank" rel="noopener">페이스북</a>
+    <div class="top">
+      <small>연세대 정치외교학과 여야정책토론회 · 10.27</small>
+      <h2 id="ys-ttl">연세대학교 학생 여러분,<br>반갑습니다! <em>김보미</em>입니다.</h2>
+      <button class="x" type="button" aria-label="닫기" data-ys="close">×</button>
     </div>
-    <div class="ft"><button type="button" data-ys="today">오늘 하루 보지 않기</button><button type="button" data-ys="close">닫기</button></div>
+    <img class="pic" src="face.jpg" alt="김보미">
+    <div class="bd">
+      <p class="q">정답은 정당에 있지 않습니다.<br>오늘 이 연희관 강의실에 계신 <b>여러분의 목소리가 정답</b>입니다.<span class="cta">편하게 문자나 전화 주세요.</span></p>
+      <div class="btns">
+        <a class="tel" href="tel:01073310179" data-ys="copy">📞 010-7331-0179</a>
+        <a href="budget365.html">우리 동네 예산·계약 보기</a>
+        <a class="fb" href="https://facebook.com/kimbomi1989" target="_blank" rel="noopener">페이스북</a>
+      </div>
+      <div class="ft"><button type="button" data-ys="today">오늘 하루 보지 않기</button><button type="button" data-ys="close">닫기</button></div>
+    </div>
     <div class="toast" id="ys-toast">전화번호를 복사했습니다</div>
   </div>
 </div>
