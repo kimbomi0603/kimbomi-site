@@ -8,7 +8,7 @@
 <link rel="canonical" href="https://www.xn--4k0b53xuva.com/budget365.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="우리동네365 | 중앙정부·지방정부 예산을 한눈에">
-<meta property="og:description" content="중앙정부 62개 부처와 지방정부 243개 시·군·구의 예산·집행·계약을 한눈에. 세부사업 47.7만 건과 계약 687만 건을 원자료 그대로 펼쳤습니다.">
+<meta property="og:description" content="중앙정부 62개 부처와 지방정부 243개 시·군·구의 예산·집행·계약을 한눈에. 세부사업 47.7만 건과 계약 693만 건을 원자료 그대로 펼쳤습니다.">
 <meta property="og:url" content="https://www.xn--4k0b53xuva.com/budget365.html">
 <meta property="og:image" content="https://www.xn--4k0b53xuva.com/og-ud365.jpg?v=20260921d">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
@@ -749,7 +749,7 @@ function injectAsof(a,cd,sub){ const app=document.getElementById('app'); if(!app
     const exT=e?(e.live?`집행 <b>${ymd(e.exe_ymd)}</b> 기준(지방재정365에서 방금 받음)`:(lg._execChk?`집행 <b>${ymd(e.exe_ymd)}</b> 기준(${lg._execChk} 확인 — 지방재정365 최신)`:`집행 ${ymd(e.exe_ymd)} 기준 · 최신 자료 확인 중…`)):'';
     const ctT=K0&&K0.range?(K0.live?`계약 ${ymd(K0.range[0])}~<b>${ymd(K0.live.last)}</b>(${K0.live.n?`${ymd(K0.live.from)} 이후 ${num(K0.live.n)}건 방금 반영`:`${ymd(K0.live.from)} 이후 새 계약 없음 — 방금 확인`})`:(K0.liveChk?`계약 ~${ymd(K0.range[1])}`:(K0.liveErr?`계약 ~${ymd(K0.range[1])}(오늘 조회 실패 — 저장값)`:`계약 ~${ymd(K0.range[1])} · 이후 계약 받는 중…`))):'';
     if(sub==='contract'){
-      html=asofBar(`<b>${TD} 기준</b> · ${ctT||'계약대장'} · 지방재정365 계약현황 원자료`+(K0&&K0.live?` · 업체 집중도·금액 구간·분야는 ${ymd(K0.live.base.range[1])} 수집분 기준`:''),'API로 새로고침',`location.reload()`); }
+      html=asofBar(`<b>${TD} 기준</b> · ${ctT||'계약대장'} · 지방재정365 계약현황 원자료`+(K0&&K0.live?` · 업체 집중도·금액 구간·분야는 ${ymd(K0.live.base.range[1])} 수집분 기준`:` · ${ymd(K0.range[1])}까지 전국 전수 재수집 값`),'API로 새로고침',`location.reload()`); }
     else if(sub==='pledge'){ html=asofBar(`<b>${A} 기준</b> · 중앙선거관리위원회 당선인·선거공약 원문 대조`,'',''); }
     else if(sub==='peer'){ html=asofBar(`<b>${A} 기준</b> · 비교 값은 2024 공시·${e?ymd(e.exe_ymd)+' 집행':'집행'} 기준`,'',''); }
     else html=asofBar(`<b>${TD} 기준</b> · `+[exT,ctT,'재정공시는 2024 결산(연 1회 공시)'].filter(Boolean).join(' · '),'API로 새로고침',`location.reload()`); }
@@ -781,7 +781,7 @@ async function ctrtAuto(cd){ const K=S.ctrt&&S.ctrt[cd]; if(!K||!K.t||!K.range||
       tot=j.total||0; (j.rows||[]).forEach(x=>{ if(String(x.laf_cd)===String(cd)) rows.push(x); }); got+=(j.rows||[]).length; pi++; } while(got<tot&&pi<=10); } }));
   if(fail===days.length){ K.liveErr='지방재정365 계약현황 응답 없음'; return; }
   /* 같은 계약관리번호는 한 번만 */
-  const seen=new Set(); const R=[]; rows.forEach(x=>{ const k=x.ctrt_ldgr_mng_no||(x.smz_ctrt_ymd+x.ctrt_trgt_nm+x.clt_nm+x.ctrt_tot_tott_amt); if(seen.has(k)) return; seen.add(k); R.push(x); });
+  const seen=new Set(); const R=[]; rows.forEach(x=>{ const k=[x.ctrt_ldgr_mng_no,x.smz_ctrt_ymd,x.ctrt_trgt_nm,x.clt_nm,x.ctrt_tot_tott_amt,x.ctrt_mth_nm].join('|');   /* 계약관리번호만으로는 겹침(같은 번호의 차수 계약) → 전체 칸으로 비교 */ if(seen.has(k)) return; seen.add(k); R.push(x); });
   const add=(o,n,a,sn,sa)=>{ o.n=(o.n||0)+n; o.a=(o.a||0)+a; o.sn=(o.sn||0)+sn; o.sa=(o.sa||0)+sa; };
   const base={t:{...K.t},range:[...K.range],y26:K.y['2026']?{...K.y['2026']}:null,vn:K.vn};
   const yr=K.y['2026']||(K.y['2026']={n:0,a:0,sn:0,sa:0,m:{},k:{},c:{}});
@@ -1331,7 +1331,7 @@ function contractView(lg,K,g){ const cd=lg.laf_cd; S.cacheName=lg.master.display
   ${(()=>{ const SP=(K.split||[]).filter(x=>!isNonV(x.v)&&!isPPS(x.v)); return SP.length?`<section class="sec"><div class="sech"><span class="no">검토</span><h2>분할발주(쪼개기) 검토 대상</h2><span class="basis">같은 업체 · 31일 이내 수의계약 3건 이상 · 합산 2천만원 초과</span></div>
   <div class="tw"><table><thead><tr><th>업체</th><th>기간</th><th class="num">건수</th><th class="num">합산액</th></tr></thead><tbody>
   ${SP.slice(0,15).map(x=>`<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(x.v)}')"><td>${esc(x.v)}</td><td class="mut mono" style="white-space:nowrap">${ymd(x.from)}${x.to!==x.from?'<br>~'+ymd(x.to):''}</td><td class="num">${num(x.n)}</td><td class="num">${won(x.a)}</td></tr>`).join('')}
-  </tbody></table></div><div class="note">지방계약법 시행령 제77조는 동일인과의 분할 수의계약을 제한합니다. 다만 사업 성격상 정당한 반복 계약일 수 있어 <b>"의심"이 아니라 "검토 대상"</b>입니다. 관급자재·유류·급식 등 반복 구매와 조달청·협동조합, 업체가 아닌 행정 처리 항목(사전원인행위·고지서 납부·기관 자체 등)은 제외했습니다. 전체 ${num(SP.length)}묶음 중 상위 ${Math.min(15,SP.length)}개.</div></section>`:''; })()}
+  </tbody></table></div><div class="note">지방계약법 시행령 제77조는 동일인과의 분할 수의계약을 제한합니다. 다만 사업 성격상 정당한 반복 계약일 수 있어 <b>"의심"이 아니라 "검토 대상"</b>입니다. 관급자재·유류·급식 등 반복 구매와 조달청·협동조합, 업체가 아닌 행정 처리 항목(사전원인행위·고지서 납부·기관 자체 등)은 제외했습니다. 전체 ${num(SP.length)}묶음 중 상위 ${Math.min(15,SP.length)}개 · 이 표는 2026.10.3 수집분 기준입니다.</div></section>`:''; })()}
 
   <section class="sec"><div class="sech"><span class="no">목록</span><h2>계약 목록</h2><span class="basis">${y||'전체 기간'} · 체결일 최신순</span></div>
   <div class="tw"><table class="ctlist"><thead><tr><th>체결일</th><th>계약명</th><th>구분</th><th>계약방법</th><th>업체</th><th class="num">계약금액</th></tr></thead><tbody>
