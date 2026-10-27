@@ -235,8 +235,12 @@ module.exports = async (req, res) => {
       res.setHeader("Cache-Control", "no-store");
       await kbAlertAdmin("지방재정365 인증키 오류 — /api/lofin(" + hub + ")", "업스트림 응답: " + failMsg);
     } else {
-      // 재정 데이터는 연 단위 갱신 → CDN 24시간 캐시
-      res.setHeader("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=604800");
+      // 재정 데이터는 연 단위 갱신 → CDN 24시간 캐시.
+      // 2026-10-27: 최근 3일 날짜(집행 exe_ymd·계약 smz_ctrt_ymd)는 그날 자료가 나중에 올라오므로 15분만 캐시(오늘 0건이 하루 내내 굳지 않게)
+      const dq = String(q.exe_ymd || q.smz_ctrt_ymd || "");
+      const kst = new Date(Date.now() + 9 * 3600000);
+      const recent = /^\d{8}$/.test(dq) && [0, 1, 2].some(i => new Date(kst.getTime() - i * 86400000).toISOString().slice(0, 10).replace(/-/g, "") === dq);
+      res.setHeader("Cache-Control", recent ? "public, s-maxage=900, stale-while-revalidate=300" : "public, s-maxage=86400, stale-while-revalidate=604800");
     }
     return res.status(200).json({
       ok: result ? result.CODE === "INFO-000" : Array.isArray(rows),
