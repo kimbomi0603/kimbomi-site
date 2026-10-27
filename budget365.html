@@ -533,6 +533,24 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,[t
 .card canvas{max-width:100%!important}
 .foot{padding-bottom:84px}
 select,input{max-width:100%}
+
+/* 2026-10-27 모바일 표 정리: 좁은 화면에서 오른쪽 열이 잘려 보이던 표를 글자·여백을 줄여 한 화면에 맞추고, 그래도 넘치는 표에는 「옆으로 밀어 보기」 표시 */
+@media (max-width:640px){
+  .wrap{padding-inline:12px}
+  .card{padding:13px 12px}
+  table,.card table,.pol-local table{font-size:12px;line-height:1.4}
+  th,td,.card th,.card td{padding:7px 5px}
+  th{font-size:11.5px;white-space:normal;word-break:keep-all}
+  td.num,th.num{letter-spacing:-.035em}
+  td{word-break:keep-all;overflow-wrap:break-word}
+  td .tag{font-size:10px;padding:1px 5px}
+  .tw{-webkit-overflow-scrolling:touch}
+  .tw.scrollx{background:linear-gradient(to left,rgba(0,0,0,.10),rgba(0,0,0,0) 14px) right/14px 100% no-repeat,var(--card);background-attachment:local,scroll}
+  .swipe-hint{display:flex;justify-content:flex-end;font-size:11px;color:var(--ink-3);margin:2px 2px 4px;letter-spacing:-.01em}
+  .kpi .n{font-size:20px}
+}
+@media (min-width:641px){.swipe-hint{display:none}}
+@media (max-width:640px){.ctyr th:nth-child(4),.ctyr td:nth-child(4){display:none}.ctlist th:nth-child(3),.ctlist td:nth-child(3),.ctlist th:nth-child(4),.ctlist td:nth-child(4){display:none}.ctlist td:first-child{white-space:nowrap;font-size:11px}.fiind th:nth-child(4),.fiind td:nth-child(4){display:none}}
 </style>
 <script type="application/ld+json">
 {
@@ -727,20 +745,62 @@ function injectAsof(a,cd,sub){ const app=document.getElementById('app'); if(!app
   const A=asofTxt(), ck=String((S.vs&&(S.vs.api_checked_at||S.vs.checked_at))||'').slice(0,10).replace(/-0?/g,'.');
   let html='';
   if(a==='lg'&&cd){ const lg=S.cache&&S.cache[cd]; const e=lg&&lg.exec&&lg.exec['2026'];
-    if(sub==='contract'){ const K=S.ctrt&&S.ctrt[cd]; const r=K&&K.range?`계약일 ${ymd(K.range[0])}~${ymd(K.range[1])}`:'계약대장';
-      html=asofBar(`<b>${A} 기준</b> · ${r} 전수 · ${A} 지방재정365 재조회 대조`,'API로 새로고침',`liveCtrt('${cd}')`); }
+    const TD=ymd(ymdKST(new Date())); const K0=S.ctrt&&S.ctrt[cd];
+    const exT=e?(e.live?`집행 <b>${ymd(e.exe_ymd)}</b> 기준(지방재정365에서 방금 받음)`:(lg._execChk?`집행 <b>${ymd(e.exe_ymd)}</b> 기준(${lg._execChk} 확인 — 지방재정365 최신)`:`집행 ${ymd(e.exe_ymd)} 기준 · 최신 자료 확인 중…`)):'';
+    const ctT=K0&&K0.range?(K0.live?`계약 ${ymd(K0.range[0])}~<b>${ymd(K0.live.last)}</b>(${K0.live.n?`${ymd(K0.live.from)} 이후 ${num(K0.live.n)}건 방금 반영`:`${ymd(K0.live.from)} 이후 새 계약 없음 — 방금 확인`})`:(K0.liveChk?`계약 ~${ymd(K0.range[1])}`:(K0.liveErr?`계약 ~${ymd(K0.range[1])}(오늘 조회 실패 — 저장값)`:`계약 ~${ymd(K0.range[1])} · 이후 계약 받는 중…`))):'';
+    if(sub==='contract'){
+      html=asofBar(`<b>${TD} 기준</b> · ${ctT||'계약대장'} · 지방재정365 계약현황 원자료`+(K0&&K0.live?` · 업체 집중도·금액 구간·분야는 ${ymd(K0.live.base.range[1])} 수집분 기준`:''),'API로 새로고침',`location.reload()`); }
     else if(sub==='pledge'){ html=asofBar(`<b>${A} 기준</b> · 중앙선거관리위원회 당선인·선거공약 원문 대조`,'',''); }
     else if(sub==='peer'){ html=asofBar(`<b>${A} 기준</b> · 비교 값은 2024 공시·${e?ymd(e.exe_ymd)+' 집행':'집행'} 기준`,'',''); }
-    else if(e&&e.live){ html=asofBar(`<b>실시간 값</b> · 지방재정365 기준일 ${ymd(e.exe_ymd)} · ${nowHM()} 조회(대조 전) — 화면을 새로 고치면 ${A} 대조 값으로 돌아갑니다`,'API로 새로고침',`asofLiveExec('${cd}')`); }
-    else html=asofBar(`<b>${A} 기준</b> · 지방재정365 집행 최신 기준일 ${e?ymd(e.exe_ymd):'—'} · 재정공시·계약·공약 ${A} 원자료 대조`,'API로 새로고침',`asofLiveExec('${cd}')`); }
-  else if(a==='gov'&&cd){ html=asofBar(`<b>${A} 기준</b> · 열린재정 2026 확정예산(세부사업 편성현황·중앙관서별 총지출) ${A} 재조회 대조`,'API로 새로고침',`liveGovMin('${esc(decodeURIComponent(cd))}')`); }
-  else if(a==='gov'){ html=asofBar(`<b>${A} 기준</b> · 열린재정 2026 확정예산·총지출 ${A} 재조회 대조`,'API로 새로고침','liveGovList()'); }
+    else html=asofBar(`<b>${TD} 기준</b> · `+[exT,ctT,'재정공시는 2024 결산(연 1회 공시)'].filter(Boolean).join(' · '),'API로 새로고침',`location.reload()`); }
+  else if(a==='gov'&&cd){ html=asofBar(`<b>${ymd(ymdKST(new Date()))} 기준</b> · 열린재정 2026 확정예산(세부사업 편성현황·중앙관서별 총지출) — 확정된 예산이라 날마다 바뀌지 않습니다 · ${A} 전수 재조회 대조`,'API로 새로고침',`liveGovMin('${esc(decodeURIComponent(cd))}')`); }
+  else if(a==='gov'){ html=asofBar(`<b>${ymd(ymdKST(new Date()))} 기준</b> · 열린재정 2026 확정예산·총지출 — 확정된 예산이라 날마다 바뀌지 않습니다 · ${A} 전수 재조회 대조`,'API로 새로고침','liveGovList()'); }
   else if(a==='gov27'){ html=asofBar(`<b>${A} 기준</b> · 2027 정부안(국회 제출본) — 열린재정 정부안 값과 ${A} 대조`,'API로 새로고침',`liveGov27('${cd?esc(decodeURIComponent(cd)):''}')`); }
   else if(a==='gq'){ html=asofBar(`<b>${A} 기준</b> · 열린재정 ${sub==='27'?'2027 정부안':'2026 확정예산'} 세부사업 색인`,'',''); }
   else if(a==='q'){ html=asofBar(`<b>${A} 기준</b> · 지자체 세부사업 색인(지방재정365 기준일 ${ymd((S.index.rows.find(x=>x.exec_2026)||{}).exec_2026?.exe_ymd)}) — 지자체를 열어 ⟳ 하면 그 지자체 값을 새로 받습니다`,'',''); }
   else if(a==='key'||a==='policy'||a==='task'||a==='docs'||a==='spol'){ html=asofBar(`<b>${A} 기준</b> · 정책브리핑·부처 원문 대조 · 법령은 국가법령정보센터 ${A} 대조`,'정책브리핑 새 발표 보기',`window.open('https://www.korea.kr/briefing/pressReleaseList.do','_blank','noopener')`); }
-  else html=asofBar(`<b>${A} 기준</b> · 지방재정365 집행 최신 기준일 ${ymd((S.index.rows.find(x=>x.exec_2026)||{}).exec_2026?.exe_ymd)} · 계약·재정공시·중앙정부 예산 ${A} 원자료 대조`,'최신 기준일 확인','checkLatestExec()');
+  else { html=asofBar(`<b>${ymd(ymdKST(new Date()))} 기준</b> · 지방재정365 집행 최신 기준일 ${ymd((S.index.rows.find(x=>x.exec_2026)||{}).exec_2026?.exe_ymd)} · 지자체를 열면 집행·계약을 지방재정365에서 오늘 날짜까지 다시 받아 보여 드립니다 · 재정공시 2024 결산 · 중앙정부 2026 확정예산`,'최신 기준일 확인','checkLatestExec()'); if(!S.homeChk){ S.homeChk=1; setTimeout(()=>{ try{ checkLatestExec(); }catch(e){} },400); } }
   if(!html) return; const w=app.querySelector('.wrap'); if(w) w.insertAdjacentHTML('afterbegin',html); }
+
+
+/* ═══════════ 접속할 때마다 API 자동 적용 (2026-10-27) ═══════════
+   지자체 화면을 열면(새로 고침 포함) ① 집행: 지방재정365 세부사업별 세출(QWGJK)에서 저장값보다 새 기준일이 있으면 바로 받아 바꿔 그림
+   ② 계약: 계약대장 수집일 다음 날부터 오늘까지 계약현황(WCEGCF)을 받아 건수·금액·수의계약·업체·목록에 더함.
+   값은 원자료 API 그대로이며, 받지 못하면 저장된 대조 값을 그대로 둔다. */
+function rerenderLg(cd){ const h=location.hash.replace(/^#\/?/,'').split('/'); if(h[0]!=='lg'||h[1]!==cd) return; S.keepY=window.scrollY; S.diag&&delete S.diag[cd]; route(true); }
+function autoLive(cd){ S.autoDone=S.autoDone||{}; if(S.autoDone[cd]) return; S.autoDone[cd]=1;
+  const lg=S.cache&&S.cache[cd]; if(lg&&lg.exec&&lg.exec['2026']&&!lg.exec['2026'].live) liveExec(cd).catch(()=>{});
+  loadCtrt(cd).then(K=>{ if(K&&K.t) return ctrtAuto(cd); }).catch(()=>{}); }
+async function ctrtAuto(cd){ const K=S.ctrt&&S.ctrt[cd]; if(!K||!K.t||!K.range||K.live) return;
+  const end=String(K.range[1]); const days=[]; const t=new Date(); for(let i=0;i<62;i++){ const d=ymdKST(new Date(t.getTime()-i*86400000)); if(d<=end) break; days.push(d); }
+  if(!days.length){ K.liveChk=nowHM(); return; }
+  const rows=[]; let fail=0; const q=[...days];
+  await Promise.all(Array.from({length:4},async()=>{ while(q.length){ const d=q.shift(); let pi=1, got=0, tot=0;
+    do{ const j=await fetch(`/api/lofin?hub=WCEGCF&smz_ctrt_ymd=${d}&laf_cd=${cd}&pSize=1000&pIndex=${pi}`).then(r=>r.json()).catch(()=>null);
+      if(!j||!j.ok){ if(!(j&&j.result&&/INFO-200|없/.test(String(j.result.CODE||'')+String(j.result.MESSAGE||'')))) fail++; break; }
+      tot=j.total||0; (j.rows||[]).forEach(x=>{ if(String(x.laf_cd)===String(cd)) rows.push(x); }); got+=(j.rows||[]).length; pi++; } while(got<tot&&pi<=10); } }));
+  if(fail===days.length){ K.liveErr='지방재정365 계약현황 응답 없음'; return; }
+  /* 같은 계약관리번호는 한 번만 */
+  const seen=new Set(); const R=[]; rows.forEach(x=>{ const k=x.ctrt_ldgr_mng_no||(x.smz_ctrt_ymd+x.ctrt_trgt_nm+x.clt_nm+x.ctrt_tot_tott_amt); if(seen.has(k)) return; seen.add(k); R.push(x); });
+  const add=(o,n,a,sn,sa)=>{ o.n=(o.n||0)+n; o.a=(o.a||0)+a; o.sn=(o.sn||0)+sn; o.sa=(o.sa||0)+sa; };
+  const base={t:{...K.t},range:[...K.range],y26:K.y['2026']?{...K.y['2026']}:null,vn:K.vn};
+  const yr=K.y['2026']||(K.y['2026']={n:0,a:0,sn:0,sa:0,m:{},k:{},c:{}});
+  const vix={}; (K.v||[]).forEach((v,i)=>vix[v[0]]=i); let newV=0;
+  const lastDay=R.reduce((m,x)=>String(x.smz_ctrt_ymd)>m?String(x.smz_ctrt_ymd):m,end);
+  const lgB=((S.cache[cd]&&S.cache[cd].exec&&S.cache[cd].exec['2026'])||{}).sum?.budget||0; let skipped=0;
+  R.forEach(x=>{ const a0=+x.ctrt_tot_tott_amt||0; if(lgB&&a0>lgB*0.5){ skipped++; return; } /* 저장 자료와 같은 규칙: 한 건이 그해 예산 절반을 넘으면 금액 오기로 보고 뺌 */
+    const a=a0, isS=/수의/.test(x.ctrt_mth_nm||''), sn=isS?1:0, sa=isS?a:0, nm=String(x.clt_nm||'').trim();
+    add(K.t,1,a,sn,sa); add(yr,1,a,sn,sa); if(a>=10000000){ yr.t10=(yr.t10||0)+a; if(isS) yr.s10=(yr.s10||0)+a; }
+    const m=x.ctrt_mth_nm||'기타'; (yr.m[m]||(yr.m[m]=[0,0])); yr.m[m][0]++; yr.m[m][1]+=a;
+    const kd=x.ctrt_knd_nm||'기타'; (yr.k[kd]||(yr.k[kd]=[0,0])); yr.k[kd][0]++; yr.k[kd][1]+=a;
+    if(nm){ let i=vix[nm]; if(i==null){ i=vix[nm]=(K.v||(K.v=[])).length; K.v.push([nm,0,0,0,0,{}]); newV++; } const v=K.v[i]; v[1]++; v[2]+=a; v[3]+=sn; v[4]+=sa; const yy=v[5]['2026']||(v[5]['2026']=[0,0]); yy[0]++; yy[1]+=a; }
+    (K.term||[]).forEach(tm=>{ const d=String(x.smz_ctrt_ymd); if(d>=tm.from&&d<=tm.to){ tm.n=(tm.n||0)+1; tm.a=(tm.a||0)+a; tm.sn=(tm.sn||0)+sn; tm.sa=(tm.sa||0)+sa; } });
+    (K.r||(K.r=[])).push([String(x.smz_ctrt_ymd),x.ctrt_trgt_nm||'',x.ctrt_mth_nm||'',x.ctrt_knd_nm||'',nm,a]); });
+  if(yr.t10) yr.r10=Math.round((yr.s10||0)/yr.t10*1000)/10; { let T=0,Sx=0; Object.values(K.y).forEach(o=>{ T+=o.t10||0; Sx+=o.s10||0; }); if(T) K.r10=Math.round(Sx/T*1000)/10; }
+  K.vn=(K.vn||0)+newV; if(K.rn!=null) K.rn+=R.length-skipped;
+  K.live={from:days[days.length-1],to:days[0],last:lastDay,skipped,n:R.length-skipped,a:R.reduce((s,x)=>s+((lgB&&(+x.ctrt_tot_tott_amt||0)>lgB*0.5)?0:(+x.ctrt_tot_tott_amt||0)),0),fail,at:nowHM(),base};
+  K.range=[K.range[0],lastDay];
+  S.diag&&delete S.diag[cd]; rerenderLg(cd); }
 
 /* 지자체: 개요·진단에서 누르면 집행 화면으로 옮겨 실시간 조회 */
 function asofLiveExec(cd){ if(!/\/(budget|exec)$/.test(location.hash.split('?')[0])){ S.autoLive=cd; location.hash='#/lg/'+cd+'/exec'; return; } asofBusy(true,'지방재정365에서 받는 중…'); liveExec(cd).finally(()=>asofBusy(false)); }
@@ -748,7 +808,7 @@ function asofLiveExec(cd){ if(!/\/(budget|exec)$/.test(location.hash.split('?')[
 /* 홈: 지방재정365에 더 새 기준일이 올라왔는지 확인(값을 만들지 않음) */
 async function checkLatestExec(){ asofBusy(true,'확인 중…'); try{ const base=(S.index.rows.find(x=>x.exec_2026)||{}); const cd=base.laf_cd, cur=base.exec_2026?.exe_ymd; let found=null; const d=new Date();
     for(let i=0;i<14&&!found;i++){ const day=ymdKST(new Date(d.getTime()-i*86400000)); if(cur&&day<=cur) break; const j=await fetch(`/api/lofin?hub=QWGJK&fyr=2026&laf_cd=${cd}&exe_ymd=${day}&pSize=5`).then(r=>r.json()).catch(()=>null); if(j&&j.ok&&(j.total||0)>=5) found=day; }
-    asofMsg(found?`지방재정365에 <b>${ymd(found)}</b> 기준 자료가 새로 올라왔습니다. 지자체를 열고 ⟳를 누르면 그 날짜 값으로 채워집니다. (${nowHM()} 확인)`:`지금 확인한 결과 ${ymd(cur)}보다 새 기준일이 없습니다. 이 화면 값이 최신입니다. (${nowHM()} 확인)`);
+    asofMsg(found?`지방재정365에 <b>${ymd(found)}</b> 기준 자료가 새로 올라왔습니다. 지자체를 열면 그 날짜 값으로 자동으로 바뀝니다(이 목록의 숫자는 저장 기준일 값). (${nowHM()} 확인)`:`${nowHM()} 확인 — 지방재정365 최신 기준일이 ${ymd(cur)}입니다. 이 화면 값이 최신입니다.`);
   }catch(e){ asofMsg('확인 실패 — '+esc(e.message||'')); } asofBusy(false); }
 
 /* 계약: 기준일 다음 날부터 오늘까지 지방재정365 계약현황(WCEGCF)을 그 지자체로 다시 받아 새 계약을 보여 줌 */
@@ -898,7 +958,9 @@ async function route(heal){ const RT=(route._seq=(route._seq||0)+1); if(heal!==t
   try{ injectAsof(a,cd,sub); }catch(e){}
   buildNav();
   document.querySelectorAll('.nav a').forEach(x=>{ const hf=x.getAttribute('href'); x.classList.toggle('on',hf===location.hash||(x.id==='navHome'&&(!location.hash||location.hash==='#/'))||(/^#\/(key|policy|task|docs)$/.test(hf)&&location.hash.startsWith(hf+'/'))); });
-  window.scrollTo(0,0); fabSync(); route._done=RT; }
+  { const ft=document.getElementById('foot'); if(ft&&!ft.innerHTML.trim()) ft.innerHTML=footer(); }  /* 2026-10-27 중앙정부·정책 화면에서 하단 안내가 비어 검은 띠만 보이던 것 */
+  window.scrollTo(0,S.keepY!=null?S.keepY:0); S.keepY=null; fabSync(); route._done=RT;
+  if(a==='lg'&&cd) autoLive(cd); }
 
 /* ═══════════ 홈: 광역 → 기초 격자 ═══════════ */
 function renderHome(sido){ const R=S.index.rows; const live=R.filter(x=>x.live_2026); const sidos=[...new Set(live.map(x=>x.sido_new))];
@@ -1019,7 +1081,7 @@ function renderLg(lg){ const m=lg.master, cd=lg.laf_cd, F=lg.fiscal||{}; const y
   </div></section>
 
   <section class="sec"><div class="sech"><span class="no">${e26?'03':'02'}</span><h2>재정 운영 지표</h2><span class="basis">2024 결산 공시 · 5개년 흐름</span></div>
-  <div class="card"><div class="tw"><table><thead><tr><th>지표</th><th class="num">2024</th><th>흐름 20→24</th><th>비고</th></tr></thead><tbody>
+  <div class="card"><div class="tw"><table class="fiind"><thead><tr><th>지표</th><th class="num">2024</th><th>흐름 20→24</th><th>비고</th></tr></thead><tbody>
   ${Object.entries(M).map(([hub,d])=>{ const v=y24[hub]?.[d.f]; const pts=series(lg,hub,d.f); const amt=d.amt&&isN(y24[hub]?.[d.amt])?'금액 '+won(y24[hub][d.amt]):'';
     return `<tr><td>${d.l}</td><td class="num">${d.u==='%'?pct(v,2):num(v)+(isN(v)?' '+d.u:'')}</td><td>${spark(pts,css('--royal'))}</td><td class="mut">${amt}</td></tr>`}).join('')}
   ${X.ext_2024?[['성인지예산 비율',pct(X.ext_2024.gender_budget_rate,2)],['지방보조금 비율',pct(X.ext_2024.subsidy_rate,2)],['예비비 확보율',pct(X.ext_2024.reserve_rate,2)],['보증채무 비율',pct(X.ext_2024.guarantee_debt_rate,2)],['기금 현재액',num(X.ext_2024.fund_balance_eok)+' 억원'],['공유재산',num(X.ext_2024.public_property_eok)+' 억원']].map(([l,v])=>`<tr><td>${l}</td><td class="num">${v}</td><td></td><td class="mut">지방재정365 2024 공시(확장)</td></tr>`).join(''):''}
@@ -1207,7 +1269,7 @@ function contractView(lg,K,g){ const cd=lg.laf_cd; S.cacheName=lg.master.display
   return `
   <div class="note blue" style="margin-top:0"><b>읽는 법</b> — 연도 탭으로 기간을 고르고, 필터·검색으로 좁히고, 업체 이름을 누르면 <b>그 업체가 전국 243곳과 맺은 계약</b>이 열립니다. 수의계약은 지방계약법이 허용하는 적법한 방식입니다. 계약이 한 업체에 몰렸다고 곧바로 위법·특혜는 아닙니다. 모든 숫자는 공개 자료의 기계적 집계입니다. 이 표는 지방재정365 계약대장(2021~) 기준이며, 최근 180일의 나라장터 계약·입찰공고는 <a href="gyeyak.html?sido=${encodeURIComponent(lg.master.sido_new||'')}&sgg=${lg.master.level==='기초'?encodeURIComponent(lg.master.display||''):''}&auto=1" target="_blank" rel="noopener"><b>나라장터 실시간 대시보드 ↗</b></a>에서 따로 볼 수 있습니다.</div>
 
-  <div class="tabs"><button class="${!y?'on':''}" onclick="CB.y='';CB.rtop=10;renderBudget(S.cache['${cd}'])">전체 기간</button>${years.map(yy=>`<button class="${yy===y?'on':''}" onclick="CB.y='${yy}';CB.rtop=10;renderBudget(S.cache['${cd}'])">${yy}년</button>`).join('')}<span class="sp"></span><span class="mut">계약체결일 ${esc(K.range[0]||'')} ~ ${esc(K.range[1]||'')} · 전체 ${num(K.rn||K.t.n)}건 · 수집 ${esc(String(K.built_at||'').slice(0,10))}</span></div>
+  <div class="tabs"><button class="${!y?'on':''}" onclick="CB.y='';CB.rtop=10;renderBudget(S.cache['${cd}'])">전체 기간</button>${years.map(yy=>`<button class="${yy===y?'on':''}" onclick="CB.y='${yy}';CB.rtop=10;renderBudget(S.cache['${cd}'])">${yy}년</button>`).join('')}<span class="sp"></span><span class="mut">계약체결일 ${esc(K.range[0]||'')} ~ ${esc(K.range[1]||'')} · 전체 ${num(K.rn||K.t.n)}건 · 수집 ${esc(String(K.built_at||'').slice(0,10))}${K.live?` + ${ymd(K.live.from)}~${ymd(K.live.last)} ${num(K.live.n)}건 오늘 API 반영`:''}</span></div>
   ${S.vs?.stale_ct?.[cd]?`<div class="note" style="margin:8px 0 0">수집(${esc(String(K.built_at||'').slice(0,10))}) 뒤 이 기관이 원자료에서 고친 계약(변경계약·계약해지 표시 등)이 확인됐습니다(표본 ${num(S.vs.stale_ct[cd])}건). 이 화면의 금액·건수는 수집 시점 값이며, 다음 재수집 때 반영합니다.</div>`:''}
   <div class="ctl"><input id="cq" type="search" placeholder="계약명 · 업체명 검색" value="${esc(CB.q)}">
     <select id="ckind"><option value="">공사/용역/물품 전체</option>${Object.keys(kind).map(k=>`<option ${CB.kind===k?'selected':''}>${esc(k)}</option>`).join('')}</select>
@@ -1237,12 +1299,12 @@ function contractView(lg,K,g){ const cd=lg.laf_cd; S.cacheName=lg.master.display
 
   <section class="sec"><div class="sech"><span class="no">한눈에</span><h2>어느 업체로 몰렸나</h2><span class="basis">전 기간 · 수의계약 금액 큰 순 · 조달청 대행·행정 처리 항목 제외 · 업체를 누르면 전국 계약</span></div>
   <div class="tw"><table><thead><tr><th class="num">#</th><th>업체명</th><th class="num">전체 계약</th><th class="num">그중 수의계약</th><th class="num">수의 비중</th></tr></thead><tbody>
-  ${suiTop.map((v,i)=>{ const sh=v.a?v.sa/v.a*100:null; return `<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(v.nm)}')"><td class="num">${i+1}</td><td><b>${esc(v.nm)}</b></td><td class="num">${num(v.n)}건 · ${won(v.a)}</td><td class="num">${num(v.sn)}건 · ${won(v.sa)}</td><td class="num ${sh>=90?'neg':''}"><b>${pct(sh,0)}</b></td></tr>`; }).join('')||'<tr><td colspan="5" class="mut">해당 없음</td></tr>'}
+  ${suiTop.map((v,i)=>{ const sh=v.a?v.sa/v.a*100:null; return `<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(v.nm)}')"><td class="num">${i+1}</td><td><b>${esc(v.nm)}</b></td><td class="num">${num(v.n)}건<br>${won(v.a)}</td><td class="num">${num(v.sn)}건<br>${won(v.sa)}</td><td class="num ${sh>=90?'neg':''}"><b>${pct(sh,0)}</b></td></tr>`; }).join('')||'<tr><td colspan="5" class="mut">해당 없음</td></tr>'}
   </tbody></table></div>
   <div class="mut" style="margin-top:6px">수의 비중 90% 이상은 붉게 표시했습니다 — 그 업체가 이 지자체에서 받은 돈이 사실상 전부 경쟁 없이 체결됐다는 뜻입니다.</div></section>
 
   <section class="sec"><div class="sech"><span class="no">5년</span><h2>연도별 한눈에</h2><span class="basis">행을 누르면 그 해로 필터</span></div>
-  <div class="tw"><table><thead><tr><th>연도</th><th class="num">건수</th><th class="num">계약금액</th><th>금액 추이</th><th class="num">수의 비중</th><th class="num">정부 산식</th><th class="num">CR5</th><th class="num">HHI</th></tr></thead><tbody>
+  <div class="tw"><table class="ctyr"><thead><tr><th>연도</th><th class="num">건수</th><th class="num">계약금액</th><th>금액 추이</th><th class="num">수의 비중</th><th class="num">정부 산식</th><th class="num">CR5</th><th class="num">HHI</th></tr></thead><tbody>
   ${years.map(yy=>{ const o=K.y[yy]; return `<tr class="row" onclick="CB.y='${yy}';CB.rtop=10;renderBudget(S.cache['${cd}'])"><td><b>${yy}</b>${yy===y?' <span class="tag">보는 중</span>':''}</td><td class="num">${num(o.n)}</td><td class="num">${eok(o.a)}억</td><td><span style="width:120px;display:inline-block;height:9px;background:var(--bg-2);border:1px solid var(--line)"><i style="display:block;height:100%;width:${(o.a/maxY*100).toFixed(1)}%;background:var(--navy)"></i></span></td><td class="num">${pct(o.a?o.sa/o.a*100:null)}</td><td class="num">${pct(o.r10)}</td><td class="num">${pct(o.c.cr5)}</td><td class="num">${num(o.c.hhi)}</td></tr>`; }).join('')}
   <tr><td><b>전체</b></td><td class="num">${num(K.t.n)}</td><td class="num">${eok(K.t.a)}억</td><td></td><td class="num">${pct(K.t.a?K.t.sa/K.t.a*100:null)}</td><td class="num">${pct(K.r10)}</td><td class="num">${pct(K.c?.cr5)}</td><td class="num">${num(K.c?.hhi)}</td></tr>
   </tbody></table></div></section>
@@ -1268,11 +1330,11 @@ function contractView(lg,K,g){ const cd=lg.laf_cd; S.cacheName=lg.master.display
 
   ${(()=>{ const SP=(K.split||[]).filter(x=>!isNonV(x.v)&&!isPPS(x.v)); return SP.length?`<section class="sec"><div class="sech"><span class="no">검토</span><h2>분할발주(쪼개기) 검토 대상</h2><span class="basis">같은 업체 · 31일 이내 수의계약 3건 이상 · 합산 2천만원 초과</span></div>
   <div class="tw"><table><thead><tr><th>업체</th><th>기간</th><th class="num">건수</th><th class="num">합산액</th></tr></thead><tbody>
-  ${SP.slice(0,15).map(x=>`<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(x.v)}')"><td>${esc(x.v)}</td><td class="mut mono">${esc(x.from)} ~ ${esc(x.to)}</td><td class="num">${num(x.n)}</td><td class="num">${won(x.a)}</td></tr>`).join('')}
+  ${SP.slice(0,15).map(x=>`<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(x.v)}')"><td>${esc(x.v)}</td><td class="mut mono" style="white-space:nowrap">${ymd(x.from)}${x.to!==x.from?'<br>~'+ymd(x.to):''}</td><td class="num">${num(x.n)}</td><td class="num">${won(x.a)}</td></tr>`).join('')}
   </tbody></table></div><div class="note">지방계약법 시행령 제77조는 동일인과의 분할 수의계약을 제한합니다. 다만 사업 성격상 정당한 반복 계약일 수 있어 <b>"의심"이 아니라 "검토 대상"</b>입니다. 관급자재·유류·급식 등 반복 구매와 조달청·협동조합, 업체가 아닌 행정 처리 항목(사전원인행위·고지서 납부·기관 자체 등)은 제외했습니다. 전체 ${num(SP.length)}묶음 중 상위 ${Math.min(15,SP.length)}개.</div></section>`:''; })()}
 
   <section class="sec"><div class="sech"><span class="no">목록</span><h2>계약 목록</h2><span class="basis">${y||'전체 기간'} · 체결일 최신순</span></div>
-  <div class="tw"><table><thead><tr><th>체결일</th><th>계약명</th><th>구분</th><th>계약방법</th><th>업체</th><th class="num">계약금액</th></tr></thead><tbody>
+  <div class="tw"><table class="ctlist"><thead><tr><th>체결일</th><th>계약명</th><th>구분</th><th>계약방법</th><th>업체</th><th class="num">계약금액</th></tr></thead><tbody>
   ${rows.slice(0,CB.rtop).map(r=>`<tr><td class="mono">${esc(String(r[0]).replace(/(\d{4})(\d{2})(\d{2})/,'$1.$2.$3'))}</td><td>${esc(r[1])}</td><td class="mut">${esc(r[3]||'')}</td><td class="mut">${esc(r[2]||'')}</td><td><a href="javascript:void 0" onclick="openVendor('${cd}','${encodeURIComponent(r[4]||'')}')">${esc(r[4]||'')}</a></td><td class="num">${won(r[5])}</td></tr>`).join('')||'<tr><td colspan="6" class="mut">해당 없음</td></tr>'}
   </tbody></table></div>
   <div class="pg">${rows.length>CB.rtop?`<button onclick="CB.rtop+=10;renderBudget(S.cache['${cd}'])">10건 더 보기</button><button onclick="CB.rtop+=100;renderBudget(S.cache['${cd}'])">100건 더</button>`:''}<span class="mut">${num(Math.min(CB.rtop,rows.length))} / ${num(rows.length)}건 표시</span>${CB.rtop>10?`<button onclick="CB.rtop=10;renderBudget(S.cache['${cd}'])">접기</button>`:''}</div>
@@ -1419,10 +1481,10 @@ function renderPeer(lg){ const cd=lg.laf_cd,m=lg.master,app=document.getElementB
    [위험] 큰 지자체(1만 행 이상)는 12장(12,000행) 제한으로 일부만 합산될 수 있어 화면에 「전체 n건 중」을 표시한다.
    [위험] 오늘 날짜는 빈 행이 올 수 있어 유효 행 5건 이상일 때만 채택한다. 실패하면 내장 자료를 그대로 둔다(값을 만들지 않음). */
 async function liveExec(cd){ const btn=document.getElementById('liveBtn'); const box=document.getElementById('liveBox'); if(btn){ btn.disabled=true; btn.textContent='지방재정365에서 받는 중…'; }
-  const ymd=d=>d.toISOString().slice(0,10).replace(/-/g,'');
-  try{ let found=null; const d=new Date();
-    for(let i=0;i<21&&!found;i++){ const day=ymd(new Date(d.getTime()-i*86400000)); const r=await fetch(`/api/lofin?hub=QWGJK&fyr=2026&laf_cd=${cd}&exe_ymd=${day}&pSize=5`); const j=await r.json(); if(j&&j.ok&&(j.total||0)>=5) found={day,total:j.total}; }
-    if(!found) throw new Error('최근 21일 안에 자료가 있는 기준일을 찾지 못했습니다');
+  const ymd=ymdKST;
+  try{ let found=null; const d=new Date(); const lg0=S.cache[cd]; const cur=String(((lg0&&(lg0._exec2026||lg0.exec['2026']))||{}).exe_ymd||'');
+    for(let i=0;i<21&&!found;i++){ const day=ymd(new Date(d.getTime()-i*86400000)); if(cur&&day<=cur) break; const r=await fetch(`/api/lofin?hub=QWGJK&fyr=2026&laf_cd=${cd}&exe_ymd=${day}&pSize=5`); const j=await r.json(); if(j&&j.ok&&(j.total||0)>=5) found={day,total:j.total}; }
+    if(!found){ if(cur){ lg0._execChk=nowHM(); rerenderLg(cd); return 'latest'; } throw new Error('최근 21일 안에 자료가 있는 기준일을 찾지 못했습니다'); }
     const pages=Math.ceil(found.total/1000); if(pages>20) throw new Error('행이 너무 많아 한 번에 받지 못합니다'); const all=[];
     const got=await Promise.all(Array.from({length:pages},(_,i)=>fetch(`/api/lofin?hub=QWGJK&fyr=2026&laf_cd=${cd}&exe_ymd=${found.day}&pSize=1000&pIndex=${i+1}`).then(r=>r.json()).catch(()=>null)));
     got.forEach(j=>{ if(j&&j.ok&&Array.isArray(j.rows)) all.push(...j.rows); });
@@ -1438,11 +1500,12 @@ async function liveExec(cd){ const btn=document.getElementById('liveBtn'); const
     const sm=k=>rows.reduce((a,r)=>a+(r[k]||0),0);
     const grp=k=>{ const o={}; rows.forEach(r=>{ const g=o[r[k]||'기타']||(o[r[k]||'기타']={b:0,e:0,k:0}); g.b+=r.b; g.e+=r.e; g.k++; }); return o; };   /* 분야·회계 합도 같은 기준일로(옛 기준일 값과 섞지 않음) */
     lg.exec['2026']={...base,rows,rows_total:rows.length,exe_ymd:found.day,dbiz_count:new Set(rows.map(r=>r.c)).size,sum:{budget:b,exec:e,rate:b?Math.round(e/b*1000)/10:null,ntep:sm('nt'),capep:sm('cp'),sggep:sm('sg'),etc:sm('et')},by_fld:grp('f'),by_acnt:grp('a'),live:true,live_total:found.total,live_got:all.length,base_ymd:lg._exec2026.exe_ymd,base_sum:lg._exec2026.sum};
-    S.diag&&delete S.diag[cd]; await renderBudget(lg); try{ injectAsof('lg',cd,(location.hash.split('?')[0].split('/')[3]||'exec')); }catch(e){}
+    lg._execChk=nowHM(); S.diag&&delete S.diag[cd]; rerenderLg(cd);
   }catch(err){ if(box) box.innerHTML=`<div class="note" style="margin:0 0 12px"><b>실시간 조회 실패</b> — ${esc(err.message||'오류')}. 내장 자료(${ymd(new Date())} 이전 기준일)를 그대로 보여 드립니다.</div>`; if(btn){ btn.disabled=false; btn.textContent='⟳ API로 새로고침'; } } }
-function liveBanner(e,cd){ if(S.autoLive===cd&&!e.live){ S.autoLive=null; setTimeout(()=>liveExec(cd),0); } if(!e.live) return `<div id="liveBox"><div class="note blue" style="margin:0 0 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span><b>기준일 ${ymd(e.exe_ymd)}</b> 자료입니다. 지방재정365는 매일 갱신되므로 오늘 기준 집행률을 바로 받아 볼 수 있습니다.</span><button type="button" class="btn" id="liveBtn" onclick="liveExec('${cd}')">⟳ API로 새로고침</button></div></div>`;
+function liveBanner(e,cd){ const lg=S.cache[cd]||{};
+  if(!e.live) return `<div id="liveBox"><div class="note blue" style="margin:0 0 12px">${lg._execChk?`<b>지방재정365 최신 기준일 ${ymd(e.exe_ymd)}</b> 자료입니다(${lg._execChk} 확인). 지방재정365는 보통 전날까지의 집행을 다음 날 올립니다.`:`<b>기준일 ${ymd(e.exe_ymd)}</b> 자료를 먼저 보여 드리고, 지방재정365에 더 새 자료가 있는지 확인하고 있습니다…`}</div></div>`;
   const d=e.sum.exec-(e.base_sum?.exec||0), dr=(e.sum.rate??0)-(e.base_sum?.rate??0);
-  return `<div id="liveBox"><div class="note" style="margin:0 0 12px;border-left-color:var(--gold)"><b>실시간 · 기준일 ${ymd(e.exe_ymd)}</b> — 지방재정365에서 방금 받은 ${num(e.live_got)}행${e.live_total>e.live_got?` (전체 ${num(e.live_total)}건 중)`:''}. 내장 자료(${ymd(e.base_ymd)}) 대비 집행 ${sgn(d,v=>won(v))}, 집행률 ${sgn(dr,v=>v.toFixed(1)+'%p')}. 화면을 새로 고치면 내장 자료로 돌아갑니다.</div></div>`; }
+  return `<div id="liveBox"><div class="note" style="margin:0 0 12px;border-left-color:var(--gold)"><b>지방재정365 ${ymd(e.exe_ymd)} 기준</b> — 화면을 열 때 방금 받은 ${num(e.live_got)}행입니다. 저장 자료(${ymd(e.base_ymd)}) 대비 집행 ${sgn(d,v=>won(v))}, 집행률 ${sgn(dr,v=>v.toFixed(1)+'%p')}.</div></div>`; }
 async function renderBudget(lg,pid){ const m=lg.master,cd=lg.laf_cd; const years=Object.keys(lg.exec||{}).sort().reverse(); const title=lgTitle(m); const app=document.getElementById('app');
   const MODES={budget:'예산',exec:'집행',contract:'계약',diag:'진단',pledge:'공약',peer:'비교'};
   if(B.mode==='pledge'){ await renderPledge(lg); return; }
@@ -2222,5 +2285,12 @@ loadIndex().then(route).catch(e=>{ document.getElementById('app').innerHTML=`<di
 </script>
 <script src="assets/bomi.js" defer></script>
 <script src="a.js" defer></script>
+<script>
+/* 넘치는 표 위에 「옆으로 밀어 보기 →」를 붙인다(모바일). 화면이 바뀔 때마다 다시 확인 */
+(function(){ function mark(){ if(window.innerWidth>640) return; document.querySelectorAll('.tw').forEach(function(t){ var over=t.scrollWidth>t.clientWidth+4; t.classList.toggle('scrollx',over); var h=t.previousElementSibling; var has=h&&h.classList&&h.classList.contains('swipe-hint'); if(over&&!has){ var d=document.createElement('div'); d.className='swipe-hint'; d.textContent='옆으로 밀어 보기 →'; t.parentNode.insertBefore(d,t); } else if(!over&&has){ h.remove(); } }); }
+  var tm=null; function later(){ clearTimeout(tm); tm=setTimeout(mark,250); }
+  try{ new MutationObserver(later).observe(document.getElementById('app')||document.body,{childList:true,subtree:true}); }catch(e){}
+  window.addEventListener('resize',later); window.addEventListener('load',later); })();
+</script>
 </body>
 </html>
