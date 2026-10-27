@@ -697,6 +697,8 @@ function vApplyIndex(){ const I=S.index; const by=I.budget_fyr||'2026';
     ['civil_2025','active_2025','innov_2025'].forEach(k=>{ if(x[k]!=null&&!vOk(cd,'ix:'+k)) x[k]=null; }); });
   if(I.joint) Object.keys(I.joint).forEach(cd=>{ if(!vOk(cd,'ix:joint')) delete I.joint[cd]; });
   const N=I.ctrt_nat; if(N&&N.lg){ Object.keys(N.lg).forEach(cd=>{ if(!vOk(cd,'ct')) delete N.lg[cd]; });
+    /* 2026.7.1 폐지·통합된 곳(인천 중구·동구, 광주·전남 본청)과 2023 대구 편입 군위군 옛 코드는 전국 순위·분포에서 뺀다 — 화면의 다른 순위(243곳 기준)와 맞춤 */
+    { const live=new Set((I.rows||[]).filter(x=>x.live_2026).map(x=>x.laf_cd)); Object.keys(N.lg).forEach(cd=>{ if(!live.has(cd)) delete N.lg[cd]; }); }
     /* 전국 분포는 검증을 통과한 곳만으로 다시 계산(원자료 금액 오기로 비율이 0%·100%로 틀어진 곳이 섞이지 않게) */
     const v=Object.values(N.lg).map(o=>o.r10).filter(isN).map(Number).sort((a,b)=>a-b), n=v.length, q=p=>v[Math.max(0,Math.floor(p*(n-1)))];
     N.stat=n?{n,p25:q(.25),p50:q(.5),p75:q(.75),p90:q(.9),avg:Math.round(v.reduce((a,b)=>a+b,0)/n*10)/10}:null; } }
@@ -1085,7 +1087,7 @@ function diagnose(lg){ const e26=lg.exec?.['2026'], e25=lg.exec?.['2025']; if(!e
 /* ── 현황 '한눈에' 비동기 채움 ── */
 async function glanceFill(lg){ loadSido().then(D=>{ const g=document.querySelector('.glance'); const z=D.sidos.find(x=>x.sido_new===lg.master.sido_new); if(z&&g&&!document.getElementById('glSp')){ const a=document.createElement('a'); a.id='glSp'; a.href='#/spol/'+encodeURIComponent(z.sido_new); a.style.cssText='--kc:var(--c3)'; a.innerHTML=`<div class="l">${esc(z.sido_new.replace(/특별자치도|특별자치시|광역시|특별시|통합특별시/,''))} 시·도 정책</div><div class="n">${num(z.items.length)}<small>건</small></div><div class="s">2026 방향 · 정부 정책은 정책 아카이브</div>`; g.appendChild(a); } }).catch(()=>{}); loadLgPu(lg.laf_cd).then(PU=>{ const g=document.querySelector('.glance'); if(PU&&g&&!document.getElementById('glPu')){ const a=document.createElement('a'); a.id='glPu'; a.href='#/lg/'+lg.laf_cd+'/budget'; a.style.cssText='--kc:var(--c4)'; a.innerHTML=`<div class="l">사업 내역 연결</div><div class="n">${num(PU.n)}<small>건</small></div><div class="s">2026 사업명세서 · 낱말 검색 가능</div>`; g.appendChild(a); } }).catch(()=>{}); const cd=lg.laf_cd; const q=id=>document.getElementById(id);
   try{ const K=await loadCtrt(cd); if(!q('glCtrt')) return;
-    if(K&&K.t){ q('glCtrt').textContent=num(K.t.n)+'건 · '+eok(K.t.a)+'억'; q('glCtrtS').textContent=`수의계약 ${isN(K.r10)?K.r10+'%':NA} · 업체 ${num(K.vn||0)}곳 · ${ymd(K.range?.[1])}까지`; }
+    if(K&&K.t){ q('glCtrt').textContent=num(K.t.n)+'건 · '+eok(K.t.a)+'억'; q('glCtrtS').textContent=`수의계약 ${isN(K.r10)?K.r10+'%':NA} · 업체 ${num(vnCount(K))}곳 · ${ymd(K.range?.[1])}까지`; }
     else { q('glCtrt').textContent=NA; if(!vOk(cd,'ct')&&S.vs?.types?.ct&&q('glCtrtS')) q('glCtrtS').textContent='원자료 대조에서 막혀 비움'; }
     const D=ctrtDiagnose(cd,K); if(!D&&q('glDiag')){ q('glDiag').textContent=NA; if(q('glDiagS')) q('glDiagS').textContent=K?'판정할 자료 없음':'계약대장 없음'; }
     if(D&&q('glDiag')){ const w=D.filter(x=>x.sev===2).length,c=D.filter(x=>x.sev===1).length; q('glDiag').innerHTML=w?`<em>경고 ${w}</em> · 주의 ${c}`:c?`주의 ${c}`:'해당 없음'; const top=D.find(x=>x.sev===2)||D.find(x=>x.sev===1); q('glDiagS').textContent=top?top.l:'6개 규칙 모두 정상 범위'; }
@@ -1108,13 +1110,13 @@ function ctrtDiagnose(cd,K){ if(!K) return null; const out=[]; const N=S.index.c
   out.push({l:'수의계약 비중 급증',v:isN(Y.r10)&&isN(P.r10)?((Y.r10-P.r10)>=0?'+':'')+(Y.r10-P.r10).toFixed(1)+'%p':NA,sev:sev2,note:n2,d:'직전 연도 대비 5%p 이상 오르면 주의, 10%p 이상이면 경고. 올해는 진행 중이라 연말에 달라질 수 있음.'});
   // 3. 특정 업체 집중 (CR5) + 수의계약 반복 수주 업체
   const C=K.c||{}; let sev3=0; if(isN(C.cr5)){ if(C.cr5>=60) sev3=2; else if(C.cr5>=40) sev3=1; }
-  const vs=(K.v||[]).filter(v=>!/조달청/.test(v[0])).map(v=>({nm:v[0],n:v[1],a:v[2],sn:v[3],sa:v[4]})).sort((a,b)=>b.sa-a.sa); const tot=K.t?.sa||0; const top=vs[0]; const share=top&&tot?top.sa/tot*100:null;
+  const vs=(K.v||[]).filter(v=>!isPPS(v[0])&&!isNonV(v[0])).map(v=>({nm:v[0],n:v[1],a:v[2],sn:v[3],sa:v[4]})).sort((a,b)=>b.sa-a.sa); const tot=K.t?.sa||0; const top=vs[0]; const share=top&&tot?top.sa/tot*100:null;
   let sev3b=0; if(isN(share)){ if(share>=25) sev3b=2; else if(share>=15) sev3b=1; }
   out.push({l:'상위 5개 업체 집중(CR5)',v:isN(C.cr5)?C.cr5+'%':NA,sev:sev3,note:`상위 5개 업체가 전체 계약금액의 ${isN(C.cr5)?C.cr5:'—'}% · HHI ${C.hhi??'—'} (조달청 대행 포함)`,d:'전체 계약금액 중 상위 5개 업체 몫. 40% 이상 주의, 60% 이상 경고.'});
   out.push({l:'수의계약 반복 수주 업체',v:top?esc(top.nm):NA,sev:sev3b,note:top?`수의계약 ${num(top.sn)}건 ${eok(top.sa)}억 · 수의계약 총액의 ${isN(share)?share.toFixed(1):'—'}%`:'',d:'조달청 대행을 뺀 업체 중 수의계약 금액이 가장 큰 곳. 수의 총액의 15% 이상 주의, 25% 이상 경고.',list:vs.slice(0,5)});
   // 4. 분할 발주 의심
-  const sp=(K.split||[]).filter(x=>x.n>=3); let sev4=0; if(sp.length>=5) sev4=2; else if(sp.length>=1) sev4=1;
-  out.push({l:'분할 발주 의심 묶음',v:num(sp.length)+'건',sev:sev4,note:sp.length?`같은 업체와 짧은 기간(2주 안) 3건 이상 계약한 묶음 ${sp.length}개 · 가장 큰 묶음 ${esc(sp[0].v)} ${sp[0].n}건 ${eok(sp[0].a)}억`:'',d:'한 업체와 며칠 사이 3건 이상 나눠 계약한 묶음. 1개 이상 주의, 5개 이상 경고. 사업 성격이 다르면 정상일 수 있음.',split:sp.slice(0,8)});
+  const sp=(K.split||[]).filter(x=>x.n>=3&&!isNonV(x.v)&&!isPPS(x.v)); let sev4=0; if(sp.length>=5) sev4=2; else if(sp.length>=1) sev4=1;
+  out.push({l:'분할 발주 검토 묶음',v:num(sp.length)+'건',sev:sev4,note:sp.length?`같은 업체와 31일 안에 수의계약 3건 이상(합산 2천만원 초과)한 묶음 ${sp.length}개 · 가장 큰 묶음 ${esc(sp[0].v)} ${sp[0].n}건 ${eok(sp[0].a)}억`:'',d:'한 업체와 31일 안에 수의계약 3건 이상(합산 2천만원 초과)을 맺은 묶음. 1개 이상 주의, 5개 이상 경고. 사업 성격이 다르면 정상일 수 있음.',split:sp.slice(0,8)});
   // 5. 수의 한도 직전 집중
   const b=K.nr||[]; let sev5=0, n5='';
   if(b.length>=3&&b[0]>0){ const jump=b[1]/b[0]; const drop=b[1]>0?1-b[2]/b[1]:null; if(jump>=1.2&&drop!=null&&drop>=0.5) sev5=2; else if(jump>=1.0&&drop!=null&&drop>=0.5) sev5=1; n5=`1,000~1,500만 ${num(b[0])}건 → 1,500~2,000만 ${num(b[1])}건 → 2,000~2,500만 ${num(b[2])}건${drop!=null?' · 한도 넘자 '+Math.round(drop*100)+'% 감소':''}`; }
@@ -1124,7 +1126,7 @@ function ctrtDiagHtml(cd,D){ if(!D) return '<div class="card" style="margin-top:
   const warn=D.filter(x=>x.sev===2).length, care=D.filter(x=>x.sev===1).length;
   return `<div class="card" style="margin-top:14px"><h3>계약 이상 징후 <span class="basis">규칙 ${D.length}개 · 경고 ${warn} · 주의 ${care}</span></h3><div class="mut" style="margin-bottom:8px">지방재정365 계약현황 전수(2021~) 집계에 규칙을 적용한 결과. 걸렸다고 위법은 아니며 계약 보기에서 건별로 확인해야 합니다.</div>
   <div class="tw"><table><thead><tr><th>규칙</th><th class="num">값</th><th>판정</th><th>근거</th></tr></thead><tbody>${D.map(x=>`<tr><td><b>${x.l}</b><div class="mut" style="font-size:11.5px">${x.d}</div></td><td class="num">${x.v}</td><td><b style="color:${CSEV[x.sev][1]}">${CSEV[x.sev][0]}</b></td><td class="mut">${x.note||'—'}</td></tr>`).join('')}</tbody></table></div>
-  ${(()=>{ const s=D.find(x=>x.split&&x.split.length); return s?`<div style="margin-top:10px"><b style="font-size:13px">분할 발주 의심 묶음</b><div class="tw"><table><thead><tr><th>업체</th><th>기간</th><th class="num">건수</th><th class="num">합계</th></tr></thead><tbody>${s.split.map(p=>`<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(p.v)}')"><td>${esc(p.v)}</td><td class="mut">${ymd(p.from)}~${ymd(p.to)}</td><td class="num">${p.n}</td><td class="num">${won(p.a)}</td></tr>`).join('')}</tbody></table></div></div>`:''; })()}
+  ${(()=>{ const s=D.find(x=>x.split&&x.split.length); return s?`<div style="margin-top:10px"><b style="font-size:13px">분할 발주 검토 묶음</b><div class="tw"><table><thead><tr><th>업체</th><th>기간</th><th class="num">건수</th><th class="num">합계</th></tr></thead><tbody>${s.split.map(p=>`<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(p.v)}')"><td>${esc(p.v)}</td><td class="mut">${ymd(p.from)}~${ymd(p.to)}</td><td class="num">${p.n}</td><td class="num">${won(p.a)}</td></tr>`).join('')}</tbody></table></div></div>`:''; })()}
   ${(()=>{ const s=D.find(x=>x.list&&x.list.length); return s?`<div style="margin-top:10px"><b style="font-size:13px">수의계약 금액 상위 업체 (조달청 제외)</b><div class="tw"><table><thead><tr><th>업체</th><th class="num">수의 건수</th><th class="num">수의 금액</th><th class="num">전체 건수</th></tr></thead><tbody>${s.list.map(v=>`<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(v.nm)}')"><td>${esc(v.nm)}</td><td class="num">${num(v.sn)}</td><td class="num">${won(v.sa)}</td><td class="num">${num(v.n)}</td></tr>`).join('')}</tbody></table></div></div>`:''; })()}
   <div class="act" style="margin-top:10px"><a class="btn" href="#/lg/${cd}/contract">계약 보기에서 건별 확인 →</a></div></div>`; }
 
@@ -1167,6 +1169,8 @@ async function openVendor(cd,name){ const md=document.getElementById('md'); cons
   <p class="src">지방재정365 계약대장(WCEGCF) 2021~2026 전국 전수에서 업체명을 정규화((주)·주식회사 등 제거)해 만든 역색인입니다. <b>사업자번호가 아닌 상호 기준</b>이라 같은 이름의 다른 업체가 섞일 수 있고, 조달청 경유 계약은 업체명이 '○○지방조달청'으로 기재되어 실제 납품업체가 가려질 수 있습니다. 한 곳에서만 계약한 업체는 색인에 담지 않았습니다.</p></div>`; }
 
 const CM=['수의1인견적','수의2인이상견적','일반경쟁','제한경쟁','지명경쟁'];
+/* 업체가 아닌 행정 처리 항목(사전원인행위·고지서 납부·구청 자체 등)과 조달청 대행 — 2026-10-27 서대문구 점검에서 업체 순위·쪼개기 검토에 섞인 것을 확인 */
+const NONV_RE=/원인행위|고지서|^(?:[가-힣]{1,8}\s?)?[가-힣]{1,6}(?:구청|군청|시청|도청)(?:장)?$/; function isNonV(n){ return NONV_RE.test(String(n||'')); } function isPPS(n){ return /조달청/.test(String(n||'')); } function vnCount(K){ return Math.max(0,(K.vn||0)-(K.v||[]).filter(v=>isNonV(v[0])).length); }
 function ctrtYears(K){ return Object.keys(K.y||{}).filter(y=>/^\d{4}$/.test(y)).sort(); }
 function ctrtRows(K,y){ let R=(K.r||[]).filter(r=>!y||String(r[0]).slice(0,4)===y);
   if(CB.kind) R=R.filter(r=>(r[3]||'')===CB.kind); if(CB.meth) R=R.filter(r=>(r[2]||'')===CB.meth);
@@ -1185,11 +1189,11 @@ function contractView(lg,K,g){ const cd=lg.laf_cd; S.cacheName=lg.master.display
   const meth=y?cur.m:(()=>{ const m={}; years.forEach(yy=>Object.entries(K.y[yy].m).forEach(([k,v])=>{ (m[k] ||= [0,0]); m[k][0]+=v[0]; m[k][1]+=v[1]; })); return m; })();
   const kind=y?cur.k:(()=>{ const m={}; years.forEach(yy=>Object.entries(K.y[yy].k).forEach(([k,v])=>{ (m[k] ||= [0,0]); m[k][0]+=v[0]; m[k][1]+=v[1]; })); return m; })();
   const rows=ctrtRows(K,y);
-  let vend=(K.v||[]).map(v=>({nm:v[0],n:y?(v[5][y]||[0,0])[0]:v[1],a:y?(v[5][y]||[0,0])[1]:v[2],sn:v[3],sa:v[4],ya:v[5]})).filter(v=>v.a>0);
+  let vend=(K.v||[]).map(v=>({nm:v[0],n:y?(v[5][y]||[0,0])[0]:v[1],a:y?(v[5][y]||[0,0])[1]:v[2],sn:v[3],sa:v[4],ya:v[5]})).filter(v=>v.a>0&&!isNonV(v.nm));
   if(CB.q) vend=vend.filter(v=>v.nm.includes(CB.q.trim()));
   vend.sort((a,b)=>CB.vsort==='n'?b.n-a.n:CB.vsort==='s'?b.sa-a.sa:b.a-a.a);
   const vtot=vend.reduce((a,v)=>a+v.a,0);
-  const suiTop=[...(K.v||[])].map(v=>({nm:v[0],n:v[1],a:v[2],sn:v[3],sa:v[4]})).filter(v=>v.sa>0).sort((a,b)=>b.sa-a.sa).slice(0,10);
+  const suiTop=[...(K.v||[])].map(v=>({nm:v[0],n:v[1],a:v[2],sn:v[3],sa:v[4]})).filter(v=>v.sa>0&&!isNonV(v.nm)&&!isPPS(v.nm)).sort((a,b)=>b.sa-a.sa).slice(0,10);
   const NR=natRank(cd,y);
   const one=(meth['수의1인견적']||[0,0]);
   const drop=nr&&nr[1]?Math.round((1-nr[2]/nr[1])*100):null;
@@ -1199,7 +1203,7 @@ function contractView(lg,K,g){ const cd=lg.laf_cd; S.cacheName=lg.master.display
   /* 최근 2년 vs 그 전 2년 업체 변화 */
   const ys=years.slice(-4); const recent=ys.slice(-2), prev=ys.slice(0,2);
   const chg=(K.v||[]).map(v=>{ const r2=recent.reduce((a,yy)=>a+((v[5][yy]||[0,0])[1]),0), p2=prev.reduce((a,yy)=>a+((v[5][yy]||[0,0])[1]),0);
-    return {nm:v[0], r2, p2, d:r2-p2, isNew:p2===0&&r2>0}; }).filter(o=>o.d>0).sort((a,b)=>b.d-a.d).slice(0,10);
+    return {nm:v[0], r2, p2, d:r2-p2, isNew:p2===0&&r2>0}; }).filter(o=>o.d>0&&!isNonV(o.nm)&&!isPPS(o.nm)).sort((a,b)=>b.d-a.d).slice(0,10);
   return `
   <div class="note blue" style="margin-top:0"><b>읽는 법</b> — 연도 탭으로 기간을 고르고, 필터·검색으로 좁히고, 업체 이름을 누르면 <b>그 업체가 전국 243곳과 맺은 계약</b>이 열립니다. 수의계약은 지방계약법이 허용하는 적법한 방식입니다. 계약이 한 업체에 몰렸다고 곧바로 위법·특혜는 아닙니다. 모든 숫자는 공개 자료의 기계적 집계입니다. 이 표는 지방재정365 계약대장(2021~) 기준이며, 최근 180일의 나라장터 계약·입찰공고는 <a href="gyeyak.html?sido=${encodeURIComponent(lg.master.sido_new||'')}&sgg=${lg.master.level==='기초'?encodeURIComponent(lg.master.display||''):''}&auto=1" target="_blank" rel="noopener"><b>나라장터 실시간 대시보드 ↗</b></a>에서 따로 볼 수 있습니다.</div>
 
@@ -1220,17 +1224,18 @@ function contractView(lg,K,g){ const cd=lg.laf_cd; S.cacheName=lg.master.display
     <div><div class="l">허핀달지수(HHI)</div><div class="n">${num(C?.hhi)}</div><div class="s">1,500 미만 경쟁적 · 2,500↑ 고집중</div></div>
   </div>
 
-  <section class="sec"><div class="sech"><span class="no">업체</span><h2>업체별 계약 순위</h2><span class="basis">${y||'전체 기간'} · 이름을 누르면 전국 계약 · 전체 ${num(K.vn)}개사</span></div>
+  <section class="sec"><div class="sech"><span class="no">업체</span><h2>업체별 계약 순위</h2><span class="basis">${y||'전체 기간'} · 이름을 누르면 전국 계약 · 전체 ${num(vnCount(K))}개사</span></div>
   <div class="tabs"><button class="${CB.vsort==='a'?'on':''}" onclick="CB.vsort='a';renderBudget(S.cache['${cd}'])">금액순</button><button class="${CB.vsort==='n'?'on':''}" onclick="CB.vsort='n';renderBudget(S.cache['${cd}'])">건수순</button><button class="${CB.vsort==='s'?'on':''}" onclick="CB.vsort='s';renderBudget(S.cache['${cd}'])">수의금액순</button><span class="sp"></span></div>
   <div class="tw"><table><thead><tr><th class="num">#</th><th>업체명</th><th class="num">건수</th><th class="num">계약금액</th><th class="num">점유율</th><th class="num">전 기간 수의 비중</th></tr></thead><tbody>
   ${vend.slice(0,CB.vtop).map((v,i)=>{ const share=v.a?null:null; const sv=(K.v||[]).find(x=>x[0]===v.nm)||[]; const sh=sv[2]?sv[4]/sv[2]*100:null;
-    return `<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(v.nm)}')"><td class="num">${i+1}</td><td><b>${esc(v.nm)}</b></td><td class="num">${num(v.n)}</td><td class="num">${won(v.a)}</td><td class="num">${pct(vtot?v.a/vtot*100:null)}</td><td class="num ${sh>=90?'neg':''}">${pct(sh)}</td></tr>`; }).join('')||'<tr><td colspan="6" class="mut">해당 없음</td></tr>'}
+    return `<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(v.nm)}')"><td class="num">${i+1}</td><td><b>${esc(v.nm)}</b>${isPPS(v.nm)?' <span class="tag">조달청 대행</span>':''}</td><td class="num">${num(v.n)}</td><td class="num">${won(v.a)}</td><td class="num">${pct(vtot?v.a/vtot*100:null)}</td><td class="num ${sh>=90?'neg':''}">${pct(sh)}</td></tr>`; }).join('')||'<tr><td colspan="6" class="mut">해당 없음</td></tr>'}
   </tbody></table></div>
   ${vend.length>CB.vtop?`<div class="pg"><button onclick="CB.vtop+=30;renderBudget(S.cache['${cd}'])">30개 더 보기 (${num(CB.vtop)}/${num(vend.length)})</button></div>`:''}
+  ${(K.v||[]).some(v=>isNonV(v[0]))?`<div class="mut" style="margin-top:6px">원자료 업체 칸에 업체가 아닌 행정 처리 항목(사전원인행위·고지서 납부·기관 자체 등)이 적힌 계약은 업체 순위에서 뺐습니다. 계약 목록에는 그대로 남아 있습니다.</div>`:''}
   </section>
 
 
-  <section class="sec"><div class="sech"><span class="no">한눈에</span><h2>어느 업체로 몰렸나</h2><span class="basis">전 기간 · 수의계약 금액 큰 순 · 업체를 누르면 전국 계약</span></div>
+  <section class="sec"><div class="sech"><span class="no">한눈에</span><h2>어느 업체로 몰렸나</h2><span class="basis">전 기간 · 수의계약 금액 큰 순 · 조달청 대행·행정 처리 항목 제외 · 업체를 누르면 전국 계약</span></div>
   <div class="tw"><table><thead><tr><th class="num">#</th><th>업체명</th><th class="num">전체 계약</th><th class="num">그중 수의계약</th><th class="num">수의 비중</th></tr></thead><tbody>
   ${suiTop.map((v,i)=>{ const sh=v.a?v.sa/v.a*100:null; return `<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(v.nm)}')"><td class="num">${i+1}</td><td><b>${esc(v.nm)}</b></td><td class="num">${num(v.n)}건 · ${won(v.a)}</td><td class="num">${num(v.sn)}건 · ${won(v.sa)}</td><td class="num ${sh>=90?'neg':''}"><b>${pct(sh,0)}</b></td></tr>`; }).join('')||'<tr><td colspan="5" class="mut">해당 없음</td></tr>'}
   </tbody></table></div>
@@ -1261,10 +1266,10 @@ function contractView(lg,K,g){ const cd=lg.laf_cd; S.cacheName=lg.master.display
     </tbody></table></div></div>
   </div></section>
 
-  ${(K.split||[]).length?`<section class="sec"><div class="sech"><span class="no">검토</span><h2>분할발주(쪼개기) 검토 대상</h2><span class="basis">같은 업체 · 31일 이내 수의계약 3건 이상 · 합산 2천만원 초과</span></div>
+  ${(()=>{ const SP=(K.split||[]).filter(x=>!isNonV(x.v)&&!isPPS(x.v)); return SP.length?`<section class="sec"><div class="sech"><span class="no">검토</span><h2>분할발주(쪼개기) 검토 대상</h2><span class="basis">같은 업체 · 31일 이내 수의계약 3건 이상 · 합산 2천만원 초과</span></div>
   <div class="tw"><table><thead><tr><th>업체</th><th>기간</th><th class="num">건수</th><th class="num">합산액</th></tr></thead><tbody>
-  ${K.split.slice(0,15).map(x=>`<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(x.v)}')"><td>${esc(x.v)}</td><td class="mut mono">${esc(x.from)} ~ ${esc(x.to)}</td><td class="num">${num(x.n)}</td><td class="num">${won(x.a)}</td></tr>`).join('')}
-  </tbody></table></div><div class="note">지방계약법 시행령 제77조는 동일인과의 분할 수의계약을 제한합니다. 다만 사업 성격상 정당한 반복 계약일 수 있어 <b>"의심"이 아니라 "검토 대상"</b>입니다. 관급자재·유류·급식 등 반복 구매와 조달청·협동조합은 제외했습니다. 전체 ${num(K.split.length)}묶음 중 상위 15개.</div></section>`:''}
+  ${SP.slice(0,15).map(x=>`<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(x.v)}')"><td>${esc(x.v)}</td><td class="mut mono">${esc(x.from)} ~ ${esc(x.to)}</td><td class="num">${num(x.n)}</td><td class="num">${won(x.a)}</td></tr>`).join('')}
+  </tbody></table></div><div class="note">지방계약법 시행령 제77조는 동일인과의 분할 수의계약을 제한합니다. 다만 사업 성격상 정당한 반복 계약일 수 있어 <b>"의심"이 아니라 "검토 대상"</b>입니다. 관급자재·유류·급식 등 반복 구매와 조달청·협동조합, 업체가 아닌 행정 처리 항목(사전원인행위·고지서 납부·기관 자체 등)은 제외했습니다. 전체 ${num(SP.length)}묶음 중 상위 ${Math.min(15,SP.length)}개.</div></section>`:''; })()}
 
   <section class="sec"><div class="sech"><span class="no">목록</span><h2>계약 목록</h2><span class="basis">${y||'전체 기간'} · 체결일 최신순</span></div>
   <div class="tw"><table><thead><tr><th>체결일</th><th>계약명</th><th>구분</th><th>계약방법</th><th>업체</th><th class="num">계약금액</th></tr></thead><tbody>
@@ -1856,7 +1861,7 @@ function bindSearch(q,sug){ if(!q||!sug||q._bound) return; q._bound=1; let cur=-
 bindSearch(document.getElementById('q'),document.getElementById('sug'));
 document.addEventListener('click',e=>{ if(!e.target.closest('.search')&&!e.target.closest('.bigq')) document.querySelectorAll('.sug').forEach(s=>s.style.display='none'); });
 
-function footer(){ return `<a href="index.html" style="color:var(--lime);font-weight:600;text-decoration:none">← 김보미.com 홈으로</a> &nbsp;·&nbsp; <a href="about.html" style="color:inherit">김보미는</a> &nbsp;·&nbsp; <a href="https://taxwatch.kr/" target="_blank" rel="noopener" style="color:inherit">재정주권시민행동 ↗</a><br><b>우리동네365</b> — 김보미.com. 자료는 원문 그대로 싣고 값을 만들지 않습니다. 확인되지 않은 값은 '—'로 비웁니다. 갱신 주기: 세부사업 집행(당해) 일 단위 · 계약 일 단위 · 재정공시·청렴도·금고이자율 연 단위. 2026.7.1 행정체계 개편(전남광주통합특별시·인천 4개 구)은 화면 표기에 반영했고, 재정 데이터 키는 2024 공시 체계를 유지합니다. 데이터 층 v${S.index?.v||1} · 빌드 ${S.index?.built_at?.slice(0,10)||''}<br><b>알려 드립니다</b> — 숫자는 정부 공개 원자료를 기계로 모으고 원자료·API·다른 공개 자료와 대조한 뒤 싣지만, 원자료 자체의 오류, 수집·계산 과정의 버그, 공개 시점 차이로 실제와 다를 수 있습니다. 중요한 판단에는 지방재정365 등 해당 기관의 원문을 꼭 확인해 주십시오. AI 봄이의 답변은 틀릴 수 있으며 공식 입장이나 법률·재정 자문이 아닙니다. 이 사이트의 정보를 이용해 생긴 결과에 대해 운영자는 법적 책임을 지지 않습니다. 틀린 값을 발견하시면 <a href="report.html" style="color:inherit;text-decoration:underline">소통·제보</a>로 알려 주십시오.`; }
+function footer(){ return `<a href="index.html" style="color:var(--lime);font-weight:600;text-decoration:none">← 김보미.com 홈으로</a> &nbsp;·&nbsp; <a href="about.html" style="color:inherit">김보미는</a> &nbsp;·&nbsp; <a href="https://taxwatch.kr/" target="_blank" rel="noopener" style="color:inherit">재정주권시민행동 ↗</a><br><b>우리동네365</b> — 김보미.com. 자료는 원문 그대로 싣고 값을 만들지 않습니다. 확인되지 않은 값은 '—'로 비웁니다. 갱신 주기: 세부사업 집행(당해)은 화면 위 기준일까지 저장한 값이며 「API로 새로고침」을 누르면 지방재정365의 가장 최근 날짜 값을 바로 받아 봅니다 · 계약대장은 계약 보기에 적힌 수집일까지 · 재정공시·청렴도·금고이자율 연 단위. 2026.7.1 행정체계 개편(전남광주통합특별시·인천 4개 구)은 화면 표기에 반영했고, 재정 데이터 키는 2024 공시 체계를 유지합니다. 데이터 층 v${S.index?.v||1} · 빌드 ${S.index?.built_at?.slice(0,10)||''}<br><b>알려 드립니다</b> — 숫자는 정부 공개 원자료를 기계로 모으고 원자료·API·다른 공개 자료와 대조한 뒤 싣지만, 원자료 자체의 오류, 수집·계산 과정의 버그, 공개 시점 차이로 실제와 다를 수 있습니다. 중요한 판단에는 지방재정365 등 해당 기관의 원문을 꼭 확인해 주십시오. AI 봄이의 답변은 틀릴 수 있으며 공식 입장이나 법률·재정 자문이 아닙니다. 이 사이트의 정보를 이용해 생긴 결과에 대해 운영자는 법적 책임을 지지 않습니다. 틀린 값을 발견하시면 <a href="report.html" style="color:inherit;text-decoration:underline">소통·제보</a>로 알려 주십시오.`; }
 
 /* ═══════════ 정책 아카이브 (정부 발표 정책·123대 국정과제) ═══════════
    자료: 정책브리핑(korea.kr)·부처 누리집 원문을 날짜순으로 모은 것.
