@@ -96,7 +96,7 @@
     'report':['제보하면 이름이 남나요?','생각 나누기는 누가 읽어요?'],
     'press':['요즘 김보미 소식은?','김보미는 어떤 사람이에요?']
   };
-  var MIX=['김보미는 어떤 사람이에요?','재정자립도가 뭐예요?','청년이 동네 일에 목소리 내려면?','우리 동네에 100억이 생긴다면?','내가 군수라면 뭘 먼저 할까?','정당 보조금은 왜 깜깜이예요?','청년 정책은 어디서 찾아요?','제보는 어떻게 해요?','본예산과 추경의 차이','수의계약이 뭔가요?'];
+  var MIX=['김보미는 어떤 사람이에요?','재정자립도가 뭐예요?','청년이 동네 일에 목소리 내려면?','우리 동네에 100억이 생긴다면?','정당 보조금은 왜 깜깜이예요?','청년 정책은 어디서 찾아요?','제보는 어떻게 해요?','본예산과 추경의 차이','수의계약이 뭔가요?'];
   var CHIPS=(function(){ var p=(location.pathname.split('/').pop()||'index').replace('.html','')||'index'; var a=(PAGE_CHIPS[p]||[]).slice(); var rest=MIX.filter(function(x){return a.indexOf(x)<0;}); for(var i=rest.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)); var t=rest[i]; rest[i]=rest[j]; rest[j]=t;} return a.concat(rest).slice(0,7); })();
   /* 대화 단계 → 무대의 자세 그림과 효과 글씨 */
   var ST={ bow:['bow','꾸벅'], hello:['hello','안녕!'], idle:['idle',''], listen:['idle','응응!'], think:['think','음…'], talk:['talk','설명할게!'], happy:['happy','짜잔!'], oops:['oops','앗!'] };
@@ -139,7 +139,7 @@
     function addBot(text,extra){ var r=el('<div class="bot"><span class="av"><img src="'+IMG+'face.webp" width="40" height="40" alt=""></span></div>'); var m=el('<div class="m"></div>'); m.textContent=text;
       if(extra){ var x=el('<span class="v"></span>'); x.textContent=extra; m.appendChild(x); } r.appendChild(m); var t=el('<span class="t"></span>'); t.textContent=hm(); r.appendChild(t); log.appendChild(r); log.scrollTop=log.scrollHeight; return m; }
     function addMe(text){ var r=el('<div class="me"><div class="m"></div><span class="t"></span></div>'); r.firstChild.textContent=text; r.lastChild.textContent=hm(); log.appendChild(r); log.scrollTop=log.scrollHeight; }
-    addBot('안녕하세요! 돋보기 든 봄이예요. 어려운 예산 용어는 물론이고, 김보미가 어떤 사람인지, 우리 동네 이야기, 청년들의 궁금증, "내가 군수라면?" 같은 상상 질문까지 뭐든 물어보세요. 김보미.com 어디에 답이 있는지도 찾아 드릴게요!');
+    addBot('안녕하세요! 돋보기 든 봄이예요. 어려운 예산 용어는 물론이고, 김보미가 어떤 사람인지, 우리 동네 이야기, 청년들의 궁금증까지 뭐든 물어보세요. 김보미.com 어디에 답이 있는지도 찾아 드릴게요!');
     CHIPS.forEach(function(c){ var b=el('<button type="button"></button>'); b.textContent=c; b.addEventListener('click',function(){ ask(c); }); chips.appendChild(b); });
     var lastFocus=null;
     function open(){ lastFocus=document.activeElement; preload(); box.classList.add('on'); fab.style.display='none'; state('bow',1500,'hello'); setTimeout(function(){ if(!busy) state('hello',1800); },1500);
