@@ -1684,10 +1684,18 @@ async function renderGov(sg){ const ix=await loadGovIndex(); if(sg) return rende
    27년 확정 칸은 국회 심의 전이라 비어 있다. 0으로 채우지 않고 그대로 비워 둔다. */
 const YRSW=(on)=>`<div class="gov-sw yr"><a href="#/gov" class="${on==='y26'?'on':''}">2026 확정예산<small>총지출 기준</small></a><a href="#/gov27" class="${on==='y27'?'on':''}">2027 정부안<small>예산+기금 총계</small></a></div>`;
 async function load27Index(){ if(S.g27ix) return S.g27ix; const r=await fetch('data/gov27-index.json'); if(!r.ok) throw new Error('2027 자료 없음'); return S.g27ix=await r.json(); }
+async function load27Docs(){ if(S.g27d!==undefined) return S.g27d; try{ const r=await fetch('data/gov27-docs.json'); S.g27d=r.ok?await r.json():null; }catch(e){ S.g27d=null; } return S.g27d; }
+function docs27Sec(D,ix){ if(!D) return ''; const miss=D.list.filter(x=>x.st!=='확보');
+  const nm=sg=>(ix.ministries.find(m=>m.sg===sg)||{}).nm||sg;
+  return `<div class="sech" style="margin-top:28px"><span class="no">원문</span><h2>정부 원문 자료 확보 현황</h2><span class="basis">${esc(D.asof)} 기준</span></div>
+  <div class="note" style="margin-top:0"><b>${D.n}곳 중 ${D.ok}곳</b>의 ${esc(D.what)}을 확보해 소관별로 정리했습니다. 각 소관 화면 아래에 어떤 권으로 나뉘어 있는지 적어 두었습니다.${miss.length?`<br><br><b>아직 원문이 없는 곳</b> — ${miss.map(x=>esc(nm(x.sg))+(x.st==='비공개'?' (세부 내역 비공개 기관)':' (확보 중)')).join(' · ')}. 숫자는 세부사업 내역으로 이미 보여 드리고, 원문 설명자료만 비어 있습니다.`:''}</div>`; }
+function docs27Min(D,sg){ const o=D&&D.list.find(x=>x.sg===sg); if(!o) return '';
+  if(o.st!=='확보') return `<div class="note" style="margin-top:14px"><b>정부 원문 사업설명자료</b> — ${o.st==='비공개'?'세부 내역을 공개하지 않는 기관이라 원문 설명자료가 없습니다.':'아직 확보하지 못했습니다. 확보하는 대로 채웁니다.'}</div>`;
+  return `<div class="note" style="margin-top:14px"><b>정부 원문 사업설명자료(공통요구자료 Ⅱ-1)</b> — ${o.docs.length}개 문서로 나뉘어 있습니다. 국회에 낸 원문이며 사업별 목적·근거·산출 내역은 이 문서에 있습니다.<ul style="margin:8px 0 0 18px;padding:0">${o.docs.map(d=>`<li>${esc(d.l)} <span class="basis">${esc(d.fmt.join('·').toUpperCase())}</span></li>`).join('')}</ul></div>`; }
 async function load27Min(sg){ S.g27={...(S.g27||{})}; if(S.g27[sg]) return S.g27[sg]; return S.g27[sg]=await gunzipB64('data/gov27/'+encodeURIComponent(sg)+'.txt'); }
 const rt=v=>isN(v)?(v>0?'+':'')+v.toLocaleString('ko-KR',{maximumFractionDigits:1})+'%':NA;
 
-async function renderGov27(sg){ const ix=await load27Index(); if(sg) return render27Min(ix,sg);
+async function renderGov27(sg){ const ix=await load27Index(); if(sg) return render27Min(ix,sg); const D27=await load27Docs();
   const M=ix.ministries;
   const d=ix.total_b27-ix.total_b26, r=d/ix.total_b26*100;
   document.getElementById('app').innerHTML=`
@@ -1714,13 +1722,14 @@ async function renderGov27(sg){ const ix=await load27Index(); if(sg) return rend
                 : Math.abs(x.rate)>=200 ? '<span class="tag warn">소관 이동</span>' : '';
       return `<a href="#/gov27/${encodeURIComponent(x.sg)}"><b>${esc(x.nm)}</b><div class="n">${mkor(x.b27)}<small>원</small></div><div class="m"><span>2026 대비 ${rt(x.rate)}</span><span>세부사업 ${num(x.n)}건</span>${tag}</div></a>`;}).join('')}</div>
     <p class="basis" style="margin:14px 0 0">출처: ${esc(ix.src.data)} · 단위 ${esc(ix.src.unit)} · 자료 빌드 ${esc(ix.built_at)} · 2027년 확정예산은 국회 의결 뒤에 채웁니다.</p>
+     ${docs27Sec(D27,ix)}
   </div>`;
   bindGovSearch(document.getElementById('gq'),document.getElementById('gqSug'),'27');
 }
 
 const G27={q:'',f:'',sort:'b27'};
 async function render27Min(ix,sg){ const N=s=>String(s).replace(/[\s·]/g,''); const m=ix.ministries.find(x=>x.sg===sg)||ix.ministries.find(x=>N(x.sg)===N(sg)); if(!m) throw new Error('소관을 찾지 못했습니다'); sg=m.sg;
-  const P=await load27Min(sg); G27.q=''; G27.f=''; G27.sort='b27';
+  const P=await load27Min(sg); const D27=await load27Docs(); G27.q=''; G27.f=''; G27.sort='b27';
   const flds=[...new Set(P.map(x=>x.f).filter(Boolean))].sort();
   document.getElementById('app').innerHTML=`
   <div class="wrap" style="padding-top:18px">${GOVSW('gov')}${YRSW('y27')}</div>
@@ -1743,6 +1752,7 @@ async function render27Min(ix,sg){ const N=s=>String(s).replace(/[\s·]/g,''); c
     </div>
     <div id="t27"></div>
     <p class="basis" style="margin:14px 0 0">출처: ${esc(ix.src.data)} · 금액이 없는 항목은 ${NA}로 두었고 0으로 채우지 않았습니다. 국회 심의 전 정부안입니다.</p>
+    ${docs27Min(D27,sg)}
   </div>`;
   const draw=()=>{
     const q=G27.q.trim(), f=document.getElementById('f27').value;
