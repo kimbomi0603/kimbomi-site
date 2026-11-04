@@ -164,7 +164,7 @@ main{padding-bottom:46px}
 
 .hero{padding:26px 0 10px}
 .hin{display:grid;grid-template-columns:400px 1fr;gap:34px;align-items:center}
-.hpic{margin:0;border-radius:var(--r-lg);overflow:hidden;background:var(--green2);border:1px solid var(--line)}
+.hpic{margin:0;border-radius:var(--r-lg);overflow:hidden;background:#EFE7D6;border:1px solid var(--line)}
 .hpic img{display:block;width:100%;height:auto}
 .hbd{display:flex;flex-direction:column;justify-content:center;padding:6px 0}
 .hbd .role{font-size:.85rem;font-weight:700;color:var(--green);letter-spacing:.02em;margin:0 0 6px}
@@ -367,8 +367,36 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   .top365 .f365 .fr span{font-size:.76rem}
   .top365 + .hero{padding-top:28px}
 }
+
+/* ── Gemini 이미지 배치 (2026.11) ── */
+.mb .top{gap:12px}
+.mb .top .g3i{width:52px;height:52px}
+.f365{padding-top:0;overflow:hidden}
+.f365band{margin:0 -28px 22px;height:250px}
+.f365band img{object-position:50% 58%}
+.f365 .big .ic{background:#F3EEE3;overflow:hidden;border-radius:13px;width:52px;height:52px}
+.f365 .big .ic img{display:block;width:100%;height:100%;object-fit:cover}
+.pm{padding-top:0;overflow:hidden}
+.pmband{grid-column:1/-1;margin:0 -32px 4px;height:230px}
+.pmband img{object-position:50% 62%}
+.vband{border-radius:var(--r-lg);height:210px;margin:0 0 20px}
+.vband img{object-position:50% 70%;transition:transform .5s}
+.vband:hover img{transform:scale(1.03)}
+.arch{flex-wrap:nowrap}
+.arch .at{flex:1;min-width:0}
+@media(max-width:980px){.f365band{margin:0 -22px 18px;height:210px}}
+@media(max-width:760px){
+  .f365band{margin:0 -22px 16px;height:170px}
+  .top365 .f365band{margin:-22px -18px 16px}
+  .pm{padding:0 20px 24px}
+  .pmband{margin:0 -20px 4px;height:170px}
+  .vband{height:150px}
+  .arch{flex-wrap:wrap}
+  .arch .g3i.lg{width:56px;height:56px}
+}
 </style>
 <link rel="stylesheet" href="assets/kb-common.css">
+<link rel="stylesheet" href="assets/kb-g3d.css">
 <script src="assets/kb-prefs.js" defer></script>
 </head>
 <body>
@@ -394,7 +422,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 
 <!-- 1. 프로필 히어로 -->
 <section class="hero"><div class="w"><div class="hin">
-  <figure class="hpic"><img src="img/kb-hero.jpg" alt="김보미" fetchpriority="high"></figure>
+  <figure class="hpic"><img src="img/g3d/figure-hero.webp" srcset="img/g3d/figure-hero-480.webp 480w, img/g3d/figure-hero.webp 825w" sizes="(max-width:760px) 70vw, 400px" width="825" height="1024" alt="김보미 리얼 피규어 — 손을 들어 인사하는 모습" fetchpriority="high"></figure>
   <div class="hbd">
     <p class="role">재정주권시민행동 공동대표 · 전 강진군의회 의장</p>
     <h1>김보미</h1>
@@ -413,28 +441,28 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 <section class="sec"><div class="w">
   <div class="m6 m4">
     <a class="mb " href="about.html">
-      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.8 20c.9-3.7 3.8-5.6 7.2-5.6s6.3 1.9 7.2 5.6"/></svg></span><span class="k">풀뿌리 13년</span></span>
+      <span class="top"><img class="g3i" src="img/g3d/ic-about.webp" alt="" width="56" height="56" loading="lazy"><span class="k">풀뿌리 13년</span></span>
       <h3>김보미는</h3>
       <p>계파도 돈도 없이 오직 국민을 바라보고 정치를 배웠습니다. 스물여덟에 군의원, 서른둘에 전국 최연소 의장. 8년 의정의 숫자와 걸어온 길을 남깁니다.</p>
       <span class="meta">약력 · 걸어온 길 · 의정 성과 · 사진</span>
       <span class="go">소개 보기 <i>→</i></span>
     </a>
     <a class="mb " href="vision.html">
-      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1-4.2L16.6 4.2a1.7 1.7 0 0 1 2.4 0l.8.8a1.7 1.7 0 0 1 0 2.4L8.2 19z"/><path d="M14.5 6.3l3.2 3.2M4 20h16"/></svg></span><span class="k">개혁 의제</span></span>
+      <span class="top"><img class="g3i" src="img/g3d/ic-vision.webp" alt="" width="56" height="56" loading="lazy"><span class="k">개혁 의제</span></span>
       <h3>김보미생각</h3>
       <p>공천 혁신, 세대교체, 밀실 정치 청산. 정치를 시스템으로 바꾸자는 제안과 현안에 대한 입장을 소상히 밝힙니다.</p>
       <span class="meta">정치개혁 제안 · 현안 입장 · 최신순</span>
       <span class="go">글 읽기 <i>→</i></span>
     </a>
     <a class="mb navy" href="https://taxwatch.kr/" target="_blank" rel="noopener">
-      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.2s-7-4.3-7-9.6a4 4 0 0 1 7-2.6 4 4 0 0 1 7 2.6c0 5.3-7 9.6-7 9.6z"/></svg></span><span class="k">시민단체 · 공동대표</span></span>
+      <span class="top"><img class="g3i" src="img/g3d/ic-taxwatch.webp" alt="" width="56" height="56" loading="lazy"><span class="k">시민단체 · 공동대표</span></span>
       <h3>재정주권시민행동</h3>
       <p>2026년 예산 세부사업 7,796건(59개 기관, 2026.10.3 taxwatch.kr 기준)을 하나하나 공개했습니다. 김보미가 공동대표로 뛰고 있습니다.</p>
       <span class="meta">예산 감시 운동 · 회원가입 · 후원</span>
       <span class="go">taxwatch.kr로 이동 <i>↗</i></span>
     </a>
     <a class="mb " href="press.html">
-      <span class="top"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="14" height="14.5" rx="1.6"/><path d="M17.5 9h3v8.5a2 2 0 0 1-2 2M7 9h7M7 12.5h7M7 16h4"/></svg></span><span class="k">언론이 본 김보미</span></span>
+      <span class="top"><img class="g3i" src="img/g3d/ic-press.webp" alt="" width="56" height="56" loading="lazy"><span class="k">언론이 본 김보미</span></span>
       <h3>언론·영상</h3>
       <p>신문·방송 인터뷰와 기사, 유튜브 영상을 최신순으로 모았습니다. 원문 링크로 바로 이어집니다.</p>
       <span class="meta">기사 · 인터뷰 · 방송 · 유튜브</span>
@@ -443,12 +471,13 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   </div>
 
   <div class="f365">
+    <figure class="g3band f365band"><img src="img/g3d/scene-365.webp" srcset="img/g3d/scene-365-640.webp 640w, img/g3d/scene-365.webp 1024w" sizes="(max-width:760px) 100vw, 1100px" width="1024" height="572" alt="돋보기로 비춰 보는 우리 동네 미니어처" loading="lazy"></figure>
     <div class="fl">
       <span class="k">지방재정 · 중앙재정 · 공공데이터</span>
       <h2>우리동네365 <em>내 동네 3초 확인</em></h2>
       <p class="lead">전국 지방정부 243곳과 중앙정부 62개 부처의 예산을 한 화면에서 확인할 수 있습니다. 올해 세부사업과 계약대장 전수, 단체장 공약이 예산에 실제로 반영됐는지까지 보입니다. 수의계약 비중이나 특정 업체 반복 수주 같은 계약 이상 징후도 걸러서 보여 줍니다. 정부가 발표한 굵직한 정책도 같이 있어, 정책 하나를 열면 그 정책이 우리 동네 예산에 어떻게 잡혔는지 바로 나옵니다. 예산과 계약, 집행 내역을 이렇게 투명하게 공개하는 것이 재정주권의 시작입니다.</p>
       <button type="button" class="more" aria-expanded="false" hidden>설명 더 보기 ▾</button>
-      <div class="gos"><a class="big wide" href="budget365.html"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.6" cy="10.6" r="6.6"/><path d="m19.6 19.6-4.3-4.3"/></svg></span><span class="tx"><b>지방정부 243개 <span style="white-space:nowrap">시·군·구</span></b><small>예산·집행·계약·공약·이상 징후 한 화면에</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/key"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.6" cy="10.6" r="6.6"/><path d="m19.6 19.6-4.3-4.3"/></svg></span><span class="tx"><b>정부 정책, 내 동네에서는</b><small>메가프로젝트·성장펀드·5극3특이 우리 동네 예산에</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/gov"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.6" cy="10.6" r="6.6"/><path d="m19.6 19.6-4.3-4.3"/></svg></span><span class="tx"><b>중앙정부 예산 <em class="nb">2026 · 2027</em></b><small>62개 부처 · 들어가서 올해 확정예산과 내년 정부안을 골라 봅니다</small></span><i aria-hidden="true">→</i></a></div><p class="gnote">중앙정부 부처는 2026.1.2 출범한 기획예산처를 포함해 62곳입니다(기획예산처의 2026 확정예산은 재정경제부에 포함). 2027 정부안에는 중대범죄수사청·진실·화해를위한과거사정리위원회가 새 소관으로 더해져 64곳이 됩니다. 2026년은 열린재정 확정예산 편성 소관, 2027년은 국회 제출본의 소관 기준입니다.</p>
+      <div class="gos"><a class="big wide" href="budget365.html"><span class="ic"><img src="img/g3d/ic-local.webp" alt="" width="46" height="46" loading="lazy"></span><span class="tx"><b>지방정부 243개 <span style="white-space:nowrap">시·군·구</span></b><small>예산·집행·계약·공약·이상 징후 한 화면에</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/key"><span class="ic"><img src="img/g3d/ic-policy.webp" alt="" width="46" height="46" loading="lazy"></span><span class="tx"><b>정부 정책, 내 동네에서는</b><small>메가프로젝트·성장펀드·5극3특이 우리 동네 예산에</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/gov"><span class="ic"><img src="img/g3d/ic-gov.webp" alt="" width="46" height="46" loading="lazy"></span><span class="tx"><b>중앙정부 예산 <em class="nb">2026 · 2027</em></b><small>62개 부처 · 들어가서 올해 확정예산과 내년 정부안을 골라 봅니다</small></span><i aria-hidden="true">→</i></a></div><p class="gnote">중앙정부 부처는 2026.1.2 출범한 기획예산처를 포함해 62곳입니다(기획예산처의 2026 확정예산은 재정경제부에 포함). 2027 정부안에는 중대범죄수사청·진실·화해를위한과거사정리위원회가 새 소관으로 더해져 64곳이 됩니다. 2026년은 열린재정 확정예산 편성 소관, 2027년은 국회 제출본의 소관 기준입니다.</p>
     </div>
     <div class="fr">
       <div><b>243</b><span>지방정부 전수</span></div>
@@ -473,6 +502,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 <!-- 4. 정당 돈 -->
 <section class="sec"><div class="w">
   <div class="pm">
+    <figure class="g3band pmband"><img src="img/g3d/scene-money.webp" srcset="img/g3d/scene-money-640.webp 640w, img/g3d/scene-money.webp 1024w" sizes="(max-width:760px) 100vw, 1100px" width="1024" height="572" alt="커튼 뒤 돈자루를 손전등으로 비추는 시민들 미니어처" loading="lazy"></figure>
     <div>
       <span class="k">정치개혁 · 정당 재정 공개</span>
       <h2>거대 양당의 '깜깜이 돈잔치',<br>언제 공개할 겁니까</h2>
@@ -489,6 +519,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 
 <!-- 5. 김보미 생각 -->
 <section class="sec"><div class="w">
+  <a class="g3band vband" href="vision.html" aria-label="김보미생각 글 모아 보기"><img src="img/g3d/scene-vision.webp" srcset="img/g3d/scene-vision-640.webp 640w, img/g3d/scene-vision.webp 1024w" sizes="(max-width:760px) 100vw, 1100px" width="1024" height="572" alt="밀실 문을 열어젖히는 청년들 미니어처" loading="lazy"></a>
   <p class="eyebrow">개혁 의제 · 김보미생각</p>
   <div class="vhd">
     <h2>깜깜이 밀실이 아니라 공개된 글로 말합니다</h2>
@@ -507,7 +538,8 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 
   <!-- 지난 기록 -->
   <a class="arch" href="archive.html">
-    <div>
+    <img class="g3i lg" src="img/g3d/ic-archive.webp" alt="" width="72" height="72" loading="lazy">
+    <div class="at">
       <span class="k">지난 기록</span>
       <h3>2026 당대표 예비경선 기록</h3>
       <p>계파도 조직도 없이 나섰던 그해 여름의 기록입니다. 출마선언문, 25개 약속, 감사 인사를 한 글자도 고치지 않고 둡니다. 감사한 과정을 가슴에 새깁니다.</p>
@@ -515,7 +547,8 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
     <span class="go">기록 보러 가기 →</span>
   </a>
   <a class="arch" href="almedalen.html" style="margin-top:12px">
-    <div>
+    <img class="g3i lg" src="img/g3d/ic-speech.webp" alt="" width="72" height="72" loading="lazy">
+    <div class="at">
       <span class="k">국제 무대</span>
       <h3>스웨덴 알메달렌 광장연설 (2026)</h3>
       <p>58년 전 올로프 팔메가 섰던 스웨덴 알메달렌 광장에서 한국 청년 정치와 정당 민주주의를 외쳤습니다. 전문을 한국어·영어·스웨덴어로 둡니다.</p>

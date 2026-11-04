@@ -1,0 +1,35 @@
+/* kb-g3d.css — Gemini로 만든 실사 피규어·미니어처 이미지를 페이지에 얹는 공통 스타일 (2026.11)
+   이미지: img/g3d/  (figure-*: 김보미 리얼 피규어, scene-*: 미니어처 디오라마, ic-*: 버튼용 3D 아이콘) */
+
+/* 버튼·카드용 3D 아이콘 타일 — 크림색 배경이 이미지에 포함돼 있어 둥근 타일로 보인다 */
+.g3i{display:block;width:56px;height:56px;border-radius:14px;object-fit:cover;flex:none;
+  background:#F3EEE3;box-shadow:0 1px 0 rgba(0,0,0,.04),0 4px 12px rgba(15,35,64,.08)}
+.g3i.sm{width:42px;height:42px;border-radius:11px}
+.g3i.lg{width:72px;height:72px;border-radius:18px}
+
+/* 섹션 위 와이드 배너(디오라마) — 부모 상자의 모서리에 꼭 맞춘다 */
+.g3band{display:block;overflow:hidden;position:relative;background:#1b2a3f}
+.g3band img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* 서브페이지 머리말: 왼쪽 글 + 오른쪽 이미지 */
+.g3hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,44%);gap:34px;align-items:center;text-align:left}
+.g3hero .g3t{min-width:0}
+.g3hero .g3f{margin:0;border-radius:18px;overflow:hidden;aspect-ratio:16/9;background:#1b2a3f;
+  box-shadow:0 18px 40px rgba(15,35,64,.18)}
+.g3hero .g3f img{display:block;width:100%;height:100%;object-fit:cover}
+.g3hero .g3f.fig{aspect-ratio:auto;background:#EFE7D6;box-shadow:none;max-width:340px;justify-self:center}
+.g3hero .g3f.fig img{height:auto}
+.g3hero h1,.g3hero p{text-align:left}
+
+@media(max-width:820px){
+  .g3hero{grid-template-columns:1fr;gap:20px}
+  .g3hero .g3f{order:-1}
+  .g3hero .g3f.fig{max-width:240px}
+}
+@media(prefers-reduced-motion:no-preference){
+  .g3hero .g3f img,.g3band img{animation:g3in .7s ease both}
+  @keyframes g3in{from{opacity:0;transform:scale(1.03)}to{opacity:1;transform:none}}
+}
+
+/* 글자 버튼 안의 작은 3D 아이콘 (이모지 대신) */
+.g3i.in{display:inline-block;width:28px;height:28px;border-radius:8px;vertical-align:middle;margin:-4px 6px -2px 0;box-shadow:none}
