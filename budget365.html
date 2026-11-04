@@ -303,6 +303,17 @@ tr.row{cursor:pointer}tr.row:hover td{background:var(--gold-soft)!important}
 .zsw a.on{background:var(--rule);color:#fff}
 .zsw a.on small{color:rgba(255,255,255,.75)}
 .zsw .lg{--zc:var(--z-lg)} .zsw .gov{--zc:var(--z-gov)} .zsw .pol{--zc:var(--z-pol)}
+/* Gemini 이미지 (2026.11) — 구역 탭 3D 아이콘, 첫 화면 미니어처 */
+.zsw a{display:flex;align-items:center;justify-content:center;gap:10px;text-align:left}
+.zsw .zi{width:40px;height:40px;border-radius:10px;flex:none;object-fit:cover;background:#F3EEE3}
+.zsw a.on .zi{box-shadow:0 0 0 2px rgba(255,255,255,.5)}
+.h365pic{display:none;margin:0}
+@media (min-width:1180px){
+  .h365pic{display:block;position:absolute;right:24px;top:40px;width:min(36%,440px);aspect-ratio:16/9;overflow:hidden;border-radius:16px;box-shadow:0 18px 40px rgba(15,35,64,.16)}
+  .h365pic img{display:block;width:100%;height:100%;object-fit:cover}
+}
+@media (max-width:640px){.zsw a{flex-direction:column;gap:4px;text-align:center}.zsw .zi{width:30px;height:30px;border-radius:8px}}
+
 @media (max-width:640px){.zsw a{font-size:13.5px;padding:8px 4px 7px}.zsw a small{display:none}.gov-sw.pol a{font-size:13.5px;padding:9px 4px}.gov-sw.pol a small{display:none}}
 .zone{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 9px 3px 7px;margin-bottom:8px;border:1px solid var(--line-2);background:var(--card);color:var(--ink-2)}
 .zone::before{content:"";width:10px;height:10px;background:var(--zc)}
@@ -970,6 +981,7 @@ function renderHome(sido){ const R=S.index.rows; const live=R.filter(x=>x.live_2
   document.getElementById('app').innerHTML=`
   <div class="wrap" style="padding-top:18px">${GOVSW('lg')}</div>
   <div class="band"><div class="wrap hero">
+    <figure class="h365pic"><img src="img/g3d/scene-365.webp" srcset="img/g3d/scene-365-640.webp 640w, img/g3d/scene-365.webp 1024w" sizes="440px" width="1024" height="572" alt="돋보기로 비춰 보는 우리 동네 미니어처"></figure>
     <span class="zone lg">지방정부</span><br>
     <span class="pill"><i></i>지방정부 전수 · 전국 ${live.length}개 지자체 · ${ymd(asof)} 기준</span>
     <h1>세금의 주인은<br><em>국민</em>입니다</h1>
@@ -1627,7 +1639,7 @@ async function gunzipB64(url){ const r=await fetch(url); if(!r.ok) throw new Err
    ※ 두 숫자는 기준이 다르다. 공식 총액은 '총지출 기준'(회계·기금 간 내부거래 제외),
      세부사업 합계는 '총계 기준'(내부거래 포함). 한쪽으로 합치지 않고 그대로 나란히 둔다.
    ※ 금액이 공개되지 않은 사업은 '—'. 0으로 채우지 않는다. */
-const GOVSW=(on)=>`<div class="zsw"><a href="#/" class="lg ${on==='lg'?'on':''}">지방정부<small>243개 시·군·구 예산·집행·계약</small></a><a href="#/gov" class="gov ${on==='gov'?'on':''}">중앙정부<small>62개 부처 예산</small></a><a href="#/key" class="pol ${on==='pol'?'on':''}">정책 아카이브<small>핵심 정책·발표 정책·국정과제</small></a></div>`;
+const GOVSW=(on)=>`<div class="zsw"><a href="#/" class="lg ${on==='lg'?'on':''}"><img class="zi" src="img/g3d/ic-local.webp" alt="" width="40" height="40"><span>지방정부<small>243개 시·군·구 예산·집행·계약</small></span></a><a href="#/gov" class="gov ${on==='gov'?'on':''}"><img class="zi" src="img/g3d/ic-gov.webp" alt="" width="40" height="40"><span>중앙정부<small>62개 부처 예산</small></span></a><a href="#/key" class="pol ${on==='pol'?'on':''}"><img class="zi" src="img/g3d/ic-policy.webp" alt="" width="40" height="40"><span>정책 아카이브<small>핵심 정책·발표 정책·국정과제</small></span></a></div>`;
 async function loadGovIndex(){ if(S.govix) return S.govix; const r=await fetch('data/gov-index.json'); if(!r.ok) throw new Error('중앙정부 자료 없음'); return S.govix=await r.json(); }
 /* 사업 목적: 각 부처 2026 사업설명자료(공통 Ⅱ-1) '1) 사업목적·내용'에서 뽑은 문장. 없는 부처는 null */
 async function loadGovPuIndex(){ if(S.govpuix!==undefined) return S.govpuix; try{ const r=await fetch('data/govpu/_index.json'); S.govpuix=r.ok?await r.json():null; }catch(e){ S.govpuix=null; } return S.govpuix; }

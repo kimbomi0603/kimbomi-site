@@ -114,6 +114,7 @@ textarea.field{min-height:180px;resize:vertical;line-height:1.7}
 <!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
 <script src="assets/kb-format.js"></script>
 <link rel="stylesheet" href="assets/kb-common.css">
+<link rel="stylesheet" href="assets/kb-g3d.css">
 <style id="kb-theme-unify">
 /* 2026-09-24 새 메인(크림·딥그린·네이비) 통일 — 예전 캠프(파랑) 테마 덮어쓰기 */
 :root{--dpk:#0F5A4A;--dpk-2:#16305A;--dpk-dark:#0B4639;--navy:#16305A;--tint:#E8EFEA;--tint-2:#D7E3DA;--ink:#17181A;--muted:#55565A;--line:#E4DFD3;--cream:#F5F2EA;--white:#F5F2EA;--yellow:#C99A2E;--brick:#0F5A4A;
@@ -254,18 +255,21 @@ header{background:rgba(245,242,234,.94)}
 </header>
 
 <section class="hero">
-  <div class="wrap">
-    <div class="ic">💬</div>
+  <div class="wrap g3hero">
+  <div class="g3t">
+    <img class="g3i" src="img/g3d/ic-report.webp" alt="" width="56" height="56">
     <h1>생각은 나누고, 제보는 지킵니다</h1>
     <p>남겨 주신 생각은 매일 제가 읽습니다. 제보는 이름·전화·이메일을 받지 않고 운영자 한 사람만 봅니다.<br>여러분의 방패가 되겠습니다.</p>
+  </div>
+  <figure class="g3f"><img src="img/g3d/scene-report.webp" srcset="img/g3d/scene-report-640.webp 640w, img/g3d/scene-report.webp 1024w" sizes="(max-width:820px) 92vw, 480px" width="1024" height="572" alt="우체통에 편지를 넣는 시민들 미니어처" fetchpriority="high"></figure>
   </div>
 </section>
 
 <main class="wrap">
 
   <div class="bigtabs">
-    <button class="bigtab on" id="tabTh" type="button">💬 생각 나누기</button>
-    <button class="bigtab" id="tabRp" type="button">🛡️ 부당지시 제보센터</button>
+    <button class="bigtab on" id="tabTh" type="button"><img class="g3i in" src="img/g3d/ic-report.webp" alt="" width="28" height="28">생각 나누기</button>
+    <button class="bigtab" id="tabRp" type="button"><img class="g3i in" src="img/g3d/ic-privacy.webp" alt="" width="28" height="28">부당지시 제보센터</button>
     
   </div>
 
@@ -281,7 +285,7 @@ header{background:rgba(245,242,234,.94)}
           <input id="twHp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none">
         </div>
         <textarea aria-label="남기실 생각" class="field" id="twMsg" placeholder="여러분이 그리는 민주당, 만들고 싶은 대한민국을 자유롭게 남겨주세요." maxlength="1000" required></textarea>
-        <button type="submit" class="tw-btn">💬 생각 남기기</button>
+        <button type="submit" class="tw-btn"><img class="g3i in" src="img/g3d/ic-vision.webp" alt="" width="28" height="28">생각 남기기</button>
         <p class="tw-note">남겨주신 생각은 매일 모두 읽고, 모아서 활동으로 답하겠습니다.</p>
       </form>
       <div class="tw-wall">
