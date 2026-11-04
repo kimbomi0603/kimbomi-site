@@ -307,10 +307,12 @@ tr.row{cursor:pointer}tr.row:hover td{background:var(--gold-soft)!important}
 .zsw a{display:flex;align-items:center;justify-content:center;gap:10px;text-align:left}
 .zsw .zi{width:40px;height:40px;border-radius:10px;flex:none;object-fit:cover;background:#F3EEE3}
 .zsw a.on .zi{box-shadow:0 0 0 2px rgba(255,255,255,.5)}
+.hero,.lgband{position:relative}
 .h365pic{display:none;margin:0}
 @media (min-width:1180px){
   .h365pic{display:block;position:absolute;right:24px;top:40px;width:min(36%,440px);aspect-ratio:16/9;overflow:hidden;border-radius:16px;box-shadow:0 18px 40px rgba(15,35,64,.16)}
   .h365pic img{display:block;width:100%;height:100%;object-fit:cover}
+  .lgband:has(> .h365pic) > :not(.h365pic):not(.zone):not(br):not(.pill){max-width:calc(100% - min(36%,440px) - 48px)}
 }
 @media (max-width:640px){.zsw a{flex-direction:column;gap:4px;text-align:center}.zsw .zi{width:30px;height:30px;border-radius:8px}}
 
@@ -1667,6 +1669,7 @@ async function renderGov(sg){ const ix=await loadGovIndex(); if(sg) return rende
   document.getElementById('app').innerHTML=`
   <div class="wrap" style="padding-top:18px">${GOVSW('gov')}${YRSW('y26')}</div>
   <div class="band"><div class="wrap hero">
+    <figure class="h365pic"><img src="img/g3d/scene-gov.webp" srcset="img/g3d/scene-gov-640.webp 640w, img/g3d/scene-gov.webp 1024w" sizes="440px" width="1024" height="572" alt="정부청사 앞 장부를 들여다보는 사람들 미니어처"></figure>
     <span class="zone gov">중앙정부</span><br>
     <span class="pill"><i></i>중앙정부 ${M.length}개 부처 · 2026 확정예산 기준</span>
     <h1>중앙정부 예산도<br><em>같은 장부</em>로 봅니다</h1>
@@ -1713,6 +1716,7 @@ async function renderGov27(sg){ const ix=await load27Index(); if(sg) return rend
   document.getElementById('app').innerHTML=`
   <div class="wrap" style="padding-top:18px">${GOVSW('gov')}${YRSW('y27')}</div>
   <div class="band"><div class="wrap hero">
+    <figure class="h365pic"><img src="img/g3d/scene-gov.webp" srcset="img/g3d/scene-gov-640.webp 640w, img/g3d/scene-gov.webp 1024w" sizes="440px" width="1024" height="572" alt="정부청사 앞 장부를 들여다보는 사람들 미니어처"></figure>
     <span class="zone gov">중앙정부</span><br>
     <span class="pill"><i></i>중앙정부 ${M.length}개 소관 · 2027 정부안 (국회 심의 중)</span>
     <h1>내년 예산안,<br><em>국회 가기 전</em>에 봅니다</h1>
@@ -1986,6 +1990,7 @@ async function renderPolicy(id){ const D=await loadPolicy();
   <section class="wrap">
     ${POLSW('policy')}
     <div class="lgband">
+      <figure class="h365pic"><img src="img/g3d/scene-archive.webp" srcset="img/g3d/scene-archive-640.webp 640w, img/g3d/scene-archive.webp 1024w" sizes="440px" width="1024" height="572" alt="서가 가득한 정책 기록 보관소 미니어처"></figure>
       <span class="zone pol">정책 아카이브</span><br>
       <span class="pill"><i></i>2025.6 ~ ${String(D.items[0].date).slice(0,7).replace('-','.')} · 정부 발표 ${num(D.items.length)}건 · 핵심 ${D.items.filter(x=>x.tier===1).length}건</span>
       <h1>정부가 무엇을 발표했는지<br><em>날짜순</em>으로 봅니다</h1>
@@ -2196,6 +2201,7 @@ async function renderTasks(no){ const D=await loadPolicy();
   <section class="wrap">
     ${POLSW('task')}
     <div class="lgband">
+      <figure class="h365pic"><img src="img/g3d/scene-archive.webp" srcset="img/g3d/scene-archive-640.webp 640w, img/g3d/scene-archive.webp 1024w" sizes="440px" width="1024" height="572" alt="서가 가득한 정책 기록 보관소 미니어처"></figure>
       <span class="zone pol">정책 아카이브</span><br>
       <span class="pill"><i></i>국정과제 ${D.tasks.length}개 · 5대 목표</span>
       <h1>123대 국정과제를<br><em>과제별</em>로 펼쳤습니다</h1>
@@ -2259,6 +2265,7 @@ async function renderKey(th){ const D=await loadPolicy(); K.th=th||'';
   <section class="wrap">
     ${POLSW('key')}
     <div class="lgband">
+      <figure class="h365pic"><img src="img/g3d/scene-archive.webp" srcset="img/g3d/scene-archive-640.webp 640w, img/g3d/scene-archive.webp 1024w" sizes="440px" width="1024" height="572" alt="서가 가득한 정책 기록 보관소 미니어처"></figure>
       <span class="zone pol">정책 아카이브</span><br>
       <span class="pill"><i></i>핵심 정책 ${KEYS.length}건 · ${order.length}개 묶음 · 2025.6 ~ ${String(KEYS[0].date).slice(0,7).replace('-','.')}</span>
       <h1>굵직한 정책만<br><em>한눈에</em> 봅니다</h1>
