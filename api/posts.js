@@ -262,7 +262,7 @@ module.exports = async (req, res) => {
       var htmlP = '<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><title>' + xe2(pp.title) + ' | 김보미생각</title>'
         + '<meta name="description" content="' + xe2(desc) + '"><link rel="canonical" href="' + target + '">'
         + '<meta property="og:type" content="article"><meta property="og:site_name" content="김보미.com"><meta property="og:title" content="' + xe2(pp.title) + '"><meta property="og:description" content="' + xe2(desc) + '"><meta property="og:url" content="' + target + '">'
-        + '<meta property="og:image" content="' + base2 + '/og-ud365.jpg?v=20260921d"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="' + xe2(pp.title) + '"><meta name="twitter:description" content="' + xe2(desc) + '">'
+        + '<meta property="og:image" content="' + base2 + '/og-ud365.jpg?v=20261105"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="' + xe2(pp.title) + '"><meta name="twitter:description" content="' + xe2(desc) + '">'
         + '<meta property="article:published_time" content="' + new Date(pp.publishAt||Date.now()).toISOString() + '"><meta property="article:author" content="김보미">'
         + '<meta http-equiv="refresh" content="0;url=' + target + '"></head><body style="font-family:sans-serif;padding:24px"><h1>' + xe2(pp.title) + '</h1><p>' + xe2(desc) + '</p><p><a href="' + target + '">글 읽기 →</a></p><script>location.replace(' + JSON.stringify(target) + ')</script></body></html>';
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
