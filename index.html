@@ -279,6 +279,10 @@ main{padding-bottom:46px}
 .vrow{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);margin-top:var(--gap)}
 .vc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;display:flex;flex-direction:column;min-height:196px}
 .vc:hover{border-color:var(--green)}
+.vc .vth{display:block;margin:-20px -20px 16px;aspect-ratio:16/9;overflow:hidden;border-radius:var(--r-lg) var(--r-lg) 0 0;background:#EFE7D6}
+.vc .vth img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.vc:hover .vth img{transform:scale(1.04)}
+.vc{overflow:hidden}
 .vc .k{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;color:var(--green)}
 .vc h3{font-size:1.02rem;line-height:1.5;margin-top:8px;font-family:var(--sans);font-weight:700;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -608,6 +612,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 </footer>
 
 <script src="assets/kb-format.js"></script>
+<script src="assets/kb-thumbs.js"></script>
 <script src="static-posts.js"></script>
 <script>
 /* 김보미생각 — 최신 3편 (사이트에서는 실시간 갱신, 실패 시 아래 값 유지) */
@@ -617,6 +622,7 @@ function esc(s){return KB_esc(s)}   /* assets/kb-format.js */
 function drawPosts(list){
   document.getElementById('vrow').innerHTML=list.slice(0,3).map(function(p){
     return '<a class="vc" href="vision.html?post='+encodeURIComponent(p.id)+'">'
+      +'<span class="vth">'+KB_thumb(p.t)+'</span>'
       +'<span class="k">김보미 생각</span>'
       +'<h3>'+esc(p.t)+'</h3>'
       +'<p>'+esc(p.x)+'</p>'
