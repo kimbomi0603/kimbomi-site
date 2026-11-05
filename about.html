@@ -74,6 +74,15 @@
 #lb img{max-width:94vw;max-height:90vh;border-radius:8px;object-fit:contain}
 
 .cta2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:22px}
+
+/* Gemini 이미지 (2026.11) */
+.ach section{position:relative;padding-right:96px}
+.ach .achi{position:absolute;top:18px;right:18px;width:64px;height:64px;border-radius:16px}
+.cta2 a{overflow:hidden}
+.cta2 .ctimg{display:block;margin:-24px -24px 18px;aspect-ratio:16/7;overflow:hidden;background:#EFE7D6}
+.cta2 .ctimg img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.cta2 a:hover .ctimg img{transform:scale(1.04)}
+@media(max-width:640px){.ach section{padding-right:80px}.ach .achi{width:52px;height:52px;border-radius:13px;top:16px;right:14px}}
 .cta2 a{border:1px solid var(--rule);border-radius:14px;padding:24px;text-decoration:none;background:var(--paper2);transition:.16s}
 .cta2 a:first-child{background:var(--teal);border-color:var(--teal);color:#fff}
 .cta2 a:first-child b{color:#fff}.cta2 a:first-child span{color:rgba(255,255,255,.85)}
@@ -205,6 +214,7 @@ html[data-theme="dark"] .motto figcaption{color:#B9B3A6}
 <link rel="stylesheet" href="assets/kb-dark.css">
 <script src="assets/kb-prefs.js" defer></script>
 <script src="assets/kb-dark.js" defer></script>
+<link rel="stylesheet" href="assets/kb-g3d.css">
 </head>
 <body>
 
@@ -297,6 +307,7 @@ html[data-theme="dark"] .motto figcaption{color:#B9B3A6}
 
     <div class="ach">
       <section>
+        <img class="g3i achi" src="img/g3d/ic-council.webp" alt="" width="64" height="64" loading="lazy">
         <span class="kk">투명성 · 소통</span><h3>열린 의회</h3>
         <ul>
           <li>제8대 4년치 언론 노출(약 970건)을 제9대 <b>단 1년</b> 만에 돌파</li>
@@ -306,6 +317,7 @@ html[data-theme="dark"] .motto figcaption{color:#B9B3A6}
         </ul>
       </section>
       <section>
+        <img class="g3i achi" src="img/g3d/ic-gavel.webp" alt="" width="64" height="64" loading="lazy">
         <span class="kk">견제 · 감시</span><h3>일하는 의회</h3>
         <ul>
           <li>개원 이래 <b>최초 ‘일문일답 군정질문’</b> 도입 — 집행부 정책 실시간 검증</li>
@@ -315,6 +327,7 @@ html[data-theme="dark"] .motto figcaption{color:#B9B3A6}
         </ul>
       </section>
       <section>
+        <img class="g3i achi" src="img/g3d/ic-welfare.webp" alt="" width="64" height="64" loading="lazy">
         <span class="kk">인구소멸 대응</span><h3>체감형 복지</h3>
         <ul>
           <li>전남 최초·전국 최고 수준 <b>강진형 육아양육수당</b> — 소득·자녀수 무관, 자녀 1명당 만 7세까지 월 60만원(아동 1인 최대 5,040만원)</li>
@@ -324,6 +337,7 @@ html[data-theme="dark"] .motto figcaption{color:#B9B3A6}
         </ul>
       </section>
       <section>
+        <img class="g3i achi" src="img/g3d/ic-bridge.webp" alt="" width="64" height="64" loading="lazy">
         <span class="kk">광역 · 중앙 공조</span><h3>숙원 해결</h3>
         <ul>
           <li>강진~마량 4차선 확·포장, 강진만 패류 보상금 신속 지급, 월출산 생태탐방원 유치, 호남고속철 강진 구간 연장 등 대정부 건의</li>
@@ -349,8 +363,8 @@ html[data-theme="dark"] .motto figcaption{color:#B9B3A6}
     <p class="eyebrow">NOW</p>
     <h2>지금 하고 있는 일</h2>
     <div class="cta2">
-      <a href="budget365.html"><em class="scope">지방정부 243곳 · 중앙정부 62개 부처</em><b>우리동네365</b><span>우리 동네 시청·군청·구청이 올해 예산을 어디에 잡았고, 얼마를 썼고, 어느 업체와 계약했는지 3초에 확인합니다. 중앙정부 부처별 예산과 2027년 정부안까지 한 화면에서 봅니다. 행정안전부 지방재정365와 열린재정 공식 자료를 그대로 불러옵니다.</span></a>
-      <a href="https://taxwatch.kr/" target="_blank" rel="noopener"><em class="scope">시민단체 · 예산 감시 운동</em><b>재정주권시민행동 ↗</b><span>“내 돈은 내 권리다.” 2026년 예산 59개 기관, 세부사업 7,796건(2026.10.3 taxwatch.kr 기준)을 하나하나 뜯어 누구나 볼 수 있게 공개한 시민단체입니다. 김보미가 공동대표를 맡고 있습니다.</span></a>
+      <a href="budget365.html"><span class="ctimg"><img src="img/g3d/scene-365-640.webp" alt="" width="640" height="358" loading="lazy"></span><em class="scope">지방정부 243곳 · 중앙정부 62개 부처</em><b>우리동네365</b><span>우리 동네 시청·군청·구청이 올해 예산을 어디에 잡았고, 얼마를 썼고, 어느 업체와 계약했는지 3초에 확인합니다. 중앙정부 부처별 예산과 2027년 정부안까지 한 화면에서 봅니다. 행정안전부 지방재정365와 열린재정 공식 자료를 그대로 불러옵니다.</span></a>
+      <a href="https://taxwatch.kr/" target="_blank" rel="noopener"><span class="ctimg"><img src="img/g3d/scene-money-640.webp" alt="" width="640" height="358" loading="lazy"></span><em class="scope">시민단체 · 예산 감시 운동</em><b>재정주권시민행동 ↗</b><span>“내 돈은 내 권리다.” 2026년 예산 59개 기관, 세부사업 7,796건(2026.10.3 taxwatch.kr 기준)을 하나하나 뜯어 누구나 볼 수 있게 공개한 시민단체입니다. 김보미가 공동대표를 맡고 있습니다.</span></a>
     </div>
   </div>
 </section>
