@@ -33,3 +33,13 @@
 
 /* 글자 버튼 안의 작은 3D 아이콘 (이모지 대신) */
 .g3i.in{display:inline-block;width:28px;height:28px;border-radius:8px;vertical-align:middle;margin:-4px 6px -2px 0;box-shadow:none}
+
+/* 2026-11 다듬기 — 작은 머리말은 고정폭·대문자·넓은 자간 대신 본문 글꼴로 (AI 템플릿 티 줄이기) */
+.eyebrow,.hero .eyebrow,.alme-eyebrow{font-family:inherit!important;text-transform:none!important;letter-spacing:.01em!important;font-weight:700}
+
+/* 브라우저 기본 표면도 사이트 색으로: 글자 선택, 키보드 초점, 입력 커서 */
+::selection{background:rgba(15,90,74,.18);color:inherit}
+:focus-visible{outline:2px solid #0F5A4A;outline-offset:2px}
+input,textarea{caret-color:#0F5A4A}
+html[data-theme="dark"] ::selection{background:rgba(142,207,178,.28)}
+html[data-theme="dark"] :focus-visible{outline-color:#8ECFB2}
