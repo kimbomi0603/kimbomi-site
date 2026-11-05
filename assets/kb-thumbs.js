@@ -1,5 +1,5 @@
-/* kb-thumbs.js — 김보미생각 글 제목으로 주제별 미니어처 썸네일을 고른다 (2026.11, Gemini 생성 이미지)
-   첫 번째로 맞는 주제를 쓴다. 맞는 주제가 없으면 '밀실 문을 여는' 기본 장면. */
+/* kb-thumbs.js — 김보미생각 글마다 제목의 요지를 담아 따로 만든 미니어처 이미지를 쓴다 (2026.11, Gemini 생성)
+   글 id로 img/posts/{id}.webp 를 찾고, 아직 이미지가 없는 새 글은 제목으로 주제별 이미지를 고른다. */
 (function () {
   var T = [
     { re: /돈잔치|국고보조금|보조금|깜깜이|위성정당/, img: 'scene-money', alt: '커튼 뒤 돈자루를 비추는 시민들 미니어처' },
@@ -10,19 +10,24 @@
     { re: /호남|추석|명절|연휴|근황|강진|고향/, img: 'th-home', alt: '보름달 아래 고향 마을 미니어처' },
     { re: /축하|당선|환영|선물|감사|퇴장|싱어게인|중꺾마|꺾이지/, img: 'th-cheer', alt: '환호하는 전당대회장 미니어처' }
   ];
+  var OWN = {};
+  'fb20260923 fb20260924 msg1 msg2 p20260723cutoff p20260725column p20260725roster p20260730myungbu p20260731bosu p20260805choi p20260805ggumtl p20260805vote p20260806hate p20260807gongcheon p20260808house p20260811honam p20260818congrats p20260821jeon p20260905jeongdang pmr7panre93yn pmr8pemv03536 pmrbpm1f3basw pmrbpocpi6co3 pmrbppgfuxy3k pmrbpqs35agcr pmrbwxrflw71s pmrbwyoy3dcv5 pmrev7iihexle pmrfskxvo2lrn pmrfv6kdo88wa pmrhx48j9sfat pmrhxcbpia2u3 pmriu965ls855 pmrlnapghvgve pmrlncnrzw9ww pmro53ph5payp pmrplk7wjaiqq pmrpllai76rej pmrqh15wvgxyr pmrrfrezv01bl pmrubeq3lp07y pmrubf7md1b87 pmrubfxo5zsd5 pmrubgqunfyuc pmrubhbyfremv pmrubhsuwzo1b pmrubib71aeb0 pmrubj97lyvt5 pmrx12rismzyw pmrx13ojvehdw pmrx14z218rsn pmrx16ngsknrx pmte274174vpm pmtj82na5ulu2'.split(' ').forEach(function (k) { OWN[k] = 1; });
   var DEF = { img: 'scene-vision', alt: '밀실 문을 열어젖히는 청년들 미니어처' };
   function pick(title) {
     var t = String(title || '');
     for (var i = 0; i < T.length; i++) if (T[i].re.test(t)) return T[i];
     return DEF;
   }
-  /* 카드용 <img> 태그. 640px 이하 파일을 쓴다(썸네일은 작게 보이므로). */
-  window.KB_thumb = function (title, cls) {
-    var p = pick(title);
-    return '<img class="' + (cls || 'kth') + '" src="img/g3d/' + p.img + '-640.webp" alt="' + p.alt +
+  function esc(s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function src(title, id, big) {
+    if (id && OWN[id]) return 'img/posts/' + id + (big ? '' : '-640') + '.webp';
+    return 'img/g3d/' + pick(title).img + (big ? '' : '-640') + '.webp';
+  }
+  /* 카드용 <img> 태그. 640px 파일을 쓴다(썸네일은 작게 보이므로). */
+  window.KB_thumb = function (title, id, cls) {
+    var alt = id && OWN[id] ? esc(title) : pick(title).alt;
+    return '<img class="' + (cls || 'kth') + '" src="' + src(title, id) + '" alt="' + alt +
       '" width="640" height="358" loading="lazy" decoding="async">';
   };
-  window.KB_thumbSrc = function (title, big) {
-    var p = pick(title); return 'img/g3d/' + p.img + (big ? '' : '-640') + '.webp';
-  };
+  window.KB_thumbSrc = function (title, big, id) { return src(title, id, big); };
 })();
