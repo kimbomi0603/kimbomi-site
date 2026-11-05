@@ -622,7 +622,7 @@ function esc(s){return KB_esc(s)}   /* assets/kb-format.js */
 function drawPosts(list){
   document.getElementById('vrow').innerHTML=list.slice(0,3).map(function(p){
     return '<a class="vc" href="vision.html?post='+encodeURIComponent(p.id)+'">'
-      +'<span class="vth">'+KB_thumb(p.t)+'</span>'
+      +'<span class="vth">'+KB_thumb(p.t,p.id)+'</span>'
       +'<span class="k">김보미 생각</span>'
       +'<h3>'+esc(p.t)+'</h3>'
       +'<p>'+esc(p.x)+'</p>'
