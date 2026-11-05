@@ -1,6 +1,6 @@
-/* 김보미.com — AI 봄이 : 어려운 예산 용어를 물어보는 도우미 (Gemini + Groq 교차검증, /api/chat mode=bomi)
-   2026-09-25 개편 — 부산시 「AI 부기뉴스」처럼 캐릭터가 전면에 서는 방식.
-   · 떠 있는 봄이: 온몸 3D 봄이(assets/bomi/body.webp 9KB)가 둥실 떠 있고 「안녕」 말풍선 글씨 + 「AI 봄이」 이름표.
+/* 김보미.com — AI 봄이 : 어려운 예산 용어·김보미·우리 동네를 물어보는 길잡이 (Gemini + Groq 교차검증, /api/chat mode=bomi)
+   2026-11-05 개편 — 캐릭터를 「돋보기 든 김보미 아트토이」(Gemini 생성, 소프트비닐 인형 느낌)로 바꿈. 김보미 본인이 아니라 AI 길잡이.
+   · 떠 있는 봄이: 손 흔드는 아트토이(assets/bomi/body.webp)가 둥실 떠 있고 말풍선 + 「AI 봄이」 이름표.
    · 누르면: 휴대폰은 전체 화면, PC는 오른쪽 세로 창. 위는 무대(대화 단계마다 3D 자세 그림과 효과 글씨가 바뀜), 아래는 대화 시트.
    · 「쉬운 말」 스위치: 켜면 초등학생도 알 만한 말과 생활 비유로 답하도록 요청.
    · 음성 입력: 브라우저가 지원하면 마이크 단추를 보여 준다(한국어).
@@ -13,47 +13,53 @@
   var G='#0F5A4A', N='#16305A';
   var CSS = [
   /* 떠 있는 봄이 */
-  '#bomi-fab{position:fixed;right:10px;bottom:60px;z-index:9990;border:0;background:none;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;width:132px;-webkit-tap-highlight-color:transparent}',
-  '#bomi-fab:focus-visible{outline:3px solid #C99A2E;outline-offset:4px;border-radius:16px}',
-  '#bomi-fab .fig{position:relative;width:118px;height:116px;display:block}',
-  '#bomi-fab .fig img{width:118px;height:auto;display:block;filter:drop-shadow(0 10px 12px rgba(15,40,60,.22));animation:bmFloat 3s ease-in-out infinite}',
-  '#bomi-fab .say{position:absolute;right:-6px;top:-8px;font:400 22px/1 "Jua","Noto Sans KR",sans-serif;color:#15171A;-webkit-text-stroke:.3px #15171A;text-shadow:0 0 6px #fff,0 0 3px #fff;letter-spacing:-.02em;transform:rotate(8deg);animation:bmPop 4s ease-in-out infinite}',
-  '#bomi-fab .dot{position:absolute;width:9px;height:9px;border-radius:50% 50% 50% 0;animation:bmTw 2.4s ease-in-out infinite}',
-  '#bomi-fab .d1{left:4px;top:26px;background:#3FA66A}#bomi-fab .d2{left:12px;top:70px;background:#E0A43C;animation-delay:.8s}#bomi-fab .d3{right:2px;top:58px;background:#3FA66A;animation-delay:1.5s;width:7px;height:7px}',
-  '#bomi-fab .tag{margin-top:-6px;display:inline-flex;align-items:center;gap:5px;background:#15213A;color:#fff;border-radius:999px;padding:6px 13px 6px 11px;font:800 13.5px/1 "Noto Sans KR",sans-serif;box-shadow:0 6px 16px rgba(10,20,40,.3);border:1.5px solid rgba(255,255,255,.18)}',
-  '#bomi-fab .ai,#bomi .ai{font-weight:900;background:linear-gradient(135deg,#46C08A,#F0C24B);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.03em}',
-  '@keyframes bmFloat{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-7px) rotate(1.5deg)}}',
-  '@keyframes bmPop{0%,70%,100%{transform:rotate(8deg) scale(1)}8%{transform:rotate(8deg) scale(1.22)}16%{transform:rotate(8deg) scale(1)}}',
-  '@keyframes bmTw{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1)}}',
+  '#bomi-fab{position:fixed;right:12px;bottom:58px;z-index:9990;border:0;background:none;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;width:120px;-webkit-tap-highlight-color:transparent}',
+  '#bomi-fab:focus-visible{outline:3px solid #C99A2E;outline-offset:4px;border-radius:18px}',
+  '#bomi-fab .fig{position:relative;width:96px;height:140px;display:block}',
+  '#bomi-fab .fig::after{content:"";position:absolute;left:50%;bottom:2px;width:62px;height:12px;margin-left:-31px;border-radius:50%;background:radial-gradient(closest-side,rgba(15,35,30,.28),rgba(15,35,30,0));animation:bmShadow 3.2s ease-in-out infinite}',
+  '#bomi-fab .fig img{position:relative;z-index:1;width:96px;height:auto;display:block;filter:drop-shadow(0 6px 8px rgba(15,40,60,.18));animation:bmFloat 3.2s ease-in-out infinite;transform-origin:50% 100%}',
+  '#bomi-fab:hover .fig img{animation-duration:1.6s}',
+  '#bomi-fab .say{position:absolute;z-index:2;right:-18px;top:2px;background:#fff;color:#15171A;border:1.5px solid #15213A;border-radius:14px 14px 14px 4px;padding:5px 9px;font:400 15px/1 "Jua","Noto Sans KR",sans-serif;white-space:nowrap;box-shadow:0 4px 10px rgba(10,20,40,.12);animation:bmPop 4s ease-in-out infinite;transform-origin:0 100%}',
+  '#bomi-fab .tag{position:relative;z-index:2;margin-top:-8px;display:inline-flex;align-items:center;gap:5px;background:#15213A;color:#fff;border-radius:999px;padding:6px 13px 6px 11px;font:800 13.5px/1 "Noto Sans KR",sans-serif;box-shadow:0 6px 16px rgba(10,20,40,.28)}',
+  '#bomi-fab .ai,#bomi .ai{font-weight:900;color:#5FD39A;letter-spacing:-.02em}',
+  '@keyframes bmFloat{0%,100%{transform:translateY(0) rotate(-1.2deg)}50%{transform:translateY(-6px) rotate(1.2deg)}}',
+  '@keyframes bmShadow{0%,100%{transform:scaleX(1);opacity:1}50%{transform:scaleX(.82);opacity:.7}}',
+  '@keyframes bmPop{0%,70%,100%{transform:scale(1)}8%{transform:scale(1.14)}16%{transform:scale(1)}}',
   'html.has-cta #bomi-fab{bottom:128px}',
-  'html[data-theme="dark"] #bomi-fab .say{color:#FFF1BF;-webkit-text-stroke:.3px #FFF1BF;text-shadow:0 0 6px #000,0 0 3px #000}',
-  '@media(max-width:640px){#bomi-fab{right:2px;bottom:54px;width:66px}#bomi-fab .fig{width:58px;height:58px}#bomi-fab .fig img{width:58px}#bomi-fab .say,#bomi-fab .dot{display:none}#bomi-fab .tag{font-size:11px;padding:4px 8px 4px 7px;margin-top:-4px}}',
+  'html[data-theme="dark"] #bomi-fab .say{background:#24272B;color:#F4F1E8;border-color:#8ECFB2}',
+  '@media(max-width:640px){#bomi-fab{right:4px;bottom:52px;width:64px}#bomi-fab .fig{width:52px;height:76px}#bomi-fab .fig img{width:52px}#bomi-fab .fig::after{width:36px;margin-left:-18px;height:8px}#bomi-fab .say{display:none}#bomi-fab .tag{font-size:11px;padding:4px 8px 4px 7px;margin-top:-6px}}',
   /* 대화창 */
   '#bomi{position:fixed;z-index:9991;display:none;flex-direction:column;background:#fff;color:#17181A;font:15px/1.6 "Noto Sans KR",system-ui,sans-serif;word-break:keep-all;overflow:hidden;right:20px;bottom:20px;width:410px;height:min(780px,calc(100vh - 40px));border-radius:26px;box-shadow:0 28px 70px rgba(10,20,40,.32)}',
   '#bomi.on{display:flex}',
-  '#bomi .top{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:12px 14px 10px 18px;background:#fff}',
-  '#bomi .logo{font:900 22px/1 "Noto Sans KR",sans-serif;letter-spacing:-.04em;color:#15171A;display:flex;align-items:baseline;gap:4px}',
-  '#bomi .logo .ai{font-size:25px}',
+  '#bomi .top{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:12px 14px 10px 14px;background:#fff;border-bottom:1px solid #EEF0EC}',
+  '#bomi .tav{width:40px;height:40px;border-radius:50%;flex:0 0 auto;display:block;background:#EAF2EC;box-shadow:0 0 0 2px #fff,0 0 0 3.5px #CFE3D6}',
+  '#bomi .tn{display:flex;flex-direction:column;line-height:1.15;min-width:0}',
+  '#bomi .tn small{font:600 11.5px/1.3 "Noto Sans KR",sans-serif;color:#5B6C63;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
+  '#bomi .logo{font:900 19px/1.1 "Noto Sans KR",sans-serif;letter-spacing:-.03em;color:#15171A;display:flex;align-items:baseline;gap:4px}',
+  '#bomi .logo .ai{font-size:19px;color:'+G+'}',
   '#bomi .sw{margin-left:auto;display:inline-flex;align-items:center;gap:7px;border:0;cursor:pointer;background:#6B6F76;color:#fff;border-radius:999px;padding:5px 13px 5px 5px;font:800 13px/1 "Noto Sans KR",sans-serif;min-height:36px;transition:background .2s}',
   '#bomi .sw i{width:26px;height:26px;border-radius:50%;background:#fff;display:block;transition:transform .2s}',
   '#bomi .sw[aria-checked="true"]{background:'+G+';padding:5px 5px 5px 13px;flex-direction:row-reverse}',
   '#bomi .x{border:0;background:#F1EFEA;color:#15171A;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:21px;line-height:1;flex:0 0 auto}',
   '#bomi .sw:focus-visible,#bomi .x:focus-visible,#bomi .send:focus-visible,#bomi .mic:focus-visible{outline:3px solid #C99A2E;outline-offset:2px}',
-  '#bomi .stage{position:relative;flex:0 0 auto;height:clamp(190px,34vh,290px);background:radial-gradient(120% 90% at 50% 25%,#FFFFFF 0%,#EEF6EF 55%,#E3EFE6 100%);overflow:hidden}',
+  '#bomi .stage{position:relative;flex:0 0 auto;height:clamp(200px,36vh,300px);background:radial-gradient(70% 60% at 50% 38%,#FFFFFF 0%,#F6F2E8 55%,#EDE6D6 100%);overflow:hidden}',
+  '#bomi .stage::before{content:"";position:absolute;left:50%;bottom:24px;width:46%;height:26px;margin-left:-23%;border-radius:50%;background:radial-gradient(closest-side,rgba(60,45,20,.22),rgba(60,45,20,0))}',
+  '#bomi .stage::after{content:"";position:absolute;left:0;right:0;bottom:0;height:46px;background:linear-gradient(180deg,rgba(237,230,214,0),#E6DDC8)}',
   '#bomi .brand{position:absolute;left:16px;top:12px;font:800 12px/1.25 "Noto Sans KR",sans-serif;color:'+N+';letter-spacing:-.02em}',
   '#bomi .brand small{display:block;font:600 9.5px/1.3 "Noto Sans KR",sans-serif;color:#5B6C63;letter-spacing:.02em}',
-  '#bomi .pose{position:absolute;left:50%;bottom:26px;height:84%;transform:translateX(-50%);filter:drop-shadow(0 12px 14px rgba(15,40,60,.18));transition:opacity .18s}',
+  '#bomi .pose{position:absolute;z-index:1;left:50%;bottom:30px;height:82%;transform:translateX(-50%);filter:drop-shadow(0 10px 12px rgba(40,30,10,.16));transition:opacity .18s}',
   '#bomi .pose.fl{animation:bmFloat2 3s ease-in-out infinite}',
   '@keyframes bmFloat2{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-6px)}}',
-  '#bomi .word{position:absolute;right:8%;top:14%;font:400 44px/1 "Jua","Noto Sans KR",sans-serif;color:#15171A;letter-spacing:-.03em;transform:rotate(-6deg);text-shadow:0 0 8px #fff}',
+  '#bomi .word{position:absolute;z-index:2;left:calc(50% + 70px);top:16%;background:#fff;border:2px solid #15213A;border-radius:18px 18px 18px 5px;padding:8px 14px;font:400 24px/1 "Jua","Noto Sans KR",sans-serif;color:#15171A;letter-spacing:-.02em;box-shadow:0 6px 14px rgba(10,20,40,.12);white-space:nowrap;transform-origin:0 100%}',
+  '#bomi .word:empty{display:none}',
   '#bomi .word.pop{animation:bmWord .5s cubic-bezier(.2,1.6,.4,1)}',
-  '@keyframes bmWord{0%{transform:rotate(-6deg) scale(.3);opacity:0}100%{transform:rotate(-6deg) scale(1);opacity:1}}',
+  '@keyframes bmWord{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}',
   '#bomi .sheet{flex:1 1 auto;min-height:0;margin-top:-26px;position:relative;background:#fff;border-radius:28px 28px 0 0;box-shadow:0 -6px 18px rgba(10,20,40,.06);display:flex;flex-direction:column}',
   '#bomi .grab{width:64px;height:5px;border-radius:5px;background:#C9CBCF;margin:12px auto 4px;flex:0 0 auto}',
   '#bomi .log{flex:1 1 auto;min-height:0;overflow:auto;padding:10px 18px 12px;display:flex;flex-direction:column;gap:14px}',
   '#bomi .bot{display:flex;flex-direction:column;gap:6px;align-items:flex-start;max-width:94%}',
-  '#bomi .av{width:46px;height:46px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#46C08A,#F0C24B);flex:0 0 auto}',
-  '#bomi .av img{width:40px;height:40px;border-radius:50%;background:#fff;display:block}',
+  '#bomi .av{width:40px;height:40px;border-radius:50%;padding:2px;background:#CFE3D6;flex:0 0 auto}',
+  '#bomi .av img{width:36px;height:36px;border-radius:50%;background:#EAF2EC;display:block}',
   '#bomi .m{padding:12px 15px;border-radius:16px;font-size:15px;white-space:pre-wrap}',
   '#bomi .bot .m{background:#fff;border:1px solid #E1E2E6;border-top-left-radius:6px;box-shadow:0 2px 8px rgba(10,20,40,.04)}',
   '#bomi .me{align-self:flex-end;display:flex;flex-direction:column;align-items:flex-end;gap:4px;max-width:86%}',
@@ -79,8 +85,8 @@
   '@media(max-width:640px){#bomi{inset:0;width:auto;height:auto;border-radius:0;right:0;bottom:0}#bomi .top{padding-top:calc(10px + env(safe-area-inset-top,0px))}#bomi .word{font-size:38px}}',
   'html[data-theme="dark"] #bomi,html[data-theme="dark"] #bomi .top,html[data-theme="dark"] #bomi .sheet,html[data-theme="dark"] #bomi form{background:#1B1D20;color:#ECE8DF}',
   'html[data-theme="dark"] #bomi .logo{color:#ECE8DF}html[data-theme="dark"] #bomi .x{background:#2A2D31;color:#ECE8DF}',
-  'html[data-theme="dark"] #bomi .stage{background:radial-gradient(120% 90% at 50% 25%,#2B3A33 0%,#1F2A25 60%,#18201C 100%)}html[data-theme="dark"] #bomi .brand{color:#CFE3D6}html[data-theme="dark"] #bomi .brand small{color:#9DB3A6}',
-  'html[data-theme="dark"] #bomi .word{color:#F4F1E8;text-shadow:0 0 8px #000}',
+  'html[data-theme="dark"] #bomi .stage{background:radial-gradient(70% 60% at 50% 38%,#3A3A34 0%,#2A2924 60%,#201F1B 100%)}html[data-theme="dark"] #bomi .stage::after{background:linear-gradient(180deg,rgba(32,31,27,0),#1B1A17)}html[data-theme="dark"] #bomi .top{border-color:#2E3135}html[data-theme="dark"] #bomi .tn small{color:#A9B8AE}html[data-theme="dark"] #bomi .brand{color:#CFE3D6}html[data-theme="dark"] #bomi .brand small{color:#9DB3A6}',
+  'html[data-theme="dark"] #bomi .word{background:#24272B;color:#F4F1E8;border-color:#8ECFB2}',
   'html[data-theme="dark"] #bomi .bot .m{background:#24272B;border-color:#34383D;color:#ECE8DF}html[data-theme="dark"] #bomi .chips button{background:#22302A;border-color:#34473D;color:#BFE3CE}',
   'html[data-theme="dark"] #bomi form{border-color:#3A3E43}html[data-theme="dark"] #bomi .mic{color:#ECE8DF}',
   '@media (prefers-reduced-motion:reduce){#bomi-fab *,#bomi *{animation:none!important;transition:none!important}}'
@@ -100,7 +106,7 @@
   var CHIPS=(function(){ var p=(location.pathname.split('/').pop()||'index').replace('.html','')||'index'; var a=(PAGE_CHIPS[p]||[]).slice(); var rest=MIX.filter(function(x){return a.indexOf(x)<0;}); for(var i=rest.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)); var t=rest[i]; rest[i]=rest[j]; rest[j]=t;} return a.concat(rest).slice(0,7); })();
   /* 대화 단계 → 무대의 자세 그림과 효과 글씨 */
   var ST={ bow:['bow','꾸벅'], hello:['hello','안녕!'], idle:['idle',''], listen:['idle','응응!'], think:['think','음…'], talk:['talk','설명할게!'], happy:['happy','짜잔!'], oops:['oops','앗!'] };
-  var SAYS=['안녕','궁금해?','물어봐!'];
+  var SAYS=['안녕하세요!','궁금한 거 있어요?','같이 찾아봐요!'];
   var hist=[], easy=false; try{ easy=localStorage.getItem('bomiEasy')==='1'; }catch(e){}
   function el(h){ var d=document.createElement('div'); d.innerHTML=h; return d.firstElementChild; }
   function hm(){ var d=new Date(), h=d.getHours(), m=d.getMinutes(); return (h<12?'오전 ':'오후 ')+((h%12)||12)+':'+(m<10?'0':'')+m; }
@@ -111,21 +117,21 @@
   function init(){
     if(!document.querySelector('link[href*="family=Jua"]')){ var f=document.createElement('link'); f.rel='stylesheet'; f.href='https://fonts.googleapis.com/css2?family=Jua&display=swap'; document.head.appendChild(f); }
     var st=document.createElement('style'); st.textContent=CSS; document.head.appendChild(st);
-    var fab=el('<button type="button" id="bomi-fab" aria-haspopup="dialog" aria-controls="bomi" aria-label="AI 봄이에게 예산 용어 물어보기">'+
-      '<span class="fig"><img src="'+IMG+'body.webp" width="118" height="116" alt=""><span class="say" aria-hidden="true">안녕</span><i class="dot d1"></i><i class="dot d2"></i><i class="dot d3"></i></span>'+
+    var fab=el('<button type="button" id="bomi-fab" aria-haspopup="dialog" aria-controls="bomi" aria-label="AI 봄이에게 물어보기 — 예산 용어, 김보미, 우리 동네">'+
+      '<span class="fig"><img src="'+IMG+'body.webp" width="96" height="142" alt=""><span class="say" aria-hidden="true">안녕하세요!</span></span>'+
       '<span class="tag"><span class="ai">AI</span> 봄이</span></button>');
     var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
     var box=el('<section id="bomi" role="dialog" aria-label="AI 봄이 — 김보미.com 길잡이" aria-modal="false">'+
-      '<div class="top"><div class="logo"><span class="ai">AI</span>봄이</div>'+
+      '<div class="top"><img class="tav" src="'+IMG+'face.webp" width="40" height="40" alt=""><div class="tn"><div class="logo"><span class="ai">AI</span>봄이</div><small>김보미를 닮은 아트토이 길잡이</small></div>'+
       '<button type="button" class="sw" role="switch" aria-checked="false" title="켜면 아주 쉬운 말로 답해요"><i></i><span>쉬운 말</span></button>'+
       '<button type="button" class="x" aria-label="닫기">×</button></div>'+
-      '<div class="stage" aria-hidden="true"><div class="brand">김보미.com<small>무엇이든 물어봐 · 김보미.com 길잡이</small></div><img class="pose fl" alt="" src="'+IMG+'pose_bow.webp"><div class="word"></div></div>'+
+      '<div class="stage" aria-hidden="true"><div class="brand">김보미.com<small>돋보기로 같이 찾아봐요</small></div><img class="pose fl" alt="" src="'+IMG+'pose_bow.webp"><div class="word"></div></div>'+
       '<div class="sheet"><div class="grab"></div><div class="log" aria-live="polite"></div><div class="chips"></div>'+
       '<form><label for="bomiQ" style="position:absolute;left:-9999px">질문</label><input id="bomiQ" type="text" placeholder="메시지를 입력하고 Enter를 누르세요." maxlength="500" autocomplete="off">'+
       (SR?'<button type="button" class="mic" aria-label="말로 묻기">'+MIC+'</button>':'')+
       '<button type="submit" class="send" aria-label="보내기">'+SEND+'</button></form>'+
       '<label class="nolog"><input type="checkbox" id="bomiNolog"> 이 대화 저장 안 함 <span style="opacity:.75">(관리자에게 전달되지 않아요)</span></label>'+
-      '<div class="ft">봄이는 AI라 틀릴 수 있어요. 근거 자료에 없는 숫자는 답에서 빼지만, 오류·버그로 틀릴 수 있으니 숫자는 우리동네365 화면과 지방재정365 원자료로 확인해 주세요. 봄이의 답은 공식 입장이나 법률·재정 자문이 아니며, 운영자는 답변 이용 결과에 법적 책임을 지지 않습니다. 대화는 답변 점검을 위해 저장되며, 원치 않으면 위 칸을 체크하세요. 개인정보는 적지 마세요(<a href="/privacy.html">개인정보처리방침</a>).</div></div></section>');
+      '<div class="ft">봄이는 김보미를 닮게 만든 AI 길잡이로, 김보미 본인이 아니에요. AI라 틀릴 수 있어요. 근거 자료에 없는 숫자는 답에서 빼지만, 오류·버그로 틀릴 수 있으니 숫자는 우리동네365 화면과 지방재정365 원자료로 확인해 주세요. 봄이의 답은 공식 입장이나 법률·재정 자문이 아니며, 운영자는 답변 이용 결과에 법적 책임을 지지 않습니다. 대화는 답변 점검을 위해 저장되며, 원치 않으면 위 칸을 체크하세요. 개인정보는 적지 마세요(<a href="/privacy.html">개인정보처리방침</a>).</div></div></section>');
     document.body.appendChild(fab); document.body.appendChild(box);
     /* 떠 있는 봄이 말풍선 글씨 바꾸기 */
     var say=fab.querySelector('.say'), si=0; if(!reduce) setInterval(function(){ si=(si+1)%SAYS.length; say.textContent=SAYS[si]; },4000);
@@ -139,7 +145,7 @@
     function addBot(text,extra){ var r=el('<div class="bot"><span class="av"><img src="'+IMG+'face.webp" width="40" height="40" alt=""></span></div>'); var m=el('<div class="m"></div>'); m.textContent=text;
       if(extra){ var x=el('<span class="v"></span>'); x.textContent=extra; m.appendChild(x); } r.appendChild(m); var t=el('<span class="t"></span>'); t.textContent=hm(); r.appendChild(t); log.appendChild(r); log.scrollTop=log.scrollHeight; return m; }
     function addMe(text){ var r=el('<div class="me"><div class="m"></div><span class="t"></span></div>'); r.firstChild.textContent=text; r.lastChild.textContent=hm(); log.appendChild(r); log.scrollTop=log.scrollHeight; }
-    addBot('안녕하세요! 돋보기 든 봄이예요. 어려운 예산 용어는 물론이고, 김보미가 어떤 사람인지, 우리 동네 이야기, 청년들의 궁금증까지 뭐든 물어보세요. 김보미.com 어디에 답이 있는지도 찾아 드릴게요!');
+    addBot('안녕하세요! 돋보기 든 AI 봄이예요. 김보미를 닮게 만든 아트토이 길잡이지만, 김보미 본인은 아니에요. 어려운 예산 용어, 김보미가 어떤 사람인지, 우리 동네 살림, 청년들의 궁금증까지 편하게 물어보세요. 김보미.com 어디에 답이 있는지도 같이 찾아 드릴게요!');
     CHIPS.forEach(function(c){ var b=el('<button type="button"></button>'); b.textContent=c; b.addEventListener('click',function(){ ask(c); }); chips.appendChild(b); });
     var lastFocus=null;
     function open(){ lastFocus=document.activeElement; preload(); box.classList.add('on'); fab.style.display='none'; state('bow',1500,'hello'); setTimeout(function(){ if(!busy) state('hello',1800); },1500);
