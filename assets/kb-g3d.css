@@ -43,3 +43,23 @@
 input,textarea{caret-color:#0F5A4A}
 html[data-theme="dark"] ::selection{background:rgba(142,207,178,.28)}
 html[data-theme="dark"] :focus-visible{outline-color:#8ECFB2}
+
+/* 2026-11 슬로건 띠 — Gemini로 만든 아트토이 미니어처 장면 위에 김보미 한 줄 (글자는 HTML이라 또렷하고 검색에도 잡힘) */
+.kslog{padding:36px 16px 44px}
+.kslog-in{position:relative;max-width:1200px;margin:0 auto;border-radius:22px;overflow:hidden;aspect-ratio:16/9;max-height:600px;background:#F7F2E6;box-shadow:0 18px 40px rgba(40,30,10,.10);container-type:inline-size}
+.kslog-in img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right center;display:block}
+.kslog-in::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(247,242,230,.97) 0%,rgba(247,242,230,.93) 36%,rgba(247,242,230,.5) 47%,rgba(247,242,230,0) 60%)}
+.kslog .kslog-t{position:absolute;z-index:2;left:6%;top:0;bottom:0;width:46%;margin:0;display:flex;flex-direction:column;justify-content:center}
+.kslog .kslog-t p{margin:0!important;padding:0;font-family:'Noto Serif KR','Nanum Myeongjo',serif!important;font-weight:900!important;font-size:clamp(24px,4.4cqi,58px)!important;line-height:1.34!important;letter-spacing:-.035em;color:#16191C!important;word-break:keep-all;max-width:none}
+.kslog .kslog-t p em{font-style:normal;color:#0F5A4A}
+.kslog .kslog-t cite{margin-top:clamp(14px,2vw,26px);display:flex;align-items:center;gap:12px;font:700 clamp(14px,1.6cqi,20px)/1 'Noto Sans KR',sans-serif;font-style:normal;color:#16305A}
+.kslog .kslog-t cite::before{content:"";width:38px;height:3px;background:#C99A2E;border-radius:2px}
+@media(max-width:760px){
+  .kslog{padding:24px 16px 30px}
+  .kslog-in{aspect-ratio:auto;max-height:none;display:flex;flex-direction:column}
+  .kslog-in img{position:relative;inset:auto;height:62vw;object-position:78% center}
+  .kslog-in::before{display:none}
+  .kslog .kslog-t{position:relative;left:auto;width:auto;padding:20px 22px 24px}
+  .kslog .kslog-t p{font-size:1.6rem!important}
+}
+html[data-theme="dark"] .kslog-in{box-shadow:0 18px 40px rgba(0,0,0,.4)}
