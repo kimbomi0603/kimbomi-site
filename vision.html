@@ -81,10 +81,10 @@ main{padding:52px 0 80px;min-height:50vh}
 .article p{font-size:1.09rem;line-height:1.95;color:#26324a;margin-bottom:22px}
 .article p.tagline{font-family:var(--serif);font-weight:700;color:var(--dpk);text-align:center;background:var(--tint);border-radius:14px;padding:18px 20px;margin-top:34px;font-size:1.05rem}
 .article p.p-sub{font-family:var(--serif);font-weight:800;color:var(--dpk-dark);text-align:center;background:var(--tint);border-radius:12px;padding:16px 18px;font-size:1.08rem;line-height:1.7}
-.article p.p-head{font-family:var(--serif);font-weight:900;color:var(--dpk-dark);font-size:1.22rem;line-height:1.6;margin:38px 0 16px;padding-left:14px;border-left:4px solid var(--dpk)}
-.article p.p-num{background:#F5F2EA;border-left:3px solid var(--dpk-2);border-radius:0 12px 12px 0;padding:16px 18px;margin-bottom:14px}
+.article p.p-head{font-family:var(--serif);font-weight:900;color:var(--dpk-dark);font-size:1.22rem;line-height:1.6;margin:38px 0 16px}
+.article p.p-num{background:#F5F2EA;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:14px}
 .article p.p-num b{color:var(--dpk-dark);display:block;margin-bottom:4px}
-.article p.p-li{background:#F5F2EA;border-left:3px solid var(--dpk-2);border-radius:0 10px 10px 0;padding:12px 16px;margin-bottom:10px;font-weight:600;color:#1e2c48}
+.article p.p-li{background:#F5F2EA;border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:10px;font-weight:600;color:#1e2c48}
 .article p.p-callout{font-family:var(--serif);font-weight:800;color:var(--dpk-dark);font-size:1.16rem;margin:32px 0 18px}
 .article p.p-date{color:#697389;font-size:.96rem;text-align:right;margin-top:34px;line-height:1.7}
 .article .pfig{margin:28px 0}
@@ -126,6 +126,21 @@ main{padding:52px 0 80px;min-height:50vh}
 .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:.86rem;font-weight:700;padding:11px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:60}
 .toast.show{opacity:1}
 @media(max-width:600px){.hero h1{font-size:1.9rem}.article h1{font-size:1.6rem}.pcard h2{font-size:1.28rem}.hero{padding:48px 0 40px}}
+.ptools{margin:6px 0 22px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px}
+.psearch{flex:1 1 280px;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:0 14px;min-height:48px;transition:border-color .15s,box-shadow .15s}
+.psearch:focus-within{border-color:var(--dpk);box-shadow:0 0 0 3px rgba(15,90,74,.14)}
+.psearch svg{width:18px;height:18px;flex:none;fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round}
+.psearch input{flex:1;border:0;outline:0;background:transparent;font:inherit;font-size:1rem;color:var(--ink);min-width:0;padding:12px 0}
+.ptags{display:flex;flex-wrap:wrap;gap:8px;flex:1 1 100%}
+.ptags button{font:inherit;font-size:.88rem;font-weight:700;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.ptags button span{font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;margin-left:2px}
+.ptags button:hover{border-color:var(--dpk)}
+.ptags button[aria-pressed="true"]{background:var(--dpk);border-color:var(--dpk);color:#fff}
+.ptags button[aria-pressed="true"] span{color:rgba(255,255,255,.8)}
+.ptags button:focus-visible,.psearch input:focus-visible{outline:2px solid var(--dpk);outline-offset:2px}
+.pcount{flex:1 1 100%;margin:0;font-size:.9rem;color:var(--muted);min-height:1em}
+@media(max-width:640px){.ptags{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:2px 16px 4px;scroll-padding:16px}.ptags::-webkit-scrollbar{display:none}.ptags button{flex:none}}
+html[data-theme="dark"] .psearch,html[data-theme="dark"] .ptags button{background:#1d1f22;border-color:#33363b;color:#e8e6e1}
 </style>
 <style>
 /* nav fit fix (2026-08-31) */
@@ -154,7 +169,7 @@ header{background:rgba(245,242,234,.94)}
 .article h1{border-bottom:2px solid var(--line)}
 .article p.tagline,.article p.p-sub{background:var(--tint);color:var(--dpk-dark)}
 .article p.p-head{border-left-color:var(--dpk);color:var(--dpk-dark)}
-.article p.p-num,.article p.p-li{background:#F5F2EA;border-left-color:var(--dpk)}
+.article p.p-num,.article p.p-li{background:#F5F2EA}
 .btn.p{background:var(--dpk)}.btn.p:hover{background:var(--dpk-dark)}
 .btn.g{color:var(--dpk);border-color:var(--dpk)}.btn.g:hover{background:var(--tint)}
 .foot{background:#F5F2EA;border-top-color:var(--line)}
@@ -287,6 +302,11 @@ header{background:rgba(245,242,234,.94)}
 
 <main class="wrap">
   <div id="listView">
+    <div class="ptools">
+      <label class="psearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" id="pq" placeholder="제목이나 내용으로 찾기" aria-label="김보미생각 글 검색" autocomplete="off"></label>
+      <div class="ptags" id="ptags" role="group" aria-label="주제별로 보기"></div>
+      <p class="pcount" id="pcount" aria-live="polite"></p>
+    </div>
     <div class="plist" id="plist"><div class="empty">불러오는 중…</div></div>
   </div>
   <div id="detailView" class="hide">
@@ -306,6 +326,7 @@ header{background:rgba(245,242,234,.94)}
         <a href="about.html">김보미는</a>
         <a href="vision.html">김보미생각</a>
         <a href="press.html">언론·영상</a>
+        <a href="live.html">정책 실시간</a>
         <a href="party-money.html">정당 돈</a>
         <a href="report.html">소통·제보</a>
         <a href="archive.html">기록관</a>
@@ -353,18 +374,42 @@ var posts=[];
 function esc(s){ return KB_esc(s); }   /* assets/kb-format.js — 작은따옴표까지 이스케이프 */
 /* 게시일은 항상 한국시간(KST, UTC+9) 기준으로 표기 — 해외 접속 시에도 페이스북 원문과 날짜가 일치하도록 */
 function fmtDate(ms){ if(!ms)return ''; try{var d=new Date(ms+32400000);return d.getUTCFullYear()+'.'+('0'+(d.getUTCMonth()+1)).slice(-2)+'.'+('0'+d.getUTCDate()).slice(-2);}catch(e){return '';} }
-function excerpt(body){ var t=String(body||'').replace(/\n+/g,' ').replace(/\[[^\]]*\]/g,'').replace(/https?:\/\/[^\s]+/g,'').replace(/\s+/g,' ').trim(); return t.slice(0,90); }
+function excerpt(body,title){
+  var t=String(body||'').replace(/[\u200B-\u200D\uFEFF]/g,'').replace(/\n+/g,' ').replace(/\[[^\]]*\]/g,'').replace(/https?:\/\/[^\s]+/g,'').replace(/\s+/g,' ').trim();
+  /* 본문 첫머리에 제목이 그대로 다시 나오면 요약에서 뺀다 */
+  var ti=String(title||'').trim();
+  if(ti){ var k=t.indexOf(ti); if(k>-1&&k<6) t=t.slice(k+ti.length).replace(/^[\s>»"'”’·:\-]+/,''); }
+  return t.slice(0,90);
+}
 function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1800);}
 
+var pFilter={q:'',tag:''};
+function postTag(p){ return window.KB_topic?KB_topic(p.title):''; }
+function drawTags(){
+  var box=$('ptags'); if(!box||!window.KB_topics) return;
+  var cnt={}; posts.forEach(function(p){ var t=postTag(p); cnt[t]=(cnt[t]||0)+1; });
+  var tags=KB_topics().filter(function(t){return cnt[t];});
+  box.innerHTML='<button type="button" data-tag="" aria-pressed="'+(!pFilter.tag)+'">전체 <span>'+posts.length+'</span></button>'
+    +tags.map(function(t){return '<button type="button" data-tag="'+esc(t)+'" aria-pressed="'+(pFilter.tag===t)+'">'+esc(t)+' <span>'+cnt[t]+'</span></button>';}).join('');
+}
 function renderList(){
   var el=$('plist');
   if(!posts.length){ el.innerHTML='<div class="empty">아직 발행된 글이 없습니다.</div>'; return; }
-  el.innerHTML=posts.map(function(p){
+  drawTags();
+  var q=pFilter.q.replace(/\s+/g,'').toLowerCase();
+  var shown=posts.filter(function(p){
+    if(pFilter.tag&&postTag(p)!==pFilter.tag) return false;
+    if(q&&(String(p.title||'')+String(p.body||'')).replace(/\s+/g,'').toLowerCase().indexOf(q)<0) return false;
+    return true;
+  });
+  var pc=$('pcount'); if(pc) pc.textContent=(pFilter.q||pFilter.tag)?('글 '+shown.length+'편'+(shown.length?'':' — 다른 낱말로 찾아보세요')):'';
+  if(!shown.length){ el.innerHTML='<div class="empty">찾는 글이 없습니다.</div>'; return; }
+  el.innerHTML=shown.map(function(p){
     return '<a class="pcard has-th" href="?post='+encodeURIComponent(p.id)+'" data-id="'+esc(p.id)+'">'
       +'<span class="pth">'+KB_thumb(p.title,p.id)+'</span><span class="pbody">'
       +'<div class="meta"><span class="chip">김보미 생각</span><span>'+fmtDate(p.publishAt)+'</span></div>'
       +'<h2>'+esc(p.title)+'</h2>'
-      +'<div class="ex">'+esc(excerpt(p.body))+'…</div>'
+      +'<div class="ex">'+esc(excerpt(p.body,p.title))+'…</div>'
       +'<div class="go">전문 읽기 →</div></span></a>';
   }).join('');
 }
@@ -508,6 +553,11 @@ function showById(id){
 }
 function showList(){ $('detailView').classList.add('hide'); $('listView').classList.remove('hide'); }
 
+(function(){
+  var qi=$('pq'), tb=$('ptags'), tm;
+  if(qi) qi.addEventListener('input',function(){ clearTimeout(tm); tm=setTimeout(function(){ pFilter.q=qi.value.trim(); renderList(); },120); });
+  if(tb) tb.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('button'); if(!b) return; pFilter.tag=b.getAttribute('data-tag')||''; renderList(); });
+})();
 $('backBtn').addEventListener('click',function(e){ e.preventDefault(); history.pushState(null,'','vision.html'); showList(); });
 $('plist').addEventListener('click',function(e){
   var a=e.target.closest&&e.target.closest('.pcard'); if(!a) return;

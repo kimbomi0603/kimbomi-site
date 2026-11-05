@@ -63,7 +63,7 @@ h2.sec:first-of-type{margin-top:0}
 .d{flex:none;width:86px;font-size:.82rem;color:#6b778c;font-weight:700;font-variant-numeric:tabular-nums}
 .src{flex:none;width:110px;font-size:.8rem;color:var(--dpk);font-weight:800}
 .src .rp{display:block;font-style:normal;font-size:.72rem;color:#697587;font-weight:600;margin-top:1px}
-.thanks{background:linear-gradient(135deg,#f7faff,#F5F2EA);border:1px solid var(--tint-2);border-left:4px solid var(--dpk);border-radius:14px;padding:22px 24px;margin-bottom:24px}
+.thanks{background:linear-gradient(135deg,#f7faff,#F5F2EA);border:1px solid var(--tint-2);border-radius:14px;padding:22px 24px;margin-bottom:24px}
 .thanks h3{font-family:var(--serif);font-weight:800;font-size:1.08rem;color:var(--dpk-dark);margin-bottom:10px}
 .thanks p{font-size:.93rem;color:#33405a;line-height:1.85;margin-bottom:8px}
 .thanks p.when{font-size:.82rem;color:#6b7690;margin-bottom:10px}
@@ -170,7 +170,7 @@ header{background:rgba(245,242,234,.94)}
 <section class="hero">
   <div class="wrap g3hero">
   <div class="g3t">
-    <div class="eyebrow">LIVE · 정부와 국회가 지금 내놓는 것</div>
+    <div class="eyebrow">정부와 국회가 지금 내놓는 것</div>
     <h1>정책 실시간 — 정부 발표·국회 입법·청년정책</h1>
     <p>정부 부처와 국회가 공공 API로 내놓는 원자료를 그대로 모았습니다. 제목을 누르면 원문으로 갑니다.</p>
   </div>
@@ -185,7 +185,7 @@ header{background:rgba(245,242,234,.94)}
     <button class="lv-tab" data-t="youth" role="tab">청년정책</button>
   </div>
   <div id="lv-pane"><div class="lv-empty">불러오는 중…</div></div>
-  <p class="lv-note">자료 출처: 문화체육관광부 정책브리핑, 과학기술정보통신부·중소벤처기업부·외교부·통일부·성평등가족부 보도자료, 행정안전부 관보(공공데이터포털), 국회사무처 열린국회정보, 한국고용정보원 온통청년. 이 페이지는 받은 값을 고치거나 만들지 않습니다. 받지 못한 출처는 위에 「실패」로 표시하고 비워 둡니다. 같은 내용은 30분(청년정책 1시간) 동안 저장해 두고 보여 줍니다.</p>
+  <p class="lv-note">자료 출처: 문화체육관광부 정책브리핑, 과학기술정보통신부·중소벤처기업부·외교부·통일부·성평등가족부 보도자료, 행정안전부 관보(공공데이터포털), 국회사무처 열린국회정보, 한국고용정보원 온통청년. 이 페이지는 받은 값을 고치거나 만들지 않습니다. 받지 못한 출처는 위에 「받지 못함」으로 표시하고 비워 둡니다. 같은 내용은 30분(청년정책 1시간) 동안 저장해 두고 보여 줍니다.</p>
 </main>
 
 <footer class="kbx-foot">
@@ -243,7 +243,7 @@ header{background:rgba(245,242,234,.94)}
   function esc(s){return KB_esc(s)}
   var pane=document.getElementById('lv-pane');
   var S={tab:'gov',q:'',src:'',n:30,data:{},yq:'',yop:'plcy',ypage:1};
-  var ST={ok:'정상',empty:'자료 없음',error:'실패',no_key:'준비 중'};
+  var ST={ok:'정상',empty:'자료 없음',error:'받지 못함',no_key:'준비 중'};
   function load(g){
     if(S.data[g])return Promise.resolve(S.data[g]);
     return fetch('/api/live?g='+g).then(function(r){return r.json()}).then(function(j){S.data[g]=j;return j}).catch(function(){return null});
