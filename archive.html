@@ -795,7 +795,7 @@ footer .flink:hover{color:#fff}
         <li>업무추진비 전면 공개 — 지방의회 투명성의 새 기준</li>
         <li>사상 최초 '일문일답' 군정질문 도입</li>
         <li>역대 최대 규모 낭비예산 삭감</li>
-        <li>육아양육수당 지원 조례 대표 발의</li>
+        <li>의장 재임 중 육아양육수당 지원 조례 제정</li>
         <li>매년 12월 의정활동비·수당 전액 지역사회 기탁</li>
         <li>100여 건 허위·비방 보도 손해배상 승소 (2024)</li>
         <li>표적 고소·감사·수사 전 건 '혐의없음·불송치' 종결</li>
@@ -1074,7 +1074,7 @@ footer .flink:hover{color:#fff}
     <button data-q="1호 공약이 뭐야?">1호 공약은?</button>
     <button data-q="어떻게 함께할 수 있어?">함께하는 방법?</button>
     <button data-relay="kimbomi">💌 김보미에게 전하기</button>
-    <button data-relay="candidates">📢 당대표 후보들에게 전하기</button>
+    <button data-relay="candidates">📢 민주당 지도부에게 전하기</button>
   </div>
   <form class="bomi-input" id="bomiForm">
     <input aria-label="궁금한 것 입력" id="bomiText" maxlength="500" placeholder="궁금한 것을 물어보세요" autocomplete="off">
@@ -1096,7 +1096,7 @@ footer .flink:hover{color:#fff}
   }
   function greet(){
     if(greeted)return; greeted=true;
-    add('bot','안녕하세요! 김보미 캠프 AI 챗봇 더불이예요 🤝\n더불어 함께 바꿔봐요!\n\n공약·걸어온 길·함께하는 방법, 무엇이든 물어보세요.\n💌 김보미에게 하고 싶은 말, 당대표 후보들에게 전하고 싶은 말을 남기면 김보미가 직접 읽고 대신 전합니다.');
+    add('bot','안녕하세요! 김보미 캠프 AI 챗봇 더불이예요 🤝\n더불어 함께 바꿔봐요!\n\n공약·걸어온 길·함께하는 방법, 무엇이든 물어보세요.\n💌 김보미에게 하고 싶은 말, 민주당 지도부에게 전하고 싶은 말을 남기면 김보미가 직접 읽고 대신 전합니다.');
   }
   function toggle(open){ panel.classList.toggle('open',open); if(open){greet(); $('bomiText').focus();} }
   $('bomiFab').addEventListener('click',function(){ toggle(!panel.classList.contains('open')); });
@@ -1127,7 +1127,7 @@ footer .flink:hover{color:#fff}
     relay=kind;
     add('bot',kind==='kimbomi'
       ? '김보미에게 하고 싶은 말을 그대로 적어주세요 💌\n남겨주신 말은 김보미가 매일 직접 읽습니다.'
-      : '당대표 후보들에게 전하고 싶은 말을 적어주세요 📢\n김보미가 대신 전하겠습니다.');
+      : '민주당 지도부에게 전하고 싶은 말을 적어주세요 📢\n김보미가 대신 전하겠습니다.');
     $('bomiText').placeholder='전하고 싶은 말을 적어주세요';
     $('bomiText').focus();
   }
@@ -1136,7 +1136,7 @@ footer .flink:hover{color:#fff}
     add('user',q);
     var w=add('bot','전달 중… 💌',true);
     fetch('/api/thoughts',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({name:'더불이 챗봇 💌',region:(kind==='kimbomi'?'김보미에게':'당대표 후보들에게'),msg:q})})
+      body:JSON.stringify({name:'더불이 챗봇 💌',region:(kind==='kimbomi'?'김보미에게':'민주당 지도부에게'),msg:q})})
       .then(function(r){return r.json();})
       .then(function(d){ w.remove();
         add('bot',(d&&d.ok)
