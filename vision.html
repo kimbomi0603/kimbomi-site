@@ -412,8 +412,9 @@ function renderList(){
   var pc=$('pcount'); if(pc) pc.textContent=(pFilter.q||pFilter.tag)?('글 '+shown.length+'편'+(shown.length?'':' — 다른 낱말로 찾아보세요')):'';
   if(!shown.length){ el.innerHTML='<div class="empty">찾는 글이 없습니다.</div>'; return; }
   el.innerHTML=shown.map(function(p){
+    var th=KB_thumb(p.title,p.id);   /* kb-thumbs.js 안에서 제목을 이스케이프한다 */
     return '<a class="pcard has-th" href="?post='+encodeURIComponent(p.id)+'" data-id="'+esc(p.id)+'">'
-      +'<span class="pth">'+KB_thumb(p.title,p.id)+'</span><span class="pbody">'
+      +'<span class="pth">'+th+'</span><span class="pbody">'
       +'<div class="meta"><span class="chip">'+esc(postTag(p)||'김보미 생각')+'</span><span>'+fmtDate(p.publishAt)+'</span></div>'
       +'<h2>'+esc(p.title)+'</h2>'
       +'<div class="ex">'+esc(excerpt(p.body,p.title))+'…</div>'
@@ -523,7 +524,8 @@ function renderDetail(p){
   var paras=String(p.body||'').split(/\n{2,}/).map(function(t){return t.trim();}).filter(Boolean);
   var html='<div class="meta">'+fmtDate(p.publishAt)+'</div><h1>'+esc(p.title)+'</h1>';
   /* 글에 자체 사진이 없으면 그 글의 미니어처 이미지를 머리 그림으로 (kb-thumbs.js) */
-  if(!/\[img:/.test(String(p.body||''))) html+='<figure class="pbanner"><img src="'+KB_thumbSrc(p.title,true,p.id)+'" alt="" width="1024" height="572"></figure>';
+  var ownImg=/\[img:/.test(String(p.body||''));
+  if(!ownImg) html+='<figure class="pbanner"><img src="'+esc(KB_thumbSrc(p.title,true,p.id))+'" alt="" width="1024" height="572"></figure>';
   paras.forEach(function(t){
     var im=t.match(/^\[img:([^\]]+)\]$/);
     if(im){ html+='<figure class="pfig"><img src="'+esc(im[1])+'" alt="" loading="lazy"></figure>'; return; }

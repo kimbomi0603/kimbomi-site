@@ -37,16 +37,17 @@ HEAD = """<!DOCTYPE html>
 <link rel="canonical" href="{url}">
 <meta property="og:type" content="website"><meta property="og:site_name" content="김보미.com 우리동네365">
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{url}">
-<meta property="og:image" content="{site}/og-ud365.jpg?v=20260921d"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{site}/og-ud365.jpg?v=20260921d">
+<meta property="og:image" content="{site}/og-ud365.jpg?v=20261107d"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{site}/og-ud365.jpg?v=20261107d">
 <link rel="icon" href="../favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="../assets/brand/kb-icon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><style>:where(button,input,select,textarea){{font-family:inherit}}:where(h1,h2,h3,h4){{text-wrap:balance;word-break:keep-all}}:where(p,li,dd){{text-wrap:pretty}}</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&display=swap">
 <script type="application/ld+json">{ld}</script>
 <style>
-:root{{--navy:#1C1B18;--gold:#C8412B;--gold-ink:#93321F;--bg:#FBF7EE;--ink:#1C1B18;--ink-2:#4A4740;--ink-3:#7A766C;--line:#E5DFD0;--card:#fff;--zone:{zone}}}
+:root{{--navy:#1C1B18;--gold:#C8412B;--gold-ink:#93321F;--bg:#FBF7EE;--ink:#1C1B18;--ink-2:#4A4740;--ink-3:#69655B;--line:#E5DFD0;--card:#fff;--zone:{zone}}}
 @media (prefers-color-scheme:dark){{:root:not([data-theme="light"]){{--bg:#161512;--ink:#F2EEE4;--ink-2:#CFC9BB;--ink-3:#9A958A;--line:#33302A;--card:#1E1C18}}}}
 :root[data-theme="dark"]{{--bg:#161512;--ink:#F2EEE4;--ink-2:#CFC9BB;--ink-3:#9A958A;--line:#33302A;--card:#1E1C18}}
-*{{box-sizing:border-box}} body{{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;line-height:1.6}}
+*{{box-sizing:border-box}} body{{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard Variable",system-ui,sans-serif;line-height:1.6}}
 .top{{background:var(--navy);color:#F5F0E4;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}}
 .top a{{color:#F5F0E4;text-decoration:none;font-weight:700}} .top .b{{font-family:"Noto Serif KR",serif;font-weight:900;font-size:18px}} .top .b em{{font-style:normal;color:#F2A48F}}
 .wrap{{max-width:860px;margin:0 auto;padding:28px 16px 48px}}
@@ -62,10 +63,11 @@ h1{{font-family:"Noto Serif KR",serif;font-weight:900;font-size:clamp(26px,5vw,3
 .src{{font-size:12.5px;color:var(--ink-3);margin-top:22px;border-top:1px solid var(--line);padding-top:12px}}
 a:focus-visible,.cta:focus-visible{{outline:3px solid var(--gold);outline-offset:2px}}
 footer{{max-width:860px;margin:0 auto;padding:0 16px 30px;font-size:12.5px;color:var(--ink-3)}} footer a{{color:inherit}}
+.top .b{{display:inline-flex;align-items:center;gap:9px}}.top .b img{{border-radius:7px;flex:none}}.stats span,.sub{{word-break:keep-all}}
 </style>
 </head>
 <body>
-<div class="top"><a class="b" href="../budget365.html">우리동네<em>365</em></a><span><a href="../index.html">김보미.com</a> &nbsp;·&nbsp; <a href="../budget365.html#/gov">중앙정부</a> &nbsp;·&nbsp; <a href="../budget365.html#/key">정책 아카이브</a></span></div>
+<div class="top"><a class="b" href="../budget365.html"><img src="../assets/brand/ud365-icon.svg" alt="" width="26" height="26">우리동네<em>365</em></a><span><a href="../index.html">김보미.com</a> &nbsp;·&nbsp; <a href="../budget365.html#/gov">중앙정부</a> &nbsp;·&nbsp; <a href="../budget365.html#/key">정책 아카이브</a></span></div>
 <main class="wrap">
 """
 FOOT = """</main>
@@ -192,5 +194,13 @@ def update_sitemap(urls):
     open(p, 'w', encoding='utf-8').write(s)
 
 if __name__ == '__main__':
-    a = build_lg(); b = build_gov(); update_sitemap(a + b)
+    import sys
+    a = build_lg()
+    if '--lg-only' in sys.argv:
+        # 중앙정부 페이지는 손으로 다듬은 문구가 있어 덮어쓰지 않는다(사이트맵 주소 목록만 얻는다)
+        _w = write; write = lambda *x, **k: None
+        b = build_gov(); write = _w
+    else:
+        b = build_gov()
+    update_sitemap(a + b)
     print('lg', len(a), 'gov', len(b))
