@@ -101,3 +101,9 @@ WebKit(Safari 엔진)으로 **선택 가능한 지자체 전부**의 상세페�
 2. `python3 tools/verify_data.py --api` — 원자료·API 재조회·교차·재계산 5중 검증, 판정표 갱신.
 3. `node tools/verify.js` — 정적 검사.
 4. `node tools/verify-screen.js` — 운영 화면 숫자 대조(배포 뒤).
+
+## 매일 아침 자동 갱신 (2026-11-06)
+
+`.github/workflows/daily-refresh.yml`이 매일 06:40(KST)에 `refresh_exec.py` → `build_entry.py --lg-only` → `verify.js`를 돌리고,
+바뀐 것이 있을 때만 커밋한다(커밋되면 Vercel이 자동 배포). 중앙정부 페이지(gov/*.html)는 손으로 다듬은 문구가 있어 다시 만들지 않는다.
+지자체 화면은 이와 별개로 열 때(새로고침 포함)마다 지방재정365에서 최신 집행·계약을 다시 받는다.

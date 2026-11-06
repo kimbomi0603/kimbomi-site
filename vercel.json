@@ -1,4 +1,7 @@
 {
+  "regions": [
+    "icn1"
+  ],
   "functions": {
     "api/contract.js": {
       "maxDuration": 60
