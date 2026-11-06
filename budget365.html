@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>우리동네365 예산·계약 조회 | 지방정부 243개 시·군·구 · 중앙정부 부처 | 김보미.com</title>
 <meta name="description" content="중앙정부 62개 부처와 지방정부 243개 시·군·구의 예산·집행·계약을 한눈에. 동네 이름이나 부처 이름만 넣으면 올해 예산이 어디에 잡혔고, 얼마를 썼고, 어느 업체와 계약했는지 나옵니다. 정부가 공개한 원자료 그대로, 확인되지 않은 값은 비워 둡니다.">
@@ -20,8 +20,8 @@
 <meta name="keywords" content="우리동네365,예산 조회,계약 조회,지방재정,지자체 예산,시군구 예산,중앙정부 예산,부처별 예산,2027 예산안,집행 내역,수의계약 조회,나라장터 계약,세금 어디에 쓰이나,재정주권시민행동,재정주권,예산감시,김보미,김보미.com">
 <link rel="alternate" type="application/rss+xml" title="김보미.com — 우리동네365" href="/rss.xml">
 <link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="assets/brand/kb-icon.svg"><link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><style>:where(button,input,select,textarea){font-family:inherit}:where(h1,h2,h3,h4){text-wrap:balance;word-break:keep-all}:where(p,li,dd){text-wrap:pretty}</style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"></noscript><style>:where(button,input,select,textarea){font-family:inherit}:where(h1,h2,h3,h4){text-wrap:balance;word-break:keep-all}:where(p,li,dd){text-wrap:pretty}</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&display=swap"></noscript>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="assets/kb-format.js"></script>
 <script src="assets/kb-prefs.js" defer></script>
@@ -1654,7 +1654,7 @@ async function loadLgPuIndex(){ if(S.lgpuix!==undefined) return S.lgpuix; try{ c
 const lgPuOf=(PU,p)=>PU&&PU.pu?((PU.pu['nm:'+p.n]||{}).p||''):'';
 const puSnip=(t,q)=>{ if(!t) return ''; const T=t.replace(/\s+/g,' '); const i=T.replace(/\s+/g,'').indexOf(q); if(i<0) return T.slice(0,120); let k=0,pos=0; for(let c=0;c<T.length;c++){ if(!/\s/.test(T[c])){ if(k===i){pos=c;break;} k++; } } const a=Math.max(0,pos-45); return (a>0?'…':'')+T.slice(a,pos+q.length+75)+(pos+q.length+75<T.length?'…':''); };
 async function loadGQ(is27){ const k=is27?'gq27':'gq26'; S.gq=S.gq||{}; if(k in S.gq) return S.gq[k]; try{ const r=await fetch('data/'+k+'.json'); S.gq[k]=r.ok?await r.json():null; }catch(e){ S.gq[k]=null; } return S.gq[k]; }
-async function loadGovMin(sg){ S.govmin=S.govmin||{}; if(S.govmin[sg]) return S.govmin[sg]; return S.govmin[sg]=await gunzipB64('data/gov/'+encodeURIComponent(sg)+'.txt'); }
+async function loadGovMin(sg){ S.govmin=S.govmin||{}; if(S.govmin[sg]) return S.govmin[sg]; return S.govmin[sg]=await gunzipB64('data/gov/'+encodeURIComponent(String(sg).replace(/[\s·]/g,''))+'.txt'); }
 const jo=v=>isN(v)?(Number(v)/1e12).toLocaleString('ko-KR',{maximumFractionDigits:1}):NA;   /* 원 → 조 */
 const mjo=v=>isN(v)?(Number(v)/1e6).toLocaleString('ko-KR',{maximumFractionDigits:1}):NA;   /* 백만원 → 조 */
 const meok=v=>isN(v)?Math.round(Number(v)/100).toLocaleString('ko-KR'):NA;                  /* 백만원 → 억 */
@@ -1761,7 +1761,7 @@ async function render27Min(ix,sg){ const N=s=>String(s).replace(/[\s·]/g,''); c
     </div>
   </div></div>
   <div class="wrap">
-    <div class="sech"><span class="no">세부사업</span><h2>${esc(m.nm)}는 내년에 어디에 쓰려 하나</h2><span class="basis">2027 정부안 · 2026 본예산 대비</span></div>
+    <div class="sech"><span class="no">세부사업</span><h2>${esc(m.nm)}${josa(m.nm,"은","는")} 내년에 어디에 쓰려 하나</h2><span class="basis">2027 정부안 · 2026 본예산 대비</span></div>
     <div class="govtools">
       <input id="q27" type="search" placeholder="사업 이름·프로그램 검색" aria-label="사업 검색">
       <select id="f27" aria-label="분야 고르기"><option value="">분야 전체</option>${flds.map(f=>`<option>${esc(f)}</option>`).join('')}</select>
@@ -1803,7 +1803,7 @@ async function render27Min(ix,sg){ const N=s=>String(s).replace(/[\s·]/g,''); c
 }
 
 const GOVF={q:'',sort:'b26',dir:-1};
-async function renderGovMin(ix,sg){ const m=ix.ministries.find(x=>x.sg===sg); if(!m&&sg==='기획예산처'){ location.replace('#/gov/'+encodeURIComponent('재정경제부')); return; } if(!m) throw new Error('부처를 찾지 못했습니다');
+async function renderGovMin(ix,sg){ const _n=v=>String(v).replace(/[\s·]/g,''); const m=ix.ministries.find(x=>x.sg===sg)||ix.ministries.find(x=>_n(x.sg)===_n(sg)); if(m) sg=m.sg;   /* 2027 화면의 띄어 쓴 부처명(예: '대통령비서실 및 국가안보실')으로 들어와도 2026 자료를 찾는다 */ if(!m&&sg==='기획예산처'){ location.replace('#/gov/'+encodeURIComponent('재정경제부')); return; } if(!m) throw new Error('부처를 찾지 못했습니다');
   const P=await loadGovMin(sg); const PU=await loadGovPu(sg); GOVF.q=''; GOVF.sort='b26'; GOVF.dir=-1;
   const known=P.filter(x=>isN(x.b26));
   const psum=known.reduce((a,x)=>a+x.b26,0);
@@ -1825,7 +1825,7 @@ async function renderGovMin(ix,sg){ const m=ix.ministries.find(x=>x.sg===sg); if
   </div></div>
   <div class="wrap">
     ${splitNote}
-    <div class="sech"><span class="no">세부사업</span><h2>${esc(m.nm)}는 올해 어디에 쓰나</h2><span class="basis">2026 확정예산 · 2025 본예산 대비</span></div>
+    <div class="sech"><span class="no">세부사업</span><h2>${esc(m.nm)}${josa(m.nm,"은","는")} 올해 어디에 쓰나</h2><span class="basis">2026 확정예산 · 2025 본예산 대비</span></div>
     <div class="govtools">
       <input id="gq" type="search" placeholder="${PU?'사업 이름·프로그램·사업 목적 낱말 검색':'사업 이름·프로그램 검색'}" aria-label="사업 검색">
       <select id="gf" aria-label="분야 고르기"><option value="">분야 전체</option>${flds.map(f=>`<option>${esc(f)}</option>`).join('')}</select>
@@ -1881,7 +1881,7 @@ async function renderSearch(q,sidoF){ sidoF=sidoF||''; const app=document.getEle
     <div class="badges"><span class="badge">지자체 <b>${num(lgs.length)}</b>/${live}곳</span><span class="badge">사업 <b>${num(hits.length)}</b>건</span><span class="badge">2026 예산현액 <b>${won(TB)}</b></span><span class="badge">집행 <b>${won(TE)}</b> · ${pct(TB?TE/TB*100:null)}</span>${nPrev?`<span class="badge gold">전년(2025 연말) 대비 <b>${sgn(TP?(TB-TP)/TP*100:null,v=>v.toFixed(1)+'%')}</b> (${num(nPrev)}건 매칭)</span>`:''}${nPu?`<span class="badge gold">사업 내역에서 찾은 것 <b>${num(nPu)}</b>건 (${puLgs}곳)</span>`:''}</div>
         <div class="seg" style="margin-top:14px"><a href="#/q/${encodeURIComponent(q)}" class="${sidoF?'':'on'}">전국</a>${(sidoF?[[sidoF,bySido[sidoF]||{b:0,k:0,n:0}]]:Object.entries(bySido).sort((a,b)=>b[1].b-a[1].b)).map(([sd,v])=>`<a href="#/q/${encodeURIComponent(q)}/${encodeURIComponent(sd)}" class="${sidoF===sd?'on':''}" style="font-weight:500" title="${esc(sd)} ${v.k}곳 ${v.n}건">${esc(sd.replace(/특별자치도|특별자치시|광역시|특별시|통합특별시/,''))} <b class="mono">${eok(v.b)}억</b></a>`).join('')}</div>
   </div></div><div class="wrap">
-  ${hits.length?'':'<div class="empty" style="margin-top:22px">사업명에 이 말이 들어간 세부사업이 없습니다. 다른 표현(예: 노인일자리 → 노인 사회활동)으로 다시 찾아보세요.</div>'}
+  ${hits.length?'':'<div class="empty" style="margin-top:22px">지방정부 사업명에 이 말이 들어간 세부사업이 없습니다. 다른 표현(예: 노인일자리 → 노인 사회활동)으로 다시 찾아보세요.<br><a href="#/gq/'+encodeURIComponent(q)+'" style="display:inline-block;margin-top:10px;font-weight:700">중앙정부 사업에서 「'+esc(q)+'」 찾기 →</a></div>'}
   ${hits.length?`<section class="sec"><div class="sech"><span class="no">01</span><h2>지자체별 비교</h2><span class="basis">정렬: ${[['b','예산현액'],['per','1인당'],['rate','집행률'],['n','사업 수']].map(([k,l])=>`<a href="javascript:void 0" onclick="B.qsort='${k}';renderSearch(${JSON.stringify(q).replace(/"/g,'&quot;')},${JSON.stringify(sidoF).replace(/"/g,'&quot;')})" style="margin-left:8px;${sortKey===k?'font-weight:700;color:var(--navy)':''}">${l}</a>`).join('')}</span></div>
   <div class="card"><div class="tw"><table><thead><tr><th class="num">#</th><th>지자체</th><th class="num">사업 수</th><th class="num">2026 예산현액</th><th class="num">집행률</th><th class="num">1인당(원)</th><th class="num">전년 대비</th><th>비고</th></tr></thead><tbody>${L.slice(0,300).map((o,i)=>`<tr class="row" onclick="location.hash='#/lg/${o.cd}'"><td class="num">${i+1}</td><td><b>${esc(o.ix.display)}</b></td><td class="num">${num(o.n)}</td><td class="num">${won(o.b)}</td><td class="num">${pct(o.rate)}</td><td class="num">${isN(o.per)?Math.round(o.per).toLocaleString('ko-KR'):NA}</td><td class="num">${o.hasPrev&&o.pb?sgn((o.b-o.pb)/o.pb*100,v=>v.toFixed(1)+'%'):NA}</td><td class="mut">${isN(o.ix.pop_2024)?'인구 '+num(o.ix.pop_2024):''}</td></tr>`).join('')}</tbody></table></div>${L.length>300?`<div class="mut" style="margin-top:6px">상위 300곳만 표시</div>`:''}</div></section>
   <section class="sec"><div class="sech"><span class="no">02</span><h2>분야별 · 사업 목록</h2><span class="basis">예산현액 큰 순 · 클릭하면 사업 상세</span></div>
