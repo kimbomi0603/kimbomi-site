@@ -190,7 +190,7 @@ def update_sitemap(urls):
     p = os.path.join(ROOT, 'sitemap.xml'); s = open(p, encoding='utf-8').read()
     s = re.sub(r'\n?<!-- entry:start -->.*?<!-- entry:end -->', '', s, flags=re.S)
     block = '\n<!-- entry:start -->\n' + '\n'.join(f'<url><loc>{u}</loc><lastmod>{TODAY}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>' for u in urls) + '\n<!-- entry:end -->'
-    s = s.replace('</urlset>', block + '\n</urlset>')
+    s = re.sub(r'\s*</urlset>\s*$', '', s) + block + '\n</urlset>\n'   # 실행할 때마다 빈 줄이 쌓이지 않게
     open(p, 'w', encoding='utf-8').write(s)
 
 if __name__ == '__main__':
