@@ -1658,6 +1658,7 @@ async function loadGovMin(sg){ S.govmin=S.govmin||{}; if(S.govmin[sg]) return S.
 const jo=v=>isN(v)?(Number(v)/1e12).toLocaleString('ko-KR',{maximumFractionDigits:1}):NA;   /* 원 → 조 */
 const mjo=v=>isN(v)?(Number(v)/1e6).toLocaleString('ko-KR',{maximumFractionDigits:1}):NA;   /* 백만원 → 조 */
 const meok=v=>isN(v)?Math.round(Number(v)/100).toLocaleString('ko-KR'):NA;                  /* 백만원 → 억 */
+const mamt=v=>!isN(v)?NA:(Math.abs(Number(v))>=1e6?mjo(v)+'<small>조원</small>':meok(v)+'<small>억원</small>');   /* 1조 미만 기관은 억원으로(0조원 표기 방지) */
 /* 백만원 → 사람이 읽는 단위. 1조 이상이면 '137조 4,949억', 아니면 '9,605억' */
 function mkor(v){ if(!isN(v)) return NA; const eok=Math.round(Number(v)/100);
   if(Math.abs(eok)>=10000){ const jo=Math.trunc(eok/10000), r=Math.abs(eok%10000);
@@ -1754,9 +1755,9 @@ async function render27Min(ix,sg){ const N=s=>String(s).replace(/[\s·]/g,''); c
     <div class="crumb"><a href="#/gov27">중앙정부 2027 정부안</a> › 소관</div>
     <h1>${esc(m.nm)}</h1>
     <div class="stats">
-      <div><b>${mjo(m.b27)}<small>조원</small></b><span>2027 정부안 (총계)</span></div>
-      <div><b>${mjo(m.b26)}<small>조원</small></b><span>2026 본예산 (총계)</span></div>
-      <div><b>${mjo(m.diff)}<small>조원</small></b><span>증감 ${rt(m.rate)}</span></div>
+      <div><b>${mamt(m.b27)}</b><span>2027 정부안 (총계)</span></div>
+      <div><b>${mamt(m.b26)}</b><span>2026 본예산 (총계)</span></div>
+      <div><b>${mamt(m.diff)}</b><span>증감 ${rt(m.rate)}</span></div>
       <div><b>${num(m.n)}<small>건</small></b><span>세부사업${m.fund?` · 기금 ${mjo(m.fund)}조`:''}</span></div>
     </div>
   </div></div>
@@ -1817,9 +1818,9 @@ async function renderGovMin(ix,sg){ const _n=v=>String(v).replace(/[\s·]/g,'');
     <h1>${esc(m.nm)}</h1>
     ${PU?`<span class="pill" style="margin-top:6px"><i></i>사업 목적 문장 ${num(PU.n)}건 연결 · 출처 2026 사업설명자료</span>`:`<span class="pill" style="margin-top:6px;opacity:.85"><i></i>사업설명자료 미공개·접근 차단 — 사업 목적 문장 없음</span>`}
     <div class="stats">
-      <div><b>${m.exp==null?NA:mjo(m.exp)}<small>${m.exp==null?'':'조원'}</small></b><span>2026 총지출 기준</span></div>
-      <div><b>${m.gross==null?NA:mjo(m.gross)}<small>${m.gross==null?'':'조원'}</small></b><span>2026 총계 기준</span></div>
-      <div><b>${jo(psum)}<small>조원</small></b><span>세부사업 합계 (총계)</span></div>
+      <div><b>${m.exp==null?NA:mamt(m.exp)}</b><span>2026 총지출 기준</span></div>
+      <div><b>${m.gross==null?NA:mamt(m.gross)}</b><span>2026 총계 기준</span></div>
+      <div><b>${isN(psum)?mamt(psum/1e6):NA}</b><span>세부사업 합계 (총계)</span></div>
       <div><b>${num(P.length)}<small>건</small></b><span>세부사업${m.nblank?` · 비공개 ${num(m.nblank)}`:''}</span></div>
     </div>
   </div></div>
