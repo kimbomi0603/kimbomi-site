@@ -3,7 +3,7 @@
   --cream:#F5F2EA; --card:#FFFFFF; --ink:#17181A; --mut:#6A6B70;
   --green:#0F5C46; --green2:#0B3F31; --navy:#0E2A47; --navy2:#0A1F36; --lime:#F0CB7A;
   --gold:#E0A43C; --line:#E4DFD3; --line2:#D6CFBE;
-  --serif:"Noto Serif KR",serif; --sans:"Noto Sans KR",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --serif:"Noto Serif KR",serif; --sans:"Pretendard Variable",system-ui,sans-serif; --mono:"Pretendard Variable",ui-monospace,monospace;
 }
 html[data-font="1"] body{zoom:1.12} html[data-font="2"] body{zoom:1.25}
 html[data-theme="dark"]{--cream:#15171A; --card:#1E2126; --ink:#ECEAE3; --mut:#A9A8A0; --green:#4FB08F; --green2:#2E7A62; --navy:#9CC7EA; --navy2:#08131F; --navybg:#0B1B2E; --gold:#E0A43C; --lime:#F0CB7A; --line:#2C3036; --line2:#3A3F46; color-scheme:dark}
@@ -42,7 +42,7 @@ h1,h2,h3,h4{font-family:var(--serif);font-weight:700;margin:0;letter-spacing:-.0
 
 /* 섹션 */
 .sec{padding:34px 0}
-.eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.24em;color:var(--mut);margin:0 0 8px;text-transform:uppercase}
+.eyebrow{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.7rem;letter-spacing:.03em;color:var(--mut);margin:0 0 8px;text-transform:uppercase}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px}
 
 footer.site{background:var(--navy2);color:#D9E2F0;margin-top:26px}

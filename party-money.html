@@ -16,7 +16,8 @@
 <meta name="keywords" content="정당 국고보조금,국고보조금 사용내역,정당 회계보고,선관위 회계,재정주권시민행동,예산감시,김보미">
 <link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="assets/brand/kb-icon.svg"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><style>:where(button,input,select,textarea){font-family:inherit}:where(h1,h2,h3,h4){text-wrap:balance;word-break:keep-all}:where(p,li,dd){text-wrap:pretty}</style>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/kb-legacy.css">
 <style>
 .hd{background:var(--navy);color:#F7F3E8;padding:44px 0 38px;border-bottom:2px solid var(--gold)}
@@ -27,13 +28,13 @@
 .kpi{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--rule2);border-left:1px solid var(--rule2);margin-top:22px}
 .kpi>div{border-right:1px solid var(--rule2);border-bottom:1px solid var(--rule2);background:var(--paper2);padding:16px 18px}
 .kpi .l{font-size:.78rem;color:var(--ink2)}
-.kpi .n{font-family:var(--mono);font-size:1.5rem;color:var(--navy);line-height:1.3;margin-top:2px}
+.kpi .n{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:1.5rem;color:var(--navy);line-height:1.3;margin-top:2px}
 .kpi .n small{font-size:.8rem;font-family:var(--sans);color:var(--ink2);margin-left:2px}
 .kpi .s{font-size:.75rem;color:var(--ink2);margin-top:4px}
 .tw{overflow-x:auto;border:1px solid var(--rule2);background:var(--paper2);margin-top:16px}
 table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
 th,td{border-bottom:1px solid var(--rule);padding:10px 14px;text-align:left}
-thead th{background:#F2EDE0;font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;color:var(--ink2);border-bottom:1px solid var(--rule2)}
+thead th{background:#F2EDE0;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.74rem;letter-spacing:.03em;color:var(--ink2);border-bottom:1px solid var(--rule2)}
 td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
 tbody tr:last-child td{border-bottom:0}
 tr.tot td{background:#F2EDE0;font-weight:700}
@@ -43,7 +44,7 @@ tr.tot td{background:#F2EDE0;font-weight:700}
 .src{font-size:.78rem;color:var(--ink2);margin-top:10px;line-height:1.7}
 .src a{color:var(--navy)}
 .note{border:1px solid #F0DFB4;border-radius:10px;background:#FFF8E8;padding:13px 16px;font-size:.9rem;line-height:1.75;margin-top:16px}
-.note.blue{border-left-color:var(--navy);background:#EEF2F7}
+.note.blue{border-color:#D5DEEA;background:#EEF2F7}
 .how{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--rule2);border-left:1px solid var(--rule2);margin-top:18px}
 .how div{border-right:1px solid var(--rule2);border-bottom:1px solid var(--rule2);background:var(--paper2);padding:16px 18px;font-size:.9rem;line-height:1.7}
 .how div>b:first-child{display:block;color:var(--navy);font-family:var(--serif);font-size:1rem;margin-bottom:5px}
@@ -65,15 +66,15 @@ tr.tot td{background:#F2EDE0;font-weight:700}
 .sbar .trk span em{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:.74rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden}
 .hbar{display:grid;grid-template-columns:150px 1fr 90px;gap:8px 10px;align-items:center;font-size:.86rem;margin-top:10px}
 .hbar .b{height:20px;border-radius:0 4px 4px 0;position:relative}
-.hbar .v{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.hbar .v{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;font-variant-numeric:tabular-nums}
 .hbar .k{color:var(--ink);word-break:keep-all}
 .hbar .k small{display:block;color:var(--ink2);font-size:.72rem}
 .ratio{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px;align-items:end}
 .ratio .box{border:1px solid var(--rule2);border-radius:10px;padding:14px;background:#fff}
 .ratio .sq{display:block;background:var(--navy);border-radius:4px}
-.ratio .n{font-family:var(--mono);font-size:1.3rem;color:var(--navy);margin-top:8px}
+.ratio .n{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:1.3rem;color:var(--navy);margin-top:8px}
 .ratio .l{font-size:.8rem;color:var(--ink2)}
-.c-a{background:#2a78d6}.c-b{background:#e34948}.c-c{background:#1baf7a}.c-d{background:#eda100}
+.c-a{background:#2168C4}.c-b{background:#C93736}.c-c{background:#1baf7a}.c-d{background:#eda100}.sbar .trk .c-c em,.sbar .trk .c-d em{color:#1B1A17}
 @media(max-width:640px){.hbar{grid-template-columns:110px 1fr 76px}.ratio{grid-template-columns:1fr}.sbar .trk span em{font-size:.66rem}}
 
 /* 모바일: 표를 카드형으로 */
@@ -84,9 +85,11 @@ tr.tot td{background:#F2EDE0;font-weight:700}
   table,tbody,tr,td{display:block;width:100%}
   tr{background:var(--paper2);border:1px solid var(--rule2);border-radius:12px;padding:8px 12px;margin-bottom:10px}
   tr.tot{background:#F2EDE0}
-  td{border:0;padding:5px 0;text-align:left!important}
-  td.n{font-family:var(--mono)}
-  td[data-label]::before{content:attr(data-label);display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;color:var(--ink2);margin-bottom:1px}
+  td{border:0;padding:5px 0;display:flex;justify-content:space-between;align-items:baseline;gap:14px;text-align:right!important}
+  td.n{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  td[data-label]::before{content:attr(data-label);flex:0 0 auto;text-align:left;font-family:var(--sans,inherit);font-size:.78rem;color:var(--ink2)}
+  td:first-child{display:block;text-align:left!important;font-weight:700;font-size:.95rem;padding:2px 0 8px;margin-bottom:3px;border-bottom:1px solid var(--rule2)}
+  td:first-child::before{display:none}
   td:empty{display:none}
   .kpi .n{font-size:1.3rem}
   .hd h1{font-size:1.75rem}
@@ -215,7 +218,7 @@ footer.site .copy{border-top:1px solid rgba(247,243,232,.2);padding:14px 0 30px;
 
 <header class="kbx-hdr">
   <div class="kbx-w">
-    <a class="kbx-brand" href="index.html"><img src="assets/brand/kb-wordmark.svg" alt="김보미.com"></a>
+    <a class="kbx-brand" href="index.html"><img src="assets/brand/kb-wordmark.svg" alt="김보미.com" width="103" height="30"></a>
     <nav aria-label="주 메뉴">
       <a href="https://taxwatch.kr/" target="_blank" rel="noopener">재정주권시민행동</a>
       <a href="about.html">김보미는</a>
@@ -418,7 +421,7 @@ footer.site .copy{border-top:1px solid rgba(247,243,232,.2);padding:14px 0 30px;
 <footer class="kbx-foot">
   <div class="kbx-fw">
     <div>
-      <a class="kbx-fb" href="index.html">김보미<i>.com</i></a>
+      <a class="kbx-fb" href="index.html"><img src="assets/brand/kb-wordmark-dark.svg" alt="김보미.com" width="104" height="30"></a>
       <span class="kbx-fs">김보미 공식 홈페이지<br>중앙정부와 지방정부 243개 시·군·구,<br>예산·집행·계약을 한눈에</span>
     </div>
     <div>
