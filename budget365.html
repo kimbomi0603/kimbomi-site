@@ -1753,7 +1753,7 @@ async function render27Min(ix,sg){ const N=s=>String(s).replace(/[\s·]/g,''); c
   <div class="wrap" style="padding-top:18px">${GOVSW('gov')}${YRSW('y27')}</div>
   <div class="lgband"><div class="wrap">
     <div class="crumb"><a href="#/gov27">중앙정부 2027 정부안</a> › 소관</div>
-    <h1>${esc(m.nm)}</h1>
+    <h1>${esc(m.nm)}</h1>${SECNOTE(m.nm)}
     <div class="stats">
       <div><b>${mamt(m.b27)}</b><span>2027 정부안 (총계)</span></div>
       <div><b>${mamt(m.b26)}</b><span>2026 본예산 (총계)</span></div>
@@ -1804,6 +1804,7 @@ async function render27Min(ix,sg){ const N=s=>String(s).replace(/[\s·]/g,''); c
 }
 
 const GOVF={q:'',sort:'b26',dir:-1};
+const SECNOTE=nm=>{const k=String(nm).replace(/[\s·]/g,''); return /국가안보실|국가정보원/.test(k)?`<div class="note" style="margin:12px 0 4px"><b>세부 내역 비공개</b> — 국가안보와 관련된 예산은 정부가 세부 사업과 금액을 공개하지 않습니다. 아래 숫자는 공개된 부분만이고, 실제 쓰는 돈 전체가 아닐 수 있습니다.</div>`:'';};
 async function renderGovMin(ix,sg){ const _n=v=>String(v).replace(/[\s·]/g,''); const m=ix.ministries.find(x=>x.sg===sg)||ix.ministries.find(x=>_n(x.sg)===_n(sg)); if(m) sg=m.sg;   /* 2027 화면의 띄어 쓴 부처명(예: '대통령비서실 및 국가안보실')으로 들어와도 2026 자료를 찾는다 */ if(!m&&sg==='기획예산처'){ location.replace('#/gov/'+encodeURIComponent('재정경제부')); return; } if(!m) throw new Error('부처를 찾지 못했습니다');
   const P=await loadGovMin(sg); const PU=await loadGovPu(sg); GOVF.q=''; GOVF.sort='b26'; GOVF.dir=-1;
   const known=P.filter(x=>isN(x.b26));
@@ -1815,7 +1816,7 @@ async function renderGovMin(ix,sg){ const _n=v=>String(v).replace(/[\s·]/g,'');
   <div class="wrap" style="padding-top:18px">${GOVSW('gov')}${YRSW('y26')}</div>
   <div class="lgband"><div class="wrap">
     <div class="crumb"><a href="#/gov">중앙정부</a> › ${esc(m.cat||'중앙행정기관')}</div>
-    <h1>${esc(m.nm)}</h1>
+    <h1>${esc(m.nm)}</h1>${SECNOTE(m.nm)}
     ${PU?`<span class="pill" style="margin-top:6px"><i></i>사업 목적 문장 ${num(PU.n)}건 연결 · 출처 2026 사업설명자료</span>`:`<span class="pill" style="margin-top:6px;opacity:.85"><i></i>사업설명자료 미공개·접근 차단 — 사업 목적 문장 없음</span>`}
     <div class="stats">
       <div><b>${m.exp==null?NA:mamt(m.exp)}</b><span>2026 총지출 기준</span></div>

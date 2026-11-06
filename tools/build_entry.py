@@ -6,6 +6,7 @@
 원칙: 값은 자료 파일에 있는 것만 쓴다. 없는 값은 '—'로 비운다. 자동 리다이렉트 없음(검색엔진이 이 페이지를 색인하게).
 """
 import json, os, re, html, datetime, urllib.parse
+SECNOTE = '\n<p class="sub" style="background:#F6EFDC;border-radius:10px;padding:12px 16px;color:var(--ink)"><b>세부 내역 비공개</b> — 국가안보와 관련된 예산은 정부가 세부 사업과 금액을 공개하지 않습니다. 아래 숫자는 공개된 부분만이고, 실제 쓰는 돈 전체가 아닐 수 있습니다.</p>'
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = 'https://www.xn--4k0b53xuva.com'
@@ -166,7 +167,7 @@ def build_gov():
         body = HEAD.format(title=esc(title), desc=esc(desc), url=url, site=SITE, ld=ld, zone='#7FD0BF')
         body += f"""<span class="zone">중앙정부</span>
 <h1>{esc(nm)}</h1>
-<p class="sub">{esc(m.get('cat') or '중앙행정기관')} · 2026년 확정예산을 세부사업 단위로, 작년보다 얼마나 늘고 줄었는지까지 봅니다.</p>
+<p class="sub">{esc(m.get('cat') or '중앙행정기관')} · 2026년 확정예산을 세부사업 단위로, 작년보다 얼마나 늘고 줄었는지까지 봅니다.</p>{SECNOTE if re.search('국가안보실|국가정보원', nm.replace(' ','')) else ''}
 <div class="stats">
   <div><b>{expw}</b><span>2026 총지출 기준</span></div>
   <div><b>{num(n)}<small>건</small></b><span>2026 세부사업{(' · 비공개 '+num(m.get('nblank'))) if m.get('nblank') else ''}</span></div>

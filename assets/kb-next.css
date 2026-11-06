@@ -1,0 +1,29 @@
+/* 페이지 끝 '이어서 보기' — 다음에 볼 페이지 세 곳 (2026-11-07) */
+.kbnx{box-sizing:border-box;max-width:1120px;margin:56px auto 48px;padding:22px 22px 24px;background:#F7F3EA;border:1px solid #E6E0D2;border-radius:18px;width:calc(100% - 32px);font-family:"Pretendard Variable",Pretendard,system-ui,sans-serif}
+.kbnx-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:16px}
+.kbnx-h b{font-size:15px;font-weight:800;color:#1B2A4A;letter-spacing:-.01em}
+.kbnx-h a{font-size:13px;color:#5C574C;text-decoration:none}
+.kbnx-h a:hover{color:#1B2A4A;text-decoration:underline}
+.kbnx-g{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.kbnx-c{display:flex;flex-direction:column;background:#fff;border:1px solid #E6E0D2;border-radius:14px;overflow:hidden;text-decoration:none;color:#1F1D18;transition:transform .18s ease,box-shadow .18s ease,border-color .18s}
+.kbnx-c:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(27,42,74,.12);border-color:#C9BFA6}
+.kbnx-c:focus-visible{outline:3px solid #1F6B4F;outline-offset:2px}
+.kbnx-i{aspect-ratio:16/9;background:#F3EEE2;overflow:hidden}
+.kbnx-i img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.kbnx-c:hover .kbnx-i img{transform:scale(1.04)}
+.kbnx-t{padding:14px 16px 16px;display:flex;flex-direction:column;gap:4px;flex:1}
+.kbnx-t small{font-size:12px;font-weight:700;color:#1F6B4F;letter-spacing:.02em}
+.kbnx-t strong{font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1.35;word-break:keep-all}
+.kbnx-t span{font-size:14px;color:#5C574C;line-height:1.6;word-break:keep-all}
+.kbnx-t em{margin-top:auto;padding-top:10px;font-style:normal;font-size:13px;font-weight:700;color:#1B2A4A}
+@media (max-width:760px){
+ .kbnx{margin:36px auto 28px;padding:16px 14px 18px;width:calc(100% - 24px)}
+ .kbnx-g{grid-template-columns:1fr;gap:12px}
+ .kbnx-c{flex-direction:row;align-items:stretch}
+ .kbnx-i{aspect-ratio:auto;width:38%;flex:none;min-height:104px}
+ .kbnx-t{padding:12px 14px}
+ .kbnx-t strong{font-size:16px}
+ .kbnx-t span{font-size:13px}
+ .kbnx-t em{display:none}
+}
+@media (prefers-reduced-motion:reduce){.kbnx-c,.kbnx-i img{transition:none}.kbnx-c:hover{transform:none}.kbnx-c:hover .kbnx-i img{transform:none}}
