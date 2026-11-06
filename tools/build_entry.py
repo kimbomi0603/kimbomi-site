@@ -30,7 +30,7 @@ def short(display):
 HEAD = """<!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{desc}">
@@ -40,8 +40,8 @@ HEAD = """<!DOCTYPE html>
 <meta property="og:image" content="{site}/og-ud365.jpg?v=20261107d"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{site}/og-ud365.jpg?v=20261107d">
 <link rel="icon" href="../favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="../assets/brand/kb-icon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><style>:where(button,input,select,textarea){{font-family:inherit}}:where(h1,h2,h3,h4){{text-wrap:balance;word-break:keep-all}}:where(p,li,dd){{text-wrap:pretty}}</style>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"></noscript><style>:where(button,input,select,textarea){{font-family:inherit}}:where(h1,h2,h3,h4){{text-wrap:balance;word-break:keep-all}}:where(p,li,dd){{text-wrap:pretty}}</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&display=swap"></noscript>
 <script type="application/ld+json">{ld}</script>
 <style>
 :root{{--navy:#1C1B18;--gold:#C8412B;--gold-ink:#93321F;--bg:#FBF7EE;--ink:#1C1B18;--ink-2:#4A4740;--ink-3:#69655B;--line:#E5DFD0;--card:#fff;--zone:{zone}}}
