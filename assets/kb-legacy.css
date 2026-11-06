@@ -3,7 +3,7 @@
   --paper:#F5F2EA; --paper2:#FFFFFF; --ink:#17181A; --ink2:#55565A;
   --navy:#16305A; --red:#0F5A4A; --gold:#C99A2E; --teal:#0F5A4A;
   --rule:#E4DFD3; --rule2:#D6CFBE;
-  --serif:"Noto Serif KR",serif; --sans:"Noto Sans KR",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --serif:"Noto Serif KR",serif; --sans:"Pretendard Variable",system-ui,sans-serif; --mono:"Pretendard Variable",ui-monospace,monospace;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -15,7 +15,7 @@ h1,h2,h3,h4{font-family:var(--serif);font-weight:700;letter-spacing:-.03em;line-
 .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
 .rule{border:0;border-top:1px solid var(--rule);margin:0}
 .sec{padding:40px 0}
-.eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.24em;color:var(--ink2);text-transform:uppercase;margin:0 0 8px}
+.eyebrow{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.7rem;letter-spacing:.03em;color:var(--ink2);text-transform:uppercase;margin:0 0 8px}
 .sec h2{font-size:1.72rem;line-height:1.4}
 .sec .sub{color:var(--ink2);margin:8px 0 0;font-size:.97rem}
 .lead{font-size:1.04rem;color:var(--ink2)}

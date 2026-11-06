@@ -23,7 +23,8 @@
 <meta name="description" content="계란으로 바위를 깨는 벽돌깨기. 10개의 기득권 바위 중 3개가 등장 — 모두 깨고 3대 위기 히든 스테이지까지 도전하세요. 김보미.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><style>:where(button,input,select,textarea){font-family:inherit}:where(h1,h2,h3,h4){text-wrap:balance;word-break:keep-all}:where(p,li,dd){text-wrap:pretty}</style>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&display=swap" rel="stylesheet">
 <style>
 :root{
   --night:#0A1128;
@@ -45,7 +46,7 @@ html,body{height:100%}
 body{
   background:var(--night);
   color:var(--text);
-  font-family:'Noto Sans KR',sans-serif;
+  font-family:'Pretendard Variable',sans-serif;
   display:flex;justify-content:center;align-items:flex-start;
   min-height:100vh;
   overscroll-behavior:none;
@@ -237,7 +238,7 @@ h1.title .accent{color:var(--blue-soft)}
 .cheer{margin-top:14px;text-align:center;width:100%}
 .cheer-guide{font-size:12.5px;color:var(--blue-soft);margin-bottom:8px}
 .cheer-guide b{color:var(--yolk)}
-#cheerInput{width:100%;max-width:320px;box-sizing:border-box;resize:none;font-family:'Noto Sans KR',sans-serif;font-size:14px;line-height:1.5;color:var(--egg);background:rgba(20,31,69,.75);border:1.5px solid rgba(111,165,255,.35);border-radius:10px;padding:10px 12px}
+#cheerInput{width:100%;max-width:320px;box-sizing:border-box;resize:none;font-family:'Pretendard Variable',sans-serif;font-size:14px;line-height:1.5;color:var(--egg);background:rgba(20,31,69,.75);border:1.5px solid rgba(111,165,255,.35);border-radius:10px;padding:10px 12px}
 #cheerInput:focus{outline:none;border-color:var(--yolk)}
 .cheer-count{font-size:11px;color:var(--dim);margin:5px auto 10px;max-width:320px;text-align:right}
 .rank-sub{font-size:12px;color:var(--dim);margin-bottom:10px;line-height:1.5}
@@ -272,7 +273,7 @@ h1.title .accent{color:var(--blue-soft)}
 </head>
 <body>
 <style>
-#siteTopBar{display:none;position:fixed;top:0;left:0;right:0;z-index:100;background:#fff;border-bottom:1px solid #e7ebf1;font-family:-apple-system,'Noto Sans KR',sans-serif}
+#siteTopBar{display:none;position:fixed;top:0;left:0;right:0;z-index:100;background:#fff;border-bottom:1px solid #e7ebf1;font-family:-apple-system,'Pretendard Variable',sans-serif}
 #siteTopBar .in{max-width:1180px;margin:0 auto;padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between}
 #siteTopBar a{text-decoration:none}
 #siteTopBar .lg{font-weight:800;font-size:1.05rem;color:#15223b}
@@ -731,7 +732,7 @@ function drawBrick(b){
     }
     if(b.word){
       ctx.fillStyle="rgba(255,255,255,.6)";
-      ctx.font="600 9.5px 'Noto Sans KR',sans-serif";
+      ctx.font="600 9.5px 'Pretendard Variable',sans-serif";
       ctx.textAlign="center"; ctx.textBaseline="middle";
       ctx.fillText(b.word, b.x+b.w/2, b.y+b.h/2+1, b.w-6);
     }
@@ -748,7 +749,7 @@ function drawBrick(b){
     roundRect(b.x,b.y,b.w,b.h,5); ctx.stroke();
     ctx.restore();
     ctx.fillStyle="#3A2600";
-    ctx.font="700 13px 'Noto Sans KR',sans-serif";
+    ctx.font="700 13px 'Pretendard Variable',sans-serif";
     ctx.textAlign="center"; ctx.textBaseline="middle";
     ctx.fillText(b.kw, b.x+b.w/2, b.y+b.h/2+1);
     if(b.hp < b.max){ drawCracks(b, b.max-b.hp); }
@@ -876,7 +877,7 @@ function drawFx(){
       ctx.globalAlpha = 1;
       ctx.font = "13px sans-serif"; ctx.textAlign="left"; ctx.textBaseline="middle";
       ctx.fillText(ITEMS[k].icon, x+8, y+1);
-      ctx.font = "800 11px 'Noto Sans KR',sans-serif";
+      ctx.font = "800 11px 'Pretendard Variable',sans-serif";
       ctx.fillStyle = "#EAF0FF";
       ctx.fillText(NAME[k]||"", x+28, y+1);
       ctx.restore();
@@ -907,7 +908,7 @@ function drawShards(){
     ctx.globalAlpha=Math.min(1,f.life/28);
     ctx.translate(f.x,f.y); ctx.rotate(f.rot);
     ctx.fillStyle="#FFC53D";
-    ctx.font="800 16px 'Noto Sans KR',sans-serif";
+    ctx.font="800 16px 'Pretendard Variable',sans-serif";
     ctx.textAlign="center"; ctx.textBaseline="middle";
     ctx.fillText(f.ch,0,0);
     ctx.restore();
@@ -938,20 +939,20 @@ function drawCaption(){
   ctx.textAlign="center";
   if(active && capBroke && capWhy){
     /* 격파 직후 — 왜 깨야 했는지 설득 카드 */
-    ctx.font="800 15px 'Noto Sans KR',sans-serif";
+    ctx.font="800 15px 'Pretendard Variable',sans-serif";
     ctx.fillStyle="#FFC53D";
     ctx.fillText("『"+capWord+"』 격파!", W/2, paddle.y-56);
-    ctx.font="500 11.5px 'Noto Sans KR',sans-serif";
+    ctx.font="500 11.5px 'Pretendard Variable',sans-serif";
     ctx.fillStyle="rgba(214,226,248,.85)";
     ctx.fillText(capDesc, W/2, paddle.y-39);
-    ctx.font="700 13px 'Noto Sans KR',sans-serif";
+    ctx.font="700 13px 'Pretendard Variable',sans-serif";
     ctx.fillStyle="#8FD0FF";
     ctx.fillText("→ "+capWhy, W/2, paddle.y-19);
   }else{
-    ctx.font="700 13px 'Noto Sans KR',sans-serif";
+    ctx.font="700 13px 'Pretendard Variable',sans-serif";
     ctx.fillStyle="rgba(255,197,61,.95)";
     ctx.fillText("『"+capWord+"』", W/2, paddle.y-36);
-    ctx.font="500 11.5px 'Noto Sans KR',sans-serif";
+    ctx.font="500 11.5px 'Pretendard Variable',sans-serif";
     ctx.fillStyle="rgba(214,226,248,.85)";
     ctx.fillText(capDesc, W/2, paddle.y-19);
   }
@@ -964,7 +965,7 @@ function drawFloats(){
     f.y -= 0.7; f.life--;
     ctx.globalAlpha = Math.min(1, f.life/30);
     ctx.fillStyle = f.color;
-    ctx.font = "700 15px 'Noto Sans KR',sans-serif";
+    ctx.font = "700 15px 'Pretendard Variable',sans-serif";
     ctx.textAlign = "center";
     ctx.fillText(f.text, f.x, f.y);
     ctx.globalAlpha = 1;
@@ -986,11 +987,11 @@ function drawBackdropText(){
 function drawHint(){
   if(!ballLaunched && playing){
     ctx.fillStyle="rgba(234,240,255,.75)";
-    ctx.font="500 13px 'Noto Sans KR',sans-serif";
+    ctx.font="500 13px 'Pretendard Variable',sans-serif";
     ctx.textAlign="center";
     ctx.fillText("터치 또는 스페이스로 계란 발사", W/2, H-84);
     ctx.fillStyle="rgba(255,197,61,.9)";
-    ctx.font="700 12px 'Noto Sans KR',sans-serif";
+    ctx.font="700 12px 'Pretendard Variable',sans-serif";
     ctx.fillText("목표: 금빛 「"+order[stageNo].kw+"」 벽돌 격파", W/2, H-104);
   }
 }
@@ -1288,16 +1289,16 @@ function drawMedal(){
   g.strokeStyle="rgba(255,197,61,0.45)"; g.lineWidth=6; g.strokeRect(30,30,S-60,S-60);
   g.textAlign="center";
   var y=82;
-  g.fillStyle="#FFC53D"; g.font="600 28px 'Noto Sans KR',sans-serif";
+  g.fillStyle="#FFC53D"; g.font="600 28px 'Pretendard Variable',sans-serif";
   g.fillText("민주당 혁신 완수 · 대한민국 3대 위기 격파", S/2, y);
   var quote=(cheerMsg||"").trim();
   if(quote){
-    g.font="italic 700 34px 'Noto Sans KR',sans-serif";
+    g.font="italic 700 34px 'Pretendard Variable',sans-serif";
     var qLines=wrapCharLines(g,"“"+quote+"”",S-240);
     var lh=46, boxTop=y+24, boxH=qLines.length*lh+30, boxW=S-150, boxX=(S-boxW)/2;
     g.fillStyle="rgba(45,125,255,0.14)"; medalRR(g,boxX,boxTop,boxW,boxH,16); g.fill();
     g.strokeStyle="rgba(111,165,255,0.5)"; g.lineWidth=2; medalRR(g,boxX,boxTop,boxW,boxH,16); g.stroke();
-    g.fillStyle="#EAF0FF"; g.font="italic 700 34px 'Noto Sans KR',sans-serif";
+    g.fillStyle="#EAF0FF"; g.font="italic 700 34px 'Pretendard Variable',sans-serif";
     for(var qi=0;qi<qLines.length;qi++){ g.fillText(qLines[qi],S/2,boxTop+42+qi*lh); }
     y=boxTop+boxH;
   }
@@ -1305,25 +1306,25 @@ function drawMedal(){
   var ec=y+er+(quote?26:34);
   drawEmblem(g,S/2,ec,er);
   y=ec+er*1.85+(quote?10:14);
-  g.fillStyle="#FFF6E3"; g.font=(quote?52:60)+"px 'Black Han Sans','Noto Sans KR',sans-serif";
+  g.fillStyle="#FFF6E3"; g.font=(quote?52:60)+"px 'Black Han Sans','Pretendard Variable',sans-serif";
   g.fillText(MEDAL_TITLE, S/2, y); y+=42;
-  g.fillStyle="#EAF0FF"; g.font="500 29px 'Noto Sans KR',sans-serif";
+  g.fillStyle="#EAF0FF"; g.font="500 29px 'Pretendard Variable',sans-serif";
   g.fillText(runCount+"회 만에 완수 · "+fmtNum(score)+"점", S/2, y); y+=28;
   g.strokeStyle="rgba(255,255,255,0.14)"; g.lineWidth=2; g.beginPath(); g.moveTo(S*0.20,y); g.lineTo(S*0.80,y); g.stroke(); y+=44;
   var rocks=(lastFive.length? lastFive : clearedRocks);
-  g.fillStyle="#9DB4DE"; g.font="600 27px 'Noto Sans KR',sans-serif";
+  g.fillStyle="#9DB4DE"; g.font="600 27px 'Pretendard Variable',sans-serif";
   g.fillText("내가 깨부순 기득권 "+rocks.length+"개", S/2, y); y+=46;
-  g.fillStyle="#FFF6E3"; g.font="700 32px 'Noto Sans KR',sans-serif";
+  g.fillStyle="#FFF6E3"; g.font="700 32px 'Pretendard Variable',sans-serif";
   var rockStr=rocks.map(function(r){return r.replace(/ /g,"\u00A0");}).join(" · ");
   y=drawWrap(g, rockStr, S/2, y, S-170, 42); y+=54;
-  g.fillStyle="#6FA5FF"; g.font="700 31px 'Noto Sans KR',sans-serif";
+  g.fillStyle="#6FA5FF"; g.font="700 31px 'Pretendard Variable',sans-serif";
   y=drawWrap(g, "이 힘으로 공정한 민주당을 완성해 경제·평화·기후 3대 위기 격파!", S/2, y, S-150, 42); y+=24;
   g.strokeStyle="rgba(255,255,255,0.14)"; g.lineWidth=2; g.beginPath(); g.moveTo(S*0.20,y); g.lineTo(S*0.80,y); g.stroke(); y+=58;
-  g.fillStyle="#FFF6E3"; g.font="700 43px 'Noto Sans KR',sans-serif";
+  g.fillStyle="#FFF6E3"; g.font="700 43px 'Pretendard Variable',sans-serif";
   g.fillText(SUPPORT_LINE+" — 뽑고 싶은 민주당", S/2, y); y+=48;
-  g.fillStyle="#8FB3E6"; g.font="700 33px 'Noto Sans KR',sans-serif";
+  g.fillStyle="#8FB3E6"; g.font="700 33px 'Pretendard Variable',sans-serif";
   g.fillText("김보미.com", S/2, y); y+=50;
-  g.fillStyle="#FFC53D"; g.font="500 24px 'Noto Sans KR',sans-serif";
+  g.fillStyle="#FFC53D"; g.font="500 24px 'Pretendard Variable',sans-serif";
   g.fillText(HASHTAGS, S/2, y);
 }
 
@@ -1492,11 +1493,11 @@ function drawBadge(){
   drawStar(g,S/2,S*0.36,5,86,36,"#FFD667");
   g.fillStyle="#FFD667"; g.beginPath(); g.arc(S/2,S*0.36,26,0,Math.PI*2); g.fill();
   g.textAlign="center";
-  g.fillStyle="#fff"; g.font="900 64px 'Black Han Sans','Noto Sans KR',sans-serif";
+  g.fillStyle="#fff"; g.font="900 64px 'Black Han Sans','Pretendard Variable',sans-serif";
   g.fillText("민주당 혁신 배지", S/2, S*0.62);
-  g.fillStyle="#bcd2f0"; g.font="700 34px 'Noto Sans KR',sans-serif";
+  g.fillStyle="#bcd2f0"; g.font="700 34px 'Pretendard Variable',sans-serif";
   g.fillText(runCount+"회차 · "+fmtNum(score)+"점", S/2, S*0.71);
-  g.fillStyle="#FFD667"; g.font="800 30px 'Noto Sans KR',sans-serif";
+  g.fillStyle="#FFD667"; g.font="800 30px 'Pretendard Variable',sans-serif";
   g.fillText("김보미.com · 뽑고 싶은 민주당", S/2, S*0.80);
 }
 function badgeText(){

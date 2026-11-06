@@ -26,13 +26,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><style>:where(button,input,select,textarea){font-family:inherit}:where(h1,h2,h3,h4){text-wrap:balance;word-break:keep-all}:where(p,li,dd){text-wrap:pretty}</style>
 <style>
 :root{
   --dpk:#004EA2; --dpk-2:#0a63c4; --dpk-dark:#00376e; --tint:#eaf1fb; --tint-2:#dbe8f8;
   --ink:#15223b; --navy:#0f1a30; --muted:#5a6474; --line:#e7ebf1; --cream:#f7f4ed; --white:#fff;
   --serif:'Noto Serif KR','Playfair Display',serif;
-  --sans:'Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --sans:'Pretendard Variable','Pretendard Variable',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   --wrap:1180px;
 }
 *{box-sizing:border-box}
@@ -41,7 +41,7 @@ body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--white);l
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
-.eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.18em;color:var(--dpk);margin:0 0 18px}
+.eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.03em;color:var(--dpk);margin:0 0 18px}
 h1,h2,h3{font-family:var(--serif);color:var(--ink);font-weight:700;letter-spacing:-.01em;margin:0}
 .accent{color:var(--dpk)}
 .underline{border-bottom:4px solid var(--dpk);padding-bottom:1px}
@@ -125,13 +125,13 @@ section{padding:90px 0}
 .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
 .pillar{padding:0 34px;border-left:1px solid var(--line)}
 .pillar:first-child{padding-left:0;border-left:0}
-.pillar .lab{font-size:.78rem;font-weight:700;letter-spacing:.16em;color:var(--dpk);margin-bottom:14px}
+.pillar .lab{font-size:.78rem;font-weight:700;letter-spacing:.03em;color:var(--dpk);margin-bottom:14px}
 .pillar h3{font-size:1.5rem;line-height:1.34;margin-bottom:14px}
 .pillar p{color:var(--muted);font-size:1.02rem;margin:0}
 
 .pledge-sec{background:var(--tint)}
 .pledge{background:#fff;border:1px solid var(--tint-2);border-radius:22px;padding:48px;box-shadow:0 22px 54px rgba(0,44,94,.08)}
-.pledge .tagn{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.12em;color:#fff;background:var(--dpk);border-radius:999px;padding:6px 16px;margin-bottom:20px}
+.pledge .tagn{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.03em;color:#fff;background:var(--dpk);border-radius:999px;padding:6px 16px;margin-bottom:20px}
 .pledge h2{font-size:2.35rem;margin-bottom:16px}
 .pledge .desc{color:#42506a;font-size:1.1rem;max-width:none;margin:0 0 30px}
 .pledge .plist{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
@@ -142,7 +142,7 @@ section{padding:90px 0}
 
 .quote-sec{background:var(--cream)}
 .quote-sec .in{max-width:900px}
-.quote-sec .lab{font-size:.8rem;font-weight:700;letter-spacing:.16em;color:var(--dpk);margin-bottom:26px}
+.quote-sec .lab{font-size:.8rem;font-weight:700;letter-spacing:.03em;color:var(--dpk);margin-bottom:26px}
 .quote-sec blockquote{margin:0;border-left:4px solid var(--dpk);padding-left:30px}
 .quote-sec blockquote p.q{font-family:var(--serif);font-weight:600;font-style:italic;font-size:2.05rem;line-height:1.46;color:var(--ink);margin:0}
 .quote-sec .body{margin-top:30px;color:#4b5567;font-size:1.1rem;max-width:none}
@@ -190,7 +190,7 @@ textarea.field{resize:vertical}
 .record{background:var(--cream)}
 .rec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .rec-card{background:#fff;border:1px solid var(--tint-2);border-radius:18px;padding:30px 32px;box-shadow:0 14px 34px rgba(0,44,94,.06)}
-.rec-card .lab{display:inline-block;font-size:.74rem;font-weight:700;letter-spacing:.1em;color:#fff;background:var(--dpk);border-radius:999px;padding:5px 13px;margin-bottom:14px}
+.rec-card .lab{display:inline-block;font-size:.74rem;font-weight:700;letter-spacing:.03em;color:#fff;background:var(--dpk);border-radius:999px;padding:5px 13px;margin-bottom:14px}
 .rec-card h3{font-size:1.3rem;line-height:1.35;margin-bottom:16px}
 .rec-card ul{list-style:none;margin:0;padding:0}
 .rec-card li{position:relative;padding-left:19px;margin-bottom:12px;color:#3c4759;font-size:.97rem;line-height:1.62}
@@ -274,7 +274,7 @@ footer{background:var(--navy);color:#c4cddc;padding:60px 0 34px}
 .fbrand{font-family:var(--serif);font-weight:700;font-size:1.4rem;color:#fff}
 .fbrand .dot{color:#6ea8e6}
 footer .fdesc{margin:14px 0 0;font-size:.92rem;color:#8f9cb0;max-width:340px;line-height:1.75}
-footer h4{font-family:var(--sans);font-size:.82rem;letter-spacing:.12em;color:#7f8da3;font-weight:700;margin:0 0 16px}
+footer h4{font-family:var(--sans);font-size:.82rem;letter-spacing:.03em;color:#7f8da3;font-weight:700;margin:0 0 16px}
 footer .flink{display:block;font-size:.94rem;color:#c4cddc;margin-bottom:11px}
 footer .flink:hover{color:#fff}
 .fbar{border-top:1px solid #223050;margin-top:44px;padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:.82rem;color:#7f8da3}
@@ -430,7 +430,7 @@ footer .flink:hover{color:#fff}
 
 .pledge-mini{background:#fff;border:1px solid var(--tint-2);border-radius:16px;padding:20px 24px;box-shadow:0 8px 22px rgba(0,44,94,.05)}
 .pledge-mini .pm-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:9px}
-.pledge-mini .tagn{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.1em;color:#fff;background:var(--dpk);border-radius:999px;padding:5px 13px}
+.pledge-mini .tagn{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.03em;color:#fff;background:var(--dpk);border-radius:999px;padding:5px 13px}
 .pledge-mini .pm-head b{font-size:1.28rem;color:var(--ink)}
 .pledge-mini .pm-desc{color:var(--muted);font-size:.95rem;line-height:1.65;margin-bottom:14px}
 .pledge-mini .pm-pills{display:flex;flex-wrap:wrap;gap:8px}
@@ -502,7 +502,7 @@ footer .flink:hover{color:#fff}
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 </head>
 <body>
-<div class="kb-archive-band" style="background:#1C1B18;color:#F5F0E4;font:600 13px/1.5 'Noto Sans KR',sans-serif;text-align:center;padding:8px 14px"><span style="color:#F2A48F">2026 전당대회 기록물</span> · 그해 여름의 원문을 한 글자도 고치지 않고 보존합니다 · <a href="index.html" style="color:#F5F0E4;text-decoration:underline">지금의 김보미.com 홈으로 →</a></div>
+<div class="kb-archive-band" style="background:#1C1B18;color:#F5F0E4;font:600 13px/1.5 'Pretendard Variable',sans-serif;text-align:center;padding:8px 14px"><span style="color:#F2A48F">2026 전당대회 기록물</span> · 그해 여름의 원문을 한 글자도 고치지 않고 보존합니다 · <a href="index.html" style="color:#F5F0E4;text-decoration:underline">지금의 김보미.com 홈으로 →</a></div>
 
 <header>
   <div class="wrap nav">
@@ -576,7 +576,7 @@ footer .flink:hover{color:#fff}
       <div class="mcta"><a href="manifesto.html">출마선언문 전문 읽기 &rarr;</a></div>
       <div style="margin-top:28px;max-width:660px">
         <div style="position:relative;padding-top:56.25%;border-radius:16px;overflow:hidden;background:#000;box-shadow:0 20px 44px rgba(0,0,0,.42)">
-          <iframe src="https://www.youtube.com/embed/ULpiU9wHaag" title="김보미 당대표 출마선언 영상" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"></iframe>
+          <button type="button" class="yt-lite" aria-label="김보미 당대표 출마선언 영상 재생" onclick="var f=document.createElement('iframe');f.src='https://www.youtube.com/embed/ULpiU9wHaag?autoplay=1&amp;rel=0';f.title='김보미 당대표 출마선언 영상';f.allow='autoplay; encrypted-media; picture-in-picture; web-share';f.allowFullscreen=true;f.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0';this.replaceWith(f)" style="position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;cursor:pointer;background:#000 url(https://i.ytimg.com/vi/ULpiU9wHaag/hqdefault.jpg) center/cover no-repeat"><svg viewBox="0 0 68 48" width="68" height="48" aria-hidden="true" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)"><path d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2.3 34 .3 34 .3s-21.2 0-26.5 1.4a8.6 8.6 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.6 8.6 0 0 0 6 6C12.8 47.7 34 47.7 34 47.7s21.2 0 26.5-1.4a8.6 8.6 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#f00"/><path d="M45 24 27 14v20" fill="#fff"/></svg></button>
         </div>
         <p style="font-size:.85rem;color:rgba(255,255,255,.62);margin:12px 0 0">▶ 출마선언 영상 다시보기</p>
       </div>
@@ -1391,22 +1391,22 @@ footer .flink:hover{color:#fff}
     var bg=g.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#0C1533');bg.addColorStop(1,'#0A1128');g.fillStyle=bg;g.fillRect(0,0,S,H);
     var rd=g.createRadialGradient(S/2,300,80,S/2,300,760);rd.addColorStop(0,'rgba(45,125,255,.22)');rd.addColorStop(1,'rgba(45,125,255,0)');g.fillStyle=rd;g.fillRect(0,0,S,H);
     g.strokeStyle='rgba(255,197,61,.45)';g.lineWidth=6;g.strokeRect(30,30,S-60,H-60);
-    g.textAlign='center';g.fillStyle='#FFC53D';g.font="600 30px 'Noto Sans KR',sans-serif";
+    g.textAlign='center';g.fillStyle='#FFC53D';g.font="600 30px 'Pretendard Variable',sans-serif";
     g.fillText('이생망 공유방 · '+(it.room==='personal'?'나의 이생망':'민주당의 이생망'),S/2,108);
     g.fillStyle='rgba(255,246,227,.18)';g.font="140px 'Black Han Sans',sans-serif";g.fillText('\u201C',S/2,250);
     g.fillStyle='#FFF6E3';g.textAlign='left';
-    var fs=it.content.length>120?38:(it.content.length>70?44:50);g.font="500 "+fs+"px 'Noto Sans KR',sans-serif";var lh=Math.round(fs*1.5);
+    var fs=it.content.length>120?38:(it.content.length>70?44:50);g.font="500 "+fs+"px 'Pretendard Variable',sans-serif";var lh=Math.round(fs*1.5);
     var lines=wrapChars(g,it.content,S-200); if(lines.length>11){lines=lines.slice(0,11);lines[10]=lines[10].slice(0,-1)+'\u2026';}
     var blockH=lines.length*lh,startY=Math.max(300,(H-360-blockH)/2+300);
     for(var i=0;i<lines.length;i++){g.fillText(lines[i],100,startY+i*lh);}
-    var y=startY+blockH+30;g.textAlign='center';g.fillStyle='#9DB4DE';g.font="500 26px 'Noto Sans KR',sans-serif";g.fillText('\u2014 '+it.nick,S/2,y);y+=54;
+    var y=startY+blockH+30;g.textAlign='center';g.fillStyle='#9DB4DE';g.font="500 26px 'Pretendard Variable',sans-serif";g.fillText('\u2014 '+it.nick,S/2,y);y+=54;
     var parts=[];reactsFor(it.room).forEach(function(rc){var v=(it.reactions&&it.reactions[rc.k])||0;if(v>0)parts.push(rc.e+' '+v);});
-    if(parts.length){g.fillStyle='#FFC53D';g.font="700 34px 'Noto Sans KR',sans-serif";g.fillText(parts.join('   '),S/2,y);}
+    if(parts.length){g.fillStyle='#FFC53D';g.font="700 34px 'Pretendard Variable',sans-serif";g.fillText(parts.join('   '),S/2,y);}
     g.strokeStyle='rgba(255,255,255,.14)';g.lineWidth=2;g.beginPath();g.moveTo(S*0.2,H-250);g.lineTo(S*0.8,H-250);g.stroke();
-    g.fillStyle='#FFF6E3';g.font="44px 'Black Han Sans','Noto Sans KR',sans-serif";g.fillText('이번 생에 바꿉시다',S/2,H-180);
-    g.fillStyle='#FFF6E3';g.font="700 40px 'Noto Sans KR',sans-serif";g.fillText('김보미 \u2014 뽑고 싶은 민주당',S/2,H-128);
-    g.fillStyle='#8FB3E6';g.font="700 32px 'Noto Sans KR',sans-serif";g.fillText('김보미.com',S/2,H-84);
-    g.fillStyle='#FFC53D';g.font="500 24px 'Noto Sans KR',sans-serif";g.fillText(HASHTAGS,S/2,H-46);
+    g.fillStyle='#FFF6E3';g.font="44px 'Black Han Sans','Pretendard Variable',sans-serif";g.fillText('이번 생에 바꿉시다',S/2,H-180);
+    g.fillStyle='#FFF6E3';g.font="700 40px 'Pretendard Variable',sans-serif";g.fillText('김보미 \u2014 뽑고 싶은 민주당',S/2,H-128);
+    g.fillStyle='#8FB3E6';g.font="700 32px 'Pretendard Variable',sans-serif";g.fillText('김보미.com',S/2,H-84);
+    g.fillStyle='#FFC53D';g.font="500 24px 'Pretendard Variable',sans-serif";g.fillText(HASHTAGS,S/2,H-46);
   }
   function openShare(id){var it=findItem(id);if(!it)return;shareStory=it;drawCard(it);if(document.fonts&&document.fonts.ready){document.fonts.ready.then(function(){drawCard(it);});}$('stShareModal').classList.add('open');}
   function shareText(it){var parts=[];reactsFor(it.room).forEach(function(rc){var v=(it.reactions&&it.reactions[rc.k])||0;if(v>0)parts.push(rc.e+v);});var r=parts.length?(' ('+parts.join(' ')+')'):'';return '\u201C'+it.content.slice(0,80)+(it.content.length>80?'\u2026':'')+'\u201D'+r+' \u2014 이생망 공유방 \uD83E\uDD5A '+HASHTAGS;}

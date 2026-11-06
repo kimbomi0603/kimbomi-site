@@ -13,12 +13,12 @@
 <meta property="og:image" content="https://www.xn--4k0b53xuva.com/og.jpg?v=20261107">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://www.xn--4k0b53xuva.com/og.jpg?v=20261107">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><style>:where(button,input,select,textarea){font-family:inherit}:where(h1,h2,h3,h4){text-wrap:balance;word-break:keep-all}:where(p,li,dd){text-wrap:pretty}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;900&display=swap" rel="stylesheet">
 <style>
 :root{--dpk:#004EA2;--dpk-2:#0a63c4;--dpk-dark:#00376e;--tint:#eaf1fb;--ink:#15223b;--muted:#5a6474;--line:#e7ebf1;--navy:#0f1a30;--white:#fff;
-  --serif:'Noto Serif KR',serif;--sans:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;}
+  --serif:'Noto Serif KR',serif;--sans:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-serif;}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);color:var(--ink);background:var(--white);line-height:1.7;word-break:keep-all;-webkit-font-smoothing:antialiased}
@@ -118,11 +118,11 @@ textarea.field{min-height:180px;resize:vertical;line-height:1.7}
 <style id="kb-theme-unify">
 /* 2026-09-24 새 메인(크림·딥그린·네이비) 통일 — 예전 캠프(파랑) 테마 덮어쓰기 */
 :root{--dpk:#0F5A4A;--dpk-2:#16305A;--dpk-dark:#0B4639;--navy:#16305A;--tint:#E8EFEA;--tint-2:#D7E3DA;--ink:#17181A;--muted:#55565A;--line:#E4DFD3;--cream:#F5F2EA;--white:#F5F2EA;--yellow:#C99A2E;--brick:#0F5A4A;
-  --serif:'Noto Serif KR',serif;--sans:'Noto Sans KR',system-ui,-apple-system,sans-serif;}
+  --serif:'Noto Serif KR',serif;--sans:'Pretendard Variable',system-ui,-apple-system,sans-serif;}
 body{background:#F5F2EA}
 header{background:rgba(245,242,234,.94)}
 .hero{background:#FFFFFF;color:var(--ink);border-bottom:1px solid var(--line);text-align:left;padding:44px 0 40px}
-.hero .eyebrow{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:.7rem;letter-spacing:.24em;color:var(--muted);text-transform:uppercase;font-weight:500;margin-bottom:10px}
+.hero .eyebrow{font-family:'Pretendard Variable',ui-monospace,monospace;font-size:.7rem;letter-spacing:.03em;color:var(--muted);text-transform:uppercase;font-weight:500;margin-bottom:10px}
 .hero h1{font-family:var(--serif);color:var(--ink);font-weight:900;letter-spacing:-.03em}
 .hero p{color:var(--muted)}
 .pcard,.press-feat,.pc{background:#fff;border-color:var(--line);border-radius:14px}
@@ -140,7 +140,7 @@ header{background:rgba(245,242,234,.94)}
 .menu a.cur{color:var(--dpk);border-bottom:2px solid var(--dpk);padding-bottom:2px}
 .home-link{border-color:#16305A;color:#16305A}
 .home-link:hover{background:#16305A;color:#fff}
-.privacy{background:var(--tint);border-color:var(--tint-2);border-left-color:var(--dpk);color:var(--ink)}
+.privacy{background:var(--tint);border-color:var(--tint-2);color:var(--ink)}
 .hero h1,.hero p{color:inherit}
 .hero{background:linear-gradient(160deg,#0F5A4A,#16305A);color:#fff;text-align:center;padding:48px 0 40px}
 .hero h1{color:#fff}.hero p{color:rgba(255,255,255,.85)}
@@ -241,7 +241,7 @@ header{background:rgba(245,242,234,.94)}
 <body>
 <header class="kbx-hdr">
   <div class="kbx-w">
-    <a class="kbx-brand" href="index.html"><img src="assets/brand/kb-wordmark.svg" alt="김보미.com"></a>
+    <a class="kbx-brand" href="index.html"><img src="assets/brand/kb-wordmark.svg" alt="김보미.com" width="103" height="30"></a>
     <nav aria-label="주 메뉴">
       <a href="https://taxwatch.kr/" target="_blank" rel="noopener">재정주권시민행동</a>
       <a href="about.html">김보미는</a>
@@ -274,7 +274,7 @@ header{background:rgba(245,242,234,.94)}
   </div>
 
   <div id="pane-th">
-    <div class="privacy" style="border-left-color:var(--dpk)">
+    <div class="privacy">
       정치는 어떻게 바뀌어야 하는지, 세금과 예산은 어떻게 쓰여야 하는지, 여러분이 그리는 정당과 대한민국의 모습을 자유롭게 남겨주세요. <b>남겨주신 생각은 매일 모두 읽고, 활동으로 답하겠습니다.</b>
     </div>
     <div class="tw-grid">
@@ -347,7 +347,7 @@ header{background:rgba(245,242,234,.94)}
 <footer class="kbx-foot">
   <div class="kbx-fw">
     <div>
-      <a class="kbx-fb" href="index.html">김보미<i>.com</i></a>
+      <a class="kbx-fb" href="index.html"><img src="assets/brand/kb-wordmark-dark.svg" alt="김보미.com" width="104" height="30"></a>
       <span class="kbx-fs">김보미 공식 홈페이지<br>중앙정부와 지방정부 243개 시·군·구,<br>예산·집행·계약을 한눈에</span>
     </div>
     <div>

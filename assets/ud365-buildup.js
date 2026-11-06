@@ -23,7 +23,7 @@
 #ud365bu .st{position:relative;height:280px;background:linear-gradient(180deg,#DCEBE6 0%,#F6F7F4 100%)}\
 #ud365bu canvas{display:block;width:100%;height:100%}\
 #ud365bu .tx{padding:18px 22px 20px}\
-#ud365bu .eb{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.14em;color:#2F7F72;text-transform:uppercase}\
+#ud365bu .eb{font-family:"Pretendard Variable",ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.03em;color:#2F7F72;text-transform:uppercase}\
 #ud365bu h2{margin:4px 0 8px;font-family:"Gowun Batang","Nanum Myeongjo",serif;font-size:24px;line-height:1.3;color:#1B2430}\
 #ud365bu p{margin:0 0 12px;font-size:14px;line-height:1.65;color:#4A5563;word-break:keep-all}\
 #ud365bu .pb{height:8px;background:#E3E7E0;border-radius:4px;overflow:hidden;margin:6px 0 14px}\
@@ -34,7 +34,7 @@
 #ud365bu button.g{background:transparent;color:#1B2430}\
 #ud365bu button:focus-visible{outline:2px solid #2F7F72;outline-offset:2px}\
 #ud365bu .x{position:absolute;top:10px;right:12px;border:0;background:rgba(255,255,255,.7);color:#1B2430;width:34px;height:34px;border-radius:50%;font-size:20px;line-height:1;padding:0}\
-#ud365bu .stat{position:absolute;left:14px;bottom:10px;font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:11px;color:#1E5C52;background:rgba(255,255,255,.75);padding:3px 8px;border-radius:6px}\
+#ud365bu .stat{position:absolute;left:14px;bottom:10px;font-family:"Pretendard Variable",ui-monospace,Menlo,monospace;font-size:11px;color:#1E5C52;background:rgba(255,255,255,.75);padding:3px 8px;border-radius:6px}\
 #ud365bu .fb{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:18px}\
 #ud365bu .fb svg{width:260px;height:200px}\
 @media (max-width:480px){#ud365bu .st{height:220px}#ud365bu h2{font-size:20px}}';

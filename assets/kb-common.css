@@ -1,5 +1,5 @@
 /* 김보미.com 공통 머리·꼬리 — 어느 페이지에 넣어도 그 페이지 CSS와 부딪히지 않게 kbx- 접두사로 격리 (2026-09-18) */
-.kbx-strip,.kbx-hdr,.kbx-foot{font-family:"Noto Sans KR",system-ui,-apple-system,"Malgun Gothic",sans-serif;line-height:1.6;box-sizing:border-box;letter-spacing:0}
+.kbx-strip,.kbx-hdr,.kbx-foot{font-family:"Pretendard Variable",system-ui,-apple-system,"Malgun Gothic",sans-serif;line-height:1.6;box-sizing:border-box;letter-spacing:0}
 .kbx-strip *,.kbx-hdr *,.kbx-foot *{box-sizing:border-box}
 .kbx-strip{background:#0E2143;color:#E8EEF8;font-size:12.5px;text-align:center;padding:7px 20px}
 .kbx-strip b{color:#E0A43C}
@@ -62,7 +62,8 @@ body{overflow-wrap:break-word} /* 2026-09-29 긴 낱말(예: 국가청년취업�
 .kbx-foot a{color:#E6EDF8;text-decoration:none}
 .kbx-foot a:hover{color:#E8BC55}
 .kbx-foot .kbx-fw{max-width:1120px;margin:0 auto;padding:44px 20px 0;display:grid;grid-template-columns:200px minmax(0,1fr) 250px;gap:40px;align-items:start}
-.kbx-foot .kbx-fb{font-family:"Noto Serif KR",serif;font-weight:900;font-size:24px;color:#fff;letter-spacing:-.03em;line-height:1.2;display:block}
+.kbx-foot .kbx-fb{display:inline-block;line-height:0}
+.kbx-foot .kbx-fb img{height:30px;width:auto;display:block}
 .kbx-foot .kbx-fb i{font-style:normal;color:#E8BC55}
 .kbx-foot .kbx-fs{display:block;font-size:12.5px;color:#9FB0CC;margin-top:8px;line-height:1.6}
 .kbx-foot .kbx-fnav{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14.5px;font-weight:700}
@@ -84,7 +85,7 @@ body{overflow-wrap:break-word} /* 2026-09-29 긴 낱말(예: 국가청년취업�
 .kbx-foot .kbx-sns a{width:42px;height:42px;border-radius:50%;background:#fff;color:#0E2143;display:grid;place-items:center;transition:background .15s,transform .15s}
 .kbx-foot .kbx-sns a:hover{background:#E8BC55;color:#0E2143;transform:translateY(-2px)}
 .kbx-foot .kbx-sns svg{width:21px;height:21px;fill:currentColor}
-.kbx-foot .kbx-sns .t{font-family:"Noto Sans KR",sans-serif;font-weight:900;font-size:12px;letter-spacing:-.02em}
+.kbx-foot .kbx-sns .t{font-family:"Pretendard Variable",sans-serif;font-weight:900;font-size:12px;letter-spacing:-.02em}
 .kbx-foot .kbx-fnote{max-width:1120px;margin:34px auto 0;padding:0 20px}
 .kbx-foot .kbx-fnote p.kbx-disc{border-top:0;font-size:12.5px;color:#C9D4E6;font-weight:400;line-height:1.75}
 .kbx-foot .kbx-fnote p.kbx-disc a{text-decoration:underline}
