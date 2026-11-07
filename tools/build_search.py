@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-전국 세부사업 검색 색인(data/search-a.txt, search-a2.txt)을 저장 자료(data/<코드>.txt)의 2026 집행에서 다시 만든다 (2026-11-06 신설).
+전국 세부사업 검색 색인(data/search-a.bin, search-a2.bin)을 저장 자료(data/<코드>.txt)의 2026 집행에서 다시 만든다 (2026-11-06 신설).
 
 왜 있나
   검색 화면은 기준일을 data/index.json(매일 갱신)에서 읽어 'YYYY.MM.DD 기준'으로 찍는데,
@@ -20,13 +20,14 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 D = os.path.join(ROOT, 'data')
 
 
-def load(p):
-    return json.loads(gzip.decompress(base64.b64decode(open(p, 'rb').read())))
+def load(p):  # 지자체 자료(.txt)는 base64(gzip), 검색 색인(.bin)은 gzip 그대로 (2026-11-07: 전송량 25% 감소)
+    b = open(p, 'rb').read()
+    return json.loads(gzip.decompress(b if p.endswith('.bin') else base64.b64decode(b)))
 
 
 def save(p, obj):
     js = json.dumps(obj, separators=(',', ':'), ensure_ascii=False).encode('utf-8')
-    open(p, 'wb').write(base64.b64encode(gzip.compress(js, compresslevel=9, mtime=0)))
+    open(p, 'wb').write(gzip.compress(js, compresslevel=9, mtime=0))
 
 
 def man(v):  # 원 → 만원, 사사오입 (화면의 Math.round 와 같다)
@@ -34,8 +35,8 @@ def man(v):  # 원 → 만원, 사사오입 (화면의 Math.round 와 같다)
 
 
 def main():
-    old_a = load(os.path.join(D, 'search-a.txt'))
-    old_a2 = load(os.path.join(D, 'search-a2.txt'))
+    old_a = load(os.path.join(D, 'search-a.bin'))
+    old_a2 = load(os.path.join(D, 'search-a2.bin'))
     part_a, part_a2 = list(old_a['y26'].keys()), list(old_a2['y26'].keys())   # 기존 나눔을 그대로 지킨다
     flds = list(old_a['flds'])
     names, nix = [], {}
@@ -67,8 +68,8 @@ def main():
     now = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.000Z')
     a = {'built_at': now, 'unit': '만원', 'names': names, 'flds': flds, 'y26': {k: y[k] for k in part_a if k in y}}
     a2 = {'y26': {k: y[k] for k in part_a2 if k in y}}
-    save(os.path.join(D, 'search-a.txt'), a)
-    save(os.path.join(D, 'search-a2.txt'), a2)
+    save(os.path.join(D, 'search-a.bin'), a)
+    save(os.path.join(D, 'search-a2.bin'), a2)
     print('지자체', len(y), '· 사업', sum(len(v) for v in y.values()), '· 사업명', len(names))
 
 
