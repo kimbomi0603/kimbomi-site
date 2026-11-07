@@ -1,0 +1,300 @@
+{
+ "built_at": "2026-11-07",
+ "desc": "출처에 없어 비워 둔 값 — 매주 원문 재확인 대상",
+ "rows": [
+  {
+   "id": "2026-08-12-first-year-evaluation",
+   "field": "summary",
+   "status": "not_found",
+   "note": "공식·언론 모두 미확인. 삭제 유지"
+  },
+  {
+   "id": "2026-08-04-ministry-reports-2",
+   "field": "agency",
+   "status": "news_only",
+   "note": "korea.kr 청와대 브리핑 목록(8.1~8.5)에 해당 공지 없음. 언론 전언만 확인 → 복원 불가"
+  },
+  {
+   "id": "2026-08-03-national-ai-computing-center",
+   "field": "budget",
+   "status": "news_only",
+   "note": "korea.kr 2025년 정책뉴스는 '2조 규모'(148938942)·'민관 4조원 2030년까지'(148936780) 등 상이한 수치 → 복원 불가"
+  },
+  {
+   "id": "2026-08-03-national-ai-computing-center",
+   "field": "period",
+   "status": "not_found",
+   "note": "2025년 초 계획(148936780 '2030년까지 구축')과 혼동 가능. 현행 2026~2028 유지"
+  },
+  {
+   "id": "2026-07-03-sovereign-ai",
+   "field": "title",
+   "status": "not_found",
+   "note": "제목 현행 유지 권고"
+  },
+  {
+   "id": "2026-07-16-mohw-h2-plan",
+   "field": "summary",
+   "status": "not_found",
+   "note": "삭제 유지"
+  },
+  {
+   "id": "2026-07-15-ministry-reports-1",
+   "field": "title",
+   "status": "news_only",
+   "note": "korea.kr 청와대 브리핑(7.13~7.15)·부처 브리핑에 해당 공지 미게재 → 복원 불가"
+  },
+  {
+   "id": "2026-07-15-ministry-reports-1",
+   "field": "summary",
+   "status": "news_only",
+   "note": "청와대 공지 전언만 확인. 생중계 여부 포함 공식문서 미확인"
+  },
+  {
+   "id": "2026-07-13-fiscal-strategy",
+   "field": "summary",
+   "status": "news_only",
+   "note": "korea.kr 부처브리핑 7.12~13에 사전브리핑 속기 미게재"
+  },
+  {
+   "id": "2026-07-13-fiscal-strategy",
+   "field": "budget",
+   "status": "news_only",
+   "note": "2027 예산안 확정치는 820.9조(9.1) — 별도 항목에 있음"
+  },
+  {
+   "id": "2026-07-13-new-nuclear-smr",
+   "field": "date_note",
+   "status": "contradicted",
+   "note": "정확한 귀속: 2026.8.4 기후에너지환경부 하반기 업무보고. 현행 '업무보고' 유지"
+  },
+  {
+   "id": "2026-07-01-tonghap-special-city",
+   "field": "summary",
+   "status": "news_only",
+   "note": "전남광주통합특별시 누리집(jeonnam-gwangju.go.kr) 접속 실패(robots/프록시)로 시 보도자료 확인 못함 → 복원 보류"
+  },
+  {
+   "id": "2026-06-19-physical-ai-fullstack",
+   "field": "period",
+   "status": "not_found",
+   "note": "삭제 유지"
+  },
+  {
+   "id": "2026-09-04-mss-ai-roadmap",
+   "field": "meeting",
+   "status": "contradicted",
+   "note": "정확한 값: 제13회 국가정책조정회의(9.3). APEC 장관회의는 meeting 필드에 부적합"
+  },
+  {
+   "id": "2026-09-01-nfmp-2026-2030",
+   "field": "budget",
+   "status": "contradicted",
+   "note": "277.3조는 2026→2030 증가분 계산값. 복원하지 않음"
+  },
+  {
+   "id": "2026-08-28-vulnerable-borrowers",
+   "field": "summary",
+   "status": "news_only",
+   "note": "6.3조는 154.7조×4.1% 추산(SBS 등 보도). 공식 수치 아님"
+  },
+  {
+   "id": "2026-08-28-vulnerable-borrowers",
+   "field": "budget",
+   "status": "news_only",
+   "note": "위와 같음. 7,000억원은 별도(id 43)로 복원"
+  },
+  {
+   "id": "2026-09-10-population-strategy-act",
+   "field": "summary",
+   "status": "contradicted",
+   "note": "정확한 값: 당연직 위원 15개 부처(eiec.kdi.re.kr/policy/materialView.do?num=286481). 14개는 오류"
+  },
+  {
+   "id": "2026-09-04-us-investment",
+   "field": "title",
+   "status": "news_only",
+   "note": "SBS Biz 2026.9.4 '산업장관 \"대미 투자 협상 의미 있는 진전…9월 중 발표할 듯\"' 등 기자간담회 발언 보도. 산업부 투자유치 보도자료 PDF(198546150)에 없음"
+  },
+  {
+   "id": "2026-09-04-us-investment",
+   "field": "summary",
+   "status": "news_only",
+   "note": "SBS Biz 2026.9.4 '김정관 \"美 반도체관세, 불리하지 않게 논의\"' — 장관 발언 보도만 확인"
+  },
+  {
+   "id": "2026-09-04-us-investment",
+   "field": "budget",
+   "status": "news_only",
+   "note": "위와 같음(3,500억달러 대미투자는 장관 발언·협상 보도)"
+  },
+  {
+   "id": "2026-09-10-regional-autonomous-rnd",
+   "field": "summary",
+   "status": "not_found",
+   "note": "삭제 유지"
+  },
+  {
+   "id": "2025-12-30-food-safety-plan-6th",
+   "field": "meeting",
+   "status": "not_found",
+   "note": "국무조정실 보도자료·식약처 자료 어디에도 '식품안전정책위원회' 심의 언급 없음. 검색된 유일한 언급은 비공식 블로그(dazabi.com, 사실오류 포함)여서 채택 불가."
+  },
+  {
+   "id": "2025-12-30-food-safety-plan-6th",
+   "field": "agency",
+   "status": "not_found",
+   "note": "항목 3과 동일 사유."
+  },
+  {
+   "id": "2025-12-24-investment-fx-tax-support",
+   "field": "summary",
+   "status": "news_only",
+   "note": "'유턴 서학개미'는 언론 조어. 복원 불가."
+  },
+  {
+   "id": "2025-12-23-grid-policy-review",
+   "field": "summary",
+   "status": "not_found",
+   "note": "'한전 서해안 HVDC 약 9.6조원'을 담은 정부(go.kr) 문서를 찾지 못함. 확인된 언론 기사도 금액 미기재. 한전(kepco)은 go.kr 기관이 아니어서 기준상 제외."
+  },
+  {
+   "id": "2025-12-18-fsc-work-report",
+   "field": "summary",
+   "status": "news_only",
+   "note": "헤럴드경제 2025.12.19 '국민성장펀드 1차 후보에 용인 반도체 클러스터·평택 파운드리 등 7건'은 언론 해석. 공식 목록에 '용인' 명기 없음."
+  },
+  {
+   "id": "2025-12-17-mois-work-report",
+   "field": "summary",
+   "status": "not_found",
+   "note": "'(전남광주 등)'은 12.17 시점 원문에 없는 보강 표현. 전남광주통합특별시 자체는 2026.3 특별법으로 확정된 사실이나 이 항목(12.17 업무보고) 원문 범위를 벗어나 복원하지 않음."
+  },
+  {
+   "id": "2026-04-01-regional-employment-forum",
+   "field": "summary",
+   "status": "not_found",
+   "note": "'자율계정·기초이음·광역이음 3층 구조', '고용유지율·정착률 지표', '60.2% 소멸위험', '설계권 이양'은 보도자료·노동부 누리집·관련 기사(헤럴드경제 3.31)에서 확인되지 않음. 발표 슬라이드 내용으로 추정되나 공식 문서 미확인."
+  },
+  {
+   "id": "2026-03-31-supplementary-budget",
+   "field": "summary",
+   "status": "contradicted",
+   "note": "국회 의안정보시스템 표결정보: 재석 244는 맞으나 찬성은 213(반대 12, 기권 19). 삭제문의 '찬성 214'는 오류(경인일보 등 보도 '찬성 214·반대 11'과도 상이). old/new는 정정값으로 복원할 경우용."
+  },
+  {
+   "id": "2026-03-12-rnd-investment-direction-2027",
+   "field": "summary",
+   "status": "not_found",
+   "note": "'3대 메가프로젝트·7대 시드 연계'는 3.12 자료에 없음. 2027년 예산안(9.1)에 '7대 SEED 등 미래선도기술'은 있으나 투자방향 문서의 내용으로 복원할 근거 아님."
+  },
+  {
+   "id": "2026-03-10-yellow-envelope-act",
+   "field": "summary",
+   "status": "news_only",
+   "note": "노동부 집계라는 언론 보도만 있고 공식 보도자료 미확인."
+  },
+  {
+   "id": "2026-01-21-new-year-press",
+   "field": "summary",
+   "status": "news_only",
+   "note": "청와대 공지를 전한 언론 보도만 확인되고 president.go.kr·korea.kr에서 해당 공지 원문을 찾지 못함."
+  },
+  {
+   "id": "2025-10-22-infosec-plan",
+   "field": "period",
+   "status": "not_found",
+   "note": "보도자료 외 별첨(대책 전문) 미게재. 기간 표기 근거 공문서 없음"
+  },
+  {
+   "id": "2025-09-30-5-poles-3-special-strategy",
+   "field": "period",
+   "status": "not_found",
+   "note": "기간 근거 공문서 없음"
+  },
+  {
+   "id": "2025-09-15-labor-safety-comprehensive-plan",
+   "field": "budget",
+   "status": "contradicted",
+   "note": "정확한 값: 2026년 예산안 2조 722억원(관계부처 합계). '1.6조원'은 원문·고용부 예산안 보도자료 어디에도 없음. 복원하려면 '2026년 예산안 2조 722억원(노동부·중기부·국토부·산업부 등)'로"
+  },
+  {
+   "id": "2025-09-15-labor-safety-comprehensive-plan",
+   "field": "summary",
+   "status": "not_found",
+   "note": "목표치·연도 근거 공문서 없음"
+  },
+  {
+   "id": "2025-09-02-cabinet-promulgation-labor-commercial",
+   "field": "title",
+   "status": "not_found",
+   "note": "수치 1.15조는 정부 예산안(행안부) 수치로 확인되나 '당정 확정'은 정당 발표·보도 기반. 제목 복원은 보류하고 항목 16 summary에 행안부 예산안 기준으로 반영"
+  },
+  {
+   "id": "2025-08-25-commercial-act-2nd-amendment",
+   "field": "summary",
+   "status": "news_only",
+   "note": "국회 회의 진행 상황은 정부 공문서 범위 밖"
+  },
+  {
+   "id": "2025-08-24-yellow-envelope-act",
+   "field": "summary",
+   "status": "news_only",
+   "note": "해석적 표현으로 공문서 근거 없음"
+  },
+  {
+   "id": "2025-08-22-new-government-growth-strategy",
+   "field": "summary",
+   "status": "not_found",
+   "note": "성장전략의 지향점으로 서술한 근거 없음(국정과제 문서에만 'AI 3대 강국' 존재)"
+  },
+  {
+   "id": "2025-08-22-rnd-budget-2026",
+   "field": "summary",
+   "status": "not_found",
+   "note": "2026 R&D 예산 프레임은 6대 첨단산업·AI 2배. '3대 게임체인저(AI·첨단바이오·양자)'는 전 정부 2025 R&D 프레임"
+  },
+  {
+   "id": "2025-07-31-tax-reform-plan-2025",
+   "field": "budget",
+   "status": "news_only",
+   "note": "누적법 35.6조는 언론 환산치"
+  },
+  {
+   "id": "2025-07-31-tax-reform-plan-2025",
+   "field": "summary",
+   "status": "news_only",
+   "note": "누적법 35.6조는 언론 환산치"
+  },
+  {
+   "id": "2025-07-01-h2-changes-booklet",
+   "field": "summary",
+   "status": "not_found",
+   "note": "세제특례 항목 부재"
+  },
+  {
+   "id": "2025-06-04-emergency-economy-tf",
+   "field": "summary",
+   "status": "not_found",
+   "note": "korea.kr 정책뉴스 148943992에 TF 구성 지시만 있음. '정례 운영', '2차 추경 사령탑' 등은 평가적 서술로 공문서 없음"
+  },
+  {
+   "id": "2025-06-04-inauguration",
+   "field": "summary",
+   "status": "not_found",
+   "note": "'국민주권·경제회복·통합성장·문화강국·안전평화 5대 방향'은 요약자의 재구성"
+  },
+  {
+   "id": "2025-11-10-ai-talent-plan",
+   "field": "summary",
+   "status": "news_only",
+   "note": "교육부 보도자료·별첨(198251692/3)·브리핑문(korea.kr speechView 132038164)에 총 예산 수치 없음. '1조4000억원'은 헤럴드경제(2025.11.9) 보도만"
+  },
+  {
+   "id": "2025-11-10-ai-talent-plan",
+   "field": "budget",
+   "status": "news_only",
+   "note": "위와 같음 — 공문서에 1.4조원 없음"
+  }
+ ]
+}
