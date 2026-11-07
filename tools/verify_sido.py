@@ -67,11 +67,19 @@ def check_item(it):
     if not url: return {'status': 'no_src', 'n': len(claims)}
     txt, how = fetch(url)
     if txt is None: return {'status': 'unreachable', 'why': how, 'n': len(claims), 'url': url}
+    # 한 항목이 원문 여러 건에 걸쳐 있으면 src_more 의 원문까지 함께 본다(하나라도 못 받으면 대조 안 됨)
+    for u2 in it.get('src_more') or []:
+        t2, how2 = fetch(u2)
+        if t2 is None: return {'status': 'unreachable', 'why': how2, 'n': len(claims), 'url': u2}
+        txt += '\n' + t2
     T = norm(txt)
     # 조·억 혼합 표기(4,558억원 ↔ 4558억, 1조 6,000억 ↔ 16,000억)도 같은 값으로 본다
     miss = []
     for raw, n in claims:
         if re.search(r'(?<![\d.])' + re.escape(n) + r'(?![\d])', T): continue
+        # 8,000만 ↔ 8천만 (같은 값, 표기만 다름)
+        if raw.rstrip().endswith('만') and n.isdigit() and int(n) % 1000 == 0 and int(n) < 10000 and \
+           re.search(r'(?<![\d.])' + str(int(n) // 1000) + r'\s*천\s*만', T): continue
         miss.append(raw)
     return {'status': 'ok' if not miss else 'mismatch', 'n': len(claims), 'missing': miss[:12], 'url': url, 'chars': len(T)}
 

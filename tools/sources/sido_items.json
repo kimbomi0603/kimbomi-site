@@ -243,10 +243,16 @@
 "sido": "강원특별자치도"
 },
 "gw-05": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "mismatch",
 "n": 7,
+"missing": [
+"120억",
+"33억",
+"120억",
+"33억"
+],
 "url": "https://state.gwd.go.kr/egf/bp/common/front/262891/download",
+"chars": 9864,
 "sido": "강원특별자치도"
 },
 "gw-06": {
@@ -296,10 +302,18 @@
 "sido": "강원특별자치도"
 },
 "gw-11": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "mismatch",
 "n": 6,
+"missing": [
+"7,838대",
+"440대",
+"89억",
+"7,838대",
+"440대",
+"89억"
+],
 "url": "https://v.daum.net/v/20260710124507524",
+"chars": 3670,
 "sido": "강원특별자치도"
 },
 "gw-12": {
@@ -334,24 +348,37 @@
 "sido": "강원특별자치도"
 },
 "gg-01": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "mismatch",
 "n": 10,
+"missing": [
+"1,194억",
+"1,194억"
+],
 "url": "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
+"chars": 4655,
 "sido": "경기도"
 },
 "gg-02": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "mismatch",
 "n": 11,
+"missing": [
+"7,706억",
+"50%",
+"7,706억"
+],
 "url": "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
+"chars": 4655,
 "sido": "경기도"
 },
 "gg-03": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "mismatch",
 "n": 17,
+"missing": [
+"1,382억",
+"1,382억"
+],
 "url": "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
+"chars": 4655,
 "sido": "경기도"
 },
 "gg-04": {
@@ -364,12 +391,11 @@
 },
 "gg-05": {
 "status": "ok",
+"n": 5,
 "missing": [],
-"chars": 10001,
-"via": "PC",
 "url": "https://gnews.gg.go.kr/news/news_detail.do?number=202512311015478095C048&s_code=C401",
-"sido": "경기도",
-"n": 5
+"chars": 10074,
+"sido": "경기도"
 },
 "gg-06": {
 "status": "mismatch",
@@ -384,10 +410,11 @@
 "sido": "경기도"
 },
 "gg-07": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 7,
+"missing": [],
 "url": "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
+"chars": 4655,
 "sido": "경기도"
 },
 "gg-08": {
@@ -403,12 +430,11 @@
 },
 "gg-09": {
 "status": "ok",
+"n": 8,
 "missing": [],
-"chars": 10001,
-"via": "PC",
 "url": "https://gnews.gg.go.kr/news/news_detail.do?number=202512311015478095C048&s_code=C401",
-"sido": "경기도",
-"n": 8
+"chars": 10074,
+"sido": "경기도"
 },
 "gg-10": {
 "status": "mismatch",
@@ -633,17 +659,19 @@
 "sido": "경상북도"
 },
 "gb-09": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 0,
+"missing": [],
 "url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-12-29&searchEndDt=2025-12-29",
+"chars": 16339,
 "sido": "경상북도"
 },
 "gb-10": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 3,
+"missing": [],
 "url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-12-29&searchEndDt=2025-12-29",
+"chars": 22564,
 "sido": "경상북도"
 },
 "gb-11": {
@@ -773,17 +801,19 @@
 "sido": "대전광역시"
 },
 "dj-02": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 8,
+"missing": [],
 "url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
+"chars": 8119,
 "sido": "대전광역시"
 },
 "dj-03": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 8,
+"missing": [],
 "url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
+"chars": 8119,
 "sido": "대전광역시"
 },
 "dj-04": {
@@ -795,10 +825,11 @@
 "sido": "대전광역시"
 },
 "dj-05": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 12,
+"missing": [],
 "url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
+"chars": 8119,
 "sido": "대전광역시"
 },
 "dj-06": {
@@ -834,10 +865,13 @@
 "sido": "대전광역시"
 },
 "dj-10": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "mismatch",
 "n": 1,
+"missing": [
+"77개"
+],
 "url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1522817042",
+"chars": 6317,
 "sido": "대전광역시"
 },
 "dj-11": {
@@ -923,20 +957,24 @@
 "sido": "부산광역시"
 },
 "busan-07": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "mismatch",
 "n": 11,
+"missing": [
+"3,783억",
+"5,300개",
+"3,783억"
+],
 "url": "https://www.busan.go.kr/news/snsbusan01/view?dataNo=72982&curPage=1",
+"chars": 3466,
 "sido": "부산광역시"
 },
 "busan-08": {
 "status": "ok",
+"n": 0,
 "missing": [],
-"chars": 2308,
-"via": "PC",
 "url": "https://www.busan.go.kr/mayor/inaugural",
-"sido": "부산광역시",
-"n": 0
+"chars": 2494,
+"sido": "부산광역시"
 },
 "busan-09": {
 "status": "ok",
@@ -1082,16 +1120,11 @@
 "sido": "서울특별시"
 },
 "sj-01": {
-"status": "mismatch",
+"status": "ok",
 "n": 8,
-"missing": [
-"736억",
-"1,200억",
-"736억",
-"1,200억"
-],
-"url": "https://www.aflnews.co.kr/news/articleView.html?idxno=307339",
-"chars": 5439,
+"missing": [],
+"url": "https://v.daum.net/v/20251103165024309",
+"chars": 9160,
 "sido": "세종특별자치시"
 },
 "sj-02": {
@@ -1154,26 +1187,19 @@
 "sido": "세종특별자치시"
 },
 "sj-09": {
-"status": "mismatch",
+"status": "ok",
 "n": 8,
-"missing": [
-"16억",
-"1,400만",
-"87건",
-"132건"
-],
+"missing": [],
 "url": "https://www.sisajournal.com/news/articleView.html?idxno=351576",
-"chars": 7186,
+"chars": 16218,
 "sido": "세종특별자치시"
 },
 "sj-10": {
-"status": "mismatch",
+"status": "ok",
 "n": 22,
-"missing": [
-"8,000만"
-],
-"url": "https://www.inews24.com/view/1983165",
-"chars": 2320,
+"missing": [],
+"url": "https://www.nocutnews.co.kr/news/6544167",
+"chars": 6926,
 "sido": "세종특별자치시"
 },
 "sj-11": {
@@ -1201,10 +1227,11 @@
 "sido": "세종특별자치시"
 },
 "sj-14": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 2,
+"missing": [],
 "url": "https://www.newscj.com/news/articleView.html?idxno=3418986",
+"chars": 9031,
 "sido": "세종특별자치시"
 },
 "us-01": {
@@ -1226,10 +1253,11 @@
 "sido": "울산광역시"
 },
 "us-03": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 14,
+"missing": [],
 "url": "https://www.ulsan.go.kr/u/media/data.do?mediaId=MEDIA_00000000008920",
+"chars": 102445,
 "sido": "울산광역시"
 },
 "us-04": {
@@ -1248,27 +1276,23 @@
 "n": 12,
 "missing": [],
 "url": "https://www.gukjenews.com/news/articleView.html?idxno=3425924",
-"chars": 8005,
+"chars": 20291,
 "sido": "울산광역시"
 },
 "us-06": {
-"status": "mismatch",
+"status": "ok",
 "n": 15,
-"missing": [
-"199억",
-"7,022억",
-"7,022억",
-"199억"
-],
+"missing": [],
 "url": "https://www.ulsan.go.kr/u/media/data.do?mediaId=MEDIA_00000000008920",
-"chars": 44088,
+"chars": 102445,
 "sido": "울산광역시"
 },
 "us-07": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 7,
+"missing": [],
 "url": "https://www.ulsan.go.kr/u/media/data.do?mediaId=MEDIA_00000000008920",
+"chars": 102445,
 "sido": "울산광역시"
 },
 "us-08": {
@@ -1287,13 +1311,11 @@
 "sido": "울산광역시"
 },
 "us-09": {
-"status": "mismatch",
+"status": "ok",
 "n": 8,
-"missing": [
-"64%"
-],
+"missing": [],
 "url": "https://www.gukjenews.com/news/articleView.html?idxno=3425924",
-"chars": 8005,
+"chars": 102445,
 "sido": "울산광역시"
 },
 "us-10": {
@@ -1368,10 +1390,20 @@
 "sido": "인천광역시"
 },
 "incheon-03": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "mismatch",
 "n": 10,
+"missing": [
+"63억",
+"12개",
+"30만",
+"3억",
+"4.4억",
+"63억",
+"3억",
+"4.4억"
+],
 "url": "https://www.incheon.go.kr/open/OPEN060105/3065565",
+"chars": 3630,
 "sido": "인천광역시"
 },
 "incheon-04": {
@@ -1417,10 +1449,11 @@
 "sido": "인천광역시"
 },
 "incheon-07": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 6,
+"missing": [],
 "url": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000013441585&curPage=1",
+"chars": 7920,
 "sido": "인천광역시"
 },
 "incheon-08": {
@@ -1484,17 +1517,21 @@
 "sido": "인천광역시"
 },
 "incheon-12": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 0,
+"missing": [],
 "url": "https://www.incheon.go.kr/goodmorning/GM010100/view?nttNo=2042582&srchPblicteIssnoCode=202607",
+"chars": 6493,
 "sido": "인천광역시"
 },
 "incheon-13": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "mismatch",
 "n": 3,
+"missing": [
+"42개"
+],
 "url": "https://www.incheon.go.kr/goodmorning/GM010100/view?nttNo=2042582&srchPblicteIssnoCode=202607",
+"chars": 6493,
 "sido": "인천광역시"
 },
 "incheon-14": {
@@ -1567,12 +1604,9 @@
 "sido": "전남광주통합특별시"
 },
 "gj-08": {
-"status": "mismatch",
+"status": "ok",
 "n": 17,
-"missing": [
-"6,000만",
-"6,000만"
-],
+"missing": [],
 "url": "https://www.jeonmae.co.kr/news/articleView.html?idxno=1291156",
 "chars": 5753,
 "sido": "전남광주통합특별시"
@@ -1890,52 +1924,61 @@
 "sido": "제주특별자치도"
 },
 "cn-01": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 11,
+"missing": [],
 "url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
+"chars": 8180,
 "sido": "충청남도"
 },
 "cn-02": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 8,
+"missing": [],
 "url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
+"chars": 8180,
 "sido": "충청남도"
 },
 "cn-03": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 10,
+"missing": [],
 "url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
+"chars": 8180,
 "sido": "충청남도"
 },
 "cn-04": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 10,
+"missing": [],
 "url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
+"chars": 8180,
 "sido": "충청남도"
 },
 "cn-05": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 4,
+"missing": [],
 "url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
+"chars": 8180,
 "sido": "충청남도"
 },
 "cn-06": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "mismatch",
 "n": 7,
+"missing": [
+"8,000만"
+],
 "url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
+"chars": 8180,
 "sido": "충청남도"
 },
 "cn-07": {
-"status": "unreachable",
-"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"status": "ok",
 "n": 2,
+"missing": [],
 "url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
+"chars": 8180,
 "sido": "충청남도"
 },
 "cn-08": {
