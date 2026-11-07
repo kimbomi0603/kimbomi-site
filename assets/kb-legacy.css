@@ -1,8 +1,8 @@
 /* 김보미.com — about / party-money 본문 공용. 2026-09-18 새 메인(딥그린·네이비·크림, 둥근 카드)에 맞춰 통일 */
 :root{
-  --paper:#F5F2EA; --paper2:#FFFFFF; --ink:#17181A; --ink2:#55565A;
+  --paper:#F2F4F7; --paper2:#FFFFFF; --ink:#17181A; --ink2:#55565A;
   --navy:#16305A; --red:#0F5A4A; --gold:#C99A2E; --teal:#0F5A4A;
-  --rule:#E4DFD3; --rule2:#D6CFBE;
+  --rule:#DDE2EA; --rule2:#C9D0DB;
   --serif:"Noto Serif KR",serif; --sans:"Pretendard Variable",system-ui,sans-serif; --mono:"Pretendard Variable",ui-monospace,monospace;
 }
 *{box-sizing:border-box}
