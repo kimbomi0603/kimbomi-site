@@ -169,11 +169,9 @@
 ]
 },
 "충청남도": {
-"status": "mismatch",
+"status": "ok",
 "n": 11,
-"missing": [
-"5,900만"
-],
+"missing": [],
 "urls": [
 "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
 "https://www.dominilbo.com/news/articleView.html?idxno=254545",
@@ -194,7 +192,7 @@
 ]
 }
 },
-"checked": "2026-09-29",
+"checked": "2026-11-07",
 "method": "src_url 원문을 받아 글자로 바꾼 뒤 요약·예산 문장의 숫자(10 이하 단순 수·연도 제외)가 원문에 그대로 있는지 대조",
 "items": {
 "gw-01": {
@@ -226,7 +224,7 @@
 "250억"
 ],
 "url": "https://www.kado.net/news/articleView.html?idxno=2015555",
-"chars": 5666,
+"chars": 5652,
 "sido": "강원특별자치도"
 },
 "gw-04": {
@@ -245,16 +243,10 @@
 "sido": "강원특별자치도"
 },
 "gw-05": {
-"status": "mismatch",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 7,
-"missing": [
-"120억",
-"33억",
-"120억",
-"33억"
-],
 "url": "https://state.gwd.go.kr/egf/bp/common/front/262891/download",
-"chars": 9864,
 "sido": "강원특별자치도"
 },
 "gw-06": {
@@ -264,18 +256,19 @@
 "3,676명"
 ],
 "url": "https://www.kado.net/news/articleView.html?idxno=2015555",
-"chars": 5666,
+"chars": 5652,
 "sido": "강원특별자치도"
 },
 "gw-07": {
 "status": "mismatch",
 "n": 12,
 "missing": [
+"25개",
 "250억",
 "213억"
 ],
 "url": "https://www.kado.net/news/articleView.html?idxno=2015555",
-"chars": 5666,
+"chars": 5652,
 "sido": "강원특별자치도"
 },
 "gw-08": {
@@ -283,7 +276,7 @@
 "n": 4,
 "missing": [],
 "url": "https://biz.heraldcorp.com/article/10794887",
-"chars": 7442,
+"chars": 6603,
 "sido": "강원특별자치도"
 },
 "gw-09": {
@@ -291,7 +284,7 @@
 "n": 4,
 "missing": [],
 "url": "https://biz.heraldcorp.com/article/10794887",
-"chars": 7442,
+"chars": 6603,
 "sido": "강원특별자치도"
 },
 "gw-10": {
@@ -299,22 +292,14 @@
 "n": 2,
 "missing": [],
 "url": "https://v.daum.net/v/20260710124507524",
-"chars": 3667,
+"chars": 3670,
 "sido": "강원특별자치도"
 },
 "gw-11": {
-"status": "mismatch",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 6,
-"missing": [
-"7,838대",
-"440대",
-"89억",
-"7,838대",
-"440대",
-"89억"
-],
 "url": "https://v.daum.net/v/20260710124507524",
-"chars": 3667,
 "sido": "강원특별자치도"
 },
 "gw-12": {
@@ -324,7 +309,7 @@
 "66개"
 ],
 "url": "https://biz.heraldcorp.com/article/10794887",
-"chars": 7442,
+"chars": 6603,
 "sido": "강원특별자치도"
 },
 "gw-13": {
@@ -337,47 +322,36 @@
 },
 "gw-14": {
 "status": "mismatch",
-"n": 2,
+"n": 4,
 "missing": [
-"423억",
-"423억"
+"4,233억",
+"8,740만",
+"4,233억",
+"8,740만"
 ],
 "url": "https://state.gwd.go.kr/egf/bp/common/front/262870/download",
 "chars": 75633,
 "sido": "강원특별자치도"
 },
 "gg-01": {
-"status": "mismatch",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 10,
-"missing": [
-"1,194억",
-"1,194억"
-],
 "url": "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
-"chars": 4655,
 "sido": "경기도"
 },
 "gg-02": {
-"status": "mismatch",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 11,
-"missing": [
-"7,706억",
-"50%",
-"7,706억"
-],
 "url": "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
-"chars": 4655,
 "sido": "경기도"
 },
 "gg-03": {
-"status": "mismatch",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 17,
-"missing": [
-"1,382억",
-"1,382억"
-],
 "url": "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
-"chars": 4655,
 "sido": "경기도"
 },
 "gg-04": {
@@ -410,14 +384,10 @@
 "sido": "경기도"
 },
 "gg-07": {
-"status": "mismatch",
-"n": 9,
-"missing": [
-"3,624억",
-"3,624억"
-],
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"n": 7,
 "url": "https://gnews.gg.go.kr/briefing/brief_gongbo_view.do?BS_CODE=s017&number=68869",
-"chars": 4655,
 "sido": "경기도"
 },
 "gg-08": {
@@ -455,7 +425,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.ajunews.com/view/20260714114946228",
-"chars": 5007,
+"chars": 5147,
 "sido": "경기도"
 },
 "gg-12": {
@@ -463,7 +433,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.ajunews.com/view/20260714114946228",
-"chars": 5007,
+"chars": 5147,
 "sido": "경기도"
 },
 "gg-13": {
@@ -471,7 +441,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.ajunews.com/view/20260714114946228",
-"chars": 5007,
+"chars": 5147,
 "sido": "경기도"
 },
 "gg-14": {
@@ -479,7 +449,7 @@
 "n": 23,
 "missing": [],
 "url": "https://www.etoday.co.kr/news/view/2615932",
-"chars": 10874,
+"chars": 10849,
 "sido": "경기도"
 },
 "gg-15": {
@@ -495,7 +465,7 @@
 "n": 13,
 "missing": [],
 "url": "https://www.idomin.com/news/articleView.html?idxno=950182",
-"chars": 6738,
+"chars": 6940,
 "sido": "경상남도"
 },
 "gn-02": {
@@ -503,7 +473,7 @@
 "n": 22,
 "missing": [],
 "url": "https://www.idomin.com/news/articleView.html?idxno=950182",
-"chars": 6738,
+"chars": 6940,
 "sido": "경상남도"
 },
 "gn-03": {
@@ -511,21 +481,18 @@
 "n": 5,
 "missing": [],
 "url": "https://www.idomin.com/news/articleView.html?idxno=950182",
-"chars": 6738,
+"chars": 6940,
 "sido": "경상남도"
 },
 "gn-04": {
 "status": "mismatch",
-"n": 17,
+"n": 14,
 "missing": [
-"1,398억",
-"1,398억",
 "4,300억",
-"1,398억",
 "4,300억"
 ],
 "url": "https://www.idomin.com/news/articleView.html?idxno=950182",
-"chars": 6738,
+"chars": 6940,
 "sido": "경상남도"
 },
 "gn-05": {
@@ -538,7 +505,7 @@
 "131개"
 ],
 "url": "https://www.idomin.com/news/articleView.html?idxno=950182",
-"chars": 6738,
+"chars": 6940,
 "sido": "경상남도"
 },
 "gn-06": {
@@ -546,7 +513,7 @@
 "n": 13,
 "missing": [],
 "url": "https://www.idomin.com/news/articleView.html?idxno=950182",
-"chars": 6738,
+"chars": 6940,
 "sido": "경상남도"
 },
 "gn-07": {
@@ -558,7 +525,7 @@
 "99억"
 ],
 "url": "https://www.idomin.com/news/articleView.html?idxno=950182",
-"chars": 6738,
+"chars": 6940,
 "sido": "경상남도"
 },
 "gn-08": {
@@ -566,15 +533,15 @@
 "n": 6,
 "missing": [],
 "url": "https://www.idomin.com/news/articleView.html?idxno=950182",
-"chars": 6738,
+"chars": 6940,
 "sido": "경상남도"
 },
 "gn-09": {
 "status": "ok",
 "n": 0,
 "missing": [],
-"url": "https://www.mt.co.kr/policy/2026/07/08/2026070816335762284",
-"chars": 3798,
+"url": "https://www.newscj.com/news/articleView.html?idxno=3415396",
+"chars": 6400,
 "sido": "경상남도"
 },
 "gn-10": {
@@ -582,7 +549,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.mt.co.kr/policy/2026/07/08/2026070816335762284",
-"chars": 3798,
+"chars": 3667,
 "sido": "경상남도"
 },
 "gn-11": {
@@ -590,17 +557,15 @@
 "n": 0,
 "missing": [],
 "url": "https://www.mt.co.kr/policy/2026/07/08/2026070816335762284",
-"chars": 3798,
+"chars": 3667,
 "sido": "경상남도"
 },
 "gn-12": {
-"status": "mismatch",
-"n": 1,
-"missing": [
-"155건"
-],
+"status": "ok",
+"n": 0,
+"missing": [],
 "url": "https://www.mt.co.kr/policy/2026/07/08/2026070816335762284",
-"chars": 3798,
+"chars": 3667,
 "sido": "경상남도"
 },
 "gb-01": {
@@ -608,7 +573,7 @@
 "n": 12,
 "missing": [],
 "url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
-"chars": 14886,
+"chars": 15000,
 "sido": "경상북도"
 },
 "gb-02": {
@@ -616,7 +581,7 @@
 "n": 7,
 "missing": [],
 "url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
-"chars": 14886,
+"chars": 15000,
 "sido": "경상북도"
 },
 "gb-03": {
@@ -624,7 +589,7 @@
 "n": 12,
 "missing": [],
 "url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
-"chars": 14886,
+"chars": 15000,
 "sido": "경상북도"
 },
 "gb-04": {
@@ -632,7 +597,7 @@
 "n": 10,
 "missing": [],
 "url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
-"chars": 14886,
+"chars": 15000,
 "sido": "경상북도"
 },
 "gb-05": {
@@ -640,7 +605,7 @@
 "n": 12,
 "missing": [],
 "url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
-"chars": 14886,
+"chars": 15000,
 "sido": "경상북도"
 },
 "gb-06": {
@@ -648,7 +613,7 @@
 "n": 7,
 "missing": [],
 "url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
-"chars": 14886,
+"chars": 15000,
 "sido": "경상북도"
 },
 "gb-07": {
@@ -656,7 +621,7 @@
 "n": 16,
 "missing": [],
 "url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
-"chars": 14886,
+"chars": 15000,
 "sido": "경상북도"
 },
 "gb-08": {
@@ -664,25 +629,21 @@
 "n": 17,
 "missing": [],
 "url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-11-13&searchEndDt=2025-11-13",
-"chars": 14886,
+"chars": 15000,
 "sido": "경상북도"
 },
 "gb-09": {
-"status": "ok",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 0,
-"missing": [],
 "url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-12-29&searchEndDt=2025-12-29",
-"chars": 16225,
 "sido": "경상북도"
 },
 "gb-10": {
-"status": "mismatch",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 3,
-"missing": [
-"500만"
-],
 "url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-12-29&searchEndDt=2025-12-29",
-"chars": 16225,
 "sido": "경상북도"
 },
 "gb-11": {
@@ -690,7 +651,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.gb.go.kr/page/10107/10004.do?searchStrtDt=2025-12-29&searchEndDt=2025-12-29",
-"chars": 16225,
+"chars": 16339,
 "sido": "경상북도"
 },
 "gb-12": {
@@ -698,7 +659,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.gukjenews.com/news/articleView.html?idxno=3630488",
-"chars": 6049,
+"chars": 6224,
 "sido": "경상북도"
 },
 "gb-13": {
@@ -706,7 +667,7 @@
 "n": 4,
 "missing": [],
 "url": "https://www.seoul.co.kr/news/society/2026/07/30/20260730500048",
-"chars": 5777,
+"chars": 5662,
 "sido": "경상북도"
 },
 "daegu-01": {
@@ -714,7 +675,7 @@
 "n": 9,
 "missing": [],
 "url": "https://m.joongdo.co.kr/view.php?key=20251106010002381",
-"chars": 6229,
+"chars": 6241,
 "sido": "대구광역시"
 },
 "daegu-02": {
@@ -722,7 +683,7 @@
 "n": 14,
 "missing": [],
 "url": "https://www.sisajournal.com/news/articleView.html?idxno=352102",
-"chars": 5511,
+"chars": 5528,
 "sido": "대구광역시"
 },
 "daegu-03": {
@@ -730,7 +691,7 @@
 "n": 9,
 "missing": [],
 "url": "https://www.sisajournal.com/news/articleView.html?idxno=352102",
-"chars": 5511,
+"chars": 5528,
 "sido": "대구광역시"
 },
 "daegu-04": {
@@ -741,7 +702,7 @@
 "56억"
 ],
 "url": "https://m.joongdo.co.kr/view.php?key=20251106010002381",
-"chars": 6229,
+"chars": 6241,
 "sido": "대구광역시"
 },
 "daegu-05": {
@@ -749,19 +710,18 @@
 "n": 8,
 "missing": [],
 "url": "https://m.joongdo.co.kr/view.php?key=20251106010002381",
-"chars": 6229,
+"chars": 6241,
 "sido": "대구광역시"
 },
 "daegu-06": {
 "status": "mismatch",
-"n": 16,
+"n": 17,
 "missing": [
-"30억",
 "418억",
 "418억"
 ],
 "url": "https://www.sisajournal.com/news/articleView.html?idxno=352102",
-"chars": 5511,
+"chars": 5528,
 "sido": "대구광역시"
 },
 "daegu-07": {
@@ -769,7 +729,7 @@
 "n": 9,
 "missing": [],
 "url": "https://www.ajunews.com/view/20251106152514604",
-"chars": 4822,
+"chars": 4962,
 "sido": "대구광역시"
 },
 "daegu-08": {
@@ -777,7 +737,7 @@
 "n": 0,
 "missing": [],
 "url": "https://dgmbc.com/NewsArticle/848684",
-"chars": 4025,
+"chars": 4077,
 "sido": "대구광역시"
 },
 "daegu-09": {
@@ -785,7 +745,7 @@
 "n": 2,
 "missing": [],
 "url": "https://www.ynenews.kr/news/articleView.html?idxno=79744",
-"chars": 4682,
+"chars": 4845,
 "sido": "대구광역시"
 },
 "daegu-10": {
@@ -793,7 +753,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.ynenews.kr/news/articleView.html?idxno=79744",
-"chars": 4682,
+"chars": 4845,
 "sido": "대구광역시"
 },
 "daegu-11": {
@@ -801,7 +761,7 @@
 "n": 0,
 "missing": [],
 "url": "https://dgmbc.com/NewsArticle/848684",
-"chars": 4025,
+"chars": 4077,
 "sido": "대구광역시"
 },
 "dj-01": {
@@ -809,23 +769,21 @@
 "n": 6,
 "missing": [],
 "url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
-"chars": 8112,
+"chars": 8119,
 "sido": "대전광역시"
 },
 "dj-02": {
-"status": "ok",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 8,
-"missing": [],
 "url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
-"chars": 8112,
 "sido": "대전광역시"
 },
 "dj-03": {
-"status": "ok",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 8,
-"missing": [],
 "url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
-"chars": 8112,
 "sido": "대전광역시"
 },
 "dj-04": {
@@ -833,15 +791,14 @@
 "n": 12,
 "missing": [],
 "url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
-"chars": 8112,
+"chars": 8119,
 "sido": "대전광역시"
 },
 "dj-05": {
-"status": "ok",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 12,
-"missing": [],
 "url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
-"chars": 8112,
 "sido": "대전광역시"
 },
 "dj-06": {
@@ -849,7 +806,7 @@
 "n": 8,
 "missing": [],
 "url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
-"chars": 8112,
+"chars": 8119,
 "sido": "대전광역시"
 },
 "dj-07": {
@@ -857,7 +814,7 @@
 "n": 8,
 "missing": [],
 "url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
-"chars": 8112,
+"chars": 8119,
 "sido": "대전광역시"
 },
 "dj-08": {
@@ -865,7 +822,7 @@
 "n": 7,
 "missing": [],
 "url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
-"chars": 8112,
+"chars": 8119,
 "sido": "대전광역시"
 },
 "dj-09": {
@@ -873,17 +830,14 @@
 "n": 10,
 "missing": [],
 "url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1502085960",
-"chars": 8112,
+"chars": 8119,
 "sido": "대전광역시"
 },
 "dj-10": {
-"status": "mismatch",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 1,
-"missing": [
-"77개"
-],
 "url": "https://www.daejeon.go.kr/drh/board/boardNormalView.do?boardId=normal_0189&menuSeq=6825&ntatcSeq=1522817042",
-"chars": 6310,
 "sido": "대전광역시"
 },
 "dj-11": {
@@ -893,7 +847,7 @@
 "99,715명"
 ],
 "url": "https://www.khan.co.kr/article/202609171505001/",
-"chars": 4307,
+"chars": 4213,
 "sido": "대전광역시"
 },
 "dj-12": {
@@ -901,7 +855,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.goodmorningcc.com/news/articleView.html?idxno=452550",
-"chars": 5137,
+"chars": 5077,
 "sido": "대전광역시"
 },
 "dj-13": {
@@ -909,7 +863,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.goodmorningcc.com/news/articleView.html?idxno=452550",
-"chars": 5137,
+"chars": 5077,
 "sido": "대전광역시"
 },
 "dj-14": {
@@ -917,7 +871,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.khan.co.kr/article/202609171505001/",
-"chars": 4307,
+"chars": 4213,
 "sido": "대전광역시"
 },
 "busan-01": {
@@ -925,7 +879,7 @@
 "n": 7,
 "missing": [],
 "url": "https://www.sedaily.com/article/14141925",
-"chars": 7377,
+"chars": 7382,
 "sido": "부산광역시"
 },
 "busan-02": {
@@ -933,19 +887,15 @@
 "n": 10,
 "missing": [],
 "url": "https://www.sedaily.com/article/14141925",
-"chars": 7377,
+"chars": 7382,
 "sido": "부산광역시"
 },
 "busan-03": {
-"status": "mismatch",
-"n": 9,
-"missing": [
-"4,407억",
-"4,407억",
-"4,407억"
-],
+"status": "ok",
+"n": 6,
+"missing": [],
 "url": "https://www.sedaily.com/article/14141925",
-"chars": 7377,
+"chars": 7382,
 "sido": "부산광역시"
 },
 "busan-04": {
@@ -953,7 +903,7 @@
 "n": 7,
 "missing": [],
 "url": "https://www.sedaily.com/article/14141925",
-"chars": 7377,
+"chars": 7382,
 "sido": "부산광역시"
 },
 "busan-05": {
@@ -961,7 +911,7 @@
 "n": 7,
 "missing": [],
 "url": "https://www.sedaily.com/article/14141925",
-"chars": 7377,
+"chars": 7382,
 "sido": "부산광역시"
 },
 "busan-06": {
@@ -969,19 +919,14 @@
 "n": 7,
 "missing": [],
 "url": "https://www.sedaily.com/article/14141925",
-"chars": 7377,
+"chars": 7382,
 "sido": "부산광역시"
 },
 "busan-07": {
-"status": "mismatch",
-"n": 12,
-"missing": [
-"3,783억",
-"5,350명",
-"3,783억"
-],
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"n": 11,
 "url": "https://www.busan.go.kr/news/snsbusan01/view?dataNo=72982&curPage=1",
-"chars": 3466,
 "sido": "부산광역시"
 },
 "busan-08": {
@@ -998,7 +943,7 @@
 "n": 0,
 "missing": [],
 "url": "https://v.daum.net/v/20260630170612443",
-"chars": 4565,
+"chars": 4568,
 "sido": "부산광역시"
 },
 "busan-10": {
@@ -1006,7 +951,7 @@
 "n": 0,
 "missing": [],
 "url": "https://v.daum.net/v/20260630170612443",
-"chars": 4565,
+"chars": 4568,
 "sido": "부산광역시"
 },
 "busan-11": {
@@ -1014,7 +959,7 @@
 "n": 18,
 "missing": [],
 "url": "https://www.seoul.co.kr/news/society/2026/06/30/20260630500155",
-"chars": 7508,
+"chars": 7379,
 "sido": "부산광역시"
 },
 "seoul-01": {
@@ -1117,7 +1062,7 @@
 "6,500호"
 ],
 "url": "https://newsseoul.co.kr/news/view/1065583228128166",
-"chars": 9959,
+"chars": 9881,
 "sido": "서울특별시"
 },
 "seoul-13": {
@@ -1125,7 +1070,7 @@
 "n": 4,
 "missing": [],
 "url": "https://newsseoul.co.kr/news/view/1065583228128166",
-"chars": 9959,
+"chars": 9881,
 "sido": "서울특별시"
 },
 "seoul-14": {
@@ -1133,23 +1078,28 @@
 "n": 3,
 "missing": [],
 "url": "https://www.newspim.com/news/view/20260917000289",
-"chars": 16309,
+"chars": 13119,
 "sido": "서울특별시"
 },
 "sj-01": {
-"status": "ok",
+"status": "mismatch",
 "n": 8,
-"missing": [],
-"url": "https://www.eroun.net/news/articleView.html?idxno=66200",
-"chars": 3452,
+"missing": [
+"736억",
+"1,200억",
+"736억",
+"1,200억"
+],
+"url": "https://www.aflnews.co.kr/news/articleView.html?idxno=307339",
+"chars": 5439,
 "sido": "세종특별자치시"
 },
 "sj-02": {
 "status": "ok",
-"n": 12,
+"n": 14,
 "missing": [],
 "url": "https://www.sedaily.com/NewsView/2H0B7KFNSY",
-"chars": 7941,
+"chars": 7950,
 "sido": "세종특별자치시"
 },
 "sj-03": {
@@ -1157,7 +1107,7 @@
 "n": 2,
 "missing": [],
 "url": "https://www.sedaily.com/NewsView/2H0B7KFNSY",
-"chars": 7941,
+"chars": 7950,
 "sido": "세종특별자치시"
 },
 "sj-04": {
@@ -1165,7 +1115,7 @@
 "n": 15,
 "missing": [],
 "url": "https://www.naewoeilbo.com/news/articleView.html?idxno=2226345",
-"chars": 3023,
+"chars": 3140,
 "sido": "세종특별자치시"
 },
 "sj-05": {
@@ -1173,7 +1123,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.naewoeilbo.com/news/articleView.html?idxno=2226345",
-"chars": 3023,
+"chars": 3140,
 "sido": "세종특별자치시"
 },
 "sj-06": {
@@ -1184,7 +1134,7 @@
 "1,000만"
 ],
 "url": "https://www.naewoeilbo.com/news/articleView.html?idxno=2226345",
-"chars": 3023,
+"chars": 3140,
 "sido": "세종특별자치시"
 },
 "sj-07": {
@@ -1192,7 +1142,7 @@
 "n": 8,
 "missing": [],
 "url": "https://www.aflnews.co.kr/news/articleView.html?idxno=307339",
-"chars": 5431,
+"chars": 5439,
 "sido": "세종특별자치시"
 },
 "sj-08": {
@@ -1200,28 +1150,30 @@
 "n": 8,
 "missing": [],
 "url": "https://www.sedaily.com/NewsView/2H0B7KFNSY",
-"chars": 7941,
+"chars": 7950,
 "sido": "세종특별자치시"
 },
 "sj-09": {
 "status": "mismatch",
-"n": 6,
+"n": 8,
 "missing": [
 "16억",
 "1,400만",
 "87건",
 "132건"
 ],
-"url": "https://www.naewoeilbo.com/news/articleView.html?idxno=2226345",
-"chars": 3023,
+"url": "https://www.sisajournal.com/news/articleView.html?idxno=351576",
+"chars": 7186,
 "sido": "세종특별자치시"
 },
 "sj-10": {
-"status": "ok",
-"n": 24,
-"missing": [],
-"url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003249401",
-"chars": 4977,
+"status": "mismatch",
+"n": 22,
+"missing": [
+"8,000만"
+],
+"url": "https://www.inews24.com/view/1983165",
+"chars": 2320,
 "sido": "세종특별자치시"
 },
 "sj-11": {
@@ -1229,7 +1181,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.newscj.com/news/articleView.html?idxno=3418986",
-"chars": 8824,
+"chars": 9031,
 "sido": "세종특별자치시"
 },
 "sj-12": {
@@ -1237,7 +1189,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.newscj.com/news/articleView.html?idxno=3418986",
-"chars": 8824,
+"chars": 9031,
 "sido": "세종특별자치시"
 },
 "sj-13": {
@@ -1245,15 +1197,14 @@
 "n": 0,
 "missing": [],
 "url": "https://www.newscj.com/news/articleView.html?idxno=3418986",
-"chars": 8824,
+"chars": 9031,
 "sido": "세종특별자치시"
 },
 "sj-14": {
-"status": "ok",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 2,
-"missing": [],
 "url": "https://www.newscj.com/news/articleView.html?idxno=3418986",
-"chars": 8824,
 "sido": "세종특별자치시"
 },
 "us-01": {
@@ -1275,14 +1226,10 @@
 "sido": "울산광역시"
 },
 "us-03": {
-"status": "mismatch",
-"n": 12,
-"missing": [
-"670억",
-"670억"
-],
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
+"n": 14,
 "url": "https://www.ulsan.go.kr/u/media/data.do?mediaId=MEDIA_00000000008920",
-"chars": 82153,
 "sido": "울산광역시"
 },
 "us-04": {
@@ -1298,36 +1245,30 @@
 },
 "us-05": {
 "status": "ok",
-"n": 10,
+"n": 12,
 "missing": [],
 "url": "https://www.gukjenews.com/news/articleView.html?idxno=3425924",
-"chars": 7830,
+"chars": 8005,
 "sido": "울산광역시"
 },
 "us-06": {
 "status": "mismatch",
-"n": 13,
+"n": 15,
 "missing": [
 "199억",
 "7,022억",
-"135억",
 "7,022억",
-"199억",
-"135억"
+"199억"
 ],
 "url": "https://www.ulsan.go.kr/u/media/data.do?mediaId=MEDIA_00000000008920",
-"chars": 82153,
+"chars": 44088,
 "sido": "울산광역시"
 },
 "us-07": {
-"status": "mismatch",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 7,
-"missing": [
-"104억",
-"104억"
-],
 "url": "https://www.ulsan.go.kr/u/media/data.do?mediaId=MEDIA_00000000008920",
-"chars": 82153,
 "sido": "울산광역시"
 },
 "us-08": {
@@ -1352,13 +1293,14 @@
 "64%"
 ],
 "url": "https://www.gukjenews.com/news/articleView.html?idxno=3425924",
-"chars": 7830,
+"chars": 8005,
 "sido": "울산광역시"
 },
 "us-10": {
 "status": "mismatch",
 "n": 18,
 "missing": [
+"21년",
 "9,878억",
 "7,438억",
 "39.44%",
@@ -1366,7 +1308,7 @@
 "7,438억"
 ],
 "url": "https://www.newspim.com/news/view/20260127000980",
-"chars": 14056,
+"chars": 10762,
 "sido": "울산광역시"
 },
 "us-11": {
@@ -1374,7 +1316,7 @@
 "n": 1,
 "missing": [],
 "url": "https://www.newspim.com/news/view/20260127000980",
-"chars": 14056,
+"chars": 10762,
 "sido": "울산광역시"
 },
 "us-12": {
@@ -1382,15 +1324,15 @@
 "n": 0,
 "missing": [],
 "url": "https://view.asiae.co.kr/article/2026063012275104827",
-"chars": 5208,
+"chars": 5324,
 "sido": "울산광역시"
 },
 "us-13": {
 "status": "ok",
-"n": 19,
+"n": 20,
 "missing": [],
 "url": "https://www.newspim.com/news/view/20260821000414",
-"chars": 15579,
+"chars": 12285,
 "sido": "울산광역시"
 },
 "incheon-01": {
@@ -1411,7 +1353,7 @@
 "51억"
 ],
 "url": "https://www.incheon.go.kr/open/OPEN060105/3065565",
-"chars": 3611,
+"chars": 3630,
 "sido": "인천광역시"
 },
 "incheon-02": {
@@ -1422,24 +1364,14 @@
 "25개"
 ],
 "url": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000013441585&curPage=1",
-"chars": 7896,
+"chars": 7920,
 "sido": "인천광역시"
 },
 "incheon-03": {
-"status": "mismatch",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 10,
-"missing": [
-"63억",
-"12개",
-"30만",
-"3억",
-"4.4억",
-"63억",
-"3억",
-"4.4억"
-],
 "url": "https://www.incheon.go.kr/open/OPEN060105/3065565",
-"chars": 3611,
 "sido": "인천광역시"
 },
 "incheon-04": {
@@ -1456,7 +1388,7 @@
 "94억"
 ],
 "url": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000013441585&curPage=1",
-"chars": 7896,
+"chars": 7920,
 "sido": "인천광역시"
 },
 "incheon-05": {
@@ -1471,7 +1403,7 @@
 "66억"
 ],
 "url": "https://www.incheon.go.kr/open/OPEN060105/3065565",
-"chars": 3611,
+"chars": 3630,
 "sido": "인천광역시"
 },
 "incheon-06": {
@@ -1481,25 +1413,22 @@
 "16개"
 ],
 "url": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000013441585&curPage=1",
-"chars": 7896,
+"chars": 7920,
 "sido": "인천광역시"
 },
 "incheon-07": {
-"status": "ok",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 6,
-"missing": [],
 "url": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000013441585&curPage=1",
-"chars": 7896,
 "sido": "인천광역시"
 },
 "incheon-08": {
-"status": "mismatch",
-"n": 4,
-"missing": [
-"30년"
-],
+"status": "ok",
+"n": 3,
+"missing": [],
 "url": "https://www.incheon.go.kr/IC010205/view?repSeq=DOM_0000000013441585&curPage=1",
-"chars": 7896,
+"chars": 7920,
 "sido": "인천광역시"
 },
 "incheon-09": {
@@ -1520,7 +1449,7 @@
 "65%"
 ],
 "url": "https://www.incheon.go.kr/open/OPEN060105/3065565",
-"chars": 3611,
+"chars": 3630,
 "sido": "인천광역시"
 },
 "incheon-10": {
@@ -1541,47 +1470,39 @@
 "302억"
 ],
 "url": "https://www.incheon.go.kr/open/OPEN060105/3065565",
-"chars": 3611,
+"chars": 3630,
 "sido": "인천광역시"
 },
 "incheon-11": {
 "status": "mismatch",
-"n": 4,
+"n": 2,
 "missing": [
-"76개",
-"76개",
 "5,500만"
 ],
 "url": "https://www.incheon.go.kr/goodmorning/GM010100/view?nttNo=2042582&srchPblicteIssnoCode=202607",
-"chars": 6474,
+"chars": 6493,
 "sido": "인천광역시"
 },
 "incheon-12": {
-"status": "ok",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 0,
-"missing": [],
 "url": "https://www.incheon.go.kr/goodmorning/GM010100/view?nttNo=2042582&srchPblicteIssnoCode=202607",
-"chars": 6474,
 "sido": "인천광역시"
 },
 "incheon-13": {
-"status": "mismatch",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 3,
-"missing": [
-"42개"
-],
 "url": "https://www.incheon.go.kr/goodmorning/GM010100/view?nttNo=2042582&srchPblicteIssnoCode=202607",
-"chars": 6474,
 "sido": "인천광역시"
 },
 "incheon-14": {
-"status": "mismatch",
-"n": 8,
-"missing": [
-"5,000억"
-],
+"status": "ok",
+"n": 6,
+"missing": [],
 "url": "https://www.e-newsp.com/news/article.html?no=91787",
-"chars": 4618,
+"chars": 4728,
 "sido": "인천광역시"
 },
 "gj-01": {
@@ -1589,18 +1510,15 @@
 "n": 0,
 "missing": [],
 "url": "https://www.fieldnews.co.kr/news/articleView.html?idxno=228969",
-"chars": 3948,
+"chars": 3889,
 "sido": "전남광주통합특별시"
 },
 "gj-02": {
-"status": "mismatch",
+"status": "ok",
 "n": 4,
-"missing": [
-"800조",
-"800조"
-],
+"missing": [],
 "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003250915",
-"chars": 3239,
+"chars": 3224,
 "sido": "전남광주통합특별시"
 },
 "gj-03": {
@@ -1608,7 +1526,7 @@
 "n": 4,
 "missing": [],
 "url": "https://www.asiatoday.co.kr/kn/view.php?key=20260701010000085",
-"chars": 3952,
+"chars": 3943,
 "sido": "전남광주통합특별시"
 },
 "gj-04": {
@@ -1621,7 +1539,7 @@
 "1,178억"
 ],
 "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003250915",
-"chars": 3239,
+"chars": 3224,
 "sido": "전남광주통합특별시"
 },
 "gj-05": {
@@ -1629,7 +1547,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.asiatoday.co.kr/kn/view.php?key=20260701010000085",
-"chars": 3952,
+"chars": 3943,
 "sido": "전남광주통합특별시"
 },
 "gj-06": {
@@ -1637,7 +1555,7 @@
 "n": 13,
 "missing": [],
 "url": "https://www.anewsa.com/detail.php?number=3196413",
-"chars": 2841,
+"chars": 2877,
 "sido": "전남광주통합특별시"
 },
 "gj-07": {
@@ -1645,7 +1563,7 @@
 "n": 8,
 "missing": [],
 "url": "https://www.jeonmae.co.kr/news/articleView.html?idxno=1291156",
-"chars": 5735,
+"chars": 5753,
 "sido": "전남광주통합특별시"
 },
 "gj-08": {
@@ -1656,7 +1574,7 @@
 "6,000만"
 ],
 "url": "https://www.jeonmae.co.kr/news/articleView.html?idxno=1291156",
-"chars": 5735,
+"chars": 5753,
 "sido": "전남광주통합특별시"
 },
 "gj-09": {
@@ -1670,7 +1588,7 @@
 "899억"
 ],
 "url": "https://www.jeonmae.co.kr/news/articleView.html?idxno=1291156",
-"chars": 5735,
+"chars": 5753,
 "sido": "전남광주통합특별시"
 },
 "gj-10": {
@@ -1678,7 +1596,7 @@
 "n": 32,
 "missing": [],
 "url": "https://gj.newdaily.co.kr/site/data/html/2025/11/11/2025111100443.html",
-"chars": 5285,
+"chars": 5292,
 "sido": "전남광주통합특별시"
 },
 "gj-11": {
@@ -1692,7 +1610,7 @@
 "668억"
 ],
 "url": "https://gj.newdaily.co.kr/site/data/html/2025/11/11/2025111100443.html",
-"chars": 5285,
+"chars": 5292,
 "sido": "전남광주통합특별시"
 },
 "gj-12": {
@@ -1702,7 +1620,7 @@
 "368억"
 ],
 "url": "https://gj.newdaily.co.kr/site/data/html/2025/11/11/2025111100449.html",
-"chars": 4679,
+"chars": 4719,
 "sido": "전남광주통합특별시"
 },
 "gj-13": {
@@ -1710,18 +1628,15 @@
 "n": 6,
 "missing": [],
 "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003181946",
-"chars": 4017,
+"chars": 4006,
 "sido": "전남광주통합특별시"
 },
 "gj-14": {
-"status": "mismatch",
-"n": 14,
-"missing": [
-"152억",
-"152억"
-],
+"status": "ok",
+"n": 12,
+"missing": [],
 "url": "https://gj.newdaily.co.kr/site/data/html/2025/11/11/2025111100449.html",
-"chars": 4679,
+"chars": 4719,
 "sido": "전남광주통합특별시"
 },
 "jb-01": {
@@ -1779,7 +1694,7 @@
 "n": 3,
 "missing": [],
 "url": "https://www.mhns.co.kr/news/articleView.html?idxno=753182",
-"chars": 6320,
+"chars": 6186,
 "sido": "전북특별자치도"
 },
 "jb-08": {
@@ -1851,7 +1766,7 @@
 "n": 18,
 "missing": [],
 "url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
-"chars": 13648,
+"chars": 13569,
 "sido": "제주특별자치도"
 },
 "jj-02": {
@@ -1859,7 +1774,7 @@
 "n": 18,
 "missing": [],
 "url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
-"chars": 13648,
+"chars": 13569,
 "sido": "제주특별자치도"
 },
 "jj-03": {
@@ -1867,7 +1782,7 @@
 "n": 17,
 "missing": [],
 "url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
-"chars": 13648,
+"chars": 13569,
 "sido": "제주특별자치도"
 },
 "jj-04": {
@@ -1875,7 +1790,7 @@
 "n": 23,
 "missing": [],
 "url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
-"chars": 13648,
+"chars": 13569,
 "sido": "제주특별자치도"
 },
 "jj-05": {
@@ -1883,7 +1798,7 @@
 "n": 8,
 "missing": [],
 "url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
-"chars": 13648,
+"chars": 13569,
 "sido": "제주특별자치도"
 },
 "jj-06": {
@@ -1891,7 +1806,7 @@
 "n": 23,
 "missing": [],
 "url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
-"chars": 13648,
+"chars": 13569,
 "sido": "제주특별자치도"
 },
 "jj-07": {
@@ -1901,7 +1816,7 @@
 "123억"
 ],
 "url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
-"chars": 13648,
+"chars": 13569,
 "sido": "제주특별자치도"
 },
 "jj-08": {
@@ -1909,7 +1824,7 @@
 "n": 23,
 "missing": [],
 "url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
-"chars": 13648,
+"chars": 13569,
 "sido": "제주특별자치도"
 },
 "jj-09": {
@@ -1917,18 +1832,15 @@
 "n": 21,
 "missing": [],
 "url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=1531703",
-"chars": 13648,
+"chars": 13569,
 "sido": "제주특별자치도"
 },
 "jj-10": {
-"status": "mismatch",
-"n": 23,
-"missing": [
-"80억",
-"80억"
-],
+"status": "ok",
+"n": 24,
+"missing": [],
 "url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=2025764",
-"chars": 10317,
+"chars": 10238,
 "sido": "제주특별자치도"
 },
 "jj-11": {
@@ -1938,7 +1850,7 @@
 "100대"
 ],
 "url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=2028579",
-"chars": 9927,
+"chars": 9848,
 "sido": "제주특별자치도"
 },
 "jj-12": {
@@ -1954,7 +1866,7 @@
 "277억"
 ],
 "url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=2024411",
-"chars": 9695,
+"chars": 9616,
 "sido": "제주특별자치도"
 },
 "jj-13": {
@@ -1966,7 +1878,7 @@
 "14억"
 ],
 "url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=2028579",
-"chars": 9927,
+"chars": 9848,
 "sido": "제주특별자치도"
 },
 "jj-14": {
@@ -1974,65 +1886,56 @@
 "n": 1,
 "missing": [],
 "url": "https://www.jeju.go.kr/news/bodo/list.htm?act=view&seq=2027374",
-"chars": 9463,
+"chars": 9384,
 "sido": "제주특별자치도"
 },
 "cn-01": {
-"status": "ok",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 11,
-"missing": [],
 "url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
-"chars": 8173,
 "sido": "충청남도"
 },
 "cn-02": {
-"status": "ok",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 8,
-"missing": [],
 "url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
-"chars": 8173,
 "sido": "충청남도"
 },
 "cn-03": {
-"status": "ok",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 10,
-"missing": [],
 "url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
-"chars": 8173,
 "sido": "충청남도"
 },
 "cn-04": {
-"status": "ok",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 10,
-"missing": [],
 "url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
-"chars": 8173,
 "sido": "충청남도"
 },
 "cn-05": {
-"status": "ok",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 4,
-"missing": [],
 "url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
-"chars": 8173,
 "sido": "충청남도"
 },
 "cn-06": {
-"status": "mismatch",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 7,
-"missing": [
-"8,000만"
-],
 "url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
-"chars": 8173,
 "sido": "충청남도"
 },
 "cn-07": {
-"status": "ok",
+"status": "unreachable",
+"why": "받기 실패: <urlopen error [Errno 104] Connection reset by peer>",
 "n": 2,
-"missing": [],
 "url": "https://www.chungnam.go.kr/cnportal/bbs/B0000417/view.do?nttId=2166342&menuNo=500498&pageUnit=10&pageIndex=1",
-"chars": 8173,
 "sido": "충청남도"
 },
 "cn-08": {
@@ -2040,7 +1943,7 @@
 "n": 2,
 "missing": [],
 "url": "https://www.gukjenews.com/news/articleView.html?idxno=3681672",
-"chars": 6475,
+"chars": 6650,
 "sido": "충청남도"
 },
 "cn-09": {
@@ -2048,7 +1951,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.newspim.com/news/view/20260901001035",
-"chars": 14325,
+"chars": 11031,
 "sido": "충청남도"
 },
 "cn-10": {
@@ -2056,7 +1959,7 @@
 "n": 3,
 "missing": [],
 "url": "https://www.newspim.com/news/view/20260901001035",
-"chars": 14325,
+"chars": 11031,
 "sido": "충청남도"
 },
 "cn-11": {
@@ -2064,7 +1967,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.gukjenews.com/news/articleView.html?idxno=3681672",
-"chars": 6475,
+"chars": 6650,
 "sido": "충청남도"
 },
 "cn-12": {
@@ -2072,7 +1975,7 @@
 "n": 3,
 "missing": [],
 "url": "https://www.asiatoday.co.kr/kn/view.php?key=20260823010007306",
-"chars": 2954,
+"chars": 2945,
 "sido": "충청남도"
 },
 "cn-13": {
@@ -2080,7 +1983,7 @@
 "n": 13,
 "missing": [],
 "url": "https://www.asiatoday.co.kr/kn/view.php?key=20260823010007306",
-"chars": 2954,
+"chars": 2945,
 "sido": "충청남도"
 },
 "cn-14": {
@@ -2088,7 +1991,7 @@
 "n": 2,
 "missing": [],
 "url": "https://www.seoul.co.kr/news/politics/2026/06/29/20260629500169",
-"chars": 5988,
+"chars": 5868,
 "sido": "충청남도"
 },
 "cb-01": {

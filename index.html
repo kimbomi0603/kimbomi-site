@@ -208,6 +208,12 @@ main{padding-bottom:46px}
 
 /* ── 우리동네365 전면 배치 ── */
 .f365{display:block;background:var(--green);color:#fff;border-radius:var(--r-lg);padding:26px 28px;margin-top:var(--blk);transition:transform .16s,box-shadow .16s}
+.f365 .hq365{display:flex;gap:8px;margin-top:18px;max-width:640px}
+.f365 .hq365 input{flex:1;min-width:0;height:50px;border:0;border-radius:12px;padding:0 16px;font:500 1rem/1 var(--sans);color:#1F1D18;background:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.4)}
+.f365 .hq365 input:focus{outline:3px solid var(--gold);outline-offset:2px}
+.f365 .hq365 button{flex:none;height:50px;padding:0 20px;border:0;border-radius:12px;background:var(--gold);color:#1B2A4A;font:800 1rem/1 var(--sans);cursor:pointer}
+.f365 .hq365 button:hover{filter:brightness(1.06)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .f365 .gos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
 /* 큰 찾기 버튼 — 돋보기 + 대상 + 설명 한 줄 */
 .f365 .big{display:flex;align-items:center;gap:14px;text-decoration:none;
@@ -403,18 +409,19 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 
 <div class="strip"><b>우리동네365</b> — 지방정부 243곳과 중앙정부 62개 부처의 장부를 시민이 봅니다<span class="strip-x"> · 집행·계약은 지자체 화면을 열 때마다 지방재정365에서 오늘 날짜까지 다시 받습니다</span></div>
 
-<header class="hdr">
-  <div class="w">
-    <a class="brand" href="index.html"><img src="assets/brand/kb-wordmark.svg" alt="김보미.com" width="103" height="30"></a>
-    <nav>
-      <a href="https://taxwatch.kr/" target="_blank" rel="noopener">재정주권시민행동</a>
+<header class="kbx-hdr">
+  <div class="kbx-w">
+    <a class="kbx-brand" href="index.html"><img src="assets/brand/kb-wordmark.svg" alt="김보미.com" width="103" height="30"></a>
+    <nav aria-label="주 메뉴">
+      <a href="https://taxwatch.kr/" target="_blank" rel="noopener" class="kbx-ext">재정주권시민행동</a>
       <a href="about.html">김보미는</a>
       <a href="vision.html">김보미생각</a>
+      <a href="gongyak.html">공약집</a>
       <a href="press.html">언론·영상</a>
       <a href="archive.html">기록관</a>
     </nav>
-    <a class="k365" href="budget365.html" aria-label="우리동네365 · 지방정부와 중앙정부 예산 보기"><img src="assets/brand/ud365-icon-light.svg" alt=""><span><b>우리동네365</b><em>지방정부와 중앙정부</em></span></a>
-    <a class="join" href="pledge.html">함께하기</a>
+    <a class="kbx-365" href="budget365.html" aria-label="우리동네365 · 지방정부와 중앙정부 예산 보기"><img src="assets/brand/ud365-icon-light.svg" alt=""><span><b>우리동네365</b><em>지방정부와 중앙정부</em></span></a>
+    <a class="kbx-join" href="pledge.html">함께하기</a>
   </div>
 </header>
 
@@ -477,6 +484,8 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
       <h2>우리동네365 <em>내 동네 3초 확인</em></h2>
       <p class="lead">전국 지방정부 243곳과 중앙정부 62개 부처의 예산을 한 화면에서 확인할 수 있습니다. 올해 세부사업과 계약대장 전수, 단체장 공약이 예산에 실제로 반영됐는지까지 보입니다. 수의계약 비중이나 특정 업체 반복 수주 같은 계약 이상 징후도 걸러서 보여 줍니다. 정부가 발표한 굵직한 정책도 같이 있어, 정책 하나를 열면 그 정책이 우리 동네 예산에 어떻게 잡혔는지 바로 나옵니다.</p>
       <button type="button" class="more" aria-expanded="false" hidden>설명 더 보기 ▾</button>
+      <form class="hq365" role="search" action="budget365.html" onsubmit="return kbGo365(event)"><label for="hq365" class="sr">우리 동네 이름이나 사업 키워드</label><input id="hq365" name="q" list="hq365l" type="search" placeholder="동네 이름이나 사업 키워드 (강진군, 노인일자리)" autocomplete="off" enterkeyhint="search"><datalist id="hq365l"></datalist><button type="submit">찾기</button></form>
+
       <div class="gos"><a class="big wide" href="budget365.html"><span class="ic"><img src="img/g3d/ic-local.webp" alt="" width="46" height="46" loading="lazy"></span><span class="tx"><b>지방정부 243개 <span style="white-space:nowrap">시·군·구</span></b><small>예산·집행·계약·공약·이상 징후 한 화면에</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/key"><span class="ic"><img src="img/g3d/ic-policy.webp" alt="" width="46" height="46" loading="lazy"></span><span class="tx"><b>정부 정책, 내 동네에서는</b><small>메가프로젝트·성장펀드·5극3특이 우리 동네 예산에</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/gov"><span class="ic"><img src="img/g3d/ic-gov.webp" alt="" width="46" height="46" loading="lazy"></span><span class="tx"><b>중앙정부 예산 <em class="nb">2026 · 2027</em></b><small>62개 부처 · 들어가서 올해 확정예산과 내년 정부안을 골라 봅니다</small></span><i aria-hidden="true">→</i></a></div><p class="gnote">중앙정부 부처는 2026.1.2 출범한 기획예산처를 포함해 62곳입니다(기획예산처의 2026 확정예산은 재정경제부에 포함). 2027 정부안에는 중대범죄수사청·진실·화해를위한과거사정리위원회가 새 소관으로 더해져 64곳이 됩니다. 2026년은 열린재정 확정예산 편성 소관, 2027년은 국회 제출본의 소관 기준입니다.</p>
     </div>
     <div class="fr">
@@ -568,6 +577,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
       <nav class="kbx-fnav" aria-label="바닥 메뉴">
         <a href="about.html">김보미는</a>
         <a href="vision.html">김보미생각</a>
+        <a href="gongyak.html">공약집</a>
         <a href="press.html">언론·영상</a>
         <a href="live.html">정책 실시간</a>
         <a href="party-money.html">정당 돈</a>
@@ -606,6 +616,18 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   <div class="kbx-fn"><span>Copyright © 2026 김보미. All Rights Reserved.</span></div>
 </footer>
 
+<script>
+/* 첫 화면에서 바로 내 동네 찾기 — 지자체 이름이면 그 화면으로, 아니면 전국 사업 검색으로 (2026-11-07) */
+(function(){ var R=null, inp=document.getElementById('hq365'), dl=document.getElementById('hq365l'); if(!inp) return;
+  function load(){ if(R) return Promise.resolve(R); return fetch('data/index.json').then(function(r){return r.json();}).then(function(j){ R=(j.rows||[]).filter(function(x){return x.live_2026!==false;}); dl.innerHTML=R.map(function(x){return '<option value="'+String(x.display).replace(/"/g,'&quot;')+'">';}).join(''); return R; }).catch(function(){ return R=[]; }); }
+  inp.addEventListener('focus',load,{once:true});
+  window.kbGo365=function(e){ e.preventDefault(); var q=inp.value.trim(); if(!q){ location.href='budget365.html'; return false; }
+    load().then(function(rows){ var n=q.replace(/\s+/g,''); var hit=rows.filter(function(x){ return String(x.display).replace(/\s+/g,'')===n||String(x.key_2024||'').replace(/\s+/g,'')===n; });
+      if(!hit.length) hit=rows.filter(function(x){ var d=String(x.display).replace(/\s+/g,''); return /[시군구도]$/.test(n)&&(d.slice(-n.length)===n); });
+      location.href = hit.length===1 ? 'budget365.html#/lg/'+hit[0].laf_cd : 'budget365.html#/q/'+encodeURIComponent(q); });
+    return false; };
+})();
+</script>
 <script src="assets/kb-format.js"></script>
 <script src="assets/kb-thumbs.js"></script>
 <script src="static-posts.js"></script>
