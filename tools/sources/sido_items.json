@@ -742,14 +742,11 @@
 "sido": "대구광역시"
 },
 "daegu-06": {
-"status": "mismatch",
+"status": "ok",
 "n": 17,
-"missing": [
-"418억",
-"418억"
-],
-"url": "https://www.sisajournal.com/news/articleView.html?idxno=352102",
-"chars": 5528,
+"missing": [],
+"url": "https://www.imaeil.com/page/view/2025110611383708765",
+"chars": 10647,
 "sido": "대구광역시"
 },
 "daegu-07": {
@@ -955,13 +952,9 @@
 "sido": "부산광역시"
 },
 "busan-07": {
-"status": "mismatch",
+"status": "ok",
 "n": 11,
-"missing": [
-"3,783억",
-"5,300개",
-"3,783억"
-],
+"missing": [],
 "url": "https://www.busan.go.kr/news/snsbusan01/view?dataNo=72982&curPage=1",
 "chars": 3466,
 "sido": "부산광역시"
@@ -1092,11 +1085,9 @@
 "sido": "서울특별시"
 },
 "seoul-12": {
-"status": "mismatch",
+"status": "ok",
 "n": 13,
-"missing": [
-"6,500호"
-],
+"missing": [],
 "url": "https://newsseoul.co.kr/news/view/1065583228128166",
 "chars": 9881,
 "sido": "서울특별시"
