@@ -8,7 +8,7 @@
 <link rel="canonical" href="https://www.xn--4k0b53xuva.com/budget365.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="우리동네365 | 중앙정부·지방정부 예산을 한눈에">
-<meta property="og:description" content="중앙정부 62개 부처와 지방정부 243개 시·군·구의 예산·집행·계약을 한눈에. 세부사업 47.7만 건과 계약 693만 건을 원자료 그대로 펼쳤습니다.">
+<meta property="og:description" content="중앙정부 62개 부처와 지방정부 243개 시·군·구의 예산·집행·계약을 한눈에. 세부사업 47.7만 건과 계약 697만 건을 원자료 그대로 펼쳤습니다.">
 <meta property="og:url" content="https://www.xn--4k0b53xuva.com/budget365.html">
 <meta property="og:image" content="https://www.xn--4k0b53xuva.com/og-ud365.jpg?v=20261107">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
@@ -1343,7 +1343,7 @@ function contractView(lg,K,g){ const cd=lg.laf_cd; S.cacheName=lg.master.display
     </tbody></table></div></div>
   </div></section>
 
-  ${(()=>{ const SP=(K.split||[]).filter(x=>!isNonV(x.v)&&!isPPS(x.v)); return SP.length?`<section class="sec"><div class="sech"><span class="no">검토</span><h2>분할발주(쪼개기) 검토 대상</h2><span class="basis">같은 업체 · 31일 이내 수의계약 3건 이상 · 합산 2천만원 초과</span></div>
+  ${(()=>{ const SP=(K.split||[]).filter(x=>!isNonV(x.v)&&!isPPS(x.v)); return SP.length?`<section class="sec"><div class="sech"><span class="no">검토</span><h2>분할발주(쪼개기) 검토 대상</h2><span class="basis">같은 업체 수의계약이 14일 이내 간격으로 3건 이상 이어진 묶음 · 합산 2천만원 초과</span></div>
   <div class="tw"><table><thead><tr><th>업체</th><th>기간</th><th class="num">건수</th><th class="num">합산액</th></tr></thead><tbody>
   ${SP.slice(0,15).map(x=>`<tr class="row" onclick="openVendor('${cd}','${encodeURIComponent(x.v)}')"><td>${esc(x.v)}</td><td class="mut mono" style="white-space:nowrap">${ymd(x.from)}${x.to!==x.from?'<br>~'+ymd(x.to):''}</td><td class="num">${num(x.n)}</td><td class="num">${won(x.a)}</td></tr>`).join('')}
   </tbody></table></div><div class="note">지방계약법 시행령 제77조는 동일인과의 분할 수의계약을 제한합니다. 다만 사업 성격상 정당한 반복 계약일 수 있어 <b>"의심"이 아니라 "검토 대상"</b>입니다. 관급자재·유류·급식 등 반복 구매와 조달청·협동조합, 업체가 아닌 행정 처리 항목(사전원인행위·고지서 납부·기관 자체 등)은 제외했습니다. 전체 ${num(SP.length)}묶음 중 상위 ${Math.min(15,SP.length)}개 · 이 표는 2026.10.3 수집분 기준입니다.</div></section>`:''; })()}
