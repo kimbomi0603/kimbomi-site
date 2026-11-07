@@ -875,11 +875,9 @@
 "sido": "대전광역시"
 },
 "dj-11": {
-"status": "mismatch",
+"status": "ok",
 "n": 2,
-"missing": [
-"99,715명"
-],
+"missing": [],
 "url": "https://www.khan.co.kr/article/202609171505001/",
 "chars": 4213,
 "sido": "대전광역시"
@@ -897,7 +895,7 @@
 "n": 0,
 "missing": [],
 "url": "https://www.goodmorningcc.com/news/articleView.html?idxno=452550",
-"chars": 5077,
+"chars": 9291,
 "sido": "대전광역시"
 },
 "dj-14": {
@@ -1123,8 +1121,8 @@
 "status": "ok",
 "n": 8,
 "missing": [],
-"url": "https://v.daum.net/v/20251103165024309",
-"chars": 9160,
+"url": "https://www.eroun.net/news/articleView.html?idxno=66200",
+"chars": 3460,
 "sido": "세종특별자치시"
 },
 "sj-02": {
@@ -1196,10 +1194,10 @@
 },
 "sj-10": {
 "status": "ok",
-"n": 22,
+"n": 24,
 "missing": [],
-"url": "https://www.nocutnews.co.kr/news/6544167",
-"chars": 6926,
+"url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003249401",
+"chars": 9613,
 "sido": "세종특별자치시"
 },
 "sj-11": {

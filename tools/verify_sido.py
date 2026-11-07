@@ -80,6 +80,9 @@ def check_item(it):
         # 8,000만 ↔ 8천만 (같은 값, 표기만 다름)
         if raw.rstrip().endswith('만') and n.isdigit() and int(n) % 1000 == 0 and int(n) < 10000 and \
            re.search(r'(?<![\d.])' + str(int(n) // 1000) + r'\s*천\s*만', T): continue
+        # 99,715명 ↔ 9만9715명 (같은 값, 표기만 다름)
+        if n.isdigit() and 10000 <= int(n) < 100000000 and int(n) % 10000 and \
+           re.search(r'(?<![\d.])' + str(int(n) // 10000) + r'\s*만\s*' + str(int(n) % 10000) + r'(?![\d])', T): continue
         miss.append(raw)
     return {'status': 'ok' if not miss else 'mismatch', 'n': len(claims), 'missing': miss[:12], 'url': url, 'chars': len(T)}
 
