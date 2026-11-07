@@ -669,7 +669,7 @@ select,input{max-width:100%}
 <header class="top"><div class="wrap">
   <a class="gohome" href="index.html" aria-label="김보미.com 홈으로 돌아가기"><span aria-hidden="true">←</span> 김보미.com 홈으로</a>
   <a class="brand" href="#/"><span class="mk"><img src="assets/brand/ud365-icon-light.svg" alt=""></span>우리동네<span class="three">365</span></a>
-  <nav class="nav"><a href="index.html">김보미.com</a><a href="#/" id="navHome">지방정부 <b>243</b></a><a href="#/gov" id="navGov">중앙정부 <b>61</b></a><a href="#/sido/전남광주통합특별시">전남·광주</a><a href="#/sido/인천광역시">인천</a><a href="#/sido/서울특별시">서울</a><a href="#/policy" id="navPol">정책</a></nav>
+  <nav class="nav"><a href="index.html">김보미.com</a><a href="#/" id="navHome">지방정부 <b>243</b></a><a href="#/gov" id="navGov">중앙정부 <b>62</b></a><a href="#/sido/전남광주통합특별시">전남·광주</a><a href="#/sido/인천광역시">인천</a><a href="#/sido/서울특별시">서울</a><a href="#/policy" id="navPol">정책</a></nav>
   <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="q" type="search" placeholder="동네 이름 · 사업 키워드 (예: 강진군, 노인일자리)" autocomplete="off" aria-label="지자체 검색"><div class="sug" id="sug"></div></div>
   <span class="stamp" id="stamp"></span>
 </div></header>
@@ -898,7 +898,7 @@ function buildNav(){ const nv=document.querySelector('.nav'); if(!nv||!S.index) 
     +sidos.map(s=>{ const k=rows.filter(x=>x.sido_new===s&&x.level==='기초').length;
       return `<a href="#/sido/${encodeURIComponent(s)}">${esc(SIDO_SHORT[s]||s)} <b>${k||'단층'}</b></a>`; }).join('')
     +`</div><div class="ng ng-gov"><div class="nav-hd gov">중앙정부 <span>62개 부처 · 예산</span></div>`
-    +`<a href="#/gov" id="navGov" class="${gov?'on':''}">부처 전체 <b>61</b></a>`
+    +`<a href="#/gov" id="navGov" class="${gov?'on':''}">부처 전체 <b>62</b></a>`
     +(S.govix?S.govix.ministries.slice().sort((a,b)=>(b.exp??-1)-(a.exp??-1)).slice(0,12)
         .map(m=>`<a href="#/gov/${encodeURIComponent(m.sg)}">${esc(m.nm)} <b>${m.exp==null?NA:Math.round(m.exp/1e6)+'조'}</b></a>`).join('')
       :`<a href="#/gov" class="nav-more">부처 목록 열기 →</a>`)
