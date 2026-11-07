@@ -105,3 +105,13 @@ html[data-theme="dark"] .kbx-hdr nav a{color:#CFCAC0}
 html[data-theme="dark"] .kbx-hdr nav a:hover,html[data-theme="dark"] .kbx-hdr nav a.on{color:#7FD1B0;border-bottom-color:#7FD1B0}
 html[data-theme="dark"] .kbx-hdr .kbx-brand img{content:url(brand/kb-wordmark-dark.svg)}
 html[data-theme="dark"] .kbx-hdr .kbx-join{color:#7FD1B0;border-color:#7FD1B0}
+
+/* 2026-11-07 휴대폰: 바깥 사이트(재정주권시민행동) 메뉴는 바닥글·함께하기에 있으니 머리에서 빼 메뉴 다섯 개가 한 줄에 들어오게 */
+@media(max-width:480px){.kbx-hdr nav a.kbx-ext{display:none}}
+/* 2026-11-07 바닥글이 페이지 자체 CSS(li·ul 색, 상자 폭)에 끌려가지 않게 */
+footer.kbx-foot .kbx-fi li{color:#B5C2D8;margin:0;font-size:13.5px}
+footer.kbx-foot .kbx-fi li a{color:#DCE5F3}
+footer.kbx-foot ul{padding-left:0}
+.wrap>footer.kbx-foot,.wrap>.kbnx{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}
+.wrap>.kbnx{margin-left:auto;margin-right:auto}
+footer.kbx-foot{text-align:left}

@@ -2172,7 +2172,7 @@ function renderSidoOne(z,x){ const app=document.getElementById('app'); const my=
     <h1>${esc(x.title)}</h1>
     <p class="psum">${esc(x.summary||'')}</p>
     ${x.budget?`<div class="badges"><span class="badge">예산 <b>${esc(x.budget)}</b></span></div>`:''}
-    <div class="mut" style="font-size:12.5px;margin-top:8px">출처: ${x.src_url?`<a href="${esc(x.src_url)}" target="_blank" rel="noopener">${esc(x.src_url.replace(/^https?:\/\//,'').slice(0,80))}</a>`:'출처 URL 미확보(원문 접근 차단 — 시·도 목록의 출처 참고)'}</div>
+    <div class="mut" style="font-size:12.5px;margin-top:8px">출처: ${x.src_url?`<a href="${esc(x.src_url)}" target="_blank" rel="noopener">${esc(x.src_url.replace(/^https?:\/\//,'').slice(0,80))}</a>`:'출처 URL 미확보(원문 접근 차단 — 시·도 목록의 출처 참고)'}${(x.src_more||[]).map(u=>` · <a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\//,'').slice(0,80))}</a>`).join('')}</div>
   </div>
   ${polLocalBlock(x)}
   <div class="note blue" style="margin-top:14px"><b>같이 볼 것</b> — <a href="#/key">정부 핵심 정책</a> · <a href="#/policy">정부 발표 정책</a> · <a href="#/task">123대 국정과제</a>${my?` · <a href="#/lg/${my}/budget">★ 내 동네 예산 전체</a>`:''}</div>
