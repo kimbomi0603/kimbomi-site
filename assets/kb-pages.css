@@ -1,0 +1,118 @@
+/* 김보미.com 페이지 체계 (2026-11-07 재설계)
+   모든 페이지가 같은 규격을 따른다.
+   - 머리: 왼쪽 정렬, 작은 길잡이 → 제목 → 한 문장 설명 → (있으면) 핵심 숫자. 같은 높이, 같은 글자 크기.
+   - 어두운 머리는 돈 이야기 두 쪽(공약·정당 돈)에만.
+   - 본문 폭 1120, 글 읽는 폭 760. 글자 크기 단계는 6개뿐.
+   - 카드 모서리 14, 단추 모양 하나. */
+:root{
+  --kb-wrap:1120px; --kb-read:760px;
+  --kb-h1:clamp(1.9rem,1.15rem + 2.3vw,2.65rem);
+  --kb-h2:clamp(1.3rem,1.05rem + .8vw,1.6rem);
+  --kb-h3:1.12rem; --kb-lead:1.06rem; --kb-body:1rem; --kb-small:.9rem;
+  --kb-r:14px; --kb-r-s:10px;
+  --kb-pad-top:clamp(40px,6vw,64px); --kb-pad-bot:clamp(32px,4.5vw,48px);
+  --kb-gap:clamp(40px,6vw,72px);
+}
+
+/* ── 페이지 머리: .hero(시각·공약집·언론·제보·실시간·기록관·공약), .hd(정당 돈), 소개·성명·게임·방침은 첫 h1 ── */
+body .hero, body .hd{
+  text-align:left; padding:var(--kb-pad-top) 0 var(--kb-pad-bot);
+  background:#FFFFFF; border-bottom:1px solid var(--kb-line,#DDE2EA); color:var(--kb-text,#16191F);
+}
+body .hero>.wrap, body .hd>.wrap{max-width:var(--kb-wrap); margin:0 auto; padding:0 24px}
+body .hero h1, body .hd h1, body main>article>header h1, body article>h1, .about-head h1{
+  font-size:var(--kb-h1); line-height:1.26; letter-spacing:-.025em; font-weight:900;
+  margin:0 0 14px; max-width:20ch; color:inherit;
+}
+body .hero p, body .hd p{font-size:var(--kb-lead); line-height:1.7; max-width:62ch; margin:0}
+body .hero .eyebrow, body .hd .eyebrow, body .hero .path, body .hd .path, body .hero .kicker{
+  font-size:var(--kb-small); font-weight:700; color:var(--kb-mut,#5F6670); margin-bottom:12px; letter-spacing:0; text-transform:none;
+}
+/* 어두운 머리: 공약·정당 돈 두 쪽만 */
+body.pg-pledge .hero, body.pg-party-money .hd{
+  background:linear-gradient(160deg,#0F2747 0%,#163A6B 100%); color:#F5F8FC; border-bottom:0;
+}
+body.pg-pledge .hero h1, body.pg-party-money .hd h1{color:#fff}
+body.pg-pledge .hero p, body.pg-party-money .hd p{color:#D6E0EF}
+body.pg-pledge .hero .eyebrow, body.pg-party-money .hd .eyebrow{color:#9FB4D2}
+
+/* 머리에 사진이 있는 쪽(시각·언론·제보·실시간): 글 왼쪽, 사진 오른쪽, 사진 크기 통일 */
+body .hero .g3hero, body .hero .hero-inner{
+  display:grid; grid-template-columns:minmax(0,1.25fr) minmax(260px,.9fr); gap:40px; align-items:center;
+}
+body .hero .g3f, body .hero .hero-photo{aspect-ratio:16/10;border-radius:var(--kb-r);overflow:hidden;box-shadow:none;margin:0;transform:none}
+body .hero .g3f img, body .hero .hero-photo img, body .hero figure img{
+  width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; border-radius:var(--kb-r); display:block; box-shadow:none;
+}
+
+/* ── 본문 리듬 ── */
+body main.wrap, body main>.wrap, body .wrap.main{max-width:var(--kb-wrap)}
+body article.article, body .article, body .read{max-width:var(--kb-read)}
+body h2{font-size:var(--kb-h2); line-height:1.3; letter-spacing:-.02em; font-weight:800}
+body h3{font-size:var(--kb-h3); line-height:1.35; font-weight:800}
+body p, body li{font-size:var(--kb-body)}
+body section.sec, body .sec, body section.card{scroll-margin-top:72px}
+body main section + section, body main .sec + .sec{margin-top:var(--kb-gap)}
+
+/* ── 카드·단추 한 가지 ── */
+body .card, body .pc, body .vc, body .mb, body .box, body .panel, body .tile{
+  border-radius:var(--kb-r); box-shadow:none; border:1px solid var(--kb-line,#DDE2EA);
+}
+body .btn, body button.btn, body a.btn{
+  border-radius:999px; font-weight:700; font-size:.95rem; padding:11px 20px; line-height:1.2; box-shadow:none;
+}
+body .btn.primary, body .btn-primary, body .btn.p{background:var(--kb-ink,#0F2747); color:#fff; border-color:var(--kb-ink,#0F2747)}
+body .btn.primary:hover, body .btn-primary:hover, body .btn.p:hover{background:#163A6B}
+
+/* ── 김보미의 한 줄(.kslog)은 모든 쪽에서 같은 모양 ── */
+body .kslog{max-width:var(--kb-read); margin:var(--kb-gap) auto 0; padding:0 24px; border:0; background:none}
+body .kslog blockquote, body .kslog p{font-size:1.12rem; line-height:1.75; border-left:3px solid var(--kb-ink,#0F2747); padding-left:18px; margin:0; background:none}
+
+/* ── 표·숫자 ── */
+body table{font-variant-numeric:tabular-nums; border-collapse:collapse}
+body th{font-weight:700; text-align:left}
+
+/* ── 휴대폰 ── */
+@media (max-width:760px){
+  body .hero>.wrap, body .hd>.wrap{padding:0 18px}
+  body .hero .g3hero, body .hero .hero-inner{grid-template-columns:1fr; gap:20px}
+  body .hero h1, body .hd h1{max-width:none}
+  body .kslog{padding:0 18px}
+}
+
+/* 기록관: 사진은 오른쪽, 글은 왼쪽, 숫자 띠는 아래 */
+body.pg-archive .hero .hero-inner{grid-template-areas:"eyebrow photo" "badge photo" "h1 photo" "lead photo" "cta photo" "meta photo"; grid-template-columns:minmax(0,1.25fr) minmax(260px,.9fr)}
+body.pg-archive .hero .hero-inner>.eyebrow{grid-area:eyebrow}body.pg-archive .hero .hero-inner>.dday-badge{grid-area:badge}
+body.pg-archive .hero .hero-inner>h1{grid-area:h1}body.pg-archive .hero .hero-inner>.lead{grid-area:lead}
+body.pg-archive .hero .hero-inner>.cta{grid-area:cta;justify-content:flex-start}body.pg-archive .hero .hero-inner>.meta-line{grid-area:meta}
+body.pg-archive .hero .hero-inner>.hero-photo{grid-area:photo;align-self:center}
+body.pg-archive .hero h1 .accent{color:var(--kb-blue,#1D4E89)}
+body.pg-archive .hero h1 .underline{background:none;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px;text-decoration-color:var(--kb-blue,#1D4E89)}
+/* 공약집: 가운데 정렬 풀고 왼쪽으로, 숫자 띠는 왼쪽부터 */
+body.pg-gongyak .hero .stat{justify-content:flex-start;margin-left:0;margin-right:0}
+body.pg-gongyak .hero .egg{text-align:left;margin-left:0}
+body.pg-gongyak .hero h1 .accent{color:var(--kb-blue,#1D4E89)}
+/* 공약(pledge) 어두운 머리 안의 축 상자 */
+body.pg-pledge .hero .axis{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:var(--kb-r)}
+body.pg-pledge .hero .axis a{color:#fff}
+/* 성명(manifesto)·소개·게임·방침: 첫 제목 블록을 머리 규격으로 */
+body.pg-manifesto main>article>header, body.pg-manifesto article>header{padding:var(--kb-pad-top) 0 var(--kb-pad-bot);border-bottom:1px solid var(--kb-line,#DDE2EA);margin-bottom:var(--kb-gap)}
+body.pg-games .wrap>header, body.pg-privacy .wrap>header, body.pg-privacy main>h1{padding-top:var(--kb-pad-top)}
+@media (max-width:760px){
+  body.pg-archive .hero .hero-inner{grid-template-areas:"photo" "eyebrow" "badge" "h1" "lead" "cta" "meta";grid-template-columns:1fr}
+}
+/* 공약 머리의 인물 사진(세로)은 자르지 않고 그대로, 아이콘 잔재는 숨김 */
+body.pg-pledge .hero .g3f.fig{aspect-ratio:auto;background:none;max-width:300px;justify-self:end}
+body.pg-pledge .hero .g3f.fig img{aspect-ratio:auto;height:auto;object-fit:contain;border-radius:0}
+body .hero .g3t>img.g3i{display:none}
+@media (max-width:760px){body.pg-pledge .hero .g3f.fig{max-width:200px;justify-self:start;order:0}}
+/* 소개·게임·방침: 첫 블록을 같은 머리 규격으로 */
+body.pg-about main>section.sec:first-child{padding-top:var(--kb-pad-top)!important}
+body.pg-about main>section.sec:first-child>.wrap>h2{font-size:var(--kb-h1);line-height:1.26;letter-spacing:-.025em;font-weight:900;margin:0 0 14px}
+body.pg-about main>section.sec:first-child>.wrap>.sub{font-size:var(--kb-lead);line-height:1.7;max-width:62ch}
+body.pg-games .wrap>.head{text-align:left;padding:var(--kb-pad-top) 0 var(--kb-pad-bot);border-bottom:1px solid rgba(255,255,255,.14)}
+body.pg-games .wrap>.head img.g3i{display:none}
+body.pg-games .wrap>.head .eyebrow{font-size:var(--kb-small);font-weight:700;margin-bottom:12px}
+body.pg-games .wrap>.head h1{font-size:var(--kb-h1);line-height:1.26;letter-spacing:-.025em;margin:0 0 14px;max-width:20ch}
+body.pg-games .wrap>.head .sub{font-size:var(--kb-lead);line-height:1.7;max-width:62ch;margin:0}
+body.pg-privacy .wrap>h1{font-size:var(--kb-h1);line-height:1.26;letter-spacing:-.025em;font-weight:900;padding-top:var(--kb-pad-top);margin:0 0 14px}
