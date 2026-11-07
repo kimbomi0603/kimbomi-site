@@ -1,0 +1,24 @@
+/* 김보미.com 공통 테마 (2026-11-07) — 색·글자·움직임 한 세트. 각 페이지 스타일 뒤에 붙여 같은 이름의 값을 통일한다.
+   색: 잉크 네이비 #0F2747 · 장부 파랑 #1D4E89 · 종이 #F2F4F7 · 선 #DDE2EA · 인주 빨강 #C3272B(확인 표시에만)
+   글자: Pretendard 한 가족, 숫자는 고정폭 숫자 */
+:root{
+  --kb-ink:#0F2747; --kb-blue:#1D4E89; --kb-paper:#F2F4F7; --kb-line:#DDE2EA; --kb-seal:#C3272B; --kb-text:#16191F; --kb-mut:#5F6670;
+  --kb-ease:cubic-bezier(.2,.7,.2,1); --kb-fast:140ms; --kb-mid:260ms;
+}
+html{-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility}
+::selection{background:#CFE0F5;color:#0F2747}
+/* 숫자는 자리 맞춤 */
+table,.num,.mono,[class*="stat"] b,.fr b,.hnum b{font-variant-numeric:tabular-nums}
+/* 키보드 초점은 모든 페이지에서 같은 모양 */
+:where(a,button,input,select,textarea,summary,[tabindex]):focus-visible{outline:3px solid #1D4E89;outline-offset:3px;border-radius:4px}
+/* 움직임: 눌렀을 때만, 짧고 부드럽게. 마우스를 올려 카드가 뜨는 효과는 끈다 */
+:where(a,button,summary){transition:color var(--kb-fast) var(--kb-ease),background-color var(--kb-fast) var(--kb-ease),border-color var(--kb-fast) var(--kb-ease),box-shadow var(--kb-fast) var(--kb-ease)}
+@media (hover:hover){.mb:hover,.vc:hover,.pc:hover,.card:hover,.kbnx a:hover{transform:none!important}}
+details>summary{cursor:pointer}
+details[open]>*:not(summary){animation:kb-open var(--kb-mid) var(--kb-ease)}
+@keyframes kb-open{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
