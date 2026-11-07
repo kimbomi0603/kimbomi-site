@@ -41,5 +41,7 @@ for p in PAGES:
     if m: s = s[:m.start()] + m.group(2) + '\n' + m.group(1) + s[m.end():]
     if 'assets/kb-common.css' not in s:
         s = s.replace('</head>', CSS + '\n</head>', 1)
+    if 'assets/kb-theme.css' not in s:   # 공통 테마(색·글자·움직임)는 페이지 스타일 뒤에
+        s = s.replace('</head>', '<link rel="stylesheet" href="assets/kb-theme.css">\n</head>', 1)
     if s != o: open(f, 'w', encoding='utf-8').write(s)
     print(p, 'changed' if s != o else 'same')
