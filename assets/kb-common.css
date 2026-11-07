@@ -4,7 +4,7 @@
 .kbx-strip{background:#0E2143;color:#E8EEF8;font-size:12.5px;text-align:center;padding:7px 20px}
 .kbx-strip b{color:#E0A43C}
 .kbx-strip a{color:#E8EEF8;text-decoration:none}
-.kbx-hdr{background:#F5F2EA;border-bottom:1px solid #E4DFD3;position:sticky;top:0;z-index:90;margin:0;padding:0;width:100%}
+.kbx-hdr{background:#FFFFFF;border-bottom:1px solid #DDE2EA;position:sticky;top:0;z-index:90;margin:0;padding:0;width:100%}
 .kbx-hdr .kbx-w{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:14px;height:64px}
 .kbx-hdr .kbx-brand img{height:30px;width:auto;display:block}
 .kbx-hdr .kbx-brand{display:flex;align-items:center;font-family:"Noto Serif KR",serif;font-weight:900;font-size:18.5px;color:#0F5C46;white-space:nowrap;text-decoration:none;letter-spacing:-.02em}

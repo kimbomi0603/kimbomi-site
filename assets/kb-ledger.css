@@ -1,8 +1,8 @@
-/* 김보미.com 공통 디자인 — 딥그린 + 네이비 + 크림 */
+/* 김보미.com 공통 디자인 — 딥그린 + 네이비 + 차가운 종이색 (2026-11-07 크림에서 바꿈) */
 :root{
-  --cream:#F5F2EA; --card:#FFFFFF; --ink:#17181A; --mut:#6A6B70;
+  --cream:#F2F4F7; --card:#FFFFFF; --ink:#16191F; --mut:#5F6670;
   --green:#0F5C46; --green2:#0B3F31; --navy:#0E2A47; --navy2:#0A1F36; --lime:#F0CB7A;
-  --gold:#E0A43C; --line:#E4DFD3; --line2:#D6CFBE;
+  --gold:#E0A43C; --line:#DDE2EA; --line2:#C9D0DB;
   --serif:"Noto Serif KR",serif; --sans:"Pretendard Variable",system-ui,sans-serif; --mono:"Pretendard Variable",ui-monospace,monospace;
 }
 html[data-font="1"] body{zoom:1.12} html[data-font="2"] body{zoom:1.25}
