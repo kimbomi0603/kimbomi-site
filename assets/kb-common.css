@@ -115,3 +115,6 @@ footer.kbx-foot ul{padding-left:0}
 .wrap>footer.kbx-foot,.wrap>.kbnx{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}
 .wrap>.kbnx{margin-left:auto;margin-right:auto}
 footer.kbx-foot{text-align:left}
+
+/* 머리 단추 "재정주권시민행동 함께하기": 좁은 화면(≤400px)은 앞말을 숨겨 한 줄 유지 (이름은 aria-label로 그대로) */
+@media(max-width:400px){.kbx-join .kbx-join-l{display:none}}

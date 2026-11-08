@@ -157,3 +157,6 @@ html[data-theme="dark"] .kbl-props i{background:var(--c-cream);border-radius:6px
 /* 우리동네365 흐린 글자(opacity .6)가 대비 3.4:1이던 것 → 회색 글자로 (KWCAG 8) */
 :where(.pg-budget365) span[style*="opacity:.6"]{opacity:1!important;color:var(--c-slate)}
 html[data-theme="dark"]:where(.pg-budget365) span[style*="opacity:.6"]{color:var(--c-stone)}
+
+/* 머리 단추 "재정주권시민행동 함께하기": 좁은 화면(≤400px)은 앞말을 숨겨 한 줄 유지 (이름은 aria-label로 그대로) */
+@media(max-width:400px){.kbx-join .kbx-join-l{display:none}}
