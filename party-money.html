@@ -144,7 +144,6 @@
   <div class="kbx-w">
     <a class="kbx-brand" href="index.html"><img src="assets/brand/kb-wordmark.svg" alt="김보미.com" width="103" height="30"></a>
     <nav aria-label="주 메뉴">
-      <a href="https://taxwatch.kr/" target="_blank" rel="noopener" class="kbx-ext">재정주권시민행동</a>
       <a href="about.html">김보미는</a>
       <a href="vision.html">김보미생각</a>
       <a href="gongyak.html">공약집</a>
@@ -152,7 +151,7 @@
       <a href="archive.html">기록관</a>
     </nav>
     <a class="kbx-365" href="budget365.html" aria-label="우리동네365 · 지방정부와 중앙정부 예산 보기"><img src="assets/brand/ud365-icon-light.svg" alt=""><span><b>우리동네365</b><em>지방정부와 중앙정부</em></span></a>
-    <a class="kbx-join" href="pledge.html">함께하기</a>
+    <a class="kbx-join" href="pledge.html" aria-label="재정주권시민행동 함께하기"><span class="kbx-join-l">재정주권시민행동 </span>함께하기</a>
   </div>
 </header>
 
@@ -402,5 +401,6 @@ document.querySelectorAll('table').forEach(function(t){var hs=[].map.call(t.quer
  t.querySelectorAll('tbody tr').forEach(function(tr){var i=0;[].forEach.call(tr.children,function(td){var span=td.colSpan||1;if(hs[i]&&td.textContent.trim())td.setAttribute('data-label',hs[i]);i+=span;});});});
 </script>
 <script src="assets/kb-a11y.js" defer></script>
+<script src="assets/kb-join.js" defer></script>
 </body>
 </html>
