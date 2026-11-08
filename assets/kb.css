@@ -2683,3 +2683,9 @@ body.kbj-open{overflow:hidden}
 @keyframes kbj-in{from{opacity:0}to{opacity:1}}
 @keyframes kbj-fill{from{width:0}to{width:100%}}
 @media(prefers-reduced-motion:reduce){.kbj{animation:none}.kbj-bar i{animation:none;width:100%;opacity:.5}}
+
+/* 입력 오류 글자 (소통·제보 폼, KWCAG 28) */
+.kb-ferr{margin:6px 0 0;font-size:.88rem;font-weight:700;color:var(--c-red);line-height:1.5;word-break:keep-all}
+.kb-ferr::before{content:"⚠ "}
+.field[aria-invalid="true"]{border-color:var(--c-red)!important;box-shadow:0 0 0 2px rgb(var(--c-red-rgb) / .18)}
+html[data-theme="dark"] .kb-ferr{color:#F2A7A3}
