@@ -19,7 +19,7 @@
   '#bomi-fab .fig::after{content:"";position:absolute;left:50%;bottom:2px;width:62px;height:12px;margin-left:-31px;border-radius:50%;background:radial-gradient(closest-side,rgba(15,35,30,.28),rgba(15,35,30,0));animation:bmShadow 3.2s ease-in-out infinite}',
   '#bomi-fab .fig img{position:relative;z-index:1;width:96px;height:auto;display:block;filter:drop-shadow(0 6px 8px rgba(15,40,60,.18));animation:bmFloat 3.2s ease-in-out infinite;transform-origin:50% 100%}',
   '#bomi-fab:hover .fig img{animation-duration:1.6s}',
-  '#bomi-fab .say{position:absolute;z-index:2;right:-18px;top:2px;background:#fff;color:#15171A;border:1.5px solid #15213A;border-radius:14px 14px 14px 4px;padding:5px 9px;font:400 15px/1 "Jua","Pretendard Variable",sans-serif;white-space:nowrap;box-shadow:0 4px 10px rgba(10,20,40,.12);animation:bmPop 4s ease-in-out infinite;transform-origin:0 100%}',
+  '#bomi-fab .say{position:absolute;z-index:2;right:-18px;top:2px;background:#fff;color:#15171A;border:1.5px solid #15213A;border-radius:14px 14px 14px 4px;padding:5px 9px;font:700 15px/1 "Pretendard Variable",sans-serif;white-space:nowrap;box-shadow:0 4px 10px rgba(10,20,40,.12);animation:bmPop 4s ease-in-out infinite;transform-origin:0 100%}',
   '#bomi-fab .tag{position:relative;z-index:2;margin-top:-8px;display:inline-flex;align-items:center;gap:5px;background:#15213A;color:#fff;border-radius:999px;padding:6px 13px 6px 11px;font:800 13.5px/1 "Pretendard Variable",sans-serif;box-shadow:0 6px 16px rgba(10,20,40,.28)}',
   '#bomi-fab .ai,#bomi .ai{font-weight:900;color:#5FD39A;letter-spacing:-.02em}',
   '@keyframes bmFloat{0%,100%{transform:translateY(0) rotate(-1.2deg)}50%{transform:translateY(-6px) rotate(1.2deg)}}',
@@ -50,7 +50,7 @@
   '#bomi .pose{position:absolute;z-index:1;left:50%;bottom:30px;height:82%;transform:translateX(-50%);filter:drop-shadow(0 10px 12px rgba(40,30,10,.16));transition:opacity .18s}',
   '#bomi .pose.fl{animation:bmFloat2 3s ease-in-out infinite}',
   '@keyframes bmFloat2{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-6px)}}',
-  '#bomi .word{position:absolute;z-index:2;left:calc(50% + 70px);top:16%;background:#fff;border:2px solid #15213A;border-radius:18px 18px 18px 5px;padding:8px 14px;font:400 24px/1 "Jua","Pretendard Variable",sans-serif;color:#15171A;letter-spacing:-.02em;box-shadow:0 6px 14px rgba(10,20,40,.12);white-space:nowrap;transform-origin:0 100%}',
+  '#bomi .word{position:absolute;z-index:2;left:calc(50% + 70px);top:16%;background:#fff;border:2px solid #15213A;border-radius:18px 18px 18px 5px;padding:8px 14px;font:800 24px/1 "Pretendard Variable",sans-serif;color:#15171A;letter-spacing:-.02em;box-shadow:0 6px 14px rgba(10,20,40,.12);white-space:nowrap;transform-origin:0 100%}',
   '#bomi .word:empty{display:none}',
   '#bomi .word.pop{animation:bmWord .5s cubic-bezier(.2,1.6,.4,1)}',
   '@keyframes bmWord{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}',
@@ -115,7 +115,7 @@
   var MIC='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>';
   var SEND='<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>';
   function init(){
-    if(!document.querySelector('link[href*="family=Jua"]')){ var f=document.createElement('link'); f.rel='stylesheet'; f.href='https://fonts.googleapis.com/css2?family=Jua&display=swap'; document.head.appendChild(f); }
+    /* Jua 글꼴은 쓰지 않는다(2026-11-08, 글꼴 2종 기준) — 사이트 본문 글꼴을 따른다 */
     var st=document.createElement('style'); st.textContent=CSS; document.head.appendChild(st);
     var fab=el('<button type="button" id="bomi-fab" aria-haspopup="dialog" aria-controls="bomi" aria-label="AI 봄이에게 물어보기 — 예산 용어, 김보미, 우리 동네">'+
       '<span class="fig"><img src="'+IMG+'body.webp" width="96" height="142" alt=""><span class="say" aria-hidden="true">안녕하세요!</span></span>'+

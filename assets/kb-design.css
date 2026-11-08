@@ -1,0 +1,132 @@
+/* ===== kb-design: DESIGN.md 기준으로 새로 쓰는 규칙 (맨 뒤에 두어 앞의 옛 규칙을 덮는다) ===== */
+
+/* --- 메인: 데스크톱은 365 상자 아래 '만든 사람'과 둘러보기 --- */
+:where(.pg-index) .top365 .f365 button.more{display:none}
+:where(.pg-index) .f365 p.lead.clamp{display:block;-webkit-line-clamp:unset;overflow:visible}
+
+/* --- 메인 휴대폰: 3~4화면 분량 --- */
+@media (max-width:760px){
+  :where(.pg-index) .top365 .f365 button.more{display:inline-block}
+  :where(.pg-index) .f365 p.lead.clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  :where(.pg-index) .f365 .gnote{display:none}
+  :where(.pg-index) .f365band{height:112px}
+  :where(.pg-index) .top365 .f365{padding-bottom:16px}
+
+  /* 만든 사람: 사진 작게 옆에, 긴 소개와 숫자 4칸은 소개 쪽으로 */
+  :where(.pg-index) .hero{padding:18px 0 4px}
+  :where(.pg-index) .hero .hin{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center}
+  :where(.pg-index) .hero .hpic{max-width:none;width:96px;border-radius:50%;aspect-ratio:1;border:0}
+  :where(.pg-index) .hero .hpic img{width:96px;height:96px;object-fit:cover;object-position:50% 18%}
+  :where(.pg-index) .hero .role{font-size:.74rem;margin:0}
+  :where(.pg-index) .hero h1{font-size:1.6rem;margin:2px 0 0}
+  :where(.pg-index) .hero .slogan{font-size:1rem;margin:4px 0 0}
+  :where(.pg-index) .hero .desc,:where(.pg-index) .hero .hnum{display:none}
+
+  /* 둘러보기: 한 줄짜리 목록 */
+  :where(.pg-index) .sec-doors .doors{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:0}
+  :where(.pg-index) .sec-doors .mb{padding:14px 14px 12px;min-height:0}
+  :where(.pg-index) .sec-doors .mb h3{font-size:1.05rem;margin-top:4px}
+  :where(.pg-index) .sec-doors .mb p,:where(.pg-index) .sec-doors .mb .meta{display:none}
+  :where(.pg-index) .sec-doors .mb .go{font-size:.78rem;margin-top:8px;padding-top:8px}
+
+  /* 정당 돈: 제목과 바로가기만 */
+  :where(.pg-index) .pm{padding:20px 18px}
+  :where(.pg-index) .pm p,:where(.pg-index) .pm .pmside{display:none}
+  :where(.pg-index) .pm h2{font-size:1.3rem}
+
+  /* 김보미생각: 최근 3편을 글자 목록으로 */
+  :where(.pg-index) .vrow{gap:0;margin-top:6px;min-height:200px}
+  :where(.pg-index) .vrow .vc{min-height:0;padding:10px 0;border:0;border-bottom:1px solid var(--c-line);border-radius:0;background:transparent;box-shadow:none}
+  :where(.pg-index) .vc .vth,:where(.pg-index) .vc p{display:none}
+  :where(.pg-index) .vc h3{margin-top:4px;font-size:.98rem}
+  :where(.pg-index) .vc .d{padding-top:4px}
+  :where(.pg-index) .vhd h2{font-size:1.3rem}
+
+  /* 언론 목록과 지난 기록 카드는 메인에서 빼고 메뉴(언론·영상, 기록관)로 */
+  :where(.pg-index) .sec-press{display:none}
+  :where(.pg-index) .sec{padding-top:20px;padding-bottom:4px}
+  :where(.pg-index) main{padding-bottom:24px}
+  :where(.pg-index) .sec-doors .w{border-top:0;padding-top:0}
+  :where(.pg-index) .sec-doors{padding-top:8px}
+
+  /* 365 상자 안: 큰 단추 설명 한 줄, 숫자 4칸 한 줄 */
+  :where(.pg-index) .top365 .f365 .big .tx small{display:none}
+  :where(.pg-index) .top365 .f365 .big{min-height:0;padding:12px 14px}
+  :where(.pg-index) .top365 .f365 .fr{grid-template-columns:repeat(4,1fr);gap:0}
+  :where(.pg-index) .top365 .f365 .fr b{font-size:1.15rem}
+  :where(.pg-index) .top365 .f365 .fr span{font-size:.66rem;line-height:1.3}
+}
+
+/* --- 모든 페이지 바닥글 (휴대폰) --- */
+@media (max-width:760px){
+  .kbx-foot{padding-top:28px}
+  .kbx-foot .kbx-fs{display:none}
+  .kbx-foot .kbx-fnav{display:grid;grid-template-columns:repeat(3,auto);gap:6px 14px;justify-content:start}
+  .kbx-foot .kbx-fnav a{font-size:.82rem}
+  .kbx-foot .kbx-fi li{font-size:.76rem;line-height:1.55;padding:2px 0}
+  .kbx-foot .kbx-fnote p{font-size:.7rem;line-height:1.6}
+}
+
+/* 바닥글 '알려 드립니다'는 접어 두고 누르면 편다(내용은 그대로) */
+.kbx-foot .kbx-discd{margin-top:10px}
+.kbx-foot .kbx-discd summary{cursor:pointer;font-size:.8rem;font-weight:700;color:var(--c-sand);list-style-position:inside}
+.kbx-foot .kbx-discd summary:focus-visible{outline:2px solid var(--c-gold);outline-offset:2px}
+@media (max-width:760px){
+  .kbx-foot .kbx-fw{gap:18px}
+  .kbx-foot .kbx-snsh{display:none}
+}
+
+/* --- 우리동네365: 본문을 자바스크립트가 그리기 전부터 자리를 잡아 바닥글이 밀려 올라왔다 내려가지 않게 --- */
+:where(.pg-budget365) main#app{min-height:100vh;min-height:100svh}
+
+/* --- 긴 목록 10개씩 (vision.html 글 목록, press.html 목록) --- */
+[data-more] > li:nth-child(n+11):not(.kb-show){display:none}
+.kb-more-wrap{display:flex;justify-content:center;margin:18px 0 8px;grid-column:1/-1}
+.kb-more{min-height:44px;padding:10px 22px;border-radius:999px;border:1px solid var(--c-line);background:var(--c-white);color:var(--c-ink);font:700 .95rem/1.2 'Pretendard Variable',system-ui,sans-serif;cursor:pointer}
+.kb-more span{font-weight:500;color:var(--c-slate);font-variant-numeric:tabular-nums}
+.kb-more:hover{border-color:var(--c-green);color:var(--c-green)}
+.kb-more:focus-visible{outline:3px solid var(--c-gold);outline-offset:2px}
+html[data-theme="dark"] .kb-more{background:var(--c-night-2);color:var(--c-sand);border-color:var(--c-night-2)}
+html[data-theme="dark"] .kb-more span{color:var(--c-stone)}
+
+/* 김보미생각 검색창이 360px 화면 밖으로 넘치던 것 */
+:where(.pg-vision) .psearch{min-width:0;max-width:100%}
+:where(.pg-vision) .psearch input{width:100%}
+
+/* 본문 바로가기로 이동한 영역은 초점 테두리를 그리지 않는다(키보드 초점은 그대로 이동) */
+main[tabindex="-1"]:focus,[id="main"][tabindex="-1"]:focus{outline:none}
+
+/* --- 명도 대비 4.5:1 맞춤 (KWCAG 8번) --- */
+:where(.pg-index) .f365 .wide .tx small{color:var(--c-slate)}
+:where(.pg-index) .pm .box .s{color:rgb(var(--c-white-rgb) / .86)}
+:where(.pg-gongyak) #a5 .area-tag{color:var(--c-ink)}
+:where(.pg-budget365) .mut{color:var(--c-slate);opacity:1!important}
+html[data-theme="dark"]:where(.pg-budget365) .mut{color:var(--c-stone)}
+:where(.pg-404) .code small{color:var(--c-slate)}
+
+/* 금색은 채움·아이콘에만. 초록·남색 바탕 위 글자는 크림색, 금색 바탕 위 글자는 먹색 */
+.kbx-hdr .kbx-365 span em{color:var(--c-cream)}
+:where(.pg-index) .f365 .k,:where(.pg-index) .f365 .big .tx b .nb,:where(.pg-index) .top365 .f365 button.more{color:var(--c-cream)}
+:where(.pg-index) .f365 h2 em,:where(.pg-index) .f365 .big:not(.wide) .tx b,:where(.pg-index) .f365 .big:not(.wide) .tx small{color:var(--c-ink)}
+
+/* --- 접근성 보완 --- */
+html{scroll-padding-top:88px}  /* 고정 머리에 초점이 가려지지 않게 (11 초점 이동과 표시) */
+.kb-sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.kb-pause{display:inline-flex;align-items:center;min-height:44px;margin:12px 0 0;padding:8px 16px;border-radius:999px;border:1px solid var(--c-line);background:var(--c-white);color:var(--c-ink);font:700 .88rem/1.2 'Pretendard Variable',system-ui,sans-serif;cursor:pointer}
+.kb-pause:focus-visible{outline:3px solid var(--c-navy);outline-offset:2px}
+.ps.kb-paused .ps-row{animation-play-state:paused!important}
+@media (prefers-reduced-motion:reduce){.ps .ps-row{animation:none!important}}
+html[data-theme="dark"] .kb-pause{background:var(--c-night-2);color:var(--c-sand);border-color:var(--c-night-2)}
+html[data-theme="dark"]:where(.pg-index) .f365 h2 em,html[data-theme="dark"]:where(.pg-index) .f365 .big:not(.wide) .tx b,html[data-theme="dark"]:where(.pg-index) .f365 .big:not(.wide) .tx small{color:var(--c-ink)}
+html[data-theme="dark"]:where(.pg-index) .f365 .big .tx b .nb{color:var(--c-cream)}
+
+/* 누르는 영역 넓히기 (KWCAG 12 조작 가능) */
+.kbx-foot .kbx-discd summary{padding:12px 0}
+.kbnx-h a{display:inline-block;padding:11px 4px}
+
+/* 첫 화면 이미지는 등장 효과 없이 바로 보인다 (LCP: 투명에서 시작하면 늦게 잡힌다) */
+.g3hero .g3f img,.g3band img,.f365band img{animation:none!important;opacity:1!important}
+
+/* 제목 줄바꿈을 고르게 (한 줄에 한두 단어만 남지 않게) */
+h1,h2,h3{text-wrap:balance}
+p{text-wrap:pretty}
