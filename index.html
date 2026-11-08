@@ -28,7 +28,7 @@
 <script>try{if(new URLSearchParams(location.search).has("play"))location.replace("archive.html?play=1");}catch(e){}</script>
 <link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="assets/brand/kb-icon.svg"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-<link rel="preload" as="image" href="img/g3d/scene-365-640.webp" imagesrcset="img/g3d/scene-365-640.webp 640w, img/g3d/scene-365.webp 1024w" imagesizes="(max-width:760px) 300px, 1100px" fetchpriority="high">
+<link rel="preload" as="image" href="img/kb-hero.webp" imagesrcset="img/kb-hero-640.webp 640w, img/kb-hero.webp 1000w" imagesizes="(max-width:760px) 92vw, 520px" fetchpriority="high">
 <link rel="stylesheet" href="assets/kb.css?v=20261108">
 
 
@@ -183,10 +183,27 @@
 
 <main id="main" tabindex="-1">
 
-<!-- 1. 우리동네365 (모든 화면 폭에서 맨 앞, 자바스크립트로 옮기지 않음) -->
+<!-- 1. 김보미 (첫 화면: 사진·소개 그대로) -->
+<section class="hero"><div class="w"><div class="hin">
+  <figure class="hpic"><img src="img/kb-hero.webp" srcset="img/kb-hero-640.webp 640w, img/kb-hero.webp 1000w" sizes="(max-width:760px) 92vw, 520px" width="1000" height="984" alt="김보미" fetchpriority="high"></figure>
+  <div class="hbd">
+    <p class="role">재정주권시민행동 공동대표 · 전 강진군의회 의장</p>
+    <h1>김보미</h1>
+    <p class="slogan"><em>세금의 주인</em>은 국민입니다.</p>
+    <p class="desc">스물셋에 정치를 시작했습니다. 스물여덟에 지역 최초의 청년 군의원, 서른둘에 전국에서 가장 젊은 기초의회 의장이 되었습니다. 13년 풀뿌리에서 배운 것은 하나입니다. 사람만 바뀌고 규칙이 그대로면 정치는 제자리로 돌아옵니다. 그래서 저는 구호 대신 규칙을 바꿉니다. 공천은 공정하게, 예산은 투명하게, 세대는 앞으로.</p>
+    <div class="hnum">
+      <div><b>13년</b><span>정치 활동</span></div>
+      <div><b>8년</b><span>지방의원 의정 활동</span></div>
+      <div><b>만 36세</b><span>여성 청년 정치인</span></div>
+      <div><b>전국 최연소</b><span>기초의회 의장 (만 32세)</span></div>
+    </div>
+  </div>
+</div></div></section>
+
+<!-- 2. 우리동네365 (자바스크립트로 옮기지 않음) -->
 <section class="sec top365"><div class="w">
   <div class="f365">
-    <figure class="g3band f365band"><img fetchpriority="high" src="img/g3d/scene-365.webp" srcset="img/g3d/scene-365-640.webp 640w, img/g3d/scene-365.webp 1024w" sizes="(max-width:760px) 300px, 1100px" width="1024" height="572" alt="돋보기로 비춰 보는 우리 동네 미니어처" loading="lazy"></figure>
+    <figure class="g3band f365band"><img src="img/g3d/scene-365.webp" srcset="img/g3d/scene-365-640.webp 640w, img/g3d/scene-365.webp 1024w" sizes="(max-width:760px) 300px, 1100px" width="1024" height="572" alt="돋보기로 비춰 보는 우리 동네 미니어처" loading="lazy"></figure>
     <div class="fl">
       <span class="k">지방재정 · 중앙재정 · 공공데이터</span>
       <h2>우리동네365 <em>내 동네 3초 확인</em></h2>
@@ -204,23 +221,6 @@
     </div>
   </div>
 </div></section>
-
-<!-- 2. 이 도구를 만든 사람 -->
-<section class="hero"><div class="w"><div class="hin">
-  <figure class="hpic"><picture><source media="(max-width:760px)" srcset="face.jpg" width="480" height="480"><img src="img/kb-hero.webp" srcset="img/kb-hero-640.webp 640w, img/kb-hero.webp 1000w" sizes="(max-width:760px) 92vw, 520px" width="1000" height="984" alt="김보미"></picture></figure>
-  <div class="hbd">
-    <p class="role">재정주권시민행동 공동대표 · 전 강진군의회 의장</p>
-    <h1>김보미</h1>
-    <p class="slogan"><em>세금의 주인</em>은 국민입니다.</p>
-    <p class="desc">스물셋에 정치를 시작했습니다. 스물여덟에 지역 최초의 청년 군의원, 서른둘에 전국에서 가장 젊은 기초의회 의장이 되었습니다. 13년 풀뿌리에서 배운 것은 하나입니다. 사람만 바뀌고 규칙이 그대로면 정치는 제자리로 돌아옵니다. 그래서 저는 구호 대신 규칙을 바꿉니다. 공천은 공정하게, 예산은 투명하게, 세대는 앞으로.</p>
-    <div class="hnum">
-      <div><b>13년</b><span>정치 활동</span></div>
-      <div><b>8년</b><span>지방의원 의정 활동</span></div>
-      <div><b>만 36세</b><span>여성 청년 정치인</span></div>
-      <div><b>전국 최연소</b><span>기초의회 의장 (만 32세)</span></div>
-    </div>
-  </div>
-</div></div></section>
 
 
 <!-- 3. 둘러보기 -->
