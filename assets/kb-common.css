@@ -118,3 +118,19 @@ footer.kbx-foot{text-align:left}
 
 /* 머리 단추 "재정주권시민행동 함께하기": 좁은 화면(≤400px)은 앞말을 숨겨 한 줄 유지 (이름은 aria-label로 그대로) */
 @media(max-width:400px){.kbx-join .kbx-join-l{display:none}}
+
+/* 함께하기 단추를 누르면 3초 동안 보이는 슬로건 화면 (kb-join.js) */
+.kbj{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px 16px;background:#141412;color:#F5F0E4;text-align:center;animation:kbj-in .3s ease-out}
+.kbj-img{display:block;width:min(900px,100%);height:auto;max-height:62vh;object-fit:contain;border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.45)}
+.kbj-t{margin:0;max-width:40ch;word-break:keep-all}
+.kbj-t b{display:block;font-size:1.15rem;font-weight:800;line-height:1.4}
+.kbj-t span{display:block;margin-top:6px;font-size:.88rem;color:#A8A297}
+.kbj-bar{width:min(260px,80%);height:6px;border-radius:99px;background:rgba(255,255,255,.15);overflow:hidden}
+.kbj-bar i{display:block;height:100%;width:0;background:#C99A2E;border-radius:99px;animation:kbj-fill 3s linear forwards}
+.kbj-skip{min-height:44px;padding:9px 22px;border-radius:999px;border:1.5px solid #C99A2E;background:transparent;color:#F5F0E4;font:700 .92rem/1.2 inherit;font-family:inherit;cursor:pointer}
+.kbj-skip:hover{background:#C99A2E;color:#16191F}
+.kbj-skip:focus-visible{outline:3px solid #F5F0E4;outline-offset:2px}
+body.kbj-open{overflow:hidden}
+@keyframes kbj-in{from{opacity:0}to{opacity:1}}
+@keyframes kbj-fill{from{width:0}to{width:100%}}
+@media(prefers-reduced-motion:reduce){.kbj{animation:none}.kbj-bar i{animation:none;width:100%;opacity:.5}}
