@@ -40,10 +40,9 @@ body.pg-pledge .hero .eyebrow, body.pg-party-money .hd .eyebrow{color:#9FB4D2}
 body .hero .g3hero, body .hero .hero-inner{
   display:grid; grid-template-columns:minmax(0,1.25fr) minmax(260px,.9fr); gap:40px; align-items:center;
 }
-body .hero .g3f, body .hero .hero-photo{aspect-ratio:16/10;border-radius:var(--kb-r);overflow:hidden;box-shadow:none;margin:0;transform:none}
-body .hero .g3f img, body .hero .hero-photo img, body .hero figure img{
-  width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; border-radius:var(--kb-r); display:block; box-shadow:none;
-}
+/* 디오라마 사진(.g3f)만 16:10으로 맞춘다. 인물 사진(.hpic 메인, .hero-photo 기록관 원형)은 원래 비율 그대로 — 위아래 잘림 방지 */
+body .hero .g3f:not(.fig){aspect-ratio:16/10;margin:0;transform:none}
+body .hero .g3f:not(.fig) img{width:100%;height:100%;object-fit:cover;display:block}
 
 /* ── 본문 리듬 ── */
 body main.wrap, body main>.wrap, body .wrap.main{max-width:var(--kb-wrap)}
