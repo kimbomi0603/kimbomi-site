@@ -2637,3 +2637,40 @@ html[data-theme="dark"]:where(.pg-index) .f365 .big .tx b .nb{color:var(--c-crea
 /* 제목 줄바꿈을 고르게 (한 줄에 한두 단어만 남지 않게) */
 h1,h2,h3{text-wrap:balance}
 p{text-wrap:pretty}
+
+/* --- 불러오는 중 표시 (시안 1: 봄이가 돋보기로 서류 넘기기, 분야별 소품은 kb-loader.js) --- */
+.kbl{display:flex;flex-direction:column;align-items:center;text-align:center;margin:24px auto;padding:22px 16px 20px;max-width:560px;min-height:330px;border-radius:14px;background:var(--c-paper);border:1px solid var(--c-line)}
+.kbl-bomi{width:120px;height:auto;aspect-ratio:120/166;animation:kbl-sway 1.6s ease-in-out infinite;transform-origin:50% 90%;filter:drop-shadow(0 10px 10px rgb(var(--c-ink-rgb) / .12))}
+.kbl-props{display:flex;gap:6px;justify-content:center;margin:-6px 0 10px}
+.kbl-props i{display:block;width:34px;height:40px;animation:kbl-lift 1.6s ease-in-out infinite}
+.kbl-props i svg{display:block;width:100%;height:100%}
+.kbl-props i:nth-child(2){animation-delay:.25s}.kbl-props i:nth-child(3){animation-delay:.5s}.kbl-props i:nth-child(4){animation-delay:.75s}
+.kbl-msg{margin:0;min-height:3.2em;padding:0 8px}
+.kbl-t{display:block;font-weight:700;color:var(--c-ink)}
+.kbl-src{display:block;font-size:.82rem;color:var(--c-slate);margin-top:2px}
+.kbl-bar{width:min(240px,80%);height:6px;border-radius:99px;background:var(--c-line);overflow:hidden;margin:10px auto 0}
+.kbl-bar i{display:block;height:100%;width:40%;border-radius:99px;background:var(--c-green);animation:kbl-slide 1.3s ease-in-out infinite}
+.kbl-slow{display:none;margin:10px 0 0;font-size:.84rem;font-weight:700;color:var(--c-red);max-width:40ch}
+.kbl.is-slow .kbl-slow{display:block}
+@keyframes kbl-sway{0%,100%{transform:rotate(-5deg) translateX(-6px)}50%{transform:rotate(5deg) translateX(6px)}}
+@keyframes kbl-lift{0%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+@keyframes kbl-slide{0%{transform:translateX(-110%)}100%{transform:translateX(260%)}}
+/* 한 줄짜리 작은 표시: 돋보기가 좌우로 훑는다 */
+.kbl-mini{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--c-ink-2)}
+.kbl-mag{width:22px;height:22px;flex:none;animation:kbl-scan 1.4s ease-in-out infinite}
+@keyframes kbl-scan{0%,100%{transform:translateX(-3px) rotate(-10deg)}50%{transform:translateX(3px) rotate(10deg)}}
+/* 단추를 누르고 받는 동안 */
+.kb-busy{cursor:progress}
+.kb-busy::before{content:"";display:inline-block;width:.9em;height:.9em;margin-right:6px;vertical-align:-.1em;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:kbl-spin .8s linear infinite}
+@keyframes kbl-spin{to{transform:rotate(360deg)}}
+html[data-theme="dark"] .kbl{background:var(--c-night-2);border-color:var(--c-night-2)}
+html[data-theme="dark"] .kbl-t{color:var(--c-sand)}
+html[data-theme="dark"] .kbl-src{color:var(--c-stone)}
+html[data-theme="dark"] .kbl-bar{background:var(--c-night)}
+html[data-theme="dark"] .kbl-slow{color:#F2A7A3}
+html[data-theme="dark"] .kbl-mini{color:var(--c-sand)}
+@media (prefers-reduced-motion:reduce){.kbl-bomi,.kbl-props i,.kbl-bar i,.kbl-mag,.kb-busy::before{animation:none!important}.kbl-bar i{width:100%;opacity:.5}}
+html[data-theme="dark"] .kbl-props i{background:var(--c-cream);border-radius:6px;padding:2px}
+/* 우리동네365 흐린 글자(opacity .6)가 대비 3.4:1이던 것 → 회색 글자로 (KWCAG 8) */
+:where(.pg-budget365) span[style*="opacity:.6"]{opacity:1!important;color:var(--c-slate)}
+html[data-theme="dark"]:where(.pg-budget365) span[style*="opacity:.6"]{color:var(--c-stone)}

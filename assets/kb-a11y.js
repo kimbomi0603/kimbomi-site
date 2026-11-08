@@ -21,11 +21,18 @@
   }
   /* 사진 크게 보기(#lb)는 Esc로도 닫힌다 (10 키보드 사용 보장) */
   document.addEventListener('keydown',function(e){ if(e.key!=='Escape') return; var lb=document.getElementById('lb'); if(lb&&lb.style.display&&lb.style.display!=='none'){ lb.style.display='none'; } }); /* kb-lb-esc */
+  /* 옆으로 미는 표 영역은 Tab으로 들어가 화살표로 밀 수 있게 (10 키보드 사용 보장) */
+  function scrollers(){
+    document.querySelectorAll('.scrollx').forEach(function(el){
+      if(el.hasAttribute('tabindex')||el.querySelector('a,button,input,select,textarea,[tabindex]')) return;
+      el.setAttribute('tabindex','0'); el.setAttribute('role','region'); el.setAttribute('aria-label','옆으로 밀어 보는 표');
+    });
+  }
   function run(){
-    mark(document); pausers();
+    mark(document); pausers(); scrollers();
     var pf=document.getElementById('kbPrefs'); if(pf&&!pf.getAttribute('role')){ pf.setAttribute('role','region'); pf.setAttribute('aria-label','글자 크기·화면 설정'); }
     setTimeout(function(){ var pf=document.getElementById('kbPrefs'); if(pf&&!pf.getAttribute('role')){ pf.setAttribute('role','region'); pf.setAttribute('aria-label','글자 크기·화면 설정'); } },800);
-    new MutationObserver(function(ms){ ms.forEach(function(m){ m.addedNodes.forEach(function(n){ if(n.nodeType===1){ if(n.matches&&n.matches('a[target="_blank"]')) mark(n.parentNode||document); else if(n.querySelector&&n.querySelector('a[target="_blank"]')) mark(n); if(n.querySelector&&n.querySelector('.ps-row')) pausers(); } }); }); })
+    new MutationObserver(function(ms){ ms.forEach(function(m){ m.addedNodes.forEach(function(n){ if(n.nodeType===1){ if(n.matches&&n.matches('a[target="_blank"]')) mark(n.parentNode||document); else if(n.querySelector&&n.querySelector('a[target="_blank"]')) mark(n); if(n.querySelector&&n.querySelector('.ps-row')) pausers(); if(n.querySelector&&(n.matches('.scrollx')||n.querySelector('.scrollx'))) scrollers(); } }); }); })
       .observe(document.body,{childList:true,subtree:true});
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else run();
