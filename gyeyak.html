@@ -23,6 +23,7 @@
 
 <!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
 <script src="assets/kb-format.js"></script>
+<script src="assets/kb-loader.js"></script>
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -239,10 +240,11 @@ function load(){
   REGION=_sg?(_sd+" "+_sg):_sd;   /* 나라장터 수요기관 정식명(전체형) — 동명 구·군 혼입 차단 */
   if(!REGION){return;}
   $("dash").classList.add("hide");$("topnav").classList.add("hide");
-  var sb=$("stateBox");sb.classList.remove("hide");sb.innerHTML='<span class="spin"></span>'+esc(REGION)+' 계약을 나라장터에서 불러오는 중…';
+  var sb=$("stateBox");sb.classList.remove("hide");sb.innerHTML=window.KB_loader?KB_loader('contract',{who:REGION,src:'나라장터 계약·입찰 공고',steps:['{who} 계약·입찰 공고를 나라장터에서 받고 있습니다','최근 '+DAYS+'일 공고를 날짜순으로 정리하고 있습니다','업체별로 묶고 쪼개기 발주 의심을 찾고 있습니다','표를 그리는 중입니다']}):'<span class="spin"></span>'+esc(REGION)+' 계약을 나라장터에서 불러오는 중…';
+  var sbw=sb.querySelector('.kbl-slow'); if(sbw) sbw.textContent='평소보다 오래 걸려요. 시·도 전체처럼 범위가 넓으면 처음 한 번은 30초 넘게 걸릴 수 있습니다. 그대로 두시면 이어서 보여 드립니다.';
   var url="/api/contract?full=1&days="+DAYS+"&region="+encodeURIComponent(REGION);
   /* 2026-09-29 서버 최대 60초에 맞춰 58초까지 기다림(시·도 전체 조회는 처음에 오래 걸림). 10초가 지나면 안내 문구를 바꿈 */
-  var ctrl=new AbortController(),t=setTimeout(function(){ctrl.abort();},58000),slow=setTimeout(function(){ if(!sb.classList.contains('hide')) sb.innerHTML='<span class="spin"></span>'+esc(REGION)+' 계약을 불러오는 중… 시·도 전체처럼 범위가 넓으면 처음 한 번은 30초 넘게 걸릴 수 있습니다.'; },10000);
+  var ctrl=new AbortController(),t=setTimeout(function(){ctrl.abort();},58000),slow=setTimeout(function(){ if(sb.querySelector('.kbl')) return; if(!sb.classList.contains('hide')) sb.innerHTML='<span class="spin"></span>'+esc(REGION)+' 계약을 불러오는 중… 시·도 전체처럼 범위가 넓으면 처음 한 번은 30초 넘게 걸릴 수 있습니다.'; },10000);
   fetch(url,{signal:ctrl.signal}).then(function(r){return r.json();}).then(function(j){
     clearTimeout(t);clearTimeout(slow);
     if(!j||j.error||!j.bids){sb.innerHTML='<div class="err">데이터를 불러오지 못했습니다. '+esc((j&&j.error)||"")+'<br>잠시 후 다시 시도하거나 다른 기간/지자체를 선택해 주세요.</div>';return;}

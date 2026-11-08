@@ -65,7 +65,7 @@
     <button class="lv-tab" data-t="nas" role="tab">국회 입법·보도</button>
     <button class="lv-tab" data-t="youth" role="tab">청년정책</button>
   </div>
-  <div id="lv-pane"><div class="lv-empty">불러오는 중…</div></div>
+  <div id="lv-pane"><div class="lv-empty"><span class="kbl-mini" role="status">불러오는 중…</span></div></div>
   <p class="lv-note">자료 출처: 문화체육관광부 정책브리핑, 과학기술정보통신부·중소벤처기업부·외교부·통일부·성평등가족부 보도자료, 행정안전부 관보(공공데이터포털), 국회사무처 열린국회정보, 한국고용정보원 온통청년. 이 페이지는 받은 값을 고치거나 만들지 않습니다. 받지 못한 출처는 위에 「받지 못함」으로 표시하고 비워 둡니다. 같은 내용은 30분(청년정책 1시간) 동안 저장해 두고 보여 줍니다.</p>
 <section class="kslog" aria-label="김보미의 한 줄">
   <div class="kslog-in">
@@ -127,6 +127,7 @@
 </footer>
 
 <script src="assets/kb-format.js"></script>
+<script src="assets/kb-loader.js"></script>
 <script>
 "use strict";
 (function(){
@@ -140,7 +141,7 @@
   }
   function fmtAt(a){if(!a)return '—';var d=new Date(Date.parse(a)+9*3600e3).toISOString();return d.slice(5,10).replace('-','/')+' '+d.slice(11,16)}
   function drawFeed(g){
-    pane.innerHTML='<div class="lv-empty">'+(g==='nas'?'국회':'정부')+' 자료를 불러오는 중… (처음엔 10초쯤 걸릴 수 있습니다)</div>';
+    pane.innerHTML=window.KB_loader?KB_loader('live',{who:(g==='nas'?'국회':'정부'),src:(g==='nas'?'국회 공개 API':'정부 공개 API')}):'<div class="lv-empty">'+(g==='nas'?'국회':'정부')+' 자료를 불러오는 중… (처음엔 10초쯤 걸릴 수 있습니다)</div>';
     load(g).then(function(j){
       if(S.tab!==g)return;
       if(!j||!j.items){pane.innerHTML='<div class="lv-empty">지금은 자료를 받지 못했습니다. 잠시 뒤 다시 열어 주세요.</div>';return}
@@ -167,7 +168,7 @@
   function rowsOf(j){var out=[];(function walk(o){if(Array.isArray(o)){if(o.length&&typeof o[0]==='object'&&!Array.isArray(o[0]))out=out.length?out:o;else o.forEach(walk)}else if(o&&typeof o==='object')Object.keys(o).forEach(function(k){walk(o[k])})})(j);return out}
   function drawYouth(){
     var ops={plcy:'청년정책 찾기',space:'청년센터',content:'청년 소식'};
-    var h='<div class="lv-bar"><select id="ly-op" aria-label="청년정책 분류">'+Object.keys(ops).map(function(k){return '<option value="'+k+'"'+(k===S.yop?' selected':'')+'>'+ops[k]+'</option>'}).join('')+'</select><input id="ly-q" aria-label="정책 키워드" type="search" placeholder="'+(S.yop==='plcy'?'정책 키워드 (예: 월세, 창업, 강진)':'이름 검색')+'" value="'+esc(S.yq)+'"></div><div id="ly-out"><div class="lv-empty">불러오는 중…</div></div>';
+    var h='<div class="lv-bar"><select id="ly-op" aria-label="청년정책 분류">'+Object.keys(ops).map(function(k){return '<option value="'+k+'"'+(k===S.yop?' selected':'')+'>'+ops[k]+'</option>'}).join('')+'</select><input id="ly-q" aria-label="정책 키워드" type="search" placeholder="'+(S.yop==='plcy'?'정책 키워드 (예: 월세, 창업, 강진)':'이름 검색')+'" value="'+esc(S.yq)+'"></div><div id="ly-out"><div class="lv-empty">'+(window.KB_loaderMini?KB_loaderMini('policy','청년정책 목록 받는 중'):'불러오는 중…')+'</div></div>';
     pane.innerHTML=h;
     document.getElementById('ly-op').onchange=function(e){S.yop=e.target.value;S.ypage=1;drawYouth()};
     var qi=document.getElementById('ly-q');qi.onkeydown=function(e){if(e.key==='Enter'){S.yq=qi.value.trim();S.ypage=1;drawYouth()}};
