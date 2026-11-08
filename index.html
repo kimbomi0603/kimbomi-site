@@ -1,7 +1,7 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="pg-index">
 <head>
-<meta charset="utf-8"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>김보미 우리동네365 | 지방·중앙정부 예산·집행·계약 3초 만에 확인</title>
 <meta name="description" content="김보미 공식 홈페이지. 지방정부 243개 시·군·구와 중앙정부 62개 부처의 예산·집행·계약 정보를 누구나 3초 만에 확인할 수 있는 공공재정 분석 플랫폼 「우리동네365」, 정치개혁 제안과 언론 기록.">
@@ -27,9 +27,11 @@
 <link rel="alternate" type="application/rss+xml" title="김보미.com — 우리동네365" href="/rss.xml">
 <script>try{if(new URLSearchParams(location.search).has("play"))location.replace("archive.html?play=1");}catch(e){}</script>
 <link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="assets/brand/kb-icon.svg"><link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"></noscript><style>:where(button,input,select,textarea){font-family:inherit}:where(h1,h2,h3,h4){text-wrap:balance;word-break:keep-all}:where(p,li,dd){text-wrap:pretty}</style>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&display=swap" rel="stylesheet">
+
+<link rel="preload" as="image" href="img/g3d/scene-365-640.webp" imagesrcset="img/g3d/scene-365-640.webp 640w, img/g3d/scene-365.webp 1024w" imagesizes="(max-width:760px) 300px, 1100px" fetchpriority="high">
+<link rel="stylesheet" href="assets/kb.css?v=20261108">
+
+
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -150,296 +152,18 @@
  ]
 }
 </script>
-<link rel="stylesheet" href="assets/kb-ledger.css">
-<style>
-/* ── 히어로 ── */
-:root{--r-lg:16px;--r-sm:10px;--gap:16px;--blk:24px}
-/* ── 세로 리듬: 블록 24px, 새 주제 앞 38px. 섹션 자체 여백은 쓰지 않는다 ── */
-.sec{padding:0}
-.sec > .w > *{margin-top:var(--blk)}
-.sec > .w > .eyebrow{margin-top:38px;margin-bottom:10px}
-.sec > .w > .eyebrow + .vhd{margin-top:0}
-.sec > .w > .vhd:first-child{margin-top:38px}
-main{padding-bottom:46px}
 
 
-.hero{padding:26px 0 10px}
-.hin{display:grid;grid-template-columns:400px 1fr;gap:34px;align-items:center}
-.hpic{margin:0;border-radius:var(--r-lg);overflow:hidden;background:var(--green2);border:1px solid var(--line)}
-.hpic img{display:block;width:100%;height:auto}
-.hbd{display:flex;flex-direction:column;justify-content:center;padding:6px 0}
-.hbd .role{font-size:.85rem;font-weight:700;color:var(--green);letter-spacing:.02em;margin:0 0 6px}
-.hbd h1{font-size:4.2rem;line-height:1;font-weight:900;letter-spacing:-.05em}
-.hbd .slogan{font-family:var(--serif);font-size:1.6rem;line-height:1.5;font-weight:700;margin:20px 0 0;color:var(--ink)}
-.hbd .slogan em{font-style:normal;color:var(--green)}
-.hbd .desc{font-size:1rem;line-height:1.85;color:var(--mut);margin:16px 0 0;max-width:600px}
-.hnum{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:26px;border-top:1px solid var(--line2)}
-.hnum div{padding:16px 14px 4px;border-right:1px solid var(--line2)}
-.hnum div:last-child{border-right:0}
-.hnum b{display:block;font-family:var(--serif);font-weight:900;letter-spacing:-.03em;font-size:1.5rem;color:var(--navy);line-height:1.2}
-.hnum span{display:block;font-size:.8rem;line-height:1.45;color:var(--mut);margin-top:4px}
-
-/* ── 6개 메뉴 ── */
-.m6{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);margin-top:var(--blk)}
-.mb{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px 22px 20px;display:flex;flex-direction:column;min-height:252px;transition:transform .16s,box-shadow .16s,border-color .16s}
-.mb:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 10px 26px rgba(15,90,74,.10)}
-.mb:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-.mb .top{display:flex;align-items:center;gap:10px}
-.mb .ic{width:36px;height:36px;border-radius:var(--r-sm);background:color-mix(in srgb,var(--green) 12%,var(--card));color:var(--green);display:grid;place-items:center;flex:none}
-.mb .ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.mb .k{font-size:.72rem;font-weight:700;color:var(--green);letter-spacing:.02em}
-.mb h3{font-size:1.42rem;margin-top:16px;letter-spacing:-.03em}
-.mb p{margin:8px 0 0;font-size:.88rem;color:var(--mut);line-height:1.72}
-.mb .meta{display:block;margin-top:auto;padding-top:11px;font-size:.76rem;color:var(--mut);line-height:1.6}
-.mb .go{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:10px;border-top:1px solid var(--line);font-size:.84rem;font-weight:700;color:var(--green)}
-.mb .go i{font-style:normal;font-size:1.05rem;transition:transform .16s}
-.mb:hover .go i{transform:translateX(4px)}
-.mb.on{background:var(--green);border-color:var(--green);color:#fff}
-.mb.on:hover{background:var(--green2)}
-.mb.on .ic{background:rgba(255,255,255,.14);color:#fff}
-.mb.on .k{color:var(--lime)}
-.mb.on p{color:rgba(255,255,255,.88)}
-.mb.on .meta{color:rgba(255,255,255,.7)}
-.mb.on .go{color:#fff;border-top-color:rgba(255,255,255,.22)}
-.mb.navy .ic{background:color-mix(in srgb,var(--navy) 12%,var(--card));color:var(--navy)}
-.mb.navy .k,.mb.navy .go{color:var(--navy)}
-.mb.navy:hover{border-color:var(--navy);box-shadow:0 10px 26px rgba(22,48,90,.10)}
-@media(prefers-reduced-motion:reduce){.mb,.mb .go i{transition:none}.mb:hover{transform:none}}
-
-/* ── 우리동네365 전면 배치 ── */
-.f365{display:block;background:var(--green);color:#fff;border-radius:var(--r-lg);padding:26px 28px;margin-top:var(--blk);transition:transform .16s,box-shadow .16s}
-.f365 .hq365{display:flex;gap:8px;margin-top:18px;max-width:640px}
-.f365 .hq365 input{flex:1;min-width:0;height:50px;border:0;border-radius:12px;padding:0 16px;font:500 1rem/1 var(--sans);color:#1F1D18;background:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.4)}
-.f365 .hq365 input:focus{outline:3px solid var(--gold);outline-offset:2px}
-.f365 .hq365 button{flex:none;height:50px;padding:0 20px;border:0;border-radius:12px;background:var(--gold);color:#1B2A4A;font:800 1rem/1 var(--sans);cursor:pointer}
-.f365 .hq365 button:hover{filter:brightness(1.06)}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.f365 .gos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
-/* 큰 찾기 버튼 — 돋보기 + 대상 + 설명 한 줄 */
-.f365 .big{display:flex;align-items:center;gap:14px;text-decoration:none;
-  background:var(--card);color:var(--green2);border-radius:14px;padding:15px 18px;
-  box-shadow:0 6px 18px rgba(0,0,0,.16);transition:transform .16s,box-shadow .16s}
-.f365 .big:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.26)}
-.f365 .big:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
-.f365 .big .ic{flex:0 0 auto;display:grid;place-items:center;width:46px;height:46px;
-  border-radius:50%;background:var(--green);color:#fff}
-.f365 .big .ic svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:2.3;
-  stroke-linecap:round;stroke-linejoin:round}
-.f365 .big .tx{flex:1 1 auto;min-width:0}
-.f365 .big .tx b{display:block;font-size:1.02rem;font-weight:900;letter-spacing:-.02em;line-height:1.3;word-break:keep-all}
-.f365 .big .tx small{display:block;margin-top:3px;font-size:.78rem;font-weight:600;
-  color:rgba(11,70,57,.72);line-height:1.45;word-break:keep-all}
-.f365 .big i{flex:0 0 auto;font-style:normal;font-size:1.25rem;font-weight:700;
-  transition:transform .16s}
-.f365 .big:hover i{transform:translateX(5px)}
-.f365 .big.wide{grid-column:1/-1}
-.f365 .gnote{grid-column:1/-1;margin:2px 0 0;font-size:.78rem;line-height:1.6;
-  color:rgba(255,255,255,.72);word-break:keep-all}
-.f365 .big.alt{background:var(--lime);color:var(--green2)}
-.f365 .big.new{background:#E9C980}
-.f365 .big .tx b .nb{font-style:normal;font-size:.68rem;font-weight:800;letter-spacing:0;
-  background:var(--green2);color:var(--lime);padding:3px 8px;border-radius:999px;margin-left:6px;
-  vertical-align:middle;white-space:nowrap}
-.f365 .big.alt .ic{background:var(--green2)}
-
-.f365 .big.alt .tx small{color:var(--green2)}
-.f365:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-.f365 .k{font-size:.75rem;font-weight:700;color:var(--lime)}
-.f365 h2{font-size:2rem;color:#fff;margin-top:4px;font-weight:900;letter-spacing:-.04em;line-height:1.2;
-  display:flex;align-items:center;flex-wrap:wrap;gap:10px}
-.f365 h2 em{font-style:normal;font-size:.8rem;font-weight:800;letter-spacing:0;
-  background:var(--lime);color:var(--green2);padding:5px 11px;border-radius:999px;white-space:nowrap}
-.f365 p{margin:10px 0 0;font-size:.92rem;line-height:1.78;color:rgba(255,255,255,.9);max-width:720px}
-.f365 .fr{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:20px;padding-top:17px;border-top:1px solid rgba(255,255,255,.22)}
-.f365 .fr div{padding:2px 16px 2px 0;border-right:1px solid rgba(255,255,255,.22)}
-.f365 .fr div:last-child{border-right:0;padding-right:0}
-.f365 .fr b{display:block;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:1.42rem;line-height:1.2;color:#fff;font-variant-numeric:tabular-nums}
-.f365 .fr span{display:block;font-size:.74rem;color:rgba(255,255,255,.76);margin-top:4px;line-height:1.5}
-.m6.m4{grid-template-columns:repeat(4,1fr);margin-top:var(--blk)}
-.m6.m4 .mb{min-height:0;padding:17px 17px 15px}
-.m6.m4 .mb h3{font-size:1.1rem;margin-top:11px}
-.m6.m4 .mb p{font-size:.82rem;line-height:1.68;margin-top:6px}
-@media(prefers-reduced-motion:reduce){.f365 .big,.f365 .big i{transition:none}.f365 .big:hover{transform:none}}
-
-/* ── 기록관 배너 ── */
-.arch{display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px 24px;margin-top:var(--blk)}
-.arch .k{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.68rem;letter-spacing:.03em;color:var(--mut)}
-.arch h3{font-size:1.32rem;margin-top:4px}
-.arch p{margin:5px 0 0;font-size:.85rem;color:var(--mut)}
-.arch .go{margin-left:auto;font-size:.86rem;font-weight:700;color:var(--green);white-space:nowrap}
-
-/* ── 정당 돈 ── */
-.pm{background:var(--navy);color:#EAF0FA;border-radius:var(--r-lg);padding:30px 32px;margin-top:var(--blk);display:grid;grid-template-columns:1fr 330px;gap:28px;align-items:center}
-.pm .k{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.68rem;letter-spacing:.03em;color:var(--gold)}
-.pm h2{font-size:2.05rem;line-height:1.28;color:#fff;margin-top:8px}
-.pm p{margin:12px 0 0;font-size:.93rem;line-height:1.8;color:rgba(234,240,250,.82);max-width:600px}
-.pm .go{display:inline-block;margin-top:16px;font-size:.88rem;font-weight:700;color:var(--gold);border-bottom:1px solid var(--gold)}
-.pm .box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:var(--r-sm);padding:20px}
-.pm .box .l{font-size:.78rem;color:rgba(234,240,250,.72)}
-.pm .box .n{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:2.35rem;color:#fff;line-height:1.15;margin-top:4px}
-.pm .box .s{font-size:.8rem;color:rgba(234,240,250,0.64);margin-top:8px;line-height:1.6}
-
-/* ── 김보미 생각 ── */
-.vhd{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-.vhd h2{font-size:1.72rem;line-height:1.4}
-.vhd .go{margin-left:auto;font-size:.85rem;font-weight:700;color:var(--green)}
-.vrow{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);margin-top:var(--gap)}
-.vc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;display:flex;flex-direction:column;min-height:196px}
-.vc:hover{border-color:var(--green)}
-.vc .vth{display:block;margin:-20px -20px 16px;aspect-ratio:16/9;overflow:hidden;border-radius:var(--r-lg) var(--r-lg) 0 0;background:#EFE7D6}
-.vc .vth img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s}
-.vc:hover .vth img{transform:scale(1.04)}
-.vc{overflow:hidden}
-.vc .k{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.66rem;letter-spacing:.03em;color:var(--green)}
-.vc h3{font-size:1.02rem;line-height:1.5;margin-top:8px;font-family:var(--sans);font-weight:700;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.vc p{margin:9px 0 0;font-size:.86rem;color:var(--mut);line-height:1.7;
-  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.vc .d{margin-top:auto;padding-top:12px;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.72rem;color:var(--mut)}
-
-/* ── 언론이 기록한 김보미 ── */
-.prow{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);margin-top:var(--gap)}
-.pc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column}
-.pc:hover{border-color:var(--navy);transform:translateY(-2px);transition:.16s}
-.pc .t{display:block;height:148px;background:var(--line);overflow:hidden}
-.pc .t img{width:100%;height:100%;object-fit:cover;display:block}
-.pc .b{padding:13px 15px 16px;display:flex;flex-direction:column;flex:1}
-.pc .s{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.68rem;color:var(--mut);letter-spacing:.04em}
-.pc .n{font-size:.88rem;font-weight:700;line-height:1.5;margin-top:6px;
-  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.pc .g{margin-top:auto;padding-top:11px;font-size:.76rem;font-weight:700;color:var(--navy)}
-
-/* ── 푸터 ── */
-footer.site .fw{max-width:1120px;margin:0 auto;padding:34px 20px 16px;display:grid;grid-template-columns:1.5fr 1fr;gap:26px}
-footer.site .fb{font-family:var(--serif);font-weight:900;font-size:1.2rem;color:#fff}
-footer.site .fc{font-size:.85rem;color:rgba(217,226,240,.8);margin-top:8px;line-height:1.9}
-footer.site .fl{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:flex-end;font-size:.85rem;align-items:flex-start}
-footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;margin:0 auto;padding:12px 20px 28px;font-size:.76rem;color:rgba(217,226,240,.55);line-height:1.8}
-
-@media(max-width:980px){
-  .hin{grid-template-columns:1fr;gap:22px}
-  .hpic{max-width:460px}
-  .hbd h1{font-size:3.1rem}
-  .hbd .slogan{font-size:1.3rem}
-  .m6,.m6.m4{grid-template-columns:repeat(2,1fr)}
-  .f365{grid-template-columns:1fr;padding:26px 22px;gap:20px}
-  .f365 h2{font-size:2rem}
-  .pm{grid-template-columns:1fr}
-  .strip-x{display:none}
-  .vrow{grid-template-columns:1fr}
-  .prow{grid-template-columns:repeat(2,1fr)}
-  footer.site .fw{grid-template-columns:1fr}
-  footer.site .fl{justify-content:flex-start}
-}
-@media(max-width:600px){
-  .m6,.m6.m4{grid-template-columns:1fr}
-  .mb{min-height:0}
-  .prow{grid-template-columns:1fr}
-  .hnum{grid-template-columns:repeat(2,1fr)}
-  .hnum div{border-bottom:1px solid var(--line2)}
-  .hnum div:nth-child(2n){border-right:0}
-  .pm h2{font-size:1.58rem}
-  .arch .go{margin-left:0}
-}
-
-@media(max-width:760px){
-  .f365{padding:26px 22px}
-  .f365 h2{font-size:2rem}
-  .f365 .fr{grid-template-columns:repeat(2,1fr);margin-top:20px;padding-top:18px}
-  .f365 .fr div{padding:10px 14px 10px 0;border-right:1px solid rgba(255,255,255,.22)}
-  .f365 .fr div:nth-child(2n){border-right:0;padding-right:0}
-  .f365 .fr div:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.22)}
-  .f365 .fr b{font-size:1.5rem}
-  .f365 .gos{grid-template-columns:1fr;gap:10px}
-  .f365 .big{padding:14px 15px;gap:12px}
-  .f365 .big .ic{width:42px;height:42px}
-  .f365 .big .ic svg{width:23px;height:23px}
-  .f365 .big .tx b{font-size:.95rem}
-  .f365 .big .tx small{font-size:.75rem}
-  .f365 h2{font-size:1.72rem;gap:8px}
-  .f365 h2 em{font-size:.74rem}
-  .f365 .go{padding:12px 16px;font-size:.92rem;justify-content:space-between}
-  /* 2026-09-24 휴대폰: 우리동네365 맨 위 배치 · 시인성 */
-  .top365 .w{padding-top:12px}
-  .top365 .f365{margin-top:0;padding:22px 18px 20px;border-radius:18px}
-  .top365 .f365 .k{font-size:.8rem}
-  .top365 .f365 h2{font-size:1.9rem;margin-top:6px}
-  .top365 .f365 h2 em{font-size:.78rem}
-  .f365 p.lead{font-size:.95rem;line-height:1.72}
-  .f365 p.lead.clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-  .f365 button.more{display:inline-block;margin:8px 0 0;border:0;background:transparent;color:var(--lime);font:700 .84rem/1 var(--sans);padding:6px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-  .top365 .f365 .gos{margin-top:16px;gap:10px}
-  .top365 .f365 .big{padding:15px 15px;border-radius:14px;min-height:64px}
-  .top365 .f365 .big .tx b{font-size:1.04rem;line-height:1.28}
-  .top365 .f365 .big .tx small{font-size:.78rem;margin-top:4px;line-height:1.45}
-  .top365 .f365 .gnote{font-size:.74rem;color:rgba(255,255,255,.72)}
-  .top365 .f365 .fr{margin-top:16px;padding-top:14px}
-  .top365 .f365 .fr div{padding:8px 12px 8px 0}
-  .top365 .f365 .fr b{font-size:1.55rem}
-  .top365 .f365 .fr span{font-size:.76rem}
-  .top365 + .hero{padding-top:28px}
-}
-
-/* ── Gemini 이미지 배치 (2026.11) ── */
-.mb .top{gap:12px}
-.mb .top .g3i{width:52px;height:52px}
-.f365{padding-top:0;overflow:hidden}
-.f365band{margin:0 -28px 22px;height:250px}
-.f365band{background:none}
-.f365band img{object-position:50% 42%;-webkit-mask-image:linear-gradient(180deg,#000 0,#000 70%,transparent 100%);mask-image:linear-gradient(180deg,#000 0,#000 70%,transparent 100%)}
-.f365 .big .ic{background:#F3EEE3;overflow:hidden;border-radius:13px;width:52px;height:52px}
-.f365 .big .ic img{display:block;width:100%;height:100%;object-fit:cover}
-.pmside{display:flex;flex-direction:column;gap:12px}
-.pmfig{border-radius:var(--r-sm);aspect-ratio:16/9;border:1px solid rgba(255,255,255,.14)}
-.arch{flex-wrap:nowrap}
-.arch .at{flex:1;min-width:0}
-@media(max-width:980px){.f365band{margin:0 -22px 18px;height:210px}}
-@media(max-width:760px){
-  .f365band{margin:0 -22px 16px;height:170px}
-  .top365 .f365band{margin:-22px -18px 16px}
-  .pm{padding:22px 20px 24px}
-  .arch{flex-wrap:wrap}
-  .arch .g3i.lg{width:56px;height:56px}
-}
 
 
-/* 2026-11-07 디자인 10: 히어로 바탕은 장부 줄(코드로 그림), 등장 움직임은 이름·구호·소개 한 번만 */
-.hero{position:relative;isolation:isolate}
-.hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background-image:repeating-linear-gradient(to bottom,transparent 0 31px,rgba(29,78,137,.07) 31px 32px);
-  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%,#000 70%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 30%,#000 70%,transparent 100%)}
-.hbd>.role,.hbd>h1,.hbd>.slogan,.hbd>.desc,.hbd>.hnum{animation:kb-rise .62s cubic-bezier(.2,.7,.2,1) both}
-.hbd>h1{animation-delay:.06s}.hbd>.slogan{animation-delay:.14s}.hbd>.desc{animation-delay:.22s}.hbd>.hnum{animation-delay:.3s}
-@keyframes kb-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.hnum b{font-variant-numeric:tabular-nums}
-/* 2026-11-07 재설계 1차: 차가운 종이색, 인주 도장 하나, 안내 카드는 글자 색인으로 */
-.doors{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:var(--blk);border-top:2px solid var(--navy)}
-.doors .mb{display:flex;flex-direction:column;gap:6px;padding:18px 18px 16px 0;margin-right:18px;background:none;border:0;border-radius:0;box-shadow:none;color:var(--ink);text-decoration:none;min-height:0}
-.doors .mb+.mb{padding-left:18px;border-left:1px solid var(--line)}
-.doors .mb:hover{transform:none;box-shadow:none}
-.doors .mb:hover h3{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
-.doors .mb:focus-visible{outline:3px solid var(--navy);outline-offset:4px}
-.doors .top{display:block}.doors .k{font-size:.8rem;color:var(--mut);font-weight:600;letter-spacing:0}
-.doors h3{font-size:1.18rem;font-weight:800;letter-spacing:-.02em;margin:0;color:var(--navy)}
-.doors p{font-size:.92rem;line-height:1.65;color:var(--ink);margin:0}
-.doors .meta{display:none}
-.doors .go{margin-top:auto;padding-top:6px;font-size:.86rem;font-weight:700;color:var(--navy)}
-.doors .go i{font-style:normal}
-.f365 .fr{position:relative}
-.seal{position:absolute;right:-10px;top:-26px;width:78px;height:78px;border-radius:50%;border:3px solid #C3272B;color:#C3272B;background:rgba(255,255,255,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-12deg);line-height:1.05;text-align:center;pointer-events:none;box-shadow:inset 0 0 0 2px rgba(255,255,255,.9),inset 0 0 0 4px #C3272B}
-.f365 .fr .seal b{display:block;color:#C3272B;font-family:inherit;font-size:.92rem;font-weight:900;letter-spacing:.06em;line-height:1.1}.f365 .fr .seal small{display:block;color:#C3272B;font-size:.58rem;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums}
-@media(max-width:900px){.doors{grid-template-columns:1fr 1fr}.doors .mb:nth-child(3){padding-left:0;border-left:0}.doors .mb:nth-child(n+3){border-top:1px solid var(--line)}}
-@media(max-width:520px){.doors{grid-template-columns:1fr}.doors .mb{padding-left:0!important;border-left:0!important;margin-right:0}.doors .mb+.mb{border-top:1px solid var(--line)}.seal{right:4px;top:-30px;width:66px;height:66px}}
-</style>
-<link rel="stylesheet" href="assets/kb-common.css">
-<link rel="stylesheet" href="assets/kb-g3d.css">
 <script src="assets/kb-prefs.js" defer></script>
-<link rel="stylesheet" href="assets/kb-theme.css">
-<link rel="stylesheet" href="assets/kb-pages.css">
+
+
 </head>
 <body class="pg-index">
+<a class="kb-skip" href="#main">본문 바로가기</a>
 
-<div class="strip"><b>우리동네365</b> — 지방정부 243곳과 중앙정부 62개 부처의 장부를 시민이 봅니다<span class="strip-x"> · 집행·계약은 지자체 화면을 열 때마다 지방재정365에서 오늘 날짜까지 다시 받습니다</span></div>
+<div class="strip" role="region" aria-label="새 소식"><b>우리동네365</b> — 지방정부 243곳과 중앙정부 62개 부처의 장부를 시민이 봅니다<span class="strip-x"> · 집행·계약은 지자체 화면을 열 때마다 지방재정365에서 오늘 날짜까지 다시 받습니다</span></div>
 
 <header class="kbx-hdr">
   <div class="kbx-w">
@@ -457,11 +181,33 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   </div>
 </header>
 
-<main>
+<main id="main" tabindex="-1">
 
-<!-- 1. 프로필 히어로 -->
+<!-- 1. 우리동네365 (모든 화면 폭에서 맨 앞, 자바스크립트로 옮기지 않음) -->
+<section class="sec top365"><div class="w">
+  <div class="f365">
+    <figure class="g3band f365band"><img fetchpriority="high" src="img/g3d/scene-365.webp" srcset="img/g3d/scene-365-640.webp 640w, img/g3d/scene-365.webp 1024w" sizes="(max-width:760px) 300px, 1100px" width="1024" height="572" alt="돋보기로 비춰 보는 우리 동네 미니어처" loading="lazy"></figure>
+    <div class="fl">
+      <span class="k">지방재정 · 중앙재정 · 공공데이터</span>
+      <h2>우리동네365 <em>내 동네 3초 확인</em></h2>
+      <p class="lead clamp">전국 지방정부 243곳과 중앙정부 62개 부처의 예산을 한 화면에서 확인할 수 있습니다. 올해 세부사업과 계약대장 전수, 단체장 공약이 예산에 실제로 반영됐는지까지 보입니다. 수의계약 비중이나 특정 업체 반복 수주 같은 계약 이상 징후도 걸러서 보여 줍니다. 정부가 발표한 굵직한 정책도 같이 있어, 정책 하나를 열면 그 정책이 우리 동네 예산에 어떻게 잡혔는지 바로 나옵니다.</p>
+      <button type="button" class="more" aria-expanded="false" hidden>설명 더 보기 ▾</button>
+      <form class="hq365" role="search" action="budget365.html" onsubmit="return kbGo365(event)"><label for="hq365" class="sr">우리 동네 이름이나 사업 키워드</label><input id="hq365" name="q" list="hq365l" type="search" placeholder="동네 이름이나 사업 키워드 (강진군, 노인일자리)" autocomplete="off" enterkeyhint="search"><datalist id="hq365l"></datalist><button type="submit">찾기</button></form>
+
+      <div class="gos"><a class="big wide" href="budget365.html"><span class="ic"><img src="img/g3d/ic-local.webp" alt="" width="46" height="46" loading="lazy"></span><span class="tx"><b>지방정부 243개 <span style="white-space:nowrap">시·군·구</span></b><small>예산·집행·계약·공약·이상 징후 한 화면에</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/key"><span class="ic"><img src="img/g3d/ic-policy.webp" alt="" width="46" height="46" loading="lazy"></span><span class="tx"><b>정부 정책, 내 동네에서는</b><small>메가프로젝트·성장펀드·5극3특이 우리 동네 예산에</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/gov"><span class="ic"><img src="img/g3d/ic-gov.webp" alt="" width="46" height="46" loading="lazy"></span><span class="tx"><b>중앙정부 예산 <em class="nb">2026 · 2027</em></b><small>62개 부처 · 들어가서 올해 확정예산과 내년 정부안을 골라 봅니다</small></span><i aria-hidden="true">→</i></a></div><p class="gnote">중앙정부 부처는 2026.1.2 출범한 기획예산처를 포함해 62곳입니다(기획예산처의 2026 확정예산은 재정경제부에 포함). 2027 정부안에는 중대범죄수사청·진실·화해를위한과거사정리위원회가 새 소관으로 더해져 64곳이 됩니다. 2026년은 열린재정 확정예산 편성 소관, 2027년은 국회 제출본의 소관 기준입니다.</p>
+    </div>
+    <div class="fr">
+      <div><b>243</b><span>지방정부 전수</span></div>
+      <div><b>62</b><span>중앙정부 부처 전수</span></div>
+      <div><b>47.7만</b><span>세부사업 전수</span></div>
+      <div><b>697만</b><span>계약 건수 (2021.1~2026.11.7)</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 2. 이 도구를 만든 사람 -->
 <section class="hero"><div class="w"><div class="hin">
-  <figure class="hpic"><img src="img/kb-hero.webp" srcset="img/kb-hero-640.webp 640w, img/kb-hero.webp 1000w" sizes="(max-width:760px) 92vw, 520px" width="1000" height="984" alt="김보미" fetchpriority="high"></figure>
+  <figure class="hpic"><picture><source media="(max-width:760px)" srcset="face.jpg" width="480" height="480"><img src="img/kb-hero.webp" srcset="img/kb-hero-640.webp 640w, img/kb-hero.webp 1000w" sizes="(max-width:760px) 92vw, 520px" width="1000" height="984" alt="김보미"></picture></figure>
   <div class="hbd">
     <p class="role">재정주권시민행동 공동대표 · 전 강진군의회 의장</p>
     <h1>김보미</h1>
@@ -476,26 +222,10 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   </div>
 </div></div></section>
 
-<!-- 2. 우리동네365 전면 배치 + 메뉴 4개 -->
-<section class="sec"><div class="w">
-  <div class="f365">
-    <figure class="g3band f365band"><img src="img/g3d/scene-365.webp" srcset="img/g3d/scene-365-640.webp 640w, img/g3d/scene-365.webp 1024w" sizes="(max-width:760px) 100vw, 1100px" width="1024" height="572" alt="돋보기로 비춰 보는 우리 동네 미니어처" loading="lazy"></figure>
-    <div class="fl">
-      <span class="k">지방재정 · 중앙재정 · 공공데이터</span>
-      <h2>우리동네365 <em>내 동네 3초 확인</em></h2>
-      <p class="lead">전국 지방정부 243곳과 중앙정부 62개 부처의 예산을 한 화면에서 확인할 수 있습니다. 올해 세부사업과 계약대장 전수, 단체장 공약이 예산에 실제로 반영됐는지까지 보입니다. 수의계약 비중이나 특정 업체 반복 수주 같은 계약 이상 징후도 걸러서 보여 줍니다. 정부가 발표한 굵직한 정책도 같이 있어, 정책 하나를 열면 그 정책이 우리 동네 예산에 어떻게 잡혔는지 바로 나옵니다.</p>
-      <button type="button" class="more" aria-expanded="false" hidden>설명 더 보기 ▾</button>
-      <form class="hq365" role="search" action="budget365.html" onsubmit="return kbGo365(event)"><label for="hq365" class="sr">우리 동네 이름이나 사업 키워드</label><input id="hq365" name="q" list="hq365l" type="search" placeholder="동네 이름이나 사업 키워드 (강진군, 노인일자리)" autocomplete="off" enterkeyhint="search"><datalist id="hq365l"></datalist><button type="submit">찾기</button></form>
 
-      <div class="gos"><a class="big wide" href="budget365.html"><span class="ic"><img src="img/g3d/ic-local.webp" alt="" width="46" height="46" loading="lazy"></span><span class="tx"><b>지방정부 243개 <span style="white-space:nowrap">시·군·구</span></b><small>예산·집행·계약·공약·이상 징후 한 화면에</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/key"><span class="ic"><img src="img/g3d/ic-policy.webp" alt="" width="46" height="46" loading="lazy"></span><span class="tx"><b>정부 정책, 내 동네에서는</b><small>메가프로젝트·성장펀드·5극3특이 우리 동네 예산에</small></span><i aria-hidden="true">→</i></a><a class="big alt" href="budget365.html#/gov"><span class="ic"><img src="img/g3d/ic-gov.webp" alt="" width="46" height="46" loading="lazy"></span><span class="tx"><b>중앙정부 예산 <em class="nb">2026 · 2027</em></b><small>62개 부처 · 들어가서 올해 확정예산과 내년 정부안을 골라 봅니다</small></span><i aria-hidden="true">→</i></a></div><p class="gnote">중앙정부 부처는 2026.1.2 출범한 기획예산처를 포함해 62곳입니다(기획예산처의 2026 확정예산은 재정경제부에 포함). 2027 정부안에는 중대범죄수사청·진실·화해를위한과거사정리위원회가 새 소관으로 더해져 64곳이 됩니다. 2026년은 열린재정 확정예산 편성 소관, 2027년은 국회 제출본의 소관 기준입니다.</p>
-    </div>
-    <div class="fr">
-      <div><b>243</b><span>지방정부 전수</span></div>
-      <div><b>62</b><span>중앙정부 부처 전수</span></div>
-      <div><b>47.7만</b><span>세부사업 전수</span></div>
-      <div><b>697만</b><span>계약 건수 (2021.1~2026.11.7)</span></div>
-    </div>
-  </div>
+<!-- 3. 둘러보기 -->
+<section class="sec sec-doors" aria-labelledby="doors-h"><div class="w">
+  <h2 id="doors-h" class="kb-sr">김보미.com 둘러보기</h2>
   <nav class="doors" aria-label="김보미.com 둘러보기">
     <a class="mb " href="about.html">
       <span class="top"><span class="k">풀뿌리 13년</span></span>
@@ -528,15 +258,9 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
   </nav>
 </div></section>
 <script>
-/* 휴대폰(≤760px)에서는 우리동네365 상자를 프로필보다 먼저 보이게 맨 위로 올린다. 넓은 화면은 그대로. */
-(function(){
-  var mq=window.matchMedia('(max-width:760px)'); if(!mq.matches) return;
-  var f=document.querySelector('.f365'), h=document.querySelector('.hero'); if(!f||!h) return;
-  var s=document.createElement('section'); s.className='sec top365'; var w=document.createElement('div'); w.className='w'; w.appendChild(f); s.appendChild(w);
-  h.parentNode.insertBefore(s,h);
-  var p=f.querySelector('p.lead'), b=f.querySelector('button.more');
-  if(p&&b){ p.classList.add('clamp'); b.hidden=false; b.addEventListener('click',function(){ var on=p.classList.toggle('clamp'); b.textContent=on?'설명 더 보기 ▾':'설명 접기 ▴'; b.setAttribute('aria-expanded',on?'false':'true'); }); }
-})();
+/* 휴대폰에서 365 설명은 3줄만 보이고 '설명 더 보기'로 편다. (상자 위치는 HTML 순서 그대로, 옮기지 않는다) */
+(function(){var f=document.querySelector('.f365');if(!f)return;var p=f.querySelector('p.lead'),b=f.querySelector('button.more');
+if(p&&b)b.addEventListener('click',function(){var on=p.classList.toggle('clamp');b.textContent=on?'설명 더 보기 ▾':'설명 접기 ▴';b.setAttribute('aria-expanded',on?'false':'true');});})();
 </script>
 
 <!-- 4. 정당 돈 -->
@@ -568,7 +292,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
 </div></section>
 
 <!-- 6. 언론이 기록한 김보미 -->
-<section class="sec"><div class="w">
+<section class="sec sec-press"><div class="w">
   <div class="vhd">
     <h2>언론이 기록한 김보미</h2>
     <a class="go" href="press.html">언론·영상 아카이브 전체 보기 →</a>
@@ -643,7 +367,7 @@ footer.site .fn{border-top:1px solid rgba(217,226,240,.18);max-width:1120px;marg
       </div>
     </div>
   </div>
-  <div class="kbx-fnote"><p>이 사이트의 재정 자료는 정부가 공개한 원자료입니다. 값을 만들지 않으며, 확인되지 않은 값은 비워 둡니다.</p><p class="kbx-disc"><b>알려 드립니다</b> — 숫자는 정부 공개 원자료를 기계로 모으고 원자료·API·다른 공개 자료와 대조한 뒤 싣습니다. 그래도 원자료 자체의 오류, 수집·계산 과정의 버그, 공개 시점 차이로 실제와 다를 수 있습니다. 중요한 판단에는 지방재정365 등 해당 기관의 원문을 꼭 확인해 주십시오. AI 봄이·더불이의 답변은 틀릴 수 있으며, 김보미의 공식 입장이나 법률·재정 자문이 아닙니다. 이 사이트의 정보를 이용해 생긴 결과에 대해 운영자는 법적 책임을 지지 않습니다. 틀린 값을 발견하시면 <a href="report.html">소통·제보</a>로 알려 주십시오. 확인 즉시 바로잡습니다.</p></div>
+  <div class="kbx-fnote"><p>이 사이트의 재정 자료는 정부가 공개한 원자료입니다. 값을 만들지 않으며, 확인되지 않은 값은 비워 둡니다.</p><details class="kbx-discd"><summary>알려 드립니다 · 자료의 정확성과 책임 범위</summary><p class="kbx-disc"><b>알려 드립니다</b> — 숫자는 정부 공개 원자료를 기계로 모으고 원자료·API·다른 공개 자료와 대조한 뒤 싣습니다. 그래도 원자료 자체의 오류, 수집·계산 과정의 버그, 공개 시점 차이로 실제와 다를 수 있습니다. 중요한 판단에는 지방재정365 등 해당 기관의 원문을 꼭 확인해 주십시오. AI 봄이·더불이의 답변은 틀릴 수 있으며, 김보미의 공식 입장이나 법률·재정 자문이 아닙니다. 이 사이트의 정보를 이용해 생긴 결과에 대해 운영자는 법적 책임을 지지 않습니다. 틀린 값을 발견하시면 <a href="report.html">소통·제보</a>로 알려 주십시오. 확인 즉시 바로잡습니다.</p></details></div>
   <div class="kbx-fn"><span>Copyright © 2026 김보미. All Rights Reserved.</span></div>
 </footer>
 
@@ -716,5 +440,6 @@ fetch('/api/posts?action=list&type=vision&limit=6').then(function(r){return r.js
 <script src="assets/bomi.js" defer></script>
 <script src="a.js" defer></script>
 
+<script src="assets/kb-a11y.js" defer></script>
 </body>
 </html>
