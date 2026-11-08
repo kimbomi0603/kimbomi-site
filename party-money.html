@@ -401,5 +401,6 @@ document.querySelectorAll('table').forEach(function(t){var hs=[].map.call(t.quer
  t.querySelectorAll('tbody tr').forEach(function(tr){var i=0;[].forEach.call(tr.children,function(td){var span=td.colSpan||1;if(hs[i]&&td.textContent.trim())td.setAttribute('data-label',hs[i]);i+=span;});});});
 </script>
 <script src="assets/kb-a11y.js" defer></script>
+<script src="assets/kb-join.js" defer></script>
 </body>
 </html>
