@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="pg-vision">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,174 +15,18 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://www.xn--4k0b53xuva.com/og.jpg?v=20261111">
 
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"></noscript><style>:where(button,input,select,textarea){font-family:inherit}:where(h1,h2,h3,h4){text-wrap:balance;word-break:keep-all}:where(p,li,dd){text-wrap:pretty}</style>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&display=swap" rel="stylesheet">
-<style>
-:root{--dpk:#0F5A4A;--dpk-2:#16305A;--dpk-dark:#0B4639;--tint:#E8EFEA;--ink:#15223b;--muted:#5a6474;--line:#e7ebf1;--cream:#F2F4F7;--white:#fff;
-  --serif:'Noto Serif KR',serif;--sans:'Pretendard Variable',-apple-system,BlinkMacSystemFont,sans-serif;}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--sans);color:var(--ink);background:var(--white);line-height:1.7;word-break:keep-all;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
-.wrap{max-width:820px;margin:0 auto;padding:0 24px}
-header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:saturate(1.6) blur(8px);border-bottom:1px solid var(--line)}
-.nav{max-width:1180px;margin:0 auto;padding:0 24px;height:66px;display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;align-items:center;font-weight:800;font-size:1.24rem;color:var(--ink)}
-.brand .dot{color:var(--dpk)}
-.brand .tag{font-size:.66rem;font-weight:700;color:var(--dpk);background:var(--tint);border-radius:999px;padding:4px 9px;margin-left:9px;letter-spacing:.02em}
-.menu{display:flex;align-items:center;gap:23px}
-.menu a{font-size:.94rem;font-weight:600;color:#33405a;white-space:nowrap}
-.menu a:hover{color:var(--dpk)}
-.menu a.nara{display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1.15;gap:1px;
-  background:var(--tint);border:1px solid var(--tint-2);border-radius:10px;padding:6px 12px;color:var(--dpk);font-weight:700}
-.menu a.nara .nara-sub{font-size:.68rem;font-weight:600;color:#CFE3D6;letter-spacing:-.01em}
-.menu a.nara:hover{background:var(--tint-2)}
-.menu a.cur{color:var(--dpk);font-weight:800}
-.nav-right{display:flex;align-items:center;gap:12px;flex:none}
-.home-link{font-size:.88rem;font-weight:700;color:var(--muted);border:1.5px solid var(--line);border-radius:999px;padding:8px 15px;white-space:nowrap}
-.home-link:hover{color:var(--dpk);border-color:var(--dpk)}
-.burger{display:none;background:none;border:0;cursor:pointer;padding:8px}
-.burger span{display:block;width:24px;height:2px;background:var(--ink);margin:5px 0;transition:.2s}
-@media(max-width:960px){
-  .menu{position:fixed;top:66px;left:0;right:0;background:#fff;flex-direction:column;align-items:stretch;gap:0;padding:6px 0;border-bottom:1px solid var(--line);box-shadow:0 18px 30px rgba(0,0,0,.08);transform:translateY(-150%);transition:.28s;pointer-events:none}
-  .menu.open{transform:translateY(0);pointer-events:auto}
-  .menu a{padding:14px 24px;border-bottom:1px solid var(--line)}
-  .burger{display:block}
-}
-.hero{background:linear-gradient(180deg,#FFFFFF,#F2F4F7);border-bottom:1px solid var(--line);padding:64px 0 54px;text-align:center}
-.hero .eyebrow{font-size:.82rem;font-weight:800;letter-spacing:.03em;color:var(--dpk);margin-bottom:16px}
-.hero h1{font-family:var(--serif);font-weight:900;font-size:2.5rem;line-height:1.28;letter-spacing:-.01em}
-.hero p{color:var(--muted);font-size:1.06rem;margin-top:16px}
-main{padding:52px 0 80px;min-height:50vh}
-/* list */
-.plist{display:flex;flex-direction:column;gap:16px}
-.pcard{display:block;background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 28px;transition:.16s;cursor:pointer}
-.pcard:hover{border-color:var(--dpk-2);box-shadow:0 12px 30px rgba(15,90,74,.08);transform:translateY(-2px)}
-.pcard .meta{display:flex;align-items:center;gap:10px;font-size:.8rem;color:#697389;margin-bottom:9px}
-.pcard .chip{font-weight:800;color:var(--dpk);background:var(--tint);border-radius:999px;padding:3px 11px;font-size:.72rem}
-.pcard h2{font-family:var(--serif);font-weight:700;font-size:1.5rem;line-height:1.4;color:var(--ink)}
-.pcard .ex{color:var(--muted);font-size:.98rem;margin-top:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.pcard .go{margin-top:14px;font-size:.9rem;font-weight:700;color:var(--dpk)}
 
-/* 글 카드 썸네일 (2026.11) */
-.article .pbanner{margin:-6px 0 28px;border-radius:14px;overflow:hidden;aspect-ratio:16/7;background:#EFE7D6}.article .pbanner img{display:block;width:100%;height:100%;object-fit:cover}
-.pcard.has-th{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;align-items:center;padding:18px 26px 18px 18px}
-.pcard .pth{display:block;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:#EFE7D6}
-.pcard .pth img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s}
-.pcard:hover .pth img{transform:scale(1.04)}
-.pcard .pbody{display:block;min-width:0}
-@media(max-width:640px){.pcard.has-th{grid-template-columns:1fr;gap:14px;padding:14px 16px 20px}.pcard .pth{aspect-ratio:16/9}}
-.empty{text-align:center;color:#697587;padding:60px 10px;font-size:1rem}
-/* detail */
-.back{display:inline-flex;align-items:center;gap:6px;font-size:.9rem;font-weight:700;color:var(--muted);margin-bottom:26px}
-.back:hover{color:var(--dpk)}
-.article .meta{font-size:.84rem;color:#697389;margin-bottom:12px}
-.article h1{font-family:var(--serif);font-weight:900;font-size:2.05rem;line-height:1.4;letter-spacing:-.01em;margin-bottom:26px;padding-bottom:24px;border-bottom:2px solid var(--tint)}
-.article p{font-size:1.09rem;line-height:1.95;color:#26324a;margin-bottom:22px}
-.article p.tagline{font-family:var(--serif);font-weight:700;color:var(--dpk);text-align:center;background:var(--tint);border-radius:14px;padding:18px 20px;margin-top:34px;font-size:1.05rem}
-.article p.p-sub{font-family:var(--serif);font-weight:800;color:var(--dpk-dark);text-align:center;background:var(--tint);border-radius:12px;padding:16px 18px;font-size:1.08rem;line-height:1.7}
-.article p.p-head{font-family:var(--serif);font-weight:900;color:var(--dpk-dark);font-size:1.22rem;line-height:1.6;margin:38px 0 16px}
-.article p.p-num{background:#F2F4F7;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:14px}
-.article p.p-num b{color:var(--dpk-dark);display:block;margin-bottom:4px}
-.article p.p-li{background:#F2F4F7;border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:10px;font-weight:600;color:#1e2c48}
-.article p.p-callout{font-family:var(--serif);font-weight:800;color:var(--dpk-dark);font-size:1.16rem;margin:32px 0 18px}
-.article p.p-date{color:#697389;font-size:.96rem;text-align:right;margin-top:34px;line-height:1.7}
-.article .pfig{margin:28px 0}
-.article .pfig img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--line)}
-.article .vfig{margin:28px 0}
-.article .vbox{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--line)}
-.article .vbox iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
-/* 기사 링크 미리보기 카드 */
-.article .lcard{display:flex;align-items:stretch;margin:30px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;transition:.18s;box-shadow:0 4px 16px rgba(22,48,90,.05)}
-.article .lcard:hover{border-color:var(--dpk-2);box-shadow:0 14px 32px rgba(15,90,74,.15);transform:translateY(-2px)}
-.article .lcard .lc-thumb{flex:none;width:96px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(150deg,#F2F4F7,#D7E3DA);border-right:1px solid var(--line);overflow:hidden;transition:.18s}
-.article .lcard .lc-thumb .lc-ph{font-size:2rem;opacity:.55}
-.article .lcard .lc-thumb.has-img{width:190px;background:#F2F4F7}
-.article .lcard .lc-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.article .lcard .lc-body{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:16px 18px}
-.article .lcard .lc-src{font-size:.71rem;font-weight:800;letter-spacing:.06em;color:#697389}
-.article .lcard .lc-title{font-family:var(--serif);font-weight:800;font-size:1.05rem;line-height:1.5;color:var(--ink);
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.article .lcard:hover .lc-title{color:var(--dpk-dark)}
-.article .lcard .lc-desc{display:none;font-size:.88rem;line-height:1.6;color:var(--muted);
-  -webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.article .lcard .lc-desc.on{display:-webkit-box}
-.article .lcard .lc-go{font-size:.83rem;font-weight:700;color:var(--dpk);margin-top:3px}
-@media(max-width:640px){
-  .article .lcard{flex-direction:column}
-  .article .lcard .lc-thumb{width:100%;height:74px;border-right:0;border-bottom:1px solid var(--line)}
-  .article .lcard .lc-thumb.has-img{width:100%;height:190px}
-  .article .lcard .lc-body{padding:14px 16px}
-  .article .lcard .lc-title{font-size:1rem}
-}
-.article .share{margin-top:40px;padding-top:26px;border-top:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-weight:700;font-size:.92rem;padding:11px 20px;border-radius:999px;cursor:pointer;border:1.5px solid transparent;transition:.16s}
-.btn.p{background:var(--dpk);color:#fff}.btn.p:hover{background:var(--dpk-dark)}
-.btn.g{background:#fff;color:var(--dpk);border-color:var(--dpk)}.btn.g:hover{background:var(--tint)}
-.foot{border-top:1px solid var(--line);background:#F2F4F7;text-align:center;padding:34px 0;color:#697587;font-size:.86rem}
-.foot a{color:var(--dpk);font-weight:700}
-.hide{display:none!important}
-.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:.86rem;font-weight:700;padding:11px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:60}
-.toast.show{opacity:1}
-@media(max-width:600px){.hero h1{font-size:1.9rem}.article h1{font-size:1.6rem}.pcard h2{font-size:1.28rem}.hero{padding:48px 0 40px}}
-.ptools{margin:6px 0 22px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px}
-.psearch{flex:1 1 280px;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:0 14px;min-height:48px;transition:border-color .15s,box-shadow .15s}
-.psearch:focus-within{border-color:var(--dpk);box-shadow:0 0 0 3px rgba(15,90,74,.14)}
-.psearch svg{width:18px;height:18px;flex:none;fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round}
-.psearch input{flex:1;border:0;outline:0;background:transparent;font:inherit;font-size:1rem;color:var(--ink);min-width:0;padding:12px 0}
-.ptags{display:flex;flex-wrap:wrap;gap:8px;flex:1 1 100%}
-.ptags button{font:inherit;font-size:.88rem;font-weight:700;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
-.ptags button span{font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;margin-left:2px}
-.ptags button:hover{border-color:var(--dpk)}
-.ptags button[aria-pressed="true"]{background:var(--dpk);border-color:var(--dpk);color:#fff}
-.ptags button[aria-pressed="true"] span{color:rgba(255,255,255,.8)}
-.ptags button:focus-visible,.psearch input:focus-visible{outline:2px solid var(--dpk);outline-offset:2px}
-.pcount{flex:1 1 100%;margin:0;font-size:.9rem;color:var(--muted);min-height:1em}
-@media(max-width:640px){.ptags{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:2px 16px 4px;scroll-padding:16px}.ptags::-webkit-scrollbar{display:none}.ptags button{flex:none}}
-html[data-theme="dark"] .psearch,html[data-theme="dark"] .ptags button{background:#1d1f22;border-color:#33363b;color:#e8e6e1}
-</style>
-<style>
-/* nav fit fix (2026-08-31) */
-@media(min-width:641px){.nav{max-width:1340px}.menu{gap:14px}.menu a{font-size:.86rem}}
-@media(min-width:641px) and (max-width:1260px){.menu{gap:11px}.menu a{font-size:.82rem}.brand .tag{display:none}}
-@media(min-width:641px) and (max-width:1140px){.menu{gap:8px}.menu a{font-size:.75rem}.menu a.nara{padding:5px 8px}.home-link{display:none}}
-</style>
+<link rel="stylesheet" href="assets/kb.css?v=20261108">
+
+
+
+
 <!-- 공통 표시 유틸 — 금액·이스케이프 규칙은 assets/kb-format.js 한 곳에서만 정한다. -->
 <script src="assets/kb-format.js"></script>
 <script src="assets/kb-thumbs.js"></script>
-<style id="kb-theme-unify">
-/* 2026-09-24 새 메인(크림·딥그린·네이비) 통일 — 예전 캠프(파랑) 테마 덮어쓰기 */
-:root{--dpk:#0F5A4A;--dpk-2:#16305A;--dpk-dark:#0B4639;--navy:#16305A;--tint:#E8EFEA;--tint-2:#D7E3DA;--ink:#17181A;--muted:#55565A;--line:#DDE2EA;--cream:#F2F4F7;--white:#F2F4F7;--yellow:#C99A2E;--brick:#0F5A4A;
-  --serif:'Noto Serif KR',serif;--sans:'Pretendard Variable',system-ui,-apple-system,sans-serif;}
-body{background:#F2F4F7}
-header{background:rgba(245,242,234,.94)}
-.hero{background:#FFFFFF;color:var(--ink);border-bottom:1px solid var(--line);text-align:left;padding:44px 0 40px}
-.hero .eyebrow{font-family:'Pretendard Variable',ui-monospace,monospace;font-size:.7rem;letter-spacing:.03em;color:var(--muted);text-transform:uppercase;font-weight:500;margin-bottom:10px}
-.hero h1{font-family:var(--serif);color:var(--ink);font-weight:900;letter-spacing:-.03em}
-.hero p{color:var(--muted)}
-.pcard,.press-feat,.pc{background:#fff;border-color:var(--line);border-radius:14px}
-.pcard:hover{border-color:var(--dpk);box-shadow:0 12px 30px rgba(15,90,74,.10)}
-.pcard .chip{background:var(--dpk);color:#fff}
-.pcard h2{color:var(--ink)}
-.pcard .go,.back:hover,.foot a{color:var(--dpk)}
-.article h1{border-bottom:2px solid var(--line)}
-.article p.tagline,.article p.p-sub{background:var(--tint);color:var(--dpk-dark)}
-.article p.p-head{border-left-color:var(--dpk);color:var(--dpk-dark)}
-.article p.p-num,.article p.p-li{background:#F2F4F7}
-.btn.p{background:var(--dpk)}.btn.p:hover{background:var(--dpk-dark)}
-.btn.g{color:var(--dpk);border-color:var(--dpk)}.btn.g:hover{background:var(--tint)}
-.foot{background:#F2F4F7;border-top-color:var(--line)}
-.menu a.nara{background:#0F5A4A;color:#fff;border-color:#0F5A4A}
-.menu a.nara .nara-sub{color:#CFE3D6}
-.menu a.nara:hover{background:#0B4639}
-.menu a.cur{color:var(--dpk);border-bottom:2px solid var(--dpk);padding-bottom:2px}
-.home-link{border-color:#16305A;color:#16305A}
-.home-link:hover{background:#16305A;color:#fff}
-</style>
-<link rel="stylesheet" href="assets/kb-common.css">
-<link rel="stylesheet" href="assets/kb-g3d.css">
+
+
+
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -270,13 +114,14 @@ header{background:rgba(245,242,234,.94)}
 </script>
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="alternate" type="application/rss+xml" title="김보미생각 RSS" href="https://www.xn--4k0b53xuva.com/feed.xml">
-<link rel="stylesheet" href="assets/kb-dark.css">
+
 <script src="assets/kb-prefs.js" defer></script>
 <script src="assets/kb-dark.js" defer></script>
-<link rel="stylesheet" href="assets/kb-theme.css">
-<link rel="stylesheet" href="assets/kb-pages.css">
+
+
 </head>
 <body class="pg-vision">
+<a class="kb-skip" href="#main">본문 바로가기</a>
 <header class="kbx-hdr">
   <div class="kbx-w">
     <a class="kbx-brand" href="index.html"><img src="assets/brand/kb-wordmark.svg" alt="김보미.com" width="103" height="30"></a>
@@ -300,11 +145,11 @@ header{background:rgba(245,242,234,.94)}
     <h1>기득권의 밀실을 열고,<br>공정한 경쟁을 제도로 만듭니다.</h1>
     <p>공천 혁신, 풀뿌리 세대교체, 세금의 투명한 공개. 그날그날 든 생각과 약속을 제 글로 남깁니다.</p>
   </div>
-  <figure class="g3f"><img src="img/g3d/scene-vision.webp" srcset="img/g3d/scene-vision-640.webp 640w, img/g3d/scene-vision.webp 1024w" sizes="(max-width:820px) 92vw, 480px" width="1024" height="572" alt="밀실 문을 열어젖히는 청년들 미니어처" fetchpriority="high"></figure>
+  <figure class="g3f"><img fetchpriority="high" src="img/g3d/scene-vision.webp" srcset="img/g3d/scene-vision-640.webp 640w, img/g3d/scene-vision.webp 1024w" sizes="(max-width:820px) 300px, 480px" width="1024" height="572" alt="밀실 문을 열어젖히는 청년들 미니어처" fetchpriority="high"></figure>
   </div>
 </section>
 
-<main class="wrap">
+<main id="main" class="wrap" tabindex="-1">
   <div id="listView">
     <div class="ptools">
       <label class="psearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" id="pq" placeholder="제목이나 내용으로 찾기" aria-label="김보미생각 글 검색" autocomplete="off"></label>
@@ -325,7 +170,7 @@ header{background:rgba(245,242,234,.94)}
 </section>
 </main>
 
-<!--kbnext--><link rel="stylesheet" href="assets/kb-next.css">
+<!--kbnext-->
 <nav class="kbnx" aria-label="이어서 보기"><div class="kbnx-h"><b>이어서 보기</b><a href="index.html">처음으로</a></div><div class="kbnx-g"><a class="kbnx-c" href="gongyak.html"><div class="kbnx-i"><img src="img/g3d/scene-gongyak-640.webp" width="640" height="358" alt="" loading="lazy" decoding="async"></div><div class="kbnx-t"><small>약속</small><strong>공약집</strong><span>2026 전당대회 때 낸 5대 분야 25개 공약</span><em>보러 가기 →</em></div></a><a class="kbnx-c" href="party-money.html"><div class="kbnx-i"><img src="img/g3d/scene-money-640.webp" width="640" height="358" alt="" loading="lazy" decoding="async"></div><div class="kbnx-t"><small>감시</small><strong>정당 돈 공개</strong><span>2025년 정당 국고보조금 1,048억원, 쓴 내역은 어디에</span><em>보러 가기 →</em></div></a><a class="kbnx-c" href="report.html"><div class="kbnx-i"><img src="img/g3d/scene-report-640.webp" width="640" height="358" alt="" loading="lazy" decoding="async"></div><div class="kbnx-t"><small>제보</small><strong>소통·제보</strong><span>생각을 남기거나, 예산 낭비를 이름 없이 알려 주세요</span><em>보러 가기 →</em></div></a></div></nav><!--/kbnext-->
 <footer class="kbx-foot">
   <div class="kbx-fw">
@@ -372,7 +217,7 @@ header{background:rgba(245,242,234,.94)}
       </div>
     </div>
   </div>
-  <div class="kbx-fnote"><p>이 사이트의 재정 자료는 정부가 공개한 원자료입니다. 값을 만들지 않으며, 확인되지 않은 값은 비워 둡니다.</p><p class="kbx-disc"><b>알려 드립니다</b> — 숫자는 정부 공개 원자료를 기계로 모으고 원자료·API·다른 공개 자료와 대조한 뒤 싣습니다. 그래도 원자료 자체의 오류, 수집·계산 과정의 버그, 공개 시점 차이로 실제와 다를 수 있습니다. 중요한 판단에는 지방재정365 등 해당 기관의 원문을 꼭 확인해 주십시오. AI 봄이·더불이의 답변은 틀릴 수 있으며, 김보미의 공식 입장이나 법률·재정 자문이 아닙니다. 이 사이트의 정보를 이용해 생긴 결과에 대해 운영자는 법적 책임을 지지 않습니다. 틀린 값을 발견하시면 <a href="report.html">소통·제보</a>로 알려 주십시오. 확인 즉시 바로잡습니다.</p></div>
+  <div class="kbx-fnote"><p>이 사이트의 재정 자료는 정부가 공개한 원자료입니다. 값을 만들지 않으며, 확인되지 않은 값은 비워 둡니다.</p><details class="kbx-discd"><summary>알려 드립니다 · 자료의 정확성과 책임 범위</summary><p class="kbx-disc"><b>알려 드립니다</b> — 숫자는 정부 공개 원자료를 기계로 모으고 원자료·API·다른 공개 자료와 대조한 뒤 싣습니다. 그래도 원자료 자체의 오류, 수집·계산 과정의 버그, 공개 시점 차이로 실제와 다를 수 있습니다. 중요한 판단에는 지방재정365 등 해당 기관의 원문을 꼭 확인해 주십시오. AI 봄이·더불이의 답변은 틀릴 수 있으며, 김보미의 공식 입장이나 법률·재정 자문이 아닙니다. 이 사이트의 정보를 이용해 생긴 결과에 대해 운영자는 법적 책임을 지지 않습니다. 틀린 값을 발견하시면 <a href="report.html">소통·제보</a>로 알려 주십시오. 확인 즉시 바로잡습니다.</p></details></div>
   <div class="kbx-fn"><span>Copyright © 2026 김보미. All Rights Reserved.</span></div>
 </footer>
 <div class="toast" id="toast"></div>
@@ -405,7 +250,9 @@ function drawTags(){
   box.innerHTML='<button type="button" data-tag="" aria-pressed="'+(!pFilter.tag)+'">전체 <span>'+posts.length+'</span></button>'
     +tags.map(function(t){return '<button type="button" data-tag="'+esc(t)+'" aria-pressed="'+(pFilter.tag===t)+'">'+esc(t)+' <span>'+cnt[t]+'</span></button>';}).join('');
 }
-function renderList(){
+var PAGE=10, pLimit=PAGE;   /* 휴대폰 길이: 10편씩 보여 주고 '더 보기'로 이어 붙인다 */
+function renderList(keep){
+  if(!keep) pLimit=PAGE;
   var el=$('plist');
   if(!posts.length){ el.innerHTML='<div class="empty">아직 발행된 글이 없습니다.</div>'; return; }
   drawTags();
@@ -417,6 +264,7 @@ function renderList(){
   });
   var pc=$('pcount'); if(pc) pc.textContent=(pFilter.q||pFilter.tag)?('글 '+shown.length+'편'+(shown.length?'':' — 다른 낱말로 찾아보세요')):'';
   if(!shown.length){ el.innerHTML='<div class="empty">찾는 글이 없습니다.</div>'; return; }
+  var total=shown.length; shown=shown.slice(0,pLimit);
   el.innerHTML=shown.map(function(p){
     var th=KB_thumb(p.title,p.id);   /* kb-thumbs.js 안에서 제목을 이스케이프한다 */
     return '<a class="pcard has-th" href="?post='+encodeURIComponent(p.id)+'" data-id="'+esc(p.id)+'">'
@@ -425,7 +273,12 @@ function renderList(){
       +'<h2>'+esc(p.title)+'</h2>'
       +'<div class="ex">'+esc(excerpt(p.body,p.title))+'…</div>'
       +'<div class="go">전문 읽기 →</div></span></a>';
-  }).join('');
+  }).join('')
+  +(total>pLimit?'<div class="kb-more-wrap"><button type="button" class="kb-more" id="pmore">글 더 보기 <span>('+pLimit+' / '+total+'편)</span></button></div>':'');
+  var mb=$('pmore'); if(mb) mb.addEventListener('click',function(){
+    var first=pLimit; pLimit+=PAGE; renderList(true);
+    var nx=el.querySelectorAll('.pcard')[first]; if(nx){ nx.setAttribute('tabindex','-1'); nx.focus({preventScroll:true}); }
+  });
 }
 var ARTICLE_LINKS=[{url:"https://www.hani.co.kr/arti/politics/politics_general/1266723.html?utm_source=copy&utm_medium=copy&utm_campaign=btn_share&utm_content=20260706",refs:["['젊은 층은 민주당' 무너진 구도...2030 외면 시 재집권 없다] 기사","[ '젊은 층은 민주당' 무너진 구도...2030 외면 시 재집권 없다 ] 기사"]}];function linkifyArticles(h){ARTICLE_LINKS.forEach(function(it){var a='<a href="'+it.url+'" target="_blank" rel="noopener">';it.refs.forEach(function(ref){h=h.split(ref).join(a+ref+'</a>');});});return h;}function ytId(t){
   var s=String(t||'').trim();
@@ -604,5 +457,6 @@ fetch(API+'?action=list').then(function(r){return r.json();}).then(function(d){
 </script>
 <script src="/a.js" defer></script>
 <script src="assets/bomi.js" defer></script>
+<script src="assets/kb-a11y.js" defer></script>
 </body>
 </html>
