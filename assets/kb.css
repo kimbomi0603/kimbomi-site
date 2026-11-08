@@ -2519,16 +2519,6 @@ html:where(.pg-index,.pg-about,.pg-vision,.pg-pledge,.pg-press,.pg-live,.pg-repo
   :where(.pg-index) .f365band{height:112px}
   :where(.pg-index) .top365 .f365{padding-bottom:16px}
 
-  /* 만든 사람: 사진 작게 옆에, 긴 소개와 숫자 4칸은 소개 쪽으로 */
-  :where(.pg-index) .hero{padding:18px 0 4px}
-  :where(.pg-index) .hero .hin{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center}
-  :where(.pg-index) .hero .hpic{max-width:none;width:96px;border-radius:50%;aspect-ratio:1;border:0}
-  :where(.pg-index) .hero .hpic img{width:96px;height:96px;object-fit:cover;object-position:50% 18%}
-  :where(.pg-index) .hero .role{font-size:.74rem;margin:0}
-  :where(.pg-index) .hero h1{font-size:1.6rem;margin:2px 0 0}
-  :where(.pg-index) .hero .slogan{font-size:1rem;margin:4px 0 0}
-  :where(.pg-index) .hero .desc,:where(.pg-index) .hero .hnum{display:none}
-
   /* 둘러보기: 한 줄짜리 목록 */
   :where(.pg-index) .sec-doors .doors{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:0}
   :where(.pg-index) .sec-doors .mb{padding:14px 14px 12px;min-height:0}
