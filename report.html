@@ -157,13 +157,14 @@
       정치는 어떻게 바뀌어야 하는지, 세금과 예산은 어떻게 쓰여야 하는지, 여러분이 그리는 정당과 대한민국의 모습을 자유롭게 남겨주세요. <b>남겨주신 생각은 매일 모두 읽고, 활동으로 답하겠습니다.</b>
     </div>
     <div class="tw-grid">
-      <form class="tw-form" id="twForm">
+      <form class="tw-form" id="twForm" novalidate>
         <div class="row">
           <input aria-label="이름 (선택)" class="field" id="twName" type="text" placeholder="이름 (선택)" maxlength="20">
           <input aria-label="지역 (선택)" class="field" id="twRegion" type="text" placeholder="지역 (선택)" maxlength="20">
           <input id="twHp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none">
         </div>
-        <textarea aria-label="남기실 생각" class="field" id="twMsg" placeholder="여러분이 그리는 민주당, 만들고 싶은 대한민국을 자유롭게 남겨주세요." maxlength="1000" required></textarea>
+        <textarea aria-label="남기실 생각" class="field" id="twMsg" placeholder="여러분이 그리는 민주당, 만들고 싶은 대한민국을 자유롭게 남겨주세요." maxlength="1000" required aria-describedby="twErr"></textarea>
+        <p class="kb-ferr" id="twErr" role="alert" hidden></p>
         <button type="submit" class="tw-btn"><img class="g3i in" src="img/g3d/ic-vision.webp" alt="" width="28" height="28">생각 남기기</button>
       </form>
       <div class="tw-wall">
@@ -190,8 +191,9 @@
       </div>
 
       <label class="lbl" for="rContent">제보 내용 <span class="opt" style="color:#c0392b">필수</span></label>
-      <textarea class="field" id="rContent" maxlength="1500" placeholder="언제, 어디서, 어떤 일이 있었는지 편하게 적어주세요. (구체적일수록 도움이 됩니다)"></textarea>
+      <textarea class="field" id="rContent" maxlength="1500" aria-required="true" aria-describedby="rErr" placeholder="언제, 어디서, 어떤 일이 있었는지 편하게 적어주세요. (구체적일수록 도움이 됩니다)"></textarea>
       <div class="cnt"><span id="rCnt">0</span>/1500</div>
+      <p class="kb-ferr" id="rErr" role="alert" hidden></p>
 
       <label class="lbl" for="rRegion">지역 <span class="opt">선택</span></label>
       <input class="field mb" id="rRegion" maxlength="30" placeholder="예: 전남 (시·도 정도만 — 세부 주소는 적지 마세요)">
@@ -202,6 +204,7 @@
       <div class="note"><b>비우면 완전 익명</b>으로 접수됩니다. 실명·전화번호는 적지 않으셔도 됩니다.</div>
 
       <button class="btn-submit mt" id="rSubmit">🔒 안전하게 제보하기</button>
+      <p class="kb-ferr" id="rErr2" role="alert" hidden></p>
     </div>
   </div>
 
@@ -280,24 +283,27 @@ var $=function(id){return document.getElementById(id);};
 var cat="";
 var _bg=$('burger'),_mn=$('menu');
 if(_bg&&_mn){ _bg.addEventListener('click',function(){_mn.classList.toggle('open');}); _mn.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){_mn.classList.remove('open');});}); }
+/* 입력 오류는 알림창 대신 칸 옆 글자로 보여 준다 (KWCAG 2.2 28 오류 정정) */
+function ferr(id,msg,fieldId){ var el=$(id); if(!el) return; if(msg){ el.textContent=msg; el.hidden=false; } else { el.textContent=''; el.hidden=true; } if(fieldId){ var f=$(fieldId); if(f){ if(msg) f.setAttribute('aria-invalid','true'); else f.removeAttribute('aria-invalid'); } } }
 function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2000);}
 document.getElementById('cats').addEventListener('click',function(e){
   var b=e.target.closest&&e.target.closest('.cat'); if(!b) return;
   document.querySelectorAll('#cats .cat').forEach(function(x){x.classList.toggle('on',x===b); x.setAttribute('aria-pressed',x===b?'true':'false');});
   cat=b.getAttribute('data-c');
 });
-$('rContent').addEventListener('input',function(){ $('rCnt').textContent=this.value.length; });
+$('rContent').addEventListener('input',function(){ $('rCnt').textContent=this.value.length; if(this.value.trim()) ferr('rErr','','rContent'); });
 $('rSubmit').addEventListener('click',function(){
   var content=($('rContent').value||'').trim();
-  if(!content){ toast('제보 내용을 입력해주세요'); $('rContent').focus(); return; }
+  if(!content){ ferr('rErr','제보 내용을 적어 주세요. 언제, 어디서, 어떤 일이 있었는지 한 줄이라도 좋습니다.','rContent'); $('rContent').focus(); return; }
+  ferr('rErr',''); ferr('rErr2','');
   var payload={ category:cat||'etc', content:content, region:($('rRegion').value||'').trim(), contact:($('rContact').value||'').trim() };
   $('rSubmit').disabled=true; $('rSubmit').textContent='접수 중…';
   fetch('/api/admin?action=reportsubmit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
     .then(function(r){return r.json();})
     .then(function(d){
       if(d&&d.ok){ $('formView').classList.add('hide'); $('doneView').classList.remove('hide'); window.scrollTo(0,0); }
-      else if(d&&d.error==='rate'){ toast('잠시 후 다시 시도해주세요'); $('rSubmit').disabled=false; $('rSubmit').textContent='🔒 안전하게 제보하기'; }
-      else { toast('접수에 실패했어요. 잠시 후 다시 시도해주세요'); $('rSubmit').disabled=false; $('rSubmit').textContent='🔒 안전하게 제보하기'; }
+      else if(d&&d.error==='rate'){ ferr('rErr2','짧은 시간에 여러 번 보내셨습니다. 1분쯤 뒤에 다시 눌러 주세요.'); $('rSubmit').disabled=false; $('rSubmit').textContent='🔒 안전하게 제보하기'; }
+      else { ferr('rErr2','접수되지 않았습니다. 적으신 내용은 그대로 남아 있으니 잠시 후 단추를 다시 눌러 주세요.'); $('rSubmit').disabled=false; $('rSubmit').textContent='🔒 안전하게 제보하기'; }
     })
     .catch(function(){ toast('접수에 실패했어요'); $('rSubmit').disabled=false; $('rSubmit').textContent='🔒 안전하게 제보하기'; });
 });
@@ -343,15 +349,18 @@ $('rSubmit').addEventListener('click',function(){
     }).catch(function(){fromLS();});
   }
   function saveLocal(p){var a=lsLoad();a.push({name:p.name,region:p.region,msg:p.msg,date:new Date().toISOString()});lsSave(a);form.reset();fromLS();}
+  document.getElementById('twMsg').addEventListener('input',function(){ if(this.value.trim()) ferr('twErr','','twMsg'); });
   form.addEventListener('submit',function(e){
     e.preventDefault();
-    var msg=document.getElementById('twMsg').value.trim();if(!msg)return;
+    var msg=document.getElementById('twMsg').value.trim();
+    if(!msg){ ferr('twErr','남기실 생각을 적어 주세요. 한 문장이면 충분합니다.','twMsg'); document.getElementById('twMsg').focus(); return; }
+    ferr('twErr','','twMsg');
     var hp=(document.getElementById('twHp')||{}).value||'';
     var p={name:document.getElementById('twName').value.trim(),region:document.getElementById('twRegion').value.trim(),msg:msg,hp:hp};
     var btn=form.querySelector('button');btn.disabled=true;
     fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)})
       .then(function(r){return r.json();}).then(function(d){
-        if(d&&d.ok){form.reset();refresh();}else if(d&&d.configured===false){saveLocal(p);}else{alert(d&&d.error==='badword'?'사용할 수 없는 표현이 있어요. 고쳐서 다시 올려 주세요.':d&&d.error==='rate'?'잠시 후 다시 시도해 주세요.':'등록하지 못했어요. 잠시 후 다시 시도해 주세요.');}
+        if(d&&d.ok){form.reset();refresh();}else if(d&&d.configured===false){saveLocal(p);}else{ferr('twErr',d&&d.error==='badword'?'사용할 수 없는 표현이 들어 있습니다. 그 부분을 고쳐서 다시 올려 주세요.':d&&d.error==='rate'?'짧은 시간에 여러 번 보내셨습니다. 1분쯤 뒤에 다시 눌러 주세요.':'등록되지 않았습니다. 적으신 글은 그대로 남아 있으니 잠시 후 다시 눌러 주세요.','twMsg');}
       }).catch(function(){saveLocal(p);}).then(function(){btn.disabled=false;});
   });
   refresh();
