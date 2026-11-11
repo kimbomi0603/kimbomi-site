@@ -2702,3 +2702,13 @@ html[data-theme="dark"] .kb-ferr{color:#F2A7A3}
   :where(.pg-pledge) body.pg-pledge .hero .g3hero{grid-template-columns:1fr;gap:20px}
   :where(.pg-pledge) body.pg-pledge .hero .g3f.fig{max-width:200px;justify-self:start;order:0}
 }
+/* 2026-11-12 함께하기 3초 화면: 사이트의 밝은 크림 톤에 맞춘다(어두운 화면 설정일 때는 예전 그대로). 기록관 쪽(kb-common.css)은 손대지 않음 */
+html:not([data-theme="dark"]) .kbj{background:var(--c-cream);color:var(--c-ink)}
+html:not([data-theme="dark"]) .kbj-img{border-radius:0;box-shadow:none;-webkit-mask-image:linear-gradient(90deg,transparent 0,var(--c-night) 6%,var(--c-night) 94%,transparent 100%),linear-gradient(180deg,transparent 0,var(--c-night) 8%,var(--c-night) 92%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,var(--c-night) 6%,var(--c-night) 94%,transparent 100%),linear-gradient(180deg,transparent 0,var(--c-night) 8%,var(--c-night) 92%,transparent 100%);-webkit-mask-composite:source-in;mask-composite:intersect}
+html:not([data-theme="dark"]) .kbj-t b{color:var(--c-navy)}
+html:not([data-theme="dark"]) .kbj-t span{color:var(--c-slate)}
+html:not([data-theme="dark"]) .kbj-bar{background:var(--c-line)}
+html:not([data-theme="dark"]) .kbj-bar i{background:var(--c-green)}
+html:not([data-theme="dark"]) .kbj-skip{border-color:var(--c-green);color:var(--c-green)}
+html:not([data-theme="dark"]) .kbj-skip:hover{background:var(--c-green);color:var(--c-white)}
+html:not([data-theme="dark"]) .kbj-skip:focus-visible{outline-color:var(--c-gold)}
