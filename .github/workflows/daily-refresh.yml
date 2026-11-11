@@ -16,6 +16,7 @@ name: daily-refresh
 on:
   schedule:
     - cron: '40 21 * * *'   # 매일 06:40 KST
+    - cron: '30 14 13 11 *'  # 11.13 23:30 KST 1회 — 11.14 08:00~24:00 지방재정365 중단 전에 미리 받아 둔다
   workflow_dispatch:
 
 permissions:
