@@ -3,10 +3,21 @@
   var HOLD=3000;
   function go(a){
     var ov=document.createElement('div'); ov.className='kbj'; ov.setAttribute('role','status'); ov.setAttribute('aria-live','polite');
-    ov.innerHTML='<img class="kbj-img" src="img/slogan/owner-800.webp" srcset="img/slogan/owner-800.webp 800w, img/slogan/owner-1600.webp 1600w" sizes="(max-width:760px) 100vw, 900px" width="1600" height="893" alt="시민들이 커다란 금빛 열쇠를 함께 들고 금고 문 앞에 서고, 김보미 아트토이가 열쇠 구멍을 가리키는 미니어처. 세금의 주인은 국민입니다.">'
-      +'<p class="kbj-t"><b>재정주권시민행동 페이지로 이동 중입니다</b><span>세금의 주인은 국민입니다 · 잠시 후 함께하기 안내로 넘어갑니다</span></p>'
-      +'<div class="kbj-bar" aria-hidden="true"><i></i></div>'
-      +'<button type="button" class="kbj-skip">바로 가기</button>';
+    /* 2026-11-12 지금 사이트(kb.css를 쓰는 쪽)는 슬로건 카드 모양(글 왼쪽·그림 오른쪽). 기록관 쪽은 예전 그대로 */
+    var v2=!!document.querySelector('link[href*="assets/kb.css"]');
+    if(v2){
+      ov.className='kbj kbj-v2';
+      ov.innerHTML='<div class="kbj-card"><img class="kbj-img" src="img/slogan/owner-800.webp" srcset="img/slogan/owner-800.webp 800w, img/slogan/owner-1600.webp 1600w" sizes="(max-width:760px) 100vw, 900px" width="1600" height="893" alt="시민들이 커다란 금빛 열쇠를 함께 들고 금고 문 앞에 서고, 김보미 아트토이가 열쇠 구멍을 가리키는 미니어처">'
+        +'<blockquote class="kbj-q"><p><em>세금의 주인</em>은<br>국민입니다.</p><cite>김보미</cite></blockquote></div>'
+        +'<p class="kbj-t"><b>재정주권시민행동 페이지로 이동 중입니다</b><span>잠시 후 함께하기 안내로 넘어갑니다</span></p>'
+        +'<div class="kbj-bar" aria-hidden="true"><i></i></div>'
+        +'<button type="button" class="kbj-skip">바로 가기</button>';
+    } else {
+      ov.innerHTML='<img class="kbj-img" src="img/slogan/owner-800.webp" srcset="img/slogan/owner-800.webp 800w, img/slogan/owner-1600.webp 1600w" sizes="(max-width:760px) 100vw, 900px" width="1600" height="893" alt="시민들이 커다란 금빛 열쇠를 함께 들고 금고 문 앞에 서고, 김보미 아트토이가 열쇠 구멍을 가리키는 미니어처. 세금의 주인은 국민입니다.">'
+        +'<p class="kbj-t"><b>재정주권시민행동 페이지로 이동 중입니다</b><span>세금의 주인은 국민입니다 · 잠시 후 함께하기 안내로 넘어갑니다</span></p>'
+        +'<div class="kbj-bar" aria-hidden="true"><i></i></div>'
+        +'<button type="button" class="kbj-skip">바로 가기</button>';
+    }
     document.body.appendChild(ov); document.body.classList.add('kbj-open');
     var done=false, to=setTimeout(leave,HOLD);
     function leave(){ if(done) return; done=true; clearTimeout(to); location.href=a.href; }
