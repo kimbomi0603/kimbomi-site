@@ -39,7 +39,7 @@
     firm:{pose:'think',prop:'deal',src:'전국 계약 대장',steps:['전국 계약 색인을 여는 중입니다 (처음 한 번만 약 9MB)','지방정부 243개 시·군·구 계약 대장에서 「{who}」를 찾고 있습니다','지자체별 계약을 묶고 금액을 더하고 있습니다','표를 그리는 중입니다']},
     live:{pose:'talk',prop:'news',src:'정부·국회 공개 API',steps:['{who} 자료를 공개 API에서 받고 있습니다 (처음엔 10초쯤 걸릴 수 있습니다)','최신 발표 순으로 정리하고 있습니다','목록을 그리는 중입니다']}
   };
-  var SLOW=8000, TICK=1900;
+  var SLOW=8000, TICK=1900, MIN=2000;   /* MIN: 큰 표시는 한 번 뜨면 최소 2초는 보이게 한다(2026-11-12) */
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]});}
   function fill(t,who){return String(t).replace(/\{who\}/g, who||'우리 동네');}
   function cfg(kind){return K[kind]||K.lg;}
@@ -70,4 +70,35 @@
       if(now-t0>SLOW) el.classList.add('is-slow');
     });
   },TICK);
+  /* 2026-11-12 큰 표시가 너무 빨리 지나가지 않게: 자료가 2초 안에 도착해 표시가 지워지면,
+     지워진 표시를 그 자리 위에 덮개로 잠깐 더 보여 주고(새 화면은 그 아래에 이미 그려져 있다) 2초가 차면 걷는다.
+     다른 '불러오는 중' 표시로 바뀌는 경우와 작은 표시(.kbl-mini)는 그대로 둔다. */
+  function bgOf(el){ for(var e=el;e&&e.nodeType===1;e=e.parentElement){ var c=getComputedStyle(e).backgroundColor; if(c&&c!=='transparent'&&!/rgba\([^)]*,\s*0\)$/.test(c)) return c; } return '#fff'; }
+  function hold(node,host,left){
+    if(!host||!host.isConnected||host.querySelector('.kbl-hold')) return;
+    var cs=getComputedStyle(host), fixPos=cs.position==='static';
+    if(fixPos) host.style.position='relative';
+    var ov=document.createElement('div'); ov.className='kbl-hold';
+    ov.style.cssText='position:absolute;left:0;right:0;top:0;min-height:100%;z-index:50;background:'+bgOf(host)+';transition:opacity .2s ease';
+    node.setAttribute('data-held','1'); ov.appendChild(node); host.appendChild(ov);
+    var mh=host.style.minHeight; if(host.offsetHeight<ov.offsetHeight) host.style.minHeight=ov.offsetHeight+'px';
+    setTimeout(function(){ ov.style.opacity='0'; setTimeout(function(){ if(ov.parentNode) ov.parentNode.removeChild(ov); if(fixPos) host.style.position=''; host.style.minHeight=mh; },220); },left);
+  }
+  if(window.MutationObserver){
+    new MutationObserver(function(list){
+      var now=Date.now();
+      for(var i=0;i<list.length;i++){ var m=list[i]; if(!m.removedNodes.length) continue;
+        var addsLoader=false, j;
+        for(j=0;j<m.addedNodes.length;j++){ var a=m.addedNodes[j]; if(a.nodeType===1&&(a.classList.contains('kbl-hold')||a.classList.contains('kbl')||a.querySelector('.kbl'))) addsLoader=true; }
+        if(addsLoader) continue;
+        for(j=0;j<m.removedNodes.length;j++){ var n=m.removedNodes[j]; if(n.nodeType!==1||n.classList.contains('kbl-hold')||n.getAttribute('data-held')) continue;
+          var k=n.classList.contains('kbl')?n:n.querySelector('.kbl'); if(!k) continue;
+          if(n!==k&&n.children.length!==1) continue;                       /* 표시만 담은 껍데기(.wrap)일 때만 */
+          var t0=+k.getAttribute('data-t0')||Math.round((window.performance&&performance.timeOrigin)||now), left=MIN-(now-t0);
+          if(left>60) hold(n,m.target,left);
+          break;
+        }
+      }
+    }).observe(document.documentElement,{childList:true,subtree:true});
+  }
 })();
