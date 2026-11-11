@@ -27,6 +27,8 @@
   '@keyframes bmPop{0%,70%,100%{transform:scale(1)}8%{transform:scale(1.14)}16%{transform:scale(1)}}',
   'html.has-cta #bomi-fab{bottom:128px}',
   'html[data-theme="dark"] #bomi-fab .say{background:#24272B;color:#F4F1E8;border-color:#8ECFB2}',
+  /* 2026-11-12 폴드7 펼침(768px 안팎)에서도 작은 봄이 — 큰 봄이가 본문 글자를 가리던 것 */
+  '@media(min-width:641px) and (max-width:900px){#bomi-fab{right:4px;bottom:52px;width:64px}#bomi-fab .fig{width:52px;height:76px}#bomi-fab .fig img{width:52px}#bomi-fab .fig::after{width:36px;margin-left:-18px;height:8px}#bomi-fab .say{display:none}#bomi-fab .tag{font-size:11px;padding:4px 8px 4px 7px;margin-top:-6px}}',
   '@media(max-width:640px){#bomi-fab{right:4px;bottom:52px;width:64px}#bomi-fab .fig{width:52px;height:76px}#bomi-fab .fig img{width:52px}#bomi-fab .fig::after{width:36px;margin-left:-18px;height:8px}#bomi-fab .say{display:none}#bomi-fab .tag{font-size:11px;padding:4px 8px 4px 7px;margin-top:-6px}}',
   /* 대화창 */
   '#bomi{position:fixed;z-index:9991;display:none;flex-direction:column;background:#fff;color:#17181A;font:15px/1.6 "Pretendard Variable",system-ui,sans-serif;word-break:keep-all;overflow:hidden;right:20px;bottom:20px;width:410px;height:min(780px,calc(100vh - 40px));border-radius:26px;box-shadow:0 28px 70px rgba(10,20,40,.32)}',

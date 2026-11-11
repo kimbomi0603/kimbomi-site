@@ -12,7 +12,7 @@
   ];
   var OWN = {};
   'fb20260923 fb20260924 msg1 msg2 p20260723cutoff p20260725column p20260725roster p20260730myungbu p20260731bosu p20260805choi p20260805ggumtl p20260805vote p20260806hate p20260807gongcheon p20260808house p20260811honam p20260818congrats p20260821jeon p20260905jeongdang pmr7panre93yn pmr8pemv03536 pmrbpm1f3basw pmrbpocpi6co3 pmrbppgfuxy3k pmrbpqs35agcr pmrbwxrflw71s pmrbwyoy3dcv5 pmrev7iihexle pmrfskxvo2lrn pmrfv6kdo88wa pmrhx48j9sfat pmrhxcbpia2u3 pmriu965ls855 pmrlnapghvgve pmrlncnrzw9ww pmro53ph5payp pmrplk7wjaiqq pmrpllai76rej pmrqh15wvgxyr pmrrfrezv01bl pmrubeq3lp07y pmrubf7md1b87 pmrubfxo5zsd5 pmrubgqunfyuc pmrubhbyfremv pmrubhsuwzo1b pmrubib71aeb0 pmrubj97lyvt5 pmrx12rismzyw pmrx13ojvehdw pmrx14z218rsn pmrx16ngsknrx pmte274174vpm pmtj82na5ulu2'.split(' ').forEach(function (k) { OWN[k] = 1; });
-  var DEF = { tag: '정당 개혁', img: 'scene-vision', alt: '밀실 문을 열어젖히는 청년들 미니어처' };
+  var DEF = { tag: '정당 개혁', img: 'scene-vision', alt: '활짝 열린 회의실 문으로 걸어 들어가는 시민들 미니어처' };
   function pick(title) {
     var t = String(title || '');
     for (var i = 0; i < T.length; i++) if (T[i].re.test(t)) return T[i];
