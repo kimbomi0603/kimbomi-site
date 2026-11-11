@@ -2702,3 +2702,34 @@ html[data-theme="dark"] .kb-ferr{color:#F2A7A3}
   :where(.pg-pledge) body.pg-pledge .hero .g3hero{grid-template-columns:1fr;gap:20px}
   :where(.pg-pledge) body.pg-pledge .hero .g3f.fig{max-width:200px;justify-self:start;order:0}
 }
+/* 2026-11-12 함께하기 3초 화면(kb-join.js .kbj-v2): 슬로건 카드 모양 — 글 왼쪽, 그림 오른쪽. 기록관 쪽(kb-common.css)은 손대지 않음 */
+.kbj.kbj-v2{background:var(--c-paper);color:var(--c-ink);gap:16px}
+html[data-theme="dark"] .kbj.kbj-v2{background:var(--c-night);color:var(--c-sand)}
+.kbj-v2 .kbj-card{position:relative;width:min(960px,100%);aspect-ratio:16/9;max-height:60vh;border-radius:22px;overflow:hidden;background:var(--c-cream);box-shadow:0 12px 28px rgb(var(--c-ink-rgb) / .12);container-type:inline-size;text-align:left}
+.kbj-v2 .kbj-img{position:absolute;inset:0;width:100%;height:100%;max-height:none;object-fit:cover;object-position:right center;border-radius:0;box-shadow:none}
+.kbj-v2 .kbj-card::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgb(var(--c-cream-rgb) / .97) 0%,rgb(var(--c-cream-rgb) / .93) 36%,rgb(var(--c-cream-rgb) / .5) 47%,transparent 60%)}
+.kbj-v2 .kbj-q{position:absolute;z-index:2;left:6%;top:0;bottom:0;width:46%;margin:0;padding:0;border:0;background:none;display:flex;flex-direction:column;justify-content:center}
+.kbj-v2 .kbj-q p{margin:0;font-family:'Noto Serif KR','Nanum Myeongjo',serif;font-weight:900;font-size:clamp(24px,4.6cqi,56px);line-height:1.34;letter-spacing:-.035em;color:var(--c-ink);word-break:keep-all}
+.kbj-v2 .kbj-q p em{font-style:normal;color:var(--c-green)}
+.kbj-v2 .kbj-q cite{margin-top:clamp(12px,2cqi,24px);display:flex;align-items:center;gap:12px;font:700 clamp(13px,1.7cqi,19px)/1 'Pretendard Variable',sans-serif;font-style:normal;color:var(--c-navy)}
+.kbj-v2 .kbj-q cite::before{content:"";width:38px;height:3px;background:var(--c-gold);border-radius:2px}
+html:not([data-theme="dark"]) .kbj-v2 .kbj-t b{color:var(--c-navy)}
+html:not([data-theme="dark"]) .kbj-v2 .kbj-t span{color:var(--c-slate)}
+html:not([data-theme="dark"]) .kbj-v2 .kbj-bar{background:var(--c-line)}
+html:not([data-theme="dark"]) .kbj-v2 .kbj-bar i{background:var(--c-green)}
+html:not([data-theme="dark"]) .kbj-v2 .kbj-skip{border-color:var(--c-green);color:var(--c-green)}
+html:not([data-theme="dark"]) .kbj-v2 .kbj-skip:hover{background:var(--c-green);color:var(--c-white)}
+html:not([data-theme="dark"]) .kbj-v2 .kbj-skip:focus-visible{outline-color:var(--c-gold)}
+@media(max-width:760px){
+  .kbj-v2 .kbj-card{aspect-ratio:auto;max-height:none;display:flex;flex-direction:column}
+  .kbj-v2 .kbj-img{position:relative;inset:auto;height:56vw;object-position:78% center}
+  .kbj-v2 .kbj-card::before{display:none}
+  .kbj-v2 .kbj-q{position:relative;left:auto;width:auto;padding:18px 22px 22px}
+  .kbj-v2 .kbj-q p{font-size:1.6rem}
+}
+/* 2026-11-12 정당 돈 첫 화면: 남색 바탕 → 밝은 바탕(크림색 그림이 상자처럼 뜨지 않게). 함께하기(pledge)는 그대로 남색 */
+:where(.pg-party-money) body.pg-party-money .hd{background:var(--c-white);color:var(--c-ink);border-bottom:1px solid var(--c-line)}
+:where(.pg-party-money) body.pg-party-money .hd h1{color:var(--c-navy)}
+:where(.pg-party-money) body.pg-party-money .hd h1 em{color:var(--c-green)}
+:where(.pg-party-money) body.pg-party-money .hd p{color:var(--c-ink-2)}
+:where(.pg-party-money) body.pg-party-money .hd .eyebrow{color:var(--c-slate)}
