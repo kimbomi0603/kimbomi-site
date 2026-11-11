@@ -2689,3 +2689,16 @@ body.kbj-open{overflow:hidden}
 .kb-ferr::before{content:"⚠ "}
 .field[aria-invalid="true"]{border-color:var(--c-red)!important;box-shadow:0 0 0 2px rgb(var(--c-red-rgb) / .18)}
 html[data-theme="dark"] .kb-ferr{color:#F2A7A3}
+/* 2026-11-12 지방재정365 점검일(11.14) 안내 띠 — 날짜 조건은 budget365.html 인라인 스크립트 */
+:where(.pg-budget365) .k365-maint{background:var(--c-gold);color:var(--c-ink);text-align:center;padding:8px 16px;font-size:.9rem;font-weight:700;line-height:1.5}
+:where(.pg-budget365) .k365-maint[hidden]{display:none}
+/* 2026-11-12 폴드7 펼침(768px 안팎): 머리 한 줄에 다 안 들어가 「언론·영상」「기록관」이 잘리던 것 — 휴대폰처럼 메뉴를 둘째 줄로 */
+@media(min-width:761px) and (max-width:900px){
+  :where(.pg-index,.pg-about,.pg-vision,.pg-pledge,.pg-press,.pg-live,.pg-report,.pg-party-money,.pg-privacy) .kbx-hdr .kbx-w{height:auto;flex-wrap:wrap;gap:6px 12px;padding:10px 20px 0}
+  :where(.pg-index,.pg-about,.pg-vision,.pg-pledge,.pg-press,.pg-live,.pg-report,.pg-party-money,.pg-privacy) .kbx-hdr .kbx-365{margin-left:auto}
+  :where(.pg-index,.pg-about,.pg-vision,.pg-pledge,.pg-press,.pg-live,.pg-report,.pg-party-money,.pg-privacy) .kbx-hdr nav{order:3;width:100%;margin:0;gap:24px;padding:4px 0 0}
+  :where(.pg-index,.pg-about,.pg-vision,.pg-pledge,.pg-press,.pg-live,.pg-report,.pg-party-money,.pg-privacy) .kbx-hdr nav a{padding:8px 0 9px;font-size:15px}
+  /* 함께하기 첫 화면: 사진 옆 좁은 칸에 카드 두 장이 끼던 것 — 한 단으로 */
+  :where(.pg-pledge) body.pg-pledge .hero .g3hero{grid-template-columns:1fr;gap:20px}
+  :where(.pg-pledge) body.pg-pledge .hero .g3f.fig{max-width:200px;justify-self:start;order:0}
+}
