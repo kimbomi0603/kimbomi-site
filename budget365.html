@@ -1481,7 +1481,7 @@ async function renderPolicy(id){ const D=await loadPolicy();
   <section class="wrap">
     ${POLSW('policy')}
     <div class="lgband">
-      <figure class="h365pic"><img src="img/g3d/scene-archive.webp" srcset="img/g3d/scene-archive-640.webp 640w, img/g3d/scene-archive.webp 1024w" sizes="440px" width="1024" height="572" alt="서가 가득한 정책 기록 보관소 미니어처"></figure>
+      <figure class="h365pic"><img src="img/g3d/scene-archive.webp" srcset="img/g3d/scene-archive-b-640.webp 640w, img/g3d/scene-archive.webp 1024w" sizes="440px" width="1024" height="572" alt="서가 가득한 정책 기록 보관소 미니어처"></figure>
       <span class="zone pol">정책 아카이브</span><br>
       <span class="pill"><i></i>2025.6 ~ ${String(D.items[0].date).slice(0,7).replace('-','.')} · 정부 발표 ${num(D.items.length)}건 · 핵심 ${D.items.filter(x=>x.tier===1).length}건</span>
       <h1>정부가 무엇을 발표했는지<br><em>날짜순</em>으로 봅니다</h1>
@@ -1692,7 +1692,7 @@ async function renderTasks(no){ const D=await loadPolicy();
   <section class="wrap">
     ${POLSW('task')}
     <div class="lgband">
-      <figure class="h365pic"><img src="img/g3d/scene-archive.webp" srcset="img/g3d/scene-archive-640.webp 640w, img/g3d/scene-archive.webp 1024w" sizes="440px" width="1024" height="572" alt="서가 가득한 정책 기록 보관소 미니어처"></figure>
+      <figure class="h365pic"><img src="img/g3d/scene-archive.webp" srcset="img/g3d/scene-archive-b-640.webp 640w, img/g3d/scene-archive.webp 1024w" sizes="440px" width="1024" height="572" alt="서가 가득한 정책 기록 보관소 미니어처"></figure>
       <span class="zone pol">정책 아카이브</span><br>
       <span class="pill"><i></i>국정과제 ${D.tasks.length}개 · 5대 목표</span>
       <h1>123대 국정과제를<br><em>과제별</em>로 펼쳤습니다</h1>
@@ -1756,7 +1756,7 @@ async function renderKey(th){ const D=await loadPolicy(); K.th=th||'';
   <section class="wrap">
     ${POLSW('key')}
     <div class="lgband">
-      <figure class="h365pic"><img src="img/g3d/scene-archive.webp" srcset="img/g3d/scene-archive-640.webp 640w, img/g3d/scene-archive.webp 1024w" sizes="440px" width="1024" height="572" alt="서가 가득한 정책 기록 보관소 미니어처"></figure>
+      <figure class="h365pic"><img src="img/g3d/scene-archive.webp" srcset="img/g3d/scene-archive-b-640.webp 640w, img/g3d/scene-archive.webp 1024w" sizes="440px" width="1024" height="572" alt="서가 가득한 정책 기록 보관소 미니어처"></figure>
       <span class="zone pol">정책 아카이브</span><br>
       <span class="pill"><i></i>핵심 정책 ${KEYS.length}건 · ${order.length}개 묶음 · 2025.6 ~ ${String(KEYS[0].date).slice(0,7).replace('-','.')}</span>
       <h1>굵직한 정책만<br><em>한눈에</em> 봅니다</h1>
