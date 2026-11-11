@@ -414,7 +414,7 @@ console.log('\n[16] 5중 검증 장치 — 원자료 스캔·API 재조회·교�
   const html = readSrc('budget365.html'), chat = readSrc('api/chat.js'), lofin = readSrc('api/lofin.js');
   let n = 0;
   // ① 화면 게이트: 판정표를 읽고, 통과 못한 묶음을 지우는 코드가 로더에 붙어 있어야 한다
-  if (!/async function loadVerify\(\)/.test(html) || !/await loadVerify\(\)/.test(html)) { n++; bad('budget365.html 이 판정표(data/verify/status.json)를 읽지 않음'); }
+  if (!/async function loadVerify\(\)/.test(html) || !/await loadVerify\(\)|Promise\.all\(\[[^\]]*loadVerify\(\)/.test(html)) { n++; bad('budget365.html 이 판정표(data/verify/status.json)를 읽지 않음'); }
   if (!/vApplyLg\(lg\)/.test(html) || !/vApplyIndex\(\)/.test(html)) { n++; bad('budget365.html 로더가 5중 검증 게이트(vApplyLg/vApplyIndex)를 거치지 않음'); }
   if (!/if\(!vOk\(cd,'ct'\)\)\{ S\.ctrt\[cd\]=null/.test(html)) { n++; bad('계약대장 로더가 검증 게이트를 거치지 않음'); }
   if (!/all\.length!==found\.total/.test(html)) { n++; bad('실시간 불러오기가 받은 행 수 = 전체 건수 확인 없이 합계를 냄(쪽 누락 시 가짜 합계)'); }
