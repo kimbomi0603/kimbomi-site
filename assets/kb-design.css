@@ -220,3 +220,9 @@ html:not([data-theme="dark"]) .kbj-v2 .kbj-skip:focus-visible{outline-color:var(
   .kbj-v2 .kbj-q{position:relative;left:auto;width:auto;padding:18px 22px 22px}
   .kbj-v2 .kbj-q p{font-size:1.6rem}
 }
+/* 2026-11-12 정당 돈 첫 화면: 남색 바탕 → 밝은 바탕(크림색 그림이 상자처럼 뜨지 않게). 함께하기(pledge)는 그대로 남색 */
+:where(.pg-party-money) body.pg-party-money .hd{background:var(--c-white);color:var(--c-ink);border-bottom:1px solid var(--c-line)}
+:where(.pg-party-money) body.pg-party-money .hd h1{color:var(--c-navy)}
+:where(.pg-party-money) body.pg-party-money .hd h1 em{color:var(--c-green)}
+:where(.pg-party-money) body.pg-party-money .hd p{color:var(--c-ink-2)}
+:where(.pg-party-money) body.pg-party-money .hd .eyebrow{color:var(--c-slate)}
