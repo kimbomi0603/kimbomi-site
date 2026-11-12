@@ -2887,3 +2887,26 @@ html:where(.pg-budget365)[data-theme="dark"] .band .badge.gold{background:var(--
 :where(.pg-budget365) .wrap .mins.vz-open a.vz-x{display:block}
 :where(.pg-budget365) .vrate.vw{width:100%;margin:9px 0 0;height:6px}
 :where(.pg-budget365) .wrap .diagk{grid-template-columns:repeat(auto-fit,minmax(min(138px,100%),1fr))}
+/* 2026-11-12 제미나이 교차검토 반영 */
+:where(.pg-budget365) .vleg li.z{opacity:.5}
+:where(.pg-budget365) .vgrade .g3{background:#E0A21A}:where(.pg-budget365) .vgrade .g4{background:#E0662B}:where(.pg-budget365) .vgrade .g5{background:#C3272B}
+:where(.pg-budget365) .gov-sw.yr a.on{background:var(--c1);border-color:var(--c1);color:var(--c-white)}
+:where(.pg-budget365) .wrap .sido{gap:6px;border:0}
+:where(.pg-budget365) .wrap .sido button{border:1px solid var(--line);border-radius:999px;padding:7px 14px}
+:where(.pg-budget365) .wrap .sido button.on{background:var(--c1);border-color:var(--c1);color:var(--c-white)}
+:where(.pg-budget365) .wrap .glance{grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))}
+@media(max-width:560px){
+  :where(.pg-budget365) .asof .asof-t{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  :where(.pg-budget365) .wrap .glance{grid-template-columns:1fr 1fr;gap:8px}
+  :where(.pg-budget365) .wrap .glance a{padding:12px 12px 11px}
+  :where(.pg-budget365) .wrap .glance .n{font-size:17px}
+  :where(.pg-budget365) .wrap table.vtbl thead{display:none}
+  :where(.pg-budget365) .wrap table.vtbl tr{display:grid;grid-template-columns:1fr auto auto;gap:2px 12px;padding:10px 4px;border-bottom:1px solid var(--line)}
+  :where(.pg-budget365) .wrap table.vtbl td{border:0;padding:0;background:none!important}
+  :where(.pg-budget365) .wrap table.vtbl td:first-child{grid-column:1/-1;font-weight:600}
+  :where(.pg-budget365) .wrap table.vtbl td:nth-child(2)::before{content:"예산현액 ";font-family:var(--body);font-size:11.5px;color:var(--ink-3)}
+  :where(.pg-budget365) .wrap table.vtbl td:nth-child(3)::before{content:"미집행 ";font-family:var(--body);font-size:11.5px;color:var(--ink-3);font-weight:400}
+  :where(.pg-budget365) .wrap table.vtbl td:nth-child(2){text-align:left}
+  :where(.pg-budget365) .wrap table.vtbl td[colspan]{grid-column:1/-1}
+}
+:where(.pg-budget365) .gov-sw.yr{border-color:var(--c1);border-radius:12px;overflow:hidden}
