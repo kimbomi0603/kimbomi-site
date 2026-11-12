@@ -230,3 +230,179 @@ html:not([data-theme="dark"]) .kbj-v2 .kbj-skip:focus-visible{outline-color:var(
 .kbl-guide{margin:2px 0 12px;padding:10px 16px;border-radius:14px;background:var(--c-cream);border:1px solid var(--c-gold);max-width:30em;word-break:keep-all}
 .kbl-guide b{display:block;font-size:1.12rem;font-weight:800;color:var(--c-navy);line-height:1.4}
 .kbl-guide span{display:block;margin-top:2px;font-size:.9rem;color:var(--c-ink-2);line-height:1.5}
+/* ═══ 2026-11-12 우리동네365 보기 쉽게: 자료 색을 밝히고(색각 구분 검사 통과 5색), 카드·지표·표를 덜 빽빽하게 ═══ */
+:root:where(.pg-budget365){--c1:#2B63B0;--c2:#1E9478;--c3:#E0A21A;--c4:#8E6CC9;--c5:#D2553D;--c6:#3F9FC0;--c7:#9AA3B0;--c8:#B8578C;--v-track:#E1E7F0;--v-soft:#F3F6FB;--v-tint:#EAF1FB}
+:root:where(.pg-budget365):not([data-theme="dark"]){--navy:var(--c-navy);--navy-2:var(--c-navy);--royal:var(--c-navy);--rule:var(--c-navy)}
+html:where(.pg-budget365)[data-theme="dark"]{--v-track:rgb(255 255 255 / .16);--v-soft:rgb(255 255 255 / .06);--v-tint:rgb(255 255 255 / .08);--c1:#6FA3E8;--c2:#3CC0A0;--c4:#B39AEA}
+:where(.pg-budget365) .wrap .card{border-radius:16px;border-color:var(--line);padding:20px 22px 18px;box-shadow:0 1px 2px rgb(var(--c-navy-rgb) / .04),0 10px 26px rgb(var(--c-navy-rgb) / .055)}
+:where(.pg-budget365) .wrap .card h3{border-bottom:0;padding-bottom:0;margin-bottom:14px;font-size:17.5px}
+:where(.pg-budget365) .wrap .grid2{gap:16px}
+:where(.pg-budget365) .wrap .vwide{grid-column:1/-1}
+:where(.pg-budget365) .wrap .sech{border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px;align-items:center}
+:where(.pg-budget365) .wrap .sech .no{border-radius:999px;padding:4px 11px;background:var(--c1);color:var(--c-white)}
+:where(.pg-budget365) .wrap section.sec{margin-top:44px}
+/* 한눈에 타일 */
+:where(.pg-budget365) .wrap .glance{gap:12px}
+:where(.pg-budget365) .wrap .glance a{border-radius:14px;border:1px solid var(--line);border-top:0;padding:15px 16px 14px;position:relative;overflow:hidden;box-shadow:0 1px 2px rgb(var(--c-navy-rgb) / .04);transition:transform .15s,box-shadow .15s}
+:where(.pg-budget365) .wrap .glance a::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--kc,var(--c1))}
+:where(.pg-budget365) .wrap .glance a:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgb(var(--c-navy-rgb) / .1)}
+/* 지표 타일 */
+:where(.pg-budget365) .wrap .vlead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:26px 0 10px}
+:where(.pg-budget365) .wrap .vlead b{font-family:var(--disp);font-size:19px;font-weight:900;color:var(--navy)}
+:where(.pg-budget365) .wrap .vlead span{font-size:12.5px;color:var(--ink-3)}
+:where(.pg-budget365) .wrap .kpi{gap:12px;border:0;margin-top:0;grid-template-columns:repeat(auto-fill,minmax(min(210px,100%),1fr))}
+:where(.pg-budget365) .wrap .kpi > div{border:1px solid var(--line);border-radius:14px;padding:15px 16px 13px;box-shadow:0 1px 2px rgb(var(--c-navy-rgb) / .04)}
+:where(.pg-budget365) .wrap .kpi > div::after{display:none}
+:where(.pg-budget365) .wrap .kpi .l{font-weight:600;color:var(--ink-2)}
+:where(.pg-budget365) .wrap .kpi .n{font-size:27px;font-weight:700;margin:6px 0 4px}
+:where(.pg-budget365) .wrap .kpi .rk{border:0;border-radius:999px;background:var(--v-tint);color:var(--c1);padding:2px 9px;font-weight:700}
+:where(.pg-budget365) .wrap .kpi .rkb{flex:1 0 100%;display:block;width:auto;height:6px;margin:8px 0 2px;border:0;border-radius:99px;background:linear-gradient(90deg,var(--c1),var(--v-track) 62%)}
+:where(.pg-budget365) .wrap .kpi .rkb i{top:50%;bottom:auto;width:12px;height:12px;border-radius:50%;background:var(--c-white);border:3px solid var(--c1);transform:translate(-50%,-50%);box-sizing:border-box}
+/* 접어 두는 묶음 */
+:where(.pg-budget365) .vmore{margin-top:12px}
+:where(.pg-budget365) .vmore > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:11px 16px;border:1px dashed var(--line);border-radius:12px;background:var(--v-soft);font-size:13.5px;font-weight:700;color:var(--c1)}
+:where(.pg-budget365) .vmore > summary::-webkit-details-marker{display:none}
+:where(.pg-budget365) .vmore > summary::before{content:"+";display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--c1);color:var(--c-white);font-weight:700;line-height:1;flex:none}
+:where(.pg-budget365) .vmore[open] > summary::before{content:"−"}
+:where(.pg-budget365) .vmore > summary span{font-weight:500;color:var(--ink-3);font-size:12.5px;min-width:0}
+:where(.pg-budget365) .vmore > summary:hover{border-color:var(--c1)}
+:where(.pg-budget365) .vmore > summary:focus-visible{outline:2px solid var(--c1);outline-offset:2px}
+:where(.pg-budget365) .vmore[open] > summary{margin-bottom:12px}
+:where(.pg-budget365) .vmore.vbig > summary{padding:15px 18px;font-size:14.5px}
+/* 고리 + 금액 세 줄 */
+:where(.pg-budget365) .vhero{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+:where(.pg-budget365) .vring{position:relative;width:148px;height:148px;flex:none}
+:where(.pg-budget365) .vring svg{width:100%;height:100%;display:block}
+:where(.pg-budget365) .vring circle{fill:none;stroke-width:13}
+:where(.pg-budget365) .vring .t{stroke:var(--v-track)}
+:where(.pg-budget365) .vring .f{stroke:var(--c2);stroke-linecap:round}
+:where(.pg-budget365) .vring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+:where(.pg-budget365) .vring-c .big{font-size:29px;font-weight:700;line-height:1.1}
+:where(.pg-budget365) .vring-c span{font-size:12px;color:var(--ink-3);margin-top:3px}
+:where(.pg-budget365) .vkv{flex:1 1 190px;margin:0;display:grid;gap:0}
+:where(.pg-budget365) .vkv > div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+:where(.pg-budget365) .vkv > div:last-child{border-bottom:0}
+:where(.pg-budget365) .vkv dt{font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:7px}
+:where(.pg-budget365) .vkv dd{margin:0;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:17px;font-weight:700;color:var(--ink)}
+:where(.pg-budget365) .vkv .d,:where(.pg-budget365) .vleg .d{width:9px;height:9px;border-radius:3px;display:inline-block;flex:none}
+:where(.pg-budget365) .vchips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:14px;font-size:12.5px;color:var(--ink-3)}
+:where(.pg-budget365) .vchips em{font-style:normal;background:var(--v-soft);border-radius:999px;padding:4px 11px;color:var(--ink-2)}
+:where(.pg-budget365) .vchips b{font-variant-numeric:tabular-nums;color:var(--ink)}
+:where(.pg-budget365) .vsub{margin:22px 0 10px;font-size:14px;font-weight:800;color:var(--navy);display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+:where(.pg-budget365) .vsub span{font-size:12px;font-weight:500;color:var(--ink-3)}
+/* 구성 띠 */
+:where(.pg-budget365) .vseg{display:flex;gap:2px;height:22px;border-radius:7px;overflow:hidden;background:var(--v-track)}
+:where(.pg-budget365) .vseg i{display:block;min-width:3px}
+:where(.pg-budget365) .vleg{list-style:none;margin:10px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:4px 18px}
+:where(.pg-budget365) .vleg li{display:grid;grid-template-columns:auto 1fr auto auto;align-items:baseline;gap:7px;font-size:13px;padding:5px 0;border-bottom:1px solid var(--line)}
+:where(.pg-budget365) .vleg .k{color:var(--ink-2)}
+:where(.pg-budget365) .vleg b{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink)}
+:where(.pg-budget365) .vleg small{font-weight:500;color:var(--ink-3);margin-left:1px}
+:where(.pg-budget365) .vleg .p{font-variant-numeric:tabular-nums;color:var(--ink-3);font-size:12px;min-width:3.4em;text-align:right}
+/* 분야별 막대 목록 */
+:where(.pg-budget365) .vkey{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-3);margin:-4px 0 10px}
+:where(.pg-budget365) .vkey i{display:inline-block;width:18px;height:8px;border-radius:4px;margin-right:6px;vertical-align:middle}
+:where(.pg-budget365) .vkey .t{background:var(--v-track)}:where(.pg-budget365) .vkey .f{background:var(--c2)}
+:where(.pg-budget365) .vmeter{display:grid;gap:0}
+:where(.pg-budget365) .vmeter a{display:grid;grid-template-columns:minmax(84px,9.5em) minmax(40px,1fr) 5.2em 3.9em;align-items:center;gap:10px;padding:7px 6px;margin:0 -6px;border-radius:8px;text-decoration:none;color:inherit;font-size:13px}
+:where(.pg-budget365) .vmeter a:hover{background:var(--v-soft)}
+:where(.pg-budget365) .vmeter .k{color:var(--ink);font-weight:600;line-height:1.35;word-break:keep-all}
+:where(.pg-budget365) .vmeter .tr{display:block}
+:where(.pg-budget365) .vmeter .t{display:block;height:12px;border-radius:6px;background:var(--v-track);overflow:hidden}
+:where(.pg-budget365) .vmeter .t i{display:block;height:100%;border-radius:6px;background:var(--c2)}
+:where(.pg-budget365) .vmeter b{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink)}
+:where(.pg-budget365) .vmeter small{font-weight:500;color:var(--ink-3)}
+:where(.pg-budget365) .vmeter .p{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-2);font-size:12.5px}
+@media(max-width:480px){:where(.pg-budget365) .vmeter a{grid-template-columns:minmax(0,1fr) 5em 3.6em;row-gap:4px}:where(.pg-budget365) .vmeter .tr{grid-column:1/-1;grid-row:2}:where(.pg-budget365) .vring{width:124px;height:124px}:where(.pg-budget365) .vring-c .big{font-size:24px}:where(.pg-budget365) .wrap .card{padding:18px 16px 16px}}
+/* 표 안 비율 막대 · 등급 눈금 */
+:where(.pg-budget365) .vrate{display:block;height:5px;border-radius:3px;background:var(--v-track);margin:4px 0 0 auto;width:64px;overflow:hidden}
+:where(.pg-budget365) .vrate i{display:block;height:100%;border-radius:3px;background:var(--c2)}
+:where(.pg-budget365) .vrate.w i{background:var(--c5)}
+:where(.pg-budget365) .vgrade{display:inline-flex;gap:3px;vertical-align:middle;width:100%;max-width:170px}
+:where(.pg-budget365) .vgrade i{flex:1;height:10px;border-radius:3px;background:var(--v-track)}
+:where(.pg-budget365) .vgrade .g1{background:#1E9478}:where(.pg-budget365) .vgrade .g2{background:#6FB25E}:where(.pg-budget365) .vgrade .g3{background:#E0A21A}:where(.pg-budget365) .vgrade .g4{background:#E07B39}:where(.pg-budget365) .vgrade .g5{background:#D2553D}
+:where(.pg-budget365) .vgo{display:inline-block;margin-top:10px;font-size:13px;font-weight:700;color:var(--c1);text-decoration:none}
+:where(.pg-budget365) .vgo:hover{text-decoration:underline}
+/* 위쪽 띠: 꼬리표·보기 고르기 타일도 같은 결로 */
+:where(.pg-budget365) .band .badges{gap:6px;border:0;margin-top:14px}
+:where(.pg-budget365) .band .badge{border:1px solid var(--line);border-radius:999px;padding:6px 13px}
+:where(.pg-budget365) .band .badge.gold{box-shadow:none;background:var(--c-cream);border-color:var(--c-gold)}
+:where(.pg-budget365) .band .modes{gap:10px;border:0;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr))}
+:where(.pg-budget365) .band .modes a{border:1px solid var(--line);border-radius:14px;padding:12px 14px;box-shadow:0 1px 2px rgb(var(--c-navy-rgb) / .04);transition:transform .15s,box-shadow .15s,background .12s}
+:where(.pg-budget365) .band .modes a:hover{background:var(--card);transform:translateY(-2px);box-shadow:0 10px 22px rgb(var(--c-navy-rgb) / .1)}
+:where(.pg-budget365) .band .modes .ic{border-radius:10px}
+:where(.pg-budget365) .band .modes .ic.b{background:var(--c1)}:where(.pg-budget365) .band .modes .ic.e{background:var(--c2)}:where(.pg-budget365) .band .modes .ic.c{background:var(--c6)}:where(.pg-budget365) .band .modes .ic.d{background:var(--c5)}:where(.pg-budget365) .band .modes .ic.p{background:var(--c3);color:var(--c-ink)}:where(.pg-budget365) .band .modes .ic.q{background:var(--c4)}
+:where(.pg-budget365) .band .modes a.on .ic{background:var(--c-gold);color:var(--c-navy)}
+:where(.pg-budget365) .band .modes{grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+@media(max-width:560px){:where(.pg-budget365) .band .modes{grid-template-columns:1fr 1fr;gap:8px}:where(.pg-budget365) .band .modes a{padding:10px 11px;gap:9px;grid-template-columns:auto 1fr}:where(.pg-budget365) .band .modes a small,:where(.pg-budget365) .band .modes a > :last-child:not(:nth-child(2)){display:none}}
+/* 2026-11-12 글자 대비 4.5:1 맞춤: 보기 고르기 번호 칩(흰 글자)·왼쪽 메뉴 머리 설명 */
+:where(.pg-budget365) .band .modes .ic.e{background:#177A63}:where(.pg-budget365) .band .modes .ic.c{background:#236E8A}:where(.pg-budget365) .band .modes .ic.d{background:#B8452F}:where(.pg-budget365) .band .modes .ic.q{background:#7652B8}
+:where(.pg-budget365) .ng .nav-hd span{opacity:1}
+/* 2026-11-12 우리동네365 나머지 화면: 표·탭·안내문·나무 목록도 같은 결로, 긴 표는 접기 */
+:where(.pg-budget365) .wrap .tw{border:1px solid var(--line);border-radius:14px;overflow:hidden;overflow-x:auto;box-shadow:0 1px 2px rgb(var(--c-navy-rgb) / .04)}
+:where(.pg-budget365) .wrap .card .tw{border:0;border-radius:10px;box-shadow:none}
+:where(.pg-budget365) .wrap th{background:var(--v-soft);color:var(--ink-2);font-weight:700;border-bottom:1px solid var(--line)}
+:where(.pg-budget365) .wrap td{border-bottom-color:var(--line)}
+:where(.pg-budget365) .wrap tbody tr:last-child td{border-bottom:0}
+:where(.pg-budget365) .wrap tr.vz-x{display:none}
+:where(.pg-budget365) .wrap table.vz-open tr.vz-x{display:table-row}
+:where(.pg-budget365) .vfold{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin:10px 0 0;padding:10px 14px;border:1px dashed var(--line);border-radius:12px;background:var(--v-soft);color:var(--c1);font:700 13.5px/1.3 var(--body);cursor:pointer}
+:where(.pg-budget365) .vfold::before{content:"+";display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--c1);color:var(--c-white);font-weight:700;line-height:1}
+:where(.pg-budget365) .vfold[aria-expanded="true"]::before{content:"−"}
+:where(.pg-budget365) .vfold:hover{border-color:var(--c1)}
+:where(.pg-budget365) .vfold:focus-visible{outline:2px solid var(--c1);outline-offset:2px}
+:where(.pg-budget365) .vrate.s i{background:var(--c1)}
+:where(.pg-budget365) .wrap .tabs{gap:6px}
+:where(.pg-budget365) .wrap .tabs button{border:1px solid var(--line);border-right-width:1px;border-radius:999px;padding:7px 15px;font-weight:600}
+:where(.pg-budget365) .wrap .tabs button.on{background:var(--c1);border-color:var(--c1);color:var(--c-white)}
+:where(.pg-budget365) .band .seg{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+:where(.pg-budget365) .band .seg a,:where(.pg-budget365) .band .seg button{border-bottom:0;border-right-color:var(--line)}
+:where(.pg-budget365) .band .seg .on{outline:0;background:var(--c1);color:var(--c-white)}
+:where(.pg-budget365) .wrap .note{border-radius:12px;background:var(--c-cream);border:1px solid rgb(var(--c-gold-rgb) / .35)}
+:where(.pg-budget365) .wrap .note.blue{background:var(--v-tint);border-color:rgb(43 99 176 / .2)}
+:where(.pg-budget365) .wrap .tree{border:1px solid var(--line);border-radius:14px;padding:8px 14px;box-shadow:0 1px 2px rgb(var(--c-navy-rgb) / .04)}
+:where(.pg-budget365) .wrap .tree details.lv1{border-left:3px solid var(--c1)}
+:where(.pg-budget365) .wrap .tree summary:hover{background:var(--v-soft)}
+:where(.pg-budget365) .wrap .tag{border-radius:999px;padding:2px 9px}
+:where(.pg-budget365) .wrap input[type="search"],:where(.pg-budget365) .wrap input[type="text"],:where(.pg-budget365) .wrap select{border-radius:10px}
+html:where(.pg-budget365)[data-theme="dark"] .wrap .note,html:where(.pg-budget365)[data-theme="dark"] .wrap .note.blue{background:var(--v-soft);border-color:var(--v-track)}
+html:where(.pg-budget365)[data-theme="dark"] .band .badge.gold{background:var(--v-soft)}
+/* 부처·시군구 타일, 진단 요약 띠: 붙은 칸 → 떨어진 둥근 카드 */
+:where(.pg-budget365) .wrap .mins,:where(.pg-budget365) .wrap .gu,:where(.pg-budget365) .wrap .diagk{gap:10px;border:0}
+:where(.pg-budget365) .wrap .mins a,:where(.pg-budget365) .wrap .gu a,:where(.pg-budget365) .wrap .diagk > div{border:1px solid var(--line);border-radius:14px;box-shadow:0 1px 2px rgb(var(--c-navy-rgb) / .04)}
+:where(.pg-budget365) .wrap .mins a,:where(.pg-budget365) .wrap .gu a{transition:transform .15s,box-shadow .15s}
+:where(.pg-budget365) .wrap .mins a:hover,:where(.pg-budget365) .wrap .gu a:hover{background:var(--card);transform:translateY(-2px);box-shadow:0 10px 22px rgb(var(--c-navy-rgb) / .1)}
+:where(.pg-budget365) .wrap .gu a::before{width:4px;background:var(--c1)}
+:where(.pg-budget365) .wrap .gu a.hq::before{background:var(--c3)}
+:where(.pg-budget365) .wrap .gu .rb{height:6px;border-radius:3px;border:0;background:var(--v-track);overflow:hidden}
+:where(.pg-budget365) .wrap .gu .rb i{background:var(--c2);border-radius:3px}
+:where(.pg-budget365) .wrap .mins a.vz-x{display:none}
+:where(.pg-budget365) .wrap .mins.vz-open a.vz-x{display:block}
+:where(.pg-budget365) .vrate.vw{width:100%;margin:9px 0 0;height:6px}
+:where(.pg-budget365) .wrap .diagk{grid-template-columns:repeat(auto-fit,minmax(min(138px,100%),1fr))}
+/* 2026-11-12 제미나이 교차검토 반영 */
+:where(.pg-budget365) .vleg li.z .d{opacity:.35}
+:where(.pg-budget365) .vgrade .g3{background:#E0A21A}:where(.pg-budget365) .vgrade .g4{background:#E0662B}:where(.pg-budget365) .vgrade .g5{background:#C3272B}
+:where(.pg-budget365) .gov-sw.yr a.on{background:var(--c1);border-color:var(--c1);color:var(--c-white)}
+:where(.pg-budget365) .wrap .sido{gap:6px;border:0}
+:where(.pg-budget365) .wrap .sido button{border:1px solid var(--line);border-radius:999px;padding:7px 14px}
+:where(.pg-budget365) .wrap .sido button.on{background:var(--c1);border-color:var(--c1);color:var(--c-white)}
+:where(.pg-budget365) .wrap .glance{grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))}
+@media(max-width:560px){
+  :where(.pg-budget365) .asof .asof-t{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  :where(.pg-budget365) .wrap .glance{grid-template-columns:1fr 1fr;gap:8px}
+  :where(.pg-budget365) .wrap .glance a{padding:12px 12px 11px}
+  :where(.pg-budget365) .wrap .glance .n{font-size:17px}
+  :where(.pg-budget365) .wrap table.vtbl thead{display:none}
+  :where(.pg-budget365) .wrap table.vtbl tr{display:grid;grid-template-columns:1fr auto auto;gap:2px 12px;padding:10px 4px;border-bottom:1px solid var(--line)}
+  :where(.pg-budget365) .wrap table.vtbl td{border:0;padding:0;background:none!important}
+  :where(.pg-budget365) .wrap table.vtbl td:first-child{grid-column:1/-1;font-weight:600}
+  :where(.pg-budget365) .wrap table.vtbl td:nth-child(2)::before{content:"예산현액 ";font-family:var(--body);font-size:11.5px;color:var(--ink-3)}
+  :where(.pg-budget365) .wrap table.vtbl td:nth-child(3)::before{content:"미집행 ";font-family:var(--body);font-size:11.5px;color:var(--ink-3);font-weight:400}
+  :where(.pg-budget365) .wrap table.vtbl td:nth-child(2){text-align:left}
+  :where(.pg-budget365) .wrap table.vtbl td[colspan]{grid-column:1/-1}
+}
+:where(.pg-budget365) .gov-sw.yr{border-color:var(--c1);border-radius:12px;overflow:hidden}
+:where(.pg-budget365) .wrap .sido button.on small{color:var(--c-white);opacity:1}
+:where(.pg-budget365) .gov-sw.yr a small{color:var(--ink-2);opacity:1}
+:where(.pg-budget365) .gov-sw.yr a.on small{color:var(--c-white)}

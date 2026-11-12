@@ -22,6 +22,7 @@
 <link rel="icon" href="favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="assets/brand/kb-icon.svg"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preload" href="data/index.json" as="fetch" crossorigin>
 <link rel="preload" href="data/verify/status.json" as="fetch" crossorigin>
+<link rel="preload" href="data/gov-index.json" as="fetch" crossorigin><!-- 2026-11-12 첫 화면이 이 파일을 기다리느라 0.3~0.4초 늦었다: 색인과 함께 미리 받는다 -->
 <link rel="stylesheet" href="assets/kb.css?v=20261108">
 
 
@@ -151,7 +152,7 @@
   var ap=document.getElementById('app'); if(ap) ap.innerHTML='<div class="wrap">'+KB_loader(k,{who:w})+'</div>';
 })();</script>
 <footer class="foot"><div class="wrap" id="foot"></div></footer>
-<div class="fabs" id="fabs"><button type="button" onclick="goBack()" aria-label="이전 화면으로">← 뒤로</button><button type="button" class="up" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="맨 위로">↑ 맨 위</button></div>
+<div class="fabs" id="fabs"><button type="button" onclick="goBack()" title="이전 화면으로"><span aria-hidden="true">← </span>뒤로</button><button type="button" class="up" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="맨 위로">↑ 맨 위</button></div>
 <div class="ov" id="ov" role="dialog" aria-modal="true"><div class="md" id="md"></div></div>
 
 <script>
@@ -414,7 +415,45 @@ function csv(rows){ const q=v=>{ const s=String(v==null?'':v); return /[",\n]/.t
   return '﻿'+rows.map(r=>r.map(q).join(',')).join('\r\n'); }
 function loadJs(src){ return new Promise((ok,no)=>{ if([...document.scripts].some(s=>s.src===src)) return ok(); const el=document.createElement('script'); el.src=src; el.onload=()=>ok(); el.onerror=()=>no(new Error('스크립트를 불러오지 못했습니다')); document.head.appendChild(el); }); }
 function killCharts(){ S.charts.forEach(c=>{try{c.destroy()}catch(e){}}); S.charts=[]; }
-function chart(id,cfg){ const el=document.getElementById(id); if(!el||typeof Chart==='undefined') return; Chart.defaults.color=css('--ink-2'); Chart.defaults.borderColor=css('--line'); Chart.defaults.font.family=css('--body'); const c=new Chart(el,cfg); S.charts.push(c); return c; }
+function chart(id,cfg){ const el=document.getElementById(id); if(!el||typeof Chart==='undefined') return; Chart.defaults.color=css('--ink-2'); Chart.defaults.borderColor=css('--line'); Chart.defaults.font.family=css('--body'); vizDefaults(); const c=new Chart(el,cfg); S.charts.push(c); return c; }
+
+/* ═══════════ 2026-11-12 보기 쉬운 그림 조각 ═══════════ */
+function vizDefaults(){ if(Chart.__kbViz) return; Chart.__kbViz=1; const D=Chart.defaults;
+  D.font.size=12; D.elements.bar.borderRadius=5; D.elements.bar.borderSkipped='start'; D.elements.line.borderWidth=2.5; D.elements.line.tension=.3; D.elements.line.cubicInterpolationMode='monotone'; D.elements.point.radius=3; D.elements.point.hoverRadius=6; D.elements.point.borderWidth=2; D.elements.point.borderColor='#fff';
+  D.plugins.legend.labels.usePointStyle=true; D.plugins.legend.labels.pointStyle='circle'; D.plugins.legend.labels.boxWidth=7; D.plugins.legend.labels.boxHeight=7; D.plugins.legend.labels.padding=14; D.plugins.legend.align='start';
+  Object.assign(D.plugins.tooltip,{backgroundColor:'rgba(22,25,31,.94)',padding:11,cornerRadius:10,titleFont:{weight:'700',size:12.5},bodyFont:{size:12.5},boxPadding:5,usePointStyle:true,displayColors:true});
+  D.scale.grid.color='rgba(90,100,116,.14)'; D.scale.border.display=false; D.scale.ticks.padding=6;
+  Chart.register({id:'kbVal',afterDatasetsDraw(c){ const x=c.ctx; c.data.datasets.forEach((ds,i)=>{ if(!ds.vlab) return; const meta=c.getDatasetMeta(i); if(meta.hidden) return; const pick=ds.vlab==='last'?[meta.data.length-1]:meta.data.map((_,k)=>k);
+    x.save(); x.font='600 11.5px '+css('--body'); x.fillStyle=css('--ink'); x.textAlign='center'; x.textBaseline='bottom';
+    pick.forEach(k=>{ const el=meta.data[k], v=ds.data[k]; if(!el||v==null) return; const t=(ds.vfmt||(z=>z.toLocaleString('ko-KR')))(v); let px=el.x, py=el.y-7; if(ds.vlab==='last'){ x.textAlign='right'; px=el.x+4; const pv=meta.data[k-1]; if(pv&&pv.y<el.y-6){ x.textBaseline='top'; py=el.y+8; } } x.fillText(t,px,py); }); x.restore(); }); }}); }
+/* 고리 그림: 집행률처럼 0~100% 하나를 보여 줄 때 */
+const vRing=(rate,cap)=>{ const r=52, c=2*Math.PI*r, v=Math.max(0,Math.min(100,Number(rate)||0)); return `<div class="vring" role="img" aria-label="${cap} ${pct(rate)}"><svg viewBox="0 0 128 128" aria-hidden="true"><circle cx="64" cy="64" r="${r}" class="t"/><circle cx="64" cy="64" r="${r}" class="f" stroke-dasharray="${(c*v/100).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 64 64)"/></svg><div class="vring-c"><div class="big">${pct(rate)}</div><span>${cap}</span></div></div>`; };
+/* 구성 띠: 전체 가운데 몫(도넛 대신). items=[{l,v,c}] v는 원 단위 */
+const vSeg=(items)=>{ const tot=items.reduce((a,x)=>a+(Number(x.v)||0),0); if(!(tot>0)) return ''; const it=items.filter(x=>Number(x.v)>0);
+  return `<div class="vseg" role="img" aria-label="${it.map(x=>x.l+' '+pct(x.v/tot*100)).join(', ')}">${it.map(x=>`<i style="flex:${(x.v/tot*100).toFixed(2)} 1 0;background:${x.c}" title="${x.l} ${eok(x.v)}억 · ${pct(x.v/tot*100)}"></i>`).join('')}</div><ul class="vleg">${items.map(x=>`<li${Number(x.v)>0?'':' class="z"'}><span class="d" style="background:${x.c}"></span><span class="k">${x.l}</span><b>${eok(x.v)}<small>억</small></b><span class="p">${pct(x.v/tot*100)}</span></li>`).join('')}</ul>`; };
+/* 비율 막대(표 안): 숫자 옆에 길이로 한 번 더 */
+const vRate=(v,warn)=>isN(v)?`<span class="vrate${warn?' w':''}" aria-hidden="true"><i style="width:${Math.max(0,Math.min(100,v)).toFixed(1)}%"></i></span>`:'';
+/* 등급 눈금: 1(좋음)~5(취약) */
+const vGrade=g=>`<span class="vgrade" aria-hidden="true">${[1,2,3,4,5].map(k=>`<i${k===Number(g)?` class="on g${k}"`:''}></i>`).join('')}</span>`;
+
+/* 화면이 그려질 때마다: 비중 열에 길이 막대를 붙이고, 10줄 넘는 표는 8줄만 보이고 나머지는 접는다(값은 그대로, 지우지 않음) */
+function vizEnhance(){ const app=document.getElementById('app'); if(!app) return;
+  app.querySelectorAll('table:not([data-vz])').forEach(t=>{ t.setAttribute('data-vz','1'); const tb=t.tBodies[0]; if(!tb||t.closest('details')||/fiind|ctlist|ctyr/.test(t.className)) return;
+    const ths=[...t.querySelectorAll('thead th')].map(x=>x.textContent.trim());
+    const hasShare=ths.some(h=>/^(점유율|비중)$/.test(h));
+    ths.forEach((h,i)=>{ if(!/^(점유율|비중|수의 비중|전 기간 수의 비중)$/.test(h)) return; if(hasShare&&/수의/.test(h)) return; const cells=[...tb.rows].map(r=>r.cells[i]).filter(Boolean).map(c=>[c,(c.textContent.trim().match(/^(\d+(?:\.\d+)?)%$/)||[])[1]]).filter(x=>x[1]!=null); if(!cells.length) return;
+      const su=/수의/.test(h), mx=su?100:Math.max(...cells.map(x=>+x[1]),1e-9);
+      cells.forEach(([c,v])=>{ if(!c.querySelector('.vrate')) c.insertAdjacentHTML('beforeend',`<span class="vrate ${su&&+v>=50?'w':'s'}" aria-hidden="true"><i style="width:${Math.min(100,+v/mx*100).toFixed(1)}%"></i></span>`); }); });
+    const n=tb.rows.length; const own=[...((t.closest('.tw')||t).parentElement||app).querySelectorAll('button')].some(x=>/더 보기/.test(x.textContent));   /* 화면이 이미 '더 보기'를 갖고 있으면 겹쳐 접지 않는다 */
+    if(n>10&&ths.length<=6&&!own){ [...tb.rows].forEach((r,k)=>{ if(k>=8) r.classList.add('vz-x'); });
+      const host=t.closest('.tw')||t; const b=document.createElement('button'); b.type='button'; b.className='vfold'; b.setAttribute('aria-expanded','false'); b.textContent=`나머지 ${n-8}줄 더 보기`;
+      b.onclick=()=>{ const o=t.classList.toggle('vz-open'); b.setAttribute('aria-expanded',o?'true':'false'); b.textContent=o?'접기':`나머지 ${n-8}줄 더 보기`; }; host.insertAdjacentElement('afterend',b); } }); }
+function vizMins(){ document.querySelectorAll('#app .mins:not([data-vz])').forEach(g=>{ g.setAttribute('data-vz','1'); const A=[...g.children].filter(x=>x.tagName==='A'); if(!A.length) return;
+    const val=x=>{ const t=(x.querySelector('.n')||{}).textContent||''; const j=(t.match(/([\d,]+)조/)||[])[1], e=(t.match(/([\d,]+)억/)||[])[1]; return (j?+j.replace(/,/g,'')*1e4:0)+(e?+e.replace(/,/g,''):0); };
+    const V=A.map(val), mx=Math.max(...V,1); A.forEach((x,i)=>{ if(V[i]>0&&!x.querySelector('.vrate')) x.insertAdjacentHTML('beforeend',`<span class="vrate s vw" aria-hidden="true" title="가장 큰 곳 대비 ${(V[i]/mx*100).toFixed(1)}%"><i style="width:${Math.max(.8,V[i]/mx*100).toFixed(1)}%"></i></span>`); });
+    if(A.length>20){ A.forEach((x,i)=>{ if(i>=16) x.classList.add('vz-x'); }); const b=document.createElement('button'); b.type='button'; b.className='vfold'; b.setAttribute('aria-expanded','false'); const lab=`나머지 ${A.length-16}곳 더 보기`; b.textContent=lab;
+      b.onclick=()=>{ const o=g.classList.toggle('vz-open'); b.setAttribute('aria-expanded',o?'true':'false'); b.textContent=o?'접기':lab; }; g.insertAdjacentElement('afterend',b); } }); }
+(function(){ const go=()=>{ const app=document.getElementById('app'); if(!app){ setTimeout(go,300); return; } let q=0; new MutationObserver(()=>{ if(q) return; q=1; requestAnimationFrame(()=>{ q=0; try{ vizEnhance(); vizMins(); }catch(e){} }); }).observe(app,{childList:true,subtree:true}); vizEnhance(); vizMins(); }; if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',go); else go(); })();
 
 /* ═══════════ 순위(243, 2024 공시 체계) ═══════════ */
 function rank(cd,get,better='high'){ const arr=S.index.rows.filter(x=>x.key_2024&&isN(get(x))); const me=arr.find(x=>x.laf_cd===cd); if(!me) return null; const v=Number(get(me)); const ahead=arr.filter(x=>better==='high'?Number(get(x))>v:Number(get(x))<v).length; const ties=arr.filter(x=>Number(get(x))===v).length; return {r:ahead+1,n:arr.length,t:ties>1?ties:0}; }
@@ -507,14 +546,14 @@ function spark(pts,color){ if(pts.length<2) return ''; const vs=pts.map(p=>p.v),
 function lgTitle(m){ return (m.sigungu_new||m.display_new.replace(/^\(2024 공시\) /,'')); }
 function lgBand(lg,mode,extra){ const m=lg.master,cd=lg.laf_cd,title=lgTitle(m); const MODES=[['budget','예산','b','01','세부사업 하나하나'],['exec','집행','e','02','올해 어디까지 썼나'],['contract','계약','c','03','누구와 얼마에'],['diag','진단','d','04','규칙으로 걸러 본 곳'],['pledge','공약','p','05','단체장 등록 공약 원문'],['peer','비교','q','06','닮은 지자체 5곳과 나란히']];
   return `<div class="band"><div class="wrap lgband">
-    <div class="crumb"><button type="button" class="backbtn" onclick="goBack()" aria-label="이전 화면으로">← 뒤로</button><a href="#/">전국</a> › <a href="#/sido/${encodeURIComponent(m.sido_new)}">${esc(m.sido_new)}</a> › ${mode?`<a href="#/lg/${cd}">${esc(title)}</a> › ${esc(mode)}`:esc(title)}</div>
+    <div class="crumb"><button type="button" class="backbtn" onclick="goBack()" title="이전 화면으로"><span aria-hidden="true">← </span>뒤로</button><a href="#/">전국</a> › <a href="#/sido/${encodeURIComponent(m.sido_new)}">${esc(m.sido_new)}</a> › ${mode?`<a href="#/lg/${cd}">${esc(title)}</a> › ${esc(mode)}`:esc(title)}</div>
     <div class="eyebrow" style="margin-top:12px">${esc(m.level)} · ${esc(m.type)}${m.key_2024&&m.key_2024!==title?' · 2024 공시명 '+esc(m.key_2024):''}</div>
     <h1>${esc(title)}${mode?` <span style="font-weight:500;opacity:.8">${esc(mode)} 보기</span>`:''}</h1>
     <div class="sub">지자체 코드 ${cd}${m.prev_codes?.length?' (2023까지 '+m.prev_codes.join(',')+')':''}${m.replaces?' · 2026 개편으로 '+m.replaces.join('·')+' 승계':''}</div>
     ${myBtn(cd)}
     ${extra||''}
     ${mode?`<div class="seg">${MODES.map(([k,l])=>`<button type="button" class="${B.mode===k?'on':''}" onclick="B.mode='${k}';B.page=1;B.cy='';if(location.hash==='#/lg/${cd}/${k}')route();else location.hash='#/lg/${cd}/${k}'">${l}</button>`).join('')}<a href="#/lg/${cd}">← 현황</a></div>`:
-    `<div class="modes">${MODES.map(([k,l,c,ic,d])=>`<a href="#/lg/${cd}/${k}" onclick="B.page=1"><span class="ic ${c}">${ic}</span><span><b>${l} 보기</b><small>${d}</small></span><span class="ar">→</span></a>`).join('')}</div>`}
+    (m.live_2026!==false?'':`<div class="modes">${MODES.map(([k,l,c,ic,d])=>`<a href="#/lg/${cd}/${k}" onclick="B.page=1"><span class="ic ${c}">${ic}</span><span><b>${l} 보기</b><small>${d}</small></span><span class="ar">→</span></a>`).join('')}</div>`)}
   </div></div>`; }
 
 function renderLg(lg){ const m=lg.master, cd=lg.laf_cd, F=lg.fiscal||{}; const y24=F['2024']||{}; const e26=lg.exec?.['2026'], e25=lg.exec?.['2025'], e24=lg.exec?.['2024']; const X=lg.extra||{};
@@ -539,7 +578,7 @@ function renderLg(lg){ const m=lg.master, cd=lg.laf_cd, F=lg.fiscal||{}; const y
     y24.M_GAECF?{l:'행사·축제경비 비율 (2024)',n:pct(y24.M_GAECF.rate,2),u:'',s:'금액 '+won(y24.M_GAECF.total)+' · GAECF'}:null,
     y24.M_DDJAB?{l:'업무추진비 비율 (2024)',n:pct(y24.M_DDJAB.boe_rt,2),u:'',s:'금액 '+won(y24.M_DDJAB.boe)+' · DDJAB'}:null,
   ].filter(Boolean);
-  const badges=`<div class="badges">${isN(pop)?`<span class="badge">인구 <b>${num(pop)}</b>명 <span style="opacity:.6">2024 공시${bnd?' · '+esc(bnd.pre):''}</span></span>`:''}${isN(hh)?`<span class="badge">세대 <b>${num(hh)}</b> <span style="opacity:.6">2026.7</span></span>`:''}${X.demo_202607?`<span class="badge">20~39세 <b>${pct(X.demo_202607.youth_ratio)}</b></span><span class="badge">70세 이상 <b>${pct(X.demo_202607.over70_ratio)}</b></span>`:''}${isN(y24.M_BJHJB?.one_llx_smam)?`<span class="badge">1인당 지방세 <b>${num(y24.M_BJHJB.one_llx_smam)}</b>천원</span>`:''}${isN(y24.M_HCDIB?.rate)?`<span class="badge">1인당 세출예산 <b>${num(y24.M_HCDIB.rate)}</b>천원</span>`:''}${isN(X.integrity_2025)?`<span class="badge gold">종합청렴도 <b>${X.integrity_2025}</b>등급</span>`:''}</div>
+  const badges=`<div class="badges">${isN(pop)?`<span class="badge">인구 <b>${num(pop)}</b>명 <span style="opacity:.6">2024 공시${bnd?' · '+esc(bnd.pre):''}</span></span>`:''}${isN(hh)?`<span class="badge">세대 <b>${num(hh)}</b> <span style="opacity:.6">2026.7</span></span>`:''}${X.demo_202607?`<span class="badge">20~39세 <b>${pct(X.demo_202607.youth_ratio)}</b></span><span class="badge">70세 이상 <b>${pct(X.demo_202607.over70_ratio)}</b></span>`:''}${isN(y24.M_BJHJB?.one_llx_smam)?`<span class="badge">1인당 지방세 <b>${num(y24.M_BJHJB.one_llx_smam)}</b>천원</span>`:''}${isN(y24.M_HCDIB?.rate)?`<span class="badge">1인당 세출예산 <b>${num(y24.M_HCDIB.rate)}</b>천원</span>`:''}</div>
   `;
   const app=document.getElementById('app');
   app.innerHTML=lgBand(lg,'',badges)+`<div class="wrap">
@@ -548,55 +587,63 @@ function renderLg(lg){ const m=lg.master, cd=lg.laf_cd, F=lg.fiscal||{}; const y
   ${bnd?`<div class="note blue">${esc(bnd.text)} 2020~2024 재정공시·인구·1인당 값은 ${esc(bnd.pre)} 기준입니다. 2026 예산·집행은 지방재정365가 이 코드(${cd})로 공시한 값이며, 1인당 값은 경계가 바뀌어 계산하지 않습니다.</div>`:''}
   ${m.new_2026?`<div class="note blue">2026.7.1 개편으로 신설된 지자체입니다. 2020~2024 재정공시는 개편 전 지자체(${(m.replaces||[]).map(c=>S.byCd[c]?.key_2024||c).join(', ')})에 있습니다.</div>`:''}
   ${gone?'':`<div class="glance" id="glance" style="margin-top:0;margin-bottom:18px">
+    <a href="#/lg/${cd}/budget" onclick="B.page=1" style="--kc:var(--c1)"><div class="l">예산 보기</div><div class="n">${e26?`세부사업 ${num(e26.dbiz_count)}건`:NA}</div><div class="s">${e26?`예산현액 ${won(e26.sum.budget)} · 사업 하나하나`:'세부사업 하나하나'}</div></a>
     <a href="#/lg/${cd}/exec" style="--kc:var(--c2)"><div class="l">올해 집행</div><div class="n">${e26?pct(e26.sum.rate):NA}</div><div class="s">${e26?`세부사업 ${num(e26.dbiz_count)}건 · ${ymd(e26.exe_ymd)} 기준`:((lg._held||[]).some(h=>h.k==='exec:2026')?'대조가 끝나지 않아 비움':'자료 없음')}</div></a>
     <a href="#/lg/${cd}/contract" style="--kc:var(--c6)"><div class="l">계약대장</div><div class="n" id="glCtrt">${window.KB_loaderMini?KB_loaderMini('contract','계약 대장 받는 중'):'불러오는 중…'}</div><div class="s" id="glCtrtS">2021년~ 전수</div></a>
     <a href="#/lg/${cd}/diag" style="--kc:var(--c5)"><div class="l">계약 이상 징후</div><div class="n" id="glDiag">판정 중…</div><div class="s" id="glDiagS">규칙 6개</div></a>
     <a href="#/lg/${cd}/pledge" style="--kc:var(--c3)"><div class="l">단체장 공약</div><div class="n" id="glPl">확인 중…</div><div class="s" id="glPlS">선관위 등록 공약 원문</div></a>
+    <a href="#/lg/${cd}/peer" style="--kc:var(--c4)"><div class="l">비교 보기</div><div class="n">닮은 지자체 5곳</div><div class="s">인구가 비슷한 곳과 나란히</div></a>
   </div>`}
-  <div class="kpi">${kpis.map(k=>`<div><div class="l">${k.l}</div><div class="n">${k.n}<small>${k.u}</small>${rk(k.r)}</div><div class="s">${k.s}</div></div>`).join('')}</div>
+  ${(()=>{ const T=k=>`<div><div class="l">${k.l}</div><div class="n">${k.n}<small>${k.u}</small>${rk(k.r)}</div><div class="s">${k.s}</div></div>`; const a=kpis.slice(0,8), b=kpis.slice(8);
+    return `<div class="vlead"><b>핵심 지표</b><span>살림 규모·자립·빚·청렴·안전 · 전국 순위는 243곳 가운데 자리</span></div><div class="kpi">${a.map(T).join('')}</div>${b.length?`<details class="vmore"><summary>지표 ${b.length}개 더 보기 <span>${b.map(k=>k.l.replace(/ \(.*$/,'')).join(' · ')}</span></summary><div class="kpi">${b.map(T).join('')}</div></details>`:''}`; })()}
 
   ${e26?`<section class="sec"><div class="sech"><span class="no">01</span><h2>올해 집행 현황</h2><span class="basis">2026 회계연도 · ${ymd(e26.exe_ymd)} 기준 · 지방재정365 세부사업별 세출</span></div>
   <div class="grid2">
     <div class="card"><h3>예산현액 대비 집행 <span class="basis">세부사업 ${num(e26.dbiz_count)}건 · ${num(e26.rows_total)}행</span></h3>
-      <div class="big">${pct(e26.sum.rate)}</div><div class="bar"><i style="width:${Math.min(100,e26.sum.rate||0)}%"></i></div>
-      <div class="mut">예산현액 ${won(e26.sum.budget)} · 집행 ${won(e26.sum.exec)} · 미집행 ${won(e26.sum.budget-e26.sum.exec)}</div>
-      ${e25?`<div class="mut" style="margin-top:8px">참고 — 2025 연말(12.31) 집행률 ${pct(e25.sum.rate)} · 2024 연말 ${e24?pct(e24.sum.rate):NA}</div>`:''}
-      <div class="ch" style="height:150px;margin-top:12px"><canvas id="cSrc"></canvas></div><div class="mut">재원 구성(예산현액): 국비 ${eok(e26.sum.ntep)}억 · 시도비 ${eok(e26.sum.capep)}억 · 시군구비 ${eok(e26.sum.sggep)}억 · 기타 ${eok(e26.sum.etc)}억</div>
-      ${(()=>{ const g=groupProjects(e26.rows).filter(p=>p.b>=5e8).sort((a,b)=>(b.b-b.e)-(a.b-a.e)).slice(0,6); return `<div style="margin-top:14px"><div class="mut" style="margin-bottom:6px">사업별 — 미집행액이 큰 사업 (예산현액 5억 이상)</div><div class="tw"><table><thead><tr><th>사업</th><th class="num">예산현액</th><th class="num">집행률</th></tr></thead><tbody>${g.map(p=>`<tr class="row" onclick="location.hash='#/lg/${cd}/exec/${encodeURIComponent(p.c)}'"><td>${esc(p.n)}</td><td class="num">${eok(p.b)}억</td><td class="num">${pct(p.rate)}</td></tr>`).join('')}</tbody></table></div><a href="#/lg/${cd}/exec" style="font-size:13px;font-weight:600">사업별 집행 전체 보기 →</a></div>`; })()}</div>
-    <div class="card"><h3>분야별 예산현액·집행 <span class="basis">억원</span></h3><div class="ch tall"><canvas id="cFld"></canvas></div>
+      <div class="vhero">${vRing(e26.sum.rate,'집행률')}
+        <dl class="vkv"><div><dt>예산현액</dt><dd>${won(e26.sum.budget)}</dd></div><div><dt><span class="d" style="background:var(--c2)"></span>집행</dt><dd>${won(e26.sum.exec)}</dd></div><div><dt><span class="d" style="background:var(--v-track)"></span>미집행</dt><dd>${won(e26.sum.budget-e26.sum.exec)}</dd></div></dl></div>
+      ${e25?`<div class="vchips"><span>참고</span><em>2025 연말(12.31) 집행률 <b>${pct(e25.sum.rate)}</b></em><em>2024 연말 <b>${e24?pct(e24.sum.rate):NA}</b></em></div>`:''}
+      <h4 class="vsub">재원 구성 <span>예산현액 · 어디서 온 돈인가</span></h4>
+      ${vSeg([{l:'국비',v:e26.sum.ntep,c:'var(--c1)'},{l:'시도비',v:e26.sum.capep,c:'var(--c4)'},{l:'시군구비',v:e26.sum.sggep,c:'var(--c2)'},{l:'기타',v:e26.sum.etc,c:'var(--c7)'}])}
+      ${(()=>{ const g=groupProjects(e26.rows).filter(p=>p.b>=5e8).sort((a,b)=>(b.b-b.e)-(a.b-a.e)).slice(0,6); return `<h4 class="vsub">미집행액이 큰 사업 <span>예산현액 5억 이상</span></h4><div class="tw"><table class="vtbl"><thead><tr><th>사업</th><th class="num">예산현액</th><th class="num">미집행</th><th class="num">집행률</th></tr></thead><tbody>${g.map(p=>`<tr class="row" onclick="location.hash='#/lg/${cd}/exec/${encodeURIComponent(p.c)}'"><td>${esc(p.n)}</td><td class="num">${eok(p.b)}억</td><td class="num"><b>${eok(p.b-p.e)}억</b></td><td class="num">${pct(p.rate)}${vRate(p.rate,p.rate<50)}</td></tr>`).join('')}</tbody></table></div><a class="vgo" href="#/lg/${cd}/exec">사업별 집행 전체 보기 →</a>`; })()}</div>
+    <div class="card"><h3>분야별 예산현액·집행 <span class="basis">억원 · 큰 분야부터</span></h3>
+      <div class="vkey"><span><i class="t"></i>예산현액(막대 길이)</span><span><i class="f"></i>집행한 몫</span></div>
+      ${(()=>{ const fl=Object.entries(e26.by_fld).sort((a,b)=>b[1].b-a[1].b); const mx=Math.max(...fl.map(f=>f[1].b),1);
+        return `<div class="vmeter">${fl.map(([f,v])=>{ const r=v.b?v.e/v.b*100:null; return `<a href="#/lg/${cd}/budget" onclick="B.q='';B.page=1" title="${esc(f)} — 예산현액 ${eok(v.b)}억 · 집행 ${eok(v.e)}억 · 집행률 ${pct(r)}"><span class="k">${esc(f)}</span><span class="tr"><span class="t" style="width:${Math.max(1.5,v.b/mx*100).toFixed(1)}%"><i style="width:${isN(r)?Math.max(0,Math.min(100,r)).toFixed(1):0}%"></i></span></span><b>${eok(v.b)}<small>억</small></b><span class="p">${pct(r)}</span></a>`; }).join('')}</div>`; })()}
       ${(()=>{ const G=groupProjects(e26.rows); const pop=y24.M_BJHJB?.pptn_num;
         const fl=Object.entries(e26.by_fld).sort((a,b)=>b[1].b-a[1].b);
-        return `<div class="tw" style="margin-top:12px"><table><thead><tr><th>분야</th><th class="num">사업 수</th><th class="num">예산현액</th><th class="num">집행률</th><th class="num">1인당</th><th class="num">비중</th></tr></thead><tbody>
+        return `<details class="vmore"><summary>표로 보기 <span>사업 수 · 1인당 · 비중</span></summary><div class="tw" style="margin-top:8px"><table><thead><tr><th>분야</th><th class="num">사업 수</th><th class="num">예산현액</th><th class="num">집행률</th><th class="num">1인당</th><th class="num">비중</th></tr></thead><tbody>
         ${fl.map(([f,v])=>{ const cnt=G.filter(p=>p.f===f).length; return `<tr class="row" onclick="B.q='';B.page=1;location.hash='#/lg/${cd}/budget'"><td>${esc(f)}</td><td class="num">${num(cnt)}</td><td class="num">${eok(v.b)}억</td><td class="num">${pct(v.b?v.e/v.b*100:null)}</td><td class="num">${isN(popPer)&&popPer>0?Math.round(v.b/popPer).toLocaleString('ko-KR')+'원':NA}</td><td class="num">${pct(e26.sum.budget?v.b/e26.sum.budget*100:null)}</td></tr>`; }).join('')}
-        </tbody></table></div><div class="mut" style="margin-top:6px">${bnd?'1인당은 경계 변경으로 계산하지 않음':'1인당은 2024 공시 인구 기준'} · 행을 누르면 사업 목록으로</div>`; })()}
+        </tbody></table></div><div class="mut" style="margin-top:6px">${bnd?'1인당은 경계 변경으로 계산하지 않음':'1인당은 2024 공시 인구 기준'} · 행을 누르면 사업 목록으로</div></details>`; })()}
     </div>
   </div></section>`:''}
 
   <section class="sec"><div class="sech"><span class="no">${e26?'02':'01'}</span><h2>5개년 추이</h2><span class="basis">2020~2024 결산 공시 · 지방재정365</span></div>
   <div class="grid2">
     <div class="card"><h3>재정자립도 · 재정자주도 <span class="basis">% · 결산기준</span></h3><div class="ch"><canvas id="cSr"></canvas></div></div>
-    <div class="card"><h3>세출결산·기금 총계 · 채무비율 <span class="basis">억원 · %</span></h3><div class="ch"><canvas id="cStl"></canvas></div></div>
+    <div class="card"><h3>세출결산·기금 총계 <span class="basis">억원</span></h3><div class="ch"><canvas id="cStl"></canvas></div></div>
+    <div class="card"><h3>채무비율 <span class="basis">% · 예산 대비 채무</span></h3><div class="ch"><canvas id="cDebt"></canvas></div></div>
     <div class="card"><h3>인구 <span class="basis">명 · 공시 기준</span></h3><div class="ch"><canvas id="cPop"></canvas></div></div>
-    <div class="card"><h3>회계별 세출결산 (2024) <span class="basis">억원</span></h3><div class="ch"><canvas id="cAcc"></canvas></div></div>
+    ${y24.EXEC?`<div class="card vwide"><h3>회계별 세출결산 (2024) <span class="basis">억원 · 전체 가운데 몫</span></h3>${vSeg([{l:'일반회계',v:y24.EXEC.pfa_amt1||0,c:'var(--c1)'},{l:'공기업특별회계',v:y24.EXEC.pfa_amt2||0,c:'var(--c2)'},{l:'기타특별회계',v:y24.EXEC.pfa_amt3||0,c:'var(--c3)'},{l:'기금',v:y24.EXEC.pfa_amt4||0,c:'var(--c4)'}])}</div>`:''}
   </div></section>
 
   <section class="sec"><div class="sech"><span class="no">${e26?'03':'02'}</span><h2>재정 운영 지표</h2><span class="basis">2024 결산 공시 · 5개년 흐름</span></div>
-  <div class="card"><div class="tw"><table class="fiind"><thead><tr><th>지표</th><th class="num">2024</th><th>흐름 20→24</th><th>비고</th></tr></thead><tbody>
+  <details class="vmore vbig"><summary>지표 ${Object.keys(M).length+(X.ext_2024?6:0)}개 표 펼치기 <span>2024 값과 2020→2024 흐름</span></summary><div class="card"><div class="tw"><table class="fiind"><thead><tr><th>지표</th><th class="num">2024</th><th>흐름 20→24</th><th>비고</th></tr></thead><tbody>
   ${Object.entries(M).map(([hub,d])=>{ const v=y24[hub]?.[d.f]; const pts=series(lg,hub,d.f); const amt=d.amt&&isN(y24[hub]?.[d.amt])?'금액 '+won(y24[hub][d.amt]):'';
-    return `<tr><td>${d.l}</td><td class="num">${d.u==='%'?pct(v,2):num(v)+(isN(v)?' '+d.u:'')}</td><td>${spark(pts,css('--royal'))}</td><td class="mut">${amt}</td></tr>`}).join('')}
+    return `<tr><td>${d.l}</td><td class="num">${d.u==='%'?pct(v,2):num(v)+(isN(v)?' '+d.u:'')}</td><td>${spark(pts,css('--c1'))}</td><td class="mut">${amt}</td></tr>`}).join('')}
   ${X.ext_2024?[['성인지예산 비율',pct(X.ext_2024.gender_budget_rate,2)],['지방보조금 비율',pct(X.ext_2024.subsidy_rate,2)],['예비비 확보율',pct(X.ext_2024.reserve_rate,2)],['보증채무 비율',pct(X.ext_2024.guarantee_debt_rate,2)],['기금 현재액',num(X.ext_2024.fund_balance_eok)+' 억원'],['공유재산',num(X.ext_2024.public_property_eok)+' 억원']].map(([l,v])=>`<tr><td>${l}</td><td class="num">${v}</td><td></td><td class="mut">지방재정365 2024 공시(확장)</td></tr>`).join(''):''}
-  </tbody></table></div></div></section>
+  </tbody></table></div></div></details></section>
 
   ${e25||e24?`<section class="sec"><div class="sech"><span class="no">${e26?'04':'03'}</span><h2>연말 집행 결과</h2><span class="basis">12.31 기준 세부사업 집행 · 출납정리기간 지출 미반영 · 결산 확정치와 다를 수 있음</span></div>
   <div class="grid2">${[e25&&['2025',e25],e24&&['2024',e24]].filter(Boolean).map(([y,e])=>{ const g=groupProjects(e.rows); const low=g.filter(p=>p.b>=1e8&&p.rate<50).sort((a,b)=>(b.b-b.e)-(a.b-a.e));
     return `<div class="card"><h3>${y}년 연말 집행률 ${pct(e.sum.rate)} <span class="basis">${num(e.dbiz_count)}건 · 예산현액 ${eok(e.sum.budget)}억 · 지출 ${eok(e.sum.exec)}억</span></h3>
     <div class="mut" style="margin-bottom:6px">예산현액 1억 이상인데 집행률 50% 미만: <b>${low.length}건</b> · 미집행 합계 ${won(low.reduce((a,p)=>a+p.b-p.e,0))}</div>
-    <div class="tw"><table><thead><tr><th>미집행 큰 사업</th><th class="num">예산현액</th><th class="num">집행률</th></tr></thead><tbody>${low.slice(0,6).map(p=>`<tr class="row" onclick="location.hash='#/lg/${cd}/budget/${encodeURIComponent(p.c)}'"><td>${esc(p.n)}</td><td class="num">${eok(p.b)}억</td><td class="num">${pct(p.rate)}</td></tr>`).join('')||'<tr><td colspan="3" class="mut">해당 없음</td></tr>'}</tbody></table></div></div>`}).join('')}</div></section>`:''}
+    <div class="tw"><table class="vtbl"><thead><tr><th>미집행 큰 사업</th><th class="num">예산현액</th><th class="num">미집행</th><th class="num">집행률</th></tr></thead><tbody>${low.slice(0,6).map(p=>`<tr class="row" onclick="location.hash='#/lg/${cd}/budget/${encodeURIComponent(p.c)}'"><td>${esc(p.n)}</td><td class="num">${eok(p.b)}억</td><td class="num"><b>${eok(p.b-p.e)}억</b></td><td class="num">${pct(p.rate)}${vRate(p.rate,true)}</td></tr>`).join('')||'<tr><td colspan="4" class="mut">해당 없음</td></tr>'}</tbody></table></div></div>`}).join('')}</div></section>`:''}
   ${X.safety_2025?`<section class="sec"><div class="sech"><span class="no">평가</span><h2>정부가 매긴 성적</h2><span class="basis">행정안전부 지역안전지수 2025 · 국민권익위 종합청렴도 2025</span></div>
   <div class="note blue">지역안전지수는 <b>같은 유형(시·도끼리, 시끼리, 군끼리, 구끼리) 안에서 견준 상대평가</b>입니다. 1등급이 가장 안전하고 5등급이 가장 취약합니다. 절대적인 위험도가 아니라 <b>또래 지자체와 견준 자리</b>라는 점을 함께 보셔야 합니다.</div>
   <div class="grid2" style="margin-top:12px"><div class="card"><h3>지역안전지수 6개 분야 <span class="basis">2026.01.13 공표 · 2024년 안전통계 기준</span></h3>
   <div class="tw"><table><thead><tr><th>분야</th><th class="num">등급</th><th style="width:46%">1 ← 안전 · 취약 → 5</th></tr></thead><tbody>
-  ${['교통사고','화재','범죄','생활안전','자살','감염병'].map((f,i)=>{const v=X.safety_2025[i];return `<tr><td>${f}</td><td class="num"><b>${v}</b>등급</td><td><span class="rkb"><i style="left:${((v-1)/4*100).toFixed(0)}%"></i></span></td></tr>`;}).join('')}
+  ${['교통사고','화재','범죄','생활안전','자살','감염병'].map((f,i)=>{const v=X.safety_2025[i];return `<tr><td>${f}</td><td class="num"><b>${v}</b>등급</td><td>${vGrade(v)}</td></tr>`;}).join('')}
   <tr class="tot"><td>6개 분야 평균</td><td class="num"><b>${(X.safety_2025.reduce((a,b)=>a+b,0)/6).toFixed(1)}</b>등급</td><td class="mut">전국 ${(()=>{const r=rank(cd,x=>x.safety_2025?x.safety_2025.reduce((a,b)=>a+b,0)/6:null,'low');return r?num(r.r)+' / '+num(r.n)+'위':'—';})()}</td></tr>
   </tbody></table></div>
   <div class="mut" style="margin-top:8px">가장 취약한 분야 — <b>${(()=>{const F=['교통사고','화재','범죄','생활안전','자살','감염병'];const mx=Math.max(...X.safety_2025);return F.filter((f,i)=>X.safety_2025[i]===mx).join('·')+' '+mx+'등급';})()}</b> · 가장 안전한 분야 — <b>${(()=>{const F=['교통사고','화재','범죄','생활안전','자살','감염병'];const mn=Math.min(...X.safety_2025);return F.filter((f,i)=>X.safety_2025[i]===mn).join('·')+' '+mn+'등급';})()}</b></div></div>
@@ -616,13 +663,11 @@ function renderLg(lg){ const m=lg.master, cd=lg.laf_cd, F=lg.fiscal||{}; const y
   document.getElementById('foot').innerHTML=footer(); glanceFill(lg);
   /* 차트 */
   const C=COLORS();
-  if(e26){ chart('cSrc',{type:'doughnut',data:{labels:['국비','시도비','시군구비','기타'],datasets:[{data:[e26.sum.ntep,e26.sum.capep,e26.sum.sggep,e26.sum.etc].map(v=>Math.round(v/1e8)),backgroundColor:[C[0],C[7],C[1],C[6]],borderWidth:0}]},options:{plugins:{legend:{position:'right',labels:{boxWidth:10}}},cutout:'64%',maintainAspectRatio:false}});
-    const fl=Object.entries(e26.by_fld).sort((a,b)=>b[1].b-a[1].b); chart('cFld',{type:'bar',data:{labels:fl.map(f=>f[0]),datasets:[{label:'예산현액',data:fl.map(f=>Math.round(f[1].b/1e8)),backgroundColor:C[0]+'55',borderColor:C[0],borderWidth:1},{label:'집행',data:fl.map(f=>Math.round(f[1].e/1e8)),backgroundColor:C[1]}]},options:{indexAxis:'y',maintainAspectRatio:false,scales:{x:{grid:{color:css('--line')}},y:{grid:{display:false},ticks:{font:{size:11}}}},plugins:{legend:{position:'top',labels:{boxWidth:10}}}}}); }
-  const yrs=lg.fiscal_years.filter(y=>F[y].FISCAL);
-  chart('cSr',{type:'line',data:{labels:yrs,datasets:[{label:'재정자립도',data:yrs.map(y=>F[y].FISCAL?.rate2),borderColor:C[0],backgroundColor:C[0],tension:.25},{label:'재정자주도',data:yrs.map(y=>F[y].M_FDOST?.rate2),borderColor:C[1],backgroundColor:C[1],tension:.25}]},options:{maintainAspectRatio:false,plugins:{legend:{labels:{boxWidth:10}}},scales:{y:{ticks:{callback:v=>v+'%'}}}}});
-  chart('cStl',{type:'bar',data:{labels:yrs,datasets:[{type:'bar',label:'세출결산·기금 총계(억)',data:yrs.map(y=>isN(F[y].EXEC?.tot_pfa_amt)?Math.round(F[y].EXEC.tot_pfa_amt/1e8):null),backgroundColor:C[0]+'99',yAxisID:'y'},{type:'line',label:'채무비율(%)',data:yrs.map(y=>F[y].M_HEDFC?.rate),borderColor:C[4],backgroundColor:C[4],yAxisID:'y1',tension:.25}]},options:{maintainAspectRatio:false,plugins:{legend:{labels:{boxWidth:10}}},scales:{y:{position:'left'},y1:{position:'right',grid:{drawOnChartArea:false},ticks:{callback:v=>v+'%'}}}}});
-  const pyrs=lg.fiscal_years.filter(y=>isN(F[y].M_BJHJB?.pptn_num)); chart('cPop',{type:'line',data:{labels:pyrs,datasets:[{label:'인구',data:pyrs.map(y=>F[y].M_BJHJB.pptn_num),borderColor:C[5],backgroundColor:C[0]+'22',fill:true,tension:.25}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>v.toLocaleString()}}}}});
-  if(y24.EXEC) chart('cAcc',{type:'doughnut',data:{labels:['일반회계','공기업특별회계','기타특별회계','기금'],datasets:[{data:[y24.EXEC.pfa_amt1,y24.EXEC.pfa_amt2,y24.EXEC.pfa_amt3,y24.EXEC.pfa_amt4].map(v=>Math.round((v||0)/1e8)),backgroundColor:[C[0],C[1],C[2],C[3]],borderWidth:0}]},options:{maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{boxWidth:10}}}}});
+  const yrs=lg.fiscal_years.filter(y=>F[y].FISCAL); const pf=v=>Number(v).toFixed(1)+'%';
+  chart('cSr',{type:'line',data:{labels:yrs,datasets:[{label:'재정자립도',data:yrs.map(y=>F[y].FISCAL?.rate2),borderColor:C[0],backgroundColor:C[0],vlab:'last',vfmt:pf},{label:'재정자주도',data:yrs.map(y=>F[y].M_FDOST?.rate2),borderColor:C[1],backgroundColor:C[1],vlab:'last',vfmt:pf}]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},layout:{padding:{top:14,right:6}},scales:{x:{grid:{display:false}},y:{ticks:{callback:v=>v+'%',maxTicksLimit:5}}}}});
+  chart('cStl',{type:'bar',data:{labels:yrs,datasets:[{label:'세출결산·기금 총계(억)',data:yrs.map(y=>isN(F[y].EXEC?.tot_pfa_amt)?Math.round(F[y].EXEC.tot_pfa_amt/1e8):null),backgroundColor:yrs.map((y,i)=>i===yrs.length-1?C[0]:C[0]+'70'),maxBarThickness:46,vlab:'all'}]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},layout:{padding:{top:20}},plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{beginAtZero:true,ticks:{maxTicksLimit:5,callback:v=>v.toLocaleString('ko-KR')}}}}});
+  chart('cDebt',{type:'bar',data:{labels:yrs,datasets:[{label:'채무비율(%)',data:yrs.map(y=>F[y].M_HEDFC?.rate),backgroundColor:yrs.map((y,i)=>i===yrs.length-1?C[4]:C[4]+'70'),maxBarThickness:46,minBarLength:2,vlab:'all',vfmt:v=>Number(v).toFixed(2)+'%'}]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},layout:{padding:{top:20}},plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{beginAtZero:true,suggestedMax:1,ticks:{maxTicksLimit:5,callback:v=>v+'%'}}}}});
+  const pyrs=lg.fiscal_years.filter(y=>isN(F[y].M_BJHJB?.pptn_num)); chart('cPop',{type:'line',data:{labels:pyrs,datasets:[{label:'인구',data:pyrs.map(y=>F[y].M_BJHJB.pptn_num),borderColor:C[3],backgroundColor:C[3]+'1F',fill:true,vlab:'last'}]},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},layout:{padding:{top:20,right:6}},plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grace:'12%',ticks:{maxTicksLimit:5,callback:v=>v.toLocaleString()}}}}});
 }
 
 /* ═══════════ 예산 탐색기 ═══════════ */
@@ -1367,7 +1412,7 @@ async function renderSearch(q,sidoF){ sidoF=sidoF||''; const app=document.getEle
   const bySido={}; lgs.forEach(o=>{ const sd=o.ix.sido_new; (bySido[sd]||={n:0,b:0,k:0}); bySido[sd].n+=o.n; bySido[sd].b+=o.b; bySido[sd].k++; });
   const asof=S.index.rows.find(x=>x.exec_2026)?.exec_2026?.exe_ymd; const live=S.index.rows.filter(x=>x.live_2026).length;
   const sortKey=B.qsort||'b'; const L=[...lgs].sort((a,b)=>sortKey==='per'?(b.per??-1)-(a.per??-1):sortKey==='rate'?(b.rate??-1)-(a.rate??-1):sortKey==='n'?b.n-a.n:b.b-a.b);
-  app.innerHTML=`<div class="band"><div class="wrap lgband"><div class="crumb"><button type="button" class="backbtn" onclick="goBack()" aria-label="이전 화면으로">← 뒤로</button><a href="#/">전국</a> › 사업·민원 검색</div><div class="eyebrow" style="margin-top:12px">전국 세부사업 검색 · 2026년 · ${ymd(asof)} 기준 · 사업명 기준 매칭${groups.some(g=>g.length>1)?' · 유의어 포함('+groups.flat().join('·')+')':''}</div><h1><em style="font-style:normal;color:var(--rd)">${esc(q)}</em> <span style="font-weight:500;opacity:.8">관련 사업${sidoF?' · '+esc(sidoF):''}</span></h1>
+  app.innerHTML=`<div class="band"><div class="wrap lgband"><div class="crumb"><button type="button" class="backbtn" onclick="goBack()" title="이전 화면으로"><span aria-hidden="true">← </span>뒤로</button><a href="#/">전국</a> › 사업·민원 검색</div><div class="eyebrow" style="margin-top:12px">전국 세부사업 검색 · 2026년 · ${ymd(asof)} 기준 · 사업명 기준 매칭${groups.some(g=>g.length>1)?' · 유의어 포함('+groups.flat().join('·')+')':''}</div><h1><em style="font-style:normal;color:var(--rd)">${esc(q)}</em> <span style="font-weight:500;opacity:.8">관련 사업${sidoF?' · '+esc(sidoF):''}</span></h1>
     <div class="badges"><span class="badge">지자체 <b>${num(lgs.length)}</b>/${live}곳</span><span class="badge">사업 <b>${num(hits.length)}</b>건</span><span class="badge">2026 예산현액 <b>${won(TB)}</b></span><span class="badge">집행 <b>${won(TE)}</b> · ${pct(TB?TE/TB*100:null)}</span>${nPrev?`<span class="badge gold">전년(2025 연말) 대비 <b>${sgn(TP?(TB-TP)/TP*100:null,v=>v.toFixed(1)+'%')}</b> (${num(nPrev)}건 매칭)</span>`:''}${nPu?`<span class="badge gold">사업 내역에서 찾은 것 <b>${num(nPu)}</b>건 (${puLgs}곳)</span>`:''}</div>
         <div class="seg" style="margin-top:14px"><a href="#/q/${encodeURIComponent(q)}" class="${sidoF?'':'on'}">전국</a>${(sidoF?[[sidoF,bySido[sidoF]||{b:0,k:0,n:0}]]:Object.entries(bySido).sort((a,b)=>b[1].b-a[1].b)).map(([sd,v])=>`<a href="#/q/${encodeURIComponent(q)}/${encodeURIComponent(sd)}" class="${sidoF===sd?'on':''}" style="font-weight:500" title="${esc(sd)} ${v.k}곳 ${v.n}건">${esc(sd.replace(/특별자치도|특별자치시|광역시|특별시|통합특별시/,''))} <b class="mono">${eok(v.b)}억</b></a>`).join('')}</div>
   </div></div><div class="wrap">
@@ -1410,7 +1455,7 @@ async function renderGovSearch(qs,yr){ const app=document.getElementById('app');
   hits.sort((a,b)=>(b.b??-1)-(a.b??-1)); const byM={}; hits.forEach(h=>{ (byM[h.m]||={n:0,b:0,sg:h.sg}); byM[h.m].n++; byM[h.m].b+=h.b||0; });
   const TB=hits.reduce((a,h)=>a+(h.b||0),0);
   app.innerHTML=`<div class="wrap" style="padding-top:18px">${GOVSW('gov')}${YRSW(is27?'y27':'y26')}</div>
-  <div class="band"><div class="wrap lgband"><div class="crumb"><button type="button" class="backbtn" onclick="goBack()" aria-label="이전 화면으로">← 뒤로</button><a href="${is27?'#/gov27':'#/gov'}">중앙정부</a> › 사업 검색</div>
+  <div class="band"><div class="wrap lgband"><div class="crumb"><button type="button" class="backbtn" onclick="goBack()" title="이전 화면으로"><span aria-hidden="true">← </span>뒤로</button><a href="${is27?'#/gov27':'#/gov'}">중앙정부</a> › 사업 검색</div>
     <div class="eyebrow" style="margin-top:12px">${M.length}개 부처 세부사업 검색 · ${is27?'2027 정부안 (국회 심의 중) · 사업명·프로그램·단위사업 이름 기준':'2026 확정예산 · 사업명·프로그램·단위사업 이름 + 사업설명자료의 「사업 목적」 문장'}</div>
     <h1><em style="font-style:normal;color:var(--rd)">${esc(qs)}</em> <span style="font-weight:500;opacity:.8">관련 사업</span></h1>
     <div class="badges"><span class="badge">부처 <b>${num(Object.keys(byM).length)}</b>/${M.length}곳</span><span class="badge">사업 <b>${num(hits.length)}</b>건</span><span class="badge">${is27?'2027 정부안':'2026 예산'} 합계 <b>${won(TB)}</b></span>${nPu?`<span class="badge gold">사업 목적에서 찾은 것 <b>${num(nPu)}</b>건</span>`:''}${puWait?'<span class="badge">사업 목적 문장 검색 중…</span>':''}</div>
@@ -1652,7 +1697,7 @@ async function renderSido(sd,id){ const D=await loadSido(); const app=document.g
   document.getElementById('foot').innerHTML=footer(); }
 function renderSidoOne(z,x){ const app=document.getElementById('app'); const my=myCd();
   app.innerHTML=`<section class="wrap">${POLSW('spol')}
-  <div class="lgband"><div class="crumb"><button type="button" class="backbtn" onclick="goBack()" aria-label="이전 화면으로">← 뒤로</button><a href="#/spol">시·도 정책</a> › <a href="#/spol/${encodeURIComponent(z.sido_new)}">${esc(z.sido_new)}</a></div>
+  <div class="lgband"><div class="crumb"><button type="button" class="backbtn" onclick="goBack()" title="이전 화면으로"><span aria-hidden="true">← </span>뒤로</button><a href="#/spol">시·도 정책</a> › <a href="#/spol/${encodeURIComponent(z.sido_new)}">${esc(z.sido_new)}</a></div>
     <div class="eyebrow" style="margin-top:10px">${esc(z.sido_new)} · ${esc(x.category||'')}${x.date?' · '+esc(x.date):''}${x.dept?' · '+esc(x.dept):''}</div>
     <h1>${esc(x.title)}</h1>
     <p class="psum">${esc(x.summary||'')}</p>
@@ -1809,7 +1854,7 @@ loadIndex().then(route).catch(e=>{ document.getElementById('app').innerHTML=`<di
 <script src="a.js" defer></script>
 <script>
 /* 넘치는 표 위에 「옆으로 밀어 보기 →」를 붙인다(모바일). 화면이 바뀔 때마다 다시 확인 */
-(function(){ function mark(){ if(window.innerWidth>640) return; document.querySelectorAll('.tw').forEach(function(t){ var over=t.scrollWidth>t.clientWidth+4; t.classList.toggle('scrollx',over); if(over&&!t.hasAttribute('tabindex')&&!t.querySelector('a,button,input,select,textarea')){ t.setAttribute('tabindex','0'); t.setAttribute('role','region'); t.setAttribute('aria-label','옆으로 밀어 보는 표'); } var h=t.previousElementSibling; var has=h&&h.classList&&h.classList.contains('swipe-hint'); if(over&&!has){ var d=document.createElement('div'); d.className='swipe-hint'; d.textContent='옆으로 밀어 보기 →'; t.parentNode.insertBefore(d,t); } else if(!over&&has){ h.remove(); } }); }
+(function(){ function mark(){ if(window.innerWidth>640) return; document.querySelectorAll('.tw').forEach(function(t){ var over=t.scrollWidth>t.clientWidth+4; t.classList.toggle('scrollx',over); if(over&&!t.hasAttribute('tabindex')&&!t.querySelector('a,button,input,select,textarea')){ t.setAttribute('tabindex','0'); t.setAttribute('role','group'); t.setAttribute('aria-label','옆으로 밀어 보는 표'); } var h=t.previousElementSibling; var has=h&&h.classList&&h.classList.contains('swipe-hint'); if(over&&!has){ var d=document.createElement('div'); d.className='swipe-hint'; d.textContent='옆으로 밀어 보기 →'; t.parentNode.insertBefore(d,t); } else if(!over&&has){ h.remove(); } }); }
   var tm=null; function later(){ clearTimeout(tm); tm=setTimeout(mark,250); }
   try{ new MutationObserver(later).observe(document.getElementById('app')||document.body,{childList:true,subtree:true}); }catch(e){}
   window.addEventListener('resize',later); window.addEventListener('load',later); })();
