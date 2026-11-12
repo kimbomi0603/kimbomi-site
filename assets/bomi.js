@@ -119,9 +119,9 @@
   function init(){
     /* Jua 글꼴은 쓰지 않는다(2026-11-08, 글꼴 2종 기준) — 사이트 본문 글꼴을 따른다 */
     var st=document.createElement('style'); st.textContent=CSS; document.head.appendChild(st);
-    var fab=el('<button type="button" id="bomi-fab" aria-haspopup="dialog" aria-controls="bomi" aria-label="AI 봄이에게 물어보기 — 예산 용어, 김보미, 우리 동네">'+
+    var fab=el('<button type="button" id="bomi-fab" aria-haspopup="dialog" aria-controls="bomi">'+
       '<span class="fig"><img src="'+IMG+'body.webp" width="96" height="142" alt=""><span class="say" aria-hidden="true">안녕하세요!</span></span>'+
-      '<span class="tag"><span class="ai">AI</span> 봄이</span></button>');
+      '<span class="tag"><span class="ai">AI</span> 봄이</span><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">에게 물어보기 — 예산 용어, 김보미, 우리 동네</span></button>');
     var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
     var box=el('<section id="bomi" role="dialog" aria-label="AI 봄이 — 김보미.com 길잡이" aria-modal="false">'+
       '<div class="top"><img class="tav" src="'+IMG+'face.webp" width="40" height="40" alt=""><div class="tn"><div class="logo"><span class="ai">AI</span>봄이</div><small>김보미를 닮은 아트토이 길잡이</small></div>'+

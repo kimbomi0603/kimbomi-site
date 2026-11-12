@@ -2842,3 +2842,48 @@ html:where(.pg-budget365)[data-theme="dark"]{--v-track:rgb(255 255 255 / .16);--
 :where(.pg-budget365) .band .modes a.on .ic{background:var(--c-gold);color:var(--c-navy)}
 :where(.pg-budget365) .band .modes{grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
 @media(max-width:560px){:where(.pg-budget365) .band .modes{grid-template-columns:1fr 1fr;gap:8px}:where(.pg-budget365) .band .modes a{padding:10px 11px;gap:9px;grid-template-columns:auto 1fr}:where(.pg-budget365) .band .modes a small,:where(.pg-budget365) .band .modes a > :last-child:not(:nth-child(2)){display:none}}
+/* 2026-11-12 글자 대비 4.5:1 맞춤: 보기 고르기 번호 칩(흰 글자)·왼쪽 메뉴 머리 설명 */
+:where(.pg-budget365) .band .modes .ic.e{background:#177A63}:where(.pg-budget365) .band .modes .ic.c{background:#236E8A}:where(.pg-budget365) .band .modes .ic.d{background:#B8452F}:where(.pg-budget365) .band .modes .ic.q{background:#7652B8}
+:where(.pg-budget365) .ng .nav-hd span{opacity:1}
+/* 2026-11-12 우리동네365 나머지 화면: 표·탭·안내문·나무 목록도 같은 결로, 긴 표는 접기 */
+:where(.pg-budget365) .wrap .tw{border:1px solid var(--line);border-radius:14px;overflow:hidden;overflow-x:auto;box-shadow:0 1px 2px rgb(var(--c-navy-rgb) / .04)}
+:where(.pg-budget365) .wrap .card .tw{border:0;border-radius:10px;box-shadow:none}
+:where(.pg-budget365) .wrap th{background:var(--v-soft);color:var(--ink-2);font-weight:700;border-bottom:1px solid var(--line)}
+:where(.pg-budget365) .wrap td{border-bottom-color:var(--line)}
+:where(.pg-budget365) .wrap tbody tr:last-child td{border-bottom:0}
+:where(.pg-budget365) .wrap tr.vz-x{display:none}
+:where(.pg-budget365) .wrap table.vz-open tr.vz-x{display:table-row}
+:where(.pg-budget365) .vfold{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin:10px 0 0;padding:10px 14px;border:1px dashed var(--line);border-radius:12px;background:var(--v-soft);color:var(--c1);font:700 13.5px/1.3 var(--body);cursor:pointer}
+:where(.pg-budget365) .vfold::before{content:"+";display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--c1);color:var(--c-white);font-weight:700;line-height:1}
+:where(.pg-budget365) .vfold[aria-expanded="true"]::before{content:"−"}
+:where(.pg-budget365) .vfold:hover{border-color:var(--c1)}
+:where(.pg-budget365) .vfold:focus-visible{outline:2px solid var(--c1);outline-offset:2px}
+:where(.pg-budget365) .vrate.s i{background:var(--c1)}
+:where(.pg-budget365) .wrap .tabs{gap:6px}
+:where(.pg-budget365) .wrap .tabs button{border:1px solid var(--line);border-right-width:1px;border-radius:999px;padding:7px 15px;font-weight:600}
+:where(.pg-budget365) .wrap .tabs button.on{background:var(--c1);border-color:var(--c1);color:var(--c-white)}
+:where(.pg-budget365) .band .seg{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+:where(.pg-budget365) .band .seg a,:where(.pg-budget365) .band .seg button{border-bottom:0;border-right-color:var(--line)}
+:where(.pg-budget365) .band .seg .on{outline:0;background:var(--c1);color:var(--c-white)}
+:where(.pg-budget365) .wrap .note{border-radius:12px;background:var(--c-cream);border:1px solid rgb(var(--c-gold-rgb) / .35)}
+:where(.pg-budget365) .wrap .note.blue{background:var(--v-tint);border-color:rgb(43 99 176 / .2)}
+:where(.pg-budget365) .wrap .tree{border:1px solid var(--line);border-radius:14px;padding:8px 14px;box-shadow:0 1px 2px rgb(var(--c-navy-rgb) / .04)}
+:where(.pg-budget365) .wrap .tree details.lv1{border-left:3px solid var(--c1)}
+:where(.pg-budget365) .wrap .tree summary:hover{background:var(--v-soft)}
+:where(.pg-budget365) .wrap .tag{border-radius:999px;padding:2px 9px}
+:where(.pg-budget365) .wrap input[type="search"],:where(.pg-budget365) .wrap input[type="text"],:where(.pg-budget365) .wrap select{border-radius:10px}
+html:where(.pg-budget365)[data-theme="dark"] .wrap .note,html:where(.pg-budget365)[data-theme="dark"] .wrap .note.blue{background:var(--v-soft);border-color:var(--v-track)}
+html:where(.pg-budget365)[data-theme="dark"] .band .badge.gold{background:var(--v-soft)}
+/* 부처·시군구 타일, 진단 요약 띠: 붙은 칸 → 떨어진 둥근 카드 */
+:where(.pg-budget365) .wrap .mins,:where(.pg-budget365) .wrap .gu,:where(.pg-budget365) .wrap .diagk{gap:10px;border:0}
+:where(.pg-budget365) .wrap .mins a,:where(.pg-budget365) .wrap .gu a,:where(.pg-budget365) .wrap .diagk > div{border:1px solid var(--line);border-radius:14px;box-shadow:0 1px 2px rgb(var(--c-navy-rgb) / .04)}
+:where(.pg-budget365) .wrap .mins a,:where(.pg-budget365) .wrap .gu a{transition:transform .15s,box-shadow .15s}
+:where(.pg-budget365) .wrap .mins a:hover,:where(.pg-budget365) .wrap .gu a:hover{background:var(--card);transform:translateY(-2px);box-shadow:0 10px 22px rgb(var(--c-navy-rgb) / .1)}
+:where(.pg-budget365) .wrap .gu a::before{width:4px;background:var(--c1)}
+:where(.pg-budget365) .wrap .gu a.hq::before{background:var(--c3)}
+:where(.pg-budget365) .wrap .gu .rb{height:6px;border-radius:3px;border:0;background:var(--v-track);overflow:hidden}
+:where(.pg-budget365) .wrap .gu .rb i{background:var(--c2);border-radius:3px}
+:where(.pg-budget365) .wrap .mins a.vz-x{display:none}
+:where(.pg-budget365) .wrap .mins.vz-open a.vz-x{display:block}
+:where(.pg-budget365) .vrate.vw{width:100%;margin:9px 0 0;height:6px}
+:where(.pg-budget365) .wrap .diagk{grid-template-columns:repeat(auto-fit,minmax(min(138px,100%),1fr))}
