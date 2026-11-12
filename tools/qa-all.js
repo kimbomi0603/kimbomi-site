@@ -149,7 +149,11 @@ async function pageChecks(pg, rec, where, isArchive, req) {
   rec.con.forEach(e => add(sev, where, '콘솔 오류', e));
   rec.bad.forEach(e => add(sev, where, '응답 오류', e));
   if (info.bad.length) add(sev, where, '이상한 글자', [...new Set(info.bad)].join(', '));
-  info.imgs.forEach(s => add(sev, where, '깨진 그림', s));
+  /* 그림이 깨져 보이면 한 번 더 받아 본다(통신이 순간 끊겨 생긴 것은 빼고, 정말 없는 그림만 적는다) */
+  for (const src of info.imgs) {
+    const again = await pg.evaluate(async src => { try { const r = await fetch(src, { cache: 'reload', mode: /^https?:/.test(src) && !src.startsWith(location.origin) ? 'no-cors' : 'same-origin' }); return r.type === 'opaque' ? 200 : r.status; } catch (e) { return 0; } }, src).catch(() => 0);
+    if (again === 0 || again >= 400) add(sev, where, '깨진 그림', `${src} (다시 받아도 ${again || '실패'})`);
+  }
   if (info.ov) add(sev, where, '가로 넘침', '옆으로 밀리는 화면 ' + info.ovEl.join(', '));
   if (info.len < 150) add(sev, where, '빈 화면', `본문 ${info.len}자`);
   rec.err.length = 0; rec.con.length = 0; rec.bad.length = 0;
