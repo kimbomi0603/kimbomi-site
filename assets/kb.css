@@ -2733,3 +2733,7 @@ html:not([data-theme="dark"]) .kbj-v2 .kbj-skip:focus-visible{outline-color:var(
 :where(.pg-party-money) body.pg-party-money .hd h1 em{color:var(--c-green)}
 :where(.pg-party-money) body.pg-party-money .hd p{color:var(--c-ink-2)}
 :where(.pg-party-money) body.pg-party-money .hd .eyebrow{color:var(--c-slate)}
+/* 2026-11-12 우리동네365에 들어올 때 보이는 안내 표시의 사용법 한 줄 */
+.kbl-guide{margin:2px 0 12px;padding:10px 16px;border-radius:14px;background:var(--c-cream);border:1px solid var(--c-gold);max-width:30em;word-break:keep-all}
+.kbl-guide b{display:block;font-size:1.12rem;font-weight:800;color:var(--c-navy);line-height:1.4}
+.kbl-guide span{display:block;margin-top:2px;font-size:.9rem;color:var(--c-ink-2);line-height:1.5}
