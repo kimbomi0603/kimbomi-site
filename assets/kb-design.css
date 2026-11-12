@@ -381,7 +381,7 @@ html:where(.pg-budget365)[data-theme="dark"] .band .badge.gold{background:var(--
 :where(.pg-budget365) .vrate.vw{width:100%;margin:9px 0 0;height:6px}
 :where(.pg-budget365) .wrap .diagk{grid-template-columns:repeat(auto-fit,minmax(min(138px,100%),1fr))}
 /* 2026-11-12 제미나이 교차검토 반영 */
-:where(.pg-budget365) .vleg li.z{opacity:.5}
+:where(.pg-budget365) .vleg li.z .d{opacity:.35}
 :where(.pg-budget365) .vgrade .g3{background:#E0A21A}:where(.pg-budget365) .vgrade .g4{background:#E0662B}:where(.pg-budget365) .vgrade .g5{background:#C3272B}
 :where(.pg-budget365) .gov-sw.yr a.on{background:var(--c1);border-color:var(--c1);color:var(--c-white)}
 :where(.pg-budget365) .wrap .sido{gap:6px;border:0}
@@ -403,3 +403,6 @@ html:where(.pg-budget365)[data-theme="dark"] .band .badge.gold{background:var(--
   :where(.pg-budget365) .wrap table.vtbl td[colspan]{grid-column:1/-1}
 }
 :where(.pg-budget365) .gov-sw.yr{border-color:var(--c1);border-radius:12px;overflow:hidden}
+:where(.pg-budget365) .wrap .sido button.on small{color:var(--c-white);opacity:1}
+:where(.pg-budget365) .gov-sw.yr a small{color:var(--ink-2);opacity:1}
+:where(.pg-budget365) .gov-sw.yr a.on small{color:var(--c-white)}
