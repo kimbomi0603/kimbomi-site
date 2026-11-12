@@ -340,6 +340,9 @@ function flush(final) {
   }
   await browser.close(); if (srv) srv.close();
   const sum = flush(true);
+  /* 실행 기록에서 바로 보이게: 고칠 것·느린 것은 화면에도 찍고, GitHub 실행 요약 칸에도 표를 붙인다 */
+  issues.filter(i => i.sev === '고칠것' || i.sev === '느림').slice(0, 80).forEach(i => console.log(`  [${i.sev}] ${i.where} · ${i.kind} · ${i.msg.replace(/\s+/g, ' ')}`));
+  if (process.env.GITHUB_STEP_SUMMARY) { try { fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, fs.readFileSync(path.join(ROOT, 'tools', 'out', `qa-all${OUT_TAG}.md`), 'utf8').split('\n## 여는 시간')[0] + '\n'); } catch (e) {} }
   console.log(`\n${'─'.repeat(60)}\n${sum} · 단추 ${CLICKS}번 · ${Math.round((Date.now() - T_START) / 1000)}초\n결과: tools/out/qa-all${OUT_TAG}.md`);
   process.exit(issues.some(i => i.sev === '고칠것') ? 1 : 0);
 })().catch(e => { console.error(e); process.exit(2); });
