@@ -151,7 +151,7 @@
   var ap=document.getElementById('app'); if(ap) ap.innerHTML='<div class="wrap">'+KB_loader(k,{who:w})+'</div>';
 })();</script>
 <footer class="foot"><div class="wrap" id="foot"></div></footer>
-<div class="fabs" id="fabs"><button type="button" onclick="goBack()" aria-label="이전 화면으로">← 뒤로</button><button type="button" class="up" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="맨 위로">↑ 맨 위</button></div>
+<div class="fabs" id="fabs"><button type="button" onclick="goBack()" title="이전 화면으로"><span aria-hidden="true">← </span>뒤로</button><button type="button" class="up" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="맨 위로">↑ 맨 위</button></div>
 <div class="ov" id="ov" role="dialog" aria-modal="true"><div class="md" id="md"></div></div>
 
 <script>
@@ -435,6 +435,24 @@ const vRate=(v,warn)=>isN(v)?`<span class="vrate${warn?' w':''}" aria-hidden="tr
 /* 등급 눈금: 1(좋음)~5(취약) */
 const vGrade=g=>`<span class="vgrade" aria-hidden="true">${[1,2,3,4,5].map(k=>`<i${k===Number(g)?` class="on g${k}"`:''}></i>`).join('')}</span>`;
 
+/* 화면이 그려질 때마다: 비중 열에 길이 막대를 붙이고, 10줄 넘는 표는 8줄만 보이고 나머지는 접는다(값은 그대로, 지우지 않음) */
+function vizEnhance(){ const app=document.getElementById('app'); if(!app) return;
+  app.querySelectorAll('table:not([data-vz])').forEach(t=>{ t.setAttribute('data-vz','1'); const tb=t.tBodies[0]; if(!tb||t.closest('details')||/fiind|ctlist|ctyr/.test(t.className)) return;
+    const ths=[...t.querySelectorAll('thead th')].map(x=>x.textContent.trim());
+    ths.forEach((h,i)=>{ if(!/^(점유율|비중|수의 비중|전 기간 수의 비중)$/.test(h)) return; const cells=[...tb.rows].map(r=>r.cells[i]).filter(Boolean).map(c=>[c,(c.textContent.trim().match(/^(\d+(?:\.\d+)?)%$/)||[])[1]]).filter(x=>x[1]!=null); if(!cells.length) return;
+      const su=/수의/.test(h), mx=su?100:Math.max(...cells.map(x=>+x[1]),1e-9);
+      cells.forEach(([c,v])=>{ if(!c.querySelector('.vrate')) c.insertAdjacentHTML('beforeend',`<span class="vrate ${su&&+v>=50?'w':'s'}" aria-hidden="true"><i style="width:${Math.min(100,+v/mx*100).toFixed(1)}%"></i></span>`); }); });
+    const n=tb.rows.length; const own=[...((t.closest('.tw')||t).parentElement||app).querySelectorAll('button')].some(x=>/더 보기/.test(x.textContent));   /* 화면이 이미 '더 보기'를 갖고 있으면 겹쳐 접지 않는다 */
+    if(n>10&&ths.length<=6&&!own){ [...tb.rows].forEach((r,k)=>{ if(k>=8) r.classList.add('vz-x'); });
+      const host=t.closest('.tw')||t; const b=document.createElement('button'); b.type='button'; b.className='vfold'; b.setAttribute('aria-expanded','false'); b.textContent=`나머지 ${n-8}줄 더 보기`;
+      b.onclick=()=>{ const o=t.classList.toggle('vz-open'); b.setAttribute('aria-expanded',o?'true':'false'); b.textContent=o?'접기':`나머지 ${n-8}줄 더 보기`; }; host.insertAdjacentElement('afterend',b); } }); }
+function vizMins(){ document.querySelectorAll('#app .mins:not([data-vz])').forEach(g=>{ g.setAttribute('data-vz','1'); const A=[...g.children].filter(x=>x.tagName==='A'); if(!A.length) return;
+    const val=x=>{ const t=(x.querySelector('.n')||{}).textContent||''; const j=(t.match(/([\d,]+)조/)||[])[1], e=(t.match(/([\d,]+)억/)||[])[1]; return (j?+j.replace(/,/g,'')*1e4:0)+(e?+e.replace(/,/g,''):0); };
+    const V=A.map(val), mx=Math.max(...V,1); A.forEach((x,i)=>{ if(V[i]>0&&!x.querySelector('.vrate')) x.insertAdjacentHTML('beforeend',`<span class="vrate s vw" aria-hidden="true" title="가장 큰 곳 대비 ${(V[i]/mx*100).toFixed(1)}%"><i style="width:${Math.max(.8,V[i]/mx*100).toFixed(1)}%"></i></span>`); });
+    if(A.length>20){ A.forEach((x,i)=>{ if(i>=16) x.classList.add('vz-x'); }); const b=document.createElement('button'); b.type='button'; b.className='vfold'; b.setAttribute('aria-expanded','false'); const lab=`나머지 ${A.length-16}곳 더 보기`; b.textContent=lab;
+      b.onclick=()=>{ const o=g.classList.toggle('vz-open'); b.setAttribute('aria-expanded',o?'true':'false'); b.textContent=o?'접기':lab; }; g.insertAdjacentElement('afterend',b); } }); }
+(function(){ const go=()=>{ const app=document.getElementById('app'); if(!app){ setTimeout(go,300); return; } let q=0; new MutationObserver(()=>{ if(q) return; q=1; requestAnimationFrame(()=>{ q=0; try{ vizEnhance(); vizMins(); }catch(e){} }); }).observe(app,{childList:true,subtree:true}); vizEnhance(); vizMins(); }; if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',go); else go(); })();
+
 /* ═══════════ 순위(243, 2024 공시 체계) ═══════════ */
 function rank(cd,get,better='high'){ const arr=S.index.rows.filter(x=>x.key_2024&&isN(get(x))); const me=arr.find(x=>x.laf_cd===cd); if(!me) return null; const v=Number(get(me)); const ahead=arr.filter(x=>better==='high'?Number(get(x))>v:Number(get(x))<v).length; const ties=arr.filter(x=>Number(get(x))===v).length; return {r:ahead+1,n:arr.length,t:ties>1?ties:0}; }
 const rk=o=>o?`<span class="rk" title="${o.t?'같은 값 '+o.t+'곳 공동':''}">${o.t?'공동 ':''}${o.r}/${o.n}위</span><span class="rkb" aria-hidden="true" title="전국 ${o.n}곳 중 ${o.r}위 위치"><i style="left:${o.n>1?((o.r-1)/(o.n-1)*100).toFixed(1):50}%"></i></span>`:'';
@@ -526,7 +544,7 @@ function spark(pts,color){ if(pts.length<2) return ''; const vs=pts.map(p=>p.v),
 function lgTitle(m){ return (m.sigungu_new||m.display_new.replace(/^\(2024 공시\) /,'')); }
 function lgBand(lg,mode,extra){ const m=lg.master,cd=lg.laf_cd,title=lgTitle(m); const MODES=[['budget','예산','b','01','세부사업 하나하나'],['exec','집행','e','02','올해 어디까지 썼나'],['contract','계약','c','03','누구와 얼마에'],['diag','진단','d','04','규칙으로 걸러 본 곳'],['pledge','공약','p','05','단체장 등록 공약 원문'],['peer','비교','q','06','닮은 지자체 5곳과 나란히']];
   return `<div class="band"><div class="wrap lgband">
-    <div class="crumb"><button type="button" class="backbtn" onclick="goBack()" aria-label="이전 화면으로">← 뒤로</button><a href="#/">전국</a> › <a href="#/sido/${encodeURIComponent(m.sido_new)}">${esc(m.sido_new)}</a> › ${mode?`<a href="#/lg/${cd}">${esc(title)}</a> › ${esc(mode)}`:esc(title)}</div>
+    <div class="crumb"><button type="button" class="backbtn" onclick="goBack()" title="이전 화면으로"><span aria-hidden="true">← </span>뒤로</button><a href="#/">전국</a> › <a href="#/sido/${encodeURIComponent(m.sido_new)}">${esc(m.sido_new)}</a> › ${mode?`<a href="#/lg/${cd}">${esc(title)}</a> › ${esc(mode)}`:esc(title)}</div>
     <div class="eyebrow" style="margin-top:12px">${esc(m.level)} · ${esc(m.type)}${m.key_2024&&m.key_2024!==title?' · 2024 공시명 '+esc(m.key_2024):''}</div>
     <h1>${esc(title)}${mode?` <span style="font-weight:500;opacity:.8">${esc(mode)} 보기</span>`:''}</h1>
     <div class="sub">지자체 코드 ${cd}${m.prev_codes?.length?' (2023까지 '+m.prev_codes.join(',')+')':''}${m.replaces?' · 2026 개편으로 '+m.replaces.join('·')+' 승계':''}</div>
@@ -1390,7 +1408,7 @@ async function renderSearch(q,sidoF){ sidoF=sidoF||''; const app=document.getEle
   const bySido={}; lgs.forEach(o=>{ const sd=o.ix.sido_new; (bySido[sd]||={n:0,b:0,k:0}); bySido[sd].n+=o.n; bySido[sd].b+=o.b; bySido[sd].k++; });
   const asof=S.index.rows.find(x=>x.exec_2026)?.exec_2026?.exe_ymd; const live=S.index.rows.filter(x=>x.live_2026).length;
   const sortKey=B.qsort||'b'; const L=[...lgs].sort((a,b)=>sortKey==='per'?(b.per??-1)-(a.per??-1):sortKey==='rate'?(b.rate??-1)-(a.rate??-1):sortKey==='n'?b.n-a.n:b.b-a.b);
-  app.innerHTML=`<div class="band"><div class="wrap lgband"><div class="crumb"><button type="button" class="backbtn" onclick="goBack()" aria-label="이전 화면으로">← 뒤로</button><a href="#/">전국</a> › 사업·민원 검색</div><div class="eyebrow" style="margin-top:12px">전국 세부사업 검색 · 2026년 · ${ymd(asof)} 기준 · 사업명 기준 매칭${groups.some(g=>g.length>1)?' · 유의어 포함('+groups.flat().join('·')+')':''}</div><h1><em style="font-style:normal;color:var(--rd)">${esc(q)}</em> <span style="font-weight:500;opacity:.8">관련 사업${sidoF?' · '+esc(sidoF):''}</span></h1>
+  app.innerHTML=`<div class="band"><div class="wrap lgband"><div class="crumb"><button type="button" class="backbtn" onclick="goBack()" title="이전 화면으로"><span aria-hidden="true">← </span>뒤로</button><a href="#/">전국</a> › 사업·민원 검색</div><div class="eyebrow" style="margin-top:12px">전국 세부사업 검색 · 2026년 · ${ymd(asof)} 기준 · 사업명 기준 매칭${groups.some(g=>g.length>1)?' · 유의어 포함('+groups.flat().join('·')+')':''}</div><h1><em style="font-style:normal;color:var(--rd)">${esc(q)}</em> <span style="font-weight:500;opacity:.8">관련 사업${sidoF?' · '+esc(sidoF):''}</span></h1>
     <div class="badges"><span class="badge">지자체 <b>${num(lgs.length)}</b>/${live}곳</span><span class="badge">사업 <b>${num(hits.length)}</b>건</span><span class="badge">2026 예산현액 <b>${won(TB)}</b></span><span class="badge">집행 <b>${won(TE)}</b> · ${pct(TB?TE/TB*100:null)}</span>${nPrev?`<span class="badge gold">전년(2025 연말) 대비 <b>${sgn(TP?(TB-TP)/TP*100:null,v=>v.toFixed(1)+'%')}</b> (${num(nPrev)}건 매칭)</span>`:''}${nPu?`<span class="badge gold">사업 내역에서 찾은 것 <b>${num(nPu)}</b>건 (${puLgs}곳)</span>`:''}</div>
         <div class="seg" style="margin-top:14px"><a href="#/q/${encodeURIComponent(q)}" class="${sidoF?'':'on'}">전국</a>${(sidoF?[[sidoF,bySido[sidoF]||{b:0,k:0,n:0}]]:Object.entries(bySido).sort((a,b)=>b[1].b-a[1].b)).map(([sd,v])=>`<a href="#/q/${encodeURIComponent(q)}/${encodeURIComponent(sd)}" class="${sidoF===sd?'on':''}" style="font-weight:500" title="${esc(sd)} ${v.k}곳 ${v.n}건">${esc(sd.replace(/특별자치도|특별자치시|광역시|특별시|통합특별시/,''))} <b class="mono">${eok(v.b)}억</b></a>`).join('')}</div>
   </div></div><div class="wrap">
@@ -1433,7 +1451,7 @@ async function renderGovSearch(qs,yr){ const app=document.getElementById('app');
   hits.sort((a,b)=>(b.b??-1)-(a.b??-1)); const byM={}; hits.forEach(h=>{ (byM[h.m]||={n:0,b:0,sg:h.sg}); byM[h.m].n++; byM[h.m].b+=h.b||0; });
   const TB=hits.reduce((a,h)=>a+(h.b||0),0);
   app.innerHTML=`<div class="wrap" style="padding-top:18px">${GOVSW('gov')}${YRSW(is27?'y27':'y26')}</div>
-  <div class="band"><div class="wrap lgband"><div class="crumb"><button type="button" class="backbtn" onclick="goBack()" aria-label="이전 화면으로">← 뒤로</button><a href="${is27?'#/gov27':'#/gov'}">중앙정부</a> › 사업 검색</div>
+  <div class="band"><div class="wrap lgband"><div class="crumb"><button type="button" class="backbtn" onclick="goBack()" title="이전 화면으로"><span aria-hidden="true">← </span>뒤로</button><a href="${is27?'#/gov27':'#/gov'}">중앙정부</a> › 사업 검색</div>
     <div class="eyebrow" style="margin-top:12px">${M.length}개 부처 세부사업 검색 · ${is27?'2027 정부안 (국회 심의 중) · 사업명·프로그램·단위사업 이름 기준':'2026 확정예산 · 사업명·프로그램·단위사업 이름 + 사업설명자료의 「사업 목적」 문장'}</div>
     <h1><em style="font-style:normal;color:var(--rd)">${esc(qs)}</em> <span style="font-weight:500;opacity:.8">관련 사업</span></h1>
     <div class="badges"><span class="badge">부처 <b>${num(Object.keys(byM).length)}</b>/${M.length}곳</span><span class="badge">사업 <b>${num(hits.length)}</b>건</span><span class="badge">${is27?'2027 정부안':'2026 예산'} 합계 <b>${won(TB)}</b></span>${nPu?`<span class="badge gold">사업 목적에서 찾은 것 <b>${num(nPu)}</b>건</span>`:''}${puWait?'<span class="badge">사업 목적 문장 검색 중…</span>':''}</div>
@@ -1675,7 +1693,7 @@ async function renderSido(sd,id){ const D=await loadSido(); const app=document.g
   document.getElementById('foot').innerHTML=footer(); }
 function renderSidoOne(z,x){ const app=document.getElementById('app'); const my=myCd();
   app.innerHTML=`<section class="wrap">${POLSW('spol')}
-  <div class="lgband"><div class="crumb"><button type="button" class="backbtn" onclick="goBack()" aria-label="이전 화면으로">← 뒤로</button><a href="#/spol">시·도 정책</a> › <a href="#/spol/${encodeURIComponent(z.sido_new)}">${esc(z.sido_new)}</a></div>
+  <div class="lgband"><div class="crumb"><button type="button" class="backbtn" onclick="goBack()" title="이전 화면으로"><span aria-hidden="true">← </span>뒤로</button><a href="#/spol">시·도 정책</a> › <a href="#/spol/${encodeURIComponent(z.sido_new)}">${esc(z.sido_new)}</a></div>
     <div class="eyebrow" style="margin-top:10px">${esc(z.sido_new)} · ${esc(x.category||'')}${x.date?' · '+esc(x.date):''}${x.dept?' · '+esc(x.dept):''}</div>
     <h1>${esc(x.title)}</h1>
     <p class="psum">${esc(x.summary||'')}</p>
