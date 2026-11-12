@@ -41,6 +41,11 @@ let pw; try { pw = require('playwright'); } catch (e) { console.error('playwrigh
 
 const ARGV = process.argv.slice(2);
 const QUICK = ARGV.includes('--quick'), EXTERNAL = ARGV.includes('--external');
+const ONLY = (ARGV.find(a => a.startsWith('--only=')) || '').slice(7);   /* 예: --only=budget365  (이름에 이 글자가 든 쪽만) */
+const VERBOSE = ARGV.includes('--verbose');
+const VIEW_ONLY = (ARGV.find(a => a.startsWith('--view=')) || '').slice(7);   /* --view=PC 또는 --view=휴대폰 (둘을 따로 돌려 시간을 반으로) */
+const OUT_TAG = VIEW_ONLY ? '-' + (VIEW_ONLY === 'PC' ? 'pc' : 'mobile') : '';
+const withTimeout = (p, ms, what) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error(what + ' ' + ms + 'ms 초과')), ms))]);
 const LIVE = !!process.env.BASE;
 const PORT = 8793;
 const BASE = (process.env.BASE || `http://127.0.0.1:${PORT}`).replace(/\/$/, '');
@@ -48,7 +53,8 @@ const PROXY = process.env.HTTPS_PROXY || process.env.https_proxy || '';
 
 /* 점검 기준(숫자를 바꾸면 기준이 바뀐다) */
 const LIMIT = { lcp: 4000, load: 8000, longtask: 300, clickLongtask: 300, clickWait: 550, clicksPerView: 60 };
-const ARCHIVE = /^(archive|games|gongyak|manifesto)\.html$/;
+/* 기록관과 기록관에서만 이어지는 옛 쪽(게임·뽑기·이야기) — 고치지 않는 쪽 */
+const ARCHIVE = /^(archive|games|gongyak|manifesto|game|gacha|story)\.html$/;
 const SKIP_PAGES = /^(google[0-9a-f]+|naver[0-9a-f]+|admin|404|kimbomi_banner)\.html$/;   /* 소유권 확인·관리자·404·배너 시안(noindex, 연결 없음)은 따로 */
 /* vercel.json 에서 다른 쪽으로 넘기는 주소(예: narasalim.html → budget365.html)는 실제로 열리지 않으므로 뺀다 */
 const REDIRECTED = new Set((() => { try { return (JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8')).redirects || []).filter(r => !r.has).map(r => String(r.source).replace(/^\//, '')); } catch (e) { return []; } })());
@@ -104,11 +110,12 @@ async function prepPage(ctx, where) {
   pg.on('pageerror', e => rec.err.push(String(e.message || e).split('\n')[0].slice(0, 200)));
   pg.on('console', m => { if (m.type() !== 'error') return; const t = m.text();
     if (/Failed to load resource/.test(t)) return;               /* 응답 쪽에서 따로 센다 */
+    if (/Permissions policy violation|compute-pressure/.test(t)) return;   /* 유튜브 영상 틀 안의 경고 */
     if (!LIVE && /\/api\//.test(t)) return;
     rec.con.push(t.slice(0, 200)); });
   pg.on('response', r => { const s = r.status(), u = r.url();
     if (s < 400) return; if (!LIVE && u.includes('/api/')) return;
-    if (/google-analytics|googletagmanager|vercel-insights|_vercel\/insights|speed-insights/.test(u)) return;
+    if (/google-analytics|googletagmanager|vercel-insights|_vercel\/insights|speed-insights|youtube\.com\/youtubei|googlevideo\.com|doubleclick/.test(u)) return;   /* 통계·유튜브 영상 내부 요청 */
     rec.bad.push(s + ' ' + u.replace(BASE, '').slice(0, 160)); });
   await pg.addInitScript(() => {
     window.__qa = { lt: [], lcp: 0, mut: 0 };
@@ -184,12 +191,15 @@ async function collectButtons(pg) {
     const out = [], seen = new Set();
     document.querySelectorAll(sel).forEach((e, i) => {
       if (!vis(e) || e.disabled || e.closest('#bomi')) return;
+      if (e.matches('.skip, .skip-link, [class*="skip"]') || /본문 바로가기/.test(e.textContent || '')) return;   /* 키보드로만 보이는 바로가기 */
       /* 이미 골라져 있는 탭·칩은 다시 눌러도 바뀌지 않는 게 맞다 */
       if (e.matches('.on,.active,[aria-pressed="true"],[aria-selected="true"],[aria-current]:not([aria-current="false"])')) return;
       if (e.matches('a') && !e.matches('[onclick]') && e.getAttribute('href') !== '#' && !/^#[^/]/.test(e.getAttribute('href') || '')) return;
       if (e.type === 'submit' && e.form) return;              /* 글 보내기 단추는 누르지 않는다 */
       const txt = (e.innerText || e.value || e.getAttribute('aria-label') || e.title || '').trim().replace(/\s+/g, ' ').slice(0, 40);
-      const sig = e.tagName + '|' + String(e.className).replace(/\b(on|open|active|sel)\b/g, '').trim().slice(0, 40) + '|' + (e.closest('tr') ? 'TR' : txt.replace(/[\d,.%]+/g, '9'));
+      /* 같은 모양이 줄지어 있으면(목록·표의 줄·칩 묶음) 대표로 하나만 누른다 */
+      const P = e.parentElement; const same = P ? [...P.children].filter(x => x.tagName === e.tagName && x.className === e.className).length : 0;
+      const sig = e.tagName + '|' + String(e.className).replace(/\b(on|open|active|sel)\b/g, '').trim().slice(0, 40) + '|' + (e.closest('tr') ? 'TR' : same >= 3 ? 'LIST:' + String(P.className).slice(0, 30) : txt.replace(/[\d,.%]+/g, '9'));
       if (seen.has(sig)) return; seen.add(sig);
       e.setAttribute('data-qa', String(i)); out.push({ id: String(i), txt: txt || '(글자 없음)', tag: e.tagName });
     });
@@ -197,22 +207,33 @@ async function collectButtons(pg) {
   }, LIMIT.clicksPerView);
 }
 
+const T_B365 = u => /budget365/.test(u);
 async function clickAll(ctx, pg, rec, where, url, sev, restore) {
   const btns = await collectButtons(pg);
   let n = 0;
   for (const b of btns) {
-    const exists = await pg.$(`[data-qa="${b.id}"]`);
-    if (!exists) { await restore(); continue; }
-    const before = await pg.evaluate(() => ({ url: location.href, mut: window.__qa.mut, lt: window.__qa.lt.length, sy: window.scrollY }));
+    /* 앞 단추가 화면을 다시 그렸거나 쪽을 새로 열었으면 표시가 지워진다 → 다시 표시하고 찾는다(쪽을 다시 여는 건 마지막 수단) */
+    let exists = await pg.$(`[data-qa="${b.id}"]`);
+    if (!exists) { await collectButtons(pg).catch(() => {}); exists = await pg.$(`[data-qa="${b.id}"]`); }
+    if (!exists) { await restore(); await collectButtons(pg).catch(() => {}); exists = await pg.$(`[data-qa="${b.id}"]`); }
+    if (!exists) continue;
+    /* 앞 단추(예: 「접기」)가 이 단추를 감췄으면 쪽을 새로 열고 다시 찾는다 */
+    if (!(await exists.isVisible().catch(() => false))) { await restore(); await collectButtons(pg).catch(() => {}); exists = await pg.$(`[data-qa="${b.id}"]`); if (!exists || !(await exists.isVisible().catch(() => false))) continue; }
+    const before = await pg.evaluate(() => ({ url: location.href, mut: window.__qa.mut, lt: window.__qa.lt.length, sy: window.scrollY, to: performance.timeOrigin }));
     let popup = null, dl = null, dialog = null;
     const onPage = p => { popup = p; }; const onDl = d => { dl = d; }; const onDlg = d => { dialog = d.message().slice(0, 60); d.dismiss().catch(() => {}); };
     ctx.on('page', onPage); pg.on('download', onDl); pg.on('dialog', onDlg);
     let clickErr = '', apiCalls = 0; const onReq = r => { if (r.url().includes('/api/')) apiCalls++; }; pg.on('request', onReq);
+    if (VERBOSE) process.stderr.write(` [${b.txt.slice(0, 16)}]`);
     try { await exists.click({ timeout: 8000 }); }
     catch (e) {
       const m = String(e.message);
       /* 계속 움직이는(숨쉬는 효과) 단추는 기계가 「멈출 때까지」 기다리다 못 누른다. 사람은 누를 수 있으므로 힘으로 한 번 더 */
       if (/stable|Timeout/.test(m)) { try { await exists.click({ timeout: 4000, force: true }); } catch (e2) { clickErr = String(e2.message).split('\n')[0].slice(0, 120); } }
+      else if (/not attached/.test(m)) {   /* 누르기 직전 화면이 다시 그려졌다 → 같은 단추를 다시 찾아 한 번 더 */
+        await pg.waitForTimeout(600); await collectButtons(pg).catch(() => {}); const again = await pg.$(`[data-qa="${b.id}"]`);
+        if (again) { try { await again.click({ timeout: 8000 }); } catch (e3) { clickErr = String(e3.message).split('\n')[0].slice(0, 120); } } else clickErr = m.split('\n')[0].slice(0, 120);
+      }
       else clickErr = m.split('\n')[0].slice(0, 120);
     }
     await pg.waitForTimeout(LIMIT.clickWait);
@@ -220,7 +241,8 @@ async function clickAll(ctx, pg, rec, where, url, sev, restore) {
     n++;
     const label = `「${b.txt}」`;
     let after;
-    try { after = await pg.evaluate(() => ({ url: location.href, mut: window.__qa ? window.__qa.mut : -1, lt: window.__qa ? window.__qa.lt : [], sy: window.scrollY })); }
+    if (!dialog) await pg.waitForLoadState('load', { timeout: 15000 }).catch(() => {});
+    try { after = await pg.evaluate(() => ({ url: location.href, mut: window.__qa ? window.__qa.mut : -1, lt: window.__qa ? window.__qa.lt : [], sy: window.scrollY, to: performance.timeOrigin })); }
     catch (e) { after = null; }
     if (clickErr && !/intercepts pointer events|not visible|detached|outside of the viewport/.test(clickErr)) add(sev, where, '누를 수 없음', `${label} ${clickErr}`);
     else if (clickErr) add('확인필요', where, '가려진 단추', `${label} 다른 것에 가려 눌리지 않음`);
@@ -228,69 +250,96 @@ async function clickAll(ctx, pg, rec, where, url, sev, restore) {
     if (rec.con.length) { add(sev, where, '누르면 콘솔 오류', `${label} → ${rec.con[0]}`); rec.con.length = 0; }
     if (rec.bad.length) { add(sev, where, '누르면 응답 오류', `${label} → ${rec.bad[0]}`); rec.bad.length = 0; }
     if (after) {
-      const newLt = after.lt.slice(before.lt).reduce((m, x) => Math.max(m, x[1]), 0);
+      const reloaded = after.to !== before.to;   /* 쪽을 새로 불러온 단추(예: API로 새로고침) */
+      const newLt = reloaded ? 0 : after.lt.slice(before.lt).reduce((m, x) => Math.max(m, x[1]), 0);
       if (newLt > LIMIT.clickLongtask) add('느림', where, '누르면 버벅임', `${label} 멈춤 ${newLt}ms`);
-      const moved = after.url !== before.url || after.mut > before.mut || popup || dl || dialog || Math.abs(after.sy - before.sy) > 20;
+      const moved = reloaded || after.url !== before.url || after.mut > before.mut || popup || dl || dialog || Math.abs(after.sy - before.sy) > 20;
       if (!moved && !clickErr) { if (!LIVE && apiCalls) add('확인필요', where, '서버 함수 단추', `${label} 로컬에는 /api 가 없어 확인 못 함 — BASE=배포주소로 다시 점검`); else add(sev, where, '반응 없음', `${label} 눌러도 아무것도 바뀌지 않음`); }
     }
     if (popup) { const pu = popup.url(); await popup.waitForLoadState('domcontentloaded', { timeout: 10000 }).catch(() => {}); if (!pu || pu === 'about:blank') { const u2 = popup.url(); if (!u2 || u2 === 'about:blank') add(sev, where, '빈 새 창', `${label} 새 창이 비어 있음`); } await popup.close().catch(() => {}); }
     if (!after || after.url !== before.url || dialog) await restore();
+    else if (after.to !== before.to) { await pg.waitForTimeout(T_B365(url) ? 4500 : 2000); await pg.waitForFunction(() => !document.querySelector('.kbl-hold'), null, { timeout: 15000 }).catch(() => {}); }
     else { await pg.keyboard.press('Escape').catch(() => {}); }
   }
   return n;
+}
+
+/* 값을 바꾸는 요청은 보내지 않는다 */
+function ROUTER(route, req) {
+  const m = req.method(); const u = req.url();
+  if (m !== 'GET' && m !== 'HEAD' && m !== 'OPTIONS' && /\/api\//.test(u)) return route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true,"qa":"점검용 가짜 응답"}' });
+  if (!LIVE && !EXTERNAL && !u.startsWith(BASE) && !/^data:|^blob:/.test(u)) {
+    if (/cdnjs\.cloudflare\.com|fonts\.googleapis|fonts\.gstatic|cdn\.jsdelivr|unpkg\.com/.test(u) && PROXY) return route.continue();
+    return route.abort();
+  }
+  return route.continue();
+}
+const T_START = Date.now(); let CLICKS = 0;
+/* 점검 도중에도 결과를 바로 적는다(중간에 멈춰도 그때까지 결과가 남는다) */
+function flush(final) {
+  const order = ['고칠것', '느림', '확인필요', '기록관'];
+  const I = issues.slice().sort((a, b) => order.indexOf(a.sev) - order.indexOf(b.sev) || a.where.localeCompare(b.where));
+  const outDir = path.join(ROOT, 'tools', 'out'); fs.mkdirSync(outDir, { recursive: true });
+  const sum = order.map(s => `${s} ${I.filter(i => i.sev === s).length}`).join(' · ');
+  const sec = Math.round((Date.now() - T_START) / 1000);
+  fs.writeFileSync(path.join(outDir, `qa-all${OUT_TAG}.json`), JSON.stringify({ base: BASE, at: new Date().toISOString(), done: !!final, seconds: sec, clicks: CLICKS, sum, issues: I, stats }, null, 1));
+  const md = [`# 전 페이지·링크·단추 점검${final ? '' : ' (진행 중)'}`, ``, `- 대상: ${BASE}`, `- 시각: ${new Date().toISOString()}`, `- 쪽·화면 ${stats.length}개, 단추 ${CLICKS}번 누름, ${sec}초`, `- 결과: ${sum}`, ``,
+    `| 구분 | 위치 | 종류 | 내용 |`, `|---|---|---|---|`, ...I.map(i => `| ${i.sev} | ${i.where} | ${i.kind} | ${i.msg.replace(/\|/g, '/').replace(/\s+/g, ' ')} |`), ``,
+    `## 여는 시간(ms)`, `| 위치 | FCP | LCP | load | 가장 긴 멈춤 |`, `|---|---|---|---|---|`, ...stats.map(s => `| ${s.where} | ${s.fcp} | ${s.lcp} | ${s.load} | ${s.longtask} |`)].join('\n');
+  fs.writeFileSync(path.join(outDir, `qa-all${OUT_TAG}.md`), md);
+  return sum;
 }
 
 (async () => {
   const srv = LIVE ? null : await serve();
   const launch = {}; if (PROXY && (LIVE || EXTERNAL)) launch.proxy = { server: PROXY, bypass: '127.0.0.1,localhost' };
   const browser = await pw.chromium.launch(launch);
-  const t0 = Date.now(); let clicks = 0;
   for (const V of VIEWS) {
-    const ctx = await browser.newContext({ viewport: { width: V.w, height: V.h }, isMobile: !!V.mobile, hasTouch: !!V.mobile, acceptDownloads: true, deviceScaleFactor: 1 });
-    /* 값을 바꾸는 요청은 보내지 않는다 */
-    await ctx.route('**/*', (route, req) => {
-      const m = req.method(); const u = req.url();
-      if (m !== 'GET' && m !== 'HEAD' && m !== 'OPTIONS' && /\/api\//.test(u)) return route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true,"qa":"점검용 가짜 응답"}' });
-      if (!LIVE && !EXTERNAL && !u.startsWith(BASE) && !/^data:|^blob:/.test(u)) {
-        if (/cdnjs\.cloudflare\.com|fonts\.googleapis|fonts\.gstatic|cdn\.jsdelivr|unpkg\.com/.test(u) && PROXY) return route.continue();
-        return route.abort();
-      }
-      return route.continue();
-    });
+    if (VIEW_ONLY && V.tag !== VIEW_ONLY) continue;
+    let ctx = await browser.newContext({ viewport: { width: V.w, height: V.h }, isMobile: !!V.mobile, hasTouch: !!V.mobile, acceptDownloads: true, deviceScaleFactor: 1 });
+    await ctx.route('**/*', ROUTER);   /* 값을 바꾸는 요청은 보내지 않는다 */
     const req = ctx.request;
     const targets = [];
     for (const p of PAGES) { if (p === 'budget365.html') continue; targets.push({ url: '/' + encodeURI(p), name: p }); }
     for (const h of B365) targets.push({ url: '/budget365.html' + h, name: 'budget365.html' + decodeURIComponent(h), b365: true });
     for (const T of targets) {
-      const where = `${V.tag} ${T.name}`; const isArchive = ARCHIVE.test(T.name); const sev = isArchive ? '기록관' : '고칠것';
-      const { pg, rec } = await prepPage(ctx, where);
+      if (ONLY && !T.name.includes(ONLY)) continue;
+      const where = `${V.tag} ${T.name}`;
+      if (VERBOSE) process.stderr.write(`\n▷ ${where}`); const isArchive = ARCHIVE.test(T.name); const sev = isArchive ? '기록관' : '고칠것';
+      let P0;
+      try { P0 = await withTimeout(prepPage(ctx, where), 30000, '새 탭 열기'); }
+      catch (e) { add('확인필요', where, '점검 중단', String(e.message)); try { await withTimeout(ctx.close(), 10000, '닫기'); } catch (e2) {} ctx = await browser.newContext({ viewport: { width: V.w, height: V.h }, isMobile: !!V.mobile, hasTouch: !!V.mobile, acceptDownloads: true, deviceScaleFactor: 1 }); await ctx.route('**/*', ROUTER); continue; }
+      const { pg, rec } = P0;
       const open = async () => {
-        try { await pg.goto(BASE + T.url, { waitUntil: 'load', timeout: 45000 }); } catch (e) { add(sev, where, '열리지 않음', String(e.message).split('\n')[0]); return false; }
+        /* 주소가 같고 # 뒤만 같으면 브라우저가 쪽을 새로 열지 않는다 → 빈 쪽을 거쳐 반드시 새로 연다 */
+        try { await pg.goto('about:blank').catch(() => {}); await pg.goto(BASE + T.url, { waitUntil: 'load', timeout: 45000 }); } catch (e) { add(sev, where, '열리지 않음', String(e.message).split('\n')[0]); return false; }
         await pg.waitForTimeout(T.b365 ? 4500 : 2000);
+        /* 우리동네365에 처음 들어오면 사용법 안내가 2초 넘게 화면을 덮는다(일부러 둔 것). 걷힐 때까지 기다린다 */
+        await pg.waitForFunction(() => !document.querySelector('.kbl-hold'), null, { timeout: 15000 }).catch(() => {});
         return true;
       };
-      if (!(await open())) { await pg.close(); continue; }
-      await pageChecks(pg, rec, where, isArchive, req);
-      if (!QUICK) {
-        const restore = async () => { await open(); rec.err.length = 0; rec.con.length = 0; rec.bad.length = 0; };
-        clicks += await clickAll(ctx, pg, rec, where, T.url, sev, restore);
-      }
-      await pg.close();
+      /* 한 쪽이 어떤 까닭으로 멈춰도 전체 점검이 서지 않게: 쪽마다 6분 한도 */
+      const work = (async () => {
+        if (!(await open())) return;
+        await pageChecks(pg, rec, where, isArchive, req);
+        if (!QUICK) {
+          const restore = async () => { await open(); rec.err.length = 0; rec.con.length = 0; rec.bad.length = 0; };
+          CLICKS += await clickAll(ctx, pg, rec, where, T.url, sev, restore);
+        }
+      })();
+      const LIM_MIN = EXTERNAL ? 15 : 6;   /* 바깥 링크까지 여는 날은 쪽마다 더 오래 걸린다 */
+      let timer; const lim = new Promise(r => { timer = setTimeout(() => r('timeout'), LIM_MIN * 60000); });
+      const res = await Promise.race([work.then(() => 'ok', e => 'err:' + String(e.message).split('\n')[0].slice(0, 120)), lim]); clearTimeout(timer);
+      if (res === 'timeout') add('확인필요', where, '점검 시간 초과', `${LIM_MIN}분 안에 끝나지 않음 — 이 쪽만 --only 로 다시 점검`);
+      else if (res !== 'ok') add('확인필요', where, '점검 중단', res);
+      await withTimeout(pg.close({ runBeforeUnload: false }), 10000, '탭 닫기').catch(() => {});
+      flush();
       process.stdout.write('.');
     }
     await ctx.close();
   }
   await browser.close(); if (srv) srv.close();
-  /* 결과 */
-  const order = ['고칠것', '느림', '확인필요', '기록관'];
-  issues.sort((a, b) => order.indexOf(a.sev) - order.indexOf(b.sev) || a.where.localeCompare(b.where));
-  const outDir = path.join(ROOT, 'tools', 'out'); fs.mkdirSync(outDir, { recursive: true });
-  const sum = order.map(s => `${s} ${issues.filter(i => i.sev === s).length}`).join(' · ');
-  fs.writeFileSync(path.join(outDir, 'qa-all.json'), JSON.stringify({ base: BASE, at: new Date().toISOString(), seconds: Math.round((Date.now() - t0) / 1000), clicks, sum, issues, stats }, null, 1));
-  const md = [`# 전 페이지·링크·단추 점검`, ``, `- 대상: ${BASE}`, `- 시각: ${new Date().toISOString()}`, `- 쪽·화면 ${stats.length}개(두 너비), 단추 ${clicks}번 누름, ${Math.round((Date.now() - t0) / 1000)}초`, `- 결과: ${sum}`, ``,
-    `| 구분 | 위치 | 종류 | 내용 |`, `|---|---|---|---|`, ...issues.map(i => `| ${i.sev} | ${i.where} | ${i.kind} | ${i.msg.replace(/\|/g, '/')} |`), ``,
-    `## 여는 시간(ms)`, `| 위치 | FCP | LCP | load | 가장 긴 멈춤 |`, `|---|---|---|---|---|`, ...stats.map(s => `| ${s.where} | ${s.fcp} | ${s.lcp} | ${s.load} | ${s.longtask} |`)].join('\n');
-  fs.writeFileSync(path.join(outDir, 'qa-all.md'), md);
-  console.log(`\n${'─'.repeat(60)}\n${sum} · 단추 ${clicks}번 · ${Math.round((Date.now() - t0) / 1000)}초\n결과: tools/out/qa-all.md`);
+  const sum = flush(true);
+  console.log(`\n${'─'.repeat(60)}\n${sum} · 단추 ${CLICKS}번 · ${Math.round((Date.now() - T_START) / 1000)}초\n결과: tools/out/qa-all${OUT_TAG}.md`);
   process.exit(issues.some(i => i.sev === '고칠것') ? 1 : 0);
 })().catch(e => { console.error(e); process.exit(2); });
