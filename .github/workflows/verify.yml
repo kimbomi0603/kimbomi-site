@@ -40,3 +40,20 @@ jobs:
       - run: npm i --no-save playwright@1.49.0
       - run: npx playwright install --with-deps webkit
       - run: node tools/verify-render.js
+
+  pages:
+    name: 전 페이지·링크 점검 (오류·깨진 링크·가로 넘침·느림)
+    # 2026-11-12: tools/qa-all.js --quick. 모든 쪽과 우리동네365 화면을 PC·휴대폰 너비로 열어
+    # 스크립트 오류, 사이트 안 깨진 링크, 깨진 그림, 가로 넘침을 본다. 단추 전부 누르기는 매일 점검(qa-daily.yml)에서.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm i --no-save playwright@1.49.0
+      - run: npx playwright install --with-deps chromium
+      - run: node tools/qa-all.js --quick
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: qa-pages, path: tools/out/qa-all.md }
