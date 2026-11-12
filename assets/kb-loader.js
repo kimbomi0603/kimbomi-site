@@ -80,7 +80,7 @@
     if(fixPos) host.style.position='relative';
     var ov=document.createElement('div'); ov.className='kbl-hold';
     ov.style.cssText='position:absolute;left:0;right:0;top:0;min-height:100%;z-index:50;background:'+bgOf(host)+';transition:opacity .2s ease';
-    node.setAttribute('data-held','1'); ov.appendChild(node); host.appendChild(ov);
+    node.setAttribute('data-held','1'); ov.appendChild(node); ov.__until=Date.now()+left; ov.__host=host; host.appendChild(ov);
     var mh=host.style.minHeight; if(host.offsetHeight<ov.offsetHeight) host.style.minHeight=ov.offsetHeight+'px';
     setTimeout(function(){ ov.style.opacity='0'; setTimeout(function(){ if(ov.parentNode) ov.parentNode.removeChild(ov); if(fixPos) host.style.position=''; host.style.minHeight=mh; },220); },left);
   }
@@ -91,7 +91,10 @@
         var addsLoader=false, j;
         for(j=0;j<m.addedNodes.length;j++){ var a=m.addedNodes[j]; if(a.nodeType===1&&(a.classList.contains('kbl-hold')||a.classList.contains('kbl')||a.querySelector('.kbl'))) addsLoader=true; }
         if(addsLoader) continue;
-        for(j=0;j<m.removedNodes.length;j++){ var n=m.removedNodes[j]; if(n.nodeType!==1||n.classList.contains('kbl-hold')||n.getAttribute('data-held')) continue;
+        for(j=0;j<m.removedNodes.length;j++){ var n=m.removedNodes[j]; if(n.nodeType!==1) continue;
+          /* 덮개가 떠 있는 동안 화면이 한 번 더 그려져 덮개째 지워졌으면, 남은 시간만큼 다시 덮는다 */
+          if(n.classList.contains('kbl-hold')){ if(n.__until&&now<n.__until-60&&m.target===n.__host&&m.target.isConnected&&!m.target.querySelector('.kbl-hold')){ if(getComputedStyle(m.target).position==='static') m.target.style.position='relative'; m.target.appendChild(n); } continue; }
+          if(n.getAttribute('data-held')) continue;
           var k=n.classList.contains('kbl')?n:n.querySelector('.kbl'); if(!k) continue;
           if(n!==k&&n.children.length!==1) continue;                       /* 표시만 담은 껍데기(.wrap)일 때만 */
           var t0=+k.getAttribute('data-t0')||Math.round((window.performance&&performance.timeOrigin)||now), left=MIN-(now-t0);
