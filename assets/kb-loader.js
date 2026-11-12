@@ -10,14 +10,14 @@
   var P={
     book:'<svg viewBox="0 0 36 40"><rect x="3" y="3" width="30" height="34" rx="4" fill="#fff" stroke="#16305A" stroke-width="2"/><rect x="3" y="3" width="7" height="34" rx="3" fill="#16305A"/><path d="M15 12h13M15 18h13M15 24h9" stroke="#DDE2EA" stroke-width="3" stroke-linecap="round"/></svg>',
     coin:'<svg viewBox="0 0 36 40"><ellipse cx="18" cy="30" rx="13" ry="5" fill="#C99A2E"/><rect x="5" y="20" width="26" height="10" fill="#C99A2E"/><ellipse cx="18" cy="20" rx="13" ry="5" fill="#E9C56A"/><path d="M14 20h8" stroke="#9C7520" stroke-width="2" stroke-linecap="round"/><path d="M8 12l20-6" stroke="#0F5A4A" stroke-width="3" stroke-linecap="round"/><path d="M24 4l4 2-2 4" fill="none" stroke="#0F5A4A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    deal:'<svg viewBox="0 0 36 40"><rect x="4" y="3" width="26" height="33" rx="3" fill="#fff" stroke="#16305A" stroke-width="2"/><path d="M9 11h16M9 17h16M9 23h10" stroke="#DDE2EA" stroke-width="3" stroke-linecap="round"/><circle cx="26" cy="30" r="7" fill="#C3272B" opacity=".9"/><path d="M23 30h6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>',
+    deal:'<svg viewBox="0 0 36 40"><rect x="4" y="3" width="26" height="33" rx="3" fill="#fff" stroke="#16305A" stroke-width="2"/><path d="M9 11h16M9 17h16M9 23h10" stroke="#DDE2EA" stroke-width="3" stroke-linecap="round"/><circle cx="26" cy="30" r="7" fill="#C99A2E"/><path d="M22.800 30l2.300 2.400 4.300-4.800" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     flag:'<svg viewBox="0 0 36 40"><rect x="3" y="3" width="30" height="34" rx="4" fill="#fff" stroke="#16305A" stroke-width="2"/><path d="M9 12h18M9 19h18M9 26h12" stroke="#DDE2EA" stroke-width="3" stroke-linecap="round"/><path d="M24 22v14" stroke="#16305A" stroke-width="2"/><path d="M24 22h9l-3 3 3 3h-9z" fill="#C3272B"/></svg>',
     vote:'<svg viewBox="0 0 36 40"><rect x="5" y="16" width="26" height="21" rx="3" fill="#fff" stroke="#16305A" stroke-width="2"/><rect x="12" y="15" width="12" height="3" rx="1.5" fill="#16305A"/><rect x="11" y="3" width="14" height="15" rx="2" fill="#F5F0E4" stroke="#C99A2E" stroke-width="2"/><path d="M14 10l3 3 5-6" fill="none" stroke="#0F5A4A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     bars:'<svg viewBox="0 0 36 40"><rect x="3" y="3" width="30" height="34" rx="4" fill="#fff" stroke="#16305A" stroke-width="2"/><rect x="9" y="20" width="5" height="11" rx="1.5" fill="#0F5A4A"/><rect x="16" y="13" width="5" height="18" rx="1.5" fill="#C99A2E"/><rect x="23" y="16" width="5" height="15" rx="1.5" fill="#16305A"/></svg>',
     folder:'<svg viewBox="0 0 36 40"><path d="M3 10a3 3 0 0 1 3-3h9l3 4h12a3 3 0 0 1 3 3v19a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z" fill="#F5F0E4" stroke="#C99A2E" stroke-width="2"/><path d="M9 20h18M9 26h12" stroke="#DDE2EA" stroke-width="3" stroke-linecap="round"/></svg>',
     hall:'<svg viewBox="0 0 36 40"><path d="M4 15L18 6l14 9z" fill="#16305A"/><rect x="5" y="15" width="26" height="3" fill="#16305A"/><path d="M9 19v12M15 19v12M21 19v12M27 19v12" stroke="#DDE2EA" stroke-width="3"/><rect x="4" y="31" width="28" height="4" rx="1" fill="#16305A"/></svg>',
     scroll:'<svg viewBox="0 0 36 40"><rect x="7" y="6" width="22" height="29" rx="2" fill="#F5F0E4" stroke="#C99A2E" stroke-width="2"/><rect x="4" y="4" width="28" height="5" rx="2.5" fill="#C99A2E"/><rect x="4" y="32" width="28" height="5" rx="2.5" fill="#C99A2E"/><path d="M11 15h14M11 21h14M11 27h9" stroke="#16305A" stroke-width="2" stroke-linecap="round" opacity=".5"/></svg>',
-    map:'<svg viewBox="0 0 36 40"><path d="M4 9l9-4 10 4 9-4v26l-9 4-10-4-9 4z" fill="#fff" stroke="#16305A" stroke-width="2" stroke-linejoin="round"/><path d="M13 5v26M23 9v26" stroke="#DDE2EA" stroke-width="2"/><circle cx="18" cy="18" r="4" fill="#C3272B"/></svg>',
+    map:'<svg viewBox="0 0 36 40"><path d="M4 9l9-4 10 4 9-4v26l-9 4-10-4-9 4z" fill="#fff" stroke="#16305A" stroke-width="2" stroke-linejoin="round"/><path d="M13 5v26M23 9v26" stroke="#DDE2EA" stroke-width="2"/><path d="M18 28c-4.6-5.4-6.8-8.8-6.8-12a6.8 6.8 0 0 1 13.6 0c0 3.200-2.200 6.600-6.800 12z" fill="#0F5A4A"/><circle cx="18" cy="16" r="2.500" fill="#fff"/></svg>',
     news:'<svg viewBox="0 0 36 40"><rect x="3" y="5" width="30" height="31" rx="3" fill="#fff" stroke="#16305A" stroke-width="2"/><rect x="8" y="10" width="20" height="6" rx="1.5" fill="#16305A"/><path d="M8 21h20M8 26h20M8 31h13" stroke="#DDE2EA" stroke-width="2.6" stroke-linecap="round"/></svg>'
   };
   /* 분야별 설정: 봄이 자세, 소품, 단계 문구, 자료 출처 */
@@ -39,7 +39,7 @@
     firm:{pose:'think',prop:'deal',src:'전국 계약 대장',steps:['전국 계약 색인을 여는 중입니다 (처음 한 번만 약 9MB)','지방정부 243개 시·군·구 계약 대장에서 「{who}」를 찾고 있습니다','지자체별 계약을 묶고 금액을 더하고 있습니다','표를 그리는 중입니다']},
     live:{pose:'talk',prop:'news',src:'정부·국회 공개 API',steps:['{who} 자료를 공개 API에서 받고 있습니다 (처음엔 10초쯤 걸릴 수 있습니다)','최신 발표 순으로 정리하고 있습니다','목록을 그리는 중입니다']}
   };
-  var SLOW=8000, TICK=1900;
+  var SLOW=8000, TICK=1900, MIN=2300;   /* MIN: 큰 표시는 한 번 뜨면 걷히는 시간까지 쳐서 2초 넘게 또렷이 보이게 한다(2026-11-12) */
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]});}
   function fill(t,who){return String(t).replace(/\{who\}/g, who||'우리 동네');}
   function cfg(kind){return K[kind]||K.lg;}
@@ -70,4 +70,38 @@
       if(now-t0>SLOW) el.classList.add('is-slow');
     });
   },TICK);
+  /* 2026-11-12 큰 표시가 너무 빨리 지나가지 않게: 자료가 2초 안에 도착해 표시가 지워지면,
+     지워진 표시를 그 자리 위에 덮개로 잠깐 더 보여 주고(새 화면은 그 아래에 이미 그려져 있다) 2초가 차면 걷는다.
+     다른 '불러오는 중' 표시로 바뀌는 경우와 작은 표시(.kbl-mini)는 그대로 둔다. */
+  function bgOf(el){ for(var e=el;e&&e.nodeType===1;e=e.parentElement){ var c=getComputedStyle(e).backgroundColor; if(c&&c!=='transparent'&&!/rgba\([^)]*,\s*0\)$/.test(c)) return c; } return '#fff'; }
+  function hold(node,host,left){
+    if(!host||!host.isConnected||host.querySelector('.kbl-hold')) return;
+    var cs=getComputedStyle(host), fixPos=cs.position==='static';
+    if(fixPos) host.style.position='relative';
+    var ov=document.createElement('div'); ov.className='kbl-hold';
+    ov.style.cssText='position:absolute;left:0;right:0;top:0;min-height:100%;z-index:50;background:'+bgOf(host)+';transition:opacity .2s ease';
+    node.setAttribute('data-held','1'); ov.appendChild(node); ov.__until=Date.now()+left; ov.__host=host; host.appendChild(ov);
+    var mh=host.style.minHeight; if(host.offsetHeight<ov.offsetHeight) host.style.minHeight=ov.offsetHeight+'px';
+    setTimeout(function(){ ov.style.opacity='0'; setTimeout(function(){ if(ov.parentNode) ov.parentNode.removeChild(ov); if(fixPos) host.style.position=''; host.style.minHeight=mh; },220); },left);
+  }
+  if(window.MutationObserver){
+    new MutationObserver(function(list){
+      var now=Date.now();
+      for(var i=0;i<list.length;i++){ var m=list[i]; if(!m.removedNodes.length) continue;
+        var addsLoader=false, j;
+        for(j=0;j<m.addedNodes.length;j++){ var a=m.addedNodes[j]; if(a.nodeType===1&&(a.classList.contains('kbl-hold')||a.classList.contains('kbl')||a.querySelector('.kbl'))) addsLoader=true; }
+        if(addsLoader) continue;
+        for(j=0;j<m.removedNodes.length;j++){ var n=m.removedNodes[j]; if(n.nodeType!==1) continue;
+          /* 덮개가 떠 있는 동안 화면이 한 번 더 그려져 덮개째 지워졌으면, 남은 시간만큼 다시 덮는다 */
+          if(n.classList.contains('kbl-hold')){ if(n.__until&&now<n.__until-60&&m.target===n.__host&&m.target.isConnected&&!m.target.querySelector('.kbl-hold')){ if(getComputedStyle(m.target).position==='static') m.target.style.position='relative'; m.target.appendChild(n); } continue; }
+          if(n.getAttribute('data-held')) continue;
+          var k=n.classList.contains('kbl')?n:n.querySelector('.kbl'); if(!k) continue;
+          if(n!==k&&n.children.length!==1) continue;                       /* 표시만 담은 껍데기(.wrap)일 때만 */
+          var t0=+k.getAttribute('data-t0')||Math.round((window.performance&&performance.timeOrigin)||now), left=MIN-(now-t0);
+          if(left>60) hold(n,m.target,left);
+          break;
+        }
+      }
+    }).observe(document.documentElement,{childList:true,subtree:true});
+  }
 })();
