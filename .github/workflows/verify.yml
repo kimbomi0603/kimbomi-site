@@ -29,7 +29,9 @@ jobs:
 
   render:
     name: 전수 렌더 (243곳 · 차트 정상/CDN 장애)
-    runs-on: ubuntu-latest
+    # 2026-11-12: ubuntu-latest가 26.04로 바뀐 뒤 playwright 1.49.0이 WebKit 의존 꾸러미(libicu74·libvpx9·libxml2·libx264-164)를
+    # 찾지 못해 설치 단계에서 매번 실패했다(검사 자체는 돌지도 못함). playwright 1.49가 지원하는 24.04로 고정한다.
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
