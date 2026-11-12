@@ -2938,3 +2938,4 @@ html:where(.pg-budget365)[data-theme="dark"] .band .badge.gold{background:var(--
 :where(.pg-budget365) .pchip i{opacity:1;color:var(--ink-3)}
 :where(.pg-budget365) .pchip.on i{color:inherit}
 :where(.pg-budget365) .pit .pd em{opacity:1;color:var(--ink-3)}
+:where(.pg-budget365) .vsr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0;padding:0}

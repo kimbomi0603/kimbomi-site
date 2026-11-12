@@ -1,0 +1,28 @@
+# ============================================================================
+# 매일 실제 사이트 전체 점검 — 모든 쪽 · 모든 링크(바깥 포함) · 보이는 단추 전부 누르기
+# 2026-11-12 신설. 「눌러도 반응 없음, 창이 안 열림, 버벅임, 오류」가 다시 생기면 다음 날 바로 잡히게 한다.
+# 실패하면(고칠 것이 있으면) 저장소 주인에게 GitHub 알림 메일이 간다. 결과 파일은 실행 기록의 첨부(qa-daily)에.
+# ============================================================================
+name: qa-daily
+
+on:
+  schedule:
+    - cron: '17 22 * * *'   # 매일 아침 7:17 (KST)
+  workflow_dispatch:
+
+jobs:
+  live:
+    name: 실제 사이트 전 페이지·링크·단추 점검
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm i --no-save playwright@1.49.0
+      - run: npx playwright install --with-deps chromium
+      - run: node tools/qa-all.js --external
+        env: { BASE: 'https://www.xn--4k0b53xuva.com' }
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: qa-daily, path: tools/out/ }

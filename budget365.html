@@ -385,6 +385,7 @@ function buildNav(){ const nv=document.querySelector('.nav'); if(!nv||!S.index) 
     +`<a href="#/task" class="${/^#\/task/.test(location.hash)?'on':''}">123대 국정과제 <b>${nT}</b></a>`
     +`<a href="#/docs" class="${/^#\/docs/.test(location.hash)?'on':''}">원문 자료실 <b>9,177</b></a></div>`; }
 async function loadLg(cd){ if(S.cache[cd]) return S.cache[cd];
+  if(S.index&&S.index.rows&&!S.index.rows.some(x=>x.laf_cd===cd)) throw new Error('자료 없음');   /* 2026-11-12 없는 코드는 파일을 요청하지 않는다(404 응답 방지) */
   const r=await fetch('data/'+cd+'.txt'); if(!r.ok) throw new Error('자료 없음');
   const b64=(await r.text()).trim(); const bin=atob(b64); const u8=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i);
   const s=new Blob([u8]).stream().pipeThrough(new DecompressionStream('gzip')); const text=await new Response(s).text();
@@ -396,7 +397,8 @@ async function loadG2b(cd){ if(cd in S.g2b) return S.g2b[cd]; try{ if(!S.g2bAll)
   const bin=atob(b64); const u8=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i);
   const st=new Blob([u8]).stream().pipeThrough(new DecompressionStream('gzip')); S.g2b[cd]=JSON.parse(await new Response(st).text()); }catch(e){ S.g2b[cd]=null; } return S.g2b[cd]; }
 async function loadCtrt(cd){ if(!S.ctrt) S.ctrt={}; if(cd in S.ctrt) return S.ctrt[cd];
-  if(!vOk(cd,'ct')){ S.ctrt[cd]=null; return null; }   /* 5중 검증에서 막힌 계약대장(예: 원자료 금액 오기로 합계가 수경원이 된 곳)은 내지 않는다 */
+  if(!vOk(cd,'ct')){ S.ctrt[cd]=null; return null; }
+  if(S.index&&S.index.rows&&!S.index.rows.some(x=>x.laf_cd===cd)){ S.ctrt[cd]=null; return null; }   /* 2026-11-12 없는 코드면 수 MB 묶음 파일까지 받던 것을 막는다 */   /* 5중 검증에서 막힌 계약대장(예: 원자료 금액 오기로 합계가 수경원이 된 곳)은 내지 않는다 */
   const sh=cd[0]<='3'?'a':'b';
   try{ /* 2026-09-24: 지자체별 파일(data/ctrt/<코드>.txt, 약 40KB)을 먼저 받는다. 없거나 실패하면 예전 묶음 파일(수 MB)로. */
     let b64=null; try{ const r1=await fetch('data/ctrt/'+cd+'.txt'); if(r1.ok) b64=(await r1.text()).trim(); }catch(e1){}
@@ -849,8 +851,8 @@ function contractView(lg,K,g){ const cd=lg.laf_cd; S.cacheName=lg.master.display
     <div><div class="l">계약금액 합계</div><div class="n">${eok(T.a)}<small>억원</small></div><div class="s">계약대장 금액 합계</div></div>
     <div><div class="l">수의계약 비중(금액)</div><div class="n">${pct(T.a?T.sa/T.a*100:null)}</div><div class="s">건수 ${num(T.sn)}건 · ${pct(T.n?T.sn/T.n*100:null)}</div></div>
     <div><div class="l">수의계약 비율(정부 산식)</div><div class="n">${pct(r10)}</div><div class="s">1천만원 이상 기준${NR?` · 전국 ${NR.r}/${NR.n}위`:''}</div></div>
-    <div><div class="l">상위 5개사 점유(CR5)</div><div class="n">${pct(C?.cr5)}</div><div class="s">CR10 ${pct(C?.cr10)} · CR20 ${pct(C?.cr20)}</div></div>
-    <div><div class="l">허핀달지수(HHI)</div><div class="n">${num(C?.hhi)}</div><div class="s">1,500 미만 경쟁적 · 2,500↑ 고집중</div></div>
+    <div><div class="l">상위 5개 업체 몫 (CR5)</div><div class="n">${pct(C?.cr5)}</div><div class="s">CR10 ${pct(C?.cr10)} · CR20 ${pct(C?.cr20)}</div></div>
+    <div><div class="l">업체 쏠림 정도 (HHI)</div><div class="n">${num(C?.hhi)}</div><div class="s">허핀달지수 · 1,500 미만 경쟁적 · 2,500↑ 고집중</div></div>
   </div>
 
   <section class="sec"><div class="sech"><span class="no">업체</span><h2>업체별 계약 순위</h2><span class="basis">${y||'전체 기간'} · 이름을 누르면 전국 계약 · 전체 ${num(vnCount(K))}개사</span></div>
@@ -1421,12 +1423,16 @@ async function loadSearch(){ if(S.search) return S.search; const [a,a2,b]=await 
 const SYN={'노인일자리':['노인일자리','노인 일자리','시니어','어르신 일자리','노인사회활동'],'청년':['청년'],'아동':['아동','어린이'],'보육':['보육','어린이집','유치원'],'장애인':['장애인'],'축제':['축제','페스티벌','잔치'],'홍보':['홍보','광고'],'도로':['도로','포장','보도'],'하천':['하천','소하천'],'주차장':['주차장','주차'],'경로당':['경로당'],'버스':['버스','대중교통'],'쓰레기':['쓰레기','폐기물','청소'],'CCTV':['CCTV','방범'],'농업':['농업','농촌','농가'],'기본소득':['기본소득','수당'],'문화':['문화','예술','공연'],'체육':['체육','운동','스포츠'],'관광':['관광','여행'],'복지':['복지'],'교육':['교육','학교'],'보건':['보건','건강','의료'],'환경':['환경','기후','탄소'],'재난':['재난','안전','소방'],'일자리':['일자리','고용','취업']};
 function termsOf(q){ const parts=q.replace(/\s+/g,' ').trim().split(' ').filter(Boolean); const groups=parts.map(p=>{ const k=Object.keys(SYN).find(k=>k.replace(/\s/g,'')===p.replace(/\s/g,'')); return k?SYN[k]:[p]; }); return groups; }
 async function renderSearch(q,sidoF){ sidoF=sidoF||''; const app=document.getElementById('app'); app.innerHTML=`<div class="wrap">${window.KB_loader?KB_loader('search',{who:q}):'<div class="loading">전국 세부사업 색인을 불러와 「'+esc(q)+'」를 찾는 중… (처음 한 번만 약 9MB)</div>'}</div>`;
-  const X=await loadSearch(); const groups=termsOf(q); const names=X.names, flds=X.flds; const nameHit=new Map(); names.forEach((n,i)=>{ const nn=n.replace(/\s/g,''); if(groups.every(g=>g.some(t=>nn.includes(t.replace(/\s/g,''))))) nameHit.set(i,1); });
+  const H0=location.hash; const X=await loadSearch(); const groups=termsOf(q); const names=X.names, flds=X.flds; const nameHit=new Map();
+  /* 2026-11-12 47만 건을 한 번에 훑으면 휴대폰에서 1~2초 화면이 멈췄다: 띄어쓰기 지운 이름을 한 번만 만들어 두고, 4만 건마다 쉬어 가며 찾는다 */
+  const G2=groups.map(g=>g.map(t=>t.replace(/\s/g,''))); if(!X._nn){ X._nn=new Array(names.length); for(let i=0;i<names.length;i++){ if(i&&i%60000===0) await new Promise(r=>setTimeout(r)); X._nn[i]=names[i].replace(/\s/g,''); } }
+  const NN=X._nn; for(let i=0;i<NN.length;i++){ if(i&&i%40000===0){ await new Promise(r=>setTimeout(r)); if(location.hash!==H0) return; } const nn=NN[i]; if(G2.every(g=>g.some(t=>nn.includes(t)))) nameHit.set(i,1); }
   const hits=[]; for(const [cd,rows] of Object.entries(X.y26)){ const ix=S.byCd[cd]; if(!ix||ix.live_2026===false) continue; if(sidoF&&ix.sido_new!==sidoF) continue; const p25=new Map((X.y25[cd]||[]).map(r=>[r[0],r])); for(const r of rows){ if(!nameHit.has(r[1])) continue; const prev=p25.get(r[0]); hits.push({cd,c:r[0],n:names[r[1]],f:flds[r[2]],b:r[3]*1e4,e:r[4]*1e4,pb:prev?prev[1]*1e4:null,pe:prev?prev[2]*1e4:null}); } }
   /* 사업 내역(세출예산 사업명세서)에서도 찾기 — 내역 자료가 있는 지자체만 */
   let nPu=0, puLgs=0; try{ const PI=await loadLgPuIndex(); const cds=Object.keys((PI&&PI.lgs)||{}).filter(cd=>!sidoF||(S.byCd[cd]&&S.byCd[cd].sido_new===sidoF)); puLgs=cds.length; const qq=q.replace(/\s+/g,'');
     await Promise.all(cds.map(async cd=>{ const PU=await loadLgPu(cd); if(!PU) return; const have=new Set(hits.filter(h=>h.cd===cd).map(h=>h.c)); const rows=X.y26[cd]||[]; const p25=new Map((X.y25[cd]||[]).map(r=>[r[0],r]));
-      for(const r of rows){ if(have.has(r[0])) continue; const t=lgPuOf(PU,{n:names[r[1]]}); if(!t) continue; if(groups.every(g=>g.some(w=>t.replace(/\s+/g,'').includes(w.replace(/\s+/g,''))))){ const prev=p25.get(r[0]); hits.push({cd,c:r[0],n:names[r[1]],f:flds[r[2]],b:r[3]*1e4,e:r[4]*1e4,pb:prev?prev[1]*1e4:null,pe:prev?prev[2]*1e4:null,pu:puSnip(t,qq)}); nPu++; } } })); }catch(e){}
+      for(const r of rows){ if(have.has(r[0])) continue; const t=lgPuOf(PU,{n:names[r[1]]}); if(!t) continue; const tt=t.replace(/\s+/g,''); if(G2.every(g=>g.some(w=>tt.includes(w)))){ const prev=p25.get(r[0]); hits.push({cd,c:r[0],n:names[r[1]],f:flds[r[2]],b:r[3]*1e4,e:r[4]*1e4,pb:prev?prev[1]*1e4:null,pe:prev?prev[2]*1e4:null,pu:puSnip(t,qq)}); nPu++; } } })); }catch(e){}
+  if(location.hash!==H0) return;   /* 찾는 사이 다른 화면으로 옮겼으면 그리지 않는다 */
   const byLg={}; hits.forEach(h=>{ const o=(byLg[h.cd]||={cd:h.cd,n:0,b:0,e:0,pb:0,hasPrev:false}); o.n++; o.b+=h.b; o.e+=h.e; if(h.pb!=null){ o.pb+=h.pb; o.hasPrev=true; } });
   const lgs=Object.values(byLg).map(o=>({...o,ix:S.byCd[o.cd],rate:o.b?o.e/o.b*100:null,per:isN(S.byCd[o.cd]?.pop_2024)&&S.byCd[o.cd].pop_2024>0?o.b/S.byCd[o.cd].pop_2024:null})).sort((a,b)=>b.b-a.b);
   const TB=hits.reduce((a,h)=>a+h.b,0), TE=hits.reduce((a,h)=>a+h.e,0), TP=hits.reduce((a,h)=>a+(h.pb||0),0), nPrev=hits.filter(h=>h.pb!=null).length;
@@ -1712,6 +1718,7 @@ async function renderSido(sd,id){ const D=await loadSido(); const app=document.g
   ${cur&&cur.note?`<div class="note" style="margin:0 0 14px"><b>읽기 전에</b> — ${esc(cur.note)}</div>`:''}
   ${(()=>{ const h=cur?(cur._iheld||0):sidos.reduce((a,z)=>a+(z._iheld||0),0), b=cur?cur._bheld:0; return (h||b)?`<div class="note" style="margin:0 0 14px;border-left-color:var(--c5)"><b>출처 원문과 대조를 통과한 내용만 보여 드립니다</b> — ${h?`요약에 든 숫자가 출처 원문에서 그대로 확인되지 않은 ${num(h)}건은 가렸습니다`:''}${h&&b?' · ':''}${b?'예산 총액 문장은 출처 원문과 맞지 않아 가렸습니다':''}. 원문을 다시 대조해 맞으면 되살립니다.</div>`:''; })()}
   ${cur?`<div class="mut" style="font-size:12.5px;margin:0 0 10px">출처: ${(cur.src||[]).slice(0,6).map(s=>`<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a>${s.date?' ('+esc(s.date)+')':''}`).join(' · ')}</div>`:''}
+  <h2 class="vsr">정책 목록 ${num(L.length)}건</h2>
   <div class="grid2">${L.map(i=>`<a class="pcard" href="#/spol/${encodeURIComponent(i.sido)}/${encodeURIComponent(i.id)}"><div class="eyebrow">${esc(i.sido)} · ${esc(i.category||'')}${i.date?' · '+esc(i.date):''}</div><h3>${esc(i.title)}</h3><p>${esc(String(i.summary||'').slice(0,150))}${String(i.summary||'').length>150?'…':''}</p>${i.budget?`<div class="mut" style="font-size:12.5px;margin-top:4px">예산 ${esc(i.budget)}</div>`:''}</a>`).join('')||'<div class="empty">해당하는 정책이 없습니다.</div>'}</div>
   <p class="src" style="margin-top:16px">${esc(D.src)}. 2026년은 6월 지방선거로 7월 1일 새 단체장(민선9기)이 취임한 해라 2026 본예산(전임 편성)과 새 단체장 핵심과제를 함께 담았습니다. 원문 표현을 그대로 옮겼고 숫자는 원문에 있는 것만 적었습니다. 빌드 ${esc(D.built_at)}.</p>
   </section>`;

@@ -217,11 +217,14 @@ module.exports = async (req, res) => {
 
   const url = `${HUB_BASE}/${hub}?${p.toString()}`;
   try {
-    const r = await fetch(url, { signal: AbortSignal.timeout(25000) });
-    const text = await r.text();
-    let j;
-    try { j = JSON.parse(text); }
-    catch (e) { noStore(); return res.status(502).json({ ok: false, error: "지방재정365 응답 파싱 실패", raw: text.slice(0, 200) }); }
+    /* 2026-11-12: 지방재정365가 가끔 JSON 대신 오류 쪽을 돌려준다(전체 점검에서 계약 화면 502로 확인) → 0.8초 쉬고 한 번 더 받아 본다 */
+    let text = "", j;
+    for (let k = 0; k < 2; k++) {
+      const r = await fetch(url, { signal: AbortSignal.timeout(k ? 15000 : 25000) });
+      text = await r.text();
+      try { j = JSON.parse(text); break; } catch (e) { j = undefined; if (!k) await new Promise(z => setTimeout(z, 800)); }
+    }
+    if (j === undefined) { noStore(); return res.status(502).json({ ok: false, error: "지방재정365 응답 파싱 실패", raw: text.slice(0, 200) }); }
 
     const top = j[hub];
     const head = top && top[0] && top[0].head;

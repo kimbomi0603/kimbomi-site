@@ -91,7 +91,10 @@
   'html[data-theme="dark"] #bomi .word{background:#24272B;color:#F4F1E8;border-color:#8ECFB2}',
   'html[data-theme="dark"] #bomi .bot .m{background:#24272B;border-color:#34383D;color:#ECE8DF}html[data-theme="dark"] #bomi .chips button{background:#22302A;border-color:#34473D;color:#BFE3CE}',
   'html[data-theme="dark"] #bomi form{border-color:#3A3E43}html[data-theme="dark"] #bomi .mic{color:#ECE8DF}',
-  '@media (prefers-reduced-motion:reduce){#bomi-fab *,#bomi *{animation:none!important;transition:none!important}}'
+  '@media (prefers-reduced-motion:reduce){#bomi-fab *,#bomi *{animation:none!important;transition:none!important}}',
+  /* 2026-11-12 휴대폰·폴드: 아래로 읽는 동안에는 떠 있는 단추(봄이·가A)를 옆으로 비켜 본문·입력칸을 가리지 않게. 위로 올리거나 멈추면 다시 나온다 */
+  '#bomi-fab,#kbPrefs{transition:transform .25s ease,opacity .25s ease}',
+  '@media(max-width:900px){html.kb-fab-away #bomi-fab,html.kb-fab-away #kbPrefs.col{transform:translateX(calc(100% + 24px));opacity:0;pointer-events:none}}'
   ].join('');
   /* 질문 예시: 지금 보는 화면에 맞는 것 2개를 앞에 두고, 나머지는 여러 갈래에서 고른다 */
   var PAGE_CHIPS={
@@ -135,6 +138,12 @@
       '<label class="nolog"><input type="checkbox" id="bomiNolog"> 이 대화 저장 안 함 <span style="opacity:.75">(관리자에게 전달되지 않아요)</span></label>'+
       '<div class="ft">봄이는 김보미를 닮게 만든 AI 길잡이로, 김보미 본인이 아니에요. AI라 틀릴 수 있어요. 근거 자료에 없는 숫자는 답에서 빼지만, 오류·버그로 틀릴 수 있으니 숫자는 우리동네365 화면과 지방재정365 원자료로 확인해 주세요. 봄이의 답은 공식 입장이나 법률·재정 자문이 아니며, 운영자는 답변 이용 결과에 법적 책임을 지지 않습니다. 대화는 답변 점검을 위해 저장되며, 원치 않으면 위 칸을 체크하세요. 개인정보는 적지 마세요(<a href="/privacy.html">개인정보처리방침</a>).</div></div></section>');
     document.body.appendChild(fab); document.body.appendChild(box);
+    (function(){ var H=document.documentElement, y0=window.scrollY, tm=null;
+      function away(on){ H.classList.toggle('kb-fab-away',!!on); }
+      window.addEventListener('scroll',function(){ var y=window.scrollY, d=y-y0; if(Math.abs(d)<6) return; away(d>0&&y>120&&!document.getElementById('bomi')?.classList.contains('open')); y0=y; clearTimeout(tm); tm=setTimeout(function(){ away(false); },1600); },{passive:true});
+      document.addEventListener('focusin',function(e){ var t=e.target; if(t&&/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)&&!t.closest('#bomi')) away(true); });
+      document.addEventListener('focusout',function(e){ var t=e.target; if(t&&/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) setTimeout(function(){ away(false); },200); });
+    })();
     /* 떠 있는 봄이 말풍선 글씨 바꾸기 */
     var say=fab.querySelector('.say'), si=0; if(!reduce) setInterval(function(){ si=(si+1)%SAYS.length; say.textContent=SAYS[si]; },4000);
     var pose=box.querySelector('.pose'), word=box.querySelector('.word'), stT=null, loaded={};
