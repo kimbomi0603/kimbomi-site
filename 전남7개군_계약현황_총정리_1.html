@@ -483,8 +483,13 @@ function normV(s){
 }
 
 /* ---------- prepare ---------- */
-const DATA={G:decG(),L:decL()};
+/* 2026-11-12 큰 계산 사이사이 화면에 숨 돌릴 틈을 준다(멈춤 3초 → 짧게 여러 번) */
+const tick=()=>new Promise(r=>setTimeout(r,0));
+kbLoadNote("계약 80,984건·나라장터 290,690건을 정리하는 중입니다…"); await tick();
+const DATA={G:decG()}; await tick(); DATA.L=decL(); await tick();
+let ci=0;
 for(const s of ["G","L"]) for(const r of DATA[s]){
+  if(++ci%40000===0) await tick();
   r.cat=catOf(r); r.suiFlag=/수의/.test(r.m);
   r.mDisp=r.neg?"협상에의한계약":( /수의/.test(r.m)?(r.m==="수의2인이상견적"?"수의계약(2인+견적)":(r.m==="수의1인견적"?"수의계약(1인견적)":"수의계약")):r.m);
   r.vlist=s==="G"?(r.vd||[]).map(c=>c.name):(r.v?r.v.split(",").map(x=>x.trim()).filter(x=>x):[]);
@@ -493,13 +498,20 @@ for(const s of ["G","L"]) for(const r of DATA[s]){
 }
 
 /* ---------- merged dataset (A) : G2B 전체 + 중복 제거된 지방재정365 ---------- */
-(function buildMerged(){
+await tick();
+await (async function buildMerged(){
   const byAmt={};
   DATA.L.forEach((r,i)=>{ if(r.a>0){(byAmt[r.a]=byAmt[r.a]||[]).push(i);} });
   const dupL=new Set();
   const DAY=86400000;
   let matched=0;
+  /* 2026-11-12 같은 후보를 여러 번 만날 때마다 날짜를 다시 풀고 업체명을 다시 다듬느라 첫 화면이 3초 넘게 멈췄다 → 한 번만 계산해 둔다(결과는 같다) */
+  const LT=new Float64Array(DATA.L.length).fill(NaN), LV=new Array(DATA.L.length);
+  const lt=i=>{ let v=LT[i]; if(v!==v){ v=LT[i]=new Date(DATA.L[i].d).getTime(); } return v; };
+  const lvOf=i=>{ let v=LV[i]; if(v===undefined){ const l=DATA.L[i]; v=LV[i]=normV(l.vlist&&l.vlist[0]||""); } return v; };
+  let gi=0;
   for(const g of DATA.G){
+    if(++gi%25000===0) await tick();
     if(g.a<=0) continue;
     const cand=byAmt[g.a]; if(!cand) continue;
     const gd=new Date(g.d).getTime();
@@ -508,17 +520,19 @@ for(const s of ["G","L"]) for(const r of DATA[s]){
     for(const li of cand){
       if(dupL.has(li)) continue;
       const l=DATA.L[li];
-      const gap=Math.abs(new Date(l.d).getTime()-gd);
+      const gap=Math.abs(lt(li)-gd);
       if(gap>60*DAY) continue;
       if(l.rg!==g.rg) continue;
-      const lv=normV(l.vlist&&l.vlist[0]||"");
+      const lv=lvOf(li);
       const vendorOk=lv&&gv.some(x=>x&&(x===lv||x.includes(lv)||lv.includes(x)));
       const nameOk=l.n&&g.n&&(l.n.slice(0,8)===g.n.slice(0,8));
       if(vendorOk||nameOk){ if(gap<bestGap){best=li;bestGap=gap;} }
     }
     if(best>=0){ dupL.add(best); matched++; }
   }
+  await tick();
   DATA.A=[...DATA.G.map(r=>({...r,src:"나라장터"})),...DATA.L.filter((r,i)=>!dupL.has(i)).map(r=>({...r,src:"재정365"}))];
+  await tick();
   DATA.A.sort((a,b)=>a.d<b.d?-1:1);
   window.__MERGE_STAT={matched, total:DATA.A.length};
   const el=document.getElementById("aTabSub");
@@ -1111,7 +1125,7 @@ $("bMeta").textContent="7개군 합계: 지방재정365 "+DATA.L.length.toLocale
     document.querySelector(".tabs#regionBar").after(d);
   }
 })();
-fillFilters(); renderAll(); renderXCheck();
+await tick(); fillFilters(); renderAll(); await tick(); renderXCheck(); kbLoadNote(null);
 })();
 </script>
 <div style="max-width:1120px;margin:28px auto 36px;padding:14px 18px;border-top:1px solid #ddd;font-size:12.5px;line-height:1.75;color:#555;font-family:'Pretendard Variable',system-ui,sans-serif;word-break:keep-all"><b>알려 드립니다</b> — 이 화면의 숫자는 정부 공개 원자료(조달청 나라장터·지방재정365 등)를 기계로 모아 집계한 것입니다. 원자료 자체의 오류, 수집·계산 과정의 버그, 공개 시점 차이로 실제와 다를 수 있습니다. 중요한 판단에는 해당 기관의 원문을 꼭 확인해 주십시오. 이 화면의 정보를 이용해 생긴 결과에 대해 운영자는 법적 책임을 지지 않습니다. 틀린 값을 발견하시면 <a href="report.html" style="color:inherit;text-decoration:underline">소통·제보</a>로 알려 주십시오.</div>
