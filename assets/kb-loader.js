@@ -39,7 +39,7 @@
     firm:{pose:'think',prop:'deal',src:'전국 계약 대장',steps:['전국 계약 색인을 여는 중입니다 (처음 한 번만 약 9MB)','지방정부 243개 시·군·구 계약 대장에서 「{who}」를 찾고 있습니다','지자체별 계약을 묶고 금액을 더하고 있습니다','표를 그리는 중입니다']},
     live:{pose:'talk',prop:'news',src:'정부·국회 공개 API',steps:['{who} 자료를 공개 API에서 받고 있습니다 (처음엔 10초쯤 걸릴 수 있습니다)','최신 발표 순으로 정리하고 있습니다','목록을 그리는 중입니다']}
   };
-  var SLOW=8000, TICK=1900, MIN=2000;   /* MIN: 큰 표시는 한 번 뜨면 최소 2초는 보이게 한다(2026-11-12) */
+  var SLOW=8000, TICK=1900, MIN=2300;   /* MIN: 큰 표시는 한 번 뜨면 걷히는 시간까지 쳐서 2초 넘게 또렷이 보이게 한다(2026-11-12) */
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]});}
   function fill(t,who){return String(t).replace(/\{who\}/g, who||'우리 동네');}
   function cfg(kind){return K[kind]||K.lg;}
