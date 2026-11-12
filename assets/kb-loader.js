@@ -84,6 +84,10 @@
     var mh=host.style.minHeight; if(host.offsetHeight<ov.offsetHeight) host.style.minHeight=ov.offsetHeight+'px';
     setTimeout(function(){ ov.style.opacity='0'; setTimeout(function(){ if(ov.parentNode) ov.parentNode.removeChild(ov); if(fixPos) host.style.position=''; host.style.minHeight=mh; },220); },left);
   }
+  /* 들어올 때의 안내 표시는 '화면에 처음 그려진 때'부터 2초를 센다(느린 연결에서 페이지가 늦게 떠도 2초는 보이게) */
+  (function mark(){ var e=document.querySelector('.kbl[data-entry]');
+    if(e){ if(!+e.getAttribute('data-t0')) e.setAttribute('data-t0',Date.now()); }
+    else if(document.readyState==='loading'&&window.requestAnimationFrame) requestAnimationFrame(mark); })();
   if(window.MutationObserver){
     new MutationObserver(function(list){
       var now=Date.now();
