@@ -432,3 +432,9 @@ html:where(.pg-budget365)[data-theme="dark"] .band .badge.gold{background:var(--
 :where(.pg-budget365) .pchip.on i{color:inherit}
 :where(.pg-budget365) .pit .pd em{opacity:1;color:var(--ink-3)}
 :where(.pg-budget365) .vsr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0;padding:0}
+
+/* 2026-11-17: 의견·제보 머리말 설명이 흰 바탕에 흰 글자로 안 보이던 문제 */
+html.pg-report .hero .g3t p{color:#4A5464}
+/* 2026-11-17: 어두운 화면에서 '펼쳐 보기' 단추가 밝은 바탕에 흰 글자라 흐리던 문제 */
+html.pg-budget365[data-theme="dark"] .vsec[aria-expanded="false"]{color:#10141C}
+html.pg-budget365[data-theme="dark"] .vsec[aria-expanded="false"]::before{background:#10141C}

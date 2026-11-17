@@ -388,6 +388,8 @@ html:where(.pg-index){-webkit-text-size-adjust:100%}
 :where(.pg-index) .hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
   background-image:repeating-linear-gradient(to bottom,transparent 0 31px,rgb(var(--c-navy-rgb) / 0.07) 31px 32px);
   -webkit-mask-image:linear-gradient(90deg,transparent 0,var(--c-night) 30%,var(--c-night) 70%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,var(--c-night) 30%,var(--c-night) 70%,transparent 100%)}
+/* 2026-11-17: 휴대폰에서는 장부 줄이 글자 줄을 가로질러 읽기 어려워 감춘다 */
+@media (max-width:760px){:where(.pg-index) .hero::before{display:none}}
 :where(.pg-index) .hbd>.role,:where(.pg-index) .hbd>h1,:where(.pg-index) .hbd>.slogan,:where(.pg-index) .hbd>.desc,:where(.pg-index) .hbd>.hnum{animation:kb-rise--index .62s cubic-bezier(.2,.7,.2,1) both}
 :where(.pg-index) .hbd>h1{animation-delay:.06s}:where(.pg-index) .hbd>.slogan{animation-delay:.14s}:where(.pg-index) .hbd>.desc{animation-delay:.22s}:where(.pg-index) .hbd>.hnum{animation-delay:.3s}
 @keyframes kb-rise--index{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -2939,3 +2941,9 @@ html:where(.pg-budget365)[data-theme="dark"] .band .badge.gold{background:var(--
 :where(.pg-budget365) .pchip.on i{color:inherit}
 :where(.pg-budget365) .pit .pd em{opacity:1;color:var(--ink-3)}
 :where(.pg-budget365) .vsr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0;padding:0}
+
+/* 2026-11-17: 의견·제보 머리말 설명이 흰 바탕에 흰 글자로 안 보이던 문제 */
+html.pg-report .hero .g3t p{color:#4A5464}
+/* 2026-11-17: 어두운 화면에서 '펼쳐 보기' 단추가 밝은 바탕에 흰 글자라 흐리던 문제 */
+html.pg-budget365[data-theme="dark"] .vsec[aria-expanded="false"]{color:#10141C}
+html.pg-budget365[data-theme="dark"] .vsec[aria-expanded="false"]::before{background:#10141C}
