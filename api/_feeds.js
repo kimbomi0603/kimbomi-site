@@ -5,7 +5,7 @@
 // 원칙: 원자료 값만 옮긴다. 제목·날짜·기관·원문 주소 외에 추정·가공 값을 만들지 않는다.
 
 const env = (k) => (process.env[k] || '').trim();
-const DKEY = () => env('DATA_GO_KR_KEY') || env('DATA_API_KEY') || env('G2B_API_KEY2') || env('G2B_API_KEY');
+const DKEY = () => env('DATA_GO_KR_API_KEY') || env('DATA_GO_KR_KEY') || env('DATA_API_KEY') || env('G2B_API_KEY2') || env('G2B_API_KEY');
 const AKEY = () => env('ASSEMBLY_KEY');
 
 const kday = (ms) => new Date(ms + 9 * 3600e3).toISOString().slice(0, 10); // KST YYYY-MM-DD
@@ -50,7 +50,7 @@ function dataUrl(path, params, key) {
 // 2026-10-21: 김보미.com 의 DATA_GO_KR_KEY 에는 지방재정365 키가 들어 있어 공공데이터포털이 「등록되지 않은 서비스키」로 거절한다
 // (그래서 정책브리핑·부처 보도자료·성평등가족부가 전부 0건이었다). 같은 계열의 다른 키(G2B_API_KEY2 등)로 차례로 다시 부른다.
 // 브레인허브처럼 DATA_GO_KR_KEY 가 맞는 곳은 첫 키에서 끝나므로 동작이 같다.
-const DKEYS = () => [...new Set([env('DATA_GO_KR_KEY'), env('DATA_API_KEY'), env('G2B_API_KEY2'), env('G2B_API_KEY')].filter(Boolean))];
+const DKEYS = () => [...new Set([env('DATA_GO_KR_API_KEY'), env('DATA_GO_KR_KEY'), env('DATA_API_KEY'), env('G2B_API_KEY2'), env('G2B_API_KEY')].filter(Boolean))];
 const KEY_REJECT = /SERVICE_KEY_IS_NOT_REGISTERED|SERVICE_ACCESS_DENIED|DEADLINE_HAS_EXPIRED|LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS|등록되지 않은 서비스키/;
 let goodKey = 0; // 마지막으로 통한 키 순번(같은 인스턴스 안에서 재사용)
 async function dataGet(path, params, ms) {

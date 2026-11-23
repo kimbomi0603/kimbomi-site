@@ -19,10 +19,11 @@
 
 const KEY  = process.env.DATA_GO_KR_KEY || process.env.GOV_API_KEY || "";
 const YKEY = process.env.YOUTH_KEY || process.env.YOUTH_API_KEY || "";
-/* 2026-10-21: 김보미.com 의 DATA_GO_KR_KEY 에는 지방재정365 키가 들어 있어 공공데이터포털·odcloud 가
+/* 2026-11-24: 공용 키 DATA_GO_KR_API_KEY(공공데이터포털 정식 키)를 맨 앞에 둔다.
+   2026-10-21: 김보미.com 의 DATA_GO_KR_KEY 에는 지방재정365 키가 들어 있어 공공데이터포털·odcloud 가
    「등록되지 않은 인증키」로 거절한다(보조금24·복지로가 늘 0건). 같은 계정 계열 키를 차례로 써 본다. 순서는 기존 우선순위 유지. */
 function decKey(k) { k = String(k || "").trim(); try { if (/%[0-9A-Fa-f]{2}/.test(k)) k = decodeURIComponent(k); } catch (e) {} return k; }
-const KEYS = Array.from(new Set([process.env.DATA_GO_KR_KEY, process.env.GOV_API_KEY, process.env.G2B_API_KEY2, process.env.G2B_API_KEY].map(decKey).filter(Boolean)));
+const KEYS = Array.from(new Set([process.env.DATA_GO_KR_API_KEY, process.env.DATA_GO_KR_KEY, process.env.GOV_API_KEY, process.env.G2B_API_KEY2, process.env.G2B_API_KEY].map(decKey).filter(Boolean)));
 const KEY_REJECT = /SERVICE_KEY_IS_NOT_REGISTERED|SERVICE_ACCESS_DENIED|DEADLINE_HAS_EXPIRED|LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS|등록되지 않은|"code"\s*:\s*-4\b/;
 /* build(key) → [url, opts]. 거절 응답이면 다음 키로. 마지막 응답 본문을 돌려준다. */
 async function fetchWithKeys(build) {
