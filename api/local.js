@@ -76,6 +76,17 @@ async function getJSON(url, opts) {
   try { return JSON.parse(t); } catch (e) { return { _raw: t.slice(0, 300), _status: r.status }; }
 }
 
+/* 주소가 그 지역인지 — 「전남 강진군」이면 주소에 '전남'과 '강진'이 모두 있어야 한다(통합특별시처럼 시·도 표기가 달라도 맞게) */
+function inRegion(addr, region) {
+  addr = String(addr || ""); if (!addr) return true;
+  const ws = String(region || "").trim().split(/\s+/).filter(Boolean); if (!ws.length) return true;
+  const last = ws[ws.length - 1];
+  let key = shortName(last).replace(/(시|군|구)$/, ""); if (key.length < 2) key = last;
+  if (addr.indexOf(key) < 0) return false;
+  if (ws.length > 1 && addr.indexOf(ws[0].slice(0, 2)) < 0) return false;
+  return true;
+}
+
 /* 카카오 로컬: 키워드+카테고리, 최대 3쪽(45곳) */
 async function kakao(region, word, cat) {
   if (!KAKAO) return { ok: false, reason: "KAKAO_REST_API_KEY 없음", items: [] };
@@ -85,7 +96,7 @@ async function kakao(region, word, cat) {
     const j = await getJSON("https://dapi.kakao.com/v2/local/search/keyword.json?" + q, { headers: { Authorization: "KakaoAK " + KAKAO } });
     if (!j.documents) return { ok: false, reason: "카카오 응답 오류", items };
     j.documents.forEach(function (d) {
-      if (shortName(region) && d.address_name && d.address_name.indexOf(shortName(region).replace(/(시|군|구)$/, "")) < 0) return; // 다른 지역 결과 제외
+      if (!inRegion(d.address_name, region)) return; // 다른 지역 결과 제외
       items.push({ name: d.place_name, category: d.category_name, address: d.road_address_name || d.address_name, phone: d.phone, x: d.x, y: d.y, url: d.place_url });
     });
     if (j.meta && j.meta.is_end) break;
@@ -248,10 +259,9 @@ async function kakao1(region, word, cat) {
   const q = new URLSearchParams({ query: region + " " + word, category_group_code: cat, size: "15", page: "1" });
   const j = await getJSON("https://dapi.kakao.com/v2/local/search/keyword.json?" + q, { headers: { Authorization: "KakaoAK " + KAKAO } });
   if (!j.documents) return { ok: false, reason: "카카오 응답 오류", items: [] };
-  const key = shortName(region).replace(/(시|군|구)$/, "");
   const items = [];
   j.documents.forEach(function (d) {
-    if (key && d.address_name && d.address_name.indexOf(key) < 0) return;
+    if (!inRegion(d.address_name, region)) return;
     items.push({ name: d.place_name, category: d.category_name, address: d.road_address_name || d.address_name, phone: d.phone, x: d.x, y: d.y, url: d.place_url });
   });
   return { ok: true, items };
