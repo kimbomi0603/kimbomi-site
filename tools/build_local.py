@@ -85,6 +85,13 @@ def vis(r, cs, dl):
     out['series'] = ser
     out['y12'] = sum(x['outside'] for _, x in ser) if all(x for _, x in ser) else None
     out['y12prev'] = sum(x['outside'] for x in prv) if all(prv) else None
+    # 추석 연휴가 9월에 드는 해와 10월에 드는 해가 섞여 있어, 9·10월을 뺀 10개월끼리 견준다
+    a = [x for ym, x in ser if ym[4:] not in ('09', '10')]
+    b = [mval(r, dl, ym_add(ym, -12)) for ym, x in ser if ym[4:] not in ('09', '10')]
+    out['g10'] = None
+    if a and all(a) and all(b):
+        ca, cb = sum(x['outside'] for x in a), sum(x['outside'] for x in b)
+        if cb: out['g10'] = {'cur': ca, 'prev': cb, 'pct': (ca - cb) / cb * 100}
     return out
 
 def fld_budget(cd):
@@ -207,7 +214,7 @@ def build():
         # 방문자
         cur, prev = v.get('2026'), v.get('2025')
         yoy = None
-        if cur and prev and prev['outside']: yoy = (cur['outside'] - prev['outside']) / prev['outside'] * 100
+        if v['g10']: yoy = v['g10']['pct']
         ex = (r.get('exec_2026') or {}) if vok(cd, 'exec:2026') else {}
         fb = fld_budget(cd) if ex else None
         live = bool(r.get('live_2026')) and bool(ex)
@@ -225,7 +232,7 @@ def build():
         pins = [{"t": x['t'], "x": x['x'], "y": x['y']} for x in top if x.get('x')]
         data = json.dumps({"region": p['region'], "name": nm, "code": p['cs'][0], "tags": tags, "pins": pins}, ensure_ascii=False).replace('</', '<\\/')
         lead = f'{full}에서 사람들이 찾는 곳과 먹는 곳을 공공 자료로 모았습니다.'
-        if cur: lead += f' {MONTH} 한 달 외지인 방문은 {man(cur["outside"])} 명' + (f', 한 해 전 같은 달보다 {abs(yoy):.1f}% {"늘었습니다" if yoy >= 0 else "줄었습니다"}.' if yoy is not None else '입니다.')
+        if cur: lead += f' {MONTH} 한 달 외지인 방문은 {man(cur["outside"])} 명' + (f'이고, 추석이 낀 9·10월을 뺀 최근 10개월은 한 해 전보다 {abs(yoy):.1f}% {"늘었습니다" if yoy >= 0 else "줄었습니다"}.' if yoy is not None else '입니다.')
         b = head(title, desc, url, ld) + HDR
         b += f"""<main id="lx-main" tabindex="-1" class="lx">
 <script type="application/json" id="lx-data">{data}</script>
@@ -241,7 +248,7 @@ def build():
 <div class="lx-w">
 <div class="lx-stats">
   <div class="lx-stat"><b>{man(cur['outside']) if cur else '—'}</b><span>외지인 방문 · {MONTH}</span></div>
-  <div class="lx-stat"><b class="{'up' if (yoy or 0) >= 0 else 'dn'}">{(('+' if yoy >= 0 else '−') + f'{abs(yoy):.1f}%') if yoy is not None else '—'}</b><span>한 해 전 같은 달 대비</span></div>
+  <div class="lx-stat"><b class="{'up' if (yoy or 0) >= 0 else 'dn'}">{(('+' if yoy >= 0 else '−') + f'{abs(yoy):.1f}%') if yoy is not None else '—'}</b><span>한 해 전 대비 · 9·10월 뺀 10개월</span></div>
   <div class="lx-stat"><b>{man(v['y12']) if v['y12'] else '—'}</b><span>외지인 방문 · 최근 12개월</span></div>
   <div class="lx-stat"><b>{won(fb['b']) if fb else '—'}</b><span>문화·관광 분야 예산 · 2026</span></div>
 </div>
@@ -286,11 +293,11 @@ def build():
             y12 = v['y12']; y12p = v['y12prev']
             ysum = ''
             if y12:
-                ysum = f'최근 12개월 외지인 방문은 {man(y12)} 명'
-                ysum += (f', 그 앞 12개월보다 {abs((y12 - y12p) / y12p * 100):.1f}% {"늘었습니다" if y12 >= y12p else "줄었습니다"}.' if y12p else '입니다.')
+                ysum = f'최근 12개월 외지인 방문은 {man(y12)} 명입니다.'
+            if v['g10']: ysum += f' 추석 연휴가 든 9·10월을 빼고 10개월끼리 견주면 {man(v["g10"]["cur"])} 명으로, 한 해 전({man(v["g10"]["prev"])} 명)보다 {abs(v["g10"]["pct"]):.1f}% {"늘었습니다" if v["g10"]["pct"] >= 0 else "줄었습니다"}.'
             b += f"""<section class="lx-sec" id="visitors"><h2>방문자는 늘었나</h2><p class="lx-src">한국관광 데이터랩 지역별 방문자 수(이동통신 자료 기반 추정, 한 달 동안 날마다 센 수의 합)</p>
 <div class="lx-box" style="margin-bottom:14px"><h3>외지인 방문 12개월 흐름</h3><p class="lx-src">{esc(ysum) if ysum else '12개월 자료가 다 모이지 않은 지역입니다.'}</p><ol class="lx-cols" aria-label="월별 외지인 방문자 수">{bars}</ol></div>
-<table class="lx-tbl"><caption class="lx-src" style="text-align:left;padding:0 0 8px">{MM}월끼리 3개년 비교</caption><thead><tr><th scope="col">기간</th><th scope="col">외지인</th><th scope="col">현지인</th><th scope="col">외국인</th></tr></thead><tbody>{tr}</tbody></table></section>
+<table class="lx-tbl"><caption class="lx-src" style="text-align:left;padding:0 0 8px">{MM}월끼리 3개년 비교{' · 추석 연휴가 2024년 9월, 2025년 10월, 2026년 9월에 있어 귀성 이동이 섞입니다' if MM in (9, 10) else ''}</caption><thead><tr><th scope="col">기간</th><th scope="col">외지인</th><th scope="col">현지인</th><th scope="col">외국인</th></tr></thead><tbody>{tr}</tbody></table></section>
 """
         asof = ymd(ex.get('exe_ymd')) if live else ''
         bud = f'<div><dt>2026 예산현액</dt><dd>{won(ex.get("budget")) if live else "—"}</dd></div><div><dt>집행률{(" · " + asof) if asof else ""}</dt><dd>{pct(ex.get("rate")) if live else "—"}</dd></div>'
@@ -334,7 +341,7 @@ def build():
 def hub(pages, by_sido, HDR, FTR):
     basic = [p for p in pages if p['r']['level'] != '광역' and p['v'].get('2026')]
     most = sorted(basic, key=lambda p: -p['v']['2026']['outside'])[:10]
-    grow = sorted([p for p in basic if p.get('yoy') is not None and p['v']['2026']['outside'] >= 300000], key=lambda p: -p['yoy'])[:10]
+    grow = sorted([p for p in basic if p.get('yoy') is not None and p['v']['g10'] and p['v']['g10']['cur'] >= 3000000], key=lambda p: -p['yoy'])[:10]
     idx = json.dumps([[p['r']['laf_cd'], p['full'], p['nm']] for p in pages], ensure_ascii=False).replace('</', '<\\/')
     url = SITE + '/local.html'
     title = '지역 탐방 — 전국 시·군·구 가볼 만한 곳·맛집 순위와 방문자 통계 | 김보미.com'
@@ -367,7 +374,7 @@ def hub(pages, by_sido, HDR, FTR):
 <div class="lx-w">
 <section class="lx-sec"><div class="lx-hub">
   <div class="lx-box"><h3>외지인이 가장 많이 찾은 곳</h3><p class="lx-src">한국관광 데이터랩 · {MONTH} 외지인 방문자 수 · 시·군·구</p>{rk(most, lambda p: man(p['v']['2026']['outside']) + ' 명')}</div>
-  <div class="lx-box"><h3>한 해 사이 가장 많이 늘어난 곳</h3><p class="lx-src">같은 자료 · 한 해 전 같은 달 대비 증가율 · 외지인 방문 30만 명 이상인 곳만</p>{rk(grow, lambda p: '+' + format(p['yoy'], '.1f') + '%')}</div>
+  <div class="lx-box"><h3>한 해 사이 가장 많이 늘어난 곳</h3><p class="lx-src">같은 자료 · 추석이 낀 9·10월을 뺀 최근 10개월, 한 해 전 같은 기간 대비 · 10개월 외지인 방문 300만 명 이상인 곳만</p>{rk(grow, lambda p: '+' + format(p['yoy'], '.1f') + '%')}</div>
 </div></section>
 <section class="lx-sec" id="all"><h2>전국 지역 한눈에</h2><p class="lx-src">시·도를 누르면 시·도 전체, 이름을 누르면 그 동네 쪽이 열립니다.</p>
 {''.join('<div class="lx-sido"><h3>' + esc(SIDO[s][2]) + '</h3><ul class="lx-near">' + ''.join(f'<li><a href="/local/{p["r"]["laf_cd"]}.html">{esc(p["nm"] if p["r"]["level"] != "광역" else p["nm"] + " 전체")}</a></li>' for p in ps) + '</ul></div>' for s, ps in by_sido.items())}
