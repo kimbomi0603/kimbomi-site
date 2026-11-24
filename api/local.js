@@ -267,6 +267,45 @@ async function kakao1(region, word, cat) {
   return { ok: true, items };
 }
 
+/* 한국관광 데이터랩 — 한 달 치 전국 방문자 합계(자동 갱신용). 달의 모든 날짜가 올라와 있을 때만 complete:true */
+async function datalabMonth(ym) {
+  if (!DGK) return { ok: false, reason: "DATA_GO_KR_API_KEY 없음" };
+  const y = Number(ym.slice(0, 4)), m = Number(ym.slice(4));
+  const last = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  const s = ym + "01", e = ym + String(last);
+  async function page(ep, p) {
+    const q = new URLSearchParams({ serviceKey: DGK, MobileOS: "ETC", MobileApp: "kimbomi", _type: "json", numOfRows: "10000", pageNo: String(p), startYmd: s, endYmd: e });
+    for (let a = 0; a < 3; a++) {
+      try {
+        const r = await fetch("https://apis.data.go.kr/B551011/DataLabService/" + ep + "?" + q, { signal: AbortSignal.timeout(25000) });
+        const b = (await r.json()).response.body;
+        let arr = b.items && b.items.item ? b.items.item : [];
+        if (!Array.isArray(arr)) arr = [arr];
+        return { total: Number(b.totalCount || 0), arr: arr };
+      } catch (err) { /* 다시 시도 */ }
+    }
+    throw new Error("데이터랩 응답 오류");
+  }
+  async function all(ep, ck, nk) {
+    const f = await page(ep, 1);
+    const n = Math.ceil(f.total / 10000);
+    const rest = await Promise.all(Array.from({ length: Math.max(0, n - 1) }, function (_, i) { return page(ep, i + 2); }));
+    let rows = f.arr; rest.forEach(function (r) { rows = rows.concat(r.arr); });
+    if (rows.length !== f.total) throw new Error("행 수 불일치");
+    const o = {}, days = {};
+    rows.forEach(function (it) {
+      days[it.baseYmd] = 1;
+      const c = it[ck]; if (!o[c]) o[c] = [it[nk], 0, 0, 0];
+      const i = Number(it.touDivCd); if (i >= 1 && i <= 3) o[c][i] += Number(it.touNum) || 0;
+    });
+    Object.keys(o).forEach(function (c) { for (let i = 1; i <= 3; i++) o[c][i] = Math.round(o[c][i]); });
+    return { o: o, days: Object.keys(days).length };
+  }
+  const sgg = await all("locgoRegnVisitrDDList", "signguCode", "signguNm");
+  const sido = await all("metcoRegnVisitrDDList", "areaCode", "areaNm");
+  return { ok: true, ym: ym, days: sgg.days, daysInMonth: last, complete: sgg.days === last && sido.days === last, sgg: sgg.o, sido: sido.o, source: "한국관광 데이터랩 지역별 방문자 수" };
+}
+
 const RUN = {
   spots: function (r) { return kakao(r, "가볼만한곳", "AT4"); },
   food: function (r) { return kakao(r, "맛집", "FD6"); },
@@ -291,6 +330,21 @@ module.exports = async (req, res) => {
   if (url.searchParams.get("config")) {
     res.setHeader("Cache-Control", "s-maxage=86400");
     res.status(200).send(JSON.stringify({ ok: true, kakaoJsKey: process.env.KAKAO_JS_KEY || "" }));
+    return;
+  }
+
+  /* 자동 갱신용: /api/local?datalab=202610 — 그 달 전국 합계. 다 올라온 달만 30일 보관한다 */
+  const dlm = String(url.searchParams.get("datalab") || "");
+  if (dlm) {
+    if (!/^20\d{2}(0[1-9]|1[0-2])$/.test(dlm)) { res.status(400).send(JSON.stringify({ ok: false, error: "datalab=YYYYMM" })); return; }
+    const ck = "local:dlm:v1:" + dlm;
+    let v = await cacheGet(ck);
+    if (!v) {
+      try { v = await datalabMonth(dlm); } catch (e) { v = { ok: false, reason: "불러오기 실패" }; }
+      if (v.ok && v.complete) await cacheSet(ck, v, 2592000);
+    }
+    res.setHeader("Cache-Control", "s-maxage=3600");
+    res.status(200).send(JSON.stringify(v));
     return;
   }
 

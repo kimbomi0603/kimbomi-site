@@ -17,6 +17,9 @@
     },
     "api/live.js": {
       "maxDuration": 60
+    },
+    "api/local.js": {
+      "maxDuration": 60
     }
   },
   "redirects": [

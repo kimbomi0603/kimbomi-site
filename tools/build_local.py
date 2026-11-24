@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """지역 탐방 정적 쪽 생성 — local/<laf_cd>.html 과 local.html(허브)
 자료: data/index.json(지자체 목록·예산), data/local/tour.json(한국관광공사 TourAPI, 코드별 100곳),
-      data/local/visitors.json(한국관광 데이터랩 지역별 방문자 수, 2024·2025·2026년 9월 합계)
+      data/local/visitors.json(한국관광 데이터랩 지역별 방문자 수, 2023년 10월부터 달마다)
 맛집 순위·낱말 검색·의회 회의록은 쪽을 열 때 /api/local 로 불러온다.
 쓰기: python3 tools/build_local.py   (sitemap.xml 의 <!-- local:start -->…<!-- local:end --> 블록도 다시 쓴다)
 """
@@ -12,8 +12,9 @@ from build_entry import load_verify, won, pct, ymd, short
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = 'https://www.xn--4k0b53xuva.com'
 TODAY = datetime.date.today().isoformat()
-MONTH = '2026년 9월'
-CSSV = '20261124'
+MONTH = ''   # load() 가 가장 최근 달로 채운다 (예: '2026년 10월')
+LATEST = ''  # 'YYYYMM'
+CSSV = '20261124b'
 def esc(s): return html.escape(str(s if s is not None else ''), quote=True)
 
 SIDO = {'서울특별시':('11','서울','서울'),'전남광주통합특별시':('12','전남','전남·광주'),'부산광역시':('26','부산','부산'),'대구광역시':('27','대구','대구'),'인천광역시':('28','인천','인천'),'대전광역시':('30','대전','대전'),'울산광역시':('31','울산','울산'),'세종특별자치시':('36','세종특별자치시','세종'),'경기도':('41','경기','경기'),'충청북도':('43','충북','충북'),'충청남도':('44','충남','충남'),'경상북도':('47','경북','경북'),'경상남도':('48','경남','경남'),'제주특별자치도':('50','제주특별자치도','제주'),'강원특별자치도':('51','강원특별자치도','강원'),'전북특별자치도':('52','전북특별자치도','전북')}
@@ -30,11 +31,19 @@ def man(v):
     if v >= 1e4: return f"{v/1e4:,.0f}만" if v >= 1e5 else f"{v/1e4:.1f}만"
     return f"{int(round(v)):,}"
 
+def ym_add(ym, k):
+    y, m = int(ym[:4]), int(ym[4:]) + k
+    while m > 12: y += 1; m -= 12
+    while m < 1: y -= 1; m += 12
+    return f'{y}{m:02d}'
+
 def load():
+    global RANK, MONTH, LATEST
     ix = json.load(open(os.path.join(ROOT, 'data/index.json'), encoding='utf-8'))
     tour = json.load(open(os.path.join(ROOT, 'data/local/tour.json'), encoding='utf-8'))
-    dl = json.load(open(os.path.join(ROOT, 'data/local/visitors.json'), encoding='utf-8'))
-    global RANK
+    M = json.load(open(os.path.join(ROOT, 'data/local/visitors.json'), encoding='utf-8'))['months']
+    LATEST = max(M); MONTH = f'{int(LATEST[:4])}년 {int(LATEST[4:])}월'
+    dl = {'months': M, 'sgg2026': {c: {'name': v[0]} for c, v in M[LATEST]['sgg'].items()}}
     try: RANK = json.load(open(os.path.join(ROOT, 'data/local/rank.json'), encoding='utf-8'))
     except Exception: RANK = {}
     return ix, tour, dl
@@ -48,31 +57,44 @@ def codes_for(r, dl):
     pre = sorted(c for c, v in sg.items() if c.startswith(sc) and v['name'].startswith(nm + ' '))
     return ex + pre
 
-def vis(r, cs, dl):
-    """3개년 방문자 — 값이 없으면 None(만들지 않는다)"""
-    out = {}
+def mval(r, dl, ym):
+    """한 달 방문자(현지인·외지인·외국인). 행정구역 코드가 바뀐 달도 이름으로 찾는다. 없으면 None(만들지 않는다)"""
+    mo = dl['months'].get(ym)
+    if not mo: return None
     sc = SIDO[r['sido_new']][0]; nm = short(r['display'])
-    for y in ('2024', '2025', '2026'):
-        if r['level'] == '광역':
-            S = dl['sido' + y]; keys = [sc] if sc in S else (['29', '46'] if sc == '12' else [])
-            keys = [k for k in keys if k in S]
-            if sc == '12' and y != '2026': keys = []   # 통합 전에는 광주↔전남 이동이 외지인으로 잡혀 견줄 수 없다
-            rows = [S[k] for k in keys]
-        else:
-            S = dl['sgg' + y]
-            if y == '2026': want = cs
-            else:
-                pf = [sc] if sc != '12' else (['29'] if nm.endswith('구') else ['46'])
-                ex = [c for c, v in S.items() if c[:2] in pf and v['name'] == nm]
-                pre = [c for c, v in S.items() if c[:2] in pf and v['name'].startswith(nm + ' ')]
-                want = ex or pre
-            # 정확한 이름이 있으면 그것만(구 합계와 겹치지 않게)
-            exact = [c for c in want if c in S and S[c]['name'] == nm]
-            want = exact or want
-            rows = [S[c] for c in want if c in S]
-        if not rows: out[y] = None; continue
-        out[y] = {k: sum(x[k] for x in rows) for k in ('local', 'outside', 'foreign')}
+    if r['level'] == '광역':
+        S = mo['sido']
+        if sc == '12':   # 통합 전·과도기(옛 코드가 함께 있는 달)는 외지인 기준이 달라 쓰지 않는다
+            if '12' not in S or '29' in S or '46' in S: return None
+        rows = [S[sc]] if sc in S else []
+    else:
+        S = mo['sgg']
+        pf = [sc] if sc != '12' else (['12', '29'] if nm.endswith('구') else ['12', '46'])
+        ex = [v for c, v in S.items() if c[:2] in pf and v[0] == nm]
+        rows = ex or [v for c, v in S.items() if c[:2] in pf and v[0].startswith(nm + ' ')]
+    if not rows: return None
+    return {'local': sum(x[1] for x in rows), 'outside': sum(x[2] for x in rows), 'foreign': sum(x[3] for x in rows)}
+
+def vis(r, cs, dl):
+    """같은 달 3개년 + 최근 12개월 흐름 + 12개월 합계(12달이 다 있을 때만)"""
+    y = int(LATEST[:4])
+    out = {str(y): mval(r, dl, LATEST), str(y - 1): mval(r, dl, ym_add(LATEST, -12)), str(y - 2): mval(r, dl, ym_add(LATEST, -24))}
+    out['2026'], out['2025'], out['2024'] = out[str(y)], out[str(y - 1)], out[str(y - 2)]
+    ser = [(ym_add(LATEST, -k), mval(r, dl, ym_add(LATEST, -k))) for k in range(11, -1, -1)]
+    prv = [mval(r, dl, ym_add(LATEST, -k)) for k in range(23, 11, -1)]
+    out['series'] = ser
+    out['y12'] = sum(x['outside'] for _, x in ser) if all(x for _, x in ser) else None
+    out['y12prev'] = sum(x['outside'] for x in prv) if all(prv) else None
     return out
+
+def fld_budget(cd):
+    """문화및관광 분야 2026 예산현액·집행 — data/<코드>.txt(지방재정365 세부사업별 세출 집계)"""
+    import base64, gzip
+    try:
+        d = json.loads(gzip.decompress(base64.b64decode(open(os.path.join(ROOT, 'data', cd + '.txt')).read())))
+        f = d['exec']['2026']['by_fld'].get('문화및관광')
+        return {'b': f['b'], 'e': f['e'], 'k': f['k']} if f and f.get('b') else None
+    except Exception: return None
 
 def items_for(cs, tour, r):
     seen = set(); its = []
@@ -187,6 +209,7 @@ def build():
         yoy = None
         if cur and prev and prev['outside']: yoy = (cur['outside'] - prev['outside']) / prev['outside'] * 100
         ex = (r.get('exec_2026') or {}) if vok(cd, 'exec:2026') else {}
+        fb = fld_budget(cd) if ex else None
         live = bool(r.get('live_2026')) and bool(ex)
         url = f'{SITE}/local/{cd}.html'
         title = f'{nm} 가볼 만한 곳·맛집 순위 — 관광지 {len(sights)}곳과 방문자 통계 | 김보미.com'
@@ -219,8 +242,8 @@ def build():
 <div class="lx-stats">
   <div class="lx-stat"><b>{man(cur['outside']) if cur else '—'}</b><span>외지인 방문 · {MONTH}</span></div>
   <div class="lx-stat"><b class="{'up' if (yoy or 0) >= 0 else 'dn'}">{(('+' if yoy >= 0 else '−') + f'{abs(yoy):.1f}%') if yoy is not None else '—'}</b><span>한 해 전 같은 달 대비</span></div>
-  <div class="lx-stat"><b>{man(cur['foreign']) if cur else '—'}</b><span>외국인 방문 · {MONTH}</span></div>
-  <div class="lx-stat"><b>{total:,}<small>곳</small></b><span>관광공사 등록 관광 정보</span></div>
+  <div class="lx-stat"><b>{man(v['y12']) if v['y12'] else '—'}</b><span>외지인 방문 · 최근 12개월</span></div>
+  <div class="lx-stat"><b>{won(fb['b']) if fb else '—'}</b><span>문화·관광 분야 예산 · 2026</span></div>
 </div>
 """
         if top:
@@ -250,25 +273,42 @@ def build():
   <div class="lx-box" id="lx-mapsec"><h3>지도에서 보기</h3><p class="lx-src">위 관광지와 맛집 위치 · 카카오 지도</p><div class="lx-map" id="lx-map" role="img" aria-label="{esc(nm)} 관광지·맛집 지도"></div></div>
 </div></section>
 """
-        if any(v.values()):
-            mx = max((x['outside'] + x['local'] + x['foreign']) for x in v.values() if x) or 1
+        if any(v[k] for k in ('2024', '2025', '2026')):
+            mx = max((v[k]['outside'] + v[k]['local'] + v[k]['foreign']) for k in ('2024', '2025', '2026') if v[k]) or 1
             tr = ''
-            for y in ('2024', '2025', '2026'):
+            MM = int(LATEST[4:]); Y = int(LATEST[:4])
+            for y in (str(Y - 2), str(Y - 1), str(Y)):
                 x = v[y]
-                if not x: tr += f'<tr><td>{y}년 9월</td><td>—</td><td>—</td><td>—</td></tr>'; continue
-                tr += f'<tr><td>{y}년 9월<span class="lx-bar" style="width:{(x["outside"] + x["local"] + x["foreign"]) / mx * 100:.0f}%"></span></td><td>{int(round(x["outside"])):,}</td><td>{int(round(x["local"])):,}</td><td>{int(round(x["foreign"])):,}</td></tr>'
-            b += f"""<section class="lx-sec" id="visitors"><h2>방문자는 늘었나</h2><p class="lx-src">한국관광 데이터랩 지역별 방문자 수(이동통신 자료 기반 추정, 한 달 동안 날마다 센 수의 합) · 9월끼리 비교</p>
-<table class="lx-tbl"><thead><tr><th scope="col">기간</th><th scope="col">외지인</th><th scope="col">현지인</th><th scope="col">외국인</th></tr></thead><tbody>{tr}</tbody></table></section>
+                if not x: tr += f'<tr><td>{y}년 {MM}월</td><td>—</td><td>—</td><td>—</td></tr>'; continue
+                tr += f'<tr><td>{y}년 {MM}월<span class="lx-bar" style="width:{(x["outside"] + x["local"] + x["foreign"]) / mx * 100:.0f}%"></span></td><td>{int(round(x["outside"])):,}</td><td>{int(round(x["local"])):,}</td><td>{int(round(x["foreign"])):,}</td></tr>'
+            ser = v['series']; smx = max([x['outside'] for _, x in ser if x] or [1])
+            bars = ''.join(f'<li title="{int(ym[:4])}년 {int(ym[4:])}월 {int(x["outside"]):,}명"><span class="v">{man(x["outside"])}</span><i style="height:{max(3, x["outside"] / smx * 100):.0f}%"></i><span class="m">{int(ym[4:])}월</span></li>' if x else f'<li><span class="v">—</span><i style="height:2%"></i><span class="m">{int(ym[4:])}월</span></li>' for ym, x in ser)
+            y12 = v['y12']; y12p = v['y12prev']
+            ysum = ''
+            if y12:
+                ysum = f'최근 12개월 외지인 방문은 {man(y12)} 명'
+                ysum += (f', 그 앞 12개월보다 {abs((y12 - y12p) / y12p * 100):.1f}% {"늘었습니다" if y12 >= y12p else "줄었습니다"}.' if y12p else '입니다.')
+            b += f"""<section class="lx-sec" id="visitors"><h2>방문자는 늘었나</h2><p class="lx-src">한국관광 데이터랩 지역별 방문자 수(이동통신 자료 기반 추정, 한 달 동안 날마다 센 수의 합)</p>
+<div class="lx-box" style="margin-bottom:14px"><h3>외지인 방문 12개월 흐름</h3><p class="lx-src">{esc(ysum) if ysum else '12개월 자료가 다 모이지 않은 지역입니다.'}</p><ol class="lx-cols" aria-label="월별 외지인 방문자 수">{bars}</ol></div>
+<table class="lx-tbl"><caption class="lx-src" style="text-align:left;padding:0 0 8px">{MM}월끼리 3개년 비교</caption><thead><tr><th scope="col">기간</th><th scope="col">외지인</th><th scope="col">현지인</th><th scope="col">외국인</th></tr></thead><tbody>{tr}</tbody></table></section>
 """
         asof = ymd(ex.get('exe_ymd')) if live else ''
+        bud = f'<div><dt>2026 예산현액</dt><dd>{won(ex.get("budget")) if live else "—"}</dd></div><div><dt>집행률{(" · " + asof) if asof else ""}</dt><dd>{pct(ex.get("rate")) if live else "—"}</dd></div>'
+        budp = f'관광지를 꾸미고 축제를 여는 돈은 모두 예산입니다. {esc(full)}의 2026년 세부사업과 집행, 계약 상대까지 우리동네365에서 한 건씩 볼 수 있습니다.'
+        if live and fb:
+            share = fb['b'] / ex['budget'] * 100 if ex.get('budget') else None
+            bud += f'<div><dt>문화·관광 분야 예산 · {fb["k"]:,}개 사업</dt><dd>{won(fb["b"])}</dd></div><div><dt>문화·관광 분야 집행</dt><dd>{won(fb["e"])}</dd></div>'
+            budp = f'{esc(full)}의 2026년 문화·관광 분야 예산은 {won(fb["b"])}' + (f', 전체 예산의 {share:.1f}%입니다.' if share is not None else '입니다.')
+            if v['y12']: budp += f' 최근 12개월 외지인 방문 {man(v["y12"])} 명으로 나누면 1명당 {int(round(fb["b"] / v["y12"])):,}원입니다.'
+            budp += ' 이 분야에는 관광뿐 아니라 문화예술·체육·국가유산 사업이 함께 들어 있어, 관광에만 쓴 돈은 세부사업에서 확인해야 합니다.'
         b += f"""<section class="lx-sec" id="budget"><div class="lx-bud">
-  <div><h2>{esc(nm)}은 이 방문자를 위해 얼마를 쓰나</h2><p>관광지를 꾸미고 축제를 여는 돈은 모두 예산입니다. {esc(full)}의 2026년 세부사업과 집행, 계약 상대까지 우리동네365에서 한 건씩 볼 수 있습니다.</p><a class="lx-cta" href="/budget365.html#/lg/{cd}/budget">{esc(nm)} 예산 세부사업 열기 →</a></div>
-  <dl><div><dt>2026 예산현액</dt><dd>{won(ex.get('budget')) if live else '—'}</dd></div><div><dt>집행률{(' · ' + asof) if asof else ''}</dt><dd>{pct(ex.get('rate')) if live else '—'}</dd></div></dl>
+  <div><h2>{esc(nm)}, 방문자를 위해 얼마를 쓰나</h2><p>{budp}</p><a class="lx-cta" href="/budget365.html#/lg/{cd}/budget">{esc(nm)} 예산 세부사업 열기 →</a></div>
+  <dl>{bud}</dl>
 </div></section>
 <section class="lx-sec" id="council"><h2>의회는 예산을 어떻게 다뤘나</h2><p class="lx-src">국회도서관 지방의회 의정정보(CLIK) 회의록에서 「예산」으로 찾은 최근 회의</p><div class="lx-box"><div id="lx-min"><p class="lx-msg">불러오는 중…</p></div></div></section>
 <section class="lx-sec" id="near"><h2>{esc(SIDO[r['sido_new']][2])}의 다른 동네</h2><p class="lx-src">같은 시·도 안의 지역 탐방</p>
 <ul class="lx-near">{''.join(f'<li><a href="/local/{q["r"]["laf_cd"]}.html">{esc(q["nm"])}</a></li>' for q in by_sido[r['sido_new']] if q is not p)}</ul></section>
-<p class="lx-note"><b>출처와 기준</b> — 관광지·축제·음식점 목록과 사진: 한국관광공사 TourAPI 국문 관광정보(공공누리, {TODAY} 수집). 방문자 수: 한국관광 데이터랩 지역별 방문자 수. 맛집 순위: 구글 지도 평점·리뷰 수와 카카오 로컬 검색을 쪽을 열 때 불러옵니다. 예산: 행정안전부 지방재정365. 의회 회의록: 국회도서관 CLIK. 순위는 자동 계산이며 광고나 협찬이 없습니다. 틀린 곳은 <a href="/report.html">소통·제보</a>로 알려 주세요.</p>
+<p class="lx-note"><b>출처와 기준</b> — 관광지·축제·음식점 목록과 사진: 한국관광공사 TourAPI 국문 관광정보(공공누리, 2026-11-24 수집). 방문자 수: 한국관광 데이터랩 지역별 방문자 수. 맛집 순위: 구글 지도 평점·리뷰 수와 카카오 로컬 검색을 쪽을 열 때 불러옵니다. 예산: 행정안전부 지방재정365. 의회 회의록: 국회도서관 CLIK. 순위는 자동 계산이며 광고나 협찬이 없습니다. 틀린 곳은 <a href="/report.html">소통·제보</a>로 알려 주세요.</p>
 </div>
 </main>
 <script src="/assets/kb-local.js?v={CSSV}" defer></script>
@@ -327,7 +367,7 @@ def hub(pages, by_sido, HDR, FTR):
 <div class="lx-w">
 <section class="lx-sec"><div class="lx-hub">
   <div class="lx-box"><h3>외지인이 가장 많이 찾은 곳</h3><p class="lx-src">한국관광 데이터랩 · {MONTH} 외지인 방문자 수 · 시·군·구</p>{rk(most, lambda p: man(p['v']['2026']['outside']) + ' 명')}</div>
-  <div class="lx-box"><h3>한 해 사이 가장 많이 늘어난 곳</h3><p class="lx-src">같은 자료 · 2025년 9월 대비 증가율 · 외지인 방문 30만 명 이상인 곳만</p>{rk(grow, lambda p: '+' + format(p['yoy'], '.1f') + '%')}</div>
+  <div class="lx-box"><h3>한 해 사이 가장 많이 늘어난 곳</h3><p class="lx-src">같은 자료 · 한 해 전 같은 달 대비 증가율 · 외지인 방문 30만 명 이상인 곳만</p>{rk(grow, lambda p: '+' + format(p['yoy'], '.1f') + '%')}</div>
 </div></section>
 <section class="lx-sec" id="all"><h2>전국 지역 한눈에</h2><p class="lx-src">시·도를 누르면 시·도 전체, 이름을 누르면 그 동네 쪽이 열립니다.</p>
 {''.join('<div class="lx-sido"><h3>' + esc(SIDO[s][2]) + '</h3><ul class="lx-near">' + ''.join(f'<li><a href="/local/{p["r"]["laf_cd"]}.html">{esc(p["nm"] if p["r"]["level"] != "광역" else p["nm"] + " 전체")}</a></li>' for p in ps) + '</ul></div>' for s, ps in by_sido.items())}

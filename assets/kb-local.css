@@ -97,3 +97,11 @@ html[data-theme="dark"] .lx-sido h3{color:#DCE6F7}
 .lx .lx-tbl{table-layout:fixed;min-width:0;max-width:100%;display:table;margin:0}
 .lx .lx-tbl th,.lx .lx-tbl td{white-space:normal;min-width:0;word-break:keep-all}
 @media (max-width:520px){.lx .lx-tbl{font-size:13px}.lx .lx-tbl th,.lx .lx-tbl td{padding:9px 6px}}
+.lx-cols{list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:repeat(12,1fr);gap:6px;height:170px;align-items:end}
+.lx-cols li{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;min-width:0;gap:4px}
+.lx-cols i{display:block;width:100%;max-width:38px;border-radius:5px 5px 0 0;background:linear-gradient(180deg,var(--g),var(--n))}
+.lx-cols li:last-child i{background:var(--au)}
+.lx-cols .v{font-size:11px;color:var(--sl);white-space:nowrap;font-variant-numeric:tabular-nums}
+.lx-cols .m{font-size:11.5px;color:var(--sl)}
+.lx-stat b small{font-size:.6em}
+@media (max-width:520px){.lx-cols{gap:3px}.lx-cols .v{font-size:9px;letter-spacing:-.04em}.lx-cols .m{font-size:10px}}

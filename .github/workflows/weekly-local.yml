@@ -1,0 +1,48 @@
+# ============================================================================
+# 매주 월요일 아침 지역 탐방(/local) 쪽을 다시 만든다 (2026-11-24 신설)
+#   - 한국관광 데이터랩의 새 달이 다 올라왔으면 방문자 자료에 더한다(덜 올라온 달은 넣지 않는다).
+#   - 예산·집행 값은 그날 data/index.json 기준으로 다시 넣는다.
+#   - 정적 검사(tools/verify.js)가 실패하면 커밋하지 않는다.
+#   - 커밋한 뒤 IndexNow 로 네이버·빙에 바뀐 주소를 알린다.
+# ============================================================================
+name: weekly-local
+
+on:
+  schedule:
+    - cron: '20 22 * * 0'   # 매주 월요일 07:20 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-refresh
+  cancel-in-progress: false
+
+jobs:
+  local:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: 방문자 자료 새 달 확인
+        run: python3 tools/refresh_local.py
+      - name: 지역 탐방 쪽 다시 만들기
+        run: python3 tools/build_local.py
+      - name: 정적 검사
+        run: node tools/verify.js
+      - name: 바뀐 것이 있으면 커밋
+        run: |
+          git config user.name "kimbomi0603"
+          git config user.email "kimbomi0603@users.noreply.github.com"
+          git add -A data/local local local.html sitemap.xml
+          if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
+          git commit -m "지역 탐방 갱신: $(TZ=Asia/Seoul date +%Y-%m-%d) 기준"
+          git pull --rebase
+          git push
+      - name: 검색엔진에 알리기(IndexNow)
+        run: python3 tools/indexnow.py local
