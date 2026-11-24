@@ -12,7 +12,8 @@
      tour    : 한국관광공사 국문 관광정보 키워드검색(KorService2) [DATA_GO_KR_API_KEY]
      minutes : 국회도서관 CLIK 지방의회 회의록 검색(지역+예산)   [CLIK_API_KEY]
 
-   호출:  /api/local?region=강진군              (전체)
+   호출:  /api/local?region=강진군              (전체, visitors 제외)
+          /api/local?region=강진군&type=visitors (관광 빅데이터 방문자 3개년 비교)
           /api/local?region=강진군&type=food    (하나만)
    진단:  /api/local?selfcheck=1                (키가 들어 있는지만 true/false 로 보여줌)
    ============================================================ */
@@ -27,7 +28,7 @@ const GOOGLE_DAILY_CAP = Number(process.env.GOOGLE_DAILY_CAP || 200);
 const RURL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.REDIS_REST_URL;
 const RTOK = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || process.env.REDIS_REST_TOKEN;
 
-const TYPES = ["spots", "food", "google", "tour", "minutes"];
+const TYPES = ["spots", "food", "google", "tour", "minutes", "visitors"];
 const mem = new Map(); // Redis가 없을 때 인스턴스 메모리 캐시
 let memGoogleCount = { day: "", n: 0 };
 
@@ -142,6 +143,69 @@ async function tour(region) {
   return { ok: true, source: "한국관광공사 국문 관광정보 — " + rc.name + " 관광지·문화시설·축제·레포츠(이미지 있는 순)", total: total, items: items };
 }
 
+/* 관광 빅데이터 — 한국관광공사 데이터랩 기초지자체 방문자 수(현지인·외지인·외국인, 일별)
+   최근 자료가 있는 달과 1년 전·2년 전 같은 달을 합산해 비교한다(정책·사업 효과 진단용). */
+function ym(d) { return d.toISOString().slice(0, 7).replace("-", ""); }
+function monthRange(y, m) { const s = new Date(Date.UTC(y, m - 1, 1)), e = new Date(Date.UTC(y, m, 0)); const f = function (d) { return d.toISOString().slice(0, 10).replace(/-/g, ""); }; return [f(s), f(e)]; }
+async function dlPage(s, e, page) {
+  const q = new URLSearchParams({ serviceKey: DGK, MobileOS: "ETC", MobileApp: "kimbomi", _type: "json", numOfRows: "10000", pageNo: String(page), startYmd: s, endYmd: e });
+  const j = await getJSON("https://apis.data.go.kr/B551011/DataLabService/locgoRegnVisitrDDList?" + q);
+  const b = j && j.response && j.response.body;
+  if (!b) return null;
+  let arr = b.items && b.items.item ? b.items.item : [];
+  if (!Array.isArray(arr)) arr = [arr];
+  return { total: Number(b.totalCount || 0), arr: arr };
+}
+async function monthSum(y, m, match) {
+  const r = monthRange(y, m);
+  const first = await dlPage(r[0], r[1], 1);
+  if (!first) return null;
+  if (!first.total) return { empty: true };
+  const pages = Math.ceil(first.total / 10000);
+  const rest = await Promise.all(Array.from({ length: Math.max(0, pages - 1) }, function (_, i) { return dlPage(r[0], r[1], i + 2); }));
+  const sum = { local: 0, outside: 0, foreign: 0, name: "", code: "" };
+  [first].concat(rest).forEach(function (pg) { (pg && pg.arr || []).forEach(function (it) {
+    if (!match(it)) return;
+    sum.name = it.signguNm; sum.code = it.signguCode;
+    const n = Number(it.touNum || 0);
+    if (it.touDivCd === "1") sum.local += n; else if (it.touDivCd === "2") sum.outside += n; else if (it.touDivCd === "3") sum.foreign += n;
+  }); });
+  ["local", "outside", "foreign"].forEach(function (k) { sum[k] = Math.round(sum[k]); });
+  sum.total = sum.local + sum.outside + sum.foreign;
+  return sum;
+}
+async function visitors(region) {
+  if (!DGK) return { ok: false, reason: "DATA_GO_KR_API_KEY 없음", items: [] };
+  const words = shortName(region).split(/\s+/);
+  const name = words[words.length - 1];
+  const rc = await regionCode(region); // 같은 이름(중구·동구 등) 구별용
+  const sidoName = words.length > 1 ? words[0] : "";
+  const ambiguous = /^(중구|동구|서구|남구|북구|강서구)$/.test(name);
+  const match = function (it) {
+    if (it.signguNm !== name) return false;
+    if (!ambiguous) return true;
+    return rc ? String(it.signguCode).slice(0, 2) === rc.sido || String(it.signguCode).slice(0, 5) === rc.sido + rc.sgg : true;
+  };
+  // 자료가 있는 가장 최근 달 찾기(이번 달부터 거꾸로 6개월)
+  const now = new Date(Date.now() + 9 * 3600 * 1000);
+  let y = now.getUTCFullYear(), m = now.getUTCMonth() + 1, latest = null;
+  for (let i = 0; i < 6 && !latest; i++) {
+    const r = monthRange(y, m);
+    const chk = await dlPage(r[1], r[1], 1); // 그 달 마지막 날 자료가 있으면 한 달 치가 다 있다
+    if (chk && chk.total) latest = { y: y, m: m };
+    m -= 1; if (m === 0) { m = 12; y -= 1; }
+  }
+  if (!latest) return { ok: false, reason: "최근 방문자 자료를 찾지 못함", items: [] };
+  const targets = [0, 1, 2].map(function (k) { return { y: latest.y - k, m: latest.m }; });
+  const sums = await Promise.all(targets.map(function (t) { return monthSum(t.y, t.m, match); }));
+  const items = targets.map(function (t, i) { const s = sums[i] || {}; return { period: t.y + "." + String(t.m).padStart(2, "0"), local: s.local || 0, outside: s.outside || 0, foreign: s.foreign || 0, total: s.total || 0 }; });
+  if (!items[0].total) return { ok: false, reason: name + " 방문자 자료가 없음", items: [] };
+  const pct = function (a, b) { return b ? Math.round((a - b) / b * 1000) / 10 : null; };
+  return { ok: true, source: "한국관광공사 데이터랩 기초지자체 방문자 수(이동통신 기반 추정) — 같은 달 3개년 비교", region: (sums[0] && sums[0].name) || name,
+    change1y: { total: pct(items[0].total, items[1].total), outside: pct(items[0].outside, items[1].outside), foreign: pct(items[0].foreign, items[1].foreign) },
+    change2y: { total: pct(items[0].total, items[2].total), outside: pct(items[0].outside, items[2].outside) }, items: items };
+}
+
 /* CLIK 지방의회 회의록: ① 의회 이름으로 의회 ID를 찾고 ② 그 의회 회의록에서 「예산」 검색 */
 async function clik(params) {
   const q = new URLSearchParams(Object.assign({ key: CLIK, type: "json", displayType: "list", startCount: "0" }, params));
@@ -176,8 +240,9 @@ const RUN = {
   google: google,
   tour: tour,
   minutes: minutes,
+  visitors: visitors,
 };
-const TTL = { spots: 86400, food: 86400, google: 86400, tour: 86400, minutes: 21600 };
+const TTL = { spots: 86400, food: 86400, google: 86400, tour: 86400, minutes: 21600, visitors: 86400 };
 
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -192,7 +257,7 @@ module.exports = async (req, res) => {
   const region = String(url.searchParams.get("region") || "").trim().slice(0, 30);
   if (!region) { res.status(400).send(JSON.stringify({ ok: false, error: "region 이 필요합니다. 예: /api/local?region=강진군" })); return; }
   const want = String(url.searchParams.get("type") || "all");
-  const types = want === "all" ? TYPES : want.split(",").filter(function (t) { return TYPES.indexOf(t) >= 0; });
+  const types = want === "all" ? TYPES.filter(function (t) { return t !== "visitors"; }) : want.split(",").filter(function (t) { return TYPES.indexOf(t) >= 0; });
   if (!types.length) { res.status(400).send(JSON.stringify({ ok: false, error: "type 은 " + TYPES.join(", ") + " 중 하나" })); return; }
 
   const out = { ok: true, region, fetchedAt: new Date().toISOString() };
