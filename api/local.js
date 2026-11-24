@@ -15,6 +15,7 @@
    호출:  /api/local?region=강진군              (전체, visitors 제외)
           /api/local?region=강진군&type=visitors (관광 빅데이터 방문자 3개년 비교)
           /api/local?region=강진군&type=food    (하나만)
+          /api/local?region=강진군&type=search&q=한정식  (그 지역 안에서 음식·장소 낱말 검색)
    진단:  /api/local?selfcheck=1                (키가 들어 있는지만 true/false 로 보여줌)
    ============================================================ */
 
@@ -28,7 +29,7 @@ const GOOGLE_DAILY_CAP = Number(process.env.GOOGLE_DAILY_CAP || 200);
 const RURL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || process.env.REDIS_REST_URL;
 const RTOK = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || process.env.REDIS_REST_TOKEN;
 
-const TYPES = ["spots", "food", "google", "tour", "minutes", "visitors"];
+const TYPES = ["spots", "food", "google", "tour", "minutes", "visitors", "search"];
 const mem = new Map(); // Redis가 없을 때 인스턴스 메모리 캐시
 let memGoogleCount = { day: "", n: 0 };
 
@@ -234,6 +235,28 @@ async function minutes(region) {
   return { ok: true, source: "국회도서관 CLIK 지방의회 회의록 — " + name + " 「예산」 검색", total: top.TOTAL_COUNT, items };
 }
 
+/* 지역 안 낱말 검색 — 음식점(FD6)·카페(CE7)·관광명소(AT4)를 함께 찾아 음식점 먼저 보여 준다 */
+async function search(region, word) {
+  const rs = await Promise.all([kakao1(region, word, "FD6"), kakao1(region, word, "CE7"), kakao1(region, word, "AT4")]);
+  if (rs.every(function (r) { return !r.ok; })) return { ok: false, reason: rs[0].reason, items: [] };
+  const seen = {}, items = [];
+  rs.forEach(function (r) { r.items.forEach(function (x) { if (seen[x.url]) return; seen[x.url] = 1; items.push(x); }); });
+  return { ok: true, source: "카카오 로컬 검색(정확도순) — 음식점·카페·관광명소", items: items.slice(0, 30) };
+}
+async function kakao1(region, word, cat) {
+  if (!KAKAO) return { ok: false, reason: "KAKAO_REST_API_KEY 없음", items: [] };
+  const q = new URLSearchParams({ query: region + " " + word, category_group_code: cat, size: "15", page: "1" });
+  const j = await getJSON("https://dapi.kakao.com/v2/local/search/keyword.json?" + q, { headers: { Authorization: "KakaoAK " + KAKAO } });
+  if (!j.documents) return { ok: false, reason: "카카오 응답 오류", items: [] };
+  const key = shortName(region).replace(/(시|군|구)$/, "");
+  const items = [];
+  j.documents.forEach(function (d) {
+    if (key && d.address_name && d.address_name.indexOf(key) < 0) return;
+    items.push({ name: d.place_name, category: d.category_name, address: d.road_address_name || d.address_name, phone: d.phone, x: d.x, y: d.y, url: d.place_url });
+  });
+  return { ok: true, items };
+}
+
 const RUN = {
   spots: function (r) { return kakao(r, "가볼만한곳", "AT4"); },
   food: function (r) { return kakao(r, "맛집", "FD6"); },
@@ -242,7 +265,7 @@ const RUN = {
   minutes: minutes,
   visitors: visitors,
 };
-const TTL = { spots: 86400, food: 86400, google: 86400, tour: 86400, minutes: 21600, visitors: 86400 };
+const TTL = { spots: 86400, food: 86400, google: 86400, tour: 86400, minutes: 21600, visitors: 86400, search: 86400 };
 
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -254,19 +277,31 @@ module.exports = async (req, res) => {
     return;
   }
 
+  /* 카카오 지도(JavaScript) 키 — 브라우저에서 쓰는 공개용 키이며 카카오에 등록한 도메인에서만 작동한다 */
+  if (url.searchParams.get("config")) {
+    res.setHeader("Cache-Control", "s-maxage=86400");
+    res.status(200).send(JSON.stringify({ ok: true, kakaoJsKey: process.env.KAKAO_JS_KEY || "" }));
+    return;
+  }
+
   const region = String(url.searchParams.get("region") || "").trim().slice(0, 30);
   if (!region) { res.status(400).send(JSON.stringify({ ok: false, error: "region 이 필요합니다. 예: /api/local?region=강진군" })); return; }
   const want = String(url.searchParams.get("type") || "all");
-  const types = want === "all" ? TYPES.filter(function (t) { return t !== "visitors"; }) : want.split(",").filter(function (t) { return TYPES.indexOf(t) >= 0; });
+  const types = want === "all" ? TYPES.filter(function (t) { return t !== "visitors" && t !== "search"; }) : want.split(",").filter(function (t) { return TYPES.indexOf(t) >= 0; });
   if (!types.length) { res.status(400).send(JSON.stringify({ ok: false, error: "type 은 " + TYPES.join(", ") + " 중 하나" })); return; }
 
+  /* 낱말 검색: 한글·영문·숫자·공백만, 20자까지 */
+  const word = String(url.searchParams.get("q") || "").replace(/[^0-9A-Za-z가-힣 ]/g, "").trim().slice(0, 20);
+  if (types.indexOf("search") >= 0 && !word) { res.status(400).send(JSON.stringify({ ok: false, error: "q 가 필요합니다. 예: /api/local?region=강진군&type=search&q=한정식" })); return; }
+
   const out = { ok: true, region, fetchedAt: new Date().toISOString() };
+  if (word) out.q = word;
   await Promise.all(types.map(async function (t) {
-    const ck = "local:v1:" + t + ":" + region;
+    const ck = "local:v1:" + t + ":" + region + (t === "search" ? ":" + word : "");
     const hit = await cacheGet(ck);
     if (hit) { out[t] = Object.assign({ cached: true }, hit); return; }
     try {
-      const v = await RUN[t](region);
+      const v = t === "search" ? await search(region, word) : await RUN[t](region);
       if (v.ok && v.items && v.items.length) await cacheSet(ck, v, TTL[t]);
       out[t] = v;
     } catch (e) {

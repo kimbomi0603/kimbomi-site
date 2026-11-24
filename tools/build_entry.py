@@ -138,6 +138,7 @@ def build_lg():
   <a href="{app}/diag">진단 <small>규칙으로 걸러 본 곳</small></a>
   <a href="{app}/pledge">공약 <small>단체장 등록 공약 원문</small></a>
   <a href="{app}/peer">비교 <small>닮은 지자체 5곳과 나란히</small></a>
+  {f'<a href="../local/{cd}.html">가볼 곳·맛집 <small>관광지·방문자 통계·맛집 순위</small></a>' if os.path.exists(os.path.join(ROOT, 'local', cd + '.html')) else ''}
 </div>
 <p class="src">출처: 행정안전부 지방재정365 세부사업별 세출 집행(기준일 {asof if live else '—'}), 재정공시 결산({esc(r.get('settle_fyr') or '—')}), 지방계약 계약대장(2021~). 이 페이지는 검색용 요약이며 최신 값은 우리동네365 화면이 기준입니다.</p>
 """

@@ -117,3 +117,9 @@ assets/kb.css          실제로 불러오는 하나의 파일
                        = 토큰 + (예전 공통 8개와 페이지별 <style>을 페이지 범위로 묶고 색을 토큰으로 바꾼 것) + kb-design
 assets/fonts/          글꼴 4개 파일
 ```
+
+## 지역 탐방(local) — 2026-11-24
+- 쪽: `/local.html`(허브), `/local/<laf_cd>.html` 243개. `python3 tools/build_local.py` 로 만든다(사이트맵 `<!-- local:start -->` 블록 포함).
+- 스타일은 `assets/kb-local.css`(`.lx` 범위, 위 색 토큰만 사용), 스크립트는 `assets/kb-local.js`.
+- 자료: `data/local/tour.json`(관광공사), `visitors.json`(데이터랩 9월 3개년), `rank.json`(카카오 관광명소 정확도순 이름 — 정렬에만 사용).
+- 맛집 순위·낱말 검색·회의록·지도 키는 `/api/local` 에서 불러온다. 인증키는 서버에만 둔다.
