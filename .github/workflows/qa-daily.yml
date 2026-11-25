@@ -16,13 +16,13 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22' }
       - run: npm i --no-save playwright@1.49.0
       - run: npx playwright install --with-deps chromium
       - run: node tools/qa-all.js --external
         env: { BASE: 'https://www.xn--4k0b53xuva.com' }
       - if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with: { name: qa-daily, path: tools/out/ }

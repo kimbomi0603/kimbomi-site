@@ -21,9 +21,9 @@ jobs:
     name: 정적 검사 (가짜 수치·단위·XSS·관리자 인증)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22' }
       - run: node tools/verify-format.js     # 공통 표시 유틸 단위 시험
       - run: node tools/verify.js
 
@@ -34,9 +34,9 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22' }
       - run: npm i --no-save playwright@1.49.0
       - run: npx playwright install --with-deps webkit
       - run: node tools/verify-render.js
@@ -48,12 +48,12 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22' }
       - run: npm i --no-save playwright@1.49.0
       - run: npx playwright install --with-deps chromium
       - run: node tools/qa-all.js --quick
       - if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with: { name: qa-pages, path: tools/out/qa-all.md }

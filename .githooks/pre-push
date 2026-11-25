@@ -1,0 +1,9 @@
+#!/bin/sh
+# push 전에 정적 검사(tools/verify.js)를 반드시 통과시킨다.
+# 실패한 커밋이 올라가면 매일 자료 갱신(daily-refresh)도 같은 검사에서 멈춘다(2026-11-24 사고).
+# 설치: git config core.hooksPath .githooks
+echo "[pre-push] node tools/verify.js 실행 중..."
+if ! node tools/verify.js; then
+  echo "[pre-push] 정적 검사 실패 — push를 멈춥니다. 위 ✗ 항목을 고친 뒤 다시 push 하세요."
+  exit 1
+fi
